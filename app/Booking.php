@@ -13,4 +13,8 @@ class Booking extends Model
     public function airportArr() {
         return $this->hasOne(Airport::class, 'arr', 'icao');
     }
+
+    public function event() {
+        return $this->hasMany(Event::class);
+    }
 }
