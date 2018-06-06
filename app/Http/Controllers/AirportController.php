@@ -35,7 +35,17 @@ class AirportController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'icao' => 'required:string|between:4,4',
+            'iata' => 'required:string|between:4,4'
+        ]);
+
+        $airport = Airport::create([
+            'icao' => $request->icao,
+            'iata' => $request->iata,
+        ]);
+        $airport->save();
+        return redirect('admin/airport');
     }
 
     /**
