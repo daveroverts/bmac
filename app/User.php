@@ -33,4 +33,14 @@ class User extends Authenticatable
         }
         else return false;
     }
+
+    public function bookingReserved() {
+        return $this->hasOne(Booking::class);
+    }
+
+    public function bookingBooked() {
+        return $this->hasOne(Booking::class);
+    }
+
+
 }
