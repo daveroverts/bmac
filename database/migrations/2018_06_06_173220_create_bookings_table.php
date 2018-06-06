@@ -13,7 +13,7 @@ class CreateBookingsTable extends Migration
      */
     public function up()
     {
-        Schema::table('bookings', function (Blueprint $table) {
+        Schema::create('bookings', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('event_id');
             $table->unsignedInteger('reservedBy_id')->nullable();
@@ -21,8 +21,8 @@ class CreateBookingsTable extends Migration
             $table->string('callsign',7)->nullable();
             $table->string('acType',4)->nullable();
             $table->string('selCal',5);
-            $table->unsignedInteger('dep')->nullable();
-            $table->unsignedInteger('arr')->nullable();
+            $table->string('dep')->nullable();
+            $table->string('arr')->nullable();
             $table->time('ctot')->nullable();
             $table->string('oceanicFL')->nullable();
             $table->timestamps();

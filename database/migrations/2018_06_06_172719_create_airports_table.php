@@ -13,10 +13,11 @@ class CreateAirportsTable extends Migration
      */
     public function up()
     {
-        Schema::table('airports', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('icao');
+        Schema::create('airports', function (Blueprint $table) {
+            $table->string('icao')->primary();
+            $table->unique('icao');
             $table->string('iata');
+            $table->unique('iata');
         });
     }
 
