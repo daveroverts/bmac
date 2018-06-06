@@ -18,7 +18,6 @@ class CreateUsersTable extends Migration
             $table->string('name');
             $table->string('vatsim_id', 7)->unique();
             $table->string('email')->unique();
-            $table->unsignedInteger('rating_id')->default(1);
             $table->boolean('isAdmin')->default(0);
 
             $table->rememberToken();
