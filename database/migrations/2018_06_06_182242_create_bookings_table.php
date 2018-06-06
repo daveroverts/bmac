@@ -27,7 +27,7 @@ class CreateBookingsTable extends Migration
             $table->string('oceanicFL')->nullable();
             $table->timestamps();
 
-            $table->foreign('event_id')->references('id')->on('events');
+            $table->foreign('event_id')->references('id')->on('events')->onDelete('cascade');
             $table->foreign('reservedBy_id')->references('id')->on('users');
             $table->foreign('bookedBy_id')->references('id')->on('users');
             $table->foreign('dep')->references('icao')->on('airports');
