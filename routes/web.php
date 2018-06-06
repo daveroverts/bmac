@@ -18,3 +18,7 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+Route::resource('admin/airport', 'AirportController');
+Route::resource('admin/event', 'EventController');
+Route::resource('booking', 'BookingController');
