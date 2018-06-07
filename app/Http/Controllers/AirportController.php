@@ -45,7 +45,7 @@ class AirportController extends Controller
     {
         $request->validate([
             'icao' => 'required:string|between:4,4',
-            'iata' => 'required:string|between:4,4'
+            'iata' => 'required:string|between:3,3'
         ]);
 
         $airport = Airport::create([
