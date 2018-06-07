@@ -79,7 +79,7 @@
 
             <div class="content">
                 <div class="title m-b-md">
-                    Laravel
+                    Book me a Cookie
                 </div>
 
                 <div class="links">
