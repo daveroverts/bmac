@@ -29,7 +29,10 @@ class AirportController extends Controller
      */
     public function create()
     {
-        //
+        if (Auth::check() && Auth::user()->isAdmin()) {
+            return view('airport.create');
+        }
+        else return redirect('/');
     }
 
     /**
