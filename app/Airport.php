@@ -11,6 +11,15 @@ class Airport extends Model
     protected $keyType = 'string';
 
     /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'icao', 'iata',
+    ];
+
+    /**
      * Indicates if the model should be timestamped.
      *
      * @var bool
