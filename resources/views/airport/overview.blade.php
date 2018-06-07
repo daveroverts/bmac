@@ -19,7 +19,6 @@
                         @csrf
                     </form>
                 </td>
-                <td></td>
             </tr>
             @empty
             @component('layouts.alert.warning')
