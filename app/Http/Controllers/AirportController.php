@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Airport;
+use Auth;
 use Illuminate\Http\Request;
 
 class AirportController extends Controller
@@ -14,7 +15,11 @@ class AirportController extends Controller
      */
     public function index()
     {
-        //
+        if (Auth::check() && Auth::user()->isAdmin()) {
+            $airports = Airport::all();
+            return view('airport.overview',compact('airports'));
+        }
+        else return redirect('/');
     }
 
     /**
