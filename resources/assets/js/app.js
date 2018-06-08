@@ -7,13 +7,27 @@
 
 require('./bootstrap');
 
+import $ from 'jquery';
+window.$ = window.jQuery = $;
+
+import 'jquery-ui/ui/widgets/datepicker';
+
+$('.datepicker').datepicker({
+    dateFormat: "dd-mm-yy",
+    minDate: 0,
+    showButtonPanel: true,
+    showOtherMonths: true,
+    selectOtherMonths: true
+});
+
 // Importing Font Awesome
 import fontawesome from '@fortawesome/fontawesome'
 import regular from '@fortawesome/fontawesome-free-regular'
 import solid from '@fortawesome/fontawesome-free-solid'
 import brands from '@fortawesome/fontawesome-free-brands'
 
-fontawesome.library.add(regular, solid, brands)
+fontawesome.library.add(regular, solid, brands);
+
 
 // window.Vue = require('vue');
 
