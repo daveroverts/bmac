@@ -13,7 +13,7 @@ class AddForeignKeysToBookingsTable extends Migration
      */
     public function up()
     {
-        Schema::table('bookings', function (Blueprint $table) {
+        Schema::table('bmac_bookings', function (Blueprint $table) {
             $table->foreign('event_id')->references('id')->on('events')->onDelete('cascade');
             $table->foreign('reservedBy_id')->references('id')->on('users');
             $table->foreign('bookedBy_id')->references('id')->on('users');
@@ -30,7 +30,7 @@ class AddForeignKeysToBookingsTable extends Migration
      */
     public function down()
     {
-        Schema::table('bookings', function (Blueprint $table) {
+        Schema::table('bmac_bookings', function (Blueprint $table) {
             $table->dropForeign(['event_id']);
             $table->dropForeign(['reservedBy_id']);
             $table->dropForeign(['bookedBy_id']);

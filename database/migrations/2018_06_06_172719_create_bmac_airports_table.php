@@ -13,14 +13,14 @@ class CreateAirportsTable extends Migration
      */
     public function up()
     {
-        Schema::create('airports', function (Blueprint $table) {
+        Schema::create('bmac_airports', function (Blueprint $table) {
             $table->string('icao')->primary();
             $table->unique('icao');
             $table->string('iata');
             $table->unique('iata');
             $table->string('name');
         });
-        DB::table('airports')->insert(['icao' => 'EHAM', 'iata' => 'AMS', 'name' => 'Amsterdam Schiphol Airport']);
+        DB::table('bmac_airports')->insert(['icao' => 'EHAM', 'iata' => 'AMS', 'name' => 'Amsterdam Schiphol Airport']);
     }
 
     /**
@@ -30,6 +30,6 @@ class CreateAirportsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('airports');
+        Schema::dropIfExists('bmac_airports');
     }
 }

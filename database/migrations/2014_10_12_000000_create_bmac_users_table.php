@@ -13,7 +13,7 @@ class CreateUsersTable extends Migration
      */
     public function up()
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('bmac_users', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
             $table->string('vatsim_id', 7)->unique();
@@ -27,7 +27,7 @@ class CreateUsersTable extends Migration
             $table->rememberToken();
             $table->timestamps();
         });
-        DB::table('users')->insert(['name' => 'Administrator', 'vatsim_id' => 9999999, 'email' => 'admin@book-me-a-cookie.io', 'country' => 'NL', 'region' => 'Europe' , 'division' => 'Europe (except UK)', 'subdivision' => 'Dutch', 'isAdmin' => 1, 'created_at' => NOW(), 'updated_at' => NOW()]);
+        DB::table('bmac_users')->insert(['name' => 'Administrator', 'vatsim_id' => 9999999, 'email' => 'admin@book-me-a-cookie.io', 'country' => 'NL', 'region' => 'Europe' , 'division' => 'Europe (except UK)', 'subdivision' => 'Dutch', 'isAdmin' => 1, 'created_at' => NOW(), 'updated_at' => NOW()]);
     }
 
     /**
@@ -37,6 +37,6 @@ class CreateUsersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('bmac_users');
     }
 }

@@ -13,7 +13,7 @@ class CreateBookingsTable extends Migration
      */
     public function up()
     {
-        Schema::create('bookings', function (Blueprint $table) {
+        Schema::create('bmac_bookings', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('event_id');
             $table->unsignedInteger('reservedBy_id')->nullable();
@@ -27,10 +27,6 @@ class CreateBookingsTable extends Migration
             $table->string('oceanicFL')->nullable();
             $table->timestamps();
         });
-
-        Schema::table('bookings', function (Blueprint $table) {
-
-        });
     }
 
         /**
@@ -40,9 +36,9 @@ class CreateBookingsTable extends Migration
          */
         public function down()
         {
-            Schema::table('bookings', function (Blueprint $table) {
+            Schema::table('bmac_bookings', function (Blueprint $table) {
 
             });
-            Schema::dropIfExists('bookings');
+            Schema::dropIfExists('bmac_bookings');
         }
     }

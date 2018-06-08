@@ -6,6 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class Booking extends Model
 {
+
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = 'bmac_bookings';
+
     public function airportDep() {
         return $this->hasOne(Airport::class, 'dep', 'icao');
     }
