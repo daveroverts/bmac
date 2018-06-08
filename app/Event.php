@@ -17,6 +17,14 @@ class Event extends Model
     protected $table = 'bmac_events';
 
     /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'name', 'startEvent', 'endEvent', 'startBooking', 'endBooking',
+    ];
+
      * The attributes that should be mutated to dates.
      *
      * @var array
