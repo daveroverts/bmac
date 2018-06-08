@@ -26,12 +26,10 @@ class CreateBookingsTable extends Migration
             $table->time('ctot')->nullable();
             $table->string('oceanicFL')->nullable();
             $table->timestamps();
+        });
 
-            $table->foreign('event_id')->references('id')->on('events')->onDelete('cascade');
-            $table->foreign('reservedBy_id')->references('id')->on('users');
-            $table->foreign('bookedBy_id')->references('id')->on('users');
-            $table->foreign('dep')->references('icao')->on('airports');
-            $table->foreign('arr')->references('icao')->on('airports');
+        Schema::table('bookings', function (Blueprint $table) {
+
         });
     }
 
@@ -42,6 +40,9 @@ class CreateBookingsTable extends Migration
          */
         public function down()
         {
+            Schema::table('bookings', function (Blueprint $table) {
+
+            });
             Schema::dropIfExists('bookings');
         }
     }

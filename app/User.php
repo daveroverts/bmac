@@ -4,10 +4,12 @@ namespace App;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Theomessin\Vatauth\Traits\VatsimSynchronisable;
 
 class User extends Authenticatable
 {
     use Notifiable;
+    use VatsimSynchronisable;
 
     /**
      * The attributes that are mass assignable.
@@ -15,7 +17,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'vatsim_id', 'email',
+        'name', 'vatsim_id', 'email', 'country', 'region', 'division', 'subdivision',
     ];
 
     /**
