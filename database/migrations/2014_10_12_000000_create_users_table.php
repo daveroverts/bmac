@@ -27,6 +27,7 @@ class CreateUsersTable extends Migration
             $table->rememberToken();
             $table->timestamps();
         });
+        DB::table('users')->insert(['name' => 'Administrator', 'vatsim_id' => 9999999, 'email' => 'admin@book-me-a-cookie.io', 'country' => 'NL', 'region' => 'Europe' , 'division' => 'Europe (except UK)', 'subdivision' => 'Dutch', 'isAdmin' => 1, 'created_at' => NOW(), 'updated_at' => NOW()]);
     }
 
     /**
