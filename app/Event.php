@@ -3,9 +3,11 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Cviebrock\EloquentSluggable\Sluggable;
 
 class Event extends Model
 {
+    use Sluggable;
 
     /**
      * The table associated with the model.
@@ -31,4 +33,14 @@ class Event extends Model
     public function bookings() {
         return $this->belongsToMany(Booking::class);
     }
+
+    public function sluggable()
+    {
+        return [
+            'slug' => [
+                'source' => 'name'
+            ],
+        ];
+    }
+
 }
