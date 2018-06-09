@@ -27,14 +27,14 @@
                         @if(Auth::check() && $booking->bookedBy_id == Auth::id())
                             My booking
                         @else
-                            Booked
+                            Booked {{Auth::check() && Auth::user()->isAdmin() ? '['.$booking->bookedBy->vatsim_id .']' : ''}}
                         @endif
 
                     @elseif(isset($booking->reservedBy_id))
                         @if(Auth::check() && $booking->reservedBy_id == Auth::id())
                             My reservation
                         @else
-                            Reserved
+                            Reserved {{Auth::check() && Auth::user()->isAdmin() ? '['.$booking->reservedBy->vatsim_id .']' : ''}}
                         @endif
                     @else
                         @if(Auth::check())
