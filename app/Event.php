@@ -22,20 +22,21 @@ class Event extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'startEvent', 'endEvent', 'startBooking', 'endBooking',
+        'name', 'startEvent', 'endEvent', 'startBooking', 'endBooking', 'description',
     ];
 
+    /**
      * The attributes that should be mutated to dates.
      *
      * @var array
      */
     protected $dates = [
-        'created_at',
-        'updated_at',
         'startEvent',
         'endEvent',
         'startBooking',
-        'endBooking'
+        'endBooking',
+        'created_at',
+        'updated_at',
     ];
 
     public function bookings() {
