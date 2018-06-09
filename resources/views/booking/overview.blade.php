@@ -27,14 +27,14 @@
                 <td>
                     @if(isset($booking->bookedBy_id))
                         @if(Auth::check() && $booking->bookedBy_id == Auth::id())
-                            My booking
+                            <a href="{{ route('booking.edit',$booking->id) }}">My booking</a>
                         @else
                             Booked {{Auth::check() && Auth::user()->isAdmin() ? '['.$booking->bookedBy->vatsim_id .']' : ''}}
                         @endif
 
                     @elseif(isset($booking->reservedBy_id))
                         @if(Auth::check() && $booking->reservedBy_id == Auth::id())
-                            My reservation
+                            <a href="{{ route('booking.edit',$booking->id) }}">My Reservation</a>
                         @else
                             Reserved {{Auth::check() && Auth::user()->isAdmin() ? '['.$booking->reservedBy->vatsim_id .']' : ''}}
                         @endif
