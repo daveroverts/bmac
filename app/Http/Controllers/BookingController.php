@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Booking;
+use App\Event;
 use Illuminate\Http\Request;
 
 class BookingController extends Controller
@@ -14,7 +15,9 @@ class BookingController extends Controller
      */
     public function index()
     {
-        //
+        $event = Event::find(1);
+        $bookings = Booking::where('event_id', 1)->get();
+        return view('booking.overview',compact('event','bookings'));
     }
 
     /**
