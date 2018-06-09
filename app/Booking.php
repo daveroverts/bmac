@@ -14,6 +14,15 @@ class Booking extends Model
      */
     protected $table = 'bmac_bookings';
 
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'event_id', 'reservedBy_id', 'bookedBy_id', 'callsign', 'acType', 'selCal', 'dep', 'arr', 'ctot', 'oceanicFL'
+    ];
+
     public function airportDep() {
         return $this->hasOne(Airport::class, 'dep', 'icao');
     }
