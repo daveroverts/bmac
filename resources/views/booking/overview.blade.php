@@ -21,9 +21,9 @@
             <tr>
                 <td>{{ $booking->dep }}</td>
                 <td>{{ $booking->arr }}</td>
-                <td>{{ $booking->callsign }}</td>
-                <td>{{ $booking->acType }}</td>
                 <td>{{ $carbon->createFromFormat('H:i:s',$booking->ctot)->format('Hi') }}z</td>
+                <td>{{ $booking->callsign ? $booking->callsign : '-' }}</td>
+                <td>{{ $booking->acType ? $booking->acType : '-' }}</td>
                 <td>
                     @if(isset($booking->bookedBy_id))
                         @if(Auth::check() && $booking->bookedBy_id == Auth::id())
