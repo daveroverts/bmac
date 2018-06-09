@@ -32,7 +32,7 @@ class Booking extends Model
     }
 
     public function event() {
-        return $this->hasMany(Event::class,'id', 'event_id');
+        return $this->hasOne(Event::class,'id', 'event_id');
     }
 
     public function reservedBy() {

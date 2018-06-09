@@ -40,7 +40,7 @@ class Event extends Model
     ];
 
     public function bookings() {
-        return $this->belongsToMany(Booking::class);
+        return $this->belongsTo(Booking::class);
     }
 
     public function sluggable()
