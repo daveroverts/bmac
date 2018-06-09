@@ -28,7 +28,10 @@ class EventController extends Controller
      */
     public function create()
     {
-        //
+        if (Auth::check() && Auth::user()->isAdmin()) {
+            return view('event.create',compact('airports'));
+        }
+        else return redirect('/');
     }
 
     /**
