@@ -2,6 +2,8 @@
 
 @section('content')
 
+    @php($carbon = new \Carbon\Carbon())
+
     <h2>{{ Auth::check() && Auth::user()->isAdmin() ? '['. $event->id .']' : '' }} {{ $event->name }} | Slot Table</h2>
     @if(Auth::check() && Auth::user()->isAdmin())
         <p><a href="{{ route('booking.create') }}" class="btn btn-primary"><i class="fa fa-plus"></i> Add new Booking(s)</a></p>
@@ -19,9 +21,9 @@
             <tr>
                 <td>{{ $booking->dep }}</td>
                 <td>{{ $booking->arr }}</td>
-                <td>{{ $booking->ctot }}</td>
                 <td>{{ $booking->callsign }}</td>
                 <td>{{ $booking->acType }}</td>
+                <td>{{ $carbon->createFromFormat('H:i:s',$booking->ctot)->format('Hi') }}z</td>
                 <td>
                     @if(isset($booking->bookedBy_id))
                         @if(Auth::check() && $booking->bookedBy_id == Auth::id())
