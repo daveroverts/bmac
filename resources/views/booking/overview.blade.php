@@ -23,26 +23,28 @@
                 <td>{{ $booking->callsign }}</td>
                 <td>{{ $booking->acType }}</td>
                 <td>
-                    @if(Auth::check() && $booking->bookedBy_id == Auth::id() || $booking->reservedBy_id == Auth::id())
-                        <form action="{{ route('booking.edit', $booking->id) }}">
-                            @if(isset($booking->bookedBy_id))
-                                My Booking
-                            @else
-                                My Reservation
-                            @endif
-                        </form>
+                    @if(isset($booking->bookedBy_id))
+                        @if(Auth::check() && $booking->bookedBy_id == Auth::id())
+                            My booking
+                        @else
+                            Booked
+                        @endif
+
+                    @elseif(isset($booking->reservedBy_id))
+                        @if(Auth::check() && $booking->reservedBy_id == Auth::id())
+                            My reservation
+                        @else
+                            Reserved
+                        @endif
                     @else
                         @if(Auth::check())
-                            <form action="{{ route('booking.edit', $booking->id) }}">
-                                @csrf
-                                <a href="{{ route('booking.edit', $booking->id) }}">
-                            @endif
-                                AVAIL
-                        @if(Auth::check())
-                                </a>
-                            </form>
-                            @endif
+                            <a href="{{ route('booking.edit',$booking->id) }}">
                         @endif
+                        AVAIL
+                            @if(Auth::check())
+                            </a>
+                            @endif
+                    @endif
                 </td>
             </tr>
         @endforeach
