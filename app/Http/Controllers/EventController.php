@@ -42,7 +42,28 @@ class EventController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'bail|required:string',
+            'dateEvent' => 'required|date',
+            'timeBeginEvent' => 'required',
+            'timeEndEvent' => 'required',
+            'dateBeginBooking' => 'required|date',
+            'timeBeginBooking' => 'required',
+            'dateEndBooking' => 'required|date|after_or_equal:dateBeginBooking',
+            'timeEndBooking' => 'required',
+            'description' => 'required:string',
+        ]);
+
+        $event = Event::create([
+            'name' => $request->name,
+            'startEvent' => Carbon::createFromFormat('d-m-Y H:i',$request->dateEvent .' '. $request->timeBeginEvent),
+            'endEvent' => Carbon::createFromFormat('d-m-Y H:i',$request->dateEvent .' '. $request->timeEndEvent),
+            'startBooking' => Carbon::createFromFormat('d-m-Y H:i',$request->dateBeginBooking .' '. $request->timeBeginBooking),
+            'endBooking' => Carbon::createFromFormat('d-m-Y H:i',$request->dateEndBooking .' '. $request->timeEndBooking),
+            'description' => $request->description,
+        ]);
+        $event->save();
+        return redirect('admin/event');
     }
 
     /**
