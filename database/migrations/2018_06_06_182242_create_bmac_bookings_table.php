@@ -24,7 +24,9 @@ class CreateBookingsTable extends Migration
             $table->string('dep')->nullable();
             $table->string('arr')->nullable();
             $table->time('ctot')->nullable();
-            $table->string('oceanicFL')->nullable();
+            $table->string('route')->nullable();
+            $table->string('oceanicFL',3)->nullable();
+            $table->string('oceanicTrack',1)->nullable();
             $table->timestamps();
         });
     }
