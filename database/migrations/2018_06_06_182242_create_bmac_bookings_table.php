@@ -38,9 +38,6 @@ class CreateBookingsTable extends Migration
          */
         public function down()
         {
-            Schema::table('bmac_bookings', function (Blueprint $table) {
-
-            });
             Schema::dropIfExists('bmac_bookings');
         }
     }
