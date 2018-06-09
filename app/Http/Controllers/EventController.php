@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Event;
+use Auth;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class EventController extends Controller
