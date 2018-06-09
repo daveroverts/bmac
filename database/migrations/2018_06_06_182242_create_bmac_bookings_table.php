@@ -20,7 +20,7 @@ class CreateBookingsTable extends Migration
             $table->unsignedInteger('bookedBy_id')->nullable();
             $table->string('callsign', 7)->nullable();
             $table->string('acType', 4)->nullable();
-            $table->string('selCal', 5);
+            $table->string('selCal', 5)->nullable();
             $table->string('dep')->nullable();
             $table->string('arr')->nullable();
             $table->time('ctot')->nullable();
