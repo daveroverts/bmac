@@ -7,12 +7,14 @@
         <thead><tr>
             <th>ICAO</th>
             <th>IATA</th>
+            <th>Name</th>
             <th>Edit (doesn't work at this time)</th>
         </tr></thead>
         @forelse($airports as $airport)
             <tr>
                 <td>{{ $airport->icao }}</td>
                 <td>{{ $airport->iata }}</td>
+                <td>{{ $airport->name }}</td>
                 <td>
                     <form action="{{ route('airport.edit', $airport->icao) }}">
                         <button class="btn btn-primary" disabled><i class="fa fa-edit"></i> Edit Airport</button>

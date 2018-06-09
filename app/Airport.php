@@ -24,7 +24,7 @@ class Airport extends Model
      * @var array
      */
     protected $fillable = [
-        'icao', 'iata',
+        'icao', 'iata', 'name',
     ];
 
     /**
