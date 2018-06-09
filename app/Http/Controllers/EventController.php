@@ -14,7 +14,11 @@ class EventController extends Controller
      */
     public function index()
     {
-        //
+        if (Auth::check() && Auth::user()->isAdmin()) {
+            $events = Event::all();
+            return view('event.overview',compact('events'));
+        }
+        else return redirect('/');
     }
 
     /**
