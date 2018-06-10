@@ -19,7 +19,7 @@ return [
 	/*
 	 * The location of the VATSIM OAuth interface
 	 */
-	'base'            => '',
+	'base'            => '/login',
 
 	/*
 	 * The consumer key for your organisation (provided by VATSIM)
@@ -36,14 +36,14 @@ return [
 	 * The URL users will be redirected to after they log in, this should
 	 * be on the same server as the request
 	 */
-	'return'          => '', //not sensitive
+	'return'          => '/booking', //not sensitive
 
 	/*
 	 * The signing method you are using to encrypt your request signature.
 	 * Different options must be enabled on your account at VATSIM.
 	 * Options: RSA / HMAC
 	 */
-	'method'          => 'HMAC',
+	'method'          => 'RSA',
 
 	/*
 	 * Your RSA **PRIVATE** key
