@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "346449d49862cc2410c6aab39f0f7c48",
+    "content-hash": "cbcdf4d3fc3e72115db5f5294271dc87",
     "packages": [
         {
             "name": "barryvdh/laravel-ide-helper",
@@ -127,39 +127,6 @@
                 }
             ],
             "time": "2016-06-13T19:28:20+00:00"
-        },
-        {
-            "name": "bonroyage/oauth",
-            "version": "1.0.8",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/bonroyage/OAuth.git",
-                "reference": "2451a4d42f5c37060bc117c650553955955d10a7"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/bonroyage/OAuth/zipball/2451a4d42f5c37060bc117c650553955955d10a7",
-                "reference": "2451a4d42f5c37060bc117c650553955955d10a7",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.0"
-            },
-            "require-dev": {
-                "eher/phpunit": "1.6"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-0": {
-                    "Eher\\OAuth": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "description": "OAuth 1 PHP Library",
-            "time": "2014-06-25T21:04:29+00:00"
         },
         {
             "name": "cocur/slugify",
@@ -2679,77 +2646,6 @@
                 "dump"
             ],
             "time": "2018-04-29T07:56:09+00:00"
-        },
-        {
-            "name": "theomessin/vatauth",
-            "version": "1.2.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/theomessin/vatauth.git",
-                "reference": "9cd4ef750101393e8bb3ade09d72b3676f0a6703"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/theomessin/vatauth/zipball/9cd4ef750101393e8bb3ade09d72b3676f0a6703",
-                "reference": "9cd4ef750101393e8bb3ade09d72b3676f0a6703",
-                "shasum": ""
-            },
-            "require": {
-                "bonroyage/oauth": "1.*",
-                "illuminate/container": "5.*",
-                "illuminate/support": "5.*",
-                "php": ">=5.6.4"
-            },
-            "type": "library",
-            "extra": {
-                "laravel": {
-                    "providers": [
-                        "Theomessin\\Vatauth\\VatauthServiceProvider"
-                    ],
-                    "aliases": []
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Theomessin\\Vatauth\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Kieran Hardern",
-                    "email": "kieran@hardern.net"
-                },
-                {
-                    "name": "Roy de Vos Burchart",
-                    "email": "dev@bonroyage.com",
-                    "homepage": "http://www.bonroyage.com"
-                },
-                {
-                    "name": "Theodore Messinezis",
-                    "email": "theo@theomessin.com"
-                },
-                {
-                    "name": "Sebastian Kramer",
-                    "email": "sebastian@jskramer.de"
-                }
-            ],
-            "description": "A Laravel 5.4 package to handle VATSIM authentication",
-            "keywords": [
-                "Authentication",
-                "SSO",
-                "auth",
-                "laravel",
-                "oauth",
-                "on",
-                "sign",
-                "single",
-                "vatsim"
-            ],
-            "time": "2017-09-27T00:43:26+00:00"
         },
         {
             "name": "tijsverkoyen/css-to-inline-styles",
