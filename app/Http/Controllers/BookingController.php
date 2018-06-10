@@ -25,7 +25,7 @@ class BookingController extends Controller
             // If a reservation has been marked as reserved
             if (isset($booking->reservedBy_id)) {
                 // If a reservation has been reserved for more then 10 minutes, remove reservedBy_id
-                if (Carbon::now() > Carbon::createFromFormat('Y-m-d H:i:s',$booking->updated_at)->addMinutes(2)) {
+                if (Carbon::now() > Carbon::createFromFormat('Y-m-d H:i:s',$booking->updated_at)->addMinutes(10)) {
                     $booking->fill([
                         'reservedBy_id' => null,
                         'updated_at' => NOW(),
