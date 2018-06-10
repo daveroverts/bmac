@@ -19,9 +19,9 @@
         </tr></thead>
         @foreach($bookings as $booking)
             <tr>
-                <td>{{ $booking->dep }}</td>
-                <td>{{ $booking->arr }}</td>
-                <td>{{ $carbon->createFromFormat('H:i:s',$booking->ctot)->format('Hi') }}z</td>
+                <td><div data-toggle="tooltip" data-placement="top" title="{{ $booking->airportDep->name }}">{{ $booking->dep }}</div></td>
+                <td><div data-toggle="tooltip" data-placement="top" title="{{ $booking->airportArr->name }}">{{ $booking->arr }}</div></td>
+                <td><div data-toggle="tooltip" data-placement="top" title="Calculated Take Off Time">{{ $carbon->createFromFormat('H:i:s',$booking->ctot)->format('Hi') }}z</div></td>
                 <td>{{ $booking->callsign ? $booking->callsign : '-' }}</td>
                 <td>{{ $booking->acType ? $booking->acType : '-' }}</td>
                 <td>
