@@ -24,11 +24,11 @@ class Booking extends Model
     ];
 
     public function airportDep() {
-        return $this->hasOne(Airport::class, 'dep', 'icao');
+        return $this->hasOne(Airport::class, 'icao', 'dep');
     }
 
     public function airportArr() {
-        return $this->hasOne(Airport::class, 'arr', 'icao');
+        return $this->hasOne(Airport::class, 'icao', 'arr');
     }
 
     public function event() {
