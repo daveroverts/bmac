@@ -132,21 +132,26 @@
                             </div>
                         </div>
 
-                            {{--Study--}}
-                            <div class="form-group form-row">
-                                <input class="form-check-input" type="checkbox" value="" id="checkStudy">
-                                <label class="form-check-label" for="checkStudy">
-                                    I agree to study the provided briefing material
-                                </label>
+                        {{--Study--}}
+                        <div class="form-group row">
+                            <div class="col-md-8 offset-md-3">
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" name="checkStudy"> I agree to study the provided briefing material
+                                    </label>
+                                </div>
                             </div>
-
+                        </div>
                             {{--Charts--}}
-                            <div class="form-group form-row">
-                                <input class="form-check-input" type="checkbox" value="" id="checkCharts">
-                                <label class="form-check-label" for="checkCharts">
-                                    I agree to have the applicable charts at hand during the event
-                                </label>
+                        <div class="form-group row">
+                            <div class="col-md-8 offset-md-3">
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" name="checkCharts"> I agree to have the applicable charts at hand during the event
+                                    </label>
+                                </div>
                             </div>
+                        </div>
 
                 </div>
             </div>
