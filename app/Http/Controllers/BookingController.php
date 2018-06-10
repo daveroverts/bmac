@@ -97,9 +97,28 @@ class BookingController extends Controller
      * @param  \App\Booking  $booking
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Booking $booking)
+    public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'callsign' => 'string|max:7',
+            'aircraft' => 'string|between:3,4',
+            'selcal1' => 'string|max:2',
+            'selcal2' => 'string|max:2',
+            'checkStudy' => 'accepted',
+            'checkCharts' => 'accepted',
+        ]);
+
+        $booking = Booking::find($id);
+        $selcal = $request->selcal1 . '-'.$request->selcal2;
+        $booking->fill([
+            'reservedBy_id' => null,
+            'bookedBy_id' => Auth::id(),
+            'callsign' => $request->callsign,
+            'acType' => $request->aircraft,
+            'selcal' => $selcal,
+        ]);
+        $booking->save();
+        return redirect('/booking');
     }
 
     /**
