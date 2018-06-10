@@ -16,7 +16,7 @@
                 <div class="card-header">{{ $booking->event->name }} | My reservation</div>
 
                 <div class="card-body">
-                    <form method="POST" action="{{ route('booking.store') }}">
+                    <form method="POST" action="{{ route('booking.update',$booking->id) }}">
                         @csrf
                         {{--Callsign--}}
                         <div class="form-group row">
