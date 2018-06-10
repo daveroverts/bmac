@@ -4,7 +4,6 @@ namespace App\Providers;
 
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
-use Theomessin\Vatauth\Vatauth;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -26,6 +25,6 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        Vatauth::routes();
+        //
     }
 }
