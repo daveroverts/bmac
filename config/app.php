@@ -211,7 +211,7 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
-        'Vatsim' => Vatsim\OAuthLaravel\SSOFacade::class,
+        'VatsimSSO' => Vatsim\OAuthLaravel\SSOFacade::class,
 
     ],
 
