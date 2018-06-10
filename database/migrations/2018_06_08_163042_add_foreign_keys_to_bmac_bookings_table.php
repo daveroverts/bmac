@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddForeignKeysToBookingsTable extends Migration
+class AddForeignKeysToBmacBookingsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,11 +14,11 @@ class AddForeignKeysToBookingsTable extends Migration
     public function up()
     {
         Schema::table('bmac_bookings', function (Blueprint $table) {
-            $table->foreign('event_id')->references('id')->on('events')->onDelete('cascade');
-            $table->foreign('reservedBy_id')->references('id')->on('users');
-            $table->foreign('bookedBy_id')->references('id')->on('users');
-            $table->foreign('dep')->references('icao')->on('airports');
-            $table->foreign('arr')->references('icao')->on('airports');
+            $table->foreign('event_id')->references('id')->on('bmac_events')->onDelete('cascade');
+            $table->foreign('reservedBy_id')->references('id')->on('bmac_users');
+            $table->foreign('bookedBy_id')->references('id')->on('bmac_users');
+            $table->foreign('dep')->references('icao')->on('bmac_airports');
+            $table->foreign('arr')->references('icao')->on('bmac_airports');
 
         });
     }
