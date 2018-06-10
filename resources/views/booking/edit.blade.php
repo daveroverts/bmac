@@ -124,12 +124,12 @@
                             <label for="selcal" class="col-md-4 col-form-label text-md-right"> Selcal</label>
                             <div class="col-sm-3 my-1">
                                 <label class="sr-only" for="selcal1"></label>
-                                <input type="text" class="form-control" id="selcal1" placeholder="AB" min="2" max="2" value="{{ old('selcal1') }}">
+                                <input type="text" class="form-control" id="selcal1" name="selcal1" placeholder="AB" min="2" max="2" value="{{ old('selcal1') }}">
                             </div>
                             -
                             <div class="col-sm-3 my-1">
                                 <label class="sr-only" for="selcal2"></label>
-                                <input type="text" class="form-control" id="selcal2" placeholder="CD" min="2" max="2" value="{{ old('selcal2') }}">
+                                <input type="text" class="form-control" id="selcal2" name="selcal2" placeholder="CD" min="2" max="2" value="{{ old('selcal2') }}">
                             </div>
                         </div>
 
