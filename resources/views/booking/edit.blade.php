@@ -39,7 +39,7 @@
                             <label for="ctot" class="col-md-4 col-form-label text-md-right"> CTOT</label>
 
                             <div class="col-md-6">
-                                <input type="text" readonly class="form-control-plaintext" name="ctot" value="{{ $booking->ctot }}z">
+                                <div class="form-control-plaintext">{{ $booking->ctot }}z</div>
 
                             </div>
                         </div>
@@ -49,7 +49,7 @@
                             <label for="adep" class="col-md-4 col-form-label text-md-right">ADEP</label>
 
                             <div class="col-md-6">
-                                <input type="text" readonly class="form-control-plaintext" name="adep" value="{{ $booking->dep }}">
+                                <div class="form-control-plaintext">{{ $booking->dep }}</div>
 
                             </div>
                         </div>
@@ -59,7 +59,7 @@
                             <label for="ades" class="col-md-4 col-form-label text-md-right">ADES</label>
 
                             <div class="col-md-6">
-                                <input type="text" readonly class="form-control-plaintext" name="ades" value="{{ $booking->arr }}">
+                                <div class="form-control-plaintext">{{ $booking->arr }}</div>
 
                             </div>
                         </div>
@@ -69,7 +69,7 @@
                             <label for="pic" class="col-md-4 col-form-label text-md-right">PIC</label>
 
                             <div class="col-md-6">
-                                <input type="text" readonly class="form-control-plaintext" name="pic" value="{{ $booking->reservedBy->name }} | {{ $booking->reservedBy->vatsim_id }}">
+                                <div class="form-control-plaintext">{{ $booking->reservedBy->name }} | {{ $booking->reservedBy->vatsim_id }}</div>
 
                             </div>
                         </div>
@@ -79,7 +79,7 @@
                             <label for="route" class="col-md-4 col-form-label text-md-right">Route</label>
 
                             <div class="col-md-6">
-                                <input type="text" readonly class="form-control-plaintext" name="route" value="{{ $booking->route ? $booking->route : 'T.B.D. / Available on day of event at 0600z' }}">
+                                <div class="form-control-plaintext">{{ $booking->route ? $booking->route : 'T.B.D. / Available on day of event at 0600z' }}</div>
 
                             </div>
                         </div>
@@ -89,7 +89,7 @@
                             <label for="track" class="col-md-4 col-form-label text-md-right">Track</label>
 
                             <div class="col-md-6">
-                                <input type="text" readonly class="form-control-plaintext" name="track" value="{{ $booking->track ? $booking->track : 'T.B.D. / Available on day of event at 0600z' }}">
+                                <div class="form-control-plaintext">{{ $booking->track ? $booking->track : 'T.B.D. / Available on day of event at 0600z' }}</div>
 
                             </div>
                         </div>
@@ -99,7 +99,7 @@
                             <label for="track" class="col-md-4 col-form-label text-md-right">Oceanic Entry FL</label>
 
                             <div class="col-md-6">
-                                <input type="text" readonly class="form-control-plaintext" name="oceanicFL" value="FL{{ $booking->oceanicFL ? $booking->oceanicFL. ' / Subject to change' : 'T.B.D.'}}">
+                                <div class="form-control-plaintext">FL{{ $booking->oceanicFL ? $booking->oceanicFL. ' / Subject to change' : 'T.B.D.'}}</div>
 
                             </div>
                         </div>
@@ -124,12 +124,12 @@
                             <label for="selcal" class="col-md-4 col-form-label text-md-right"> Selcal</label>
                             <div class="col-sm-3 my-1">
                                 <label class="sr-only" for="selcal1"></label>
-                                <input type="text" class="form-control" id="selcal1" placeholder="AB" min="2" max="2">
+                                <input type="text" class="form-control" id="selcal1" placeholder="AB" min="2" max="2" value="{{ old('selcal1') }}">
                             </div>
                             -
                             <div class="col-sm-3 my-1">
                                 <label class="sr-only" for="selcal2"></label>
-                                <input type="text" class="form-control" id="selcal2" placeholder="CD" min="2" max="2">
+                                <input type="text" class="form-control" id="selcal2" placeholder="CD" min="2" max="2" value="{{ old('selcal2') }}">
                             </div>
                         </div>
 
