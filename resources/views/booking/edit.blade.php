@@ -109,7 +109,7 @@
                             <label for="aircraft" class="col-md-4 col-form-label text-md-right"> Aircraft [ICAO code]</label>
 
                             <div class="col-md-6">
-                                <input id="aircraft" type="text" class="form-control{{ $errors->has('aircraft') ? ' is-invalid' : '' }}" name="aircraft" value="{{ old('aircraft') }}" required max="4">
+                                <input id="aircraft" type="text" class="form-control{{ $errors->has('aircraft') ? ' is-invalid' : '' }}" name="aircraft" value="{{ old('aircraft') }}" required min="3" max="4">
 
                                 @if ($errors->has('aircraft'))
                                     <span class="invalid-feedback">
