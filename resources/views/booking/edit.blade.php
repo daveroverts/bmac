@@ -128,7 +128,7 @@
                             -
                             <div class="col-sm-3 my-1">
                                 <label class="sr-only" for="selcal2"></label>
-                                <input type="text" class="form-control" id="selcal2" placeholder="AB" min="2" max="2">
+                                <input type="text" class="form-control" id="selcal2" placeholder="CD" min="2" max="2">
                             </div>
                         </div>
 
