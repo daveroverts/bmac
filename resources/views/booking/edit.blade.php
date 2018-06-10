@@ -138,6 +138,7 @@
                             <div class="col-md-8 offset-md-3">
                                 <div class="checkbox">
                                     <label>
+                                        <input type="hidden" name="checkStudy" value="0">
                                         <input type="checkbox" name="checkStudy"> I agree to study the provided briefing material
                                     </label>
                                 </div>
@@ -148,7 +149,8 @@
                             <div class="col-md-8 offset-md-3">
                                 <div class="checkbox">
                                     <label>
-                                        <input type="checkbox" name="checkCharts"> I agree to have the applicable charts at hand during the event
+                                        <input type="hidden" name="checkCharts" value="0">
+                                        <input type="checkbox" name="checkCharts" value="1"> I agree to have the applicable charts at hand during the event
                                     </label>
                                 </div>
                             </div>
