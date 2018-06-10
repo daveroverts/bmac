@@ -20,6 +20,20 @@ class BookingController extends Controller
     {
         $event = Event::find(1);
         $bookings = Booking::where('event_id', 1)->get();
+        // Check all reservedBy_id's to see if 10 minutes have exceeded
+        foreach ($bookings as $booking) {
+            // If a reservation has been marked as reserved
+            if (isset($booking->reservedBy_id)) {
+                // If a reservation has been reserved for more then 10 minutes, remove reservedBy_id
+                if (Carbon::now() > Carbon::createFromFormat('Y-m-d H:i:s',$booking->updated_at)->addMinutes(2)) {
+                    $booking->fill([
+                        'reservedBy_id' => null,
+                        'updated_at' => NOW(),
+                    ]);
+                    $booking->save();
+                }
+            }
+        }
         return view('booking.overview',compact('event','bookings'));
     }
 
