@@ -8,6 +8,14 @@
     @if(Auth::check() && Auth::user()->isAdmin())
         <p><a href="{{ route('booking.create') }}" class="btn btn-primary"><i class="fa fa-plus"></i> Add new Booking(s)</a></p>
     @endif
+    @if(session('message'))
+        @component('layouts.alert.danger')
+            @slot('title')
+                Warning
+            @endslot
+            {{ session('message') }}
+        @endcomponent
+    @endif
     <table class="table table-hover">
         <thead><tr>
             <th>From</th>
