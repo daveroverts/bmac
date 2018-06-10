@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Booking;
 use App\Event;
+use App\User;
+use Auth;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 class BookingController extends Controller
 {
@@ -55,12 +58,36 @@ class BookingController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Booking  $booking
+     * @param  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Booking $booking)
+    public function edit($id)
     {
-        //
+        // Check if user is logged in
+        if (Auth::check()) {
+            $booking = Booking::findOrFail($id);
+            $user = User::find(Auth::id());
+            // Check if the booking has already been booked or reserved
+            if (isset($booking->bookedBy_id) ||  isset($booking->reservedBy_id)) {
+                // Check if current user has booked/reserved
+                if ($booking->bookedBy_id == Auth::id() ||$booking->reservedBy_id == Auth::id()) {
+                    return view('booking.edit',compact('booking', 'user'));
+                }
+                else {
+                    if (isset($booking->reservedBy_id)) {
+                        return redirect('/booking')->with('message', 'Whoops! Somebody else reserved that slot just before you! Please choose another one. The slot will become available if it isn\'t confirmed within 10 minutes.');
+                    }
+                    else return redirect('/booking')->with('message', 'Whoops! Somebody else booked that slot just before you! Please choose another one.');
+                }
+            }
+            else {
+                $booking->reservedBy_id = Auth::id();
+                $booking->save();
+                $booking->ctot = Carbon::createFromFormat('H:i:s',$booking->ctot)->format('Hi');
+                return view('booking.edit',compact('booking', 'user'))->with('message', 'Slot reserved!');
+            }
+        }
+        else return redirect('/booking')->with('message', 'You need to be logged in before you can book a reservation.');
     }
 
     /**
