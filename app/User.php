@@ -49,5 +49,13 @@ class User extends Authenticatable
         return $this->hasOne(Booking::class);
     }
 
+    /**
+     * Get the user's full name.
+     *
+     * @return string
+     */
+    public function getFullNameAttribute() {
+        return ucfirst($this->name_first) . ' ' . ucfirst($this->name_last);
+    }
 
 }
