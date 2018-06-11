@@ -1,9 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
-
-    @php($carbon = new \Carbon\Carbon())
-
     <h2>Events Overview</h2>
     <p><a href="{{ route('event.create') }}" class="btn btn-primary"><i class="fa fa-plus"></i> Add new Event</a></p>
     <table class="table table-hover">
@@ -19,9 +16,9 @@
             <tr>
                 <td>{{ $event->id }}</td>
                 <td>{{ $event->name }}</td>
-                <td>{{ $carbon = $event->startEvent->format('d-m-Y') }}</td>
-                <td>{{ $carbon = $event->startEvent->format('Hi') }}z</td>
-                <td>{{ $carbon = $event->endEvent->format('Hi') }}z</td>
+                <td>{{ $event->startEvent->format('d-m-Y') }}</td>
+                <td>{{ $event->startEvent->format('Hi') }}z</td>
+                <td>{{ $event->endEvent->format('Hi') }}z</td>
                 <td>
                     <form action="{{ route('event.edit', $event->id) }}">
                         <button class="btn btn-primary"><i class="fa fa-edit"></i> Edit Event</button>
