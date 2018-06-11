@@ -29,6 +29,16 @@
                             </div>
                         </div>
 
+                        {{--Date--}}
+                        <div class="form-group row">
+                            <label for="date" class="col-md-4 col-form-label text-md-right">Date</label>
+
+                            <div class="col-md-6">
+                                <div class="form-control-plaintext">{{ $event->startEvent->format('d-m-Y') }}</div>
+
+                            </div>
+                        </div>
+
                     </form>
                 </div>
             </div>
