@@ -20,7 +20,7 @@ class Booking extends Model
      * @var array
      */
     protected $fillable = [
-        'event_id', 'reservedBy_id', 'bookedBy_id', 'callsign', 'acType', 'selcal', 'dep', 'arr', 'ctot', 'oceanicFL'
+        'event_id', 'reservedBy_id', 'bookedBy_id', 'callsign', 'acType', 'selcal', 'dep', 'arr', 'ctot', 'oceanicFL', 'oceanicTrack'
     ];
 
     public function airportDep() {
