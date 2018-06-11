@@ -121,9 +121,9 @@ class BookingController extends Controller
             'checkStudy' => 'accepted',
             'checkCharts' => 'accepted',
         ]);
-
         $booking = Booking::find($id);
-        $selcal = $request->selcal1 . '-'.$request->selcal2;
+        $this->validateSELCAL($request->selcal1, $request->selcal2, $booking->event_id);
+        $selcal = $request->selcal1 .'-'. $request->selcal2;
         $booking->fill([
             'reservedBy_id' => null,
             'bookedBy_id' => Auth::id(),
@@ -144,5 +144,16 @@ class BookingController extends Controller
     public function destroy(Booking $booking)
     {
         //
+    }
+
+    public function validateSELCAL($a, $b, $eventId) {
+        $selcal = $a.'-'.$b;
+        $bookings = Booking::where('event_id',$eventId)->get();
+        foreach ($bookings as $booking) {
+            if ($booking->selcal == $selcal) {
+                return false;
+            }
+        }
+        return $a .'-'. $b;
     }
 }
