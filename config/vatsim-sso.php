@@ -19,8 +19,7 @@ return [
 	/*
 	 * The location of the VATSIM OAuth interface
 	 */
-	'base'            => 'https://cert.vatsim.net/sso/',
-//    'base'            => 'http://sso.hardern.net/server/',
+    'base'            => env('APP_ENV', 'production') == 'production' ? 'https://cert.vatsim.net/sso/' :  'http://sso.hardern.net/server/',
 
 	/*
 	 * The consumer key for your organisation (provided by VATSIM)
