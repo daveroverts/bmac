@@ -19,7 +19,8 @@ return [
 	/*
 	 * The location of the VATSIM OAuth interface
 	 */
-	'base'            => '/login',
+	'base'            => 'https://cert.vatsim.net/sso/',
+//    'base'            => 'http://sso.hardern.net/server/',
 
 	/*
 	 * The consumer key for your organisation (provided by VATSIM)
@@ -36,7 +37,7 @@ return [
 	 * The URL users will be redirected to after they log in, this should
 	 * be on the same server as the request
 	 */
-	'return'          => '/booking', //not sensitive
+	'return'          => url('/validateLogin'), //not sensitive
 
 	/*
 	 * The signing method you are using to encrypt your request signature.
@@ -49,7 +50,7 @@ return [
 	 * Your RSA **PRIVATE** key
 	 * If you are not using RSA, this value can be anything (or not set)
 	 */
-	'cert'            => env('SSO_CERT'),
+	'cert'            => str_replace('\n', "\n", env('SSO_CERT', '')),
 
 	/*
 	 * Set to true to allow suspended users to sign in

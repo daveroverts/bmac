@@ -15,9 +15,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/login','Auth\LoginController@login');
+Route::get('/validateLogin','Auth\LoginController@validateLogin');
 
 Route::resource('admin/airport', 'AirportController');
 Route::resource('admin/event', 'EventController');
