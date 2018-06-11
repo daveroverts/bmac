@@ -4,9 +4,9 @@
 
     @php($carbon = new \Carbon\Carbon())
 
-    <h2>{{ Auth::check() && Auth::user()->isAdmin() ? '['. $event->id .']' : '' }} {{ $event->name }} | Slot Table</h2>
-    @if(Auth::check() && Auth::user()->isAdmin())
-        <p><a href="{{ route('booking.create') }}" class="btn btn-primary"><i class="fa fa-plus"></i> Add new Booking(s)</a></p>
+    <h2>{{ Auth::check() && Auth::user()->isAdmin ? '['. $event->id .']' : '' }} {{ $event->name }} | Slot Table</h2>
+    @if(Auth::check() && Auth::user()->isAdmin)
+        <p><a href="{{ route('booking.create',$event->id) }}" class="btn btn-primary"><i class="fa fa-plus"></i> Add new Booking(s)</a></p>
     @endif
     @if(session('message'))
         @component('layouts.alert.danger')
@@ -39,7 +39,7 @@
                         @if(Auth::check() && $booking->bookedBy_id == Auth::id())
                             <a href="{{ route('booking.edit',$booking->id) }}">My booking</a>
                         @else
-                            Booked {{Auth::check() && Auth::user()->isAdmin() ? '['.$booking->bookedBy->vatsim_id .']' : ''}}
+                            Booked {{Auth::check() && Auth::user()->isAdmin ? '['.$booking->bookedBy->vatsim_id .']' : ''}}
                         @endif
 
                     @elseif(isset($booking->reservedBy_id))
@@ -48,7 +48,7 @@
                             {{--Check if a booking has been reserved by current user--}}
                             <a href="{{ route('booking.edit',$booking->id) }}">My Reservation</a>
                         @else
-                            Reserved {{Auth::check() && Auth::user()->isAdmin() ? '['.$booking->reservedBy->vatsim_id .']' : ''}}
+                            Reserved {{Auth::check() && Auth::user()->isAdmin ? '['.$booking->reservedBy->vatsim_id .']' : ''}}
                         @endif
                     @else
                         @if(Auth::check())
