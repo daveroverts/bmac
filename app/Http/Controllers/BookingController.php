@@ -44,7 +44,7 @@ class BookingController extends Controller
      */
     public function create(Request $request)
     {
-        if (Auth::check() && Auth::user()->isAdmin()) {
+        if (Auth::check() && Auth::user()->isAdmin) {
             $event = Event::whereKey($request->id)->first();
             return view('booking.create',compact('event'));
         }

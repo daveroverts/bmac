@@ -16,7 +16,7 @@ class EventController extends Controller
      */
     public function index()
     {
-        if (Auth::check() && Auth::user()->isAdmin()) {
+        if (Auth::check() && Auth::user()->isAdmin) {
             $events = Event::all();
             return view('event.overview',compact('events'));
         }
@@ -30,7 +30,8 @@ class EventController extends Controller
      */
     public function create()
     {
-        if (Auth::check() && Auth::user()->isAdmin()) {
+        if (Auth::check() && Auth::user()->isAdmin) {
+            $airports = Airport::all();
             return view('event.create',compact('airports'));
         }
         else return redirect('/');

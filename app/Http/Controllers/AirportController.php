@@ -15,7 +15,7 @@ class AirportController extends Controller
      */
     public function index()
     {
-        if (Auth::check() && Auth::user()->isAdmin()) {
+        if (Auth::check() && Auth::user()->isAdmin) {
             $airports = Airport::all();
             return view('airport.overview',compact('airports'));
         }
@@ -29,7 +29,7 @@ class AirportController extends Controller
      */
     public function create()
     {
-        if (Auth::check() && Auth::user()->isAdmin()) {
+        if (Auth::check() && Auth::user()->isAdmin) {
             return view('airport.create');
         }
         else return redirect('/');

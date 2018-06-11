@@ -34,13 +34,14 @@ class User extends Authenticatable
         'remember_token',
     ];
 
-    public function isAdmin(){
-        if ($this->isAdmin == 1){
-            return true;
-        }
-        else return false;
-    }
-
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'is_admin' => 'boolean',
+    ];
     public function bookingReserved() {
         return $this->hasOne(Booking::class);
     }
