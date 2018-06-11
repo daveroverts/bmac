@@ -37,7 +37,7 @@ return [
 	 * The URL users will be redirected to after they log in, this should
 	 * be on the same server as the request
 	 */
-	'return'          => url('/validateLogin'), //not sensitive
+	'return'          => env('APP_URL') . '/validateLogin', //not sensitive
 
 	/*
 	 * The signing method you are using to encrypt your request signature.
