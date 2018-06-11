@@ -144,7 +144,8 @@
                                 </div>
                             </div>
                         </div>
-                            {{--Charts--}}
+
+                        {{--Charts--}}
                         <div class="form-group row">
                             <div class="col-md-8 offset-md-3">
                                 <div class="checkbox">
