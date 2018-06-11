@@ -42,5 +42,4 @@ class Booking extends Model
     public function bookedBy() {
         return $this->hasOne(User::class,'id','bookedBy_id');
     }
-
 }
