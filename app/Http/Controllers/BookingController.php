@@ -42,9 +42,13 @@ class BookingController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
+        if (Auth::check() && Auth::user()->isAdmin()) {
+            $event = Event::whereKey($request->id)->first();
+            return view('booking.create',compact('event'));
+        }
+        else return redirect('/');
     }
 
     /**
