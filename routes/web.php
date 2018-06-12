@@ -20,6 +20,7 @@ Route::get('/validateLogin','Auth\LoginController@validateLogin');
 
 Route::resource('admin/airport', 'AirportController');
 Route::resource('admin/event', 'EventController');
+Route::put('booking/{id}','BookingController@cancelBooking')->name('booking.cancelBooking');
 Route::get('/booking/{id}/create','BookingController@create')->name('booking.create');
 Route::resource('booking', 'BookingController')->except('create');
 
