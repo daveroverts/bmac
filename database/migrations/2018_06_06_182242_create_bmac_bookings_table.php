@@ -23,7 +23,7 @@ class CreateBmacBookingsTable extends Migration
             $table->string('selcal', 5)->nullable();
             $table->string('dep')->nullable();
             $table->string('arr')->nullable();
-            $table->time('ctot')->nullable();
+            $table->dateTime('ctot')->nullable();
             $table->string('route')->nullable();
             $table->string('oceanicFL',3)->nullable();
             $table->string('oceanicTrack',1)->nullable();

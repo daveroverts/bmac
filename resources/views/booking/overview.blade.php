@@ -1,9 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
-
-    @php($carbon = new \Carbon\Carbon())
-
     <h2>{{ Auth::check() && Auth::user()->isAdmin ? '['. $event->id .']' : '' }} {{ $event->name }} | Slot Table</h2>
     @if(Auth::check() && Auth::user()->isAdmin)
         <p><a href="{{ route('booking.create',$event->id) }}" class="btn btn-primary"><i class="fa fa-plus"></i> Add new Booking(s)</a></p>
@@ -29,7 +26,7 @@
             <tr>
                 <td><div data-toggle="tooltip" data-placement="top" title="{{ $booking->airportDep->name }}">{{ $booking->dep }}</div></td>
                 <td><div data-toggle="tooltip" data-placement="top" title="{{ $booking->airportArr->name }}">{{ $booking->arr }}</div></td>
-                <td><div data-toggle="tooltip" data-placement="top" title="Calculated Take Off Time">{{ $carbon->createFromFormat('H:i:s',$booking->ctot)->format('Hi') }}z</div></td>
+                <td><div data-toggle="tooltip" data-placement="top" title="Calculated Take Off Time">{{ $booking->ctot }}</div></td>
                 <td>{{ $booking->callsign ? $booking->callsign : '-' }}</td>
                 <td>{{ $booking->acType ? $booking->acType : '-' }}</td>
                 <td>

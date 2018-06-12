@@ -23,6 +23,27 @@ class Booking extends Model
         'event_id', 'reservedBy_id', 'bookedBy_id', 'callsign', 'acType', 'selcal', 'dep', 'arr', 'ctot', 'oceanicFL', 'oceanicTrack'
     ];
 
+    /**
+     * The attributes that should be mutated to dates.
+     *
+     * @var array
+     */
+    protected $dates = [
+        'ctot',
+    ];
+
+    /**
+     * Format for CTOT
+     *
+     * @param $value
+     * @return string
+     */
+    public function getCtotAttribute($value)
+    {
+        return \Carbon\Carbon::parse($value)->format('Hi').'z';
+    }
+
+
     public function airportDep() {
         return $this->hasOne(Airport::class, 'icao', 'dep');
     }

@@ -39,7 +39,7 @@
                             <label for="ctot" class="col-md-4 col-form-label text-md-right"> CTOT</label>
 
                             <div class="col-md-6">
-                                <div class="form-control-plaintext">{{ $booking->ctot }}z</div>
+                                <div class="form-control-plaintext">{{ $booking->ctot }}</div>
 
                             </div>
                         </div>

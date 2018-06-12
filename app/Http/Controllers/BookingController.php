@@ -101,7 +101,6 @@ class BookingController extends Controller
             else {
                 $booking->reservedBy_id = Auth::id();
                 $booking->save();
-                $booking->ctot = Carbon::createFromFormat('H:i:s',$booking->ctot)->format('Hi');
                 return view('booking.edit',compact('booking', 'user'))->with('message', 'Slot reserved!');
             }
         }
