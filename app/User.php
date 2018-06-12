@@ -42,6 +42,7 @@ class User extends Authenticatable
     protected $casts = [
         'is_admin' => 'boolean',
     ];
+
     public function bookingReserved() {
         return $this->hasOne(Booking::class);
     }
