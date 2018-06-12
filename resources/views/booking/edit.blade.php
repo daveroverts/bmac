@@ -69,8 +69,7 @@
                             <label for="pic" class="col-md-4 col-form-label text-md-right">PIC</label>
 
                             <div class="col-md-6">
-                                <div class="form-control-plaintext">{{ $booking->reservedBy->full_name }} | {{ $booking->reservedBy->id }}</div>
-
+                                <div class="form-control-plaintext">{{ $booking->bookedBy ? $booking->bookedBy->pic : $booking->reservedBy->pic }}</div>
                             </div>
                         </div>
 

@@ -60,4 +60,13 @@ class User extends Authenticatable
         return ucfirst($this->name_first) . ' ' . ucfirst($this->name_last);
     }
 
+    /**
+     * Get the user's full name and Vatsim ID.
+     *
+     * @return string
+     */
+    public function getPicAttribute() {
+        return ucfirst($this->name_first) . ' ' . ucfirst($this->name_last) . ' | ' . $this->id;
+    }
+
 }
