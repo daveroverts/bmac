@@ -34,7 +34,7 @@
                     @if(isset($booking->bookedBy_id))
                         {{--Check if booking has been booked by current user--}}
                         @if(Auth::check() && $booking->bookedBy_id == Auth::id())
-                            <a href="{{ route('booking.edit',$booking->id) }}">My booking</a>
+                            <a href="{{ route('booking.show',$booking->id) }}">My booking</a>
                         @else
                             Booked {{Auth::check() && Auth::user()->isAdmin ? '['.$booking->bookedBy->vatsim_id .']' : ''}}
                         @endif
