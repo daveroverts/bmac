@@ -19,7 +19,7 @@ class BookingController extends Controller
     public function index()
     {
         $event = Event::find(1);
-        $bookings = Booking::where('event_id', 1)->get();
+        $bookings = Booking::where('event_id', 1)->orderBy('ctot')->get();
         // Check all reservedBy_id's to see if 10 minutes have exceeded
         foreach ($bookings as $booking) {
             // If a reservation has been marked as reserved
