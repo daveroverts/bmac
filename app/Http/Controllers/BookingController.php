@@ -82,12 +82,13 @@ class BookingController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Booking  $booking
+     * @param  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Booking $booking)
+    public function show($id)
     {
-        //
+        $booking = Booking::findOrFail($id);
+        return view('booking.show',compact('booking'));
     }
 
     /**
