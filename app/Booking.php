@@ -43,6 +43,55 @@ class Booking extends Model
         return \Carbon\Carbon::parse($value)->format('Hi').'z';
     }
 
+    /**
+     * Capitalize Callsign
+     *
+     * @param $value
+     */
+    public function setCallsignAttribute($value)
+    {
+        $this->attributes['callsign'] = strtoupper($value);
+    }
+
+    /**
+     * Capitalize Route
+     *
+     * @param $value
+     */
+    public function setRouteAttribute($value)
+    {
+        $this->attributes['route'] = strtoupper($value);
+    }
+
+    /**
+     * Capitalize Aircraft
+     *
+     * @param $value
+     */
+    public function setActypeAttribute($value)
+    {
+        $this->attributes['acType'] = strtoupper($value);
+    }
+
+    /**
+     * Capitalize SELCAL
+     *
+     * @param $value
+     */
+    public function setSelcalAttribute($value)
+    {
+        $this->attributes['selcal'] = strtoupper($value);
+    }
+
+    /**
+     * Capitalize Oceanic Track
+     *
+     * @param $value
+     */
+    public function setOceanictrackAttribute($value)
+    {
+        $this->attributes['oceanicTrack'] = strtoupper($value);
+    }
 
     public function airportDep() {
         return $this->hasOne(Airport::class, 'icao', 'dep');
