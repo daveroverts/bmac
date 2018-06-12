@@ -6,6 +6,7 @@
     "type": "project",
     "require": {
         "php": "^7.1.3",
+        "barryvdh/laravel-cors": "^0.11.0",
         "barryvdh/laravel-ide-helper": "^2.4",
         "cviebrock/eloquent-sluggable": "4.5",
         "fideloper/proxy": "^4.0",
