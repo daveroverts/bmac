@@ -15,8 +15,9 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/login','Auth\LoginController@login');
+Route::get('/login','Auth\LoginController@login')->name('login');
 Route::get('/validateLogin','Auth\LoginController@validateLogin');
+Route::post('/logout','Auth\LoginController@logout')->name('logout');
 
 Route::resource('admin/airport', 'AirportController');
 Route::resource('admin/event', 'EventController');
