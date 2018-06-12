@@ -115,6 +115,52 @@
                             </div>
                         </div>
 
+                        {{--Briefing EHAM--}}
+                        <div class="form-group row">
+                            <label for="briefingEHAM" class="col-md-4 col-form-label text-md-right">Briefing EHAM</label>
+
+                            <div class="col-md-6">
+                                <div class="form-control-plaintext"><a href="{{ url('https://www.dutchvacc.nl/index.php?option=com_content&view=article&id=149&Itemid=149') }} " target="_blank">Link</a></div>
+                            </div>
+                        </div>
+
+                        {{--Charts EHAM--}}
+                        <div class="form-group row">
+                            <label for="chartsEHAM" class="col-md-4 col-form-label text-md-right">Charts EHAM</label>
+
+                            <div class="col-md-6">
+                                <div class="form-control-plaintext"><a href="{{ url('http://scripts.dutchvacc.nl/aipcharts.php?airport=eham') }}" target="_blank" title="Note, it may take up to one minute to load. Please be patient">Link</a></div>
+                            </div>
+                        </div>
+
+                        {{--Oceanic sheet--}}
+                        <div class="form-group row">
+                            <label for="chartsEHAM" class="col-md-4 col-form-label text-md-right">Oceanic sheet</label>
+
+                            <div class="col-md-6">
+                                <div class="form-control-plaintext"><a href="{{ url('https://ctp.vatsim.net/system/view/includes/Transatlantic_Radio_Operations_Checksheet.pdf') }}" target="_blank">Link</a></div>
+                            </div>
+                        </div>
+
+                        {{--Briefing KBOS--}}
+                        <div class="form-group row">
+                            <label for="briefingKBOS" class="col-md-4 col-form-label text-md-right">Briefing KBOS</label>
+
+                            <div class="col-md-6">
+                                <div class="form-control-plaintext"><a href="{{ url('') }} " target="_blank">Link</a></div>
+                            </div>
+                        </div>
+
+                        {{--Charts KBOS--}}
+                        <div class="form-group row">
+                            <label for="chartsKBOS" class="col-md-4 col-form-label text-md-right">Charts KBOS</label>
+
+                            <div class="col-md-6">
+                                <div class="form-control-plaintext"><a href="{{ url('http://www.airnav.com/airport/KBOS') }}" target="_blank">Link</a></div>
+                            </div>
+                        </div>
+
+
                         {{--Cancel Booking--}}
                         <div class="form-group row mb-0">
                             <div class="col-md-6 offset-md-4">
