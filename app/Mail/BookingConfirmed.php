@@ -36,6 +36,6 @@ class BookingConfirmed extends Mailable
      */
     public function build()
     {
-        return $this->view('emails.booking.confirmed');
+        return $this->markdown('emails.booking.confirmed');
     }
 }

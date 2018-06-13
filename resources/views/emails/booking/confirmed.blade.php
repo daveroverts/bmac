@@ -1,9 +1,20 @@
-<p>Hi {{ $booking->bookedBy->name }},</p>
-<p>Thank you for booking a slot for the {{ $booking->event->name }}!</p>
+@component('mail::message')
+    # Booking confirmed
 
-<p>Here is some information regarding the event</p>
-<p>{{ $booking->callsign }}</p>
+    Dear {{ $booking->bookedBy->full_name }},
+    Thank you for your recent booking for {{ $booking->event->name }} event.
+    For reference, your booking details are listed below. On the day of the event, you will receive an email containing your route, oceanic flight level and slot time based on the appropriate NAT tracks.
+    You will also be able to view this route upon login to the Dutch VACC booking page.
 
-<p>If you are not flying for the event anymore, please drop the booking, so somebody else can use it</p>
-<p>Kind regards,</p>
-<p>Dutch VACC Booking System</p>
+    Callsign: {{ $booking->callsign }}
+    Departs: {{ $booking->dep  }}
+    Arrives: {{ $booking->arr }}
+    Cruising: {{ $booking->oceanicFL }}
+    SELCAL: {{ $booking->selcal }}
+    CTOT: {{ $booking->ctot }}
+
+    Event Date: {{ $booking->event->startEvent->toFormattedDateString() }}
+
+    Regards,
+    Dutch VACC
+@endcomponent
