@@ -28,6 +28,6 @@ class BookingCancelled extends Mailable
      */
     public function build()
     {
-        return $this->view('view.name');
+        return $this->view('emails.booking.canceled');
     }
 }
