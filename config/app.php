@@ -226,7 +226,7 @@ return [
             'PUSHER_APP_SECRET',
             'SSO_KEY',
             'SSO_SECRET',
-            'SSO_CERT'
+            'SSO_CERT',
         ],
         '_SERVER' => [
             'APP_KEY',
@@ -235,6 +235,9 @@ return [
             'MAIL_PASSWORD',
             'PUSHER_APP_KEY',
             'PUSHER_APP_SECRET',
+            'SSO_KEY',
+            'SSO_SECRET',
+            'SSO_CERT',
         ],
         '_POST' => [
             'password',
