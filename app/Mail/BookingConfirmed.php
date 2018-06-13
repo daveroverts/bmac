@@ -2,6 +2,7 @@
 
 namespace App\Mail;
 
+use App\Booking;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
@@ -12,13 +13,20 @@ class BookingConfirmed extends Mailable
     use Queueable, SerializesModels;
 
     /**
+     * The booking instance.
+     *
+     * @var Booking
+     */
+    public $booking;
+
+    /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(Booking $booking)
     {
-        //
+        $this->booking = $booking;
     }
 
     /**

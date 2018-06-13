@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Booking;
 use App\Event;
+use App\Mail\BookingConfirmed;
 use App\User;
 use Auth;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+use Mail;
 
 class BookingController extends Controller
 {
@@ -153,6 +155,7 @@ class BookingController extends Controller
             'selcal' => $selcal,
         ]);
         $booking->save();
+        Mail::to(Auth::user())->send(new BookingConfirmed($booking));
         return redirect('/booking');
     }
 
