@@ -22,6 +22,8 @@ class CreateEventsTable extends Migration
             $table->dateTime('endEvent');
             $table->dateTime('startBooking');
             $table->dateTime('endBooking');
+            $table->dateTime('sendFeedbackForm')->nullable();
+            $table->boolean('formSent')->default(1);
             $table->timestamps();
         });
     }
