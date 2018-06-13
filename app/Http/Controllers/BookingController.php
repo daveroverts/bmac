@@ -187,6 +187,6 @@ class BookingController extends Controller
             'selcal' => null,
         ]);
         $booking->save();
-        redirect('/booking');
+        return redirect('/booking');
     }
 }
