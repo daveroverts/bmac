@@ -143,6 +143,21 @@
                                 </div>
                             </div>
 
+                            {{--Feedback Form--}}
+                            <div class="form-group row">
+                                <label for="timeFeedbackForm" class="col-md-4 col-form-label text-md-right"><i class="far fa-clock fa-flip-horizontal"></i> Send Feedback Form (hours after end)</label>
+
+                                <div class="col-md-6">
+                                    <input id="timeFeedbackForm" type="time" class="form-control{{ $errors->has('timeFeedbackForm') ? ' is-invalid' : '' }}" name="timeFeedbackForm" value="{{ old('timeFeedbackForm') }}" required>
+
+                                    @if ($errors->has('timeFeedbackForm'))
+                                        <span class="invalid-feedback">
+                                        <strong>{{ $errors->first('timeFeedbackForm') }}</strong>
+                                    </span>
+                                    @endif
+                                </div>
+                            </div>
+
                             {{-- Description --}}
                             <div class="form-group row">
                             <textarea id="description" name="description" rows="10">{!! old(html_entity_decode('description')) !!}</textarea>

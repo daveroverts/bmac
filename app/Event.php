@@ -15,7 +15,7 @@ class Event extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'startEvent', 'endEvent', 'startBooking', 'endBooking', 'description',
+        'name', 'startEvent', 'endEvent', 'startBooking', 'endBooking', 'description', 'sendFeedbackForm', 'formSent'
     ];
 
     /**
@@ -28,8 +28,18 @@ class Event extends Model
         'endEvent',
         'startBooking',
         'endBooking',
+        'sendFeedbackForm',
         'created_at',
         'updated_at',
+    ];
+
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'formSent' => 'boolean',
     ];
 
     public function bookings() {
