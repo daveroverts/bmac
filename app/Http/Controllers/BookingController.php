@@ -139,8 +139,8 @@ class BookingController extends Controller
         $request->validate([
             'callsign' => 'alpha_num|max:7',
             'aircraft' => 'alpha_num|between:3,4',
-            'selcal1' => 'alpha|max:2',
-            'selcal2' => 'alpha|max:2',
+            'selcal1' => 'sometimes:alpha|max:2',
+            'selcal2' => 'required_if:selcal1,!='.null.':alpha|max:2',
             'checkStudy' => 'accepted',
             'checkCharts' => 'accepted',
         ]);
