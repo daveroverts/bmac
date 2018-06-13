@@ -180,19 +180,13 @@ class BookingController extends Controller
 
     public function cancelBooking($id) {
         $booking = Booking::findOrFail($id);
-        $event_id = $booking->event_id;
-        $dep = $booking->dep;
-        $arr = $booking->arr;
-        $ctot = $booking->getOriginal('ctot');
-        $booking->delete();
-
-        Booking::create([
-            'event_id' => $event_id,
-            'dep' => $dep,
-            'arr' => $arr,
-            'ctot' => $ctot
-        ])->save();
+        $booking->fill([
+            'bookedBy_id' => null,
+            'callsign' => null,
+            'acType' => null,
+            'selcal' => null,
+        ]);
+        $booking->save();
         redirect('/booking');
     }
-
 }
