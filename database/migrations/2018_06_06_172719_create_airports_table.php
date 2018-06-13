@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateBmacAirportsTable extends Migration
+class CreateAirportsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,14 @@ class CreateBmacAirportsTable extends Migration
      */
     public function up()
     {
-        Schema::create('bmac_airports', function (Blueprint $table) {
+        Schema::create('airports', function (Blueprint $table) {
             $table->string('icao')->primary();
             $table->unique('icao');
             $table->string('iata');
             $table->unique('iata');
             $table->string('name');
         });
-        DB::table('bmac_airports')->insert(['icao' => 'EHAM', 'iata' => 'AMS', 'name' => 'Amsterdam Schiphol Airport']);
+        DB::table('airports')->insert(['icao' => 'EHAM', 'iata' => 'AMS', 'name' => 'Amsterdam Schiphol Airport']);
     }
 
     /**
@@ -30,6 +30,6 @@ class CreateBmacAirportsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('bmac_airports');
+        Schema::dropIfExists('airports');
     }
 }

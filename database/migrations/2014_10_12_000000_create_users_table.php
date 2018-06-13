@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateBmacUsersTable extends Migration
+class CreateUsersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateBmacUsersTable extends Migration
      */
     public function up()
     {
-        Schema::create('bmac_users', function (Blueprint $table) {
+        Schema::create('users', function (Blueprint $table) {
             $table->unsignedInteger('id')->primary();
             $table->string('name_first',50);
             $table->string('name_last',50);
@@ -23,7 +23,6 @@ class CreateBmacUsersTable extends Migration
             $table->string('division');
             $table->string('subdivision')->nullable();
             $table->boolean('isAdmin')->default(0);
-
             $table->rememberToken();
             $table->timestamps();
         });
@@ -36,6 +35,6 @@ class CreateBmacUsersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('bmac_users');
+        Schema::dropIfExists('users');
     }
 }

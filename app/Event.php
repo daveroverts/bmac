@@ -10,13 +10,6 @@ class Event extends Model
     use Sluggable;
 
     /**
-     * The table associated with the model.
-     *
-     * @var string
-     */
-    protected $table = 'bmac_events';
-
-    /**
      * The attributes that are mass assignable.
      *
      * @var array

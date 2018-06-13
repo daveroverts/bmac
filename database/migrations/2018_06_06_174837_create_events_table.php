@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateBmacEventsTable extends Migration
+class CreateEventsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateBmacEventsTable extends Migration
      */
     public function up()
     {
-        Schema::create('bmac_events', function (Blueprint $table) {
+        Schema::create('events', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
             $table->string('slug');
@@ -33,6 +33,6 @@ class CreateBmacEventsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('bmac_events');
+        Schema::dropIfExists('events');
     }
 }

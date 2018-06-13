@@ -7,13 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 class Airport extends Model
 {
 
-    /**
-     * The table associated with the model.
-     *
-     * @var string
-     */
-    protected $table = 'bmac_airports';
-
     protected $primaryKey = 'icao';
     public $incrementing = false;
     protected $keyType = 'string';
