@@ -2,6 +2,8 @@
 
 namespace App\Mail;
 
+use App\User;
+use App\Event;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
@@ -12,13 +14,29 @@ class BookingCancelled extends Mailable
     use Queueable, SerializesModels;
 
     /**
+     * The event instance.
+     *
+     * @var Event
+     */
+    public $event;
+
+    /**
+     * The user instance.
+     *
+     * @var User
+     */
+    public $user;
+
+    /**
      * Create a new message instance.
      *
-     * @return void
+     * @param Event $event
+     * @param User $user
      */
-    public function __construct()
+    public function __construct(Event $event, User $user)
     {
-        //
+        $this->event = $event;
+        $this->user = $user;
     }
 
     /**
@@ -28,6 +46,6 @@ class BookingCancelled extends Mailable
      */
     public function build()
     {
-        return $this->view('emails.booking.canceled');
+        return $this->markdown('emails.booking.canceled');
     }
 }

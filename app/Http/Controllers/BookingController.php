@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Booking;
 use App\Event;
+use App\Mail\BookingCancelled;
 use App\Mail\BookingConfirmed;
 use App\User;
 use Auth;
@@ -183,13 +184,16 @@ class BookingController extends Controller
 
     public function cancelBooking($id) {
         $booking = Booking::findOrFail($id);
+        $event = Event::findOrFail($booking->event_id);
         $booking->fill([
             'bookedBy_id' => null,
             'callsign' => null,
             'acType' => null,
             'selcal' => null,
         ]);
+        $user = Auth::user();
         $booking->save();
+        Mail::to(Auth::user())->send(new BookingCancelled($event, $user));
         return redirect('/booking');
     }
 }
