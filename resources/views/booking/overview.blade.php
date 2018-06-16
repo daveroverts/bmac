@@ -23,7 +23,11 @@
             <th>Book</th>
         </tr></thead>
         @foreach($bookings as $booking)
-            <tr>
+            @if(isset($booking->bookedBy) && $booking->bookedBy->id || isset($booking->reservedBy) && $booking->reservedBy->id == Auth::id())
+                <tr class="table-primary">
+            @else
+                <tr>
+            @endif
                 <td><div data-toggle="tooltip" data-placement="top" title="{{ $booking->airportDep->name }}">{{ $booking->dep }}</div></td>
                 <td><div data-toggle="tooltip" data-placement="top" title="{{ $booking->airportArr->name }}">{{ $booking->arr }}</div></td>
                 <td><div data-toggle="tooltip" data-placement="top" title="Calculated Take Off Time">{{ $booking->ctot }}</div></td>
