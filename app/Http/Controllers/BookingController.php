@@ -138,10 +138,10 @@ class BookingController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'aircraft' => 'alpha_num|between:3,4',
-            'selcal1' => 'sometimes:alpha|max:2',
-            'selcal2' => 'required_if:selcal1,!='.null.':alpha|max:2',
-            'callsign' => 'alpha_num|max:7|unique:bookings,callsign,null,null,event_id,'.$booking->event->id,
+            'callsign' => 'required:alpha_num|max:7|unique:bookings,callsign,null,null,event_id,'.$booking->event->id,
+            'aircraft' => 'required:alpha_num|between:3,4',
+            'selcal1' => 'sometimes:alpha|size:2',
+            'selcal2' => 'required_if:selcal1,!='.null.':alpha|size:2',
             'checkStudy' => 'accepted',
             'checkCharts' => 'accepted',
         ]);
