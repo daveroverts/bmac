@@ -20,7 +20,7 @@
             <th>CTOT</th>
             <th>Callsign</th>
             <th>Aircraft</th>
-            <th>Book</th>
+            <th>Book | Available till {{ $event->endEvent->format('d-m-Y H:i') }}z</th>
         </tr></thead>
         @foreach($bookings as $booking)
             @if(Auth::check() && isset($booking->bookedBy) && $booking->bookedBy_id == Auth::id() || isset($booking->reservedBy) && $booking->reservedBy_id == Auth::id())
