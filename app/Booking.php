@@ -37,6 +37,21 @@ class Booking extends Model
     }
 
     /**
+     * Format for oceanicFL
+     *
+     * @param $value
+     * @return string
+     */
+    public function getOceanicflAttribute($value)
+    {
+        if (!empty($value))
+        {
+            return 'FL'.$value.' / Subject to change';
+        }
+        else return 'T.B.D.';
+    }
+
+    /**
      * Capitalize Callsign
      *
      * @param $value
