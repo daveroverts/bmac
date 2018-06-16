@@ -92,7 +92,7 @@
                             <label for="track" class="col-md-4 col-form-label text-md-right">Oceanic Entry FL</label>
 
                             <div class="col-md-6">
-                                <div class="form-control-plaintext">{{ $booking->oceanicFL}}</div>
+                                <div class="form-control-plaintext">{{ $booking->oceanicFL }}</div>
 
                             </div>
                         </div>
