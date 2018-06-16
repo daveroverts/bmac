@@ -57,7 +57,9 @@
                             <a href="{{ route('booking.edit',$booking->id) }}">
                         @endif
                         AVAIL
-                        </a>
+                        @if(Auth::check() && $booking->event->endBooking > \Carbon\Carbon::now())
+                            </a>
+                        @endif
                     @endif
                 </td>
             </tr>
