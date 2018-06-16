@@ -102,7 +102,7 @@
                             <label for="aircraft" class="col-md-4 col-form-label text-md-right">Aircraft</label>
 
                             <div class="col-md-6">
-                                <div class="form-control-plaintext">{{ $booking->aircraft }}</div>
+                                <div class="form-control-plaintext">{{ $booking->acType }}</div>
                             </div>
                         </div>
 
@@ -159,7 +159,6 @@
                                 <div class="form-control-plaintext"><a href="{{ url('http://www.airnav.com/airport/KBOS') }}" target="_blank">Link</a></div>
                             </div>
                         </div>
-
 
                         {{--Cancel Booking--}}
                         <div class="form-group row mb-0">
