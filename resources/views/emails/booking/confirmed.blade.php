@@ -11,12 +11,12 @@ You will also be able to view this route upon login to the Dutch VACC booking pa
 |  |  |
 |-----------|---------------------------|
 | Callsign: | **{{ $booking->callsign }}** |
-| Departs: | {{ $booking->dep  }} |
-| Arrives: | {{ $booking->arr }} |
-| Cruising: | {{ $booking->oceanicFL }} |
-| SELCAL: | {{ $booking->selcal }} |
+| Departs: | **{{ $booking->dep  }}** |
+| Arrives: | **{{ $booking->arr }}** |
+| Cruising: | **{{ $booking->oceanicFL }}** |
+| SELCAL: | **{{ $booking->selcal }}** |
 | CTOT: | **{{ $booking->ctot }}** |
-| Event Date: | {{ $booking->event->startEvent->toFormattedDateString() }} |
+| Event Date: | **{{ $booking->event->startEvent->toFormattedDateString() }}** |
 @endcomponent
 
 Regards,
