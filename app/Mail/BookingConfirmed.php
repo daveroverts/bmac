@@ -22,7 +22,7 @@ class BookingConfirmed extends Mailable
     /**
      * Create a new message instance.
      *
-     * @return void
+     * @param Booking $booking
      */
     public function __construct(Booking $booking)
     {
