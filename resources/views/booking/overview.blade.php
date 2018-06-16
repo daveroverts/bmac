@@ -23,7 +23,7 @@
             <th>Book</th>
         </tr></thead>
         @foreach($bookings as $booking)
-            @if(isset($booking->bookedBy) && $booking->bookedBy->id || isset($booking->reservedBy) && $booking->reservedBy->id == Auth::id())
+            @if(Auth::check() && isset($booking->bookedBy) && $booking->bookedBy_id == Auth::id() || isset($booking->reservedBy) && $booking->reservedBy_id == Auth::id())
                 <tr class="table-primary">
             @else
                 <tr>
