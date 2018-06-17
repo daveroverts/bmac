@@ -96,7 +96,10 @@ class BookingController extends Controller
     public function show($id)
     {
         $booking = Booking::findOrFail($id);
-        return view('booking.show',compact('booking'));
+        if (Auth::check() && Auth::id() == $booking->bookedBy_id || Auth::user()->isAdmin) {
+            return view('booking.show',compact('booking'));
+        }
+        else return redirect('/booking')->with('message', 'Whoops that booking belongs to somebody else!');
     }
 
     /**
