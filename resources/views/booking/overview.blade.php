@@ -5,14 +5,7 @@
     @if(Auth::check() && Auth::user()->isAdmin)
         <p><a href="{{ route('booking.create',$event->id) }}" class="btn btn-primary"><i class="fa fa-plus"></i> Add Timeslots</a></p>
     @endif
-    @if(session('message'))
-        @component('layouts.alert.danger')
-            @slot('title')
-                Warning
-            @endslot
-            {{ session('message') }}
-        @endcomponent
-    @endif
+    @include('layouts.alert')
     Flights available: {{ count($bookings) - count($bookings->where('bookedBy_id',!null)) }} / {{ count($bookings) }}
     <table class="table table-hover">
         <thead><tr>

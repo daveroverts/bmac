@@ -122,9 +122,15 @@ class BookingController extends Controller
                 }
                 else {
                     if (isset($booking->reservedBy_id)) {
-                        return redirect('/booking')->with('message', 'Whoops! Somebody else reserved that slot just before you! Please choose another one. The slot will become available if it isn\'t confirmed within 10 minutes.');
+                        return redirect('/booking')
+                            ->with('type','danger')
+                            ->with('title', 'Warning')
+                            ->with('message', 'Whoops! Somebody else reserved that slot just before you! Please choose another one. The slot will become available if it isn\'t confirmed within 10 minutes.');
                     }
-                    else return redirect('/booking')->with('message', 'Whoops! Somebody else booked that slot just before you! Please choose another one.');
+                    else return redirect('/booking')
+                        ->with('type', 'danger')
+                        ->with('title', 'Warning')
+                        ->with('message', 'Whoops! Somebody else booked that slot just before you! Please choose another one.');
                 }
             }
             else {
@@ -133,7 +139,10 @@ class BookingController extends Controller
                 return view('booking.edit',compact('booking', 'user'))->with('message', 'Slot reserved!');
             }
         }
-        else return redirect('/booking')->with('message', 'You need to be logged in before you can book a reservation.');
+        else return redirect('/booking')
+            ->with('type','danger')
+            ->with('title', 'Warning')
+            ->with('message', 'You need to be logged in before you can book a reservation.');
     }
 
     /**
