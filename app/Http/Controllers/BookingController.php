@@ -72,12 +72,17 @@ class BookingController extends Controller
         $event_end = Carbon::createFromFormat('Y-m-d H:i', $event->endEvent->toDateString() .' '. $request->end);
         $separation = $request->separation;
         for ($event_start; $event_start <= $event_end; $event_start->addMinutes($separation)) {
-            Booking::create([
+            if (!Booking::where([
                 'event_id' => $request->id,
-                'dep' => 'EHAM',
-                'arr' => 'KBOS',
                 'ctot' => $event_start,
-            ])->save();
+            ])->first()) {
+                Booking::create([
+                    'event_id' => $request->id,
+                    'dep' => 'EHAM',
+                    'arr' => 'KBOS',
+                    'ctot' => $event_start,
+                ])->save();
+            }
         }
         return redirect('/booking')->with('message', 'Bookings have been created!');
     }
