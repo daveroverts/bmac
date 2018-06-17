@@ -19,6 +19,17 @@
                     <form method="POST" action="{{ route('booking.update',$booking->id) }}">
                         @csrf
                         @method('PATCH')
+
+                        <div class="form-group row">
+                            <div class="col-md-4"></div>
+                            <div class="col-md-6"><b>Slot reserved!</b></div>
+                        </div>
+
+                        <div class="form-group row">
+                            <div class="col-md-4"></div>
+                            <div class="col-md-6"><b>Will remain reserved until {{ $booking->updated_at->addMinutes(10)->format('Hi') }}z.</b></div>
+                        </div>
+
                         {{--Callsign--}}
                         <div class="form-group row">
                             <label for="callsign" class="col-md-4 col-form-label text-md-right"> Callsign</label>
