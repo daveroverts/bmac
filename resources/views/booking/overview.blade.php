@@ -13,6 +13,7 @@
             {{ session('message') }}
         @endcomponent
     @endif
+    Flights available: {{ count($bookings) - count($bookings->where('bookedBy_id',!null)) }} / {{ count($bookings) }}
     <table class="table table-hover">
         <thead><tr>
             <th>From</th>
