@@ -3,6 +3,7 @@
 @section('content')
     <h2>Events Overview</h2>
     <p><a href="{{ route('event.create') }}" class="btn btn-primary"><i class="fa fa-plus"></i> Add new Event</a></p>
+    @include('layouts.alert')
     <table class="table table-hover">
         <thead><tr>
             <th>ID</th>
