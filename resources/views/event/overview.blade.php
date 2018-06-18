@@ -28,12 +28,12 @@
                 </td>
             </tr>
         @empty
-            @component('layouts.alert.warning')
-                @slot('title')
-                    No events found
-                @endslot
-                No events are in the system, consider adding one, using the button above
-            @endcomponent
+            @php
+            Session::flash('type','info');
+            Session::flash('title','No events found');
+            Session::flash('message','No events are in the system, consider adding one, using the button above');
+            @endphp
+            @include('layouts.alert')
         @endforelse
     </table>
 @endsection
