@@ -19,8 +19,13 @@ class BookingsExport implements FromQuery, Responsable
      */
     private $fileName = 'bookings.csv';
 
+    public function __construct(int $id)
+    {
+        $this->id = $id;
+    }
+
     public function query()
     {
-        return Booking::query();
+        return Booking::query()->where('event_id',$this->id);
     }
 }

@@ -236,6 +236,6 @@ class BookingController extends Controller
 
     public function export()
     {
-        return new BookingsExport();
+        return new BookingsExport(1);
     }
 }
