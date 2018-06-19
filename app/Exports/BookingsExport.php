@@ -3,7 +3,6 @@
 namespace App\Exports;
 
 use Illuminate\Contracts\Support\Responsable;
-use App\Booking;
 use Maatwebsite\Excel\Concerns\FromQuery;
 use Maatwebsite\Excel\Concerns\Exportable;
 
@@ -26,6 +25,8 @@ class BookingsExport implements FromQuery, Responsable
 
     public function query()
     {
-        return Booking::query()->where('event_id',$this->id);
+        return Booking::query()
+            ->where('event_id',$this->id)
+            ->whereNotNull('bookedBy_id');
     }
 }
