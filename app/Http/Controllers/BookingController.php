@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Booking;
 use App\Event;
+use App\Exports\BookingsExport;
 use App\Mail\BookingCancelled;
 use App\Mail\BookingConfirmed;
 use App\User;
@@ -232,4 +233,10 @@ class BookingController extends Controller
         Mail::to(Auth::user())->send(new BookingCancelled($event, $user));
         return redirect('/booking');
     }
+
+    public function export()
+    {
+        return Excel::download(new BookingsExport(), 'bookings.csv');
+    }
+
 }
