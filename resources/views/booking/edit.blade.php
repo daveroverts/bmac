@@ -107,7 +107,7 @@
 
                         {{--Aircraft--}}
                         <div class="form-group form-row">
-                            <label for="aircraft" class="col-md-4 col-form-label text-md-right"> Aircraft [ICAO code]</label>
+                            <label for="aircraft" class="col-md-4 col-form-label text-md-right"> Aircraft code</label>
 
                             <div class="col-md-6">
                                 <input id="aircraft" type="text" class="form-control{{ $errors->has('aircraft') ? ' is-invalid' : '' }}" name="aircraft" value="{{ old('aircraft') }}" required min="3" max="4">
