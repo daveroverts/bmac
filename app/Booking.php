@@ -52,6 +52,21 @@ class Booking extends Model
     }
 
     /**
+     * Format for SELCAL
+     *
+     * @param $value
+     * @return string
+     */
+    public function getSelcalAttribute($value)
+    {
+        if (!empty($value))
+        {
+            return $value;
+        }
+        else return '-';
+    }
+
+    /**
      * Capitalize Callsign
      *
      * @param $value
