@@ -41,7 +41,7 @@
                             <label for="ctot" class="col-md-4 col-form-label text-md-right"> CTOT</label>
 
                             <div class="col-md-6">
-                                <div class="form-control-plaintext">{{ $booking->ctot }}</div>
+                                <div class="form-control-plaintext"><b>{{ $booking->ctot }}</b></div>
 
                             </div>
                         </div>
@@ -51,7 +51,7 @@
                             <label for="adep" class="col-md-4 col-form-label text-md-right">ADEP</label>
 
                             <div class="col-md-6">
-                                <div class="form-control-plaintext">{{ $booking->dep }}</div>
+                                <div class="form-control-plaintext"><b>{{ $booking->dep }}</b></div>
 
                             </div>
                         </div>
@@ -61,7 +61,7 @@
                             <label for="ades" class="col-md-4 col-form-label text-md-right">ADES</label>
 
                             <div class="col-md-6">
-                                <div class="form-control-plaintext">{{ $booking->arr }}</div>
+                                <div class="form-control-plaintext"><b>{{ $booking->arr }}</b></div>
 
                             </div>
                         </div>
@@ -71,7 +71,7 @@
                             <label for="pic" class="col-md-4 col-form-label text-md-right">PIC</label>
 
                             <div class="col-md-6">
-                                <div class="form-control-plaintext">{{ $booking->bookedBy ? $booking->bookedBy->pic : $booking->reservedBy->pic }}</div>
+                                <div class="form-control-plaintext"><b>{{ $booking->bookedBy ? $booking->bookedBy->pic : $booking->reservedBy->pic }}</b></div>
                             </div>
                         </div>
 
@@ -80,7 +80,7 @@
                             <label for="route" class="col-md-4 col-form-label text-md-right">Route</label>
 
                             <div class="col-md-6">
-                                <div class="form-control-plaintext">{{ $booking->route ? $booking->route : 'T.B.D. / Available on day of event at 0600z' }}</div>
+                                <div class="form-control-plaintext"><b>{{ $booking->route ? $booking->route : 'T.B.D. / Available on day of event at 0600z' }}</b></div>
 
                             </div>
                         </div>
@@ -90,7 +90,7 @@
                             <label for="track" class="col-md-4 col-form-label text-md-right">Track</label>
 
                             <div class="col-md-6">
-                                <div class="form-control-plaintext">{{ $booking->track ? $booking->track : 'T.B.D. / Available on day of event at 0600z' }}</div>
+                                <div class="form-control-plaintext"><b>{{ $booking->track ? $booking->track : 'T.B.D. / Available on day of event at 0600z' }}</b></div>
 
                             </div>
                         </div>
@@ -100,7 +100,7 @@
                             <label for="track" class="col-md-4 col-form-label text-md-right">Oceanic Entry FL</label>
 
                             <div class="col-md-6">
-                                <div class="form-control-plaintext">{{ $booking->oceanicFL }}</div>
+                                <div class="form-control-plaintext"><b>{{ $booking->oceanicFL }}</b></div>
 
                             </div>
                         </div>
