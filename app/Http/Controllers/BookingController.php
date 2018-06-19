@@ -236,7 +236,6 @@ class BookingController extends Controller
 
     public function export()
     {
-        return Excel::download(new BookingsExport(), 'bookings.csv');
+        return (new BookingsExport)->download('bookings.csv');
     }
-
 }
