@@ -236,6 +236,6 @@ class BookingController extends Controller
 
     public function export()
     {
-        return (new BookingsExport)->download('bookings.csv');
+        return new BookingsExport();
     }
 }
