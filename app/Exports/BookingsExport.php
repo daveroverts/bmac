@@ -3,11 +3,13 @@
 namespace App\Exports;
 
 use Illuminate\Contracts\Support\Responsable;
-use Maatwebsite\Excel\Concerns\FromQuery;
+use App\Booking;
+use Illuminate\Contracts\View\View;
+use Maatwebsite\Excel\Concerns\FromView;
 use Maatwebsite\Excel\Concerns\Exportable;
 
 
-class BookingsExport implements FromQuery, Responsable
+class BookingsExport implements FromView, Responsable
 {
 
     use Exportable;
@@ -23,10 +25,13 @@ class BookingsExport implements FromQuery, Responsable
         $this->id = $id;
     }
 
-    public function query()
+    public function view(): View
     {
-        return Booking::query()
-            ->where('event_id',$this->id)
-            ->whereNotNull('bookedBy_id');
+        return view('exports.bookings', [
+            'bookings' => Booking::where('event_id',$this->id)
+            ->whereNotNull('bookedBy_id')
+            ->get()
+        ]);
     }
+
 }
