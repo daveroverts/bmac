@@ -10,6 +10,7 @@ use App\User;
 use Auth;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Session;
 use Mail;
 
 class BookingController extends Controller
@@ -84,7 +85,10 @@ class BookingController extends Controller
                 ])->save();
             }
         }
-        return redirect('/booking')->with('message', 'Bookings have been created!');
+        Session::flash('type','success');
+        Session::flash('title', 'Done');
+        Session::flash('message', 'Bookings have been created!');
+        return redirect('/booking');
     }
 
     /**
@@ -99,7 +103,12 @@ class BookingController extends Controller
         if (Auth::check() && Auth::id() == $booking->bookedBy_id || Auth::user()->isAdmin) {
             return view('booking.show',compact('booking'));
         }
-        else return redirect('/booking')->with('message', 'Whoops that booking belongs to somebody else!');
+        else {
+            Session::flash('type','danger');
+            Session::flash('title', 'Already booked');
+            Session::flash('message', 'Whoops that booking belongs to somebody else!');
+            return redirect('/booking');
+        }
     }
 
     /**
@@ -118,14 +127,18 @@ class BookingController extends Controller
             if (isset($booking->bookedBy_id) ||  isset($booking->reservedBy_id)) {
                 // Check if current user has booked/reserved
                 if ($booking->bookedBy_id == Auth::id() ||$booking->reservedBy_id == Auth::id()) {
+                    Session::flash('type','info');
+                    Session::flash('title', 'Slot reserved');
+                    Session::flash('message','Will remain reserved until '.$booking->updated_at->addMinutes(10)->format('Hi').'z');
                     return view('booking.edit',compact('booking', 'user'));
                 }
                 else {
                     if (isset($booking->reservedBy_id)) {
-                        return redirect('/booking')
-                            ->with('type','danger')
-                            ->with('title', 'Warning')
-                            ->with('message', 'Whoops! Somebody else reserved that slot just before you! Please choose another one. The slot will become available if it isn\'t confirmed within 10 minutes.');
+                        Session::flash('type','danger');
+                        Session::flash('title', 'Warning');
+                        Session::flash('message', 'Whoops! Somebody else reserved that slot just before you! Please choose another one. The slot will become available if it isn\'t confirmed within 10 minutes.');
+                        return redirect('/booking');
+
                     }
                     else return redirect('/booking')
                         ->with('type', 'danger')
@@ -136,13 +149,19 @@ class BookingController extends Controller
             else {
                 $booking->reservedBy_id = Auth::id();
                 $booking->save();
-                return view('booking.edit',compact('booking', 'user'))->with('message', 'Slot reserved!');
+                Session::flash('type','info');
+                Session::flash('title', 'Slot reserved');
+                Session::flash('message','Will remain reserved until '.$booking->updated_at->addMinutes(10)->format('Hi').'z');
+                return view('booking.edit',compact('booking', 'user'));
             }
         }
-        else return redirect('/booking')
-            ->with('type','danger')
-            ->with('title', 'Warning')
-            ->with('message', 'You need to be logged in before you can book a reservation.');
+        else {
+            Session::flash('type','danger');
+            Session::flash('title', 'Warning');
+            Session::flash('message', 'You need to be logged in before you can book a reservation.');
+            return redirect('/booking');
+        }
+
     }
 
     /**

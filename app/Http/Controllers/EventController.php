@@ -6,6 +6,7 @@ use App\Event;
 use Auth;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 
 class EventController extends Controller
 {
@@ -67,6 +68,9 @@ class EventController extends Controller
             'description' => $request->description,
         ]);
         $event->save();
+        Session::flash('type','success');
+        Session::flash('title', 'Done');
+        Session::flash('message', 'Event have been created!');
         return redirect('admin/event');
     }
 
