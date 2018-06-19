@@ -4,11 +4,11 @@ namespace App\Exports;
 
 use Illuminate\Contracts\Support\Responsable;
 use App\Booking;
-use Maatwebsite\Excel\Concerns\FromCollection;
+use Maatwebsite\Excel\Concerns\FromQuery;
 use Maatwebsite\Excel\Concerns\Exportable;
 
 
-class BookingsExport implements FromCollection, Responsable
+class BookingsExport implements FromQuery, Responsable
 {
 
     use Exportable;
@@ -19,8 +19,8 @@ class BookingsExport implements FromCollection, Responsable
      */
     private $fileName = 'bookings.csv';
 
-    public function collection()
+    public function query()
     {
-        return Booking::all();
+        return Booking::query();
     }
 }
