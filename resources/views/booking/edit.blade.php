@@ -23,7 +23,7 @@
 
                         {{--Callsign--}}
                         <div class="form-group row">
-                            <label for="callsign" class="col-md-4 col-form-label text-md-right"> Callsign</label>
+                            <label for="callsign" class="col-md-4 col-form-label text-md-right">Callsign</label>
 
                             <div class="col-md-6">
                                 <input id="callsign" type="text" class="form-control{{ $errors->has('callsign') ? ' is-invalid' : '' }}" name="callsign" value="{{ old('callsign') }}" required autofocus max="7">
