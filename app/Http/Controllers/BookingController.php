@@ -234,8 +234,8 @@ class BookingController extends Controller
         return redirect('/booking');
     }
 
-    public function export()
+    public function export($id)
     {
-        return new BookingsExport(1);
+        return new BookingsExport($id);
     }
 }

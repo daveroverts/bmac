@@ -25,4 +25,4 @@ Route::put('booking/{id}','BookingController@cancelBooking')->name('booking.canc
 Route::get('/booking/{id}/create','BookingController@create')->name('booking.create');
 Route::resource('booking', 'BookingController')->except('create');
 
-Route::get('/export','BookingController@export');
+Route::get('/export/{id}','BookingController@export');
