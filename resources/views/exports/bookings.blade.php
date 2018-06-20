@@ -7,7 +7,7 @@
             <td>{{ $booking->dep }}</td>
             <td>{{ $booking->arr }}</td>
             <td>{{ $booking->getOriginal('oceanicFL') }}</td>
-            <td>{{ \Carbon\Carbon::parse($booking->getOriginal('ctot'))->format('H:i') }}</td>
+            <td>{{ \Carbon\Carbon::parse($booking->getOriginal('ctot'))->format('H:i:s') }}</td>
             <td>{{ $booking->route }}</td>
         </tr>
     @endforeach
