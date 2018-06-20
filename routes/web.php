@@ -23,6 +23,5 @@ Route::resource('admin/airport', 'AirportController');
 Route::resource('admin/event', 'EventController');
 Route::put('booking/{id}','BookingController@cancelBooking')->name('booking.cancelBooking');
 Route::get('/booking/{id}/create','BookingController@create')->name('booking.create');
+Route::get('/booking/{id}/export','BookingController@export')->name('booking.export');
 Route::resource('booking', 'BookingController')->except('create');
-
-Route::get('/export/{id}','BookingController@export');
