@@ -11,7 +11,7 @@
             <th>Date</th>
             <th>Start</th>
             <th>End</th>
-            <th>Actions</th>
+            <th colspan="2">Actions</th>
         </tr></thead>
         @forelse($events as $event)
             <tr>
@@ -23,6 +23,12 @@
                 <td>
                     <form action="{{ route('event.edit', $event->id) }}">
                         <button class="btn btn-primary"><i class="fa fa-edit"></i> Edit Event</button>
+                        @csrf
+                    </form>
+                </td>
+                <td>
+                    <form action="{{ route('booking.export', $event->id) }}">
+                        <button class="btn btn-success"><i class="fa fa-edit"></i> Export data</button>
                         @csrf
                     </form>
                 </td>
