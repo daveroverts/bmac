@@ -6,6 +6,7 @@ use App\Booking;
 use App\Event;
 use App\Exports\BookingsExport;
 use App\Http\Requests\StoreBooking;
+use App\Http\Requests\UpdateBooking;
 use App\Mail\BookingCancelled;
 use App\Mail\BookingConfirmed;
 use App\User;
@@ -164,20 +165,12 @@ class BookingController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Booking  $booking
+     * @param UpdateBooking $request
+     * @param $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateBooking $request, $id)
     {
-        $request->validate([
-            'callsign' => 'required:alpha_num|max:7|unique:bookings,callsign,null,null,event_id,'.$booking->event->id,
-            'aircraft' => 'required:alpha_num|between:3,4',
-            'selcal1' => 'sometimes:alpha|size:2',
-            'selcal2' => 'required_if:selcal1,!='.null.':alpha|size:2',
-            'checkStudy' => 'accepted',
-            'checkCharts' => 'accepted',
-        ]);
         $booking = Booking::find($id);
         $this->validateSELCAL($request->selcal1, $request->selcal2, $booking->event_id);
         $selcal = $request->selcal1 .'-'. $request->selcal2;
