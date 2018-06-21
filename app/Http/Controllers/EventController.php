@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Airport;
 use App\Event;
 use Auth;
 use Carbon\Carbon;
