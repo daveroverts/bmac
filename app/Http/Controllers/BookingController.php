@@ -208,7 +208,7 @@ class BookingController extends Controller
         return $a .'-'. $b;
     }
 
-    public function cancelBooking($id) {
+    public function cancelBooking(CancelBooking $request, $id) {
         $booking = Booking::findOrFail($id);
         $event = Event::findOrFail($booking->event_id);
         $booking->fill([
