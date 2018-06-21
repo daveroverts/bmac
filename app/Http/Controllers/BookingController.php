@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Booking;
 use App\Event;
 use App\Exports\BookingsExport;
+use App\Http\Requests\StoreBooking;
 use App\Mail\BookingCancelled;
 use App\Mail\BookingConfirmed;
 use App\User;
@@ -59,17 +60,12 @@ class BookingController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param StoreBooking $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreBooking $request)
     {
         $event = Event::whereKey($request->id)->first();
-        $request->validate([
-            'start' => 'date_format:H:i',
-            'end' => 'date_format:H:i',
-            'separation' => 'integer|min:2'
-        ]);
         $event_start = Carbon::createFromFormat('Y-m-d H:i', $event->startEvent->toDateString() .' '. $request->start);
         $event_end = Carbon::createFromFormat('Y-m-d H:i', $event->endEvent->toDateString() .' '. $request->end);
         $separation = $request->separation;
