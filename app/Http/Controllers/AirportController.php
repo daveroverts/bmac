@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Airport;
+use App\Http\Requests\StoreAirport;
 use Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
@@ -42,14 +43,8 @@ class AirportController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreAirport $request)
     {
-        $request->validate([
-            'icao' => 'required:string|between:4,4',
-            'iata' => 'required:string|between:3,3',
-            'name' => 'required:string',
-        ]);
-
         $airport = Airport::create([
             'icao' => $request->icao,
             'iata' => $request->iata,
