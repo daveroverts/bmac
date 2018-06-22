@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Booking;
 use App\Event;
 use App\Exports\BookingsExport;
+use App\Http\Requests\CancelBooking;
 use App\Http\Requests\StoreBooking;
 use App\Http\Requests\UpdateBooking;
 use App\Mail\BookingCancelled;
