@@ -152,6 +152,13 @@ class BookingController extends Controller
                     Session::flash('message','You already have a booking!');
                     return redirect('/booking');
                 }
+                // If user already has another reservation open
+                if (Auth::user()->reserved()->where('event_id',$booking->event_id)->first()) {
+                    Session::flash('type','danger');
+                    Session::flash('title', 'Nope!');
+                    Session::flash('message','You already have a reservation!');
+                    return redirect('/booking');
+                }
                 // Reserve booking, and redirect to booking.edit
                 else {
                     $booking->reservedBy_id = Auth::id();
