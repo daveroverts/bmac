@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Booking;
 use App\Event;
 use App\Exports\BookingsExport;
-use App\Http\Requests\CancelBooking;
 use App\Http\Requests\StoreBooking;
 use App\Http\Requests\UpdateBooking;
 use App\Mail\BookingCancelled;
@@ -209,19 +208,22 @@ class BookingController extends Controller
         return $a .'-'. $b;
     }
 
-    public function cancelBooking(CancelBooking $request, $id) {
+    public function cancelBooking($id) {
         $booking = Booking::findOrFail($id);
-        $event = Event::findOrFail($booking->event_id);
-        $booking->fill([
-            'bookedBy_id' => null,
-            'callsign' => null,
-            'acType' => null,
-            'selcal' => null,
-        ]);
-        $user = Auth::user();
-        $booking->save();
-        Mail::to(Auth::user())->send(new BookingCancelled($event, $user));
-        return redirect('/booking');
+        if (Auth::check() && Auth::id() == $booking->bookedBy_id) {
+            $event = Event::findOrFail($booking->event_id);
+            $booking->fill([
+                'bookedBy_id' => null,
+                'callsign' => null,
+                'acType' => null,
+                'selcal' => null,
+            ]);
+            $user = Auth::user();
+            $booking->save();
+            Mail::to(Auth::user())->send(new BookingCancelled($event, $user));
+            return redirect('/booking');
+        }
+        else return redirect('/');
     }
 
     public function export($id)
