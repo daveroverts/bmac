@@ -144,13 +144,30 @@ class BookingController extends Controller
                         ->with('message', 'Whoops! Somebody else booked that slot just before you! Please choose another one.');
                 }
             }
+            // If the booking hasn't been taken by anybody else, check if user doesn't already have a booking
             else {
-                $booking->reservedBy_id = Auth::id();
-                $booking->save();
-                Session::flash('type','info');
-                Session::flash('title', 'Slot reserved');
-                Session::flash('message','Will remain reserved until '.$booking->updated_at->addMinutes(10)->format('Hi').'z');
-                return view('booking.edit',compact('booking', 'user'));
+                if (Auth::user()->booked()->where('event_id',$booking->event_id)->first()) {
+                    Session::flash('type','danger');
+                    Session::flash('title', 'Nope!');
+                    Session::flash('message','You already have a booking!');
+                    return redirect('/booking');
+                }
+                // If user already has another reservation open
+                if (Auth::user()->reserved()->where('event_id',$booking->event_id)->first()) {
+                    Session::flash('type','danger');
+                    Session::flash('title', 'Nope!');
+                    Session::flash('message','You already have a reservation!');
+                    return redirect('/booking');
+                }
+                // Reserve booking, and redirect to booking.edit
+                else {
+                    $booking->reservedBy_id = Auth::id();
+                    $booking->save();
+                    Session::flash('type','info');
+                    Session::flash('title', 'Slot reserved');
+                    Session::flash('message','Will remain reserved until '.$booking->updated_at->addMinutes(10)->format('Hi').'z');
+                    return view('booking.edit',compact('booking', 'user'));
+                }
             }
         }
         else {

@@ -46,12 +46,12 @@
                             Reserved {{Auth::check() && Auth::user()->isAdmin ? '['.$booking->reservedBy->pic .']' : ''}}
                         @endif
                     @else
-                        @if(Auth::check() && $booking->event->endBooking > \Carbon\Carbon::now())
+                        @if(Auth::check() && $booking->event->endBooking > \Carbon\Carbon::now() && !Auth::user()->booked()->where('event_id',$event->id)->first())
                             {{--Check if user is logged in to generate a clickable link--}}
                             <a href="{{ route('booking.edit',$booking->id) }}">
                         @endif
                         AVAIL
-                        @if(Auth::check() && $booking->event->endBooking > \Carbon\Carbon::now())
+                        @if(Auth::check() && $booking->event->endBooking > \Carbon\Carbon::now() && !Auth::user()->booked()->where('event_id',$event->id)->first())
                             </a>
                         @endif
                     @endif
