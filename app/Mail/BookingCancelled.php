@@ -9,7 +9,7 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class BookingCancelled extends Mailable
+class BookingCancelled extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels;
 

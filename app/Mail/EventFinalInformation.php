@@ -7,7 +7,7 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class EventFinalInformation extends Mailable
+class EventFinalInformation extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels;
 
