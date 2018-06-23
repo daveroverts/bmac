@@ -17,6 +17,7 @@
             <th>Book | Available till {{ $event->endEvent->format('d-m-Y H:i') }}z</th>
         </tr></thead>
         @foreach($bookings as $booking)
+            {{--Check if flight belongs to the logged in user--}}
             @if(Auth::check() && isset($booking->bookedBy) && $booking->bookedBy_id == Auth::id() || isset($booking->reservedBy) && $booking->reservedBy_id == Auth::id())
                 <tr class="table-primary">
             @else

@@ -131,6 +131,7 @@ class BookingController extends Controller
                     return view('booking.edit',compact('booking', 'user'));
                 }
                 else {
+                    // Check if the booking has already been reserved
                     if (isset($booking->reservedBy_id)) {
                         Session::flash('type','danger');
                         Session::flash('title', 'Warning');
@@ -138,6 +139,7 @@ class BookingController extends Controller
                         return redirect('/booking');
 
                     }
+                    // In case the booking has already been booked
                     else return redirect('/booking')
                         ->with('type', 'danger')
                         ->with('title', 'Warning')
@@ -171,6 +173,7 @@ class BookingController extends Controller
             }
         }
         else {
+            // User is not logged in
             Session::flash('type','danger');
             Session::flash('title', 'Warning');
             Session::flash('message', 'You need to be logged in before you can book a reservation.');
