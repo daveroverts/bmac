@@ -2,6 +2,7 @@
 
 namespace App\Mail;
 
+use App\Booking;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
@@ -12,13 +13,20 @@ class EventFinalInformation extends Mailable implements ShouldQueue
     use Queueable, SerializesModels;
 
     /**
+     * The booking instance.
+     *
+     * @var Booking
+     */
+    public $booking;
+
+    /**
      * Create a new message instance.
      *
-     * @return void
+     * @param Booking $booking
      */
-    public function __construct()
+    public function __construct(Booking $booking)
     {
-        //
+        $this->booking = $booking;
     }
 
     /**
@@ -28,6 +36,6 @@ class EventFinalInformation extends Mailable implements ShouldQueue
      */
     public function build()
     {
-        return $this->view('emails.event.finalInformation');
+        return $this->markdown('emails.event.finalInformation');
     }
 }
