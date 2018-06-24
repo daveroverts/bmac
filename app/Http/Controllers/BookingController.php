@@ -27,20 +27,7 @@ class BookingController extends Controller
     {
         $event = Event::find(1);
         $bookings = Booking::where('event_id', 1)->orderBy('ctot')->get();
-        // Check all reservedBy_id's to see if 10 minutes have exceeded
-        foreach ($bookings as $booking) {
-            // If a reservation has been marked as reserved
-            if (isset($booking->reservedBy_id)) {
-                // If a reservation has been reserved for more then 10 minutes, remove reservedBy_id
-                if (Carbon::now() > Carbon::createFromFormat('Y-m-d H:i:s',$booking->updated_at)->addMinutes(10)) {
-                    $booking->fill([
-                        'reservedBy_id' => null,
-                        'updated_at' => NOW(),
-                    ]);
-                    $booking->save();
-                }
-            }
-        }
+        $this->removeOverdueReservations();
         return view('booking.overview',compact('event','bookings'));
     }
 
@@ -256,6 +243,25 @@ class BookingController extends Controller
             Session::flash('title', 'Warning');
             Session::flash('message', 'You need to be logged in before you can book a reservation.');
             return redirect('/');
+        }
+    }
+
+    public function removeOverdueReservations()
+    {
+        $bookings = Booking::all();
+        // Check all reservedBy_id's to see if 10 minutes have exceeded
+        foreach ($bookings as $booking) {
+            // If a reservation has been marked as reserved
+            if (isset($booking->reservedBy_id)) {
+                // If a reservation has been reserved for more then 10 minutes, remove reservedBy_id
+                if (Carbon::now() > Carbon::createFromFormat('Y-m-d H:i:s',$booking->updated_at)->addMinutes(10)) {
+                    $booking->fill([
+                        'reservedBy_id' => null,
+                        'updated_at' => NOW(),
+                    ]);
+                    $booking->save();
+                }
+            }
         }
     }
 
