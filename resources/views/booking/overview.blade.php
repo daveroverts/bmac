@@ -15,6 +15,9 @@
             <th>Callsign</th>
             <th>Aircraft</th>
             <th>Book | Available till {{ $event->endEvent->format('d-m-Y H:i') }}z</th>
+            @if(Auth::check() && Auth::user()->isAdmin)
+                <th colspan="2">Admin actions</th>
+            @endif
         </tr></thead>
         @foreach($bookings as $booking)
             {{--Check if flight belongs to the logged in user--}}
@@ -57,6 +60,10 @@
                         @endif
                     @endif
                 </td>
+                    @if(Auth::check() && Auth::user()->isAdmin)
+                        <td><a href="{{ route('booking.admin.edit',$booking->id) }}">Edit</a></td>
+                        <td>Delete</td>
+                    @endif
             </tr>
         @endforeach
     </table>
