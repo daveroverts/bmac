@@ -261,6 +261,14 @@ class BookingController extends Controller
 
     public function export($id)
     {
-        return new BookingsExport($id);
+        if (Auth::check() && Auth::user()->isAdmin) {
+            return new BookingsExport($id);
+        }
+        else {
+            Session::flash('type','danger');
+            Session::flash('title', 'Warning');
+            Session::flash('message', 'You are not allowed to do that!');
+            return redirect('/');
+        }
     }
 }
