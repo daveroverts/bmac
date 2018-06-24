@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Booking;
 use App\Event;
 use App\Exports\BookingsExport;
+use App\Http\Requests\AdminUpdateBooking;
 use App\Http\Requests\StoreBooking;
 use App\Http\Requests\UpdateBooking;
 use App\Mail\BookingCancelled;
@@ -286,6 +287,28 @@ class BookingController extends Controller
         }
     }
 
+    public function adminUpdate(AdminUpdateBooking $request, $id)
+    {
+        $booking = Booking::find($id);
+        $booking->fill([
+            'ctot' => Carbon::createFromFormat('Y-m-d H:i', $booking->event->startEvent->toDateString() .' '. $request->ctot),
+            'route' => $request->route,
+            'oceanicFL' => $request->oceanicFL,
+            'oceanicTrack' => $request->oceanicTrack,
+        ]);
+        $changes = collect();
+        if (!empty($booking->bookedBy)) {
+            foreach ($booking->getDirty() as $key => $value) {
+                $changes->push(
+                    ['name' => $key, 'old' => $booking->getOriginal($key), 'new' => $value]
+                );
+            }
+        }
+        $booking->save();
+        Session::flash('type','success');
+        Session::flash('title', 'Booking changed');
+        Session::flash('message','Booking has been changed!');
+        return redirect('/booking');
     }
 
     public function export($id)
