@@ -90,7 +90,7 @@
                             <label for="track" class="col-md-4 col-form-label text-md-right">Track</label>
 
                             <div class="col-md-6">
-                                <div class="form-control-plaintext"><b>{{ $booking->track ? $booking->track : 'T.B.D. / Available on day of event at 0600z' }}</b></div>
+                                <div class="form-control-plaintext"><b>{{ $booking->oceanicTrack ? $booking->oceanicTrack : 'T.B.D. / Available on day of event at 0600z' }}</b></div>
 
                             </div>
                         </div>
