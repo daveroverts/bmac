@@ -181,14 +181,19 @@ class BookingController extends Controller
     {
         $booking = Booking::find($id);
         $this->validateSELCAL($request->selcal1, $request->selcal2, $booking->event_id);
-        $selcal = $request->selcal1 .'-'. $request->selcal2;
+        if (!empty($request->selcal1) && !empty($request->selcal2)) {
+            $this->validateSELCAL($request->selcal1, $request->selcal2, $booking->event_id);
+            $selcal = $request->selcal1 .'-'. $request->selcal2;
+        }
         $booking->fill([
             'reservedBy_id' => null,
             'bookedBy_id' => Auth::id(),
             'callsign' => $request->callsign,
             'acType' => $request->aircraft,
-            'selcal' => $selcal,
         ]);
+        if (isset($selcal)) {
+            $booking->selcal = $selcal;
+        }
         $booking->save();
         Mail::to(Auth::user())->send(new BookingConfirmed($booking));
         return redirect('/booking');
