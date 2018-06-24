@@ -278,6 +278,14 @@ class BookingController extends Controller
             $booking = Booking::findOrFail($id);
             return view('booking.admin.edit',compact('booking'));
         }
+        else {
+            Session::flash('type','danger');
+            Session::flash('title', 'Warning');
+            Session::flash('message', 'You are not allowed to do that!');
+            return redirect('/');
+        }
+    }
+
     }
 
     public function export($id)
