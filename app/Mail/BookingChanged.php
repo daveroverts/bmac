@@ -2,23 +2,41 @@
 
 namespace App\Mail;
 
+use App\Booking;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Support\Collection;
 
 class BookingChanged extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels;
 
     /**
+     * The booking instance.
+     *
+     * @var Booking
+     */
+    public $booking;
+
+    /**
+     * The booking instance.
+     *
+     * @var Booking
+     */
+    public $changes;
+
+    /**
      * Create a new message instance.
      *
-     * @return void
+     * @param Booking $booking
+     * @param $changes
      */
-    public function __construct()
+    public function __construct(Booking $booking, Collection $changes)
     {
-        //
+        $this->booking = $booking;
+        $this->changes = $changes;
     }
 
     /**
@@ -28,6 +46,6 @@ class BookingChanged extends Mailable implements ShouldQueue
      */
     public function build()
     {
-        return $this->view('emails.booking.changed');
+        return $this->markdown('emails.booking.changed');
     }
 }

@@ -9,6 +9,7 @@ use App\Http\Requests\AdminUpdateBooking;
 use App\Http\Requests\StoreBooking;
 use App\Http\Requests\UpdateBooking;
 use App\Mail\BookingCancelled;
+use App\Mail\BookingChanged;
 use App\Mail\BookingConfirmed;
 use App\User;
 use Auth;
@@ -305,9 +306,15 @@ class BookingController extends Controller
             }
         }
         $booking->save();
+        if (!empty($booking->bookedBy)) {
+            Mail::to(Auth::user())->send(new BookingChanged($booking, $changes));
+        }
         Session::flash('type','success');
         Session::flash('title', 'Booking changed');
-        Session::flash('message','Booking has been changed!');
+        if (!empty($booking->bookedBy)) {
+            Session::flash('message','Booking has been changed! A E-mail has also been sent to the person that booked.');
+        }
+        else Session::flash('message','Booking has been changed!');
         return redirect('/booking');
     }
 
