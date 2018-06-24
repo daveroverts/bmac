@@ -24,4 +24,5 @@ Route::resource('admin/event', 'EventController');
 Route::put('booking/{id}','BookingController@cancelBooking')->name('booking.cancelBooking');
 Route::get('/booking/{id}/create','BookingController@create')->name('booking.create');
 Route::get('/booking/{id}/export','BookingController@export')->name('booking.export');
+Route::get('/admin/booking/{id}/edit','BookingController@adminEdit')->name('booking.admin.edit');
 Route::resource('booking', 'BookingController')->except('create');

@@ -271,6 +271,15 @@ class BookingController extends Controller
         }
     }
 
+    public function adminEdit($id)
+    {
+        // Check if user is logged in, and if he's an administrator
+        if (Auth::check() && Auth::user()->isAdmin) {
+            $booking = Booking::findOrFail($id);
+            return view('booking.admin.edit',compact('booking'));
+        }
+    }
+
     public function export($id)
     {
         if (Auth::check() && Auth::user()->isAdmin) {
