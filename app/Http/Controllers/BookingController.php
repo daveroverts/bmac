@@ -107,7 +107,6 @@ class BookingController extends Controller
         // Check if user is logged in
         if (Auth::check()) {
             $booking = Booking::findOrFail($id);
-            $user = User::find(Auth::id());
             // Check if the booking has already been booked or reserved
             if (isset($booking->bookedBy_id) ||  isset($booking->reservedBy_id)) {
                 // Check if current user has booked/reserved
