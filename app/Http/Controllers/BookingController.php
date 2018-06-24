@@ -110,10 +110,12 @@ class BookingController extends Controller
             // Check if the booking has already been booked or reserved
             if (isset($booking->bookedBy_id) ||  isset($booking->reservedBy_id)) {
                 // Check if current user has booked/reserved
-                if ($booking->bookedBy_id == Auth::id() ||$booking->reservedBy_id == Auth::id()) {
-                    Session::flash('type','info');
-                    Session::flash('title', 'Slot reserved');
-                    Session::flash('message','Will remain reserved until '.$booking->updated_at->addMinutes(10)->format('Hi').'z');
+                if ($booking->bookedBy_id == Auth::id() || $booking->reservedBy_id == Auth::id()) {
+                    if ($booking->reservedBy_id == Auth::id()) {
+                        Session::flash('type','info');
+                        Session::flash('title', 'Slot reserved');
+                        Session::flash('message','Will remain reserved until '.$booking->updated_at->addMinutes(10)->format('Hi').'z');
+                    }
                     return view('booking.edit',compact('booking', 'user'));
                 }
                 else {
