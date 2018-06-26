@@ -15,6 +15,11 @@
 @import '~bootswatch/dist/flatly/bootswatch';
 
 .navbar-laravel {
-  background-color: #fff;
+  background-color: #2C3E50;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
 }
+
+.navbar-light .navbar-nav .nav-link {
+  color: white;
+}
+
