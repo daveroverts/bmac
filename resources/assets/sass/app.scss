@@ -5,11 +5,14 @@
 //jQuery UI
 @import "~jquery-ui/themes/base/all.css";
 
-// Variables
-@import "variables";
+// Bootswatch Flatly variables
+@import '~bootswatch/dist/flatly/variables';
 
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
+
+// Bootswatch Flatly
+@import '~bootswatch/dist/flatly/bootswatch';
 
 .navbar-laravel {
   background-color: #fff;
