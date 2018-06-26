@@ -307,7 +307,7 @@ class BookingController extends Controller
         }
         $booking->save();
         if (!empty($booking->bookedBy)) {
-            Mail::to(Auth::user())->send(new BookingChanged($booking, $changes));
+            Mail::to($booking->bookedBy->email)->send(new BookingChanged($booking, $changes));
         }
         Session::flash('type','success');
         Session::flash('title', 'Booking changed');
