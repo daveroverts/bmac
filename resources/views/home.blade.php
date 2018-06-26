@@ -1,23 +1,13 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">Dashboard</div>
+    <h3>Welcome to the Holland-America Line – June 29th</h3>
+    <h5>Bookings to open this weekend!</h5>
+    <p>Slots will be made available on the 30th of June at 1800z. A total of 90 slots are available over the course of three hours.</p>
 
-                <div class="card-body">
-                    @if (session('status'))
-                        <div class="alert alert-success">
-                            {{ session('status') }}
-                        </div>
-                    @endif
+    <h5>FlyTampa to sponsor the Holland-America Line</h5>
+    <p>This event will be sponsored by scenery developer FlyTampa, who produces high quality scenery for both Boston Logan and Amsterdam Schiphol. The company has generously offered to give away two sceneries for each airport! Winners will be randomly selected from those who flew with a booking, and will be announced a day or two after the event.</p>
 
-                    You are logged in!
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+    <h5>Welcome to the Holland-America Line</h5>
+    <p>Come join the Boston Virtual ARTCC and Dutch VACC for a long-haul, trans-Atlantic, inter-division, mini-Cross the Pond jamboree! From 1100-1400z on Sunday, July 28, we'll have Amsterdam Schiphol International Airport staffed to the gills to accommodate departures, and will have all en route facilities staffed for a flight to Boston Logan Airport, where the Boston Virtual ARTCC will provide a full staff to sequence arrivals and get them onto the ground. Bring your favorite long haul aircraft, your business jet, or whatever you want, and join us for 7+ hours of packed airspace and professional air traffic control.</p>
 @endsection
