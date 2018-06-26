@@ -12,7 +12,7 @@
 */
 
 Route::get('/', function () {
-    return redirect('/booking');
+    return view('home');
 });
 
 Route::get('/login','Auth\LoginController@login')->name('login');
