@@ -11,7 +11,6 @@ use App\Http\Requests\UpdateBooking;
 use App\Mail\BookingCancelled;
 use App\Mail\BookingChanged;
 use App\Mail\BookingConfirmed;
-use App\User;
 use Auth;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
