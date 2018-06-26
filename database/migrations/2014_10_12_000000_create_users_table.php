@@ -14,10 +14,15 @@ class CreateUsersTable extends Migration
     public function up()
     {
         Schema::create('users', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('name');
+            $table->unsignedInteger('id')->primary();
+            $table->string('name_first',50);
+            $table->string('name_last',50);
             $table->string('email')->unique();
-            $table->string('password');
+            $table->string('country');
+            $table->string('region');
+            $table->string('division');
+            $table->string('subdivision')->nullable();
+            $table->boolean('isAdmin')->default(0);
             $table->rememberToken();
             $table->timestamps();
         });

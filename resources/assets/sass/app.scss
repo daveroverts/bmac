@@ -2,13 +2,28 @@
 // Fonts
 @import url("https://fonts.googleapis.com/css?family=Raleway:300,400,600");
 
-// Variables
-@import "variables";
+//jQuery UI
+@import "~jquery-ui/themes/base/all.css";
+
+// Bootswatch Flatly variables
+@import '~bootswatch/dist/flatly/variables';
 
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
 
+// Bootswatch Flatly
+@import '~bootswatch/dist/flatly/bootswatch';
+
 .navbar-laravel {
-  background-color: #fff;
+  background-color: #2C3E50;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+}
+
+.navbar-light .navbar-nav .nav-link {
+  color: white;
+}
+
+h5 {
+  color: $cyan;
+  text-decoration: underline;
 }
