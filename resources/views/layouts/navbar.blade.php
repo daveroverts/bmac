@@ -15,6 +15,11 @@
                 <li class="nav-item"><a class="nav-link" href="">Partners</a></li>
                 <li class="nav-item"><a class="nav-link" href="">My bookings</a></li>
                 <li class="nav-item"><a class="nav-link" href="">FAQ</a></li>
+                @guest
+                    <li class="nav-item"><a class="nav-link" href="{{ route('login') }}">Login</a></li>
+                @else
+                    <li class="nav-item"><a class="nav-link" href="{{ route('logout') }}">Logout</a></li>
+                @endguest
             </ul>
 
             <!-- Right Side Of Navbar -->
