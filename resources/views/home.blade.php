@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <h3>Welcome to the Holland-America Line – June 29th</h3>
+    <h3>Welcome to the Holland-America Line – July 29th</h3>
     <h5>Bookings to open this weekend!</h5>
     <p>Slots will be made available on the 30th of June at 1800z. A total of 90 slots are available over the course of three hours.</p>
 
