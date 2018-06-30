@@ -160,6 +160,15 @@
                             </div>
                         </div>
 
+                        {{--EHAM Gates Overview--}}
+                        <div class="form-group row">
+                            <label for="gatesOverview" class="col-md-4 col-form-label text-md-right">EHAM Gates Overview</label>
+
+                            <div class="col-md-6">
+                                <div class="form-control-plaintext"><a href="https://spi.dutchvacc.nl/gates_overview.php" target="_blank">Link</a></div>
+                            </div>
+                        </div>
+
                         {{--Cancel Booking--}}
                         <div class="form-group row mb-0">
                             <div class="col-md-6 offset-md-4">
