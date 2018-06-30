@@ -2,8 +2,8 @@
 
 @section('content')
     <h3>Welcome to the Holland-America Line – July 29th</h3>
-    <h5>Bookings to open this weekend!</h5>
-    <p>Slots will be made available on the 30th of June at 1800z. A total of 90 slots will be available over the course of three hours.</p>
+    <h5>Bookings have opened!</h5>
+    <p>Slots will be made available until. A total of 90 slots will be available over the course of three hours.</p>
 
     <h5>FlyTampa to sponsor the Holland-America Line</h5>
     <p>This event will be sponsored by scenery developer FlyTampa, who produces high quality scenery for both Boston Logan and Amsterdam Schiphol. The company has generously offered to give away two sceneries for each airport! Winners will be randomly selected from those who flew with a booking, and will be announced a day or two after the event.</p>
