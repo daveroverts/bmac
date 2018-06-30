@@ -165,7 +165,7 @@ class BookingController extends Controller
             // User is not logged in
             Session::flash('type','danger');
             Session::flash('title', 'Warning');
-            Session::flash('message', 'You need to be logged in before you can book a reservation.');
+            Session::flash('message', 'You need to be logged in before you can make a reservation.');
             return redirect('/booking');
         }
 
