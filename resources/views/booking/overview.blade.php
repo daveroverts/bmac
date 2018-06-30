@@ -61,8 +61,14 @@
                     @endif
                 </td>
                     @if(Auth::check() && Auth::user()->isAdmin)
-                        <td><a href="{{ route('booking.admin.edit',$booking->id) }}">Edit</a></td>
-                        <td>Delete</td>
+                        <td><a href="{{ route('booking.admin.edit', $booking->id) }}" class="btn btn-info">Edit</a></td>
+                        <td>
+                            <form action="{{ route('booking.destroy', $booking->id) }}" method="post">
+                                @csrf
+                                @method('DELETE')
+                                <button class="btn btn-danger">Delete</button>
+                            </form>
+                        </td>
                     @endif
             </tr>
         @endforeach
