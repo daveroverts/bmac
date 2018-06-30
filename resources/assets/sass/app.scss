@@ -23,6 +23,10 @@
   color: white;
 }
 
+.navbar-light .navbar-nav .show > .nav-link, .navbar-light .navbar-nav .active > .nav-link, .navbar-light .navbar-nav .nav-link.show, .navbar-light .navbar-nav .nav-link.active {
+  color: #18BC9C;
+}
+
 h5 {
   color: $cyan;
   text-decoration: underline;

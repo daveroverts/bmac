@@ -203,12 +203,25 @@ class BookingController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Booking  $booking
+     * @param  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Booking $booking)
+    public function destroy($id)
     {
-        //
+        if (Auth::check() && Auth::user()->isAdmin) {
+            $booking = Booking::findOrFail($id);
+            $booking->delete();
+            Session::flash('type','success');
+            Session::flash('title', 'Booking deleted!');
+            Session::flash('message','Booking has been deleted!');
+            return redirect('/booking');
+        }
+        else {
+            Session::flash('type','danger');
+            Session::flash('title', 'Nope');
+            Session::flash('message', 'You cannot do that!');
+            return redirect('/');
+        }
     }
 
     public function validateSELCAL($a, $b, $eventId) {

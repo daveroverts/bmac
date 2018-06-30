@@ -147,7 +147,7 @@
                             <label for="briefingKBOS" class="col-md-4 col-form-label text-md-right">Briefing KBOS</label>
 
                             <div class="col-md-6">
-                                <div class="form-control-plaintext"><a href="" target="_blank">Link</a></div>
+                                <div class="form-control-plaintext"><a href="http://www.bvartcc.com/LTA/LetterToAirmen.pdf" target="_blank">Link</a></div>
                             </div>
                         </div>
 

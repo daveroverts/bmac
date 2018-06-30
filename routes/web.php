@@ -17,7 +17,7 @@ Route::get('/', function () {
 
 Route::get('/login','Auth\LoginController@login')->name('login');
 Route::get('/validateLogin','Auth\LoginController@validateLogin');
-Route::post('/logout','Auth\LoginController@logout')->name('logout');
+Route::get('/logout','Auth\LoginController@logout')->name('logout');
 
 Route::resource('admin/airport', 'AirportController');
 Route::resource('admin/event', 'EventController');
@@ -27,3 +27,7 @@ Route::get('/booking/{id}/export','BookingController@export')->name('booking.exp
 Route::get('/admin/booking/{id}/edit','BookingController@adminEdit')->name('booking.admin.edit');
 Route::patch('/admin/booking/{id}/edit','BookingController@adminUpdate')->name('booking.admin.update');
 Route::resource('booking', 'BookingController')->except('create');
+Route::get('/faq', function () {
+    return view('faq');
+})->name('faq');
+
