@@ -10,10 +10,10 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <!-- Left Side Of Navbar -->
             <ul class="navbar-nav mr-auto">
-                <li class="nav-item"><a class="nav-link" href="{{ url('/') }}">Home</a></li>
-                <li class="nav-item"><a class="nav-link" href="{{ route('booking.index') }}">Bookings</a></li>
-                <li class="nav-item"><a class="nav-link" href="">My bookings</a></li>
-                <li class="nav-item"><a class="nav-link" href="">FAQ</a></li>
+                <li class="nav-item {{ Request::is('/') ? 'active' : '' }}"><a class="nav-link" href="{{ url('/') }}">Home</a></li>
+                <li class="nav-item {{ Request::is('booking') ? 'active' : '' }}"><a class="nav-link" href="{{ route('booking.index') }}">Bookings</a></li>
+                <li class="nav-item {{ Request::is('booking/*') ? 'active' : '' }}"><a class="nav-link" href="">My bookings</a></li>
+                <li class="nav-item" {{ Request::is('faq') ? 'active' : '' }}><a class="nav-link" href="">FAQ</a></li>
                 @guest
                     <li class="nav-item"><a class="nav-link" href="{{ route('login') }}">Login</a></li>
                 @else
