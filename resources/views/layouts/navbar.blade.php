@@ -12,9 +12,11 @@
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item {{ Request::is('/') ? 'active' : '' }}"><a class="nav-link" href="{{ url('/') }}">Home</a></li>
                 <li class="nav-item {{ Request::is('booking') ? 'active' : '' }}"><a class="nav-link" href="{{ route('booking.index') }}">Bookings</a></li>
-                {{--@auth--}}
-                    {{--<li class="nav-item {{ Request::is('booking/*') ? 'active' : '' }}"><a class="nav-link" href="">My bookings</a></li>--}}
-                {{--@endauth--}}
+                @auth
+                    @if(Auth::user()->booked()->first())
+                        <li class="nav-item {{ Request::is('booking/*') ? 'active' : '' }}"><a class="nav-link" href="{{ route('booking.show', Auth::user()->booked()->first()->id) }}">My booking</a></li>
+                    @endif
+                @endauth
                 <li class="nav-item" {{ Request::is('faq') ? 'active' : '' }}><a class="nav-link" href="{{ route('faq') }}">FAQ</a></li>
                 <li class="nav-item"><a class="nav-link" href="mailto:events@dutchvacc.nl">Contact Us</a></li>
                 @guest
