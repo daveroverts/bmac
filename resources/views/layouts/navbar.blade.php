@@ -16,6 +16,7 @@
                     <li class="nav-item {{ Request::is('booking/*') ? 'active' : '' }}"><a class="nav-link" href="">My bookings</a></li>
                 @endauth
                 <li class="nav-item" {{ Request::is('faq') ? 'active' : '' }}><a class="nav-link" href="{{ route('faq') }}">FAQ</a></li>
+                <li class="nav-item"><a class="nav-link" href="mailto:events@dutchvacc.nl">Contact Us</a></li>
                 @guest
                     <li class="nav-item"><a class="nav-link" href="{{ route('login') }}">Login</a></li>
                 @else
