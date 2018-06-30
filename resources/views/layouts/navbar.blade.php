@@ -12,7 +12,6 @@
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item"><a class="nav-link" href="{{ url('/') }}">Home</a></li>
                 <li class="nav-item"><a class="nav-link" href="{{ route('booking.index') }}">Bookings</a></li>
-                <li class="nav-item"><a class="nav-link" href="">Partners</a></li>
                 <li class="nav-item"><a class="nav-link" href="">My bookings</a></li>
                 <li class="nav-item"><a class="nav-link" href="">FAQ</a></li>
                 @guest
