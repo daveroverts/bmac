@@ -15,6 +15,7 @@ You will also be able to view this route upon login to the Dutch VACC booking pa
 | Arrives: | **{{ $booking->arr }}** |
 | Cruising: | **{{ $booking->oceanicFL }}** |
 | SELCAL: | **{{ $booking->selcal }}** |
+| Aircraft: | **{{ $booking->acType }}** |
 | CTOT: | **{{ $booking->ctot }}** |
 | Event Date: | **{{ $booking->event->startEvent->toFormattedDateString() }}** |
 @endcomponent
