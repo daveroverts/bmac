@@ -54,7 +54,7 @@
                             {{--Check if user is logged in to generate a clickable link--}}
                             <a href="{{ route('booking.edit',$booking->id) }}">
                         @endif
-                        <a href="{{ route('booking.edit', $booking->id) }}" class="btn btn-success">AVAIL</a>
+                        <a href="{{ route('booking.edit', $booking->id) }}" class="btn btn-success">BOOK NOW</a>
                         @if(Auth::check() && $booking->event->endBooking > \Carbon\Carbon::now() && !Auth::user()->booked()->where('event_id',$event->id)->first())
                             </a>
                         @endif
