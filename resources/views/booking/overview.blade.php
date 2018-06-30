@@ -36,25 +36,25 @@
                     @if(isset($booking->bookedBy_id))
                         {{--Check if booking has been booked by current user--}}
                         @if(Auth::check() && $booking->bookedBy_id == Auth::id())
-                            <a href="{{ route('booking.show',$booking->id) }}">My booking</a>
+                            <a href="{{ route('booking.show',$booking->id) }}" class="btn btn-info">My booking</a>
                         @else
-                            Booked {{Auth::check() && Auth::user()->isAdmin ? '['.$booking->bookedBy->pic.']' : ''}}
+                            <button class="btn btn-dark disabled">Booked {{Auth::check() && Auth::user()->isAdmin ? '['.$booking->bookedBy->pic.']' : ''}}</button>
                         @endif
 
                     @elseif(isset($booking->reservedBy_id))
                         {{--Check if a booking has been reserved--}}
                         @if(Auth::check() && $booking->reservedBy_id == Auth::id())
                             {{--Check if a booking has been reserved by current user--}}
-                            <a href="{{ route('booking.edit',$booking->id) }}">My Reservation</a>
+                            <a href="{{ route('booking.edit',$booking->id) }}" class="btn btn-info">My Reservation</a>
                         @else
-                            Reserved {{Auth::check() && Auth::user()->isAdmin ? '['.$booking->reservedBy->pic .']' : ''}}
+                            <button class="btn btn-dark disabled">Reserved {{Auth::check() && Auth::user()->isAdmin ? '['.$booking->reservedBy->pic .']' : ''}}</button>
                         @endif
                     @else
                         @if(Auth::check() && $booking->event->endBooking > \Carbon\Carbon::now() && !Auth::user()->booked()->where('event_id',$event->id)->first())
                             {{--Check if user is logged in to generate a clickable link--}}
                             <a href="{{ route('booking.edit',$booking->id) }}">
                         @endif
-                        AVAIL
+                        <a href="{{ route('booking.edit', $booking->id) }}" class="btn btn-success">AVAIL</a>
                         @if(Auth::check() && $booking->event->endBooking > \Carbon\Carbon::now() && !Auth::user()->booked()->where('event_id',$event->id)->first())
                             </a>
                         @endif
