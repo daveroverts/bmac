@@ -181,23 +181,31 @@ class BookingController extends Controller
     public function update(UpdateBooking $request, $id)
     {
         $booking = Booking::find($id);
-        $this->validateSELCAL($request->selcal1, $request->selcal2, $booking->event_id);
-        if (!empty($request->selcal1) && !empty($request->selcal2)) {
+        // Check if the reservation / booking actually belongs to the correct person
+        if (Auth::check() && Auth::id() == $booking->reservedBy_id || Auth::id() == $booking->bookedBy_id) {
             $this->validateSELCAL($request->selcal1, $request->selcal2, $booking->event_id);
-            $selcal = $request->selcal1 .'-'. $request->selcal2;
+            if (!empty($request->selcal1) && !empty($request->selcal2)) {
+                $this->validateSELCAL($request->selcal1, $request->selcal2, $booking->event_id);
+                $selcal = $request->selcal1 .'-'. $request->selcal2;
+            }
+            $booking->fill([
+                'reservedBy_id' => null,
+                'bookedBy_id' => Auth::id(),
+                'callsign' => $request->callsign,
+                'acType' => $request->aircraft,
+            ]);
+            if (isset($selcal)) {
+                $booking->selcal = $selcal;
+            }
+            $booking->save();
+            Mail::to(Auth::user())->send(new BookingConfirmed($booking));
+            return redirect('/booking');
         }
-        $booking->fill([
-            'reservedBy_id' => null,
-            'bookedBy_id' => Auth::id(),
-            'callsign' => $request->callsign,
-            'acType' => $request->aircraft,
-        ]);
-        if (isset($selcal)) {
-            $booking->selcal = $selcal;
+        else {
+            // We got a bad-ass over here, log that person out
+            Auth::logout();
+            return redirect('https://youtu.be/dQw4w9WgXcQ');
         }
-        $booking->save();
-        Mail::to(Auth::user())->send(new BookingConfirmed($booking));
-        return redirect('/booking');
     }
 
     /**
