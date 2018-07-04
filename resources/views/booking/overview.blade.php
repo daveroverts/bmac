@@ -15,7 +15,7 @@
                 <th>CTOT</th>
                 <th>Callsign</th>
                 <th>Aircraft</th>
-                <th>Book | Available till {{ $event->endEvent->format('d-m-Y H:i') }}z</th>
+                <th>Book | Available until {{ $event->endEvent->format('d-m-Y H:i') }}z</th>
                 @if(Auth::check() && Auth::user()->isAdmin)
                     <th colspan="2">Admin actions</th>
                 @endif
