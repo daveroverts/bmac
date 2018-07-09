@@ -4,12 +4,22 @@ namespace App\Http\Controllers;
 
 use App\Airport;
 use App\Http\Requests\StoreAirport;
-use Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 
 class AirportController extends Controller
 {
+
+    /**
+     * Instantiate a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth.isAdmin');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -17,11 +27,8 @@ class AirportController extends Controller
      */
     public function index()
     {
-        if (Auth::check() && Auth::user()->isAdmin) {
-            $airports = Airport::all();
-            return view('airport.overview',compact('airports'));
-        }
-        else return redirect('/');
+        $airports = Airport::all();
+        return view('airport.overview',compact('airports'));
     }
 
     /**
@@ -31,10 +38,7 @@ class AirportController extends Controller
      */
     public function create()
     {
-        if (Auth::check() && Auth::user()->isAdmin) {
-            return view('airport.create');
-        }
-        else return redirect('/');
+        return view('airport.create');
     }
 
     /**

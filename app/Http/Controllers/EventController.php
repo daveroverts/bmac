@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Airport;
 use App\Event;
-use Auth;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
@@ -12,17 +11,24 @@ use Illuminate\Support\Facades\Session;
 class EventController extends Controller
 {
     /**
+     * Instantiate a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth.isAdmin');
+    }
+
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        if (Auth::check() && Auth::user()->isAdmin) {
-            $events = Event::all();
-            return view('event.overview',compact('events'));
-        }
-        else return redirect('/');
+        $events = Event::all();
+        return view('event.overview',compact('events'));
     }
 
     /**
@@ -32,11 +38,8 @@ class EventController extends Controller
      */
     public function create()
     {
-        if (Auth::check() && Auth::user()->isAdmin) {
-            $airports = Airport::all();
-            return view('event.create',compact('airports'));
-        }
-        else return redirect('/');
+        $airports = Airport::all();
+        return view('event.create',compact('airports'));
     }
 
     /**
