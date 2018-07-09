@@ -11,11 +11,11 @@ use App\Http\Requests\UpdateBooking;
 use App\Mail\BookingCancelled;
 use App\Mail\BookingChanged;
 use App\Mail\BookingConfirmed;
-use Auth;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Session;
-use Mail;
+use Illuminate\Support\Facades\Mail;
 
 class BookingController extends Controller
 {
