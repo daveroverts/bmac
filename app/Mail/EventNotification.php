@@ -2,10 +2,9 @@
 
 namespace App\Mail;
 
-use Illuminate\Bus\Queueable;
-use Illuminate\Mail\Mailable;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\{
+    Bus\Queueable, Mail\Mailable, Queue\SerializesModels, Contracts\Queue\ShouldQueue
+};
 
 class EventNotification extends Mailable implements ShouldQueue
 {

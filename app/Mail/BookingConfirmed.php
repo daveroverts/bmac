@@ -3,10 +3,9 @@
 namespace App\Mail;
 
 use App\Booking;
-use Illuminate\Bus\Queueable;
-use Illuminate\Mail\Mailable;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\{
+    Bus\Queueable, Mail\Mailable, Queue\SerializesModels, Contracts\Queue\ShouldQueue
+};
 
 class BookingConfirmed extends Mailable implements ShouldQueue
 {

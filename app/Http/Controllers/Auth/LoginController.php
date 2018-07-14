@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Http\Controllers\Controller;
-use App\User;
-use Auth;
-use Illuminate\Foundation\Auth\AuthenticatesUsers;
-use Config;
-use Illuminate\Support\Facades\Input;
-use Redirect;
-use Session;
+use App\{
+    Http\Controllers\Controller, User
+};
+use Illuminate\{Support\Facades\Auth, Foundation\Auth\AuthenticatesUsers,
+    Support\Facades\Config,
+    Support\Facades\Input,
+    Support\Facades\Redirect,
+    Support\Facades\Session
+};
 use VatsimSSO;
 
 class LoginController extends Controller

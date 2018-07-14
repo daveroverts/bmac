@@ -2,20 +2,21 @@
 
 namespace App\Http\Controllers;
 
-use App\Booking;
-use App\Event;
-use App\Exports\BookingsExport;
-use App\Http\Requests\AdminUpdateBooking;
-use App\Http\Requests\StoreBooking;
-use App\Http\Requests\UpdateBooking;
-use App\Mail\BookingCancelled;
-use App\Mail\BookingChanged;
-use App\Mail\BookingConfirmed;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Http\Request;
+use App\{
+    Booking,
+    Event,
+    Exports\BookingsExport,
+    Http\Requests\AdminUpdateBooking,
+    Http\Requests\StoreBooking,
+    Http\Requests\UpdateBooking,
+    Mail\BookingCancelled,
+    Mail\BookingChanged,
+    Mail\BookingConfirmed
+};
+use Illuminate\{
+    Support\Facades\Auth, Http\Request, Support\Facades\Session, Support\Facades\Mail
+};
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Session;
-use Illuminate\Support\Facades\Mail;
 
 class BookingController extends Controller
 {

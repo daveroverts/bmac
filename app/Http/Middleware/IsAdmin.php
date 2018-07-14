@@ -3,8 +3,9 @@
 namespace App\Http\Middleware;
 
 use Closure;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Session;
+use Illuminate\{
+    Support\Facades\Auth, Support\Facades\Session
+};
 
 class IsAdmin
 {

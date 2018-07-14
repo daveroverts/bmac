@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Airport;
-use App\Event;
+use App\{
+    Airport, Event
+};
 use Carbon\Carbon;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Session;
+use Illuminate\{
+    Http\Request, Support\Facades\Session
+};
 
 class EventController extends Controller
 {

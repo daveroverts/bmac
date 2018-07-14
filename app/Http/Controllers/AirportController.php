@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Airport;
-use App\Http\Requests\StoreAirport;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Session;
+use App\{
+    Airport, Http\Requests\StoreAirport
+};
+use Illuminate\{
+    Http\Request, Support\Facades\Session
+};
 
 class AirportController extends Controller
 {
