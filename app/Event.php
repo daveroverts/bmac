@@ -2,8 +2,8 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
 use Cviebrock\EloquentSluggable\Sluggable;
+use Illuminate\Database\Eloquent\Model;
 
 class Event extends Model
 {
@@ -42,7 +42,8 @@ class Event extends Model
         'formSent' => 'boolean',
     ];
 
-    public function bookings() {
+    public function bookings()
+    {
         return $this->belongsTo(Booking::class);
     }
 

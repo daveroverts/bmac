@@ -26,10 +26,10 @@ class UpdateBooking extends FormRequest
     {
         $booking = Booking::find($this->route('booking'));
         return [
-            'callsign' => 'required|alpha_num|max:7|unique:bookings,callsign,null,null,event_id,'.$booking->event->id,
+            'callsign' => 'required|alpha_num|max:7|unique:bookings,callsign,null,null,event_id,' . $booking->event->id,
             'aircraft' => 'required|alpha_num|between:3,4',
             'selcal1' => 'sometimes|nullable|alpha|size:2',
-            'selcal2' => 'sometimes|nullable|required_with:selcal1,!='.null.'|alpha|size:2',
+            'selcal2' => 'sometimes|nullable|required_with:selcal1,!=' . null . '|alpha|size:2',
             'checkStudy' => 'accepted',
             'checkCharts' => 'accepted',
         ];

@@ -3,7 +3,7 @@
 namespace App\Mail;
 
 use Illuminate\{
-    Bus\Queueable, Mail\Mailable, Queue\SerializesModels, Contracts\Queue\ShouldQueue
+    Bus\Queueable, Contracts\Queue\ShouldQueue, Mail\Mailable, Queue\SerializesModels
 };
 
 class EventNotification extends Mailable implements ShouldQueue

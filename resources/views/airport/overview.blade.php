@@ -3,14 +3,18 @@
 @section('content')
     <h2>Airports Overview</h2>
     @include('layouts.alert')
-    <p><a href="{{ route('airport.create') }}" class="btn btn-primary"><i class="fa fa-plus"></i> Add new Airport</a></p>
+    <p>
+        <a href="{{ route('airport.create') }}" class="btn btn-primary"><i class="fa fa-plus"></i> Add new Airport</a>
+    </p>
     <table class="table table-hover">
-        <thead><tr>
+        <thead>
+        <tr>
             <th>ICAO</th>
             <th>IATA</th>
             <th>Name</th>
             <th>Edit (doesn't work at this time)</th>
-        </tr></thead>
+        </tr>
+        </thead>
         @forelse($airports as $airport)
             <tr>
                 <td>{{ $airport->icao }}</td>
@@ -23,7 +27,7 @@
                     </form>
                 </td>
             </tr>
-            @empty
+        @empty
             @component('layouts.alert.warning')
                 @slot('title')
                     No airports found

@@ -5,14 +5,16 @@
     <p><a href="{{ route('event.create') }}" class="btn btn-primary"><i class="fa fa-plus"></i> Add new Event</a></p>
     @include('layouts.alert')
     <table class="table table-hover">
-        <thead><tr>
+        <thead>
+        <tr>
             <th>ID</th>
             <th>Name</th>
             <th>Date</th>
             <th>Start</th>
             <th>End</th>
             <th colspan="2">Actions</th>
-        </tr></thead>
+        </tr>
+        </thead>
         @forelse($events as $event)
             <tr>
                 <td>{{ $event->id }}</td>
@@ -35,9 +37,9 @@
             </tr>
         @empty
             @php
-            Session::flash('type','info');
-            Session::flash('title','No events found');
-            Session::flash('message','No events are in the system, consider adding one, using the button above');
+                Session::flash('type','info');
+                Session::flash('title','No events found');
+                Session::flash('message','No events are in the system, consider adding one, using the button above');
             @endphp
             @include('layouts.alert')
         @endforelse

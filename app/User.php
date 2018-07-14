@@ -2,8 +2,8 @@
 
 namespace App;
 
-use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
@@ -36,12 +36,14 @@ class User extends Authenticatable
         'is_admin' => 'boolean',
     ];
 
-    public function reserved() {
-        return $this->hasOne(Booking::class,'reservedBy_id');
+    public function reserved()
+    {
+        return $this->hasOne(Booking::class, 'reservedBy_id');
     }
 
-    public function booked() {
-        return $this->hasOne(Booking::class,'bookedBy_id');
+    public function booked()
+    {
+        return $this->hasOne(Booking::class, 'bookedBy_id');
     }
 
     /**
@@ -49,7 +51,8 @@ class User extends Authenticatable
      *
      * @return string
      */
-    public function getFullNameAttribute() {
+    public function getFullNameAttribute()
+    {
         return ucfirst($this->name_first) . ' ' . ucfirst($this->name_last);
     }
 
@@ -58,7 +61,8 @@ class User extends Authenticatable
      *
      * @return string
      */
-    public function getPicAttribute() {
+    public function getPicAttribute()
+    {
         return ucfirst($this->name_first) . ' ' . ucfirst($this->name_last) . ' | ' . $this->id;
     }
 

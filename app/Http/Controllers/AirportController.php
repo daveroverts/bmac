@@ -30,7 +30,7 @@ class AirportController extends Controller
     public function index()
     {
         $airports = Airport::all();
-        return view('airport.overview',compact('airports'));
+        return view('airport.overview', compact('airports'));
     }
 
     /**
@@ -46,7 +46,7 @@ class AirportController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(StoreAirport $request)
@@ -59,14 +59,14 @@ class AirportController extends Controller
         $airport->save();
         Session::flash('type', 'success');
         Session::flash('title', 'Done');
-        Session::flash('message', $airport->name .' ['.$airport->icao.' | '. $airport->iata.'] has been added!');
+        Session::flash('message', $airport->name . ' [' . $airport->icao . ' | ' . $airport->iata . '] has been added!');
         return redirect('admin/airport');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Airport  $airport
+     * @param  \App\Airport $airport
      * @return \Illuminate\Http\Response
      */
     public function show(Airport $airport)
@@ -77,7 +77,7 @@ class AirportController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Airport  $airport
+     * @param  \App\Airport $airport
      * @return \Illuminate\Http\Response
      */
     public function edit(Airport $airport)
@@ -88,8 +88,8 @@ class AirportController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Airport  $airport
+     * @param  \Illuminate\Http\Request $request
+     * @param  \App\Airport $airport
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Airport $airport)
@@ -100,7 +100,7 @@ class AirportController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Airport  $airport
+     * @param  \App\Airport $airport
      * @return \Illuminate\Http\Response
      */
     public function destroy(Airport $airport)

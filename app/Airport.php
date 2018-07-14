@@ -7,10 +7,15 @@ use Illuminate\Database\Eloquent\Model;
 class Airport extends Model
 {
 
-    protected $primaryKey = 'icao';
     public $incrementing = false;
+    /**
+     * Indicates if the model should be timestamped.
+     *
+     * @var bool
+     */
+    public $timestamps = false;
+    protected $primaryKey = 'icao';
     protected $keyType = 'string';
-
     /**
      * The attributes that are mass assignable.
      *
@@ -20,18 +25,13 @@ class Airport extends Model
         'icao', 'iata', 'name',
     ];
 
-    /**
-     * Indicates if the model should be timestamped.
-     *
-     * @var bool
-     */
-    public $timestamps = false;
-
-    public function bookingsDep() {
+    public function bookingsDep()
+    {
         return $this->belongsToMany(Booking::class, 'events', 'dep');
     }
 
-    public function bookingsArr() {
+    public function bookingsArr()
+    {
         return $this->belongsToMany(Booking::class, 'events', 'arr');
     }
 }

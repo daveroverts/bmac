@@ -6,7 +6,7 @@ use App\{
     Event, User
 };
 use Illuminate\{
-    Bus\Queueable, Mail\Mailable, Queue\SerializesModels, Contracts\Queue\ShouldQueue
+    Bus\Queueable, Contracts\Queue\ShouldQueue, Mail\Mailable, Queue\SerializesModels
 };
 
 class EventFeedback extends Mailable implements ShouldQueue
