@@ -82,7 +82,7 @@ class LoginController extends Controller
                 $account->save();
 
                 Auth::loginUsingId($user->id);
-                return Redirect('/booking');
+                return Redirect('/');
             },
             function($e) {
                 throw $e; // Do something with the exception
