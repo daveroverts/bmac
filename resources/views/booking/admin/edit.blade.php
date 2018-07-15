@@ -46,7 +46,7 @@
                                 <input id="ctot" type="time"
                                        class="form-control{{ $errors->has('ctot') ? ' is-invalid' : '' }}" name="ctot"
                                        value="{{ old('ctot', \Carbon\Carbon::parse($booking->getOriginal('ctot'))->format('H:i')) }}"
-                                       required autofocus>
+                                       required>
 
                                 @if ($errors->has('ctot'))
                                     <span class="invalid-feedback">
