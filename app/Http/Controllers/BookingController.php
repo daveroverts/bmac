@@ -284,10 +284,12 @@ class BookingController extends Controller
     {
         $booking = Booking::find($id);
         $booking->fill([
+            'callsign' => $request->callsign,
             'ctot' => Carbon::createFromFormat('Y-m-d H:i', $booking->event->startEvent->toDateString() . ' ' . $request->ctot),
             'route' => $request->route,
             'oceanicFL' => $request->oceanicFL,
             'oceanicTrack' => $request->oceanicTrack,
+            'acType' => $request->aircraft,
         ]);
         $changes = collect();
         if (!empty($booking->bookedBy)) {
@@ -296,6 +298,11 @@ class BookingController extends Controller
                     ['name' => $key, 'old' => $booking->getOriginal($key), 'new' => $value]
                 );
             }
+        }
+        if (!empty($request->message)) {
+            $changes->push(
+                ['name' => 'message', 'new' => $request->message]
+            );
         }
         $booking->save();
         if (!empty($booking->bookedBy)) {

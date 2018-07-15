@@ -26,9 +26,15 @@
                             <label for="callsign" class="col-md-4 col-form-label text-md-right">Callsign</label>
 
                             <div class="col-md-6">
-                                <div class="form-control-plaintext">
-                                    <b>{{ $booking->callsign ? $booking->callsign : '-' }}</b></div>
+                                <input id="callsign" type="text"
+                                       class="form-control{{ $errors->has('callsign') ? ' is-invalid' : '' }}"
+                                       name="callsign" value="{{ $booking->callsign }}" required autofocus max="7">
 
+                                @if ($errors->has('callsign'))
+                                    <span class="invalid-feedback">
+                                        <strong>{{ $errors->first('callsign') }}</strong>
+                                    </span>
+                                @endif
                             </div>
                         </div>
 
@@ -40,7 +46,7 @@
                                 <input id="ctot" type="time"
                                        class="form-control{{ $errors->has('ctot') ? ' is-invalid' : '' }}" name="ctot"
                                        value="{{ old('ctot', \Carbon\Carbon::parse($booking->getOriginal('ctot'))->format('H:i')) }}"
-                                       required autofocus>
+                                       required>
 
                                 @if ($errors->has('ctot'))
                                     <span class="invalid-feedback">
@@ -85,12 +91,12 @@
                             <label for="route" class="col-md-4 col-form-label text-md-right">Route</label>
 
                             <div class="col-md-6">
-                                <textarea class="form-control" id=""
+                                <textarea class="form-control" id="route"
                                           name="route">{{ old('route',$booking->route) }}</textarea>
 
-                                @if ($errors->has('ctot'))
+                                @if ($errors->has('route'))
                                     <span class="invalid-feedback">
-                                        <strong>{{ $errors->first('ctot') }}</strong>
+                                        <strong>{{ $errors->first('route') }}</strong>
                                     </span>
                                 @endif
                             </div>
@@ -135,12 +141,18 @@
 
                         {{--Aircraft--}}
                         <div class="form-group row">
-                            <label for="aircraft" class="col-md-4 col-form-label text-md-right">Aircraft code</label>
+                            <label for="aircraft" class="col-md-4 col-form-label text-md-right"> Aircraft code</label>
 
                             <div class="col-md-6">
-                                <div class="form-control-plaintext">
-                                    <b>{{ $booking->acType ? $booking->acType : '-' }}</b></div>
+                                <input id="aircraft" type="text"
+                                       class="form-control{{ $errors->has('aircraft') ? ' is-invalid' : '' }}"
+                                       name="aircraft" value="{{ $booking->acType }}" required min="3" max="4">
 
+                                @if ($errors->has('aircraft'))
+                                    <span class="invalid-feedback">
+                                        <strong>{{ $errors->first('aircraft') }}</strong>
+                                    </span>
+                                @endif
                             </div>
                         </div>
 
@@ -154,7 +166,23 @@
                             </div>
                         </div>
 
-                        {{--Add--}}
+                        {{--Message--}}
+                        <div class="form-group row">
+                            <label for="message" class="col-md-4 col-form-label text-md-right">Message</label>
+
+                            <div class="col-md-6">
+                                <textarea class="form-control" id="message"
+                                          name="message"></textarea>
+
+                                @if ($errors->has('route'))
+                                    <span class="invalid-feedback">
+                                        <strong>{{ $errors->first('message') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
+                        {{--Update--}}
                         <div class="form-group row mb-0">
                             <div class="col-md-6 offset-md-4">
                                 <button type="submit" class="btn btn-primary">
