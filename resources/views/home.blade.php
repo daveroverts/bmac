@@ -2,6 +2,7 @@
 
 @section('content')
     <h3>Welcome to the Holland-America Line – July 29th</h3>
+    @include('layouts.alert')
     <h5>Bookings have opened!</h5>
     <p>Slots are available until July 29th 2100z. A total of 90 slots will be available over the course of three
         hours.</p>
