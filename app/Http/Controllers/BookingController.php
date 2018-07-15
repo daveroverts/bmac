@@ -289,6 +289,7 @@ class BookingController extends Controller
             'route' => $request->route,
             'oceanicFL' => $request->oceanicFL,
             'oceanicTrack' => $request->oceanicTrack,
+            'acType' => $request->aircraft,
         ]);
         $changes = collect();
         if (!empty($booking->bookedBy)) {

@@ -140,13 +140,19 @@
                         </div>
 
                         {{--Aircraft--}}
-                        <div class="form-group row">
-                            <label for="aircraft" class="col-md-4 col-form-label text-md-right">Aircraft code</label>
+                        <div class="form-group form-row">
+                            <label for="aircraft" class="col-md-4 col-form-label text-md-right"> Aircraft code</label>
 
                             <div class="col-md-6">
-                                <div class="form-control-plaintext">
-                                    <b>{{ $booking->acType ? $booking->acType : '-' }}</b></div>
+                                <input id="aircraft" type="text"
+                                       class="form-control{{ $errors->has('aircraft') ? ' is-invalid' : '' }}"
+                                       name="aircraft" value="{{ $booking->acType }}" required min="3" max="4">
 
+                                @if ($errors->has('aircraft'))
+                                    <span class="invalid-feedback">
+                                        <strong>{{ $errors->first('aircraft') }}</strong>
+                                    </span>
+                                @endif
                             </div>
                         </div>
 

@@ -33,6 +33,7 @@ class AdminUpdateBooking extends FormRequest
             'route' => 'nullable|string',
             'oceanicFL' => 'nullable|int:3',
             'oceanicTrack' => 'nullable|alpha|min:1|max:2',
+            'aircraft' => 'required|alpha_num|between:3,4',
         ];
     }
 }

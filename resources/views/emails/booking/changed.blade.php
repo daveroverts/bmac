@@ -25,6 +25,9 @@ Your booking for the **{{ $booking->event->name }}** has been amended, please re
 @case('oceanicFL')
 | Oceanic Entry FL: | **FL{{ $change['new'] }}** | (was FL{{ $change['old'] }}) |
 @break
+@case('acType')
+| Aircraft code: | **{{ $change['new'] }}** | (was {{ $change['old'] }}) |
+@break
 @endswitch
 @endforeach
 @endcomponent
