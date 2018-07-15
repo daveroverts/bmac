@@ -10,6 +10,9 @@ Your booking for the **{{ $booking->event->name }}** has been amended, please re
 |-----|-----|-----|
 @foreach($changes as $change)
 @switch($change['name'])
+@case('callsign')
+| Callsign: | **{{ $change['new'] }}** | (was {{ $change['old'] }}) |
+@break
 @case('ctot')
 | CTOT: | **{{ \Carbon\Carbon::parse($change['new'])->format('Hi').'z' }}** | (was {{ \Carbon\Carbon::parse($change['old'])->format('Hi').'z' }}) |
 @break

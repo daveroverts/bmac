@@ -28,6 +28,7 @@ class AdminUpdateBooking extends FormRequest
     public function rules()
     {
         return [
+            'callsign' => 'required|alpha_num|max:7',
             'ctot' => 'date_format:H:i',
             'route' => 'nullable|string',
             'oceanicFL' => 'nullable|int:3',

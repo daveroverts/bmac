@@ -284,6 +284,7 @@ class BookingController extends Controller
     {
         $booking = Booking::find($id);
         $booking->fill([
+            'callsign' => $request->callsign,
             'ctot' => Carbon::createFromFormat('Y-m-d H:i', $booking->event->startEvent->toDateString() . ' ' . $request->ctot),
             'route' => $request->route,
             'oceanicFL' => $request->oceanicFL,

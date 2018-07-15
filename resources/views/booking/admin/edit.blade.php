@@ -26,9 +26,15 @@
                             <label for="callsign" class="col-md-4 col-form-label text-md-right">Callsign</label>
 
                             <div class="col-md-6">
-                                <div class="form-control-plaintext">
-                                    <b>{{ $booking->callsign ? $booking->callsign : '-' }}</b></div>
+                                <input id="callsign" type="text"
+                                       class="form-control{{ $errors->has('callsign') ? ' is-invalid' : '' }}"
+                                       name="callsign" value="{{ $booking->callsign }}" required autofocus max="7">
 
+                                @if ($errors->has('callsign'))
+                                    <span class="invalid-feedback">
+                                        <strong>{{ $errors->first('callsign') }}</strong>
+                                    </span>
+                                @endif
                             </div>
                         </div>
 
