@@ -299,6 +299,11 @@ class BookingController extends Controller
                 );
             }
         }
+        if (!empty($request->message)) {
+            $changes->push(
+                ['name' => 'message', 'new' => $request->message]
+            );
+        }
         $booking->save();
         if (!empty($booking->bookedBy)) {
             Mail::to($booking->bookedBy->email)->send(new BookingChanged($booking, $changes));

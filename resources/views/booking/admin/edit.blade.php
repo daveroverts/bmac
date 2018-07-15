@@ -166,6 +166,22 @@
                             </div>
                         </div>
 
+                        {{--Message--}}
+                        <div class="form-group row">
+                            <label for="message" class="col-md-4 col-form-label text-md-right">Message</label>
+
+                            <div class="col-md-6">
+                                <textarea class="form-control" id="message"
+                                          name="message"></textarea>
+
+                                @if ($errors->has('route'))
+                                    <span class="invalid-feedback">
+                                        <strong>{{ $errors->first('message') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
                         {{--Update--}}
                         <div class="form-group row mb-0">
                             <div class="col-md-6 offset-md-4">

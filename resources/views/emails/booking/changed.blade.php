@@ -28,6 +28,9 @@ Your booking for the **{{ $booking->event->name }}** has been amended, please re
 @case('acType')
 | Aircraft code: | **{{ $change['new'] }}** | (was {{ $change['old'] }}) |
 @break
+@case('message')
+| A message has been left: | {{ $change['new'] }} |
+@break
 @endswitch
 @endforeach
 @endcomponent
