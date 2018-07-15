@@ -91,12 +91,12 @@
                             <label for="route" class="col-md-4 col-form-label text-md-right">Route</label>
 
                             <div class="col-md-6">
-                                <textarea class="form-control" id=""
+                                <textarea class="form-control" id="route"
                                           name="route">{{ old('route',$booking->route) }}</textarea>
 
-                                @if ($errors->has('ctot'))
+                                @if ($errors->has('route'))
                                     <span class="invalid-feedback">
-                                        <strong>{{ $errors->first('ctot') }}</strong>
+                                        <strong>{{ $errors->first('route') }}</strong>
                                     </span>
                                 @endif
                             </div>
