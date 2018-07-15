@@ -30,7 +30,7 @@ class AdminUpdateBooking extends FormRequest
         return [
             'ctot' => 'date_format:H:i',
             'route' => 'nullable|string',
-            'oceanicFL' => 'sometimes|int:3',
+            'oceanicFL' => 'nullable|int:3',
             'oceanicTrack' => 'nullable|alpha|min:1|max:2',
         ];
     }
