@@ -140,7 +140,7 @@
                         </div>
 
                         {{--Aircraft--}}
-                        <div class="form-group form-row">
+                        <div class="form-group row">
                             <label for="aircraft" class="col-md-4 col-form-label text-md-right"> Aircraft code</label>
 
                             <div class="col-md-6">
