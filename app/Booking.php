@@ -13,7 +13,7 @@ class Booking extends Model
      * @var array
      */
     protected $fillable = [
-        'event_id', 'reservedBy_id', 'bookedBy_id', 'callsign', 'acType', 'selcal', 'dep', 'arr', 'ctot', 'oceanicFL', 'oceanicTrack'
+        'event_id', 'reservedBy_id', 'bookedBy_id', 'callsign', 'acType', 'selcal', 'dep', 'arr', 'ctot', 'route', 'oceanicFL', 'oceanicTrack'
     ];
 
     /**
@@ -33,7 +33,7 @@ class Booking extends Model
      */
     public function getCtotAttribute($value)
     {
-        return \Carbon\Carbon::parse($value)->format('Hi').'z';
+        return \Carbon\Carbon::parse($value)->format('Hi') . 'z';
     }
 
     /**
@@ -44,11 +44,9 @@ class Booking extends Model
      */
     public function getOceanicflAttribute($value)
     {
-        if (!empty($value))
-        {
-            return 'FL'.$value.' / Subject to change';
-        }
-        else return 'T.B.D.';
+        if (!empty($value)) {
+            return 'FL' . $value . ' / Subject to change';
+        } else return 'T.B.D.';
     }
 
     /**
@@ -59,11 +57,9 @@ class Booking extends Model
      */
     public function getSelcalAttribute($value)
     {
-        if (!empty($value))
-        {
+        if (!empty($value)) {
             return $value;
-        }
-        else return '-';
+        } else return '-';
     }
 
     /**
@@ -116,23 +112,28 @@ class Booking extends Model
         $this->attributes['oceanicTrack'] = strtoupper($value);
     }
 
-    public function airportDep() {
+    public function airportDep()
+    {
         return $this->hasOne(Airport::class, 'icao', 'dep');
     }
 
-    public function airportArr() {
+    public function airportArr()
+    {
         return $this->hasOne(Airport::class, 'icao', 'arr');
     }
 
-    public function event() {
-        return $this->hasOne(Event::class,'id', 'event_id');
+    public function event()
+    {
+        return $this->hasOne(Event::class, 'id', 'event_id');
     }
 
-    public function reservedBy() {
+    public function reservedBy()
+    {
         return $this->hasOne(User::class, 'id', 'reservedBy_id');
     }
 
-    public function bookedBy() {
-        return $this->hasOne(User::class,'id','bookedBy_id');
+    public function bookedBy()
+    {
+        return $this->hasOne(User::class, 'id', 'bookedBy_id');
     }
 }

@@ -2,14 +2,19 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Http\Controllers\Controller;
-use App\User;
-use Auth;
-use Illuminate\Foundation\Auth\AuthenticatesUsers;
-use Config;
-use Illuminate\Support\Facades\Input;
-use Redirect;
-use Session;
+use App\{
+    Http\Controllers\Controller, User
+};
+use Faker\Factory as Faker;
+use Illuminate\{
+    Support\Facades\App,
+    Support\Facades\Auth,
+    Foundation\Auth\AuthenticatesUsers,
+    Support\Facades\Config,
+    Support\Facades\Input,
+    Support\Facades\Redirect,
+    Support\Facades\Session
+};
 use VatsimSSO;
 
 class LoginController extends Controller
@@ -74,7 +79,8 @@ class LoginController extends Controller
                 $account->id = $user->id;
                 $account->name_first = utf8_decode($user->name_first);
                 $account->name_last = utf8_decode($user->name_last);
-                $account->email = $user->email;
+                // Check if this is the production environment to determine to use the actual E-mail adress or something random
+                $account->email = App::environment('production') ? $user->email : Faker::create()->email();
                 $account->country = $user->country->code;
                 $account->region = $user->region->code;
                 $account->division = $user->division->code;
@@ -82,7 +88,7 @@ class LoginController extends Controller
                 $account->save();
 
                 Auth::loginUsingId($user->id);
-                return Redirect('/booking');
+                return Redirect('/');
             },
             function($e) {
                 throw $e; // Do something with the exception

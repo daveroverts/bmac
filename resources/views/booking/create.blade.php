@@ -2,7 +2,7 @@
 
 @section('content')
     @if (count($errors) > 0)
-        <div class = "alert alert-danger">
+        <div class="alert alert-danger">
             <ul>
                 @foreach ($errors->all() as $error)
                     <li>{{ $error }}</li>
@@ -34,7 +34,9 @@
                             <label for="when" class="col-md-4 col-form-label text-md-right">When</label>
 
                             <div class="col-md-6">
-                                <div class="form-control-plaintext">{{ $event->startEvent->format('d-m-Y') }} | {{ $event->startEvent->format('Hi') }}z - {{ $event->endEvent->format('Hi') }}z</div>
+                                <div class="form-control-plaintext">{{ $event->startEvent->format('d-m-Y') }}
+                                    | {{ $event->startEvent->format('Hi') }}z - {{ $event->endEvent->format('Hi') }}z
+                                </div>
 
                             </div>
                         </div>
@@ -44,7 +46,9 @@
                             <label for="start" class="col-md-4 col-form-label text-md-right"> Start</label>
 
                             <div class="col-md-6">
-                                <input id="start" type="time" class="form-control{{ $errors->has('start') ? ' is-invalid' : '' }}" name="start" value="{{ old('start') }}" required autofocus>
+                                <input id="start" type="time"
+                                       class="form-control{{ $errors->has('start') ? ' is-invalid' : '' }}" name="start"
+                                       value="{{ old('start') }}" required autofocus>
 
                                 @if ($errors->has('start'))
                                     <span class="invalid-feedback">
@@ -59,7 +63,9 @@
                             <label for="end" class="col-md-4 col-form-label text-md-right"> End</label>
 
                             <div class="col-md-6">
-                                <input id="end" type="time" class="form-control{{ $errors->has('end') ? ' is-invalid' : '' }}" name="end" value="{{ old('end') }}" required>
+                                <input id="end" type="time"
+                                       class="form-control{{ $errors->has('end') ? ' is-invalid' : '' }}" name="end"
+                                       value="{{ old('end') }}" required>
 
                                 @if ($errors->has('end'))
                                     <span class="invalid-feedback">
@@ -71,10 +77,13 @@
 
                         {{--Start--}}
                         <div class="form-group row">
-                            <label for="separation" class="col-md-4 col-form-label text-md-right"> Separation (in minutes)</label>
+                            <label for="separation" class="col-md-4 col-form-label text-md-right"> Separation (in
+                                minutes)</label>
 
                             <div class="col-md-6">
-                                <input id="separation" type="number" class="form-control{{ $errors->has('separation') ? ' is-invalid' : '' }}" name="separation" value="{{ old('separation') }}" required min="2">
+                                <input id="separation" type="number"
+                                       class="form-control{{ $errors->has('separation') ? ' is-invalid' : '' }}"
+                                       name="separation" value="{{ old('separation') }}" required min="2">
 
                                 @if ($errors->has('separation'))
                                     <span class="invalid-feedback">

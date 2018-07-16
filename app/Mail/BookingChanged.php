@@ -3,11 +3,9 @@
 namespace App\Mail;
 
 use App\Booking;
-use Illuminate\Bus\Queueable;
-use Illuminate\Mail\Mailable;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Support\Collection;
+use Illuminate\{
+    Bus\Queueable, Contracts\Queue\ShouldQueue, Mail\Mailable, Queue\SerializesModels, Support\Collection
+};
 
 class BookingChanged extends Mailable implements ShouldQueue
 {

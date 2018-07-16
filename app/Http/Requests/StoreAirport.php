@@ -2,8 +2,9 @@
 
 namespace App\Http\Requests;
 
-use Auth;
-use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\{
+    Foundation\Http\FormRequest, Support\Facades\Auth
+};
 
 class StoreAirport extends FormRequest
 {
@@ -16,8 +17,7 @@ class StoreAirport extends FormRequest
     {
         if (Auth::check() && Auth::user()->isAdmin) {
             return true;
-        }
-        else return false;
+        } else return false;
     }
 
     /**

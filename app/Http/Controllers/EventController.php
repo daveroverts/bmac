@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Airport;
-use App\Event;
+use App\{
+    Airport, Event
+};
 use Carbon\Carbon;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Session;
+use Illuminate\{
+    Http\Request, Support\Facades\Session
+};
 
 class EventController extends Controller
 {
@@ -28,7 +30,7 @@ class EventController extends Controller
     public function index()
     {
         $events = Event::all();
-        return view('event.overview',compact('events'));
+        return view('event.overview', compact('events'));
     }
 
     /**
@@ -39,13 +41,13 @@ class EventController extends Controller
     public function create()
     {
         $airports = Airport::all();
-        return view('event.create',compact('airports'));
+        return view('event.create', compact('airports'));
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -64,15 +66,15 @@ class EventController extends Controller
 
         $event = Event::create([
             'name' => $request->name,
-            'startEvent' => Carbon::createFromFormat('d-m-Y H:i',$request->dateEvent .' '. $request->timeBeginEvent),
-            'endEvent' => Carbon::createFromFormat('d-m-Y H:i',$request->dateEvent .' '. $request->timeEndEvent),
-            'startBooking' => Carbon::createFromFormat('d-m-Y H:i',$request->dateBeginBooking .' '. $request->timeBeginBooking),
-            'endBooking' => Carbon::createFromFormat('d-m-Y H:i',$request->dateEndBooking .' '. $request->timeEndBooking),
-            'timeFeedbackForm' => Carbon::createFromFormat('d-m-Y H:i',$request->dateEndBooking .' '. $request->timeEndBooking)->addHours($request->timeFeedbackForm),
+            'startEvent' => Carbon::createFromFormat('d-m-Y H:i', $request->dateEvent . ' ' . $request->timeBeginEvent),
+            'endEvent' => Carbon::createFromFormat('d-m-Y H:i', $request->dateEvent . ' ' . $request->timeEndEvent),
+            'startBooking' => Carbon::createFromFormat('d-m-Y H:i', $request->dateBeginBooking . ' ' . $request->timeBeginBooking),
+            'endBooking' => Carbon::createFromFormat('d-m-Y H:i', $request->dateEndBooking . ' ' . $request->timeEndBooking),
+            'timeFeedbackForm' => Carbon::createFromFormat('d-m-Y H:i', $request->dateEndBooking . ' ' . $request->timeEndBooking)->addHours($request->timeFeedbackForm),
             'description' => $request->description,
         ]);
         $event->save();
-        Session::flash('type','success');
+        Session::flash('type', 'success');
         Session::flash('title', 'Done');
         Session::flash('message', 'Event have been created!');
         return redirect('admin/event');
@@ -81,7 +83,7 @@ class EventController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Event  $event
+     * @param  \App\Event $event
      * @return \Illuminate\Http\Response
      */
     public function show(Event $event)
@@ -92,7 +94,7 @@ class EventController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Event  $event
+     * @param  \App\Event $event
      * @return \Illuminate\Http\Response
      */
     public function edit(Event $event)
@@ -103,8 +105,8 @@ class EventController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Event  $event
+     * @param  \Illuminate\Http\Request $request
+     * @param  \App\Event $event
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Event $event)
@@ -115,7 +117,7 @@ class EventController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Event  $event
+     * @param  \App\Event $event
      * @return \Illuminate\Http\Response
      */
     public function destroy(Event $event)

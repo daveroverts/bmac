@@ -3,22 +3,32 @@
         <a class="navbar-brand" href="{{ url('/') }}">
             <img src="{{ asset('images/DV-Logo3-icon.png') }}" width="40">
         </a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <!-- Left Side Of Navbar -->
             <ul class="navbar-nav mr-auto">
-                <li class="nav-item {{ Request::is('/') ? 'active' : '' }}"><a class="nav-link" href="{{ url('/') }}">Home</a></li>
-                <li class="nav-item {{ Request::is('booking') ? 'active' : '' }}"><a class="nav-link" href="{{ route('booking.index') }}">Bookings</a></li>
+                <li class="nav-item {{ Request::is('/') ? 'active' : '' }}">
+                    <a class="nav-link" href="{{ url('/') }}">Home</a>
+                </li>
+                <li class="nav-item {{ Request::is('booking') ? 'active' : '' }}">
+                    <a class="nav-link" href="{{ route('booking.index') }}">Bookings</a>
+                </li>
                 @auth
                     @if(Auth::user()->booked()->first())
-                        <li class="nav-item {{ Request::is('booking/*') ? 'active' : '' }}"><a class="nav-link" href="{{ route('booking.show', Auth::user()->booked()->first()->id) }}">My booking</a></li>
+                        <li class="nav-item {{ Request::is('booking/*') ? 'active' : '' }}">
+                            <a class="nav-link" href="{{ route('booking.show', Auth::user()->booked()->first()->id) }}">
+                                My booking</a></li>
                     @endif
                 @endauth
-                <li class="nav-item" {{ Request::is('faq') ? 'active' : '' }}><a class="nav-link" href="{{ route('faq') }}">FAQ</a></li>
-                <li class="nav-item"><a class="nav-link" href="mailto:events@dutchvacc.nl">Contact Us</a></li>
+                <li class="nav-item" {{ Request::is('faq') ? 'active' : '' }}>
+                    <a class="nav-link" href="{{ route('faq') }}">FAQ</a></li>
+                <li class="nav-item">
+                    <a class="nav-link" href="mailto:events@dutchvacc.nl">Contact Us</a>
+                </li>
                 @guest
                     <li class="nav-item"><a class="nav-link" href="{{ route('login') }}">Login</a></li>
                 @else

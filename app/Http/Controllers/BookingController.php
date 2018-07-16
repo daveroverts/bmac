@@ -2,20 +2,21 @@
 
 namespace App\Http\Controllers;
 
-use App\Booking;
-use App\Event;
-use App\Exports\BookingsExport;
-use App\Http\Requests\AdminUpdateBooking;
-use App\Http\Requests\StoreBooking;
-use App\Http\Requests\UpdateBooking;
-use App\Mail\BookingCancelled;
-use App\Mail\BookingChanged;
-use App\Mail\BookingConfirmed;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Http\Request;
+use App\{
+    Booking,
+    Event,
+    Exports\BookingsExport,
+    Http\Requests\AdminUpdateBooking,
+    Http\Requests\StoreBooking,
+    Http\Requests\UpdateBooking,
+    Mail\BookingCancelled,
+    Mail\BookingChanged,
+    Mail\BookingConfirmed
+};
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Session;
-use Illuminate\Support\Facades\Mail;
+use Illuminate\{
+    Http\Request, Support\Facades\Auth, Support\Facades\Mail, Support\Facades\Session
+};
 
 class BookingController extends Controller
 {
@@ -26,7 +27,7 @@ class BookingController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth')->except('index');
+        $this->middleware('auth.isLoggedIn')->except('index');
 
         $this->middleware('auth.isAdmin')->only(['create', 'store', 'destroy', 'adminEdit', 'adminUpdate', 'export']);
     }
@@ -41,7 +42,22 @@ class BookingController extends Controller
         $event = Event::find(1);
         $bookings = Booking::where('event_id', 1)->orderBy('ctot')->get();
         $this->removeOverdueReservations();
-        return view('booking.overview',compact('event','bookings'));
+        return view('booking.overview', compact('event', 'bookings'));
+    }
+
+    public function removeOverdueReservations()
+    {
+        // Get all reservations that have been reserved
+        foreach (Booking::with('reservedBy')->get() as $booking) {
+            // If a reservation has been reserved for more then 10 minutes, remove reservedBy_id
+            if (Carbon::now() > Carbon::createFromFormat('Y-m-d H:i:s', $booking->updated_at)->addMinutes(10)) {
+                $booking->fill([
+                    'reservedBy_id' => null,
+                    'updated_at' => NOW(),
+                ]);
+                $booking->save();
+            }
+        }
     }
 
     /**
@@ -52,7 +68,7 @@ class BookingController extends Controller
     public function create(Request $request)
     {
         $event = Event::whereKey($request->id)->first();
-        return view('booking.create',compact('event'));
+        return view('booking.create', compact('event'));
     }
 
     /**
@@ -64,8 +80,8 @@ class BookingController extends Controller
     public function store(StoreBooking $request)
     {
         $event = Event::whereKey($request->id)->first();
-        $event_start = Carbon::createFromFormat('Y-m-d H:i', $event->startEvent->toDateString() .' '. $request->start);
-        $event_end = Carbon::createFromFormat('Y-m-d H:i', $event->endEvent->toDateString() .' '. $request->end);
+        $event_start = Carbon::createFromFormat('Y-m-d H:i', $event->startEvent->toDateString() . ' ' . $request->start);
+        $event_end = Carbon::createFromFormat('Y-m-d H:i', $event->endEvent->toDateString() . ' ' . $request->end);
         $separation = $request->separation;
         for ($event_start; $event_start <= $event_end; $event_start->addMinutes($separation)) {
             if (!Booking::where([
@@ -80,7 +96,7 @@ class BookingController extends Controller
                 ])->save();
             }
         }
-        Session::flash('type','success');
+        Session::flash('type', 'success');
         Session::flash('title', 'Done');
         Session::flash('message', 'Bookings have been created!');
         return redirect('/booking');
@@ -96,10 +112,9 @@ class BookingController extends Controller
     {
         $booking = Booking::findOrFail($id);
         if (Auth::check() && Auth::id() == $booking->bookedBy_id || Auth::user()->isAdmin) {
-            return view('booking.show',compact('booking'));
-        }
-        else {
-            Session::flash('type','danger');
+            return view('booking.show', compact('booking'));
+        } else {
+            Session::flash('type', 'danger');
             Session::flash('title', 'Already booked');
             Session::flash('message', 'Whoops that booking belongs to somebody else!');
             return redirect('/booking');
@@ -116,55 +131,51 @@ class BookingController extends Controller
     {
         $booking = Booking::findOrFail($id);
         // Check if the booking has already been booked or reserved
-        if (isset($booking->bookedBy_id) ||  isset($booking->reservedBy_id)) {
+        if (isset($booking->bookedBy_id) || isset($booking->reservedBy_id)) {
             // Check if current user has booked/reserved
             if ($booking->bookedBy_id == Auth::id() || $booking->reservedBy_id == Auth::id()) {
                 if ($booking->reservedBy_id == Auth::id()) {
-                    Session::flash('type','info');
+                    Session::flash('type', 'info');
                     Session::flash('title', 'Slot reserved');
-                    Session::flash('message','Will remain reserved until '.$booking->updated_at->addMinutes(10)->format('Hi').'z');
+                    Session::flash('message', 'Will remain reserved until ' . $booking->updated_at->addMinutes(10)->format('Hi') . 'z');
                 }
-                return view('booking.edit',compact('booking', 'user'));
-            }
-            else {
+                return view('booking.edit', compact('booking', 'user'));
+            } else {
                 // Check if the booking has already been reserved
                 if (isset($booking->reservedBy_id)) {
-                    Session::flash('type','danger');
+                    Session::flash('type', 'danger');
                     Session::flash('title', 'Warning');
                     Session::flash('message', 'Whoops! Somebody else reserved that slot just before you! Please choose another one. The slot will become available if it isn\'t confirmed within 10 minutes.');
                     return redirect('/booking');
 
-                }
-                // In case the booking has already been booked
+                } // In case the booking has already been booked
                 else return redirect('/booking')
                     ->with('type', 'danger')
                     ->with('title', 'Warning')
                     ->with('message', 'Whoops! Somebody else booked that slot just before you! Please choose another one.');
             }
-        }
-        // If the booking hasn't been taken by anybody else, check if user doesn't already have a booking
+        } // If the booking hasn't been taken by anybody else, check if user doesn't already have a booking
         else {
-            if (Auth::user()->booked()->where('event_id',$booking->event_id)->first()) {
-                Session::flash('type','danger');
+            if (Auth::user()->booked()->where('event_id', $booking->event_id)->first()) {
+                Session::flash('type', 'danger');
                 Session::flash('title', 'Nope!');
-                Session::flash('message','You already have a booking!');
+                Session::flash('message', 'You already have a booking!');
                 return redirect('/booking');
             }
             // If user already has another reservation open
-            if (Auth::user()->reserved()->where('event_id',$booking->event_id)->first()) {
-                Session::flash('type','danger');
+            if (Auth::user()->reserved()->where('event_id', $booking->event_id)->first()) {
+                Session::flash('type', 'danger');
                 Session::flash('title', 'Nope!');
-                Session::flash('message','You already have a reservation!');
+                Session::flash('message', 'You already have a reservation!');
                 return redirect('/booking');
-            }
-            // Reserve booking, and redirect to booking.edit
+            } // Reserve booking, and redirect to booking.edit
             else {
                 $booking->reservedBy_id = Auth::id();
                 $booking->save();
-                Session::flash('type','info');
+                Session::flash('type', 'info');
                 Session::flash('title', 'Slot reserved');
-                Session::flash('message','Will remain reserved until '.$booking->updated_at->addMinutes(10)->format('Hi').'z');
-                return view('booking.edit',compact('booking', 'user'));
+                Session::flash('message', 'Will remain reserved until ' . $booking->updated_at->addMinutes(10)->format('Hi') . 'z');
+                return view('booking.edit', compact('booking', 'user'));
             }
         }
     }
@@ -180,11 +191,11 @@ class BookingController extends Controller
     {
         $booking = Booking::find($id);
         // Check if the reservation / booking actually belongs to the correct person
-        if (Auth::check() && Auth::id() == $booking->reservedBy_id || Auth::id() == $booking->bookedBy_id) {
+        if (Auth::id() == $booking->reservedBy_id || Auth::id() == $booking->bookedBy_id) {
             $this->validateSELCAL($request->selcal1, $request->selcal2, $booking->event_id);
             if (!empty($request->selcal1) && !empty($request->selcal2)) {
                 $this->validateSELCAL($request->selcal1, $request->selcal2, $booking->event_id);
-                $selcal = $request->selcal1 .'-'. $request->selcal2;
+                $selcal = $request->selcal1 . '-' . $request->selcal2;
             }
             $booking->fill([
                 'reservedBy_id' => null,
@@ -198,12 +209,31 @@ class BookingController extends Controller
             $booking->save();
             Mail::to(Auth::user())->send(new BookingConfirmed($booking));
             return redirect('/booking');
+        } else {
+            if ($booking->reservedBy_id != null) {
+                // We got a bad-ass over here, log that person out
+                Auth::logout();
+                return redirect('https://youtu.be/dQw4w9WgXcQ');
+            }
+            else {
+                Session::flash('type', 'warning');
+                Session::flash('title', 'Nope!');
+                Session::flash('message', 'That reservation does not belong to you!');
+                return redirect('/booking');
+            }
         }
-        else {
-            // We got a bad-ass over here, log that person out
-            Auth::logout();
-            return redirect('https://youtu.be/dQw4w9WgXcQ');
+    }
+
+    public function validateSELCAL($a, $b, $eventId)
+    {
+        $selcal = $a . '-' . $b;
+        $bookings = Booking::where('event_id', $eventId)->get();
+        foreach ($bookings as $booking) {
+            if ($booking->selcal == $selcal) {
+                return false;
+            }
         }
+        return $a . '-' . $b;
     }
 
     /**
@@ -216,83 +246,50 @@ class BookingController extends Controller
     {
         $booking = Booking::findOrFail($id);
         $booking->delete();
-        Session::flash('type','success');
+        Session::flash('type', 'success');
         Session::flash('title', 'Booking deleted!');
-        Session::flash('message','Booking has been deleted!');
+        Session::flash('message', 'Booking has been deleted!');
         return redirect('/booking');
     }
 
-    public function validateSELCAL($a, $b, $eventId) {
-        $selcal = $a.'-'.$b;
-        $bookings = Booking::where('event_id',$eventId)->get();
-        foreach ($bookings as $booking) {
-            if ($booking->selcal == $selcal) {
-                return false;
-            }
-        }
-        return $a .'-'. $b;
-    }
-
-    public function cancelBooking($id) {
-        $booking = Booking::findOrFail($id);
-        if (Auth::check()) {
-            if (Auth::id() == $booking->bookedBy_id) {
-                $event = Event::findOrFail($booking->event_id);
-                $booking->fill([
-                    'bookedBy_id' => null,
-                    'callsign' => null,
-                    'acType' => null,
-                    'selcal' => null,
-                ]);
-                $user = Auth::user();
-                $booking->save();
-                Mail::to(Auth::user())->send(new BookingCancelled($event, $user));
-                return redirect('/booking');
-            }
-            else {
-                Session::flash('type','danger');
-                Session::flash('title', 'Warning');
-                Session::flash('message', 'This booking does not belong to you!');
-                return redirect('/');
-            }
-        }
-        else {
-            Session::flash('type','danger');
-            Session::flash('title', 'Warning');
-            Session::flash('message', 'You need to be logged in before you can book a reservation.');
-            return redirect('/');
-        }
-    }
-
-    public function removeOverdueReservations()
+    public function cancelBooking($id)
     {
-        // Get all reservations that have been reserved
-        foreach (Booking::with('reservedBy')->get() as $booking) {
-            // If a reservation has been reserved for more then 10 minutes, remove reservedBy_id
-            if (Carbon::now() > Carbon::createFromFormat('Y-m-d H:i:s',$booking->updated_at)->addMinutes(10)) {
-                $booking->fill([
-                    'reservedBy_id' => null,
-                    'updated_at' => NOW(),
-                ]);
-                $booking->save();
-            }
+        $booking = Booking::findOrFail($id);
+        if (Auth::id() == $booking->bookedBy_id) {
+            $event = Event::findOrFail($booking->event_id);
+            $booking->fill([
+                'bookedBy_id' => null,
+                'callsign' => null,
+                'acType' => null,
+                'selcal' => null,
+            ]);
+            $user = Auth::user();
+            $booking->save();
+            Mail::to(Auth::user())->send(new BookingCancelled($event, $user));
+            return redirect('/booking');
+        } else {
+            // We got a bad-ass over here, log that person out
+            Auth::logout();
+            return redirect('https://youtu.be/dQw4w9WgXcQ');
         }
     }
 
     public function adminEdit($id)
     {
         $booking = Booking::findOrFail($id);
-        return view('booking.admin.edit',compact('booking'));
+        return view('booking.admin.edit', compact('booking'));
     }
 
     public function adminUpdate(AdminUpdateBooking $request, $id)
     {
         $booking = Booking::find($id);
         $booking->fill([
-            'ctot' => Carbon::createFromFormat('Y-m-d H:i', $booking->event->startEvent->toDateString() .' '. $request->ctot),
+            'callsign' => $request->callsign,
+            'ctot' => Carbon::createFromFormat('Y-m-d H:i', $booking->event->startEvent->toDateString() . ' ' . $request->ctot),
             'route' => $request->route,
             'oceanicFL' => $request->oceanicFL,
             'oceanicTrack' => $request->oceanicTrack,
+            'acType' => $request->aircraft,
         ]);
         $changes = collect();
         if (!empty($booking->bookedBy)) {
@@ -302,16 +299,20 @@ class BookingController extends Controller
                 );
             }
         }
+        if (!empty($request->message)) {
+            $changes->push(
+                ['name' => 'message', 'new' => $request->message]
+            );
+        }
         $booking->save();
         if (!empty($booking->bookedBy)) {
             Mail::to($booking->bookedBy->email)->send(new BookingChanged($booking, $changes));
         }
-        Session::flash('type','success');
+        Session::flash('type', 'success');
         Session::flash('title', 'Booking changed');
         if (!empty($booking->bookedBy)) {
-            Session::flash('message','Booking has been changed! A E-mail has also been sent to the person that booked.');
-        }
-        else Session::flash('message','Booking has been changed!');
+            Session::flash('message', 'Booking has been changed! A E-mail has also been sent to the person that booked.');
+        } else Session::flash('message', 'Booking has been changed!');
         return redirect('/booking');
     }
 
