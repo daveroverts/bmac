@@ -260,10 +260,9 @@ class BookingController extends Controller
             Mail::to(Auth::user())->send(new BookingCancelled($event, $user));
             return redirect('/booking');
         } else {
-            Session::flash('type', 'danger');
-            Session::flash('title', 'Warning');
-            Session::flash('message', 'This booking does not belong to you!');
-            return redirect('/');
+            // We got a bad-ass over here, log that person out
+            Auth::logout();
+            return redirect('https://youtu.be/dQw4w9WgXcQ');
         }
     }
 
