@@ -247,29 +247,22 @@ class BookingController extends Controller
     public function cancelBooking($id)
     {
         $booking = Booking::findOrFail($id);
-        if (Auth::check()) {
-            if (Auth::id() == $booking->bookedBy_id) {
-                $event = Event::findOrFail($booking->event_id);
-                $booking->fill([
-                    'bookedBy_id' => null,
-                    'callsign' => null,
-                    'acType' => null,
-                    'selcal' => null,
-                ]);
-                $user = Auth::user();
-                $booking->save();
-                Mail::to(Auth::user())->send(new BookingCancelled($event, $user));
-                return redirect('/booking');
-            } else {
-                Session::flash('type', 'danger');
-                Session::flash('title', 'Warning');
-                Session::flash('message', 'This booking does not belong to you!');
-                return redirect('/');
-            }
+        if (Auth::id() == $booking->bookedBy_id) {
+            $event = Event::findOrFail($booking->event_id);
+            $booking->fill([
+                'bookedBy_id' => null,
+                'callsign' => null,
+                'acType' => null,
+                'selcal' => null,
+            ]);
+            $user = Auth::user();
+            $booking->save();
+            Mail::to(Auth::user())->send(new BookingCancelled($event, $user));
+            return redirect('/booking');
         } else {
             Session::flash('type', 'danger');
             Session::flash('title', 'Warning');
-            Session::flash('message', 'You need to be logged in before you can book a reservation.');
+            Session::flash('message', 'This booking does not belong to you!');
             return redirect('/');
         }
     }
