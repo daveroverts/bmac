@@ -191,7 +191,7 @@ class BookingController extends Controller
     {
         $booking = Booking::find($id);
         // Check if the reservation / booking actually belongs to the correct person
-        if (Auth::check() && Auth::id() == $booking->reservedBy_id || Auth::id() == $booking->bookedBy_id) {
+        if (Auth::id() == $booking->reservedBy_id || Auth::id() == $booking->bookedBy_id) {
             $this->validateSELCAL($request->selcal1, $request->selcal2, $booking->event_id);
             if (!empty($request->selcal1) && !empty($request->selcal2)) {
                 $this->validateSELCAL($request->selcal1, $request->selcal2, $booking->event_id);
