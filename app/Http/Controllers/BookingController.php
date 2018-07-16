@@ -208,6 +208,9 @@ class BookingController extends Controller
             }
             $booking->save();
             Mail::to(Auth::user())->send(new BookingConfirmed($booking));
+            Session::flash('type', 'success');
+            Session::flash('title', 'Booking created!');
+            Session::flash('message', 'Booking has been created! A E-mail with details has also been sent');
             return redirect('/booking');
         } else {
             if ($booking->reservedBy_id != null) {
