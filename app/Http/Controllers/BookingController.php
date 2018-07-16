@@ -210,9 +210,17 @@ class BookingController extends Controller
             Mail::to(Auth::user())->send(new BookingConfirmed($booking));
             return redirect('/booking');
         } else {
-            // We got a bad-ass over here, log that person out
-            Auth::logout();
-            return redirect('https://youtu.be/dQw4w9WgXcQ');
+            if ($booking->reservedBy_id != null) {
+                // We got a bad-ass over here, log that person out
+                Auth::logout();
+                return redirect('https://youtu.be/dQw4w9WgXcQ');
+            }
+            else {
+                Session::flash('type', 'warning');
+                Session::flash('title', 'Nope!');
+                Session::flash('message', 'That reservation does not belong to you!');
+                return redirect('/booking');
+            }
         }
     }
 
