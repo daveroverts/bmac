@@ -255,7 +255,7 @@ class BookingController extends Controller
         return redirect('/booking');
     }
 
-    public function cancelBooking($id)
+    public function cancel($id)
     {
         $booking = Booking::findOrFail($id);
         if (Auth::id() == $booking->bookedBy_id) {
