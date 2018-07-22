@@ -266,9 +266,8 @@ class BookingController extends Controller
                 'acType' => null,
                 'selcal' => null,
             ]);
-            $user = Auth::user();
             $booking->save();
-            Mail::to(Auth::user())->send(new BookingCancelled($event, $user));
+            Mail::to(Auth::user())->send(new BookingCancelled($event, Auth::user()));
             return redirect('/booking');
         } else {
             // We got a bad-ass over here, log that person out
