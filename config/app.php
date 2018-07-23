@@ -220,6 +220,7 @@ return [
         '_ENV' => [
             'APP_KEY',
             'DB_PASSWORD',
+            'BUGSNAG_API_KEY',
             'REDIS_PASSWORD',
             'MAIL_PASSWORD',
             'PUSHER_APP_KEY',
@@ -231,6 +232,7 @@ return [
         '_SERVER' => [
             'APP_KEY',
             'DB_PASSWORD',
+            'BUGSNAG_API_KEY',
             'REDIS_PASSWORD',
             'MAIL_PASSWORD',
             'PUSHER_APP_KEY',
