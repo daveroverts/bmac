@@ -9,6 +9,7 @@
         "barryvdh/laravel-cors": "^0.11.0",
         "barryvdh/laravel-debugbar": "^3.1",
         "barryvdh/laravel-ide-helper": "^2.4",
+        "bugsnag/bugsnag-laravel": "^2.0",
         "cviebrock/eloquent-sluggable": "4.5",
         "fideloper/proxy": "^4.0",
         "laravel/framework": "5.6.*",
