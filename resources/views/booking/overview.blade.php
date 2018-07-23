@@ -42,8 +42,8 @@
                             <div data-toggle="tooltip" data-placement="top"
                                  title="Calculated Take Off Time">{{ $booking->ctot }}</div>
                         </td>
-                        <td>{{ $booking->callsign ? $booking->callsign : '-' }}</td>
-                        <td>{{ $booking->acType ? $booking->acType : '-' }}</td>
+                        <td>{{ $booking->callsign ?: '-' }}</td>
+                        <td>{{ $booking->acType ?: '-' }}</td>
                         <td>
                             {{--Check if booking has been booked--}}
                             @if(isset($booking->bookedBy_id))
