@@ -23,7 +23,7 @@ Route::resource('admin/airport', 'AirportController');
 
 Route::resource('admin/event', 'EventController');
 
-Route::put('booking/{id}', 'BookingController@cancelBooking')->name('booking.cancelBooking');
+Route::put('booking/{id}', 'BookingController@cancel')->name('booking.cancel');
 Route::get('/booking/{id}/create', 'BookingController@create')->name('booking.create');
 Route::get('/booking/{id}/export', 'BookingController@export')->name('booking.export');
 Route::get('/admin/booking/{id}/edit', 'BookingController@adminEdit')->name('booking.admin.edit');
