@@ -9,10 +9,10 @@
     <table class="table table-hover">
         <thead>
         <tr>
-            <th scope="row">ICAO</th>
-            <th scope="row">IATA</th>
-            <th scope="row">Name</th>
-            <th scope="row">Edit (doesn't work at this time)</th>
+            <th>ICAO</th>
+            <th>IATA</th>
+            <th>Name</th>
+            <th>Edit (doesn't work at this time)</th>
         </tr>
         </thead>
         @forelse($airports as $airport)

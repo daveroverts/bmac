@@ -12,14 +12,14 @@
         <table class="table table-hover">
             <thead>
             <tr>
-                <th scope="row">From</th>
-                <th scope="row">To</th>
-                <th scope="row">CTOT</th>
-                <th scope="row">Callsign</th>
-                <th scope="row">Aircraft</th>
-                <th scope="row">Book | Available until {{ $event->endBooking->format('d-m-Y H:i') }}z</th>
+                <th>From</th>
+                <th>To</th>
+                <th>CTOT</th>
+                <th>Callsign</th>
+                <th>Aircraft</th>
+                <th>Book | Available until {{ $event->endBooking->format('d-m-Y H:i') }}z</th>
                 @if(Auth::check() && Auth::user()->isAdmin)
-                    <th scope="row" colspan="3">Admin actions</th>
+                    <th colspan="3">Admin actions</th>
                 @endif
             </tr>
             </thead>
@@ -42,8 +42,8 @@
                             <div data-toggle="tooltip" data-placement="top"
                                  title="Calculated Take Off Time">{{ $booking->ctot }}</div>
                         </td>
-                        <td>{{ $booking->callsign ?: '-' }}</td>
-                        <td>{{ $booking->acType ?: '-' }}</td>
+                        <td>{{ $booking->callsign ? $booking->callsign : '-' }}</td>
+                        <td>{{ $booking->acType ? $booking->acType : '-' }}</td>
                         <td>
                             {{--Check if booking has been booked--}}
                             @if(isset($booking->bookedBy_id))
@@ -88,12 +88,11 @@
                                     <button class="btn btn-danger">Delete</button>
                                 </form>
                             </td>
+                            @if($booking->bookedBy)
                                 <td>
-                                    @if($booking->bookedBy)
-                                        <button class="btn btn-info" href="mailto:{{ $booking->bookedBy->email }}">Send E-mail [{{ $booking->bookedBy->email }}]</button>
-                                    @endif
+                                    <button class="btn btn-info" href="mailto:{{ $booking->bookedBy->email }}">Send E-mail [{{ $booking->bookedBy->email }}]</button>
                                 </td>
-
+                            @endif
                         @endif
                     </tr>
                     @endforeach

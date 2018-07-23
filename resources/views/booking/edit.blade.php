@@ -74,7 +74,7 @@
 
                             <div class="col-md-6">
                                 <div class="form-control-plaintext">
-                                    <b>{{ $booking->bookedBy ?: $booking->reservedBy->pic }}</b>
+                                    <b>{{ $booking->bookedBy ? $booking->bookedBy->pic : $booking->reservedBy->pic }}</b>
                                 </div>
                             </div>
                         </div>
@@ -85,7 +85,7 @@
 
                             <div class="col-md-6">
                                 <div class="form-control-plaintext">
-                                    <b>{{ $booking->route ?: 'T.B.D. / Available on day of event at 0600z' }}</b>
+                                    <b>{{ $booking->route ? $booking->route : 'T.B.D. / Available on day of event at 0600z' }}</b>
                                 </div>
 
                             </div>
@@ -97,7 +97,7 @@
 
                             <div class="col-md-6">
                                 <div class="form-control-plaintext">
-                                    <b>{{ $booking->oceanicTrack ?: 'T.B.D. / Available on day of event at 0600z' }}</b>
+                                    <b>{{ $booking->oceanicTrack ? $booking->oceanicTrack : 'T.B.D. / Available on day of event at 0600z' }}</b>
                                 </div>
 
                             </div>
