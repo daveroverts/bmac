@@ -19,7 +19,7 @@
                 <th>Aircraft</th>
                 <th>Book | Available until {{ $event->endBooking->format('d-m-Y H:i') }}z</th>
                 @if(Auth::check() && Auth::user()->isAdmin)
-                    <th colspan="2">Admin actions</th>
+                    <th colspan="3">Admin actions</th>
                 @endif
             </tr>
             </thead>
@@ -88,6 +88,11 @@
                                     <button class="btn btn-danger">Delete</button>
                                 </form>
                             </td>
+                            @if($booking->bookedBy)
+                                <td>
+                                    <button class="btn btn-info" href="mailto:{{ $booking->bookedBy->email }}">Send E-mail [{{ $booking->bookedBy->email }}]</button>
+                                </td>
+                            @endif
                         @endif
                     </tr>
                     @endforeach
