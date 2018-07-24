@@ -41,6 +41,46 @@
                             </div>
                         </div>
 
+                        {{--From--}}
+                        <div class="form-group row">
+                            <label for="end" class="col-md-4 col-form-label text-md-right"> From</label>
+
+                            <div class="col-md-6">
+                                <select class="form-control{{ $errors->has('from') ? ' is-invalid' : '' }}" name="from">
+                                    <option value="">Choose an airport...</option>
+                                    @foreach($airports as $airport)
+                                        <option {{ old('from') == $airport->icao ? 'selected' : '' }}>{{ $airport->icao }}</option>
+                                    @endforeach
+                                </select>
+
+                                @if ($errors->has('from'))
+                                    <span class="invalid-feedback">
+                                        <strong>{{ $errors->first('from') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
+                        {{--To--}}
+                        <div class="form-group row">
+                            <label for="end" class="col-md-4 col-form-label text-md-right"> To</label>
+
+                            <div class="col-md-6">
+                                <select class="form-control{{ $errors->has('to') ? ' is-invalid' : '' }}" name="to">
+                                    <option value="">Choose an airport...</option>
+                                    @foreach($airports as $airport)
+                                        <option {{ old('from') == $airport->icao ? 'selected' : '' }}>{{ $airport->icao }}</option>
+                                    @endforeach
+                                </select>
+
+                                @if ($errors->has('to'))
+                                    <span class="invalid-feedback">
+                                        <strong>{{ $errors->first('to') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
                         {{--Start--}}
                         <div class="form-group row">
                             <label for="start" class="col-md-4 col-form-label text-md-right"> Start</label>
@@ -75,7 +115,7 @@
                             </div>
                         </div>
 
-                        {{--Start--}}
+                        {{--Separation--}}
                         <div class="form-group row">
                             <label for="separation" class="col-md-4 col-form-label text-md-right"> Separation (in
                                 minutes)</label>

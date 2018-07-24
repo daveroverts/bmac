@@ -28,12 +28,14 @@ class AdminUpdateBooking extends FormRequest
     public function rules()
     {
         return [
-            'callsign' => 'required|alpha_num|max:7',
+            'callsign' => 'nullable|alpha_num|max:7',
             'ctot' => 'date_format:H:i',
+            'ADEP' => 'exists:airports,icao|different:ADES|required',
+            'ADES' => 'exists:airports,icao|required',
             'route' => 'nullable',
             'oceanicFL' => 'nullable|int:3',
             'oceanicTrack' => 'nullable|alpha|min:1|max:2',
-            'aircraft' => 'required|alpha_num|between:3,4',
+            'aircraft' => 'nullable|alpha_num|between:3,4',
             'message' => 'nullable',
         ];
     }
