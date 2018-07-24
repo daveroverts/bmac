@@ -11,7 +11,8 @@ use App\{
     Http\Requests\UpdateBooking,
     Mail\BookingCancelled,
     Mail\BookingChanged,
-    Mail\BookingConfirmed
+    Mail\BookingConfirmed,
+    Mail\BookingDeleted
 };
 use Carbon\Carbon;
 use Illuminate\{
@@ -249,6 +250,7 @@ class BookingController extends Controller
         Session::flash('type', 'success');
         Session::flash('title', 'Booking deleted!');
         Session::flash('message', 'Booking has been deleted!');
+        Mail::to(Auth::user())->send(new BookingDeleted($booking->event, $booking->bookedBy));
         return redirect('/booking');
     }
 
