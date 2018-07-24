@@ -12,7 +12,7 @@
             <th>Date</th>
             <th>Start</th>
             <th>End</th>
-            <th colspan="2">Actions</th>
+            <th>Actions</th>
         </tr>
         </thead>
         @forelse($events as $event)
@@ -23,16 +23,9 @@
                 <td>{{ $event->startEvent->format('Hi') }}z</td>
                 <td>{{ $event->endEvent->format('Hi') }}z</td>
                 <td>
-                    <form action="{{ route('event.edit', $event->id) }}">
-                        <button class="btn btn-primary"><i class="fa fa-edit"></i> Edit Event</button>
-                        @csrf
-                    </form>
-                </td>
-                <td>
-                    <form action="{{ route('booking.export', $event->id) }}">
-                        <button class="btn btn-success"><i class="fa fa-edit"></i> Export data</button>
-                        @csrf
-                    </form>
+                    <a href="{{ route('event.edit',$event->id) }}" class="btn btn-primary disabled"><i class="fa fa-edit"></i> Edit Event</a>
+                    <a href="{{ route('booking.create',$event->id) }}" class="btn btn-primary"><i class="fa fa-plus"></i> Add Timeslots</a>
+                    <a href="{{ route('booking.export',$event->id) }}" class="btn btn-success"><i class="fa fa-edit"></i> Export data</a>
                 </td>
             </tr>
         @empty
