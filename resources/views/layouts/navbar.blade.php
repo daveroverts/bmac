@@ -29,6 +29,20 @@
                 <li class="nav-item">
                     <a class="nav-link" href="mailto:events@dutchvacc.nl">Contact Us</a>
                 </li>
+                @if(Auth::check() && Auth::user()->isAdmin)
+                    <li class="nav-item">
+                        <div class="dropdown">
+                            <a class="btn btn-outline-secondary text-white dropdown-toggle {{ Request::is('admin/airport') || Request::is('admin/event') ? 'active' : '' }}" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Admin
+                            </a>
+
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                <a class="dropdown-item {{ Request::is('admin/airport') ? 'active' : '' }}" href="{{ route('airport.index') }}">Airports</a>
+                                <a class="dropdown-item {{ Request::is('admin/event') ? 'active' : '' }}" href="{{ route('event.index') }}">Events</a>
+                            </div>
+                        </div>
+                    </li>
+                @endif
                 @guest
                     <li class="nav-item"><a class="nav-link" href="{{ route('login') }}">Login</a></li>
                 @else
