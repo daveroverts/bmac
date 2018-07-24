@@ -57,9 +57,7 @@ class AirportController extends Controller
             'name' => $request->name,
         ]);
         $airport->save();
-        Session::flash('type', 'success');
-        Session::flash('title', 'Done');
-        Session::flash('message', $airport->name . ' [' . $airport->icao . ' | ' . $airport->iata . '] has been added!');
+        flashMessage('success', 'Done', $airport->name . ' [' . $airport->icao . ' | ' . $airport->iata . '] has been added!');
         return redirect('admin/airport');
     }
 

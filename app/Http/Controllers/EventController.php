@@ -74,9 +74,7 @@ class EventController extends Controller
             'description' => $request->description,
         ]);
         $event->save();
-        Session::flash('type', 'success');
-        Session::flash('title', 'Done');
-        Session::flash('message', 'Event have been created!');
+        flashMessage('success', 'Done', 'Event have been created!');
         return redirect('admin/event');
     }
 

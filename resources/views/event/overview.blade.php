@@ -30,9 +30,7 @@
             </tr>
         @empty
             @php
-                Session::flash('type','info');
-                Session::flash('title','No events found');
-                Session::flash('message','No events are in the system, consider adding one, using the button above');
+                flashMessage('info', 'No events found', 'No events are in the system, consider adding one, using the button above');
             @endphp
             @include('layouts.alert')
         @endforelse
