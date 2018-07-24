@@ -243,7 +243,9 @@ class BookingController extends Controller
         $booking = Booking::findOrFail($id);
         $booking->delete();
         flashMessage('success', 'Booking deleted!', 'Booking has been deleted');
-        Mail::to(Auth::user())->send(new BookingDeleted($booking->event, $booking->bookedBy));
+        if (!empty($booking->bookedBy_id)) {
+            Mail::to(Auth::user())->send(new BookingDeleted($booking->event, $booking->bookedBy));
+        }
         return redirect('/booking');
     }
 
