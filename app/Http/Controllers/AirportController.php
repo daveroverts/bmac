@@ -6,7 +6,7 @@ use App\{
     Models\Airport, Http\Requests\StoreAirport
 };
 use Illuminate\{
-    Http\Request, Support\Facades\Session
+    Http\Request
 };
 
 class AirportController extends Controller

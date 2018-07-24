@@ -17,7 +17,7 @@ use App\{
 };
 use Carbon\Carbon;
 use Illuminate\{
-    Http\Request, Support\Facades\Auth, Support\Facades\Mail, Support\Facades\Session
+    Http\Request, Support\Facades\Auth, Support\Facades\Mail
 };
 
 class BookingController extends Controller

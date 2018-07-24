@@ -7,7 +7,7 @@ use App\{
 };
 use Carbon\Carbon;
 use Illuminate\{
-    Http\Request, Support\Facades\Session
+    Http\Request
 };
 
 class EventController extends Controller
