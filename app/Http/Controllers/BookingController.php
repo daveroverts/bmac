@@ -250,7 +250,6 @@ class BookingController extends Controller
     public function cancel($id)
     {
         $booking = Booking::findOrFail($id);
-        $event = Event::findOrFail($booking->event_id);
         if (Auth::id() == $booking->reservedBy_id || Auth::id() == $booking->bookedBy_id) {
             $booking->fill([
                 'reservedBy_id' => null,
@@ -260,7 +259,7 @@ class BookingController extends Controller
                 'selcal' => null,
             ]);
             if (Auth::id() == $booking->getOriginal('bookedBy_id')) {
-                Mail::to(Auth::user())->send(new BookingCancelled($event, Auth::user()));
+                Mail::to(Auth::user())->send(new BookingCancelled($booking->event, Auth::user()));
             }
             $booking->save();
             return redirect('/booking');
