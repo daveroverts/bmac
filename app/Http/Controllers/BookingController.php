@@ -259,8 +259,14 @@ class BookingController extends Controller
                 'selcal' => null,
             ]);
             if (Auth::id() == $booking->getOriginal('bookedBy_id')) {
+                $title = 'Booking removed!';
+                $message = 'Booking has been removed! A E-mail has also been sent';
                 Mail::to(Auth::user())->send(new BookingCancelled($booking->event, Auth::user()));
+            } else {
+                $title = 'Slot free';
+                $message = 'Slot is now free to use again';
             }
+            flashMessage('info', $title, $message);
             $booking->save();
             return redirect('/booking');
         } else {
