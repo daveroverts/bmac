@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\{
-    Airport, Event
+    Models\Airport, Models\Event
 };
 use Carbon\Carbon;
 use Illuminate\{

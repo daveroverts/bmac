@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests;
 
-use App\Booking;
+use App\Models\Booking;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateBooking extends FormRequest

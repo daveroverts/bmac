@@ -3,7 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\{
-    Airport, Booking, Event, Exports\BookingsExport, Http\Requests\AdminUpdateBooking, Http\Requests\StoreBooking, Http\Requests\UpdateBooking, Mail\BookingCancelled, Mail\BookingChanged, Mail\BookingConfirmed, Mail\BookingDeleted
+    Models\Airport,
+    Models\Booking,
+    Models\Event,
+    Exports\BookingsExport,
+    Http\Requests\AdminUpdateBooking,
+    Http\Requests\StoreBooking,
+    Http\Requests\UpdateBooking,
+    Mail\BookingCancelled,
+    Mail\BookingChanged,
+    Mail\BookingConfirmed,
+    Mail\BookingDeleted
 };
 use Carbon\Carbon;
 use Illuminate\{

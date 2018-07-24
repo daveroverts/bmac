@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\{
-    Airport, Http\Requests\StoreAirport
+    Models\Airport, Http\Requests\StoreAirport
 };
 use Illuminate\{
     Http\Request, Support\Facades\Session

@@ -2,7 +2,7 @@
 
 namespace App\Mail;
 
-use App\Booking;
+use App\Models\Booking;
 use Illuminate\{
     Bus\Queueable, Contracts\Queue\ShouldQueue, Mail\Mailable, Queue\SerializesModels, Support\Collection
 };

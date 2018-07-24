@@ -2,7 +2,7 @@
 
 namespace App\Mail;
 
-use App\{
+use App\Models\{
     Event, User
 };
 use Illuminate\{
