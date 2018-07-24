@@ -16,7 +16,7 @@ use App\{
 };
 use Carbon\Carbon;
 use Illuminate\{
-    Http\Request, Support\Facades\Auth, Support\Facades\Mail, Support\Facades\Session
+    Http\Request, Support\Collection, Support\Facades\Auth, Support\Facades\Mail, Support\Facades\Session
 };
 
 class BookingController extends Controller
@@ -40,9 +40,14 @@ class BookingController extends Controller
      */
     public function index()
     {
-        $event = Event::find(1);
-        $bookings = Booking::where('event_id', 1)->orderBy('ctot')->get();
         $this->removeOverdueReservations();
+
+        $event = Event::query()->where('endEvent', '>', Carbon::now())->orderBy('startEvent', 'asc')->first();
+        $bookings = new \Illuminate\Database\Eloquent\Collection();
+
+        if($event)
+            $bookings = Booking::where('event_id', 1)->orderBy('ctot')->get();
+
         return view('booking.overview', compact('event', 'bookings'));
     }
 
