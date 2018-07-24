@@ -249,7 +249,7 @@ class BookingController extends Controller
                 'acType' => null,
                 'selcal' => null,
             ]);
-            if (Auth::id() == $booking->bookedBy_id) {
+            if (Auth::id() == $booking->getOriginal('bookedBy_id')) {
                 Mail::to(Auth::user())->send(new BookingCancelled($event, Auth::user()));
             }
             $booking->save();
