@@ -89,11 +89,11 @@
                                         <button class="btn btn-danger">Delete</button>
                                     </form>
                                 </td>
-                                @if($booking->bookedBy)
-                                    <td>
+                                <td>
+                                    @if($booking->bookedBy)
                                         <button class="btn btn-info" href="mailto:{{ $booking->bookedBy->email }}">Send E-mail [{{ $booking->bookedBy->email }}]</button>
-                                    </td>
-                                @endif
+                                    @endif
+                                </td>
                             @endif
                         </tr>
                         @endforeach
