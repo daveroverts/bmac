@@ -3,16 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\{
-    Booking,
-    Event,
-    Exports\BookingsExport,
-    Http\Requests\AdminUpdateBooking,
-    Http\Requests\StoreBooking,
-    Http\Requests\UpdateBooking,
-    Mail\BookingCancelled,
-    Mail\BookingChanged,
-    Mail\BookingConfirmed,
-    Mail\BookingDeleted
+    Airport, Booking, Event, Exports\BookingsExport, Http\Requests\AdminUpdateBooking, Http\Requests\StoreBooking, Http\Requests\UpdateBooking, Mail\BookingCancelled, Mail\BookingChanged, Mail\BookingConfirmed, Mail\BookingDeleted
 };
 use Carbon\Carbon;
 use Illuminate\{
@@ -74,7 +65,9 @@ class BookingController extends Controller
     public function create(Request $request)
     {
         $event = Event::whereKey($request->id)->first();
-        return view('booking.create', compact('event'));
+        $airports = Airport::all();
+
+        return view('booking.create', compact('event', 'airports'));
     }
 
     /**
@@ -86,6 +79,8 @@ class BookingController extends Controller
     public function store(StoreBooking $request)
     {
         $event = Event::whereKey($request->id)->first();
+        $from = Airport::findOrFail($request->from);
+        $to = Airport::findOrFail($request->to);
         $event_start = Carbon::createFromFormat('Y-m-d H:i', $event->startEvent->toDateString() . ' ' . $request->start);
         $event_end = Carbon::createFromFormat('Y-m-d H:i', $event->endEvent->toDateString() . ' ' . $request->end);
         $separation = $request->separation;
@@ -96,8 +91,8 @@ class BookingController extends Controller
             ])->first()) {
                 Booking::create([
                     'event_id' => $request->id,
-                    'dep' => 'EHAM',
-                    'arr' => 'KBOS',
+                    'dep' => $from->icao,
+                    'arr' => $to->icao,
                     'ctot' => $event_start,
                 ])->save();
             }
@@ -289,7 +284,9 @@ class BookingController extends Controller
     public function adminEdit($id)
     {
         $booking = Booking::findOrFail($id);
-        return view('booking.admin.edit', compact('booking'));
+        $airports = Airport::all();
+
+        return view('booking.admin.edit', compact('booking', 'airports'));
     }
 
     public function adminUpdate(AdminUpdateBooking $request, $id)
@@ -298,6 +295,8 @@ class BookingController extends Controller
         $booking->fill([
             'callsign' => $request->callsign,
             'ctot' => Carbon::createFromFormat('Y-m-d H:i', $booking->event->startEvent->toDateString() . ' ' . $request->ctot),
+            'dep' => $request->ADEP,
+            'arr' => $request->ADES,
             'route' => $request->route,
             'oceanicFL' => $request->oceanicFL,
             'oceanicTrack' => $request->oceanicTrack,
