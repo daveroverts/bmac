@@ -35,7 +35,7 @@ class BookingController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
+     * Display a listing of the bookings.
      *
      * @return \Illuminate\Http\Response
      */
@@ -68,7 +68,7 @@ class BookingController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Show the form for creating new timeslots
      *
      * @return \Illuminate\Http\Response
      */
@@ -81,7 +81,7 @@ class BookingController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store new timeslots in storage.
      *
      * @param StoreBooking $request
      * @return \Illuminate\Http\Response
@@ -112,9 +112,9 @@ class BookingController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Display the specified booking.
      *
-     * @param  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -129,9 +129,9 @@ class BookingController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Show the form for editing the specified booking.
      *
-     * @param  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -178,10 +178,10 @@ class BookingController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update the specified booking in storage.
      *
      * @param UpdateBooking $request
-     * @param $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function update(UpdateBooking $request, $id)
@@ -233,9 +233,9 @@ class BookingController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Remove the specified booking from storage.
      *
-     * @param  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
@@ -249,6 +249,12 @@ class BookingController extends Controller
         return redirect('/booking');
     }
 
+    /**
+     * Sets reservedBy and bookedBy to null.
+     *
+     * @param int $id
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
     public function cancel($id)
     {
         $booking = Booking::findOrFail($id);
@@ -278,6 +284,11 @@ class BookingController extends Controller
         }
     }
 
+    /**
+     * Show the form for editing the specified booking.
+     * @param int $id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function adminEdit($id)
     {
         $booking = Booking::findOrFail($id);
@@ -286,6 +297,13 @@ class BookingController extends Controller
         return view('booking.admin.edit', compact('booking', 'airports'));
     }
 
+    /**
+     * Updates booking.
+     *
+     * @param AdminUpdateBooking $request
+     * @param $id
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
     public function adminUpdate(AdminUpdateBooking $request, $id)
     {
         $booking = Booking::find($id);
@@ -324,6 +342,12 @@ class BookingController extends Controller
         return redirect('/booking');
     }
 
+    /**
+     * Exports all active bookings to a .csv file
+     *
+     * @param int $id
+     * @return BookingsExport
+     */
     public function export($id)
     {
         return new BookingsExport($id);
