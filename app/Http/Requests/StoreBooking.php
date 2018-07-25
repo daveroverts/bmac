@@ -32,7 +32,7 @@ class StoreBooking extends FormRequest
             'to' => 'exists:airports,icao|required',
             'start' => 'date_format:H:i',
             'end' => 'date_format:H:i',
-            'separation' => 'integer|min:2',
+            'separation' => 'integer|min:1',
         ];
     }
 }
