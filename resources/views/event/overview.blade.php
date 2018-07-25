@@ -7,12 +7,12 @@
     <table class="table table-hover">
         <thead>
         <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Date</th>
-            <th>Start</th>
-            <th>End</th>
-            <th>Actions</th>
+            <th scope="row">ID</th>
+            <th scope="row">Name</th>
+            <th scope="row">Date</th>
+            <th scope="row">Start</th>
+            <th scope="row">End</th>
+            <th scope="row">Actions</th>
         </tr>
         </thead>
         @forelse($events as $event)

@@ -13,14 +13,14 @@
             <table class="table table-hover">
                 <thead>
                 <tr>
-                    <th>From</th>
-                    <th>To</th>
-                    <th>CTOT</th>
-                    <th>Callsign</th>
-                    <th>Aircraft</th>
-                    <th>Book | Available until {{ $event->endBooking->format('d-m-Y H:i') }}z</th>
+                    <th scope="row">From</th>
+                    <th scope="row">To</th>
+                    <th scope="row">CTOT</th>
+                    <th scope="row">Callsign</th>
+                    <th scope="row">Aircraft</th>
+                    <th scope="row">Book | Available until {{ $event->endBooking->format('d-m-Y H:i') }}z</th>
                     @if(Auth::check() && Auth::user()->isAdmin)
-                        <th colspan="3">Admin actions</th>
+                        <th colspan="3" scope="row">Admin actions</th>
                     @endif
                 </tr>
                 </thead>
