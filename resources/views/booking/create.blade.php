@@ -70,7 +70,7 @@
                                 <select class="form-control{{ $errors->has('to') ? ' is-invalid' : '' }}" name="to">
                                     <option value="">Choose an airport...</option>
                                     @foreach($airports as $airport)
-                                        <option {{ old('from') == $airport->icao ? 'selected' : '' }}>{{ $airport->icao }}</option>
+                                        <option {{ old('to') == $airport->icao ? 'selected' : '' }}>{{ $airport->icao }}</option>
                                     @endforeach
                                 </select>
 
