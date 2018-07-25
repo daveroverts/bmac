@@ -29,9 +29,9 @@ import brands from '@fortawesome/fontawesome-free-brands'
 fontawesome.library.add(regular, solid, brands);
 
 
-window.Vue = require('vue');
-import VueSweetalert2 from 'vue-sweetalert2';
-Vue.use(VueSweetalert2);
+// window.Vue = require('vue');
+// import VueSweetalert2 from 'vue-sweetalert2';
+// Vue.use(VueSweetalert2);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -39,8 +39,8 @@ Vue.use(VueSweetalert2);
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-Vue.component('example-component', require('./components/ExampleComponent.vue'));
-
-const app = new Vue({
-    el: '#app'
-});
+// Vue.component('example-component', require('./components/ExampleComponent.vue'));
+//
+// const app = new Vue({
+//     el: '#app'
+// });
