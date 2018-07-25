@@ -86,12 +86,16 @@
                                     <form action="{{ route('booking.destroy', $booking->id) }}" method="post">
                                         @csrf
                                         @method('DELETE')
-                                        <button class="btn btn-danger">Delete</button>
+                                        <button class="btn btn-danger"><i class="fas fa-trash"></i> Delete</button>
                                     </form>
                                 </td>
                                 <td>
                                     @if($booking->bookedBy)
-                                        <button class="btn btn-info" href="mailto:{{ $booking->bookedBy->email }}">Send E-mail [{{ $booking->bookedBy->email }}]</button>
+                                        <a href="mailto:{{ $booking->bookedBy->email }}" style="color: white;">
+                                            <button class="btn btn-info">
+                                                <i class="fas fa-envelope"></i> Send E-mail [{{ $booking->bookedBy->email }}]
+                                            </button>
+                                        </a>
                                     @endif
                                 </td>
                             @endif
