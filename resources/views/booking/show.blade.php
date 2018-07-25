@@ -75,7 +75,7 @@
 
                             <div class="col-md-6">
                                 <div class="form-control-plaintext">
-                                    <strong>{{ $booking->route ? $booking->route : 'T.B.D. / Available on day of event at 0600z' }}</strong>
+                                    <strong>{{ $booking->route ?: 'T.B.D. / Available on day of event at 0600z' }}</strong>
                                 </div>
 
                             </div>
@@ -87,7 +87,7 @@
 
                             <div class="col-md-6">
                                 <div class="form-control-plaintext">
-                                    <strong>{{ $booking->oceanicTrack ? $booking->oceanicTrack : 'T.B.D. / Available on day of event at 0600z' }}</strong>
+                                    <strong>{{ $booking->oceanicTrack ?:  'T.B.D. / Available on day of event at 0600z' }}</strong>
                                 </div>
 
                             </div>
