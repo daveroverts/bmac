@@ -89,7 +89,7 @@
                             <div class="col-md-6">
                                 <input id="start" type="time"
                                        class="form-control{{ $errors->has('start') ? ' is-invalid' : '' }}" name="start"
-                                       value="{{ old('start') }}" required autofocus>
+                                       value="{{ old('start',$event->startEvent->format('H:i')) }}" required autofocus>
 
                                 @if ($errors->has('start'))
                                     <span class="invalid-feedback">
@@ -106,7 +106,7 @@
                             <div class="col-md-6">
                                 <input id="end" type="time"
                                        class="form-control{{ $errors->has('end') ? ' is-invalid' : '' }}" name="end"
-                                       value="{{ old('end') }}" required>
+                                       value="{{ old('end',$event->endEvent->format('H:i')) }}" required>
 
                                 @if ($errors->has('end'))
                                     <span class="invalid-feedback">
