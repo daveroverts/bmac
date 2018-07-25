@@ -102,7 +102,7 @@
 
                             <div class="col-md-6">
                                 <div class="form-control-plaintext">
-                                    <b>{{ $booking->bookedBy ? $booking->bookedBy->pic : '-' }}</b></div>
+                                    <strong>{{ $booking->bookedBy ? $booking->bookedBy->pic : '-' }}</strong></div>
                             </div>
                         </div>
 
@@ -181,7 +181,7 @@
                             <label for="selcal" class="col-md-4 col-form-label text-md-right">SELCAL</label>
 
                             <div class="col-md-6">
-                                <div class="form-control-plaintext"><b>{{ $booking->selcal }}</b></div>
+                                <div class="form-control-plaintext"><strong>{{ $booking->selcal }}</strong></div>
 
                             </div>
                         </div>

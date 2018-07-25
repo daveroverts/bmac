@@ -99,7 +99,7 @@
                         @endforeach
             </table>
         @else
-            Bookings will be available at <b>{{ $event->startBooking->format('d-m-Y H:i') }}z</b>
+            Bookings will be available at <strong>{{ $event->startBooking->format('d-m-Y H:i') }}z</strong>
         @endif
     @else
         Currently no events scheduled for booking.

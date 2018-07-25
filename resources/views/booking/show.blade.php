@@ -24,7 +24,7 @@
                             <label for="callsign" class="col-md-4 col-form-label text-md-right">Callsign</label>
 
                             <div class="col-md-6">
-                                <div class="form-control-plaintext"><b>{{ $booking->callsign }}</b></div>
+                                <div class="form-control-plaintext"><strong>{{ $booking->callsign }}</strong></div>
                             </div>
                         </div>
 
@@ -33,7 +33,7 @@
                             <label for="ctot" class="col-md-4 col-form-label text-md-right"> CTOT</label>
 
                             <div class="col-md-6">
-                                <div class="form-control-plaintext"><b>{{ $booking->ctot }}</b></div>
+                                <div class="form-control-plaintext"><strong>{{ $booking->ctot }}</strong></div>
 
                             </div>
                         </div>
@@ -43,7 +43,7 @@
                             <label for="adep" class="col-md-4 col-form-label text-md-right">ADEP</label>
 
                             <div class="col-md-6">
-                                <div class="form-control-plaintext"><b>{{ $booking->dep }}</b></div>
+                                <div class="form-control-plaintext"><strong>{{ $booking->dep }}</strong></div>
 
                             </div>
                         </div>
@@ -53,7 +53,7 @@
                             <label for="ades" class="col-md-4 col-form-label text-md-right">ADES</label>
 
                             <div class="col-md-6">
-                                <div class="form-control-plaintext"><b>{{ $booking->arr }}</b></div>
+                                <div class="form-control-plaintext"><strong>{{ $booking->arr }}</strong></div>
 
                             </div>
                         </div>
@@ -64,7 +64,7 @@
 
                             <div class="col-md-6">
                                 <div class="form-control-plaintext">
-                                    <b>{{ $booking->bookedBy ? $booking->bookedBy->pic : $booking->reservedBy->pic }}</b>
+                                    <strong>{{ $booking->bookedBy ? $booking->bookedBy->pic : $booking->reservedBy->pic }}</strong>
                                 </div>
                             </div>
                         </div>
@@ -75,7 +75,7 @@
 
                             <div class="col-md-6">
                                 <div class="form-control-plaintext">
-                                    <b>{{ $booking->route ? $booking->route : 'T.B.D. / Available on day of event at 0600z' }}</b>
+                                    <strong>{{ $booking->route ? $booking->route : 'T.B.D. / Available on day of event at 0600z' }}</strong>
                                 </div>
 
                             </div>
@@ -87,7 +87,7 @@
 
                             <div class="col-md-6">
                                 <div class="form-control-plaintext">
-                                    <b>{{ $booking->oceanicTrack ? $booking->oceanicTrack : 'T.B.D. / Available on day of event at 0600z' }}</b>
+                                    <strong>{{ $booking->oceanicTrack ? $booking->oceanicTrack : 'T.B.D. / Available on day of event at 0600z' }}</strong>
                                 </div>
 
                             </div>
@@ -98,7 +98,7 @@
                             <label for="track" class="col-md-4 col-form-label text-md-right">Oceanic Entry FL</label>
 
                             <div class="col-md-6">
-                                <div class="form-control-plaintext"><b>{{ $booking->oceanicFL }}</b></div>
+                                <div class="form-control-plaintext"><strong>{{ $booking->oceanicFL }}</strong></div>
 
                             </div>
                         </div>
@@ -108,7 +108,7 @@
                             <label for="aircraft" class="col-md-4 col-form-label text-md-right">Aircraft</label>
 
                             <div class="col-md-6">
-                                <div class="form-control-plaintext"><b>{{ $booking->acType }}</b></div>
+                                <div class="form-control-plaintext"><strong>{{ $booking->acType }}</strong></div>
                             </div>
                         </div>
 
@@ -117,7 +117,7 @@
                             <label for="selcal" class="col-md-4 col-form-label text-md-right">SELCAL</label>
 
                             <div class="col-md-6">
-                                <div class="form-control-plaintext"><b>{{ $booking->selcal }}</b></div>
+                                <div class="form-control-plaintext"><strong>{{ $booking->selcal }}</strong></div>
                             </div>
                         </div>
 
