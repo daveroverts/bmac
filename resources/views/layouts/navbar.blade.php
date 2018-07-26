@@ -24,7 +24,7 @@
                                 My booking</a></li>
                     @endif
                 @endauth
-                <li class="nav-item" {{ Request::is('faq') ? 'active' : '' }}>
+                <li class="nav-item {{ Request::is('faq') ? 'active' : '' }}">
                     <a class="nav-link" href="{{ route('faq') }}">FAQ</a></li>
                 <li class="nav-item">
                     <a class="nav-link" href="mailto:events@dutchvacc.nl">Contact Us</a>
