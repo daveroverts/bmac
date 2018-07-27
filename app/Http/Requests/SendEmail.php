@@ -29,7 +29,7 @@ class SendEmail extends FormRequest
     {
         return [
             'subject' => 'bail|required:string',
-            'description' => 'required:string',
+            'message' => 'required:string',
         ];
     }
 }

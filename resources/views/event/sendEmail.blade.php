@@ -34,7 +34,7 @@
                             <div class="col-md-6">
                                 <input id="subject" type="text"
                                        class="form-control{{ $errors->has('subject') ? ' is-invalid' : '' }}" name="subject"
-                                       value="{{ old('name') }}" required autofocus>
+                                       value="{{ old('subject') }}" required autofocus>
 
                                 @if ($errors->has('subject'))
                                     <span class="invalid-feedback">
@@ -46,8 +46,8 @@
 
                         {{-- Description --}}
                         <div class="form-group row">
-                            <textarea id="description" name="description"
-                                      rows="10">{!! old(html_entity_decode('description')) !!}</textarea>
+                            <textarea id="message" name="message"
+                                      rows="10">{!! old(html_entity_decode('message')) !!}</textarea>
                         </div>
 
                         {{--Send--}}
