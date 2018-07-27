@@ -122,4 +122,14 @@ class EventController extends Controller
     {
         //
     }
+
+    public function sendEmailForm($id)
+    {
+        //
+    }
+
+    public function sendEmail()
+    {
+        //
+    }
 }
