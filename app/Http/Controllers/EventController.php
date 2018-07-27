@@ -125,7 +125,8 @@ class EventController extends Controller
 
     public function sendEmailForm($id)
     {
-        //
+        $event = Event::findOrFail($id);
+        return view('event.sendEmail', compact('event'));
     }
 
     public function sendEmail()
