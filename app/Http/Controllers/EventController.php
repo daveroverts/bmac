@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\{
-    Models\Airport, Models\Event
+    Http\Requests\SendEmail, Models\Airport, Models\Event
 };
 use Carbon\Carbon;
 use Illuminate\{
