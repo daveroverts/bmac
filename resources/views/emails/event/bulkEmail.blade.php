@@ -3,7 +3,7 @@
 
     <p>Dear <strong>{{ $user->full_name }}</strong></p>
 
-    {{ $message }}
+    {!! $message !!}
 
     <p>Regards,</p>
 
