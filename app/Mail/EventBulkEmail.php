@@ -28,15 +28,25 @@ class EventBulkEmail extends Mailable implements ShouldQueue
     public $user;
 
     /**
+     * The user instance.
+     *
+     * @var User
+     */
+    public $email;
+
+
+    /**
      * Create a new message instance.
      *
      * @param Event $event
      * @param User $user
+     * @param $email
      */
-    public function __construct(Event $event, User $user)
+    public function __construct(Event $event, User $user, $email)
     {
         $this->event = $event;
         $this->user = $user;
+        $this->email = $email;
     }
 
     /**
@@ -46,6 +56,6 @@ class EventBulkEmail extends Mailable implements ShouldQueue
      */
     public function build()
     {
-        return $this->view('view.name');
+        return $this->markdown('emails.event.bulkEmail');
     }
 }
