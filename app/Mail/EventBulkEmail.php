@@ -63,6 +63,6 @@ class EventBulkEmail extends Mailable implements ShouldQueue
      */
     public function build()
     {
-        return $this->markdown('emails.event.bulkEmail');
+        return $this->view('emails.event.bulkEmail');
     }
 }
