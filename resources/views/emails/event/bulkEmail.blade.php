@@ -1,11 +1,11 @@
 @component('mail::message')
-    <h1>{{ $subject }}</h1>
+# {{ $subject }}
 
-    <p>Dear <strong>{{ $user->full_name }}</strong></p>
+Dear **{{ $user->full_name }}**,
 
-    {!! $message !!}
+{!! $content !!}
 
-    <p>Regards,</p>
+Regards,
 
-    <p><strong>Dutch VACC</strong></p>
+**Dutch VACC**
 @endcomponent
