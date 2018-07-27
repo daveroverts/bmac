@@ -3,11 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\{
-    Models\Airport, Models\Event
+    Http\Requests\SendEmail, Mail\EventBulkEmail, Models\Airport, Models\Booking, Models\Event
 };
 use Carbon\Carbon;
 use Illuminate\{
-    Http\Request
+    Http\Request, Support\Facades\Mail
 };
 
 class EventController extends Controller
@@ -121,5 +121,26 @@ class EventController extends Controller
     public function destroy(Event $event)
     {
         //
+    }
+
+    public function sendEmailForm($id)
+    {
+        $event = Event::findOrFail($id);
+        return view('event.sendEmail', compact('event'));
+    }
+
+    public function sendEmail(SendEmail $request, $id)
+    {
+        $event = Event::find($id);
+        $bookings = Booking::where('event_id',$event->id)
+            ->whereNotNull('bookedBy_id')
+            ->get();
+        $count = 0;
+        foreach ($bookings as $booking) {
+            Mail::to($booking->bookedBy->email)->send(new EventBulkEmail($event, $booking->bookedBy, $request->subject, $request->message));
+            $count++;
+        }
+        flashMessage('success', 'Done', 'Bulk E-mail has been sent to '.$count.' people!');
+        return redirect('/admin/event');
     }
 }

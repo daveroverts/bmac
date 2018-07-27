@@ -21,6 +21,8 @@ Route::get('/logout', 'Auth\LoginController@logout')->name('logout');
 
 Route::resource('admin/airport', 'AirportController');
 
+Route::get('/admin/event/{id}/email', 'EventController@sendEmailForm')->name('event.email.form');
+Route::patch('/admin/event/{id}/email', 'EventController@sendEmail')->name('event.email');
 Route::resource('admin/event', 'EventController');
 
 Route::put('booking/{id}', 'BookingController@cancel')->name('booking.cancel');
