@@ -28,11 +28,16 @@ class EventBulkEmail extends Mailable implements ShouldQueue
     public $user;
 
     /**
-     * The user instance.
+     * The subject.
      *
-     * @var User
      */
-    public $email;
+    public $subject;
+
+    /**
+     * The message.
+     *
+     */
+    public $message;
 
 
     /**
@@ -40,13 +45,15 @@ class EventBulkEmail extends Mailable implements ShouldQueue
      *
      * @param Event $event
      * @param User $user
-     * @param $email
+     * @param $subject
+     * @param $message
      */
-    public function __construct(Event $event, User $user, $email)
+    public function __construct(Event $event, User $user, $subject, $message)
     {
         $this->event = $event;
         $this->user = $user;
-        $this->email = $email;
+        $this->subject = $subject;
+        $this->message = $message;
     }
 
     /**
