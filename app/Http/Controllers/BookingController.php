@@ -94,6 +94,7 @@ class BookingController extends Controller
         $event_start = Carbon::createFromFormat('Y-m-d H:i', $event->startEvent->toDateString() . ' ' . $request->start);
         $event_end = Carbon::createFromFormat('Y-m-d H:i', $event->endEvent->toDateString() . ' ' . $request->end);
         $separation = $request->separation;
+        $count = 0;
         for ($event_start; $event_start <= $event_end; $event_start->addMinutes($separation)) {
             if (!Booking::where([
                 'event_id' => $request->id,
@@ -105,9 +106,10 @@ class BookingController extends Controller
                     'arr' => $to->icao,
                     'ctot' => $event_start,
                 ])->save();
+                $count++;
             }
         }
-        flashMessage('success','Done','Bookings have been created!');
+        flashMessage('success','Done',$count.' Slots have been created!');
         return redirect('/booking');
     }
 
