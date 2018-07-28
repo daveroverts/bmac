@@ -50,7 +50,7 @@
                                 <select class="form-control{{ $errors->has('from') ? ' is-invalid' : '' }}" name="from">
                                     <option value="">Choose an airport...</option>
                                     @foreach($airports as $airport)
-                                        <option {{ old('from') == $airport->icao ? 'selected' : '' }}>{{ $airport->icao }} [{{ $airport->name }} ({{ $airport->iata }})]</option>
+                                        <option value="{{ $airport->icao }}" {{ old('from') == $airport->icao ? 'selected' : '' }}>{{ $airport->icao }} [{{ $airport->name }} ({{ $airport->iata }})]</option>
                                     @endforeach
                                 </select>
 
@@ -70,7 +70,7 @@
                                 <select class="form-control{{ $errors->has('to') ? ' is-invalid' : '' }}" name="to">
                                     <option value="">Choose an airport...</option>
                                     @foreach($airports as $airport)
-                                        <option {{ old('to') == $airport->icao ? 'selected' : '' }}>{{ $airport->icao }} [{{ $airport->name }} ({{ $airport->iata }})]</option>
+                                        <option value="{{ $airport->icao }}" {{ old('to') == $airport->icao ? 'selected' : '' }}>{{ $airport->icao }} [{{ $airport->name }} ({{ $airport->iata }})]</option>
                                     @endforeach
                                 </select>
 
