@@ -27,6 +27,14 @@
                         @csrf
                         @method('PATCH')
 
+                        {{--Send Final Information E-mail--}}
+                        <div class="form-group row">
+                            <label class="col-md-4 col-form-label text-md-right"></label>
+
+                            <div class="col-md-6">
+                                <a href="{{ route('event.email.final',$event->id) }}" class="btn btn-primary"><i class="fa fa-envelope"></i> Send Final Information E-mail</a>
+                            </div>
+                        </div>
                         {{--Subject--}}
                         <div class="form-group row">
                             <label for="subject" class="col-md-4 col-form-label text-md-right"> Subject</label>
