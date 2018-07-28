@@ -11,6 +11,7 @@
         "barryvdh/laravel-ide-helper": "^2.4",
         "bugsnag/bugsnag-laravel": "^2.0",
         "cviebrock/eloquent-sluggable": "4.5",
+        "doctrine/dbal": "^2.8",
         "fideloper/proxy": "^4.0",
         "laravel/framework": "5.6.*",
         "laravel/tinker": "^1.0",
