@@ -75,9 +75,10 @@ return [
         'errorlog' => [
             'driver' => 'errorlog',
             'level' => 'debug',
-            'bugsnag' => [
-                'driver' => 'bugsnag',
-            ],
+        ],
+
+        'bugsnag' => [
+            'driver' => 'bugsnag',
         ],
     ],
 
