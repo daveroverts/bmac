@@ -30,6 +30,8 @@ Route::get('/booking/{id}/create', 'BookingController@create')->name('booking.cr
 Route::get('/booking/{id}/export', 'BookingController@export')->name('booking.export');
 Route::get('/admin/booking/{id}/edit', 'BookingController@adminEdit')->name('booking.admin.edit');
 Route::patch('/admin/booking/{id}/edit', 'BookingController@adminUpdate')->name('booking.admin.update');
+Route::get('/admin/booking/{id}/autoAssign', 'BookingController@adminAutoAssignForm')->name('booking.admin.autoAssignForm');
+Route::patch('/admin/booking/{id}/autoAssign', 'BookingController@adminAutoAssign')->name('booking.admin.autoAssign');
 Route::resource('booking', 'BookingController')->except('create');
 
 Route::get('/faq', function () {

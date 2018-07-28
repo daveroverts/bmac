@@ -7,6 +7,7 @@ use App\{
     Models\Booking,
     Models\Event,
     Exports\BookingsExport,
+    Http\Requests\AdminAutoAssign,
     Http\Requests\AdminUpdateBooking,
     Http\Requests\StoreBooking,
     Http\Requests\UpdateBooking,
@@ -31,7 +32,7 @@ class BookingController extends Controller
     {
         $this->middleware('auth.isLoggedIn')->except('index');
 
-        $this->middleware('auth.isAdmin')->only(['create', 'store', 'destroy', 'adminEdit', 'adminUpdate', 'export']);
+        $this->middleware('auth.isAdmin')->only(['create', 'store', 'destroy', 'adminEdit', 'adminUpdate', 'export', 'adminAutoAssignForm', 'adminAutoAssign']);
     }
 
     /**
@@ -353,5 +354,51 @@ class BookingController extends Controller
     public function export($id)
     {
         return new BookingsExport($id);
+    }
+
+    public function adminAutoAssignForm($id)
+    {
+        $event = Event::whereKey($id)->first();
+        return view('event.admin.autoAssign', compact('event'));
+    }
+
+    public function adminAutoAssign(AdminAutoAssign $request, $id)
+    {
+        $event = Event::find($id);
+        $bookings = Booking::where('event_id',$event->id)
+            ->whereNotNull('bookedBy_id')
+            ->orderBy('ctot')
+            ->get();
+        $count = 0;
+        $flOdd = $request->maxFL;
+        $flEven = $request->minFL;
+        foreach ($bookings as $booking) {
+            $count++;
+            if ($count % 2 == 0) {
+                $booking->fill([
+                    'oceanicTrack' => $request->oceanicTrack2,
+                    'route' => $request->route2,
+                    'oceanicFL' => $flEven,
+                ]);
+                $flEven = $flEven + 10;
+                if ($flEven > $request->maxFL) {
+                    $flEven = $request->minFL;
+                }
+            } else {
+                $booking->fill([
+                    'oceanicTrack' => $request->oceanicTrack1,
+                    'route' => $request->route1,
+                    'oceanicFL' => $flOdd,
+                ]);
+                $flOdd = $flOdd - 10;
+                if ($flOdd < $request->minFL) {
+                    $flOdd = $request->maxFL;
+                }
+            }
+            $booking->save();
+
+        }
+        flashMessage('success', 'Bookings changed', $count. ' Bookings have been Auto-Assigned a FL, and route');
+        return redirect('/admin/event');
     }
 }
