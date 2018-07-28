@@ -9,7 +9,7 @@ Before flying in the event, we would advise that you re-read the pilot briefings
 
 **YOUR ROUTE IS INCLUDED IN THIS EMAIL.**
 
-A list of top tips have been compiled and included in this email; by following the advice given in these tips it will help to make CTP an enjoyable event for everyone!
+A list of top tips have been compiled and included in this email; by following the advice given in these tips it will help to make **{{ $booking->event->name }}** an enjoyable event for everyone!
 
 ---
 TOP TIPS
@@ -45,11 +45,11 @@ INFORMATION - ENROUTE/OCEANIC
 
 For information on Oceanic operating procedures, you need to visit [https://www.virtualnorwegian.net/oceanic/](https://www.virtualnorwegian.net/oceanic/)
 
-When making calls to Gander/Oceanic be sure to include all the required information. the controllers will not have time to keep asking you for the pieces of information, so ensure you know everything you need to tell them in your clearance request and position reports.
+When making calls to Gander/Oceanic be sure to include all the required information. The controllers will not have time to keep asking you for the pieces of information, so ensure you know everything you need to tell them in your clearance request and position reports.
 
 Remember that all times given during oceanic procedures are zulu time,therefore ensure your flightsim clock is as close to this as possible.
 
-It is highly recommended that you download, print off, complete and use the Oceanic Clearance/Position Report helpsheet, available at: [https://ctp.vatsim.net/system/view/includes/Transatlantic_Radio_Operations_Checksheet.pdf](https://ctp.vatsim.net/system/view/includes/Transatlantic_Radio_Operations_Checksheet.pdf)
+It is highly recommended that you download, print, complete and use the Oceanic Clearance/Position Report helpsheet, available at: [https://ctp.vatsim.net/system/view/includes/Transatlantic_Radio_Operations_Checksheet.pdf](https://ctp.vatsim.net/system/view/includes/Transatlantic_Radio_Operations_Checksheet.pdf)
 
 ---
 BOOKING - DETAILS
@@ -61,23 +61,23 @@ SELCAL: **{{ $booking->selcal }}**
 
 It is important you stick to these details to save confusion on the day! We will try to make sure you will be able to use this callsign. Do not worry if someone else has already logged in using your callsign, your booking will still be recognized when you log in under another callsign!
 
-Departure point: **{{ $booking->dep  }}**
+Departure airport: **{{ $booking->dep  }}**
+
+Arrival airport: **{{ $booking->arr }}**
 
 CTOT: **{{ $booking->ctot }}**
 
-Cruising: **{{ $booking->oceanicFL }}**
+Full Route: **{{ $booking->route }}**
 
-Arrives: **{{ $booking->arr }}**
+Oceanic Entry Level: **{{ $booking->oceanicFL }}**
 
 NAT Track: **{{ $booking->oceanicTrack }}**
 
 NAT TMI: **{{ $booking->event->startEvent->dayOfYear }}**
 
-Full Route: **{{ $booking->route }}**
-
 ---
 
-These details are now viewable on the booking details page within the pilot area on the [Dutch VACC website](https://www.dutchvacc.nl/).
+These details are now accessible on the booking details page within the pilot area on the [Dutch VACC website](https://booking.dutchvacc.nl/).
 
 We would also like to encourage you to take screenshots, videos, recordings of communications, etc. throughout your journey. Tweet to our Twitter account [@DutchVACC](https://twitter.com/DutchVACC) to stay involved - we'll be manning it all day and retweeting your input!
 
