@@ -2,11 +2,13 @@
 
 namespace App\Exports;
 
-use Illuminate\Contracts\Support\Responsable;
 use App\Models\Booking;
-use Illuminate\Contracts\View\View;
-use Maatwebsite\Excel\Concerns\FromView;
-use Maatwebsite\Excel\Concerns\Exportable;
+use Illuminate\{
+    Contracts\Support\Responsable, Contracts\View\View
+};
+use Maatwebsite\Excel\Concerns\{
+    Exportable, FromView
+};
 
 
 class BookingsExport implements FromView, Responsable
