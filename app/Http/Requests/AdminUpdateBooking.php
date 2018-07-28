@@ -2,9 +2,7 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\{
-    Foundation\Http\FormRequest, Support\Facades\Auth
-};
+use Illuminate\Foundation\Http\FormRequest;
 
 class AdminUpdateBooking extends FormRequest
 {
@@ -15,9 +13,7 @@ class AdminUpdateBooking extends FormRequest
      */
     public function authorize()
     {
-        if (Auth::check() && Auth::user()->isAdmin) {
-            return true;
-        } else return false;
+        return true;
     }
 
     /**
