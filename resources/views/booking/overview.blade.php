@@ -77,7 +77,7 @@
                                 @endif
                             </td>
                             @if(Auth::check() && Auth::user()->isAdmin)
-                                <td><a href="{{ route('booking.admin.edit', $booking->id) }}" class="btn btn-info">Edit</a>
+                                <td><a href="{{ route('booking.admin.edit', $booking->id) }}" class="btn btn-info"><i class="fa fa-edit"></i> Edit</a>
                                 </td>
                                 <td>
                                     <form action="{{ route('booking.destroy', $booking->id) }}" method="post">
