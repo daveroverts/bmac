@@ -15,9 +15,7 @@ class SendEmail extends FormRequest
      */
     public function authorize()
     {
-        if (Auth::check() && Auth::user()->isAdmin) {
-            return true;
-        } else return false;
+        return true;
     }
 
     /**
