@@ -69,7 +69,7 @@ CTOT: **{{ $booking->ctot }}**
 
 Full Route: **{{ $booking->route }}**
 
-Oceanic Entry Level: **{{ $booking->oceanicFL }}**
+Oceanic Entry Level: **FL{{ $booking->getOriginal('oceanicFL') }}**
 
 NAT Track: **{{ $booking->oceanicTrack }}**
 
