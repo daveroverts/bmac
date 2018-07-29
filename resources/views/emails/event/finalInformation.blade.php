@@ -5,11 +5,11 @@ Dear **{{ $booking->bookedBy->full_name }}**,
 
 This email serves as confirmation of your booking and route for **{{ $booking->event->name }}**.
 
-Before flying in the event, we would advise that you re-read the pilot briefings to ensure that you have all the relevant information about the event.
+Before participating in the event, we advise you re-read the pilot briefings to ensure you have all the required knowledge about the event.
 
 **YOUR ROUTE IS INCLUDED IN THIS EMAIL.**
 
-A list of top tips have been compiled and included in this email; by following the advice given in these tips it will help to make **{{ $booking->event->name }}** an enjoyable event for everyone!
+A list of top tips has been compiled and included in this email; by following the advice given in these tips it will help to make **{{ $booking->event->name }}** an enjoyable event for everyone!
 
 ---
 TOP TIPS
@@ -31,25 +31,48 @@ A: Download the [Transatlantic Operations Checklist (click here)](https://ctp.va
 INFORMATION - DEPARTURE
 ---
 ---
-Important information about your departure airport can be found at: [Schiphol Pilot Briefing](https://www.dutchvacc.nl/index.php?option=com_content&view=article&id=149&Itemid=149)
+The controllers at Amsterdam are provided with a tool that allows them to prioritize departures based on whether or not your flight is booked, your CTOT and the distance you’ll have to taxi. Using these values a TSAT (targeted start-up approval time) will be calculated which the planner will use to get you pushed back and on your way at the right time.
+
+We advise you to be online 35 minutes prior to your CTOT and request your clearance shortly thereafter.
+
+A live overview of free stands can be found [here](http://scripts.dutchvacc.nl/aipcharts.php?airport=eham).
+
+Important information about your departure airport can be found at:
+- [Pilot Briefing](https://www.dutchvacc.nl/index.php?option=com_content&view=article&id=149&Itemid=149)
+- [Charts](http://scripts.dutchvacc.nl/aipcharts.php?airport=eham)
 
 ---
 INFORMATION - ARRIVAL
 ---
 ---
-Important information about your arrival airport can be found at: [Boston Pilot Briefing](http://www.bvartcc.com/)
+
+Boston ARTCC will issue "descend via" instructions for aircraft on STAR arrival procedures. When given "descend via", you are cleared to follow the published altitude restrictions on the STAR. Otherwise, you must remain at your last cleared altitude.
+
+Ensure the assigned runway matches with your FMS route. Regardless of "descend via", published speed restrictions are always mandatory.
+
+When you check in on a new frequency while “descending via”, you are required to state the arrival and runway (if any) when you check in: "Boston Approach, KLM391, 17,500, descending via the OOSHN5 arrival, Runway 22L, with information Kilo".
+
+Important information about your arrival airport can be found at:
+
+- [Pilot Briefing](http://www.bvartcc.com/LTA)
+- [Charts](https://www.airnav.com/airport/KBOS)
+
 
 ---
 INFORMATION - ENROUTE/OCEANIC
 ---
 
-For information on Oceanic operating procedures, you need to visit [https://www.virtualnorwegian.net/oceanic/](https://www.virtualnorwegian.net/oceanic/)
+
 
 When making calls to Gander/Oceanic be sure to include all the required information. The controllers will not have time to keep asking you for the pieces of information, so ensure you know everything you need to tell them in your clearance request and position reports.
 
 Remember that all times given during oceanic procedures are zulu time,therefore ensure your flightsim clock is as close to this as possible.
 
-It is highly recommended that you download, print, complete and use the Oceanic Clearance/Position Report helpsheet, available at: [https://ctp.vatsim.net/system/view/includes/Transatlantic_Radio_Operations_Checksheet.pdf](https://ctp.vatsim.net/system/view/includes/Transatlantic_Radio_Operations_Checksheet.pdf)
+Important information about oceanic procedures can be found at:
+
+- [Oceanic Operating Procedures](https://www.virtualnorwegian.net/oceanic/)
+- [Oceanic Radio Checklist](https://ctp.vatsim.net/system/view/includes/Transatlantic_Radio_Operations_Checksheet.pdf)
+
 
 ---
 BOOKING - DETAILS
@@ -73,7 +96,7 @@ Oceanic Entry Level: **FL{{ $booking->getOriginal('oceanicFL') }}**
 
 NAT Track: **{{ $booking->oceanicTrack }}**
 
-NAT TMI: **{{ $booking->event->startEvent->dayOfYear }}**
+NAT TMI: **{{ $booking->event->startEvent->dayOfYear + 1 }}**
 
 ---
 
