@@ -172,10 +172,23 @@ class BookingController extends Controller
                 return redirect('/booking');
             } // Reserve booking, and redirect to booking.edit
             else {
-                $booking->reservedBy_id = Auth::id();
-                $booking->save();
-                flashMessage('info', 'Slot reserved', 'Will remain reserved until ' . $booking->updated_at->addMinutes(10)->format('Hi') . 'z');
-                return view('booking.edit', compact('booking', 'user'));
+                // Check if you are allowed to reserve the slot
+                if ($booking->event->startBooking < now()) {
+                    if ($booking->event->endBooking > now()) {
+                        $booking->reservedBy_id = Auth::id();
+                        $booking->save();
+                        flashMessage('info', 'Slot reserved', 'Will remain reserved until ' . $booking->updated_at->addMinutes(10)->format('Hi') . 'z');
+                        return view('booking.edit', compact('booking', 'user'));
+                    }
+                    else {
+                        flashMessage('danger', 'Nope!', 'Bookings have been closed at ' . $booking->event->endBooking->format('d-m-Y Hi') . 'z');
+                        return redirect('/booking');
+                    }
+                }
+                else {
+                    flashMessage('danger', 'Nope!', 'Bookings aren\'t open yet. They will open at ' . $booking->event->startBooking->format('d-m-Y Hi') . 'z');
+                    return redirect('/booking');
+                }
             }
         }
     }
@@ -262,24 +275,28 @@ class BookingController extends Controller
     {
         $booking = Booking::findOrFail($id);
         if (Auth::id() == $booking->reservedBy_id || Auth::id() == $booking->bookedBy_id) {
-            $booking->fill([
-                'reservedBy_id' => null,
-                'bookedBy_id' => null,
-                'callsign' => null,
-                'acType' => null,
-                'selcal' => null,
-            ]);
-            if (Auth::id() == $booking->getOriginal('bookedBy_id')) {
-                $title = 'Booking removed!';
-                $message = 'Booking has been removed! A E-mail has also been sent';
-                Mail::to(Auth::user())->send(new BookingCancelled($booking->event, Auth::user()));
-            } else {
-                $title = 'Slot free';
-                $message = 'Slot is now free to use again';
+            if ($booking->event->endBooking > now()) {
+                $booking->fill([
+                    'reservedBy_id' => null,
+                    'bookedBy_id' => null,
+                    'callsign' => null,
+                    'acType' => null,
+                    'selcal' => null,
+                ]);
+                if (Auth::id() == $booking->getOriginal('bookedBy_id')) {
+                    $title = 'Booking removed!';
+                    $message = 'Booking has been removed! A E-mail has also been sent';
+                    Mail::to(Auth::user())->send(new BookingCancelled($booking->event, Auth::user()));
+                } else {
+                    $title = 'Slot free';
+                    $message = 'Slot is now free to use again';
+                }
+                flashMessage('info', $title, $message);
+                $booking->save();
+                return redirect('/booking');
             }
-            flashMessage('info', $title, $message);
-            $booking->save();
-            return redirect('/booking');
+            flashMessage('danger', 'Nope!', 'Bookings have been locked at ' . $booking->event->endBooking->format('d-m-Y Hi') . 'z');
+
         } else {
             // We got a bad-ass over here, log that person out
             Auth::logout();
