@@ -2,7 +2,8 @@
 
 @section('content')
     @if (count($errors) > 0)
-        <div class="alert alert-danger">
+        <div class="alert alert-dismissible alert-danger">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
             <ul>
                 @foreach ($errors->all() as $error)
                     <li>{{ $error }}</li>
@@ -41,6 +42,46 @@
                             </div>
                         </div>
 
+                        {{--From--}}
+                        <div class="form-group row">
+                            <label for="end" class="col-md-4 col-form-label text-md-right"> From</label>
+
+                            <div class="col-md-6">
+                                <select class="form-control{{ $errors->has('from') ? ' is-invalid' : '' }}" name="from">
+                                    <option value="">Choose an airport...</option>
+                                    @foreach($airports as $airport)
+                                        <option value="{{ $airport->icao }}" {{ old('from') == $airport->icao ? 'selected' : '' }}>{{ $airport->icao }} [{{ $airport->name }} ({{ $airport->iata }})]</option>
+                                    @endforeach
+                                </select>
+
+                                @if ($errors->has('from'))
+                                    <span class="invalid-feedback">
+                                        <strong>{{ $errors->first('from') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
+                        {{--To--}}
+                        <div class="form-group row">
+                            <label for="end" class="col-md-4 col-form-label text-md-right"> To</label>
+
+                            <div class="col-md-6">
+                                <select class="form-control{{ $errors->has('to') ? ' is-invalid' : '' }}" name="to">
+                                    <option value="">Choose an airport...</option>
+                                    @foreach($airports as $airport)
+                                        <option value="{{ $airport->icao }}" {{ old('to') == $airport->icao ? 'selected' : '' }}>{{ $airport->icao }} [{{ $airport->name }} ({{ $airport->iata }})]</option>
+                                    @endforeach
+                                </select>
+
+                                @if ($errors->has('to'))
+                                    <span class="invalid-feedback">
+                                        <strong>{{ $errors->first('to') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
                         {{--Start--}}
                         <div class="form-group row">
                             <label for="start" class="col-md-4 col-form-label text-md-right"> Start</label>
@@ -48,7 +89,7 @@
                             <div class="col-md-6">
                                 <input id="start" type="time"
                                        class="form-control{{ $errors->has('start') ? ' is-invalid' : '' }}" name="start"
-                                       value="{{ old('start') }}" required autofocus>
+                                       value="{{ old('start',$event->startEvent->format('H:i')) }}" required autofocus>
 
                                 @if ($errors->has('start'))
                                     <span class="invalid-feedback">
@@ -65,7 +106,7 @@
                             <div class="col-md-6">
                                 <input id="end" type="time"
                                        class="form-control{{ $errors->has('end') ? ' is-invalid' : '' }}" name="end"
-                                       value="{{ old('end') }}" required>
+                                       value="{{ old('end',$event->endEvent->format('H:i')) }}" required>
 
                                 @if ($errors->has('end'))
                                     <span class="invalid-feedback">
@@ -75,7 +116,7 @@
                             </div>
                         </div>
 
-                        {{--Start--}}
+                        {{--Separation--}}
                         <div class="form-group row">
                             <label for="separation" class="col-md-4 col-form-label text-md-right"> Separation (in
                                 minutes)</label>
@@ -83,7 +124,7 @@
                             <div class="col-md-6">
                                 <input id="separation" type="number"
                                        class="form-control{{ $errors->has('separation') ? ' is-invalid' : '' }}"
-                                       name="separation" value="{{ old('separation') }}" required min="2">
+                                       name="separation" value="{{ old('separation',2) }}" required min="1">
 
                                 @if ($errors->has('separation'))
                                     <span class="invalid-feedback">
@@ -97,7 +138,7 @@
                         <div class="form-group row mb-0">
                             <div class="col-md-6 offset-md-4">
                                 <button type="submit" class="btn btn-primary">
-                                    Add Timeslots
+                                    <i class="fas fa-check"></i> Add Timeslots
                                 </button>
                             </div>
                         </div>

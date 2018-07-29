@@ -2,9 +2,11 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\{
+    Foundation\Http\FormRequest, Support\Facades\Auth
+};
 
-class StoreBooking extends FormRequest
+class SendEmail extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,11 +26,8 @@ class StoreBooking extends FormRequest
     public function rules()
     {
         return [
-            'from' => 'exists:airports,icao|different:to|required',
-            'to' => 'exists:airports,icao|required',
-            'start' => 'date_format:H:i',
-            'end' => 'date_format:H:i',
-            'separation' => 'integer|min:1',
+            'subject' => 'bail|required:string',
+            'message' => 'required:string',
         ];
     }
 }

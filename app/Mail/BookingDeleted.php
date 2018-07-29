@@ -9,7 +9,7 @@ use Illuminate\{
     Bus\Queueable, Contracts\Queue\ShouldQueue, Mail\Mailable, Queue\SerializesModels
 };
 
-class EventFeedback extends Mailable implements ShouldQueue
+class BookingDeleted extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels;
 
@@ -46,6 +46,6 @@ class EventFeedback extends Mailable implements ShouldQueue
      */
     public function build()
     {
-        return $this->markdown('emails.event.feedback');
+        return $this->markdown('emails.booking.deleted');
     }
 }

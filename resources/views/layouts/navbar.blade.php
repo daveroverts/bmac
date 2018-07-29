@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-md navbar-light navbar-laravel">
+<nav class="navbar navbar-expand-md navbar-dark navbar-laravel">
     <div class="container">
         <a class="navbar-brand" href="{{ url('/') }}">
             <img src="{{ asset('images/DV-Logo3-icon.png') }}" width="40">
@@ -24,11 +24,25 @@
                                 My booking</a></li>
                     @endif
                 @endauth
-                <li class="nav-item" {{ Request::is('faq') ? 'active' : '' }}>
+                <li class="nav-item {{ Request::is('faq') ? 'active' : '' }}">
                     <a class="nav-link" href="{{ route('faq') }}">FAQ</a></li>
                 <li class="nav-item">
                     <a class="nav-link" href="mailto:events@dutchvacc.nl">Contact Us</a>
                 </li>
+                @if(Auth::check() && Auth::user()->isAdmin)
+                    <li class="nav-item">
+                        <div class="dropdown">
+                            <a class="btn btn-outline-secondary text-white dropdown-toggle {{ Request::is('admin/airport') || Request::is('admin/event') ? 'active' : '' }}" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Admin
+                            </a>
+
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                <a class="dropdown-item {{ Request::is('admin/airport') ? 'active' : '' }}" href="{{ route('airport.index') }}">Airports</a>
+                                <a class="dropdown-item {{ Request::is('admin/event') ? 'active' : '' }}" href="{{ route('event.index') }}">Events</a>
+                            </div>
+                        </div>
+                    </li>
+                @endif
                 @guest
                     <li class="nav-item"><a class="nav-link" href="{{ route('login') }}">Login</a></li>
                 @else

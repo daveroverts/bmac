@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\{
-    Http\Controllers\Controller, User
+    Http\Controllers\Controller, Models\User
 };
 use Faker\Factory as Faker;
 use Illuminate\{

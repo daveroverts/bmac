@@ -21,9 +21,7 @@ class IsLoggedIn
         if (Auth::check()) {
             return $next($request);
         }
-        Session::flash('type', 'danger');
-        Session::flash('title', 'Nope');
-        Session::flash('message', 'You need to be logged in before you can do that');
+        flashMessage('danger', 'Nope', 'You need to be logged in before you can do that');
         return redirect()->back();
     }
 }

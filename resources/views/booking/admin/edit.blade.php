@@ -28,7 +28,7 @@
                             <div class="col-md-6">
                                 <input id="callsign" type="text"
                                        class="form-control{{ $errors->has('callsign') ? ' is-invalid' : '' }}"
-                                       name="callsign" value="{{ $booking->callsign }}" required autofocus max="7">
+                                       name="callsign" value="{{ old('callsign',$booking->callsign) }}" autofocus max="7">
 
                                 @if ($errors->has('callsign'))
                                     <span class="invalid-feedback">
@@ -58,21 +58,41 @@
 
                         {{--ADEP--}}
                         <div class="form-group row">
-                            <label for="adep" class="col-md-4 col-form-label text-md-right">ADEP</label>
+                            <label for="end" class="col-md-4 col-form-label text-md-right"> ADEP</label>
 
                             <div class="col-md-6">
-                                <div class="form-control-plaintext"><b>{{ $booking->dep }}</b></div>
+                                <select class="form-control{{ $errors->has('ADEP') ? ' is-invalid' : '' }}" name="ADEP">
+                                    <option value="">Choose an airport...</option>
+                                    @foreach($airports as $airport)
+                                        <option value="{{ $airport->icao }}" {{ old('ADEP', $booking->dep) == $airport->icao ? 'selected' : '' }}>{{ $airport->icao }} [{{ $airport->name }} ({{ $airport->iata }})]</option>
+                                    @endforeach
+                                </select>
 
+                                @if ($errors->has('ADEP'))
+                                    <span class="invalid-feedback">
+                                        <strong>{{ $errors->first('ADEP') }}</strong>
+                                    </span>
+                                @endif
                             </div>
                         </div>
 
                         {{--ADES--}}
                         <div class="form-group row">
-                            <label for="ades" class="col-md-4 col-form-label text-md-right">ADES</label>
+                            <label for="end" class="col-md-4 col-form-label text-md-right"> ADES</label>
 
                             <div class="col-md-6">
-                                <div class="form-control-plaintext"><b>{{ $booking->arr }}</b></div>
+                                <select class="form-control{{ $errors->has('ADES') ? ' is-invalid' : '' }}" name="ADES">
+                                    <option value="">Choose an airport...</option>
+                                    @foreach($airports as $airport)
+                                        <option value="{{ $airport->icao }}" {{ old('ADES', $booking->arr) == $airport->icao ? 'selected' : '' }}>{{ $airport->icao }} [{{ $airport->name }} ({{ $airport->iata }})]</option>
+                                    @endforeach
+                                </select>
 
+                                @if ($errors->has('ADES'))
+                                    <span class="invalid-feedback">
+                                        <strong>{{ $errors->first('ADES') }}</strong>
+                                    </span>
+                                @endif
                             </div>
                         </div>
 
@@ -82,7 +102,7 @@
 
                             <div class="col-md-6">
                                 <div class="form-control-plaintext">
-                                    <b>{{ $booking->bookedBy ? $booking->bookedBy->pic : '-' }}</b></div>
+                                    <strong>{{ $booking->bookedBy ? $booking->bookedBy->pic : '-' }}</strong></div>
                             </div>
                         </div>
 
@@ -146,7 +166,7 @@
                             <div class="col-md-6">
                                 <input id="aircraft" type="text"
                                        class="form-control{{ $errors->has('aircraft') ? ' is-invalid' : '' }}"
-                                       name="aircraft" value="{{ $booking->acType }}" required min="3" max="4">
+                                       name="aircraft" value="{{ old('aircraft', $booking->acType) }}" min="3" max="4">
 
                                 @if ($errors->has('aircraft'))
                                     <span class="invalid-feedback">
@@ -161,7 +181,7 @@
                             <label for="selcal" class="col-md-4 col-form-label text-md-right">SELCAL</label>
 
                             <div class="col-md-6">
-                                <div class="form-control-plaintext"><b>{{ $booking->selcal }}</b></div>
+                                <div class="form-control-plaintext"><strong>{{ $booking->selcal }}</strong></div>
 
                             </div>
                         </div>
@@ -186,7 +206,7 @@
                         <div class="form-group row mb-0">
                             <div class="col-md-6 offset-md-4">
                                 <button type="submit" class="btn btn-primary">
-                                    Update
+                                    <i class="fas fa-check"></i> Update
                                 </button>
                             </div>
                         </div>

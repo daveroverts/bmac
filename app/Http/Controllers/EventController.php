@@ -3,11 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\{
-    Airport, Event
+    Http\Requests\SendEmail, Mail\EventBulkEmail, Mail\EventFinalInformation, Models\Airport, Models\Booking, Models\Event
 };
 use Carbon\Carbon;
 use Illuminate\{
-    Http\Request, Support\Facades\Session
+    Http\Request, Support\Facades\Mail
 };
 
 class EventController extends Controller
@@ -74,9 +74,7 @@ class EventController extends Controller
             'description' => $request->description,
         ]);
         $event->save();
-        Session::flash('type', 'success');
-        Session::flash('title', 'Done');
-        Session::flash('message', 'Event have been created!');
+        flashMessage('success', 'Done', 'Event have been created!');
         return redirect('admin/event');
     }
 
@@ -123,5 +121,39 @@ class EventController extends Controller
     public function destroy(Event $event)
     {
         //
+    }
+
+    public function sendEmailForm($id)
+    {
+        $event = Event::findOrFail($id);
+        return view('event.sendEmail', compact('event'));
+    }
+
+    public function sendEmail(SendEmail $request, $id)
+    {
+        $event = Event::find($id);
+        $bookings = Booking::where('event_id',$event->id)
+            ->whereNotNull('bookedBy_id')
+            ->get();
+        $count = 0;
+        foreach ($bookings as $booking) {
+            Mail::to($booking->bookedBy->email)->send(new EventBulkEmail($event, $booking->bookedBy, $request->subject, $request->message));
+            $count++;
+        }
+        flashMessage('success', 'Done', 'Bulk E-mail has been sent to '.$count.' people!');
+        return redirect('/admin/event');
+    }
+
+    public function sendFinalInformationMail($id){
+        $bookings = Booking::where('event_id',$id)
+            ->whereNotNull('bookedBy_id')
+            ->get();
+        $count = 0;
+        foreach ($bookings as $booking) {
+            Mail::to($booking->bookedBy->email)->send(new EventFinalInformation($booking));
+            $count++;
+        }
+        flashMessage('success', 'Done', 'Final Information has been sent to '.$count.' people!');
+        return redirect('/admin/event');
     }
 }
