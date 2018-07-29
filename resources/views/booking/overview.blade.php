@@ -51,7 +51,7 @@
                                             booking</a>
                                     @else
                                         <button class="btn btn-dark disabled">
-                                            Booked {{Auth::check() && Auth::user()->isAdmin ? '['.$booking->bookedBy->pic.']' : ''}}</button>
+                                            Booked [{{ $booking->bookedBy->pic }}]</button>
                                     @endif
 
                                 @elseif(isset($booking->reservedBy_id))
