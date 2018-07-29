@@ -65,14 +65,21 @@
                                             Reserved {{Auth::check() && Auth::user()->isAdmin ? '['.$booking->reservedBy->pic .']' : ''}}</button>
                                     @endif
                                 @else
-                                    @if(Auth::check() && $booking->event->endBooking > \Carbon\Carbon::now() && !Auth::user()->booked()->where('event_id',$event->id)->first())
-                                        {{--Check if user is logged in to generate a clickable link--}}
-                                        <a href="{{ route('booking.edit',$booking->id) }}">
+                                    @if(Auth::check())
+                                        {{--Check if user is logged in--}}
+                                        @if(!Auth::user()->booked()->where('event_id',$event->id)->first())
+                                            {{--Check if user already has a booking--}}
+                                            @if($booking->event->startBooking < now() && $booking->event->endBooking > now())
+                                                {{--Check if current date is between startBooking and endBooking--}}
+                                                <a href="{{ route('booking.edit', $booking->id) }}" class="btn btn-success">BOOK NOW</a>
+                                            @else
+                                                <button class="btn btn-danger">Not available</button>
                                             @endif
-                                            <a href="{{ route('booking.edit', $booking->id) }}" class="btn btn-success">BOOK
-                                                NOW</a>
-                                            @if(Auth::check() && $booking->event->endBooking > \Carbon\Carbon::now() && !Auth::user()->booked()->where('event_id',$event->id)->first())
-                                        </a>
+                                        @else
+                                            <button class="btn btn-danger">You already have a booking</button>
+                                        @endif
+                                    @else
+                                        <a href="{{ route('login') }}" class="btn btn-info">Click here to login</a>
                                     @endif
                                 @endif
                             </td>
