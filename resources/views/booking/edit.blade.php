@@ -150,12 +150,10 @@
                         {{--Study--}}
                         <div class="form-group row">
                             <div class="col-md-8 offset-md-3">
-                                <div class="checkbox">
-                                    <label>
-                                        <input type="hidden" name="checkStudy" value="0">
-                                        <input type="checkbox" name="checkStudy"> I agree to study the provided briefing
-                                        material
-                                    </label>
+                                <div class="custom-control custom-checkbox">
+                                    <input type="hidden" name="checkStudy" value="0">
+                                    <input class="custom-control-input" id="checkStudy" type="checkbox" name="checkStudy" value="1">
+                                    <label class="custom-control-label" for="checkStudy">I agree to study the provided briefing material</label>
                                 </div>
                             </div>
                         </div>
@@ -163,12 +161,10 @@
                         {{--Charts--}}
                         <div class="form-group row">
                             <div class="col-md-8 offset-md-3">
-                                <div class="checkbox">
-                                    <label>
-                                        <input type="hidden" name="checkCharts" value="0">
-                                        <input type="checkbox" name="checkCharts" value="1"> I agree to have the
-                                        applicable charts at hand during the event
-                                    </label>
+                                <div class="custom-control custom-checkbox">
+                                    <input type="hidden" name="checkCharts" value="0">
+                                    <input class="custom-control-input" id="checkCharts" type="checkbox" name="checkCharts" value="1">
+                                    <label class="custom-control-label" for="checkCharts">I agree to have the applicable charts at hand during the event</label>
                                 </div>
                             </div>
                         </div>
