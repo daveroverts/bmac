@@ -11,7 +11,7 @@ cache:
   key: pragmarx-version
   time: 525600 #minutes = 1 year
 build:
-  mode: number # "number", "git-local" or "git-remote"
+  mode: git-local # "number", "git-local" or "git-remote"
   number: 701031
   length: 6
   increment_by: 1
