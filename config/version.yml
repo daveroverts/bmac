@@ -22,7 +22,7 @@ git:
   branch: "refs/heads/master"
   repository: "{{ env('VERSION_GIT_REMOTE_REPOSITORY') }}"
   version:
-    git-local: "git describe"
+    git-local: "git describe --tags $(git rev-list --tags --max-count=1)"
     git-remote: "git ls-remote {$repository} | grep tags/ | grep -v {} | cut -d \/ -f 3 | sort --version-sort | tail -1"
     matcher: "/[V|v]*[ersion]*\\s*\\.*(\\d+)\\.(\\d+)\\.(\\d+)\\.*(\\w*)/"
 format:
