@@ -47,7 +47,7 @@
                                 @if(isset($booking->bookedBy_id))
                                     {{--Check if booking has been booked by current user--}}
                                     @if(Auth::check() && $booking->bookedBy_id == Auth::id())
-                                        <a href="{{ route('booking.show',$booking->id) }}" class="btn btn-info">My
+                                        <a href="{{ route('booking.show',$booking) }}" class="btn btn-info">My
                                             booking</a>
                                     @else
                                         <button class="btn btn-dark disabled">
@@ -58,7 +58,7 @@
                                     {{--Check if a booking has been reserved--}}
                                     @if(Auth::check() && $booking->reservedBy_id == Auth::id())
                                         {{--Check if a booking has been reserved by current user--}}
-                                        <a href="{{ route('booking.edit',$booking->id) }}" class="btn btn-info">My
+                                        <a href="{{ route('booking.edit',$booking) }}" class="btn btn-info">My
                                             Reservation</a>
                                     @else
                                         <button class="btn btn-dark disabled">
@@ -71,7 +71,7 @@
                                             {{--Check if user already has a booking--}}
                                             @if($booking->event->startBooking < now() && $booking->event->endBooking > now())
                                                 {{--Check if current date is between startBooking and endBooking--}}
-                                                <a href="{{ route('booking.edit', $booking->id) }}" class="btn btn-success">BOOK NOW</a>
+                                                <a href="{{ route('booking.edit', $booking) }}" class="btn btn-success">BOOK NOW</a>
                                             @else
                                                 <button class="btn btn-danger">Not available</button>
                                             @endif
@@ -84,10 +84,10 @@
                                 @endif
                             </td>
                             @if(Auth::check() && Auth::user()->isAdmin)
-                                <td><a href="{{ route('booking.admin.edit', $booking->id) }}" class="btn btn-info"><i class="fa fa-edit"></i> Edit</a>
+                                <td><a href="{{ route('booking.admin.edit', $booking) }}" class="btn btn-info"><i class="fa fa-edit"></i> Edit</a>
                                 </td>
                                 <td>
-                                    <form action="{{ route('booking.destroy', $booking->id) }}" method="post">
+                                    <form action="{{ route('booking.destroy', $booking) }}" method="post">
                                         @csrf
                                         @method('DELETE')
                                         <button class="btn btn-danger"><i class="fas fa-trash"></i> Delete</button>

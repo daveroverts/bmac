@@ -117,12 +117,11 @@ class BookingController extends Controller
     /**
      * Display the specified booking.
      *
-     * @param int $id
+     * @param Booking $booking
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Booking $booking)
     {
-        $booking = Booking::findOrFail($id);
         if (Auth::check() && Auth::id() == $booking->bookedBy_id || Auth::user()->isAdmin) {
             return view('booking.show', compact('booking'));
         } else {
@@ -134,12 +133,11 @@ class BookingController extends Controller
     /**
      * Show the form for editing the specified booking.
      *
-     * @param int $id
+     * @param Booking $booking
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Booking $booking)
     {
-        $booking = Booking::findOrFail($id);
         // Check if the booking has already been booked or reserved
         if (isset($booking->bookedBy_id) || isset($booking->reservedBy_id)) {
             // Check if current user has booked/reserved
@@ -197,12 +195,11 @@ class BookingController extends Controller
      * Update the specified booking in storage.
      *
      * @param UpdateBooking $request
-     * @param int $id
+     * @param Booking $booking
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateBooking $request, $id)
+    public function update(UpdateBooking $request, Booking $booking)
     {
-        $booking = Booking::find($id);
         // Check if the reservation / booking actually belongs to the correct person
         if (Auth::id() == $booking->reservedBy_id || Auth::id() == $booking->bookedBy_id) {
             $this->validateSELCAL($request->selcal1, $request->selcal2, $booking->event_id);
@@ -251,12 +248,11 @@ class BookingController extends Controller
     /**
      * Remove the specified booking from storage.
      *
-     * @param int $id
+     * @param Booking $booking
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Booking $booking)
     {
-        $booking = Booking::findOrFail($id);
         $booking->delete();
         flashMessage('success', 'Booking deleted!', 'Booking has been deleted');
         if (!empty($booking->bookedBy_id)) {
@@ -306,12 +302,11 @@ class BookingController extends Controller
 
     /**
      * Show the form for editing the specified booking.
-     * @param int $id
+     * @param Booking $booking
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function adminEdit($id)
+    public function adminEdit(Booking $booking)
     {
-        $booking = Booking::findOrFail($id);
         $airports = Airport::all();
 
         return view('booking.admin.edit', compact('booking', 'airports'));
@@ -321,12 +316,11 @@ class BookingController extends Controller
      * Updates booking.
      *
      * @param AdminUpdateBooking $request
-     * @param $id
+     * @param Booking $booking
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function adminUpdate(AdminUpdateBooking $request, $id)
+    public function adminUpdate(AdminUpdateBooking $request, Booking $booking)
     {
-        $booking = Booking::find($id);
         $booking->fill([
             'callsign' => $request->callsign,
             'ctot' => Carbon::createFromFormat('Y-m-d H:i', $booking->event->startEvent->toDateString() . ' ' . $request->ctot),
