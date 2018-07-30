@@ -15,7 +15,7 @@ class AddUuidToBookingsTable extends Migration
     public function up()
     {
         Schema::table('bookings', function (Blueprint $table) {
-            $table->uuid('uuid')->after('id')->index();
+            $table->uuid('uuid')->after('id')->nullable();
         });
         $bookings = Booking::all();
         if ($bookings->isNotEmpty()) {
@@ -23,6 +23,9 @@ class AddUuidToBookingsTable extends Migration
                 $booking->uuid = (string) Uuid::generate(4);
                 $booking->save();
             }
+            Schema::table('bookings', function (Blueprint $table) {
+                $table->index('uuid');
+            });
         }
     }
 
