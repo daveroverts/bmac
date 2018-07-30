@@ -20,7 +20,7 @@
                 @auth
                     @if(Auth::user()->booked()->first())
                         <li class="nav-item {{ Request::is('booking/*') ? 'active' : '' }}">
-                            <a class="nav-link" href="{{ route('booking.show', Auth::user()->booked()->first()->id) }}">
+                            <a class="nav-link" href="{{ route('booking.show', Auth::user()->booked()->first()) }}">
                                 My booking</a></li>
                     @endif
                 @endauth

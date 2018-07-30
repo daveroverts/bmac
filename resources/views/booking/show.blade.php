@@ -17,7 +17,7 @@
                 <div class="card-header">{{ $booking->event->name }} | My reservation</div>
 
                 <div class="card-body">
-                    <form method="POST" action="{{ route('booking.cancel',$booking->id) }}">
+                    <form method="POST" action="{{ route('booking.cancel',$booking) }}">
                         @csrf
                         @method('PUT')
                         {{--Callsign--}}

@@ -17,7 +17,7 @@
                 <div class="card-header">{{ $booking->event->name }} | Edit Booking</div>
 
                 <div class="card-body">
-                    <form method="POST" action="{{ route('booking.admin.update',$booking->id) }}">
+                    <form method="POST" action="{{ route('booking.admin.update',$booking) }}">
                         @csrf
                         @method('PATCH')
 
