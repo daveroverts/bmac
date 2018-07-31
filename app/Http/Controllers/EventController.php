@@ -81,8 +81,8 @@ class EventController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Event $event
-     * @return \Illuminate\Http\Response
+     * @param Event $event
+     * @return void
      */
     public function show(Event $event)
     {
@@ -92,8 +92,8 @@ class EventController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Event $event
-     * @return \Illuminate\Http\Response
+     * @param Event $event
+     * @return void
      */
     public function edit(Event $event)
     {
@@ -104,8 +104,8 @@ class EventController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request $request
-     * @param  \App\Event $event
-     * @return \Illuminate\Http\Response
+     * @param Event $event
+     * @return void
      */
     public function update(Request $request, Event $event)
     {
@@ -115,8 +115,8 @@ class EventController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Event $event
-     * @return \Illuminate\Http\Response
+     * @param Event $event
+     * @return void
      */
     public function destroy(Event $event)
     {
@@ -134,6 +134,13 @@ class EventController extends Controller
         return view('event.sendEmail', compact('event'));
     }
 
+    /**
+     * Sends E-mail to all users who booked a flight as a notification by administrators.
+     *
+     * @param SendEmail $request
+     * @param Event $event
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
     public function sendEmail(SendEmail $request, Event $event)
     {
         $bookings = Booking::where('event_id',$event->id)
@@ -149,6 +156,8 @@ class EventController extends Controller
     }
 
     /**
+     * Sends E-mail to all users who booked a flight the final information.
+     *
      * @param Event $event
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
