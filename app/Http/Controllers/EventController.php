@@ -123,15 +123,19 @@ class EventController extends Controller
         //
     }
 
-    public function sendEmailForm($id)
+    /**
+     * Opens form to either use sendEmail() or sendFinalInformationMail()
+     *
+     * @param Event $event
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function sendEmailForm(Event $event)
     {
-        $event = Event::findOrFail($id);
         return view('event.sendEmail', compact('event'));
     }
 
-    public function sendEmail(SendEmail $request, $id)
+    public function sendEmail(SendEmail $request, Event $event)
     {
-        $event = Event::find($id);
         $bookings = Booking::where('event_id',$event->id)
             ->whereNotNull('bookedBy_id')
             ->get();
@@ -144,8 +148,12 @@ class EventController extends Controller
         return redirect('/admin/event');
     }
 
-    public function sendFinalInformationMail($id){
-        $bookings = Booking::where('event_id',$id)
+    /**
+     * @param Event $event
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
+    public function sendFinalInformationMail(Event $event){
+        $bookings = Booking::where('event_id',$event->id)
             ->whereNotNull('bookedBy_id')
             ->get();
         $count = 0;
