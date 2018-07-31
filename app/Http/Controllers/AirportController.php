@@ -64,8 +64,8 @@ class AirportController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Airport $airport
-     * @return \Illuminate\Http\Response
+     * @param Airport $airport
+     * @return void
      */
     public function show(Airport $airport)
     {
@@ -75,8 +75,8 @@ class AirportController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Airport $airport
-     * @return \Illuminate\Http\Response
+     * @param Airport $airport
+     * @return void
      */
     public function edit(Airport $airport)
     {
@@ -87,8 +87,8 @@ class AirportController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request $request
-     * @param  \App\Airport $airport
-     * @return \Illuminate\Http\Response
+     * @param Airport $airport
+     * @return void
      */
     public function update(Request $request, Airport $airport)
     {
@@ -98,8 +98,8 @@ class AirportController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Airport $airport
-     * @return \Illuminate\Http\Response
+     * @param Airport $airport
+     * @return void
      */
     public function destroy(Airport $airport)
     {
