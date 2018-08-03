@@ -17,7 +17,7 @@
                 <div class="card-header">{{ $event->name }} | Auto-Assign FL / Route</div>
 
                 <div class="card-body">
-                    <form method="POST" action="{{ route('booking.admin.autoAssign',$event->id) }}">
+                    <form method="POST" action="{{ route('booking.admin.autoAssign',$event) }}">
                         @csrf
                         @method('PATCH')
 

@@ -17,7 +17,7 @@
                 <div class="card-header">{{ $event->name }} | Add Timeslots</div>
 
                 <div class="card-body">
-                    <form method="POST" action="{{ route('booking.store',$event->id) }}">
+                    <form method="POST" action="{{ route('booking.store',$event) }}">
                         @csrf
                         <input type="hidden" name="id" value="{{ $event->id }}">
                         {{--Event--}}
