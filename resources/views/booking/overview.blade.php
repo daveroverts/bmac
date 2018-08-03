@@ -8,7 +8,7 @@
                     Timeslots</a></p>
         @endif
         @include('layouts.alert')
-        @if($event->startBooking < \Carbon\Carbon::now() || Auth::check() && Auth::user()->isAdmin)
+        @if($event->startBooking < now() || Auth::check() && Auth::user()->isAdmin)
             Flights available: {{ count($bookings) - count($bookings->where('bookedBy_id',!null)) }} / {{ count($bookings) }}
             <table class="table table-hover">
                 <thead>

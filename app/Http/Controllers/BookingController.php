@@ -44,7 +44,7 @@ class BookingController extends Controller
     {
         $this->removeOverdueReservations();
 
-        $event = Event::query()->where('endEvent', '>', Carbon::now())->orderBy('startEvent', 'asc')->first();
+        $event = Event::query()->where('endEvent', '>', now())->orderBy('startEvent', 'asc')->first();
         $bookings = collect();
 
         if($event)
@@ -58,10 +58,10 @@ class BookingController extends Controller
         // Get all reservations that have been reserved
         foreach (Booking::with('reservedBy')->get() as $booking) {
             // If a reservation has been reserved for more then 10 minutes, remove reservedBy_id
-            if (Carbon::now() > Carbon::createFromFormat('Y-m-d H:i:s', $booking->updated_at)->addMinutes(10)) {
+            if (now() > Carbon::createFromFormat('Y-m-d H:i:s', $booking->updated_at)->addMinutes(10)) {
                 $booking->fill([
                     'reservedBy_id' => null,
-                    'updated_at' => NOW(),
+                    'updated_at' => now(),
                 ]);
                 $booking->save();
             }
