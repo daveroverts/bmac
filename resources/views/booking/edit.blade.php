@@ -29,7 +29,7 @@
                             <div class="col-md-6">
                                 <input id="callsign" type="text"
                                        class="form-control{{ $errors->has('callsign') ? ' is-invalid' : '' }}"
-                                       name="callsign" value="{{ old('callsign') }}" required autofocus max="7">
+                                       name="callsign" value="{{ old('callsign', $booking->callsign) }}" required autofocus max="7">
 
                                 @if ($errors->has('callsign'))
                                     <span class="invalid-feedback">
@@ -121,7 +121,7 @@
                             <div class="col-md-6">
                                 <input id="aircraft" type="text"
                                        class="form-control{{ $errors->has('aircraft') ? ' is-invalid' : '' }}"
-                                       name="aircraft" value="{{ old('aircraft') }}" required min="3" max="4">
+                                       name="aircraft" value="{{ old('aircraft',$booking->acType) }}" required min="3" max="4">
 
                                 @if ($errors->has('aircraft'))
                                     <span class="invalid-feedback">
@@ -137,13 +137,13 @@
                             <div class="col-sm-3 my-1">
                                 <label class="sr-only" for="selcal1"></label>
                                 <input type="text" class="form-control" id="selcal1" name="selcal1" placeholder="AB"
-                                       min="2" max="2" value="{{ old('selcal1') }}">
+                                       min="2" max="2" value="{{ old('selcal1',substr($booking->selcal,0,2)) }}">
                             </div>
                             -
                             <div class="col-sm-3 my-1">
                                 <label class="sr-only" for="selcal2"></label>
                                 <input type="text" class="form-control" id="selcal2" name="selcal2" placeholder="CD"
-                                       min="2" max="2" value="{{ old('selcal2') }}">
+                                       min="2" max="2" value="{{ old('selcal2',substr($booking->selcal,3,5)) }}">
                             </div>
                         </div>
 
