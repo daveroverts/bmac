@@ -194,10 +194,11 @@
 
                         {{--Cancel Booking--}}
                         <div class="form-group row mb-0">
-                            <div class="col-md-6 offset-md-4">
+                            <div class="col-md-7 offset-md-3">
                                 <button type="submit" class="btn btn-danger">
                                     Cancel Booking
                                 </button>
+                                <a href="{{ route('booking.edit',$booking) }}" class="btn btn-primary">Edit Booking</a>
                             </div>
                         </div>
                     </form>
