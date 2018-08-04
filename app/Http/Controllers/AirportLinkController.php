@@ -50,7 +50,14 @@ class AirportLinkController extends Controller
      */
     public function store(StoreAirportLink $request)
     {
-        //
+        $airportLink = AirportLink::create([
+            'icao_airport' => $request->airport,
+            'airportLinkType_id' => $request->airportLinkType,
+            'name' => $request->name,
+            'url' => $request->url,
+        ]);
+        flashMessage('success', 'Done', $airportLink->type->name . ' item has been added for ' . $airportLink->airport->name . ' [' . $airportLink->airport->icao . ' | ' . $airportLink->airport->iata . ']');
+        return redirect('/admin/airport');
     }
 
     /**
