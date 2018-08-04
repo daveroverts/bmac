@@ -26,7 +26,7 @@ Route::patch('/admin/event/{event}/email', 'EventController@sendEmail')->name('e
 Route::get('/admin/event/{event}/email_final', 'EventController@sendFinalInformationMail')->name('event.email.final');
 Route::resource('admin/event', 'EventController');
 
-Route::put('booking/{booking}', 'BookingController@cancel')->name('booking.cancel');
+Route::get('/booking/{booking}/cancel', 'BookingController@cancel')->name('booking.cancel');
 Route::get('/booking/{id}/create', 'BookingController@create')->name('booking.create');
 Route::get('/booking/{id}/export', 'BookingController@export')->name('booking.export');
 Route::get('/admin/booking/{booking}/edit', 'BookingController@adminEdit')->name('booking.admin.edit');

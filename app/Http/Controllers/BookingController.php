@@ -269,12 +269,11 @@ class BookingController extends Controller
     /**
      * Sets reservedBy and bookedBy to null.
      *
-     * @param int $id
+     * @param Booking $booking
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function cancel($id)
+    public function cancel(Booking $booking)
     {
-        $booking = Booking::findOrFail($id);
         if (Auth::id() == $booking->reservedBy_id || Auth::id() == $booking->bookedBy_id) {
             if ($booking->event->endBooking > now()) {
                 $booking->fill([
