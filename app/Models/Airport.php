@@ -35,8 +35,8 @@ class Airport extends Model
         return $this->belongsToMany(Booking::class, 'events', 'arr');
     }
 
-    public function link()
+    public function links()
     {
-        return $this->belongsToMany(AirportLink::class, 'airport_links');
+        return $this->hasMany(AirportLink::class, 'icao_airport');
     }
 }
