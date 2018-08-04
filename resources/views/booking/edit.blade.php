@@ -147,27 +147,29 @@
                             </div>
                         </div>
 
-                        {{--Study--}}
-                        <div class="form-group row">
-                            <div class="col-md-8 offset-md-3">
-                                <div class="custom-control custom-checkbox">
-                                    <input type="hidden" name="checkStudy" value="0">
-                                    <input class="custom-control-input" id="checkStudy" type="checkbox" name="checkStudy" value="1">
-                                    <label class="custom-control-label" for="checkStudy">I agree to study the provided briefing material</label>
+                        @if($booking->reservedBy)
+                            {{--Study--}}
+                            <div class="form-group row">
+                                <div class="col-md-8 offset-md-3">
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="hidden" name="checkStudy" value="0">
+                                        <input class="custom-control-input" id="checkStudy" type="checkbox" name="checkStudy" value="1">
+                                        <label class="custom-control-label" for="checkStudy">I agree to study the provided briefing material</label>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
 
-                        {{--Charts--}}
-                        <div class="form-group row">
-                            <div class="col-md-8 offset-md-3">
-                                <div class="custom-control custom-checkbox">
-                                    <input type="hidden" name="checkCharts" value="0">
-                                    <input class="custom-control-input" id="checkCharts" type="checkbox" name="checkCharts" value="1">
-                                    <label class="custom-control-label" for="checkCharts">I agree to have the applicable charts at hand during the event</label>
+                            {{--Charts--}}
+                            <div class="form-group row">
+                                <div class="col-md-8 offset-md-3">
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="hidden" name="checkCharts" value="0">
+                                        <input class="custom-control-input" id="checkCharts" type="checkbox" name="checkCharts" value="1">
+                                        <label class="custom-control-label" for="checkCharts">I agree to have the applicable charts at hand during the event</label>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        @endif
 
                         {{--Add--}}
                         <div class="form-group row mb-0">

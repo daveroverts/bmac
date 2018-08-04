@@ -29,8 +29,8 @@ class UpdateBooking extends FormRequest
             'aircraft' => 'required|alpha_num|between:3,4',
             'selcal1' => 'sometimes|nullable|alpha|size:2',
             'selcal2' => 'sometimes|nullable|required_with:selcal1,!=' . null . '|alpha|size:2',
-            'checkStudy' => 'accepted',
-            'checkCharts' => 'accepted',
+            'checkStudy' => 'sometimes|accepted',
+            'checkCharts' => 'sometimes|accepted',
         ];
     }
 }
