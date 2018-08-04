@@ -48,7 +48,7 @@ class BookingController extends Controller
         $bookings = collect();
 
         if($event)
-            $bookings = Booking::where('event_id', 1)->orderBy('ctot')->get();
+            $bookings = Booking::where('event_id', $event->id)->orderBy('ctot')->get();
 
         return view('booking.overview', compact('event', 'bookings'));
     }
