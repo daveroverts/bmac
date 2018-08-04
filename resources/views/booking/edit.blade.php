@@ -137,13 +137,13 @@
                             <div class="col-sm-3 my-1">
                                 <label class="sr-only" for="selcal1"></label>
                                 <input type="text" class="form-control" id="selcal1" name="selcal1" placeholder="AB"
-                                       min="2" max="2" value="{{ old('selcal1',substr($booking->selcal,0,2)) }}">
+                                       min="2" max="2" value="{{ old('selcal1',substr($booking->getOriginal('selcal'),0,2)) }}">
                             </div>
                             -
                             <div class="col-sm-3 my-1">
                                 <label class="sr-only" for="selcal2"></label>
                                 <input type="text" class="form-control" id="selcal2" name="selcal2" placeholder="CD"
-                                       min="2" max="2" value="{{ old('selcal2',substr($booking->selcal,3,5)) }}">
+                                       min="2" max="2" value="{{ old('selcal2',substr($booking->getOriginal('selcal'),3,5)) }}">
                             </div>
                         </div>
 
