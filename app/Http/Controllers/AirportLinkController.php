@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Airport;
 use App\Models\AirportLink;
+use App\Models\AirportLinkType;
 use Illuminate\Http\Request;
 
 class AirportLinkController extends Controller
@@ -34,7 +36,9 @@ class AirportLinkController extends Controller
      */
     public function create()
     {
-        //
+        $airportLinkTypes = AirportLinkType::all();
+        $airports = Airport::all();
+        return view('airportLink.create', compact('airportLinkTypes', 'airports'));
     }
 
     /**
