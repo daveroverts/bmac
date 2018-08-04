@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreAirportLink;
 use App\Models\Airport;
 use App\Models\AirportLink;
 use App\Models\AirportLinkType;
@@ -44,10 +45,10 @@ class AirportLinkController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  StoreAirportLink $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreAirportLink $request)
     {
         //
     }
