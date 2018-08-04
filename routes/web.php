@@ -20,6 +20,7 @@ Route::get('/validateLogin', 'Auth\LoginController@validateLogin');
 Route::get('/logout', 'Auth\LoginController@logout')->name('logout');
 
 Route::resource('admin/airport', 'AirportController');
+Route::resource('admin/airportLink', 'AirportLinkController');
 
 Route::get('/admin/event/{id}/email', 'EventController@sendEmailForm')->name('event.email.form');
 Route::patch('/admin/event/{id}/email', 'EventController@sendEmail')->name('event.email');
