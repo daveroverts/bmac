@@ -17,7 +17,7 @@ class CreateAirportLinksTable extends Migration
             $table->increments('id');
             $table->string('icao_airport');
             $table->unsignedInteger('airportLinkType_id');
-            $table->string('name');
+            $table->string('name')->nullable();
             $table->string('url');
             $table->timestamps();
             $table->softDeletes();
