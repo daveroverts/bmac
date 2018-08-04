@@ -192,8 +192,8 @@
                     {{--Cancel Booking--}}
                     <div class="form-group row mb-0">
                         <div class="col-md-7 offset-md-3">
-                            <a href="{{ route('booking.cancel', $booking) }}" class="btn btn-danger">Cancel Booking</a>
                             <a href="{{ route('booking.edit',$booking) }}" class="btn btn-primary">Edit Booking</a>
+                            <a href="{{ route('booking.cancel', $booking) }}" class="btn btn-danger">Cancel Booking</a>
                         </div>
                     </div>
                 </div>
