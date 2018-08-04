@@ -12,7 +12,7 @@ class AirportLink extends Model
      * @var array
      */
     protected $fillable = [
-        'icao_airport', 'airportLinkType_id', 'name', 'slug', 'url'
+        'icao_airport', 'airportLinkType_id', 'name', 'url',
     ];
 
     public function airport()
