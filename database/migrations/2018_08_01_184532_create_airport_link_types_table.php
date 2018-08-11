@@ -22,6 +22,7 @@ class CreateAirportLinkTypesTable extends Migration
         $types = [
             ['name' =>  'Briefing',],
             ['name' =>  'Charts',],
+            ['name' =>  'Scenery'],
             ['name' =>  'Miscellaneous',],
         ];
         DB::table('airport_link_types')->insert($types);
