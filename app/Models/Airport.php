@@ -27,11 +27,11 @@ class Airport extends Model
 
     public function bookingsDep()
     {
-        return $this->belongsToMany(Booking::class, 'events', 'dep');
+        return $this->hasMany(Booking::class, 'dep');
     }
 
     public function bookingsArr()
     {
-        return $this->belongsToMany(Booking::class, 'events', 'arr');
+        return $this->hasMany(Booking::class, 'arr');
     }
 }
