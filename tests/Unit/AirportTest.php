@@ -2,19 +2,27 @@
 
 namespace Tests\Unit;
 
+use App\Models\Airport;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class AirportTest extends TestCase
 {
+    use RefreshDatabase;
+
     /**
-     * A basic test example.
+     * Test if a airport can be added
      *
-     * @return void
      */
-    public function testExample()
+    public function testItCreatesNewAirport()
     {
+        $airport = Airport::create([
+            'icao' => 'EHGG',
+            'iata' => 'GRQ',
+            'name' => 'Groningen Airport Eelde',
+        ]);
+
         $this->assertTrue(true);
     }
 }
