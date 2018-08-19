@@ -17,16 +17,20 @@ class AirportTest extends TestCase
      */
     public function testItCreatesNewAirport()
     {
-        $airport = Airport::create([
-            'icao' => 'EHGG',
-            'iata' => 'GRQ',
-            'name' => 'Groningen Airport Eelde',
+        $icao = 'EHGG';
+        $iata = 'GRQ';
+        $name = 'Groningen Airport Eelde';
+
+        Airport::create([
+            'icao' => $icao,
+            'iata' => $iata,
+            'name' => $name,
         ]);
 
         $this->assertDatabaseHas('airports', [
-            'icao' => 'EHGG',
-            'iata' => 'GRQ',
-            'name' => 'Groningen Airport Eelde',
+            'icao' => $icao,
+            'iata' => $iata,
+            'name' => $name,
         ]);
     }
 }
