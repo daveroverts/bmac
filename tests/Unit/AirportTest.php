@@ -23,6 +23,10 @@ class AirportTest extends TestCase
             'name' => 'Groningen Airport Eelde',
         ]);
 
-        $this->assertTrue(true);
+        $this->assertDatabaseHas('airports', [
+            'icao' => 'EHGG',
+            'iata' => 'GRQ',
+            'name' => 'Groningen Airport Eelde',
+        ]);
     }
 }
