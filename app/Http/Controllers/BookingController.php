@@ -216,7 +216,6 @@ class BookingController extends Controller
             if (isset($selcal)) {
                 $booking->selcal = $selcal;
             }
-            $booking->save();
             if (Auth::id() == $booking->getOriginal('reservedBy_id')) {
                 Mail::to(Auth::user())->send(new BookingConfirmed($booking));
                 flashMessage('success', 'Booking created!', 'Booking has been created! A E-mail with details has also been sent');
@@ -224,6 +223,7 @@ class BookingController extends Controller
             else {
                 flashMessage('success', 'Booking edited!', 'Booking has been edited!');
             }
+            $booking->save();
             return redirect('/booking');
         } else {
             if ($booking->reservedBy_id != null) {
