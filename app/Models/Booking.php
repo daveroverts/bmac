@@ -35,7 +35,7 @@ class Booking extends Model
      * @var array
      */
     protected $fillable = [
-        'event_id', 'reservedBy_id', 'bookedBy_id', 'callsign', 'acType', 'selcal', 'dep', 'arr', 'ctot', 'route', 'oceanicFL', 'oceanicTrack'
+        'event_id', 'user_id', 'status', 'callsign', 'acType', 'selcal', 'dep', 'arr', 'ctot', 'route', 'oceanicFL', 'oceanicTrack'
     ];
 
     /**
@@ -149,13 +149,8 @@ class Booking extends Model
         return $this->hasOne(Event::class, 'id', 'event_id');
     }
 
-    public function reservedBy()
+    public function user()
     {
-        return $this->hasOne(User::class, 'id', 'reservedBy_id');
-    }
-
-    public function bookedBy()
-    {
-        return $this->hasOne(User::class, 'id', 'bookedBy_id');
+        return $this->hasOne(User::class);
     }
 }
