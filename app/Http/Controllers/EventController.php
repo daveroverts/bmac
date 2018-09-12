@@ -2,9 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\{
-    Http\Requests\SendEmail, Mail\EventBulkEmail, Mail\EventFinalInformation, Models\Airport, Models\Booking, Models\Event
-};
+use App\{Enums\BookingStatus,
+    Http\Requests\SendEmail,
+    Mail\EventBulkEmail,
+    Mail\EventFinalInformation,
+    Models\Airport,
+    Models\Booking,
+    Models\Event};
 use Carbon\Carbon;
 use Illuminate\{
     Http\Request, Support\Facades\Mail
@@ -144,11 +148,11 @@ class EventController extends Controller
     public function sendEmail(SendEmail $request, Event $event)
     {
         $bookings = Booking::where('event_id',$event->id)
-            ->whereNotNull('bookedBy_id')
+            ->where('status', BookingStatus::Booked)
             ->get();
         $count = 0;
         foreach ($bookings as $booking) {
-            Mail::to($booking->bookedBy->email)->send(new EventBulkEmail($event, $booking->bookedBy, $request->subject, $request->message));
+            Mail::to($booking->user->email)->send(new EventBulkEmail($event, $booking->user, $request->subject, $request->message));
             $count++;
         }
         flashMessage('success', 'Done', 'Bulk E-mail has been sent to '.$count.' people!');
@@ -163,11 +167,11 @@ class EventController extends Controller
      */
     public function sendFinalInformationMail(Event $event){
         $bookings = Booking::where('event_id',$event->id)
-            ->whereNotNull('bookedBy_id')
+            ->where('status', BookingStatus::Booked)
             ->get();
         $count = 0;
         foreach ($bookings as $booking) {
-            Mail::to($booking->bookedBy->email)->send(new EventFinalInformation($booking));
+            Mail::to($booking->user->email)->send(new EventFinalInformation($booking));
             $count++;
         }
         flashMessage('success', 'Done', 'Final Information has been sent to '.$count.' people!');

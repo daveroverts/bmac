@@ -15,7 +15,7 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">{{ $booking->event->name }} | My {{ $booking->bookedBy ? 'Booking' : 'Reservation' }}</div>
+                <div class="card-header">{{ $booking->event->name }} | My {{ \App\Enums\BookingStatus::Booked ? 'Booking' : 'Reservation' }}</div>
 
                 <div class="card-body">
                     <form method="POST" action="{{ route('booking.update',$booking) }}">
@@ -75,7 +75,7 @@
 
                             <div class="col-md-6">
                                 <div class="form-control-plaintext">
-                                    <strong>{{ $booking->bookedBy ? $booking->bookedBy->pic : $booking->reservedBy->pic }}</strong>
+                                    <strong>{{ $booking->user->pic }}</strong>
                                 </div>
                             </div>
                         </div>
@@ -147,7 +147,7 @@
                             </div>
                         </div>
 
-                        @if($booking->reservedBy)
+                        @if($booking->status === \App\Enums\BookingStatus::Reserved)
                             {{--Study--}}
                             <div class="form-group row">
                                 <div class="col-md-8 offset-md-3">

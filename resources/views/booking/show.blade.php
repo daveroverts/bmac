@@ -62,7 +62,7 @@
 
                         <div class="col-md-6">
                             <div class="form-control-plaintext">
-                                <strong>{{ $booking->bookedBy ? $booking->bookedBy->pic : $booking->reservedBy->pic }}</strong>
+                                <strong>{{ $booking->user->pic }}</strong>
                             </div>
                         </div>
                     </div>
