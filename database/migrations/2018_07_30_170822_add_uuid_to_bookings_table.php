@@ -15,17 +15,12 @@ class AddUuidToBookingsTable extends Migration
     public function up()
     {
         Schema::table('bookings', function (Blueprint $table) {
-            $table->uuid('uuid')->after('id')->nullable();
+            $table->uuid('uuid')->after('id')->nullable()->unique();
+            $table->index('uuid');
         });
-        $bookings = Booking::all();
-        if ($bookings->isNotEmpty()) {
-            foreach (Booking::all() as $booking) {
-                $booking->uuid = (string) Uuid::generate(4);
-                $booking->save();
-            }
-            Schema::table('bookings', function (Blueprint $table) {
-                $table->index('uuid');
-            });
+        foreach (Booking::all() as $booking) {
+            $booking->uuid = (string)Uuid::generate(4);
+            $booking->save();
         }
     }
 
