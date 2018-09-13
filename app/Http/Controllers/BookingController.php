@@ -69,11 +69,11 @@ class BookingController extends Controller
     /**
      * Show the form for creating new timeslots
      *
+     * @param Event $event
      * @return \Illuminate\Http\Response
      */
-    public function create(Request $request)
+    public function create(Event $event)
     {
-        $event = Event::whereKey($request->id)->first();
         $airports = Airport::all();
 
         return view('booking.create', compact('event', 'airports'));

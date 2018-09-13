@@ -4,7 +4,7 @@
     @if($event)
         <h2>{{ $event->name }} | Slot Table</h2>
         @if(Auth::check() && Auth::user()->isAdmin)
-            <p><a href="{{ route('booking.create',$event->id) }}" class="btn btn-primary"><i class="fa fa-plus"></i> Add
+            <p><a href="{{ route('booking.create',$event) }}" class="btn btn-primary"><i class="fa fa-plus"></i> Add
                     Timeslots</a></p>
         @endif
         @include('layouts.alert')
