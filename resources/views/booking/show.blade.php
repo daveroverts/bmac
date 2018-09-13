@@ -124,7 +124,7 @@
 
                         @foreach($booking->airportDep->links as $link)
                             <div class="form-group row">
-                                <label for="{{ $link->type->name  . $link->airport->icao . '-' . $loop->index  }}" class="col-md-4 col-form-label text-md-right">{{ $link->name ?? $link->type->name . ' ' . $link->airport->icao }}</label>
+                                <label for="{{ $link->type->name . $link->airport->icao . '-' . $loop->index }}" class="col-md-4 col-form-label text-md-right">{{ $link->name ?? $link->type->name . ' ' . $link->airport->icao }}</label>
 
                                 <div class="col-md-6">
                                     <div class="form-control-plaintext"><a
@@ -147,7 +147,7 @@
 
                         @foreach($booking->airportArr->links as $link)
                             <div class="form-group row">
-                                <label for="{{ $link->type->name  . $link->airport->icao . '-' .  }}" class="col-md-4 col-form-label text-md-right">{{ $link->name ?? $link->type->name . ' ' . $link->airport->icao }}</label>
+                                <label for="{{ $link->type->name . $link->airport->icao . '-' . $loop->index }}" class="col-md-4 col-form-label text-md-right">{{ $link->name ?? $link->type->name . ' ' . $link->airport->icao }}</label>
 
                                 <div class="col-md-6">
                                     <div class="form-control-plaintext"><a
