@@ -21,6 +21,8 @@ Route::get('/logout', 'Auth\LoginController@logout')->name('logout');
 
 Route::resource('admin/airport', 'AirportController');
 
+Route::resource('admin/airportLink', 'AirportLinkController');
+
 Route::get('/admin/event/{event}/email', 'EventController@sendEmailForm')->name('event.email.form');
 Route::patch('/admin/event/{event}/email', 'EventController@sendEmail')->name('event.email');
 Route::get('/admin/event/{event}/email_final', 'EventController@sendFinalInformationMail')->name('event.email.final');

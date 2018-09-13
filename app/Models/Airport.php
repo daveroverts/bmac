@@ -34,4 +34,9 @@ class Airport extends Model
     {
         return $this->hasMany(Booking::class, 'arr');
     }
+
+    public function links()
+    {
+        return $this->hasMany(AirportLink::class, 'icao_airport');
+    }
 }

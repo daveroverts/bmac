@@ -119,75 +119,41 @@
                         </div>
                     </div>
 
-                    {{--Briefing EHAM--}}
-                    <div class="form-group row">
-                        <label for="briefingEHAM" class="col-md-4 col-form-label text-md-right">Briefing
-                            EHAM</label>
+                        @foreach($booking->airportDep->links as $link)
+                            <div class="form-group row">
+                                <label for="{{ $link->type->name . $link->airport->icao . '-' . $loop->index }}" class="col-md-4 col-form-label text-md-right">{{ $link->name ?? $link->type->name . ' ' . $link->airport->icao }}</label>
 
-                        <div class="col-md-6">
-                            <div class="form-control-plaintext"><a
-                                        href="https://www.dutchvacc.nl/index.php?option=com_content&view=article&id=149&Itemid=149"
-                                        target="_blank">Link</a></div>
-                        </div>
-                    </div>
-
-                    {{--Charts EHAM--}}
-                    <div class="form-group row">
-                        <label for="chartsEHAM" class="col-md-4 col-form-label text-md-right">Charts EHAM</label>
-
-                        <div class="col-md-6">
-                            <div class="form-control-plaintext"><a
-                                        href="http://scripts.dutchvacc.nl/aipcharts.php?airport=eham"
-                                        target="_blank"
-                                        title="Note, it may take up to one minute to load. Please be patient">Link</a>
+                                <div class="col-md-6">
+                                    <div class="form-control-plaintext"><a
+                                            href="{{ $link->url }}"
+                                            target="_blank">Link</a></div>
+                                </div>
                             </div>
-                        </div>
-                    </div>
+                        @endforeach
 
                     {{--Oceanic sheet--}}
                     <div class="form-group row">
                         <label for="chartsEHAM" class="col-md-4 col-form-label text-md-right">Oceanic sheet</label>
 
-                        <div class="col-md-6">
-                            <div class="form-control-plaintext"><a
+                            <div class="col-md-6">
+                                <div class="form-control-plaintext"><a
                                         href="https://ctp.vatsim.net/system/view/includes/Transatlantic_Radio_Operations_Checksheet.pdf"
                                         target="_blank">Link</a></div>
-                        </div>
-                    </div>
-
-                    {{--Briefing KBOS--}}
-                    <div class="form-group row">
-                        <label for="briefingKBOS" class="col-md-4 col-form-label text-md-right">Briefing
-                            KBOS</label>
-
-                        <div class="col-md-6">
-                            <div class="form-control-plaintext"><a
-                                        href="http://www.bvartcc.com/LTA/LetterToAirmen.pdf"
-                                        target="_blank">Link</a></div>
-                        </div>
-                    </div>
-
-                    {{--Charts KBOS--}}
-                    <div class="form-group row">
-                        <label for="chartsKBOS" class="col-md-4 col-form-label text-md-right">Charts KBOS</label>
-
-                        <div class="col-md-6">
-                            <div class="form-control-plaintext"><a href="http://www.airnav.com/airport/KBOS"
-                                                                   target="_blank">Link</a></div>
-                        </div>
-                    </div>
-
-                    {{--EHAM Gates Overview--}}
-                    <div class="form-group row">
-                        <label for="gatesOverview" class="col-md-4 col-form-label text-md-right">EHAM Gates
-                            Overview</label>
-
-                        <div class="col-md-6">
-                            <div class="form-control-plaintext"><a
-                                        href="https://spi.dutchvacc.nl/gates_overview.php" target="_blank">Link</a>
                             </div>
                         </div>
                     </div>
+
+                        @foreach($booking->airportArr->links as $link)
+                            <div class="form-group row">
+                                <label for="{{ $link->type->name . $link->airport->icao . '-' . $loop->index }}" class="col-md-4 col-form-label text-md-right">{{ $link->name ?? $link->type->name . ' ' . $link->airport->icao }}</label>
+
+                                <div class="col-md-6">
+                                    <div class="form-control-plaintext"><a
+                                            href="{{ $link->url }}"
+                                            target="_blank">Link</a></div>
+                                </div>
+                            </div>
+                        @endforeach
 
                     {{--Cancel Booking--}}
                     <div class="form-group row mb-0">
