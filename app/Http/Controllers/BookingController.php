@@ -359,12 +359,12 @@ class BookingController extends Controller
     /**
      * Exports all active bookings to a .csv file
      *
-     * @param int $id
+     * @param Event $$event
      * @return BookingsExport
      */
-    public function export($id)
+    public function export(Event $event)
     {
-        return new BookingsExport($id);
+        return new BookingsExport($event->id);
     }
 
     /**
