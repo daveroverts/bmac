@@ -36,14 +36,9 @@ class User extends Authenticatable
         'is_admin' => 'boolean',
     ];
 
-    public function reserved()
+    public function booking()
     {
-        return $this->hasOne(Booking::class, 'reservedBy_id');
-    }
-
-    public function booked()
-    {
-        return $this->hasOne(Booking::class, 'bookedBy_id');
+        return $this->hasMany(Booking::class);
     }
 
     /**

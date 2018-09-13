@@ -9,7 +9,7 @@
         @endif
         @include('layouts.alert')
         @if($event->startBooking < now() || Auth::check() && Auth::user()->isAdmin)
-            Flights available: {{ count($bookings) - count($bookings->where('bookedBy_id',!null)) }} / {{ count($bookings) }}
+            Flights available: {{ count($bookings) - count($bookings->where('status',\App\Enums\BookingStatus::Booked)) }} / {{ count($bookings) }}
             <table class="table table-hover">
                 <thead>
                 <tr>
@@ -26,7 +26,7 @@
                 </thead>
                 @foreach($bookings as $booking)
                     {{--Check if flight belongs to the logged in user--}}
-                    @if(Auth::check() && isset($booking->bookedBy) && $booking->bookedBy_id == Auth::id() || isset($booking->reservedBy) && $booking->reservedBy_id == Auth::id())
+                    @if(Auth::check() && isset($booking->user) && $booking->user_id == Auth::id())
                         <tr class="table-primary">
                     @else
                         <tr>
@@ -44,30 +44,30 @@
                             <td>{{ $booking->acType ?: '-' }}</td>
                             <td>
                                 {{--Check if booking has been booked--}}
-                                @if(isset($booking->bookedBy_id))
+                                @if($booking->status === \App\Enums\BookingStatus::Booked)
                                     {{--Check if booking has been booked by current user--}}
-                                    @if(Auth::check() && $booking->bookedBy_id == Auth::id())
+                                    @if(Auth::check() && $booking->user_id == Auth::id())
                                         <a href="{{ route('booking.show',$booking) }}" class="btn btn-info">My
                                             booking</a>
                                     @else
                                         <button class="btn btn-dark disabled">
-                                            Booked [{{ $booking->bookedBy->pic }}]</button>
+                                            Booked [{{ $booking->user->pic }}]</button>
                                     @endif
 
-                                @elseif(isset($booking->reservedBy_id))
+                                @elseif($booking->status === \App\Enums\BookingStatus::Reserved)
                                     {{--Check if a booking has been reserved--}}
-                                    @if(Auth::check() && $booking->reservedBy_id == Auth::id())
+                                    @if(Auth::check() && $booking->user_id == Auth::id())
                                         {{--Check if a booking has been reserved by current user--}}
                                         <a href="{{ route('booking.edit',$booking) }}" class="btn btn-info">My
                                             Reservation</a>
                                     @else
                                         <button class="btn btn-dark disabled">
-                                            Reserved {{Auth::check() && Auth::user()->isAdmin ? '['.$booking->reservedBy->pic .']' : ''}}</button>
+                                            Reserved {{Auth::check() && Auth::user()->isAdmin ? '['.$booking->user->pic .']' : ''}}</button>
                                     @endif
                                 @else
                                     @if(Auth::check())
                                         {{--Check if user is logged in--}}
-                                        @if(!Auth::user()->booked()->where('event_id',$event->id)->first())
+                                        @if(!Auth::user()->booking()->where('event_id',$event->id)->first())
                                             {{--Check if user already has a booking--}}
                                             @if($booking->event->startBooking < now() && $booking->event->endBooking > now())
                                                 {{--Check if current date is between startBooking and endBooking--}}
@@ -94,10 +94,10 @@
                                     </form>
                                 </td>
                                 <td>
-                                    @if($booking->bookedBy)
-                                        <a href="mailto:{{ $booking->bookedBy->email }}" style="color: white;">
+                                    @if($booking->user)
+                                        <a href="mailto:{{ $booking->user->email }}" style="color: white;">
                                             <button class="btn btn-info">
-                                                <i class="fas fa-envelope"></i> Send E-mail [{{ $booking->bookedBy->email }}]
+                                                <i class="fas fa-envelope"></i> Send E-mail [{{ $booking->user->email }}]
                                             </button>
                                         </a>
                                     @endif

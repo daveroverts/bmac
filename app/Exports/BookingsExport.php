@@ -2,6 +2,7 @@
 
 namespace App\Exports;
 
+use App\Enums\BookingStatus;
 use App\Models\Booking;
 use Illuminate\{
     Contracts\Support\Responsable, Contracts\View\View
@@ -31,7 +32,7 @@ class BookingsExport implements FromView, Responsable
     {
         return view('exports.bookings', [
             'bookings' => Booking::where('event_id',$this->id)
-            ->whereNotNull('bookedBy_id')
+            ->where('status', BookingStatus::Booked)
             ->get()
         ]);
     }

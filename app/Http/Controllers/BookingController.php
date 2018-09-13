@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\{
+use App\{Enums\BookingStatus,
     Models\Airport,
     Models\Booking,
     Models\Event,
@@ -14,8 +14,7 @@ use App\{
     Mail\BookingCancelled,
     Mail\BookingChanged,
     Mail\BookingConfirmed,
-    Mail\BookingDeleted
-};
+    Mail\BookingDeleted};
 use Carbon\Carbon;
 use Illuminate\{
     Http\Request, Support\Facades\Auth, Support\Facades\Mail
@@ -56,12 +55,12 @@ class BookingController extends Controller
     public function removeOverdueReservations()
     {
         // Get all reservations that have been reserved
-        foreach (Booking::with('reservedBy')->get() as $booking) {
-            // If a reservation has been reserved for more then 10 minutes, remove reservedBy_id
+        foreach (Booking::where('status', BookingStatus::Reserved)->get() as $booking) {
+            // If a reservation has been reserved for more then 10 minutes, remove user_id, and make booking available
             if (now() > Carbon::createFromFormat('Y-m-d H:i:s', $booking->updated_at)->addMinutes(10)) {
                 $booking->fill([
-                    'reservedBy_id' => null,
-                    'updated_at' => now(),
+                    'user_id' => null,
+                    'status' => BookingStatus::Unassigned,
                 ]);
                 $booking->save();
             }
@@ -122,7 +121,7 @@ class BookingController extends Controller
      */
     public function show(Booking $booking)
     {
-        if (Auth::check() && Auth::id() == $booking->bookedBy_id || Auth::user()->isAdmin) {
+        if (Auth::check() && Auth::id() == $booking->user_id || Auth::user()->isAdmin) {
             return view('booking.show', compact('booking'));
         } else {
             flashMessage('danger', 'Already booked', 'Whoops that booking belongs to somebody else!');
@@ -139,16 +138,14 @@ class BookingController extends Controller
     public function edit(Booking $booking)
     {
         // Check if the booking has already been booked or reserved
-        if (isset($booking->bookedBy_id) || isset($booking->reservedBy_id)) {
+        if ($booking->status !== BookingStatus::Unassigned) {
             // Check if current user has booked/reserved
-            if ($booking->bookedBy_id == Auth::id() || $booking->reservedBy_id == Auth::id()) {
-                if ($booking->reservedBy_id == Auth::id()) {
-                    flashMessage('info', 'Slot reserved', 'Will remain reserved until ' . $booking->updated_at->addMinutes(10)->format('Hi') . 'z');
-                }
+            if ($booking->user_id == Auth::id()) {
+                flashMessage('info', 'Slot reserved', 'Will remain reserved until ' . $booking->updated_at->addMinutes(10)->format('Hi') . 'z');
                 return view('booking.edit', compact('booking', 'user'));
             } else {
                 // Check if the booking has already been reserved
-                if (isset($booking->reservedBy_id)) {
+                if ($booking->status === BookingStatus::Reserved) {
                     flashMessage('danger', 'Warning', 'Whoops! Somebody else reserved that slot just before you! Please choose another one. The slot will become available if it isn\'t confirmed within 10 minutes.');
                     return redirect('/booking');
 
@@ -160,12 +157,12 @@ class BookingController extends Controller
             }
         } // If the booking hasn't been taken by anybody else, check if user doesn't already have a booking
         else {
-            if (Auth::user()->booked()->where('event_id', $booking->event_id)->first()) {
+            if (Auth::user()->booking()->where('event_id', $booking->event_id)->first()) {
                 flashMessage('danger', 'Nope!', 'You already have a booking!');
                 return redirect('/booking');
             }
             // If user already has another reservation open
-            if (Auth::user()->reserved()->where('event_id', $booking->event_id)->first()) {
+            if (Auth::user()->booking()->where('event_id', $booking->event_id)->first()) {
                 flashMessage('danger!', 'Nope!', 'You already have a reservation!');
                 return redirect('/booking');
             } // Reserve booking, and redirect to booking.edit
@@ -173,7 +170,8 @@ class BookingController extends Controller
                 // Check if you are allowed to reserve the slot
                 if ($booking->event->startBooking < now()) {
                     if ($booking->event->endBooking > now()) {
-                        $booking->reservedBy_id = Auth::id();
+                        $booking->user_id = Auth::id();
+                        $booking->status = BookingStatus::Reserved;
                         $booking->save();
                         flashMessage('info', 'Slot reserved', 'Will remain reserved until ' . $booking->updated_at->addMinutes(10)->format('Hi') . 'z');
                         return view('booking.edit', compact('booking', 'user'));
@@ -201,22 +199,22 @@ class BookingController extends Controller
     public function update(UpdateBooking $request, Booking $booking)
     {
         // Check if the reservation / booking actually belongs to the correct person
-        if (Auth::id() == $booking->reservedBy_id || Auth::id() == $booking->bookedBy_id) {
+        if (Auth::id() == $booking->user_id) {
             $this->validateSELCAL($request->selcal1, $request->selcal2, $booking->event_id);
             if (!empty($request->selcal1) && !empty($request->selcal2)) {
                 $this->validateSELCAL($request->selcal1, $request->selcal2, $booking->event_id);
                 $selcal = $request->selcal1 . '-' . $request->selcal2;
             }
             $booking->fill([
-                'reservedBy_id' => null,
-                'bookedBy_id' => Auth::id(),
+                'user_id' => Auth::id(),
+                'status' => BookingStatus::Booked,
                 'callsign' => $request->callsign,
                 'acType' => $request->aircraft,
             ]);
             if (isset($selcal)) {
                 $booking->selcal = $selcal;
             }
-            if (Auth::id() == $booking->getOriginal('reservedBy_id')) {
+            if ($booking->getOriginal('status') === BookingStatus::Reserved) {
                 Mail::to(Auth::user())->send(new BookingConfirmed($booking));
                 flashMessage('success', 'Booking created!', 'Booking has been created! A E-mail with details has also been sent');
             }
@@ -226,7 +224,7 @@ class BookingController extends Controller
             $booking->save();
             return redirect('/booking');
         } else {
-            if ($booking->reservedBy_id != null) {
+            if ($booking->user_id != null) {
                 // We got a bad-ass over here, log that person out
                 Auth::logout();
                 return redirect('https://youtu.be/dQw4w9WgXcQ');
@@ -260,8 +258,8 @@ class BookingController extends Controller
     {
         $booking->delete();
         flashMessage('success', 'Booking deleted!', 'Booking has been deleted');
-        if (!empty($booking->bookedBy_id)) {
-            Mail::to(Auth::user())->send(new BookingDeleted($booking->event, $booking->bookedBy));
+        if (!empty($booking->user_id)) {
+            Mail::to(Auth::user())->send(new BookingDeleted($booking->event, $booking->user));
         }
         return redirect('/booking');
     }
@@ -274,16 +272,16 @@ class BookingController extends Controller
      */
     public function cancel(Booking $booking)
     {
-        if (Auth::id() == $booking->reservedBy_id || Auth::id() == $booking->bookedBy_id) {
+        if (Auth::id() == $booking->user_id) {
             if ($booking->event->endBooking > now()) {
                 $booking->fill([
-                    'reservedBy_id' => null,
-                    'bookedBy_id' => null,
+                    'user_id' => null,
+                    'status' => BookingStatus::Unassigned,
                     'callsign' => null,
                     'acType' => null,
                     'selcal' => null,
                 ]);
-                if (Auth::id() == $booking->getOriginal('bookedBy_id')) {
+                if ($booking->getOriginal('status') === BookingStatus::Booked) {
                     $title = 'Booking removed!';
                     $message = 'Booking has been removed! A E-mail has also been sent';
                     Mail::to(Auth::user())->send(new BookingCancelled($booking->event, Auth::user()));
@@ -336,7 +334,7 @@ class BookingController extends Controller
             'acType' => $request->aircraft,
         ]);
         $changes = collect();
-        if (!empty($booking->bookedBy)) {
+        if (!empty($booking->user)) {
             foreach ($booking->getDirty() as $key => $value) {
                 $changes->push(
                     ['name' => $key, 'old' => $booking->getOriginal($key), 'new' => $value]
@@ -349,11 +347,11 @@ class BookingController extends Controller
             );
         }
         $booking->save();
-        if (!empty($booking->bookedBy)) {
-            Mail::to($booking->bookedBy->email)->send(new BookingChanged($booking, $changes));
+        if (!empty($booking->user)) {
+            Mail::to($booking->user->email)->send(new BookingChanged($booking, $changes));
         }
         $message = 'Booking has been changed!';
-        if (!empty($booking->bookedBy)) {
+        if (!empty($booking->user)) {
             $message .= ' A E-mail has also been sent to the person that booked.';
         }
         flashMessage('success', 'Booking changed', $message);
@@ -381,7 +379,7 @@ class BookingController extends Controller
     {
         $event = Event::find($id);
         $bookings = Booking::where('event_id',$event->id)
-            ->whereNotNull('bookedBy_id')
+            ->where('status', BookingStatus::Booked)
             ->orderBy('ctot')
             ->get();
         $count = 0;

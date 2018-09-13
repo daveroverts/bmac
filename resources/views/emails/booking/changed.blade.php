@@ -1,7 +1,7 @@
 @component('mail::message')
 # Booking change
 
-Dear **{{ $booking->bookedBy->full_name }}**,
+Dear **{{ $booking->user->full_name }}**,
 
 Your booking for the **{{ $booking->event->name }}** has been amended, please review the changes below:
 
