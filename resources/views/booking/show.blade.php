@@ -141,7 +141,6 @@
                                         target="_blank">Link</a></div>
                             </div>
                         </div>
-                    </div>
 
                         @foreach($booking->airportArr->links as $link)
                             <div class="form-group row">
@@ -154,7 +153,6 @@
                                 </div>
                             </div>
                         @endforeach
-
                     {{--Cancel Booking--}}
                     <div class="form-group row mb-0">
                         <div class="col-md-7 offset-md-3">
