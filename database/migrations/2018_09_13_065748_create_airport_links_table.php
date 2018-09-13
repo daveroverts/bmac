@@ -22,6 +22,11 @@ class CreateAirportLinksTable extends Migration
             $table->timestamps();
             $table->softDeletes();
         });
+
+        Schema::table('airport_links', function (Blueprint $table) {
+            $table->foreign('icao_airport')->references('icao')->on('airports')->onDelete('cascade');
+            $table->foreign('airportLinkType_id')->references('id')->on('airport_link_types')->onDelete('cascade');
+        });
     }
 
     /**
@@ -31,6 +36,11 @@ class CreateAirportLinksTable extends Migration
      */
     public function down()
     {
+        Schema::table('airport_links', function (Blueprint $table) {
+            $table->dropForeign(['icao_airport']);
+            $table->dropForeign(['airportLinkType_id']);
+        });
+
         Schema::dropIfExists('airport_links');
     }
 }
