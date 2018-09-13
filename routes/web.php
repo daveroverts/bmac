@@ -29,12 +29,12 @@ Route::get('/admin/event/{event}/email_final', 'EventController@sendFinalInforma
 Route::resource('admin/event', 'EventController');
 
 Route::get('/booking/{booking}/cancel', 'BookingController@cancel')->name('booking.cancel');
-Route::get('/booking/{id}/create', 'BookingController@create')->name('booking.create');
-Route::get('/booking/{id}/export', 'BookingController@export')->name('booking.export');
+Route::get('/booking/{event}/create', 'BookingController@create')->name('booking.create');
+Route::get('/booking/{event}/export', 'BookingController@export')->name('booking.export');
 Route::get('/admin/booking/{booking}/edit', 'BookingController@adminEdit')->name('booking.admin.edit');
 Route::patch('/admin/booking/{booking}/edit', 'BookingController@adminUpdate')->name('booking.admin.update');
-Route::get('/admin/booking/{id}/autoAssign', 'BookingController@adminAutoAssignForm')->name('booking.admin.autoAssignForm');
-Route::patch('/admin/booking/{id}/autoAssign', 'BookingController@adminAutoAssign')->name('booking.admin.autoAssign');
+Route::get('/admin/booking/{event}/autoAssign', 'BookingController@adminAutoAssignForm')->name('booking.admin.autoAssignForm');
+Route::patch('/admin/booking/{event}/autoAssign', 'BookingController@adminAutoAssign')->name('booking.admin.autoAssign');
 Route::resource('booking', 'BookingController')->except('create');
 
 Route::get('/faq', function () {

@@ -69,11 +69,11 @@ class BookingController extends Controller
     /**
      * Show the form for creating new timeslots
      *
+     * @param Event $event
      * @return \Illuminate\Http\Response
      */
-    public function create(Request $request)
+    public function create(Event $event)
     {
-        $event = Event::whereKey($request->id)->first();
         $airports = Airport::all();
 
         return view('booking.create', compact('event', 'airports'));
@@ -359,23 +359,32 @@ class BookingController extends Controller
     /**
      * Exports all active bookings to a .csv file
      *
-     * @param int $id
+     * @param Event $$event
      * @return BookingsExport
      */
-    public function export($id)
+    public function export(Event $event)
     {
-        return new BookingsExport($id);
+        return new BookingsExport($event->id);
     }
 
-    public function adminAutoAssignForm($id)
+    /**
+     * Show the form for editing the specified booking.
+     *
+     * @param Event $event
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function adminAutoAssignForm(Event $event)
     {
-        $event = Event::whereKey($id)->first();
         return view('event.admin.autoAssign', compact('event'));
     }
 
-    public function adminAutoAssign(AdminAutoAssign $request, $id)
+    /**
+     * @param AdminAutoAssign $request
+     * @param Event $event
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
+    public function adminAutoAssign(AdminAutoAssign $request, Event $event)
     {
-        $event = Event::find($id);
         $bookings = Booking::where('event_id',$event->id)
             ->where('status', BookingStatus::Booked)
             ->orderBy('ctot')
