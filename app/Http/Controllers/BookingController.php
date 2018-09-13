@@ -59,10 +59,9 @@ class BookingController extends Controller
             // If a reservation has been reserved for more then 10 minutes, remove user_id, and make booking available
             if (now() > Carbon::createFromFormat('Y-m-d H:i:s', $booking->updated_at)->addMinutes(10)) {
                 $booking->fill([
-                    'user_id' => null,
                     'status' => BookingStatus::Unassigned,
                 ]);
-                $booking->save();
+                $booking->user()->dissociate()->save();
             }
         }
     }
@@ -170,9 +169,8 @@ class BookingController extends Controller
                 // Check if you are allowed to reserve the slot
                 if ($booking->event->startBooking < now()) {
                     if ($booking->event->endBooking > now()) {
-                        $booking->user_id = Auth::id();
                         $booking->status = BookingStatus::Reserved;
-                        $booking->save();
+                        $booking->user()->associate(Auth::user())->save();
                         flashMessage('info', 'Slot reserved', 'Will remain reserved until ' . $booking->updated_at->addMinutes(10)->format('Hi') . 'z');
                         return view('booking.edit', compact('booking', 'user'));
                     }
@@ -206,7 +204,6 @@ class BookingController extends Controller
                 $selcal = $request->selcal1 . '-' . $request->selcal2;
             }
             $booking->fill([
-                'user_id' => Auth::id(),
                 'status' => BookingStatus::Booked,
                 'callsign' => $request->callsign,
                 'acType' => $request->aircraft,
@@ -257,10 +254,12 @@ class BookingController extends Controller
     public function destroy(Booking $booking)
     {
         $booking->delete();
-        flashMessage('success', 'Booking deleted!', 'Booking has been deleted');
-        if (!empty($booking->user_id)) {
+        $message = 'Booking has been deleted.';
+        if (!empty($booking->user)) {
+            $message .= ' A E-mail has also been sent to the person that booked.';
             Mail::to(Auth::user())->send(new BookingDeleted($booking->event, $booking->user));
         }
+        flashMessage('success', 'Booking deleted!', $message);
         return redirect('/booking');
     }
 
@@ -275,7 +274,6 @@ class BookingController extends Controller
         if (Auth::id() == $booking->user_id) {
             if ($booking->event->endBooking > now()) {
                 $booking->fill([
-                    'user_id' => null,
                     'status' => BookingStatus::Unassigned,
                     'callsign' => null,
                     'acType' => null,
@@ -290,7 +288,7 @@ class BookingController extends Controller
                     $message = 'Slot is now free to use again';
                 }
                 flashMessage('info', $title, $message);
-                $booking->save();
+                $booking->user()->dissociate()->save();
                 return redirect('/booking');
             }
             flashMessage('danger', 'Nope!', 'Bookings have been locked at ' . $booking->event->endBooking->format('d-m-Y Hi') . 'z');
