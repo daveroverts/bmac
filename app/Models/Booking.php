@@ -146,11 +146,11 @@ class Booking extends Model
 
     public function event()
     {
-        return $this->hasOne(Event::class, 'id', 'event_id');
+        return $this->belongsTo(Event::class);
     }
 
     public function user()
     {
-        return $this->hasOne(User::class, 'id', 'user_id');
+        return $this->belongsTo(User::class);
     }
 }

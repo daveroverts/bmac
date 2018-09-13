@@ -15,8 +15,8 @@ class AirportLinkType extends Model
         'name', 'class',
     ];
 
-    public function link()
+    public function links()
     {
-        return $this->belongsToMany(AirportLink::class, 'airport_links');
+        return $this->belongsTo(AirportLink::class, 'id');
     }
 }
