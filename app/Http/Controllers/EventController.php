@@ -78,7 +78,7 @@ class EventController extends Controller
             'description' => $request->description,
         ]);
         $event->save();
-        flashMessage('success', 'Done', 'Event have been created!');
+        flashMessage('success', 'Done', 'Event has been created!');
         return redirect('admin/event');
     }
 
