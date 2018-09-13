@@ -25,7 +25,7 @@ class AddStatusToBookingsTable extends Migration
         });
 
         foreach (Booking::all() as $booking) {
-            if ($booking->bookedBy) {
+            if ($booking->bookedBy_id) {
                 $booking->user_id = $booking->bookedBy_id;
                 $booking->status = BookingStatus::Booked;
             }
