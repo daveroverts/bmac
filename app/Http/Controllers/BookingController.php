@@ -198,18 +198,13 @@ class BookingController extends Controller
     {
         // Check if the reservation / booking actually belongs to the correct person
         if (Auth::id() == $booking->user_id) {
-            if (!empty($request->selcal1) && !empty($request->selcal2)) {
-                $this->validateSELCAL($request->selcal1, $request->selcal2, $booking->event_id);
-                $selcal = $request->selcal1 . '-' . $request->selcal2;
-            }
             $booking->fill([
                 'status' => BookingStatus::Booked,
                 'callsign' => $request->callsign,
                 'acType' => $request->aircraft,
             ]);
-            if (isset($selcal)) {
-                $booking->selcal = $selcal;
-            }
+
+            $booking->selcal = $this->validateSELCAL($request->selcal1 . '-' . $request->selcal2, $booking->event_id);
             if ($booking->getOriginal('status') === BookingStatus::Reserved) {
                 Mail::to(Auth::user())->send(new BookingConfirmed($booking));
                 flashMessage('success', 'Booking created!', 'Booking has been created! A E-mail with details has also been sent');
@@ -232,16 +227,15 @@ class BookingController extends Controller
         }
     }
 
-    public function validateSELCAL($a, $b, $eventId)
+    public function validateSELCAL($selcal, $eventId)
     {
-        $selcal = $a . '-' . $b;
         $bookings = Booking::where('event_id', $eventId)->get();
         foreach ($bookings as $booking) {
             if ($booking->selcal == $selcal) {
-                return false;
+                return null;
             }
         }
-        return $a . '-' . $b;
+        return $selcal;
     }
 
     /**
