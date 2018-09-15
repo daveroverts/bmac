@@ -229,11 +229,10 @@ class BookingController extends Controller
 
     public function validateSELCAL($selcal, $eventId)
     {
-        $bookings = Booking::where('event_id', $eventId)->get();
-        foreach ($bookings as $booking) {
-            if ($booking->selcal == $selcal) {
-                return null;
-            }
+        if (Booking::where('event_id', $eventId)
+            ->where('selcal', '=', $selcal)
+            ->get()->isEmpty()) {
+            return null;
         }
         return $selcal;
     }
