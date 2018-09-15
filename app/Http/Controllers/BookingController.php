@@ -203,7 +203,7 @@ class BookingController extends Controller
                 'callsign' => $request->callsign,
                 'acType' => $request->aircraft,
             ]);
-            $booking->selcal = $this->validateSELCAL($request->selcal1 . $request->selcal2, $booking->event_id);
+            $booking->selcal = $this->validateSELCAL(strtoupper($request->selcal1 . '-' . $request->selcal2), $booking->event_id);
             if ($booking->getOriginal('status') === BookingStatus::Reserved) {
                 Mail::to(Auth::user())->send(new BookingConfirmed($booking));
                 flashMessage('success', 'Booking created!', 'Booking has been created! A E-mail with details has also been sent');
