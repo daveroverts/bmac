@@ -235,7 +235,7 @@ class BookingController extends Controller
         $char4 = substr($selcal, 4, 1);
 
         // Check if SELCAL has valid format
-        if (!preg_match("/[ABCDEFGHJKLMPQRS][ABCDEFGHJKLMPQRS][-][ABCDEFGHJKLMPQRS][ABCDEFGHJKLMPQRS]/", $selcal)) {
+        if (!preg_match("/[ABCDEFGHJKLMPQRS]{2}[-][ABCDEFGHJKLMPQRS]{2}/", $selcal)) {
             return null;
         }
 
