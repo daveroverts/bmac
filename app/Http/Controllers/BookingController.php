@@ -252,7 +252,7 @@ class BookingController extends Controller
         // Check for duplicates within the same event
         if (Booking::where('event_id', $eventId)
             ->where('selcal', '=', $selcal)
-            ->get()->isEmpty()) {
+            ->get()->first()) {
             return null;
         }
         return $selcal;
