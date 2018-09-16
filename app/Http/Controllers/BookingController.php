@@ -198,19 +198,12 @@ class BookingController extends Controller
     {
         // Check if the reservation / booking actually belongs to the correct person
         if (Auth::id() == $booking->user_id) {
-            $this->validateSELCAL($request->selcal1, $request->selcal2, $booking->event_id);
-            if (!empty($request->selcal1) && !empty($request->selcal2)) {
-                $this->validateSELCAL($request->selcal1, $request->selcal2, $booking->event_id);
-                $selcal = $request->selcal1 . '-' . $request->selcal2;
-            }
             $booking->fill([
                 'status' => BookingStatus::Booked,
                 'callsign' => $request->callsign,
                 'acType' => $request->aircraft,
             ]);
-            if (isset($selcal)) {
-                $booking->selcal = $selcal;
-            }
+            $booking->selcal = $this->validateSELCAL(strtoupper($request->selcal1 . '-' . $request->selcal2), $booking->event_id);
             if ($booking->getOriginal('status') === BookingStatus::Reserved) {
                 Mail::to(Auth::user())->send(new BookingConfirmed($booking));
                 flashMessage('success', 'Booking created!', 'Booking has been created! A E-mail with details has also been sent');
@@ -233,16 +226,36 @@ class BookingController extends Controller
         }
     }
 
-    public function validateSELCAL($a, $b, $eventId)
+    public function validateSELCAL($selcal, $eventId)
     {
-        $selcal = $a . '-' . $b;
-        $bookings = Booking::where('event_id', $eventId)->get();
-        foreach ($bookings as $booking) {
-            if ($booking->selcal == $selcal) {
-                return false;
-            }
+        // Separate characters
+        $char1 = substr($selcal, 0, 1);
+        $char2 = substr($selcal, 1, 1);
+        $char3 = substr($selcal, 3, 1);
+        $char4 = substr($selcal, 4, 1);
+
+        // Check if SELCAL has valid format
+        if (!preg_match("/[ABCDEFGHJKLMPQRS]{2}[-][ABCDEFGHJKLMPQRS]{2}/", $selcal)) {
+            return null;
         }
-        return $a . '-' . $b;
+
+        // Check if each character is unique
+        if (substr_count($selcal, $char1) > 1 || substr_count($selcal, $char2) > 1 || substr_count($selcal, $char3) > 1 || substr_count($selcal, $char4) > 1 ) {
+            return null;
+        }
+
+        // Check if characters per pair are in alphabetical order
+        if ($char1 > $char2 || $char4 > $char3) {
+            return null;
+        }
+
+        // Check for duplicates within the same event
+        if (Booking::where('event_id', $eventId)
+            ->where('selcal', '=', $selcal)
+            ->get()->first()) {
+            return null;
+        }
+        return $selcal;
     }
 
     /**
