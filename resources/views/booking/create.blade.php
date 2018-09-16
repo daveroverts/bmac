@@ -17,7 +17,7 @@
                 <div class="card-header">{{ $event->name }} | Add Timeslots</div>
 
                 <div class="card-body">
-                    <form method="POST" action="{{ route('booking.store',$event->id) }}">
+                    <form method="POST" action="{{ route('booking.store',$event) }}">
                         @csrf
                         <input type="hidden" name="id" value="{{ $event->id }}">
                         {{--Event--}}
@@ -47,7 +47,7 @@
                             <label for="end" class="col-md-4 col-form-label text-md-right"> From</label>
 
                             <div class="col-md-6">
-                                <select class="form-control{{ $errors->has('from') ? ' is-invalid' : '' }}" name="from">
+                                <select class="custom-select form-control{{ $errors->has('from') ? ' is-invalid' : '' }}" name="from">
                                     <option value="">Choose an airport...</option>
                                     @foreach($airports as $airport)
                                         <option value="{{ $airport->icao }}" {{ old('from') == $airport->icao ? 'selected' : '' }}>{{ $airport->icao }} [{{ $airport->name }} ({{ $airport->iata }})]</option>
@@ -67,7 +67,7 @@
                             <label for="end" class="col-md-4 col-form-label text-md-right"> To</label>
 
                             <div class="col-md-6">
-                                <select class="form-control{{ $errors->has('to') ? ' is-invalid' : '' }}" name="to">
+                                <select class="custom-select form-control{{ $errors->has('to') ? ' is-invalid' : '' }}" name="to">
                                     <option value="">Choose an airport...</option>
                                     @foreach($airports as $airport)
                                         <option value="{{ $airport->icao }}" {{ old('to') == $airport->icao ? 'selected' : '' }}>{{ $airport->icao }} [{{ $airport->name }} ({{ $airport->iata }})]</option>

@@ -23,6 +23,7 @@
     <main class="py-4">
         <div class="container">
             @yield('content')
+            @include('layouts.footer')
         </div>
     </main>
 </div>

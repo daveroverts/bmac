@@ -21,13 +21,14 @@ $('.datepicker').datepicker({
 });
 
 // Importing Font Awesome
-import fontawesome from '@fortawesome/fontawesome'
-import regular from '@fortawesome/fontawesome-free-regular'
-import solid from '@fortawesome/fontawesome-free-solid'
-import brands from '@fortawesome/fontawesome-free-brands'
+import { library, dom } from '@fortawesome/fontawesome-svg-core'
+import { far } from '@fortawesome/free-regular-svg-icons'
+import { fas } from '@fortawesome/free-solid-svg-icons'
+import { fab } from '@fortawesome/free-brands-svg-icons'
 
-fontawesome.library.add(regular, solid, brands);
+library.add(far, fas, fab);
 
+dom.watch();
 
 // window.Vue = require('vue');
 // import VueSweetalert2 from 'vue-sweetalert2';

@@ -4,12 +4,12 @@
     @if($event)
         <h2>{{ $event->name }} | Slot Table</h2>
         @if(Auth::check() && Auth::user()->isAdmin)
-            <p><a href="{{ route('booking.create',$event->id) }}" class="btn btn-primary"><i class="fa fa-plus"></i> Add
+            <p><a href="{{ route('booking.create',$event) }}" class="btn btn-primary"><i class="fa fa-plus"></i> Add
                     Timeslots</a></p>
         @endif
         @include('layouts.alert')
-        @if($event->startBooking < \Carbon\Carbon::now() || Auth::check() && Auth::user()->isAdmin)
-            Flights available: {{ count($bookings) - count($bookings->where('bookedBy_id',!null)) }} / {{ count($bookings) }}
+        @if($event->startBooking < now() || Auth::check() && Auth::user()->isAdmin)
+            Flights available: {{ count($bookings) - count($bookings->where('status',\App\Enums\BookingStatus::Booked)) }} / {{ count($bookings) }}
             <table class="table table-hover">
                 <thead>
                 <tr>
@@ -26,7 +26,7 @@
                 </thead>
                 @foreach($bookings as $booking)
                     {{--Check if flight belongs to the logged in user--}}
-                    @if(Auth::check() && isset($booking->bookedBy) && $booking->bookedBy_id == Auth::id() || isset($booking->reservedBy) && $booking->reservedBy_id == Auth::id())
+                    @if(Auth::check() && isset($booking->user) && $booking->user_id == Auth::id())
                         <tr class="table-primary">
                     @else
                         <tr>
@@ -44,53 +44,60 @@
                             <td>{{ $booking->acType ?: '-' }}</td>
                             <td>
                                 {{--Check if booking has been booked--}}
-                                @if(isset($booking->bookedBy_id))
+                                @if($booking->status === \App\Enums\BookingStatus::Booked)
                                     {{--Check if booking has been booked by current user--}}
-                                    @if(Auth::check() && $booking->bookedBy_id == Auth::id())
-                                        <a href="{{ route('booking.show',$booking->id) }}" class="btn btn-info">My
+                                    @if(Auth::check() && $booking->user_id == Auth::id())
+                                        <a href="{{ route('booking.show',$booking) }}" class="btn btn-info">My
                                             booking</a>
                                     @else
                                         <button class="btn btn-dark disabled">
-                                            Booked {{Auth::check() && Auth::user()->isAdmin ? '['.$booking->bookedBy->pic.']' : ''}}</button>
+                                            Booked [{{ $booking->user->pic }}]</button>
                                     @endif
 
-                                @elseif(isset($booking->reservedBy_id))
+                                @elseif($booking->status === \App\Enums\BookingStatus::Reserved)
                                     {{--Check if a booking has been reserved--}}
-                                    @if(Auth::check() && $booking->reservedBy_id == Auth::id())
+                                    @if(Auth::check() && $booking->user_id == Auth::id())
                                         {{--Check if a booking has been reserved by current user--}}
-                                        <a href="{{ route('booking.edit',$booking->id) }}" class="btn btn-info">My
+                                        <a href="{{ route('booking.edit',$booking) }}" class="btn btn-info">My
                                             Reservation</a>
                                     @else
                                         <button class="btn btn-dark disabled">
-                                            Reserved {{Auth::check() && Auth::user()->isAdmin ? '['.$booking->reservedBy->pic .']' : ''}}</button>
+                                            Reserved {{Auth::check() && Auth::user()->isAdmin ? '['.$booking->user->pic .']' : ''}}</button>
                                     @endif
                                 @else
-                                    @if(Auth::check() && $booking->event->endBooking > \Carbon\Carbon::now() && !Auth::user()->booked()->where('event_id',$event->id)->first())
-                                        {{--Check if user is logged in to generate a clickable link--}}
-                                        <a href="{{ route('booking.edit',$booking->id) }}">
+                                    @if(Auth::check())
+                                        {{--Check if user is logged in--}}
+                                        @if(!Auth::user()->booking()->where('event_id',$event->id)->first())
+                                            {{--Check if user already has a booking--}}
+                                            @if($booking->event->startBooking < now() && $booking->event->endBooking > now())
+                                                {{--Check if current date is between startBooking and endBooking--}}
+                                                <a href="{{ route('booking.edit', $booking) }}" class="btn btn-success">BOOK NOW</a>
+                                            @else
+                                                <button class="btn btn-danger">Not available</button>
                                             @endif
-                                            <a href="{{ route('booking.edit', $booking->id) }}" class="btn btn-success">BOOK
-                                                NOW</a>
-                                            @if(Auth::check() && $booking->event->endBooking > \Carbon\Carbon::now() && !Auth::user()->booked()->where('event_id',$event->id)->first())
-                                        </a>
+                                        @else
+                                            <button class="btn btn-danger">You already have a booking</button>
+                                        @endif
+                                    @else
+                                        <a href="{{ route('login') }}" class="btn btn-info">Click here to login</a>
                                     @endif
                                 @endif
                             </td>
                             @if(Auth::check() && Auth::user()->isAdmin)
-                                <td><a href="{{ route('booking.admin.edit', $booking->id) }}" class="btn btn-info"><i class="fa fa-edit"></i> Edit</a>
+                                <td><a href="{{ route('booking.admin.edit', $booking) }}" class="btn btn-info"><i class="fa fa-edit"></i> Edit</a>
                                 </td>
                                 <td>
-                                    <form action="{{ route('booking.destroy', $booking->id) }}" method="post">
+                                    <form action="{{ route('booking.destroy', $booking) }}" method="post">
                                         @csrf
                                         @method('DELETE')
                                         <button class="btn btn-danger"><i class="fas fa-trash"></i> Delete</button>
                                     </form>
                                 </td>
                                 <td>
-                                    @if($booking->bookedBy)
-                                        <a href="mailto:{{ $booking->bookedBy->email }}" style="color: white;">
+                                    @if($booking->user)
+                                        <a href="mailto:{{ $booking->user->email }}" style="color: white;">
                                             <button class="btn btn-info">
-                                                <i class="fas fa-envelope"></i> Send E-mail [{{ $booking->bookedBy->email }}]
+                                                <i class="fas fa-envelope"></i> Send E-mail [{{ $booking->user->email }}]
                                             </button>
                                         </a>
                                     @endif

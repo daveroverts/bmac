@@ -2,9 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\{
-    Http\Requests\SendEmail, Mail\EventBulkEmail, Mail\EventFinalInformation, Models\Airport, Models\Booking, Models\Event
-};
+use App\{Enums\BookingStatus,
+    Http\Requests\SendEmail,
+    Mail\EventBulkEmail,
+    Mail\EventFinalInformation,
+    Models\Airport,
+    Models\Booking,
+    Models\Event};
 use Carbon\Carbon;
 use Illuminate\{
     Http\Request, Support\Facades\Mail
@@ -74,15 +78,15 @@ class EventController extends Controller
             'description' => $request->description,
         ]);
         $event->save();
-        flashMessage('success', 'Done', 'Event have been created!');
+        flashMessage('success', 'Done', 'Event has been created!');
         return redirect('admin/event');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Event $event
-     * @return \Illuminate\Http\Response
+     * @param Event $event
+     * @return void
      */
     public function show(Event $event)
     {
@@ -92,8 +96,8 @@ class EventController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Event $event
-     * @return \Illuminate\Http\Response
+     * @param Event $event
+     * @return void
      */
     public function edit(Event $event)
     {
@@ -104,8 +108,8 @@ class EventController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request $request
-     * @param  \App\Event $event
-     * @return \Illuminate\Http\Response
+     * @param Event $event
+     * @return void
      */
     public function update(Request $request, Event $event)
     {
@@ -115,42 +119,59 @@ class EventController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Event $event
-     * @return \Illuminate\Http\Response
+     * @param Event $event
+     * @return void
      */
     public function destroy(Event $event)
     {
         //
     }
 
-    public function sendEmailForm($id)
+    /**
+     * Opens form to either use sendEmail() or sendFinalInformationMail()
+     *
+     * @param Event $event
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function sendEmailForm(Event $event)
     {
-        $event = Event::findOrFail($id);
         return view('event.sendEmail', compact('event'));
     }
 
-    public function sendEmail(SendEmail $request, $id)
+    /**
+     * Sends E-mail to all users who booked a flight as a notification by administrators.
+     *
+     * @param SendEmail $request
+     * @param Event $event
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
+    public function sendEmail(SendEmail $request, Event $event)
     {
-        $event = Event::find($id);
         $bookings = Booking::where('event_id',$event->id)
-            ->whereNotNull('bookedBy_id')
+            ->where('status', BookingStatus::Booked)
             ->get();
         $count = 0;
         foreach ($bookings as $booking) {
-            Mail::to($booking->bookedBy->email)->send(new EventBulkEmail($event, $booking->bookedBy, $request->subject, $request->message));
+            Mail::to($booking->user->email)->send(new EventBulkEmail($event, $booking->user, $request->subject, $request->message));
             $count++;
         }
         flashMessage('success', 'Done', 'Bulk E-mail has been sent to '.$count.' people!');
         return redirect('/admin/event');
     }
 
-    public function sendFinalInformationMail($id){
-        $bookings = Booking::where('event_id',$id)
-            ->whereNotNull('bookedBy_id')
+    /**
+     * Sends E-mail to all users who booked a flight the final information.
+     *
+     * @param Event $event
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
+    public function sendFinalInformationMail(Event $event){
+        $bookings = Booking::where('event_id',$event->id)
+            ->where('status', BookingStatus::Booked)
             ->get();
         $count = 0;
         foreach ($bookings as $booking) {
-            Mail::to($booking->bookedBy->email)->send(new EventFinalInformation($booking));
+            Mail::to($booking->user->email)->send(new EventFinalInformation($booking));
             $count++;
         }
         flashMessage('success', 'Done', 'Final Information has been sent to '.$count.' people!');

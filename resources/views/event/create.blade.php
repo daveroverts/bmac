@@ -4,7 +4,8 @@
     <script src="{{ asset('js/tinymce/tinymce.min.js') }}"></script>
     <script>tinymce.init({
             selector: 'textarea',
-            plugins: 'code'
+            plugins: 'code link',
+            menubar: 'insert'
         });</script>
     @if (count($errors) > 0)
         <div class="alert alert-dismissible alert-danger">

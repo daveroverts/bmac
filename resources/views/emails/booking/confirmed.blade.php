@@ -1,7 +1,7 @@
 @component('mail::message')
 # Booking confirmed
 
-Dear **{{ $booking->bookedBy->full_name }}**,
+Dear **{{ $booking->user->full_name }}**,
 
 Thank you for your recent booking for **{{ $booking->event->name }}** event.
 For reference, your booking details are listed below. On the day of the event, you will receive an email containing your route, oceanic flight level and slot time based on the appropriate NAT tracks.

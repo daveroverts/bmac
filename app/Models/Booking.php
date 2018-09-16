@@ -3,9 +3,31 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Webpatser\Uuid\Uuid;
 
 class Booking extends Model
 {
+
+    /**
+     *  Setup model event hooks
+     */
+    public static function boot()
+    {
+        parent::boot();
+        self::creating(function ($model) {
+            $model->uuid = (string) Uuid::generate(4);
+        });
+    }
+
+    /**
+     * Get the route key for the model.
+     *
+     * @return string
+     */
+    public function getRouteKeyName()
+    {
+        return 'uuid';
+    }
 
     /**
      * The attributes that are mass assignable.
@@ -13,7 +35,7 @@ class Booking extends Model
      * @var array
      */
     protected $fillable = [
-        'event_id', 'reservedBy_id', 'bookedBy_id', 'callsign', 'acType', 'selcal', 'dep', 'arr', 'ctot', 'route', 'oceanicFL', 'oceanicTrack'
+        'event_id', 'user_id', 'status', 'callsign', 'acType', 'selcal', 'dep', 'arr', 'ctot', 'route', 'oceanicFL', 'oceanicTrack'
     ];
 
     /**
@@ -124,16 +146,11 @@ class Booking extends Model
 
     public function event()
     {
-        return $this->hasOne(Event::class, 'id', 'event_id');
+        return $this->belongsTo(Event::class);
     }
 
-    public function reservedBy()
+    public function user()
     {
-        return $this->hasOne(User::class, 'id', 'reservedBy_id');
-    }
-
-    public function bookedBy()
-    {
-        return $this->hasOne(User::class, 'id', 'bookedBy_id');
+        return $this->belongsTo(User::class);
     }
 }

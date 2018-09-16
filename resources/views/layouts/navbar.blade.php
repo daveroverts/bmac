@@ -18,9 +18,9 @@
                     <a class="nav-link" href="{{ route('booking.index') }}">Bookings</a>
                 </li>
                 @auth
-                    @if(Auth::user()->booked()->first())
+                    @if(Auth::user()->booking()->first())
                         <li class="nav-item {{ Request::is('booking/*') ? 'active' : '' }}">
-                            <a class="nav-link" href="{{ route('booking.show', Auth::user()->booked()->first()->id) }}">
+                            <a class="nav-link" href="{{ route('booking.show', Auth::user()->booking()->first()) }}">
                                 My booking</a></li>
                     @endif
                 @endauth

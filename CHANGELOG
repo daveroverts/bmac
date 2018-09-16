@@ -1,0 +1,14 @@
+# Changelog
+
+**v0.5.0**
+- Add some actual SELCAL validation (not only duplicate check)
+- ``bookings`` table:
+   - Adds UUID's, this will be visible by users in the URL's
+   - Replaces ``reservedBy_id`` and ``bookedBy_id`` with ``user_id`` and ``status``
+- Start of using GitLab CI
+   - At the moment, only to run PHPUnit, later also to run Laravel Mix.
+- Some optimalisation on Eloquent models
+- Removes ``package-lock.json`` as this project is used with yarn
+- Updates FontAwesome to 5.2.0
+
+*Sidenote: I didn't really keep track of changes before v0.5.0*

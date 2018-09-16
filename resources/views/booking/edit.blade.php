@@ -15,10 +15,10 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">{{ $booking->event->name }} | My reservation</div>
+                <div class="card-header">{{ $booking->event->name }} | My {{ \App\Enums\BookingStatus::Booked ? 'Booking' : 'Reservation' }}</div>
 
                 <div class="card-body">
-                    <form method="POST" action="{{ route('booking.update',$booking->id) }}">
+                    <form method="POST" action="{{ route('booking.update',$booking) }}">
                         @csrf
                         @method('PATCH')
 
@@ -29,7 +29,7 @@
                             <div class="col-md-6">
                                 <input id="callsign" type="text"
                                        class="form-control{{ $errors->has('callsign') ? ' is-invalid' : '' }}"
-                                       name="callsign" value="{{ old('callsign') }}" required autofocus max="7">
+                                       name="callsign" value="{{ old('callsign', $booking->callsign) }}" required autofocus max="7">
 
                                 @if ($errors->has('callsign'))
                                     <span class="invalid-feedback">
@@ -75,7 +75,7 @@
 
                             <div class="col-md-6">
                                 <div class="form-control-plaintext">
-                                    <strong>{{ $booking->bookedBy ?: $booking->reservedBy->pic }}</strong>
+                                    <strong>{{ $booking->user->pic }}</strong>
                                 </div>
                             </div>
                         </div>
@@ -121,7 +121,7 @@
                             <div class="col-md-6">
                                 <input id="aircraft" type="text"
                                        class="form-control{{ $errors->has('aircraft') ? ' is-invalid' : '' }}"
-                                       name="aircraft" value="{{ old('aircraft') }}" required min="3" max="4">
+                                       name="aircraft" value="{{ old('aircraft',$booking->acType) }}" required min="3" max="4">
 
                                 @if ($errors->has('aircraft'))
                                     <span class="invalid-feedback">
@@ -137,47 +137,45 @@
                             <div class="col-sm-3 my-1">
                                 <label class="sr-only" for="selcal1"></label>
                                 <input type="text" class="form-control" id="selcal1" name="selcal1" placeholder="AB"
-                                       min="2" max="2" value="{{ old('selcal1') }}">
+                                       min="2" max="2" value="{{ old('selcal1',substr($booking->getOriginal('selcal'),0,2)) }}">
                             </div>
                             -
                             <div class="col-sm-3 my-1">
                                 <label class="sr-only" for="selcal2"></label>
                                 <input type="text" class="form-control" id="selcal2" name="selcal2" placeholder="CD"
-                                       min="2" max="2" value="{{ old('selcal2') }}">
+                                       min="2" max="2" value="{{ old('selcal2',substr($booking->getOriginal('selcal'),3,5)) }}">
                             </div>
                         </div>
 
-                        {{--Study--}}
-                        <div class="form-group row">
-                            <div class="col-md-8 offset-md-3">
-                                <div class="checkbox">
-                                    <label>
+                        @if($booking->status === \App\Enums\BookingStatus::Reserved)
+                            {{--Study--}}
+                            <div class="form-group row">
+                                <div class="col-md-8 offset-md-3">
+                                    <div class="custom-control custom-checkbox">
                                         <input type="hidden" name="checkStudy" value="0">
-                                        <input type="checkbox" name="checkStudy"> I agree to study the provided briefing
-                                        material
-                                    </label>
+                                        <input class="custom-control-input" id="checkStudy" type="checkbox" name="checkStudy" value="1">
+                                        <label class="custom-control-label" for="checkStudy">I agree to study the provided briefing material</label>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
 
-                        {{--Charts--}}
-                        <div class="form-group row">
-                            <div class="col-md-8 offset-md-3">
-                                <div class="checkbox">
-                                    <label>
+                            {{--Charts--}}
+                            <div class="form-group row">
+                                <div class="col-md-8 offset-md-3">
+                                    <div class="custom-control custom-checkbox">
                                         <input type="hidden" name="checkCharts" value="0">
-                                        <input type="checkbox" name="checkCharts" value="1"> I agree to have the
-                                        applicable charts at hand during the event
-                                    </label>
+                                        <input class="custom-control-input" id="checkCharts" type="checkbox" name="checkCharts" value="1">
+                                        <label class="custom-control-label" for="checkCharts">I agree to have the applicable charts at hand during the event</label>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        @endif
 
                         {{--Add--}}
                         <div class="form-group row mb-0">
                             <div class="col-md-6 offset-md-4">
                                 <button type="submit" class="btn btn-primary">
-                                    <i class="fas fa-check"></i> Confirm Booking
+                                    <i class="fas fa-check"></i> {{ $booking->bookedBy ? 'Edit' : 'Confirm' }} Booking
                                 </button>
                             </div>
                         </div>

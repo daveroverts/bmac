@@ -1,7 +1,7 @@
 @component('mail::message')
 # Booking confirmed
 
-Dear **{{ $booking->bookedBy->full_name }}**,
+Dear **{{ $booking->user->full_name }}**,
 
 This email serves as confirmation of your booking and route for **{{ $booking->event->name }}**.
 

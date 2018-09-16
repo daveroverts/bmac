@@ -17,7 +17,7 @@
                 <div class="card-header">{{ $booking->event->name }} | Edit Booking</div>
 
                 <div class="card-body">
-                    <form method="POST" action="{{ route('booking.admin.update',$booking->id) }}">
+                    <form method="POST" action="{{ route('booking.admin.update',$booking) }}">
                         @csrf
                         @method('PATCH')
 
@@ -102,7 +102,7 @@
 
                             <div class="col-md-6">
                                 <div class="form-control-plaintext">
-                                    <strong>{{ $booking->bookedBy ? $booking->bookedBy->pic : '-' }}</strong></div>
+                                    <strong>{{ $booking->user ? $booking->user->pic : '-' }}</strong></div>
                             </div>
                         </div>
 
