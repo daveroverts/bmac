@@ -8,7 +8,8 @@ use App\{Enums\BookingStatus,
     Mail\EventFinalInformation,
     Models\Airport,
     Models\Booking,
-    Models\Event};
+    Models\Event,
+    Models\EventType};
 use Carbon\Carbon;
 use Illuminate\{
     Http\Request, Support\Facades\Mail
@@ -45,7 +46,8 @@ class EventController extends Controller
     public function create()
     {
         $airports = Airport::all();
-        return view('event.create', compact('airports'));
+        $eventTypes = EventType::all();
+        return view('event.create', compact('airports', 'eventTypes'));
     }
 
     /**
@@ -58,6 +60,7 @@ class EventController extends Controller
     {
         $request->validate([
             'name' => 'bail|required:string',
+            'eventType' => 'exists:event_types,id|required',
             'dateEvent' => 'required|date',
             'timeBeginEvent' => 'required',
             'timeEndEvent' => 'required',
@@ -70,6 +73,7 @@ class EventController extends Controller
 
         $event = Event::create([
             'name' => $request->name,
+            'event_type_id' => $request->eventType,
             'startEvent' => Carbon::createFromFormat('d-m-Y H:i', $request->dateEvent . ' ' . $request->timeBeginEvent),
             'endEvent' => Carbon::createFromFormat('d-m-Y H:i', $request->dateEvent . ' ' . $request->timeEndEvent),
             'startBooking' => Carbon::createFromFormat('d-m-Y H:i', $request->dateBeginBooking . ' ' . $request->timeBeginBooking),
@@ -77,7 +81,6 @@ class EventController extends Controller
             'timeFeedbackForm' => Carbon::createFromFormat('d-m-Y H:i', $request->dateEndBooking . ' ' . $request->timeEndBooking)->addHours($request->timeFeedbackForm),
             'description' => $request->description,
         ]);
-        $event->save();
         flashMessage('success', 'Done', 'Event has been created!');
         return redirect('admin/event');
     }
