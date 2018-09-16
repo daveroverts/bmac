@@ -9,6 +9,7 @@
         <tr>
             <th scope="row">ID</th>
             <th scope="row">Name</th>
+            <th scope="row">Type</th>
             <th scope="row">Date</th>
             <th scope="row">Start</th>
             <th scope="row">End</th>
@@ -19,6 +20,7 @@
             <tr>
                 <td>{{ $event->id }}</td>
                 <td>{{ $event->name }}</td>
+                <td>{{ $event->type->name }}</td>
                 <td>{{ $event->startEvent->format('d-m-Y') }}</td>
                 <td>{{ $event->startEvent->format('Hi') }}z</td>
                 <td>{{ $event->endEvent->format('Hi') }}z</td>
