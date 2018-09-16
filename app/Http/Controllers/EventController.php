@@ -62,6 +62,7 @@ class EventController extends Controller
             'name' => 'bail|required:string',
             'eventType' => 'exists:event_types,id|required',
             'dateEvent' => 'required|date',
+            'airport' => 'exists:airports,icao|required',
             'timeBeginEvent' => 'required',
             'timeEndEvent' => 'required',
             'dateBeginBooking' => 'required|date',
@@ -74,6 +75,8 @@ class EventController extends Controller
         $event = Event::create([
             'name' => $request->name,
             'event_type_id' => $request->eventType,
+            'dep' => $request->airport,
+            'arr' => $request->airport,
             'startEvent' => Carbon::createFromFormat('d-m-Y H:i', $request->dateEvent . ' ' . $request->timeBeginEvent),
             'endEvent' => Carbon::createFromFormat('d-m-Y H:i', $request->dateEvent . ' ' . $request->timeEndEvent),
             'startBooking' => Carbon::createFromFormat('d-m-Y H:i', $request->dateBeginBooking . ' ' . $request->timeBeginBooking),
@@ -93,7 +96,7 @@ class EventController extends Controller
      */
     public function show(Event $event)
     {
-        //
+        return view('event.show', compact('event'));
     }
 
     /**
