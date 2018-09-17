@@ -69,7 +69,7 @@ before_script:
 # comment this out if you don't have a frontend build
 # you can change this to to your frontend building script like
 # npm run build
-- yarn run prod
+- yarn run dev
 
 # Generate an application key. Re-cache.
 - php artisan key:generate
