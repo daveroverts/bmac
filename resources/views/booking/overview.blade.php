@@ -36,8 +36,8 @@
                             <td>
                                 <abbr title="Calculated Take Off Time">{{ $booking->ctot }}</abbr>
                             </td>
-                            <td>{{ $booking->callsign ?: '-' }}</td>
-                            <td>{{ $booking->acType ?: '-' }}</td>
+                            <td>{{ $booking->callsign }}</td>
+                            <td>{{ $booking->acType }}</td>
                             <td>
                                 {{--Check if booking has been booked--}}
                                 @if($booking->status === \App\Enums\BookingStatus::Booked)
