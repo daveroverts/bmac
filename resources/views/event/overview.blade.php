@@ -23,7 +23,7 @@
                 <tr>
             @endif
                 <td>{{ $event->id }}</td>
-                <td><a href="{{ route('booking.index', $event) }}">{{ $event->name }}</a></td>
+                <td><a href="{{ route('booking.index', $event) }}" title="Open Slot Table">{{ $event->name }}</a></td>
                 <td>{{ $event->type->name }}</td>
                 <td>{{ $event->startEvent->format('d-m-Y') }}</td>
                 <td>{{ $event->startEvent->format('Hi') }}z</td>
