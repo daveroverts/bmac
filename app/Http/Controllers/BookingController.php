@@ -39,11 +39,14 @@ class BookingController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Event $event = null)
     {
         $this->removeOverdueReservations();
 
-        $event = Event::query()->where('endEvent', '>', now())->orderBy('startEvent', 'asc')->first();
+        //Check if specific event is requested, else fall back to current ongoing event
+        if (!$event)
+            $event = Event::where('endEvent', '>', now())->orderBy('startEvent', 'desc')->first();
+
         $bookings = collect();
 
         if($event)
