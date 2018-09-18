@@ -17,7 +17,11 @@
         </tr>
         </thead>
         @forelse($events as $event)
-            <tr>
+            @if($event->endEvent < now())
+                <tr class="table-primary">
+            @else
+                <tr>
+            @endif
                 <td>{{ $event->id }}</td>
                 <td><a href="{{ route('booking.index', $event) }}">{{ $event->name }}</a></td>
                 <td>{{ $event->type->name }}</td>
