@@ -26,11 +26,7 @@
                 </thead>
                 @foreach($bookings as $booking)
                     {{--Check if flight belongs to the logged in user--}}
-                    @if(Auth::check() && isset($booking->user) && $booking->user_id == Auth::id())
-                        <tr class="table-primary">
-                    @else
-                        <tr>
-                            @endif
+                        <tr class="{{ Auth::check() && $booking->user_id == Auth::id() ? 'table-primary' : '' }}">
                             <td>
                                 <abbr title="{{ $booking->airportDep->name }}">{{ $booking->dep }}</abbr>
                             </td>
