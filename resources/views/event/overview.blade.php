@@ -30,7 +30,7 @@
                 <td>{{ $event->endEvent->format('Hi') }}z</td>
                 <td>
                     <a href="{{ route('event.edit',$event->id) }}" class="btn btn-primary disabled"><i class="fa fa-edit"></i> Edit Event</a>
-                    @if($event->endEvent > now())
+                    @if($event->endBooking > now())
                         <a href="{{ route('booking.create',$event) }}" class="btn btn-primary"><i class="fa fa-plus"></i> Add Timeslots</a>
                         <a href="{{ route('booking.admin.autoAssignForm',$event->id) }}" class="btn btn-primary">Auto Assign FL / Route</a>
                     @endif
