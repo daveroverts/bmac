@@ -30,9 +30,11 @@
                 <td>{{ $event->endEvent->format('Hi') }}z</td>
                 <td>
                     <a href="{{ route('event.edit',$event->id) }}" class="btn btn-primary disabled"><i class="fa fa-edit"></i> Edit Event</a>
-                    <a href="{{ route('booking.create',$event) }}" class="btn btn-primary"><i class="fa fa-plus"></i> Add Timeslots</a>
+                    @if($event->endEvent > now())
+                        <a href="{{ route('booking.create',$event) }}" class="btn btn-primary"><i class="fa fa-plus"></i> Add Timeslots</a>
+                        <a href="{{ route('booking.admin.autoAssignForm',$event->id) }}" class="btn btn-primary">Auto Assign FL / Route</a>
+                    @endif
                     <a href="{{ route('event.email.form',$event->id) }}" class="btn btn-primary"><i class="fa fa-envelope"></i> Send E-mails (all persons)</a>
-                    <a href="{{ route('booking.admin.autoAssignForm',$event->id) }}" class="btn btn-primary">Auto Assign FL / Route</a>
                     <a href="{{ route('booking.export',$event->id) }}" class="btn btn-success"><i class="fa fa-edit"></i> Export data</a>
                 </td>
             </tr>
