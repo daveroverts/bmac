@@ -23,11 +23,12 @@ Route::resource('admin/airport', 'AirportController');
 
 Route::resource('admin/airportLink', 'AirportLinkController');
 
+Route::resource('admin/event', 'EventController');
 Route::get('/admin/event/{event}/email', 'EventController@sendEmailForm')->name('event.email.form');
 Route::patch('/admin/event/{event}/email', 'EventController@sendEmail')->name('event.email');
 Route::get('/admin/event/{event}/email_final', 'EventController@sendFinalInformationMail')->name('event.email.final');
-Route::resource('admin/event', 'EventController');
 
+Route::resource('booking', 'BookingController')->except(['create', 'index']);
 Route::get('/booking/{event?}', 'BookingController@index')->name('booking.index');
 Route::get('/booking/{booking}/cancel', 'BookingController@cancel')->name('booking.cancel');
 Route::get('/booking/{event}/create/{bulk?}', 'BookingController@create')->name('booking.create');
@@ -36,7 +37,6 @@ Route::get('/admin/booking/{booking}/edit', 'BookingController@adminEdit')->name
 Route::patch('/admin/booking/{booking}/edit', 'BookingController@adminUpdate')->name('booking.admin.update');
 Route::get('/admin/booking/{event}/autoAssign', 'BookingController@adminAutoAssignForm')->name('booking.admin.autoAssignForm');
 Route::patch('/admin/booking/{event}/autoAssign', 'BookingController@adminAutoAssign')->name('booking.admin.autoAssign');
-Route::resource('booking', 'BookingController')->except('index', 'create');
 
 Route::get('/faq', function () {
     return view('faq');
