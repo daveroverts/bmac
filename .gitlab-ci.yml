@@ -102,6 +102,6 @@ test:
 deploy:
   stage: deploy
   script:
-  - wget $FORGE_TOKEN
+  - wget https://forge.laravel.com/servers/$FORGE_SERVER/sites/$FORGE_SITE/deploy/http?token=$FORGE_TOKEN
   only:
   - dev
