@@ -5,11 +5,9 @@ namespace Tests\Unit;
 use App\Models\Event;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class EventTest extends TestCase
 {
-    use RefreshDatabase;
 
     /**
      * Test if a event can be added

@@ -5,11 +5,9 @@ namespace Tests\Unit;
 use App\Models\Airport;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class AirportTest extends TestCase
 {
-    use RefreshDatabase;
 
     /**
      * Test if a airport can be added
