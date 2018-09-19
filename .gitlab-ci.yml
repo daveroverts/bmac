@@ -7,7 +7,7 @@ services:
 - mysql:latest
 
 variables:
-  MYSQL_DATABASE: book_me_a_cookie
+  MYSQL_DATABASE: homestead
   MYSQL_ROOT_PASSWORD: secret
 
 composer:
@@ -15,7 +15,7 @@ composer:
 
   script:
   - composer install --prefer-dist --no-ansi --no-interaction --no-progress --no-scripts
-  - cp .env.testing .env
+  - cp .env.example .env
   - php artisan key:generate
   - php artisan migrate:fresh
 
