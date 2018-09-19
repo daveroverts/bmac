@@ -88,6 +88,7 @@ before_script:
 # - php artisan db:seed
 
 test:
+  stage: test
   script:
   # run laravel tests
   - php vendor/bin/phpunit --coverage-text --colors=never
@@ -99,6 +100,7 @@ test:
 #  - npm test
 
 deploy:
+  stage: deploy
   script:
   - wget $FORGE_TOKEN
   only:
