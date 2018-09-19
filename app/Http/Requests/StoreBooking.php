@@ -24,6 +24,7 @@ class StoreBooking extends FormRequest
     public function rules()
     {
         return [
+            'id' => 'exists:events,id|required',
             'from' => 'exists:airports,icao|different:to|required',
             'to' => 'exists:airports,icao|required',
             'start' => 'date_format:H:i',
