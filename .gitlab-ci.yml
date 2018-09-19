@@ -1,11 +1,21 @@
 image: lorisleiva/laravel-docker:latest
 
+# Pick zero or more services to be used on all builds.
+# Only needed when using a docker container to run your tests in.
+# Check out: http://docs.gitlab.com/ce/ci/docker/using_docker_images.html#what-is-a-service
+services:
+- mysql:latest
+
+variables:
+  MYSQL_DATABASE: book_me_a_cookie
+  MYSQL_ROOT_PASSWORD: secret
+
 composer:
   stage: build
 
   script:
   - composer install --prefer-dist --no-ansi --no-interaction --no-progress --no-scripts
-  - cp .env.example .env
+  - cp .env.testing .env
   - php artisan key:generate
   - php artisan migrate:fresh
 
