@@ -17,7 +17,7 @@ composer:
   - composer install --prefer-dist --no-ansi --no-interaction --no-progress --no-scripts
   - cp .env.testing .env
   - php artisan key:generate
-  - php artisan migrate:fresh
+  - php artisan migrate
 
   artifacts:
     expire_in: 1 month
@@ -57,6 +57,9 @@ phpunit:
 
   dependencies:
   - composer
+
+  before_script:
+  - php artisan migrate
 
   script:
   - phpunit --coverage-text --colors=never
