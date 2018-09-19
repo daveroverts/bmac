@@ -170,6 +170,58 @@
                                     @endif
                                 </div>
                             </div>
+                        @else
+                            {{--CTOT--}}
+                            <div class="form-group row">
+                                <label for="ctot" class="col-md-4 col-form-label text-md-right">CTOT</label>
+
+                                <div class="col-md-6">
+                                    <input id="ctot" type="time"
+                                           class="form-control{{ $errors->has('ctot') ? ' is-invalid' : '' }}" name="ctot"
+                                           value="{{ old('ctot', $event->startEvent->format('H:i')) }}"
+                                           required>
+
+                                    @if ($errors->has('ctot'))
+                                        <span class="invalid-feedback">
+                                        <strong>{{ $errors->first('ctot') }}</strong>
+                                    </span>
+                                    @endif
+                                </div>
+                            </div>
+
+                            {{--Route--}}
+                            <div class="form-group row">
+                                <label for="route" class="col-md-4 col-form-label text-md-right">Route</label>
+
+                                <div class="col-md-6">
+                                <textarea class="form-control" id="route"
+                                          name="route">{{ old('route','vRoute') }}</textarea>
+
+                                    @if ($errors->has('route'))
+                                        <span class="invalid-feedback">
+                                        <strong>{{ $errors->first('route') }}</strong>
+                                    </span>
+                                    @endif
+                                </div>
+                            </div>
+
+                            {{--Cruise FL--}}
+                            <div class="form-group row">
+                                <label for="cruiseFL" class="col-md-4 col-form-label text-md-right">Cruise FL</label>
+
+                                <div class="col-md-6">
+                                    <input id="oceanicFL" type="text"
+                                           class="form-control{{ $errors->has('oceanicFL') ? ' is-invalid' : '' }}"
+                                           name="oceanicFL"
+                                           value="{{ old('oceanicFL',240) }}" min="3" max="3">
+
+                                    @if ($errors->has('oceanicFL'))
+                                        <span class="invalid-feedback">
+                                        <strong>{{ $errors->first('oceanicFL') }}</strong>
+                                    </span>
+                                    @endif
+                                </div>
+                            </div>
                         @endif
 
                         {{--Add--}}
