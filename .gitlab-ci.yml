@@ -93,3 +93,9 @@ test:
   # set it in your package.json script
   # comment this out if you don't have a frontend test
 #  - npm test
+
+deploy:
+  script:
+  - wget $FORGE_TOKEN
+  only:
+  - dev
