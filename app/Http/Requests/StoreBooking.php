@@ -25,6 +25,7 @@ class StoreBooking extends FormRequest
     {
         return [
             'id' => 'exists:events,id|required',
+            'bulk' => 'required|boolean',
             'callsign' => 'sometimes|required',
             'aircraft' => 'sometimes|required',
             'ctot' => 'sometimes|required',
@@ -34,6 +35,7 @@ class StoreBooking extends FormRequest
             'start' => 'sometimes|date_format:H:i',
             'end' => 'sometimes|date_format:H:i',
             'separation' => 'sometimes|integer|min:1',
+            'oceanicFL' => 'sometimes|integer',
         ];
     }
 }

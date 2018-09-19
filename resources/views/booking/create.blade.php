@@ -20,6 +20,7 @@
                     <form method="POST" action="{{ route('booking.store',$event) }}">
                         @csrf
                         <input type="hidden" name="id" value="{{ $event->id }}">
+                        <input type="hidden" name="bulk" value="{{ $bulk ? 1 : 0 }}">
                         {{--Event--}}
                         <div class="form-group row">
                             <label for="event" class="col-md-4 col-form-label text-md-right">Event</label>

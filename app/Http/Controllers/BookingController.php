@@ -94,25 +94,39 @@ class BookingController extends Controller
         $event = Event::whereKey($request->id)->first();
         $from = Airport::findOrFail($request->from);
         $to = Airport::findOrFail($request->to);
-        $event_start = Carbon::createFromFormat('Y-m-d H:i', $event->startEvent->toDateString() . ' ' . $request->start);
-        $event_end = Carbon::createFromFormat('Y-m-d H:i', $event->endEvent->toDateString() . ' ' . $request->end);
-        $separation = $request->separation;
-        $count = 0;
-        for ($event_start; $event_start <= $event_end; $event_start->addMinutes($separation)) {
-            if (!Booking::where([
-                'event_id' => $request->id,
-                'ctot' => $event_start,
-            ])->first()) {
-                Booking::create([
+        if ($request->bulk) {
+            $event_start = Carbon::createFromFormat('Y-m-d H:i', $event->startEvent->toDateString() . ' ' . $request->start);
+            $event_end = Carbon::createFromFormat('Y-m-d H:i', $event->endEvent->toDateString() . ' ' . $request->end);
+            $separation = $request->separation;
+            $count = 0;
+            for ($event_start; $event_start <= $event_end; $event_start->addMinutes($separation)) {
+                if (!Booking::where([
                     'event_id' => $request->id,
-                    'dep' => $from->icao,
-                    'arr' => $to->icao,
                     'ctot' => $event_start,
-                ])->save();
-                $count++;
+                ])->first()) {
+                    Booking::create([
+                        'event_id' => $request->id,
+                        'dep' => $from->icao,
+                        'arr' => $to->icao,
+                        'ctot' => $event_start,
+                    ])->save();
+                    $count++;
+                }
             }
+            flashMessage('success','Done',$count.' Slots have been created!');
+        } else {
+            Booking::create([
+                'event_id' => $request->id,
+                'callsign' => $request->callsign,
+                'acType' => $request->aircraft,
+                'dep' => $from->icao,
+                'arr' => $to->icao,
+                'ctot' => Carbon::createFromFormat('Y-m-d H:i', $event->startEvent->toDateString() . ' ' . $request->ctot),
+                'route' => $request->route,
+                'oceanicFL' => $request->oceanicFL,
+            ]);
+            flashMessage('success', 'Done', 'Slot created');
         }
-        flashMessage('success','Done',$count.' Slots have been created!');
         return redirect('/booking');
     }
 
