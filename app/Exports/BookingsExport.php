@@ -32,7 +32,7 @@ class BookingsExport implements FromView, Responsable
     {
         return view('exports.bookings', [
             'bookings' => Booking::where('event_id',$this->id)
-            ->where('status', BookingStatus::Booked)
+            ->where('status', BookingStatus::BOOKED)
             ->get()
         ]);
     }

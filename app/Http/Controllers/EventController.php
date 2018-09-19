@@ -148,7 +148,7 @@ class EventController extends Controller
     public function sendEmail(SendEmail $request, Event $event)
     {
         $bookings = Booking::where('event_id',$event->id)
-            ->where('status', BookingStatus::Booked)
+            ->where('status', BookingStatus::BOOKED)
             ->get();
         $count = 0;
         foreach ($bookings as $booking) {
@@ -167,7 +167,7 @@ class EventController extends Controller
      */
     public function sendFinalInformationMail(Event $event){
         $bookings = Booking::where('event_id',$event->id)
-            ->where('status', BookingStatus::Booked)
+            ->where('status', BookingStatus::BOOKED)
             ->get();
         $count = 0;
         foreach ($bookings as $booking) {

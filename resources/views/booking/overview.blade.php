@@ -9,7 +9,7 @@
         @endif
         @include('layouts.alert')
         @if($event->startBooking < now() || Auth::check() && Auth::user()->isAdmin)
-            Flights available: {{ count($bookings) - count($bookings->where('status',\App\Enums\BookingStatus::Booked)) }} / {{ count($bookings) }}
+            Flights available: {{ count($bookings) - count($bookings->where('status',\App\Enums\BookingStatus::BOOKED)) }} / {{ count($bookings) }}
             <table class="table table-hover">
                 <thead>
                 <tr>
@@ -40,7 +40,7 @@
                             <td>{{ $booking->acType }}</td>
                             <td>
                                 {{--Check if booking has been booked--}}
-                                @if($booking->status === \App\Enums\BookingStatus::Booked)
+                                @if($booking->status === \App\Enums\BookingStatus::BOOKED)
                                     {{--Check if booking has been booked by current user--}}
                                     @if(Auth::check() && $booking->user_id == Auth::id())
                                         <a href="{{ route('booking.show',$booking) }}" class="btn btn-info">My
@@ -50,7 +50,7 @@
                                             Booked [{{ $booking->user->pic }}]</button>
                                     @endif
 
-                                @elseif($booking->status === \App\Enums\BookingStatus::Reserved)
+                                @elseif($booking->status === \App\Enums\BookingStatus::RESERVED)
                                     {{--Check if a booking has been reserved--}}
                                     @if(Auth::check() && $booking->user_id == Auth::id())
                                         {{--Check if a booking has been reserved by current user--}}

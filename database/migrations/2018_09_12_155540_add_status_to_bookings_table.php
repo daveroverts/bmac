@@ -16,7 +16,7 @@ class AddStatusToBookingsTable extends Migration
     public function up()
     {
         Schema::table('bookings', function (Blueprint $table) {
-            $table->tinyInteger('status')->unsigned()->after('event_id')->default(BookingStatus::Unassigned);
+            $table->tinyInteger('status')->unsigned()->after('event_id')->default(BookingStatus::UNASSIGNED);
             $table->unsignedInteger('user_id')->after('event_id')->nullable();
         });
 
@@ -27,7 +27,7 @@ class AddStatusToBookingsTable extends Migration
         foreach (Booking::all() as $booking) {
             if ($booking->bookedBy_id) {
                 $booking->user_id = $booking->bookedBy_id;
-                $booking->status = BookingStatus::Booked;
+                $booking->status = BookingStatus::BOOKED;
             }
             $booking->save();
         }

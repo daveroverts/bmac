@@ -6,7 +6,7 @@ use BenSampo\Enum\Enum;
 
 final class BookingStatus extends Enum
 {
-    const Unassigned = 0;
-    const Reserved = 1;
-    const Booked = 2;
+    const UNASSIGNED = 0;
+    const RESERVED = 1;
+    const BOOKED = 2;
 }
