@@ -30,7 +30,7 @@ Route::resource('admin/event', 'EventController');
 
 Route::get('/booking/{event?}', 'BookingController@index')->name('booking.index');
 Route::get('/booking/{booking}/cancel', 'BookingController@cancel')->name('booking.cancel');
-Route::get('/booking/{event}/create', 'BookingController@create')->name('booking.create');
+Route::get('/booking/{event}/create/{bulk?}', 'BookingController@create')->name('booking.create');
 Route::get('/booking/{event}/export', 'BookingController@export')->name('booking.export');
 Route::get('/admin/booking/{booking}/edit', 'BookingController@adminEdit')->name('booking.admin.edit');
 Route::patch('/admin/booking/{booking}/edit', 'BookingController@adminUpdate')->name('booking.admin.update');

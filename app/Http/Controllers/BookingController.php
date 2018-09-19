@@ -75,11 +75,12 @@ class BookingController extends Controller
      * @param Event $event
      * @return \Illuminate\Http\Response
      */
-    public function create(Event $event)
+    public function create(Event $event, Request $request)
     {
+        $bulk = $request->bulk;
         $airports = Airport::all();
 
-        return view('booking.create', compact('event', 'airports'));
+        return view('booking.create', compact('event', 'airports', 'bulk'));
     }
 
     /**
