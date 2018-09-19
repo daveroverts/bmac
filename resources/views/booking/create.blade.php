@@ -42,6 +42,42 @@
                             </div>
                         </div>
 
+                        @if(!$bulk)
+                            {{--Callsign--}}
+                            <div class="form-group row">
+                                <label for="callsign" class="col-md-4 col-form-label text-md-right">Callsign</label>
+
+                                <div class="col-md-6">
+                                    <input id="callsign" type="text"
+                                           class="form-control{{ $errors->has('callsign') ? ' is-invalid' : '' }}"
+                                           name="callsign" value="{{ old('callsign') }}" required max="7">
+
+                                    @if ($errors->has('callsign'))
+                                        <span class="invalid-feedback">
+                                        <strong>{{ $errors->first('callsign') }}</strong>
+                                    </span>
+                                    @endif
+                                </div>
+                            </div>
+
+                            {{--Aircraft--}}
+                            <div class="form-group row">
+                                <label for="aircraft" class="col-md-4 col-form-label text-md-right"> Aircraft code</label>
+
+                                <div class="col-md-6">
+                                    <input id="aircraft" type="text"
+                                           class="form-control{{ $errors->has('aircraft') ? ' is-invalid' : '' }}"
+                                           name="aircraft" value="{{ old('aircraft') }}" required min="3" max="4">
+
+                                    @if ($errors->has('aircraft'))
+                                        <span class="invalid-feedback">
+                                        <strong>{{ $errors->first('aircraft') }}</strong>
+                                    </span>
+                                    @endif
+                                </div>
+                            </div>
+                        @endif
+
                         {{--From--}}
                         <div class="form-group row">
                             <label for="end" class="col-md-4 col-form-label text-md-right"> From</label>
@@ -82,57 +118,59 @@
                             </div>
                         </div>
 
-                        {{--Start--}}
-                        <div class="form-group row">
-                            <label for="start" class="col-md-4 col-form-label text-md-right"> Start</label>
+                        @if($bulk)
+                            {{--Start--}}
+                            <div class="form-group row">
+                                <label for="start" class="col-md-4 col-form-label text-md-right"> Start</label>
 
-                            <div class="col-md-6">
-                                <input id="start" type="time"
-                                       class="form-control{{ $errors->has('start') ? ' is-invalid' : '' }}" name="start"
-                                       value="{{ old('start',$event->startEvent->format('H:i')) }}" required autofocus>
+                                <div class="col-md-6">
+                                    <input id="start" type="time"
+                                           class="form-control{{ $errors->has('start') ? ' is-invalid' : '' }}" name="start"
+                                           value="{{ old('start',$event->startEvent->format('H:i')) }}" required autofocus>
 
-                                @if ($errors->has('start'))
-                                    <span class="invalid-feedback">
+                                    @if ($errors->has('start'))
+                                        <span class="invalid-feedback">
                                         <strong>{{ $errors->first('start') }}</strong>
                                     </span>
-                                @endif
+                                    @endif
+                                </div>
                             </div>
-                        </div>
 
-                        {{--End--}}
-                        <div class="form-group row">
-                            <label for="end" class="col-md-4 col-form-label text-md-right"> End</label>
+                            {{--End--}}
+                            <div class="form-group row">
+                                <label for="end" class="col-md-4 col-form-label text-md-right"> End</label>
 
-                            <div class="col-md-6">
-                                <input id="end" type="time"
-                                       class="form-control{{ $errors->has('end') ? ' is-invalid' : '' }}" name="end"
-                                       value="{{ old('end',$event->endEvent->format('H:i')) }}" required>
+                                <div class="col-md-6">
+                                    <input id="end" type="time"
+                                           class="form-control{{ $errors->has('end') ? ' is-invalid' : '' }}" name="end"
+                                           value="{{ old('end',$event->endEvent->format('H:i')) }}" required>
 
-                                @if ($errors->has('end'))
-                                    <span class="invalid-feedback">
+                                    @if ($errors->has('end'))
+                                        <span class="invalid-feedback">
                                         <strong>{{ $errors->first('end') }}</strong>
                                     </span>
-                                @endif
+                                    @endif
+                                </div>
                             </div>
-                        </div>
 
-                        {{--Separation--}}
-                        <div class="form-group row">
-                            <label for="separation" class="col-md-4 col-form-label text-md-right"> Separation (in
-                                minutes)</label>
+                            {{--Separation--}}
+                            <div class="form-group row">
+                                <label for="separation" class="col-md-4 col-form-label text-md-right"> Separation (in
+                                    minutes)</label>
 
-                            <div class="col-md-6">
-                                <input id="separation" type="number"
-                                       class="form-control{{ $errors->has('separation') ? ' is-invalid' : '' }}"
-                                       name="separation" value="{{ old('separation',2) }}" required min="1">
+                                <div class="col-md-6">
+                                    <input id="separation" type="number"
+                                           class="form-control{{ $errors->has('separation') ? ' is-invalid' : '' }}"
+                                           name="separation" value="{{ old('separation',2) }}" required min="1">
 
-                                @if ($errors->has('separation'))
-                                    <span class="invalid-feedback">
+                                    @if ($errors->has('separation'))
+                                        <span class="invalid-feedback">
                                         <strong>{{ $errors->first('separation') }}</strong>
                                     </span>
-                                @endif
+                                    @endif
+                                </div>
                             </div>
-                        </div>
+                        @endif
 
                         {{--Add--}}
                         <div class="form-group row mb-0">

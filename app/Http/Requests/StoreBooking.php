@@ -25,11 +25,15 @@ class StoreBooking extends FormRequest
     {
         return [
             'id' => 'exists:events,id|required',
+            'callsign' => 'sometimes|required',
+            'aircraft' => 'sometimes|required',
+            'ctot' => 'sometimes|required',
+            'route' => 'sometimes|nullable',
             'from' => 'exists:airports,icao|different:to|required',
             'to' => 'exists:airports,icao|required',
-            'start' => 'date_format:H:i',
-            'end' => 'date_format:H:i',
-            'separation' => 'integer|min:1',
+            'start' => 'sometimes|date_format:H:i',
+            'end' => 'sometimes|date_format:H:i',
+            'separation' => 'sometimes|integer|min:1',
         ];
     }
 }
