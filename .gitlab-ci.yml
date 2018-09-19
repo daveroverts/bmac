@@ -78,7 +78,7 @@ staging:
   stage: deploy
 
   script:
-  - wget https://forge.laravel.com/servers/$FORGE_SERVER/sites/$FORGE_SITE/deploy/http?token=$FORGE_TOKEN
+  - wget -q https://forge.laravel.com/servers/$FORGE_SERVER/sites/$FORGE_SITE/deploy/http?token=$FORGE_TOKEN
 
   environment:
     name: staging
