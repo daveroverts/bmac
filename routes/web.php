@@ -28,10 +28,10 @@ Route::get('/admin/event/{event}/email', 'EventController@sendEmailForm')->name(
 Route::patch('/admin/event/{event}/email', 'EventController@sendEmail')->name('event.email');
 Route::get('/admin/event/{event}/email_final', 'EventController@sendFinalInformationMail')->name('event.email.final');
 
-Route::resource('booking', 'BookingController')->except(['create', 'index']);
-Route::get('/booking/{event?}', 'BookingController@index')->name('booking.index');
-Route::get('/booking/{booking}/cancel', 'BookingController@cancel')->name('booking.cancel');
+Route::resource('booking', 'BookingController')->except(['index', 'create']);
+Route::get('/bookings/{event?}', 'BookingController@index')->name('booking.index');
 Route::get('/booking/{event}/create/{bulk?}', 'BookingController@create')->name('booking.create');
+Route::get('/booking/{booking}/cancel', 'BookingController@cancel')->name('booking.cancel');
 Route::get('/booking/{event}/export', 'BookingController@export')->name('booking.export');
 Route::get('/admin/booking/{booking}/edit', 'BookingController@adminEdit')->name('booking.admin.edit');
 Route::patch('/admin/booking/{booking}/edit', 'BookingController@adminUpdate')->name('booking.admin.update');
