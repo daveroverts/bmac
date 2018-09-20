@@ -51,12 +51,8 @@ class AirportController extends Controller
      */
     public function store(StoreAirport $request)
     {
-        $airport = Airport::create([
-            'icao' => $request->icao,
-            'iata' => $request->iata,
-            'name' => $request->name,
-        ]);
-        $airport->save();
+        $data = $request->only(['icao', 'iata', 'name']);
+        $airport = Airport::create($data);
         flashMessage('success', 'Done', $airport->name . ' [' . $airport->icao . ' | ' . $airport->iata . '] has been added!');
         return redirect(route('airport.index'));
     }
