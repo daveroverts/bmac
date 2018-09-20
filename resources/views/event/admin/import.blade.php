@@ -26,10 +26,7 @@
 
                             <div class="col-md-4 col-form-label text-md-right"></div>
                             <div class="col-md-6">
-                                <div class="custom-file">
-                                    <input type="file" class="custom-file-input" id="file" name="file">
-                                    <label class="custom-file-label" for="file">Choose file...</label>
-                                </div>
+                                <input type="file" class="form-control-file" id="file" name="file">
 
                                 @if ($errors->has('file'))
                                     <span class="invalid-feedback">
