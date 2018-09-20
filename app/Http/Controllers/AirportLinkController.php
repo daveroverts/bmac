@@ -57,7 +57,7 @@ class AirportLinkController extends Controller
             'url' => $request->url,
         ]);
         flashMessage('success', 'Done', $airportLink->type->name . ' item has been added for ' . $airportLink->airport->name . ' [' . $airportLink->airport->icao . ' | ' . $airportLink->airport->iata . ']');
-        return redirect('/admin/airport');
+        return redirect(route('airport.index'));
     }
 
     /**

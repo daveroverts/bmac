@@ -58,7 +58,7 @@ class AirportController extends Controller
         ]);
         $airport->save();
         flashMessage('success', 'Done', $airport->name . ' [' . $airport->icao . ' | ' . $airport->iata . '] has been added!');
-        return redirect('admin/airport');
+        return redirect(route('airport.index'));
     }
 
     /**
