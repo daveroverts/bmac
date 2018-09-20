@@ -17,9 +17,8 @@ use App\{Enums\BookingStatus,
     Mail\BookingConfirmed,
     Mail\BookingDeleted};
 use Carbon\Carbon;
-use Illuminate\{
-    Http\Request, Support\Facades\Auth, Support\Facades\Mail
-};
+use Illuminate\{Http\Request, Support\Facades\Auth, Support\Facades\Mail, Support\Facades\Storage};
+use Rap2hpoutre\FastExcel\FastExcel;
 
 class BookingController extends Controller
 {
@@ -406,7 +405,20 @@ class BookingController extends Controller
 
     public function import(ImportBookings $request, Event $event)
     {
-        return redirect(route('event.index'));
+        // Save file from importForm()
+        // Start foreach() on the line
+        // Check if airport does NOT exists, if it doesn't, create it
+        // Create the booking itself
+        // End foreach()
+        // Delete file
+        // Return to event.overview with success message
+        $file = $request->file('file')->getRealPath();
+        $collection = (new FastExcel)->importSheets($file, function ($line) {
+            //
+        });
+        Storage::delete($file);
+        $count = 0;
+        flashMessage('success', 'Flights imported', $count. ' flights have been imported');
     }
 
     /**
