@@ -33,6 +33,8 @@ Route::get('/bookings/{event?}', 'BookingController@index')->name('booking.index
 Route::get('/booking/{event}/create/{bulk?}', 'BookingController@create')->name('booking.create');
 Route::get('/booking/{booking}/cancel', 'BookingController@cancel')->name('booking.cancel');
 Route::get('/booking/{event}/export', 'BookingController@export')->name('booking.export');
+Route::get('/admin/booking/{event}/import', 'BookingController@importForm')->name('booking.admin.importForm');
+Route::put('/admin/booking/{event}/import', 'BookingController@import')->name('booking.admin.import');
 Route::get('/admin/booking/{booking}/edit', 'BookingController@adminEdit')->name('booking.admin.edit');
 Route::patch('/admin/booking/{booking}/edit', 'BookingController@adminUpdate')->name('booking.admin.update');
 Route::get('/admin/booking/{event}/autoAssign', 'BookingController@adminAutoAssignForm')->name('booking.admin.autoAssignForm');

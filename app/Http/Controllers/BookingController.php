@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\{Enums\BookingStatus,
+    Http\Requests\ImportBookings,
     Models\Airport,
     Models\Booking,
     Models\Event,
@@ -31,7 +32,7 @@ class BookingController extends Controller
     {
         $this->middleware('auth.isLoggedIn')->except('index');
 
-        $this->middleware('auth.isAdmin')->only(['create', 'store', 'destroy', 'adminEdit', 'adminUpdate', 'export', 'adminAutoAssignForm', 'adminAutoAssign']);
+        $this->middleware('auth.isAdmin')->only(['create', 'store', 'destroy', 'adminEdit', 'adminUpdate', 'export', 'importForm', 'import', 'adminAutoAssignForm', 'adminAutoAssign']);
     }
 
     /**
@@ -396,6 +397,16 @@ class BookingController extends Controller
     public function export(Event $event)
     {
         return new BookingsExport($event->id);
+    }
+
+    public function importForm(Event $event)
+    {
+        return view('event.admin.import', compact('event'));
+    }
+
+    public function import(ImportBookings $request, Event $event)
+    {
+        return redirect(route('event.index'));
     }
 
     /**
