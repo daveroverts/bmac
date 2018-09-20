@@ -11,20 +11,20 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <!-- Left Side Of Navbar -->
             <ul class="navbar-nav mr-auto">
-                <li class="nav-item {{ Request::is('/') ? 'active' : '' }}">
+                <li class="nav-item {{ Route::currentRouteNamed('home') ? 'active' : '' }}">
                     <a class="nav-link" href="{{ url('/') }}">Home</a>
                 </li>
-                <li class="nav-item {{ Request::is('booking') ? 'active' : '' }}">
+                <li class="nav-item {{ Route::currentRouteNamed('booking.index') ? 'active' : '' }}">
                     <a class="nav-link" href="{{ route('booking.index') }}">Bookings</a>
                 </li>
                 @auth
                     @if(Auth::user()->booking()->first())
-                        <li class="nav-item {{ Request::is('booking/*') ? 'active' : '' }}">
+                        <li class="nav-item {{ Route::currentRouteNamed('booking.show') ? 'active' : '' }}">
                             <a class="nav-link" href="{{ route('booking.show', Auth::user()->booking()->first()) }}">
                                 My booking</a></li>
                     @endif
                 @endauth
-                <li class="nav-item {{ Request::is('faq') ? 'active' : '' }}">
+                <li class="nav-item {{ Route::currentRouteNamed('faq') ? 'active' : '' }}">
                     <a class="nav-link" href="{{ route('faq') }}">FAQ</a></li>
                 <li class="nav-item">
                     <a class="nav-link" href="mailto:events@dutchvacc.nl">Contact Us</a>
@@ -32,13 +32,13 @@
                 @if(Auth::check() && Auth::user()->isAdmin)
                     <li class="nav-item">
                         <div class="dropdown">
-                            <a class="btn btn-outline-secondary text-white dropdown-toggle {{ Request::is('admin/airport') || Request::is('admin/event') ? 'active' : '' }}" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <a class="btn btn-outline-secondary text-white dropdown-toggle {{ Request::is('admin/*') ? 'active' : '' }}" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 Admin
                             </a>
 
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                <a class="dropdown-item {{ Request::is('admin/airport') ? 'active' : '' }}" href="{{ route('airport.index') }}">Airports</a>
-                                <a class="dropdown-item {{ Request::is('admin/event') ? 'active' : '' }}" href="{{ route('event.index') }}">Events</a>
+                                <a class="dropdown-item {{ Route::currentRouteNamed('airport.index') ? 'active' : '' }}" href="{{ route('airport.index') }}">Airports</a>
+                                <a class="dropdown-item {{ Route::currentRouteNamed('event.index') ? 'active' : '' }}" href="{{ route('event.index') }}">Events</a>
                             </div>
                         </div>
                     </li>
