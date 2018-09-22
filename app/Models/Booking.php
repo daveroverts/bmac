@@ -35,7 +35,7 @@ class Booking extends Model
      * @var array
      */
     protected $fillable = [
-        'event_id', 'user_id', 'status', 'callsign', 'acType', 'selcal', 'dep', 'arr', 'ctot', 'route', 'oceanicFL', 'oceanicTrack'
+        'event_id', 'user_id', 'status', 'callsign', 'acType', 'selcal', 'dep', 'arr', 'ctot', 'eta', 'route', 'oceanicFL', 'oceanicTrack'
     ];
 
     /**
@@ -44,7 +44,7 @@ class Booking extends Model
      * @var array
      */
     protected $dates = [
-        'ctot',
+        'ctot', 'eta'
     ];
 
     /**
@@ -55,7 +55,22 @@ class Booking extends Model
      */
     public function getCtotAttribute($value)
     {
-        return \Carbon\Carbon::parse($value)->format('Hi') . 'z';
+        if (!empty($value)) {
+            return \Carbon\Carbon::parse($value)->format('Hi') . 'z';
+        } else return '-';
+    }
+
+    /**
+     * Format for ETA
+     *
+     * @param $value
+     * @return string
+     */
+    public function getEtaAttribute($value)
+    {
+        if (!empty($value)) {
+            return \Carbon\Carbon::parse($value)->format('Hi') . 'z';
+        } else return '-';
     }
 
     /**
