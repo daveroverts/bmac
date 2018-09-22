@@ -6,7 +6,7 @@ use BenSampo\Enum\Enum;
 
 final class EventType extends Enum
 {
-    const OneWay = 1;
-    const CityPair = 2;
-    const FlyIn = 3;
+    const ONEWAY = 1;
+    const CITYPAIR = 2;
+    const FLYIN = 3;
 }
