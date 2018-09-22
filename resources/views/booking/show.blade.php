@@ -90,16 +90,16 @@
                     </div>
 
                     {{--Track--}}
-                    <div class="form-group row">
-                        <label for="track" class="col-md-4 col-form-label text-md-right">Track</label>
+                    {{--<div class="form-group row">--}}
+                        {{--<label for="track" class="col-md-4 col-form-label text-md-right">Track</label>--}}
 
-                        <div class="col-md-6">
-                            <div class="form-control-plaintext">
-                                <strong>{{ $booking->oceanicTrack ?:  'T.B.D. / Available on day of event at 0600z' }}</strong>
-                            </div>
+                        {{--<div class="col-md-6">--}}
+                            {{--<div class="form-control-plaintext">--}}
+                                {{--<strong>{{ $booking->oceanicTrack ?:  'T.B.D. / Available on day of event at 0600z' }}</strong>--}}
+                            {{--</div>--}}
 
-                        </div>
-                    </div>
+                        {{--</div>--}}
+                    {{--</div>--}}
 
                     {{--Oceanic Entry FL--}}
                     <div class="form-group row">
@@ -121,13 +121,13 @@
                     </div>
 
                     {{--SELCAL--}}
-                    <div class="form-group row">
-                        <label for="selcal" class="col-md-4 col-form-label text-md-right">SELCAL</label>
+                    {{--<div class="form-group row">--}}
+                        {{--<label for="selcal" class="col-md-4 col-form-label text-md-right">SELCAL</label>--}}
 
-                        <div class="col-md-6">
-                            <div class="form-control-plaintext"><strong>{{ $booking->selcal }}</strong></div>
-                        </div>
-                    </div>
+                        {{--<div class="col-md-6">--}}
+                            {{--<div class="form-control-plaintext"><strong>{{ $booking->selcal }}</strong></div>--}}
+                        {{--</div>--}}
+                    {{--</div>--}}
 
                         @foreach($booking->airportDep->links as $link)
                             <div class="form-group row">
@@ -142,15 +142,15 @@
                         @endforeach
 
                     {{--Oceanic sheet--}}
-                    <div class="form-group row">
-                        <label for="chartsEHAM" class="col-md-4 col-form-label text-md-right">Oceanic sheet</label>
+                    {{--<div class="form-group row">--}}
+                        {{--<label for="chartsEHAM" class="col-md-4 col-form-label text-md-right">Oceanic sheet</label>--}}
 
-                            <div class="col-md-6">
-                                <div class="form-control-plaintext"><a
-                                        href="https://ctp.vatsim.net/system/view/includes/Transatlantic_Radio_Operations_Checksheet.pdf"
-                                        target="_blank">Link</a></div>
-                            </div>
-                        </div>
+                            {{--<div class="col-md-6">--}}
+                                {{--<div class="form-control-plaintext"><a--}}
+                                        {{--href="https://ctp.vatsim.net/system/view/includes/Transatlantic_Radio_Operations_Checksheet.pdf"--}}
+                                        {{--target="_blank">Link</a></div>--}}
+                            {{--</div>--}}
+                        {{--</div>--}}
 
                         @foreach($booking->airportArr->links as $link)
                             <div class="form-group row">
