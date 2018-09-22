@@ -15,7 +15,7 @@ class AddEventTypeToEventsTable extends Migration
     public function up()
     {
         Schema::table('events', function (Blueprint $table) {
-            $table->tinyInteger('event_type_id')->unsigned()->after('id')->default(EventType::OneWay);
+            $table->tinyInteger('event_type_id')->unsigned()->after('id')->default(EventType::ONEWAY);
         });
 
         Schema::table('events', function (Blueprint $table) {
