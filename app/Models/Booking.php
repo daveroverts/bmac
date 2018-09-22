@@ -48,6 +48,32 @@ class Booking extends Model
     ];
 
     /**
+     * Format for callsign
+     *
+     * @param $value
+     * @return string
+     */
+    public function getCallsignAttribute($value)
+    {
+        if (!empty($value)) {
+            return $value;
+        } else return '-';
+    }
+
+    /**
+     * Format for callsign
+     *
+     * @param $value
+     * @return string
+     */
+    public function getActypeAttribute($value)
+    {
+        if (!empty($value)) {
+            return $value;
+        } else return '-';
+    }
+
+    /**
      * Format for CTOT
      *
      * @param $value
