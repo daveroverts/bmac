@@ -115,16 +115,22 @@ class BookingController extends Controller
             }
             flashMessage('success','Done',$count.' Slots have been created!');
         } else {
-            Booking::create([
-                'event_id' => $request->id,
+            $booking = new Booking([
                 'callsign' => $request->callsign,
                 'acType' => $request->aircraft,
                 'dep' => $from->icao,
                 'arr' => $to->icao,
-                'ctot' => Carbon::createFromFormat('Y-m-d H:i', $event->startEvent->toDateString() . ' ' . $request->ctot),
                 'route' => $request->route,
                 'oceanicFL' => $request->oceanicFL,
             ]);
+            if ($request->ctot) {
+                $booking->ctot = Carbon::createFromFormat('Y-m-d H:i', $event->startEvent->toDateString() . ' ' . $request->ctot);
+            }
+
+            if ($request->eta) {
+                $booking->eta = Carbon::createFromFormat('Y-m-d H:i', $event->startEvent->toDateString() . ' ' . $request->eta);
+            }
+            $booking->event()->associate($request->id)->save();
             flashMessage('success', 'Done', 'Slot created');
         }
         return redirect('/booking');
