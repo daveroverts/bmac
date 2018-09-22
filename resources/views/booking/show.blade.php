@@ -36,6 +36,16 @@
                         </div>
                     </div>
 
+                    {{--ETA--}}
+                    <div class="form-group row">
+                        <label for="ctot" class="col-md-4 col-form-label text-md-right"> ETA</label>
+
+                        <div class="col-md-6">
+                            <div class="form-control-plaintext"><strong>{{ $booking->eta }}</strong></div>
+
+                        </div>
+                    </div>
+
                     {{--ADEP--}}
                     <div class="form-group row">
                         <label for="adep" class="col-md-4 col-form-label text-md-right">ADEP</label>
