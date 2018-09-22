@@ -36,5 +36,7 @@
                 No airports are in the system, consider adding one, using the button above
             @endcomponent
         @endforelse
+        {{ $airports->links() }}
     </table>
+    {{ $airports->links() }}
 @endsection

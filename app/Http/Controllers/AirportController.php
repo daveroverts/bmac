@@ -28,7 +28,7 @@ class AirportController extends Controller
      */
     public function index()
     {
-        $airports = Airport::all();
+        $airports = Airport::paginate(100);
         return view('airport.overview', compact('airports'));
     }
 
