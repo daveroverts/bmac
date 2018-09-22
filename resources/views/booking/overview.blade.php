@@ -4,8 +4,12 @@
     @if($event)
         <h2>{{ $event->name }} | Slot Table</h2>
         @if(Auth::check() && Auth::user()->isAdmin && $event->endBooking > now())
-            <p><a href="{{ route('booking.create',$event) }}" class="btn btn-primary"><i class="fa fa-plus"></i> Add
-                    Timeslots</a></p>
+            <p>
+                <a href="{{ route('booking.create',$event) }}" class="btn btn-primary"><i class="fa fa-plus"></i> Add
+                    Booking</a>
+                <a href="{{ route('booking.create',$event) }}/bulk" class="btn btn-primary"><i class="fa fa-plus"></i> Add
+                    Timeslots</a>
+            </p>
         @endif
         @include('layouts.alert')
         @if($event->startBooking < now() || Auth::check() && Auth::user()->isAdmin)
