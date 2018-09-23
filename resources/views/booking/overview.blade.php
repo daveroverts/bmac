@@ -22,8 +22,8 @@
                 <tr>
                     <th scope="row">From</th>
                     <th scope="row">To</th>
-                    <th scope="row"><abbr title="Calculated Take Off Time">CTOT</abbr></th>
-                    <th scope="row"><abbr title="Estimated Time of Arrival">ETA</abbr></th>
+                    {{--<th scope="row"><abbr title="Calculated Take Off Time">CTOT</abbr></th>--}}
+                    {{--<th scope="row"><abbr title="Estimated Time of Arrival">ETA</abbr></th>--}}
                     <th scope="row">Callsign</th>
                     <th scope="row">Aircraft</th>
                     <th scope="row">Book | Available until {{ $event->endBooking->format('d-m-Y H:i') }}z</th>
@@ -45,12 +45,12 @@
                             <td>
                                 <abbr title="{{ $booking->airportArr->name }}">{{ $booking->arr }}</abbr>
                             </td>
-                            <td>
-                                {{ $booking->ctot }}
-                            </td>
-                            <td>
-                                {{ $booking->eta }}
-                            </td>
+                            {{--<td>--}}
+                                {{--{{ $booking->ctot }}--}}
+                            {{--</td>--}}
+                            {{--<td>--}}
+                                {{--{{ $booking->eta }}--}}
+                            {{--</td>--}}
                             <td>{{ $booking->callsign }}</td>
                             <td>{{ $booking->acType }}</td>
                             <td>

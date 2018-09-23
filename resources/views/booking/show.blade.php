@@ -78,16 +78,16 @@
                     </div>
 
                     {{--Route--}}
-                    <div class="form-group row">
-                        <label for="route" class="col-md-4 col-form-label text-md-right">Route</label>
+                    {{--<div class="form-group row">--}}
+                        {{--<label for="route" class="col-md-4 col-form-label text-md-right">Route</label>--}}
 
-                        <div class="col-md-6">
-                            <div class="form-control-plaintext">
-                                <strong>{{ $booking->route ?: 'T.B.D. / Available on day of event at 0600z' }}</strong>
-                            </div>
+                        {{--<div class="col-md-6">--}}
+                            {{--<div class="form-control-plaintext">--}}
+                                {{--<strong>{{ $booking->route ?: 'T.B.D. / Available on day of event at 0600z' }}</strong>--}}
+                            {{--</div>--}}
 
-                        </div>
-                    </div>
+                        {{--</div>--}}
+                    {{--</div>--}}
 
                     {{--Track--}}
                     {{--<div class="form-group row">--}}
