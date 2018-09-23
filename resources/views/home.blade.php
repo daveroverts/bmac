@@ -1,24 +1,15 @@
 @extends('layouts.app')
 
 @section('content')
-    <h3>Welcome to the Holland-America Line – July 29th</h3>
+    <h3>Welcome to the Rotterdam World Port – September 30th</h3>
     @include('layouts.alert')
-    <h5>Bookings have opened!</h5>
-    <p>Slots are available until July 29th 2100z. A total of 90 slots will be available over the course of three
-        hours.</p>
+    <p>On <strong>Sunday</strong>, the <strong>30th of September</strong>, the Dutch VACC will be hosting <strong>Rotterdam World Port</strong>, a <strong>real operations & fly-in
+            event</strong> at <strong>Rotterdam The Hague Airport (EHRD)</strong>. Pilots are encouraged to book a real world operated flight through
+        our booking system (offline for now). There is <strong>no specific arrival or departure time</strong> for booked flights - just
+        feel free to pop up or drop by whenever you like!</p>
 
-    <h5>FlyTampa to sponsor the Holland-America Line</h5>
-    <p>This event will be sponsored by scenery developer FlyTampa, who produces high quality scenery for both Boston
-        Logan and Amsterdam Schiphol. The company has generously offered to give away two sceneries for each airport!
-        Winners will be randomly selected from those who flew with a booking, and will be announced a day or two after
-        the event.</p>
-
-    <h5>Welcome to the Holland-America Line</h5>
-    <p>Come join the <a href="http://www.bvartcc.com/" target="_blank">Boston Virtual ARTCC</a> and <a
-                href="https://www.dutchvacc.nl/" target="_blank">Dutch VACC</a> for a long-haul, trans-Atlantic,
-        inter-division, mini-Cross the Pond jamboree! From 1100-1400z on Sunday, July 29, we'll have Amsterdam Schiphol
-        International Airport staffed to the gills to accommodate departures, and will have all en route facilities
-        staffed for a flight to Boston Logan Airport, where the Boston Virtual ARTCC will provide a full staff to
-        sequence arrivals and get them onto the ground. Bring your favorite long haul aircraft, your business jet, or
-        whatever you want, and join us for 7+ hours of packed airspace and professional air traffic control.</p>
+    <p>Rotterdam The Hague is the <strong>3rd largest airport</strong> in the Netherlands. It is extensively used by Transavia which
+        offers scheduled and charter flights to a great number of European destinations. The airport is also regularly
+        visited by VFR flights and bizzjets. We'll be open between <strong>17:30</strong> and <strong>20:00 UTC</strong>. Feel free to drop by on a
+        commercial, bizzjet or VFR-flight!</p>
 @endsection
