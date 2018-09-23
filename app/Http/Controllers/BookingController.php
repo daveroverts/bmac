@@ -201,12 +201,10 @@ class BookingController extends Controller
             }
         } // If the booking hasn't been taken by anybody else, check if user doesn't already have a booking
         else {
-            if (Auth::user()->booking()->where('event_id', $booking->event_id)->first()) {
-                flashMessage('danger', 'Nope!', 'You already have a booking!');
-                return redirect(route('booking.index'));
-            }
             // If user already has another reservation open
-            if (Auth::user()->booking()->where('event_id', $booking->event_id)->first()) {
+            if (Auth::user()->booking()->where('event_id', $booking->event_id)
+                ->where('status', BookingStatus::RESERVED)
+                ->first()) {
                 flashMessage('danger!', 'Nope!', 'You already have a reservation!');
                 return redirect(route('booking.index'));
             } // Reserve booking, and redirect to booking.edit

@@ -74,16 +74,11 @@
                                 @else
                                     @if(Auth::check())
                                         {{--Check if user is logged in--}}
-                                        @if(!Auth::user()->booking()->where('event_id',$event->id)->first())
-                                            {{--Check if user already has a booking--}}
-                                            @if($booking->event->startBooking < now() && $booking->event->endBooking > now())
-                                                {{--Check if current date is between startBooking and endBooking--}}
-                                                <a href="{{ route('booking.edit', $booking) }}" class="btn btn-success">BOOK NOW</a>
-                                            @else
-                                                <button class="btn btn-danger">Not available</button>
-                                            @endif
+                                        @if($booking->event->startBooking < now() && $booking->event->endBooking > now())
+                                            {{--Check if current date is between startBooking and endBooking--}}
+                                            <a href="{{ route('booking.edit', $booking) }}" class="btn btn-success">BOOK NOW</a>
                                         @else
-                                            <button class="btn btn-danger">You already have a booking</button>
+                                            <button class="btn btn-danger">Not available</button>
                                         @endif
                                     @else
                                         <a href="{{ route('login') }}" class="btn btn-info">Click here to login</a>
