@@ -1,5 +1,11 @@
 # Changelog
 
+**v0.6.0b**
+- Updates homepage for the Rotterdam World Port event.
+
+**v0.6.0a**
+- Updates homepage for the Rotterdam World Port event.
+
 **v0.6.0**
 - Gitlab CI:
     - Added 3 stages, ``build``, ``test``, and ``deploy``
