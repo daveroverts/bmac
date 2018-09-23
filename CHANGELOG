@@ -1,5 +1,19 @@
 # Changelog
 
+**v0.6.0**
+- Gitlab CI:
+    - Added 3 stages, ``build``, ``test``, and ``deploy``
+    - ``build``: Adds ``composer`` for PHP, and ``yarn`` for JS/CSS
+    - Added ``phpcs`` in test stage
+    - Added deployment to my stage enviroment.
+- Add support for different event types.
+- Adds import script for airports.
+- Adds import script for bookings.
+- Adds ``ETA`` to a booking.
+- Almost all views, and E-mails have been edited to support the Rotterdam World Port event.
+   - At some point, admins can decide what to show in different views / E-mails.
+- Adds optional filter for departures/arrivals in booking.overview page.
+
 **v0.5.0**
 - Add some actual SELCAL validation (not only duplicate check)
 - ``bookings`` table:
