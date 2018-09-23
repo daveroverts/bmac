@@ -39,7 +39,7 @@ class BookingController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Event $event = null)
+    public function index(Request $request, Event $event = null)
     {
         $this->removeOverdueReservations();
 
@@ -49,10 +49,30 @@ class BookingController extends Controller
 
         $bookings = collect();
 
-        if($event)
-            $bookings = Booking::where('event_id', $event->id)->orderBy('ctot')->get();
+        $filter = null;
 
-        return view('booking.overview', compact('event', 'bookings'));
+        if($event) {
+            switch ($request->filter) {
+                case 'departures':
+                    $bookings = Booking::where('event_id', $event->id)
+                        ->where('dep', $event->dep)
+                        ->orderBy('ctot')
+                        ->get();
+                    $filter = $request->filter;
+                    break;
+                case 'arrivals':
+                    $bookings = Booking::where('event_id', $event->id)
+                        ->where('arr', $event->arr)
+                        ->orderBy('ctot')
+                        ->get();
+                    $filter = $request->filter;
+                    break;
+                default:
+                    $bookings = Booking::where('event_id', $event->id)->orderBy('ctot')->get();
+            }
+        }
+
+        return view('booking.overview', compact('event', 'bookings', 'filter'));
     }
 
     public function removeOverdueReservations()
