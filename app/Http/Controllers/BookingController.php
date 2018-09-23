@@ -242,11 +242,12 @@ class BookingController extends Controller
     {
         // Check if the reservation / booking actually belongs to the correct person
         if (Auth::id() == $booking->user_id) {
-            $booking->fill([
-                'status' => BookingStatus::Booked,
-                'callsign' => $request->callsign,
-                'acType' => $request->aircraft,
-            ]);
+//            $booking->fill([
+//                'status' => BookingStatus::Booked,
+//                'callsign' => $request->callsign,
+//                'acType' => $request->aircraft,
+//            ]);
+            $booking->status = BookingStatus::BOOKED;
             $booking->selcal = $this->validateSELCAL(strtoupper($request->selcal1 . '-' . $request->selcal2), $booking->event_id);
             if ($booking->getOriginal('status') === BookingStatus::Reserved) {
                 Mail::to(Auth::user())->send(new BookingConfirmed($booking));
@@ -330,12 +331,13 @@ class BookingController extends Controller
     {
         if (Auth::id() == $booking->user_id) {
             if ($booking->event->endBooking > now()) {
-                $booking->fill([
-                    'status' => BookingStatus::Unassigned,
-                    'callsign' => null,
-                    'acType' => null,
-                    'selcal' => null,
-                ]);
+//                $booking->fill([
+//                    'status' => BookingStatus::Unassigned,
+//                    'callsign' => null,
+//                    'acType' => null,
+//                    'selcal' => null,
+//                ]);
+                $booking->status = BookingStatus::UNASSIGNED;
                 if ($booking->getOriginal('status') === BookingStatus::Booked) {
                     $title = 'Booking removed!';
                     $message = 'Booking has been removed! A E-mail has also been sent';
