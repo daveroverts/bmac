@@ -431,20 +431,19 @@ class BookingController extends Controller
 
     public function import(ImportBookings $request, Event $event)
     {
-        // Save file from importForm()
-        // Start foreach() on the line
-        // Check if airport does NOT exists, if it doesn't, create it
-        // Create the booking itself
-        // End foreach()
-        // Delete file
-        // Return to event.overview with success message
         $file = $request->file('file')->getRealPath();
-        $collection = (new FastExcel)->importSheets($file, function ($line) {
-            //
+        $collection = (new FastExcel)->importSheets($file, function ($line) use ($event) {
+            Booking::create([
+                'event_id' => $event->id,
+                'callsign' => $line['CS'],
+                'acType' => $line['ATYP'],
+                'dep' => $line['ADEP'],
+                'arr' => $line['ADES'],
+            ]);
         });
         Storage::delete($file);
-        $count = 0;
-        flashMessage('success', 'Flights imported', $count. ' flights have been imported');
+        flashMessage('success', 'Flights imported', 'Flights have been imported');
+        return redirect(route('booking.index', $event));
     }
 
     /**
