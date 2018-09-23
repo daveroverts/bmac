@@ -15,7 +15,7 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">{{ $booking->event->name }} | My {{ \App\Enums\BookingStatus::BOOKED ? 'Booking' : 'Reservation' }}</div>
+                <div class="card-header">{{ $booking->event->name }} | My {{ $booking->status === \App\Enums\BookingStatus::BOOKED ? 'Booking' : 'Reservation' }}</div>
 
                 <div class="card-body">
                     <form method="POST" action="{{ route('booking.update',$booking) }}">
