@@ -24,18 +24,11 @@
 
                         {{--Callsign--}}
                         <div class="form-group row">
-                            <label for="callsign" class="col-md-4 col-form-label text-md-right">Callsign</label>
+                            <label for="callsign" class="col-md-4 col-form-label text-md-right"> Callsign</label>
 
                             <div class="col-md-6">
-                                <input id="callsign" type="text"
-                                       class="form-control{{ $errors->has('callsign') ? ' is-invalid' : '' }}"
-                                       name="callsign" value="{{ old('callsign', $booking->callsign) }}" required autofocus max="7">
+                                <div class="form-control-plaintext"><strong>{{ $booking->callsign }}</strong></div>
 
-                                @if ($errors->has('callsign'))
-                                    <span class="invalid-feedback">
-                                        <strong>{{ $errors->first('callsign') }}</strong>
-                                    </span>
-                                @endif
                             </div>
                         </div>
 
@@ -115,19 +108,12 @@
                         </div>
 
                         {{--Aircraft--}}
-                        <div class="form-group form-row">
+                        <div class="form-group row">
                             <label for="aircraft" class="col-md-4 col-form-label text-md-right"> Aircraft code</label>
 
                             <div class="col-md-6">
-                                <input id="aircraft" type="text"
-                                       class="form-control{{ $errors->has('aircraft') ? ' is-invalid' : '' }}"
-                                       name="aircraft" value="{{ old('aircraft',$booking->acType) }}" required min="3" max="4">
+                                <div class="form-control-plaintext"><strong>{{ $booking->acType }}</strong></div>
 
-                                @if ($errors->has('aircraft'))
-                                    <span class="invalid-feedback">
-                                        <strong>{{ $errors->first('aircraft') }}</strong>
-                                    </span>
-                                @endif
                             </div>
                         </div>
 
