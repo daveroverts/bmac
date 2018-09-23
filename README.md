@@ -1,3 +1,6 @@
+[![pipeline status](https://gitlab.com/daveroverts/Book-me-a-cookie/badges/dev/pipeline.svg)](https://gitlab.com/daveroverts/Book-me-a-cookie/commits/dev) 
+[![coverage report](https://gitlab.com/daveroverts/Book-me-a-cookie/badges/dev/coverage.svg)](https://gitlab.com/daveroverts/Book-me-a-cookie/commits/dev)
+
 # About this project
 Book me a Cookie is a booking system created in Laravel. It's initial purpose was to be used for one event (The Holland - America Line), howerver, this system is already ready to be used for more events.
 

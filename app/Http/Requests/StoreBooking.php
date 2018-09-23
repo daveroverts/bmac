@@ -24,11 +24,19 @@ class StoreBooking extends FormRequest
     public function rules()
     {
         return [
+            'id' => 'exists:events,id|required',
+            'bulk' => 'required|boolean',
+            'callsign' => 'sometimes|required',
+            'aircraft' => 'sometimes|required',
+            'ctot' => 'sometimes|nullable',
+            'eta' => 'sometimes|nullable',
+            'route' => 'sometimes|nullable',
             'from' => 'exists:airports,icao|different:to|required',
             'to' => 'exists:airports,icao|required',
-            'start' => 'date_format:H:i',
-            'end' => 'date_format:H:i',
-            'separation' => 'integer|min:1',
+            'start' => 'sometimes|date_format:H:i',
+            'end' => 'sometimes|date_format:H:i',
+            'separation' => 'sometimes|integer|min:1',
+            'oceanicFL' => 'sometimes|integer',
         ];
     }
 }

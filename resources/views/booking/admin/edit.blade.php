@@ -177,14 +177,14 @@
                         </div>
 
                         {{--SELCAL--}}
-                        <div class="form-group row">
-                            <label for="selcal" class="col-md-4 col-form-label text-md-right">SELCAL</label>
+                        {{--<div class="form-group row">--}}
+                            {{--<label for="selcal" class="col-md-4 col-form-label text-md-right">SELCAL</label>--}}
 
-                            <div class="col-md-6">
-                                <div class="form-control-plaintext"><strong>{{ $booking->selcal }}</strong></div>
+                            {{--<div class="col-md-6">--}}
+                                {{--<div class="form-control-plaintext"><strong>{{ $booking->selcal }}</strong></div>--}}
 
-                            </div>
-                        </div>
+                            {{--</div>--}}
+                        {{--</div>--}}
 
                         {{--Message--}}
                         <div class="form-group row">

@@ -15,7 +15,7 @@ class Event extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'startEvent', 'endEvent', 'startBooking', 'endBooking', 'description', 'sendFeedbackForm', 'formSent'
+        'name', 'event_type_id', 'startEvent', 'endEvent', 'startBooking', 'endBooking', 'description', 'dep', 'arr', 'sendFeedbackForm', 'formSent'
     ];
 
     /**
@@ -39,12 +39,29 @@ class Event extends Model
      * @var array
      */
     protected $casts = [
+        'dep' => 'string',
+        'arr' => 'string',
         'formSent' => 'boolean',
     ];
 
     public function bookings()
     {
         return $this->hasMany(Booking::class);
+    }
+
+    public function type()
+    {
+        return $this->hasOne(EventType::class, 'id', 'event_type_id');
+    }
+
+    public function dep()
+    {
+        return $this->hasOne(Airport::class, 'icao', 'dep');
+    }
+
+    public function arr()
+    {
+        return $this->hasOne(Airport::class, 'icao', 'arr');
     }
 
     public function sluggable()
@@ -56,4 +73,13 @@ class Event extends Model
         ];
     }
 
+    /**
+     * Get the route key for the model.
+     *
+     * @return string
+     */
+    public function getRouteKeyName()
+    {
+        return 'slug';
+    }
 }

@@ -42,6 +42,46 @@
                             </div>
                         </div>
 
+                        {{--Type--}}
+                        <div class="form-group row">
+                            <label for="eventType" class="col-md-4 col-form-label text-md-right"> Type</label>
+
+                            <div class="col-md-6">
+                                <select class="custom-select form-control{{ $errors->has('eventType') ? ' is-invalid' : '' }}" name="eventType">
+                                    <option value="">Choose an event type...</option>
+                                    @foreach($eventTypes as $eventType)
+                                        <option value="{{ $eventType->id }}" {{ old('eventType') == $eventType->id ? 'selected' : '' }}>{{ $eventType->name }}</option>
+                                    @endforeach
+                                </select>
+
+                                @if ($errors->has('eventType'))
+                                    <span class="invalid-feedback">
+                                        <strong>{{ $errors->first('eventType') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
+                        {{--Airport--}}
+                        <div class="form-group row">
+                            <label for="end" class="col-md-4 col-form-label text-md-right"> Airport</label>
+
+                            <div class="col-md-6">
+                                <select class="custom-select form-control{{ $errors->has('from') ? ' is-invalid' : '' }}" name="airport">
+                                    <option value="">Choose an airport...</option>
+                                    @foreach($airports as $airport)
+                                        <option value="{{ $airport->icao }}" {{ old('from') == $airport->icao ? 'selected' : '' }}>{{ $airport->icao }} [{{ $airport->name }} ({{ $airport->iata }})]</option>
+                                    @endforeach
+                                </select>
+
+                                @if ($errors->has('airport'))
+                                    <span class="invalid-feedback">
+                                        <strong>{{ $errors->first('airport') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
                         {{--Date Event--}}
                         <div class="form-group row">
                             <label for="dateEvent" class="col-md-4 col-form-label text-md-right"><i

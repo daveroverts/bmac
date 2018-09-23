@@ -3,12 +3,13 @@
 namespace Tests\Unit;
 
 use App\Models\Event;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class EventTest extends TestCase
 {
+
     use RefreshDatabase;
 
     /**
