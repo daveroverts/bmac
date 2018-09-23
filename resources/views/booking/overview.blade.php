@@ -3,8 +3,11 @@
 @section('content')
     @if($event)
         <h2>{{ $event->name }} | {{ $filter ? ucfirst($filter) : 'Slot Table' }}</h2>
+        <p>
+            <a href="{{ route('booking.index',$event) }}" class="btn btn-{{ url()->current() === route('booking.index') || url()->current() === route('booking.index', $event) ? 'success' : 'primary' }}">Show All</a>
+            <a href="{{ route('booking.index',$event) }}/departures" class="btn btn-{{ url()->current() === route('booking.index', $event) . '/departures' ? 'success' : 'primary' }}">Show Departures</a>
+            <a href="{{ route('booking.index',$event) }}/arrivals" class="btn btn-{{ url()->current() === route('booking.index', $event) . '/arrivals' ? 'success' : 'primary' }}">Show Arrivals</a>
         @if(Auth::check() && Auth::user()->isAdmin && $event->endBooking > now())
-            <p>
                 <a href="{{ route('booking.create',$event) }}" class="btn btn-primary"><i class="fa fa-plus"></i> Add
                     Booking</a>
                 <a href="{{ route('booking.create',$event) }}/bulk" class="btn btn-primary"><i class="fa fa-plus"></i> Add
@@ -31,7 +34,7 @@
                 </thead>
                 @foreach($bookings as $booking)
                     {{--Check if flight belongs to the logged in user--}}
-                    @if(Auth::check() && isset($booking->user) && $booking->user_id == Auth::id())
+                    @if(isset($booking->user) && $booking->user_id == Auth::id())
                         <tr class="table-primary">
                     @else
                         <tr>
