@@ -51,7 +51,7 @@
                         <label for="adep" class="col-md-4 col-form-label text-md-right">ADEP</label>
 
                         <div class="col-md-6">
-                            <div class="form-control-plaintext"><strong>{{ $booking->dep }}</strong></div>
+                            <div class="form-control-plaintext"><strong><abbr title="{{ $booking->airportDep->name }}">{{ $booking->dep }}</abbr></strong></div>
 
                         </div>
                     </div>
@@ -61,7 +61,7 @@
                         <label for="ades" class="col-md-4 col-form-label text-md-right">ADES</label>
 
                         <div class="col-md-6">
-                            <div class="form-control-plaintext"><strong>{{ $booking->arr }}</strong></div>
+                            <div class="form-control-plaintext"><strong><abbr title="{{ $booking->airportArr->name }}">{{ $booking->arr }}</abbr></strong></div>
 
                         </div>
                     </div>
