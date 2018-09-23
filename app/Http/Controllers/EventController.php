@@ -8,7 +8,8 @@ use App\{Enums\BookingStatus,
     Mail\EventFinalInformation,
     Models\Airport,
     Models\Booking,
-    Models\Event};
+    Models\Event,
+    Models\EventType};
 use Carbon\Carbon;
 use Illuminate\{
     Http\Request, Support\Facades\Mail
@@ -33,7 +34,7 @@ class EventController extends Controller
      */
     public function index()
     {
-        $events = Event::all();
+        $events = Event::orderBy('endEvent', 'DESC')->get();
         return view('event.overview', compact('events'));
     }
 
@@ -45,7 +46,8 @@ class EventController extends Controller
     public function create()
     {
         $airports = Airport::all();
-        return view('event.create', compact('airports'));
+        $eventTypes = EventType::all();
+        return view('event.create', compact('airports', 'eventTypes'));
     }
 
     /**
@@ -58,7 +60,9 @@ class EventController extends Controller
     {
         $request->validate([
             'name' => 'bail|required:string',
+            'eventType' => 'exists:event_types,id|required',
             'dateEvent' => 'required|date',
+            'airport' => 'exists:airports,icao|required',
             'timeBeginEvent' => 'required',
             'timeEndEvent' => 'required',
             'dateBeginBooking' => 'required|date',
@@ -70,6 +74,9 @@ class EventController extends Controller
 
         $event = Event::create([
             'name' => $request->name,
+            'event_type_id' => $request->eventType,
+            'dep' => $request->airport,
+            'arr' => $request->airport,
             'startEvent' => Carbon::createFromFormat('d-m-Y H:i', $request->dateEvent . ' ' . $request->timeBeginEvent),
             'endEvent' => Carbon::createFromFormat('d-m-Y H:i', $request->dateEvent . ' ' . $request->timeEndEvent),
             'startBooking' => Carbon::createFromFormat('d-m-Y H:i', $request->dateBeginBooking . ' ' . $request->timeBeginBooking),
@@ -77,7 +84,6 @@ class EventController extends Controller
             'timeFeedbackForm' => Carbon::createFromFormat('d-m-Y H:i', $request->dateEndBooking . ' ' . $request->timeEndBooking)->addHours($request->timeFeedbackForm),
             'description' => $request->description,
         ]);
-        $event->save();
         flashMessage('success', 'Done', 'Event has been created!');
         return redirect(route('event.index'));
     }
@@ -90,7 +96,7 @@ class EventController extends Controller
      */
     public function show(Event $event)
     {
-        //
+        return view('event.show', compact('event'));
     }
 
     /**

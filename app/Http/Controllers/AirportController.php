@@ -5,9 +5,8 @@ namespace App\Http\Controllers;
 use App\{
     Models\Airport, Http\Requests\StoreAirport
 };
-use Illuminate\{
-    Http\Request
-};
+use Illuminate\{Http\Request, Support\Facades\Storage};
+use Rap2hpoutre\FastExcel\FastExcel;
 
 class AirportController extends Controller
 {
@@ -29,7 +28,7 @@ class AirportController extends Controller
      */
     public function index()
     {
-        $airports = Airport::all();
+        $airports = Airport::paginate(100);
         return view('airport.overview', compact('airports'));
     }
 
@@ -100,5 +99,28 @@ class AirportController extends Controller
     public function destroy(Airport $airport)
     {
         //
+    }
+
+    public function import()
+    {
+        return response()->stream( function () {
+            $file = 'import.csv';
+            Storage::disk('local')->put($file, "airportId,name,city,country,iata,icao,latitude,longitude,altitude,timezone,dst,tzDatabaseTimeZone,type,source\n" . file_get_contents('https://raw.githubusercontent.com/jpatokal/openflights/master/data/airports.dat'));
+            $collection = (new FastExcel)->configureCsv(',')->import(Storage::path($file), function ($line) {
+                // Check if airport already exists
+                if (!Airport::where('icao',$line['icao'])->exists()) {
+                    // Check if ICAO and IATA are filled in
+                    if (strlen($line['icao']) == 4 && strlen($line['iata']) == 3) {
+                        Airport::create([
+                            'icao' => $line['icao'],
+                            'iata' => $line['iata'],
+                            'name' => $line['name'],
+                        ]);
+                    }
+                }
+            });
+            Storage::delete($file);
+            flashMessage('succes','Done','Airports have been added');
+        });
     }
 }

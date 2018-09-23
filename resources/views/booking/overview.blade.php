@@ -2,10 +2,17 @@
 
 @section('content')
     @if($event)
-        <h2>{{ $event->name }} | Slot Table</h2>
-        @if(Auth::check() && Auth::user()->isAdmin)
-            <p><a href="{{ route('booking.create',$event) }}" class="btn btn-primary"><i class="fa fa-plus"></i> Add
-                    Timeslots</a></p>
+        <h2>{{ $event->name }} | {{ $filter ? ucfirst($filter) : 'Slot Table' }}</h2>
+        <p>
+            <a href="{{ route('booking.index',$event) }}" class="btn btn-{{ url()->current() === route('booking.index') || url()->current() === route('booking.index', $event) ? 'success' : 'primary' }}">Show All</a>
+            <a href="{{ route('booking.index',$event) }}/departures" class="btn btn-{{ url()->current() === route('booking.index', $event) . '/departures' ? 'success' : 'primary' }}">Show Departures</a>
+            <a href="{{ route('booking.index',$event) }}/arrivals" class="btn btn-{{ url()->current() === route('booking.index', $event) . '/arrivals' ? 'success' : 'primary' }}">Show Arrivals</a>
+        @if(Auth::check() && Auth::user()->isAdmin && $event->endBooking > now())
+                <a href="{{ route('booking.create',$event) }}" class="btn btn-primary"><i class="fa fa-plus"></i> Add
+                    Booking</a>
+                <a href="{{ route('booking.create',$event) }}/bulk" class="btn btn-primary"><i class="fa fa-plus"></i> Add
+                    Timeslots</a>
+            </p>
         @endif
         @include('layouts.alert')
         @if($event->startBooking < now() || Auth::check() && Auth::user()->isAdmin)
@@ -15,7 +22,8 @@
                 <tr>
                     <th scope="row">From</th>
                     <th scope="row">To</th>
-                    <th scope="row"><abbr title="Calculated Take Off Time">CTOT</abbr></th>
+                    {{--<th scope="row"><abbr title="Calculated Take Off Time">CTOT</abbr></th>--}}
+                    {{--<th scope="row"><abbr title="Estimated Time of Arrival">ETA</abbr></th>--}}
                     <th scope="row">Callsign</th>
                     <th scope="row">Aircraft</th>
                     <th scope="row">Book | Available until {{ $event->endBooking->format('d-m-Y H:i') }}z</th>
@@ -33,9 +41,12 @@
                             <td>
                                 <abbr title="{{ $booking->airportArr->name }}">{{ $booking->arr }}</abbr>
                             </td>
-                            <td>
-                                <abbr title="Calculated Take Off Time">{{ $booking->ctot }}</abbr>
-                            </td>
+                            {{--<td>--}}
+                                {{--{{ $booking->ctot }}--}}
+                            {{--</td>--}}
+                            {{--<td>--}}
+                                {{--{{ $booking->eta }}--}}
+                            {{--</td>--}}
                             <td>{{ $booking->callsign }}</td>
                             <td>{{ $booking->acType }}</td>
                             <td>
