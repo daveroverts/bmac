@@ -250,7 +250,7 @@ class BookingController extends Controller
             $booking->selcal = $this->validateSELCAL(strtoupper($request->selcal1 . '-' . $request->selcal2), $booking->event_id);
             if ($booking->getOriginal('status') === BookingStatus::RESERVED) {
                 Mail::to(Auth::user())->send(new BookingConfirmed($booking));
-                flashMessage('success', 'Booking created!', 'Booking has been created! A E-mail with details has also been sent');
+                flashMessage('success', 'Booking created!', 'Booking has been created! An E-mail with details has also been sent');
             }
             else {
                 flashMessage('success', 'Booking edited!', 'Booking has been edited!');
