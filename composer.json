@@ -16,7 +16,6 @@
         "fideloper/proxy": "^4.0",
         "laravel/framework": "5.7.*",
         "laravel/tinker": "^1.0",
-        "maatwebsite/excel": "^3.0",
         "pragmarx/version": "^0.2.8",
         "predis/predis": "^1.1",
         "rap2hpoutre/fast-excel": "^0.9.0",
