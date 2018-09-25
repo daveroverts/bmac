@@ -12,8 +12,8 @@
                     Booking</a>
                 <a href="{{ route('booking.create',$event) }}/bulk" class="btn btn-primary"><i class="fa fa-plus"></i> Add
                     Timeslots</a>
-            </p>
         @endif
+        </p>
         @include('layouts.alert')
         @if($event->startBooking < now() || Auth::check() && Auth::user()->isAdmin)
             Flights available: {{ count($bookings) - count($bookings->where('status',\App\Enums\BookingStatus::BOOKED)) }} / {{ count($bookings) }}
