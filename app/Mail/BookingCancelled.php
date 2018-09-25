@@ -2,12 +2,8 @@
 
 namespace App\Mail;
 
-use App\Models\{
-    Event, User
-};
-use Illuminate\{
-    Bus\Queueable, Contracts\Queue\ShouldQueue, Mail\Mailable, Queue\SerializesModels
-};
+use App\Models\{Event, User};
+use Illuminate\{Bus\Queueable, Contracts\Queue\ShouldQueue, Mail\Mailable, Queue\SerializesModels};
 
 class BookingCancelled extends Mailable implements ShouldQueue
 {

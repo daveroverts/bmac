@@ -3,9 +3,7 @@
 namespace App\Mail;
 
 use App\Models\Booking;
-use Illuminate\{
-    Bus\Queueable, Contracts\Queue\ShouldQueue, Mail\Mailable, Queue\SerializesModels
-};
+use Illuminate\{Bus\Queueable, Contracts\Queue\ShouldQueue, Mail\Mailable, Queue\SerializesModels};
 
 class EventFinalInformation extends Mailable implements ShouldQueue
 {
