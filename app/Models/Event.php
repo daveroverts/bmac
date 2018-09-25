@@ -15,7 +15,7 @@ class Event extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'event_type_id', 'startEvent', 'endEvent', 'startBooking', 'endBooking', 'description', 'dep', 'arr', 'sendFeedbackForm', 'formSent'
+        'name', 'event_type_id', 'startEvent', 'endEvent', 'startBooking', 'endBooking', 'description', 'dep', 'arr',
     ];
 
     /**
@@ -28,7 +28,6 @@ class Event extends Model
         'endEvent',
         'startBooking',
         'endBooking',
-        'sendFeedbackForm',
         'created_at',
         'updated_at',
     ];
@@ -41,7 +40,6 @@ class Event extends Model
     protected $casts = [
         'dep' => 'string',
         'arr' => 'string',
-        'formSent' => 'boolean',
     ];
 
     public function bookings()

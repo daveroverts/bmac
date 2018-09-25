@@ -7,7 +7,6 @@ use App\{Enums\BookingStatus,
     Models\Airport,
     Models\Booking,
     Models\Event,
-    Exports\BookingsExport,
     Http\Requests\AdminAutoAssign,
     Http\Requests\AdminUpdateBooking,
     Http\Requests\StoreBooking,
@@ -201,12 +200,10 @@ class BookingController extends Controller
             }
         } // If the booking hasn't been taken by anybody else, check if user doesn't already have a booking
         else {
-            if (Auth::user()->booking()->where('event_id', $booking->event_id)->first()) {
-                flashMessage('danger', 'Nope!', 'You already have a booking!');
-                return redirect(route('booking.index'));
-            }
             // If user already has another reservation open
-            if (Auth::user()->booking()->where('event_id', $booking->event_id)->first()) {
+            if (Auth::user()->booking()->where('event_id', $booking->event_id)
+                ->where('status', BookingStatus::RESERVED)
+                ->first()) {
                 flashMessage('danger!', 'Nope!', 'You already have a reservation!');
                 return redirect(route('booking.index'));
             } // Reserve booking, and redirect to booking.edit
@@ -252,7 +249,7 @@ class BookingController extends Controller
             $booking->selcal = $this->validateSELCAL(strtoupper($request->selcal1 . '-' . $request->selcal2), $booking->event_id);
             if ($booking->getOriginal('status') === BookingStatus::RESERVED) {
                 Mail::to(Auth::user())->send(new BookingConfirmed($booking));
-                flashMessage('success', 'Booking created!', 'Booking has been created! A E-mail with details has also been sent');
+                flashMessage('success', 'Booking created!', 'Booking has been created! An E-mail with details has also been sent');
             }
             else {
                 flashMessage('success', 'Booking edited!', 'Booking has been edited!');
@@ -420,11 +417,24 @@ class BookingController extends Controller
      * Exports all active bookings to a .csv file
      *
      * @param Event $$event
-     * @return BookingsExport
      */
     public function export(Event $event)
     {
-        return new BookingsExport($event->id);
+        $bookings = Booking::where('event_id', $event->id)
+            ->where('status', BookingStatus::BOOKED)
+            ->get();
+        return (new FastExcel($bookings))->withoutHeaders()->download('bookings.csv', function ($booking) {
+            return [
+                $booking->user->full_name,
+                $booking->user_id,
+                $booking->callsign,
+                $booking->dep,
+                $booking->arr,
+                $booking->getOriginal('oceanicFL'),
+                Carbon::parse($booking->getOriginal('ctot'))->format('H:i:s'),
+                $booking->route,
+            ];
+        });
     }
 
     public function importForm(Event $event)

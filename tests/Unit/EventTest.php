@@ -25,7 +25,6 @@ class EventTest extends TestCase
         $endEvent = now()->addMonth()->addHours(3)->toDateTimeString();
         $startBooking = now()->addWeek()->toDateTimeString();
         $endBooking = now()->subDay()->toDateTimeString();
-        $sendFeedbackForm = now()->addMonth()->addHours(2)->addDay()->toDateTimeString();
 
         Event::create([
             'name' => $name,
@@ -34,7 +33,6 @@ class EventTest extends TestCase
             'endEvent' => $endEvent,
             'startBooking' => $startBooking,
             'endBooking' => $endBooking,
-            'sendFeedbackForm' => $sendFeedbackForm,
         ]);
 
         $this->assertDatabaseHas('events', [
@@ -44,7 +42,6 @@ class EventTest extends TestCase
             'endEvent' => $endEvent,
             'startBooking' => $startBooking,
             'endBooking' => $endBooking,
-            'sendFeedbackForm' => $sendFeedbackForm,
         ]);
     }
 }
