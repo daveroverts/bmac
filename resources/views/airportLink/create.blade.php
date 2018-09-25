@@ -23,7 +23,8 @@
                             <label for="airportLinkType" class="col-md-4 col-form-label text-md-right">Type</label>
 
                             <div class="col-md-6">
-                                <select class="custom-select form-control{{ $errors->has('type') ? ' is-invalid' : '' }}" name="airportLinkType">
+                                <select class="custom-select form-control{{ $errors->has('type') ? ' is-invalid' : '' }}"
+                                        name="airportLinkType">
                                     <option value="">Choose type...</option>
                                     @foreach($airportLinkTypes as $airportLinkType)
                                         <option value="{{ $airportLinkType->id }}" {{ old('airportLinkType') == $airportLinkType->id ? 'selected' : '' }}>{{ $airportLinkType->name }}</option>
@@ -43,10 +44,13 @@
                             <label for="airport" class="col-md-4 col-form-label text-md-right">Airport</label>
 
                             <div class="col-md-6">
-                                <select class="custom-select form-control{{ $errors->has('airport') ? ' is-invalid' : '' }}" name="airport">
+                                <select class="custom-select form-control{{ $errors->has('airport') ? ' is-invalid' : '' }}"
+                                        name="airport">
                                     <option value="">Choose an airport...</option>
                                     @foreach($airports as $airport)
-                                        <option value="{{ $airport->icao }}" {{ old('airport') == $airport->icao ? 'selected' : '' }}>{{ $airport->icao }} [{{ $airport->name }} ({{ $airport->iata }})]</option>
+                                        <option value="{{ $airport->icao }}" {{ old('airport') == $airport->icao ? 'selected' : '' }}>{{ $airport->icao }}
+                                            [{{ $airport->name }} ({{ $airport->iata }})]
+                                        </option>
                                     @endforeach
                                 </select>
 

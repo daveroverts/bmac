@@ -17,7 +17,8 @@
                 <div class="card-header">{{ $event->name }} | Import</div>
 
                 <div class="card-body">
-                    <form method="POST" action="{{ route('booking.admin.import',$event) }}" enctype="multipart/form-data">
+                    <form method="POST" action="{{ route('booking.admin.import',$event) }}"
+                          enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
 

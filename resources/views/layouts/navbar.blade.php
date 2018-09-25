@@ -33,20 +33,24 @@
                     @endif
                 @endauth
                 {{--<li class="nav-item {{ Route::currentRouteNamed('faq') ? 'active' : '' }}">--}}
-                    {{--<a class="nav-link" href="{{ route('faq') }}">FAQ</a></li>--}}
+                {{--<a class="nav-link" href="{{ route('faq') }}">FAQ</a></li>--}}
                 <li class="nav-item">
                     <a class="nav-link" href="mailto:events@dutchvacc.nl">Contact Us</a>
                 </li>
                 @if(Auth::check() && Auth::user()->isAdmin)
                     <li class="nav-item">
                         <div class="dropdown">
-                            <a class="btn btn-outline-secondary text-white dropdown-toggle {{ Request::is('admin/*') ? 'active' : '' }}" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <a class="btn btn-outline-secondary text-white dropdown-toggle {{ Request::is('admin/*') ? 'active' : '' }}"
+                               href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
+                               aria-expanded="false">
                                 Admin
                             </a>
 
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                <a class="dropdown-item {{ Route::currentRouteNamed('airport.index') ? 'active' : '' }}" href="{{ route('airport.index') }}">Airports</a>
-                                <a class="dropdown-item {{ Route::currentRouteNamed('event.index') ? 'active' : '' }}" href="{{ route('event.index') }}">Events</a>
+                                <a class="dropdown-item {{ Route::currentRouteNamed('airport.index') ? 'active' : '' }}"
+                                   href="{{ route('airport.index') }}">Airports</a>
+                                <a class="dropdown-item {{ Route::currentRouteNamed('event.index') ? 'active' : '' }}"
+                                   href="{{ route('event.index') }}">Events</a>
                             </div>
                         </div>
                     </li>

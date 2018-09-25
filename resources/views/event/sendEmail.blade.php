@@ -33,7 +33,8 @@
                             <label class="col-md-4 col-form-label text-md-right"></label>
 
                             <div class="col-md-6">
-                                <a href="{{ route('event.email.final',$event->id) }}" class="btn btn-primary"><i class="fa fa-envelope"></i> Send Final Information E-mail</a>
+                                <a href="{{ route('event.email.final',$event->id) }}" class="btn btn-primary"><i
+                                            class="fa fa-envelope"></i> Send Final Information E-mail</a>
                             </div>
                         </div>
                         {{--Subject--}}
@@ -42,7 +43,8 @@
 
                             <div class="col-md-6">
                                 <input id="subject" type="text"
-                                       class="form-control{{ $errors->has('subject') ? ' is-invalid' : '' }}" name="subject"
+                                       class="form-control{{ $errors->has('subject') ? ' is-invalid' : '' }}"
+                                       name="subject"
                                        value="{{ old('subject') }}" required autofocus>
 
                                 @if ($errors->has('subject'))

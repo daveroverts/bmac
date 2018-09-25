@@ -14,7 +14,8 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">{{ $booking->event->name }} | My {{ $booking->status === \App\Enums\BookingStatus::BOOKED ? 'Booking' : 'Reservation' }}</div>
+                <div class="card-header">{{ $booking->event->name }} |
+                    My {{ $booking->status === \App\Enums\BookingStatus::BOOKED ? 'Booking' : 'Reservation' }}</div>
 
                 <div class="card-body">
                     {{--Callsign--}}
@@ -28,22 +29,22 @@
 
                     {{--CTOT--}}
                     {{--<div class="form-group row">--}}
-                        {{--<label for="ctot" class="col-md-4 col-form-label text-md-right"> CTOT</label>--}}
+                    {{--<label for="ctot" class="col-md-4 col-form-label text-md-right"> CTOT</label>--}}
 
-                        {{--<div class="col-md-6">--}}
-                            {{--<div class="form-control-plaintext"><strong>{{ $booking->ctot }}</strong></div>--}}
+                    {{--<div class="col-md-6">--}}
+                    {{--<div class="form-control-plaintext"><strong>{{ $booking->ctot }}</strong></div>--}}
 
-                        {{--</div>--}}
+                    {{--</div>--}}
                     {{--</div>--}}
 
                     {{--ETA--}}
                     {{--<div class="form-group row">--}}
-                        {{--<label for="ctot" class="col-md-4 col-form-label text-md-right"> ETA</label>--}}
+                    {{--<label for="ctot" class="col-md-4 col-form-label text-md-right"> ETA</label>--}}
 
-                        {{--<div class="col-md-6">--}}
-                            {{--<div class="form-control-plaintext"><strong>{{ $booking->eta }}</strong></div>--}}
+                    {{--<div class="col-md-6">--}}
+                    {{--<div class="form-control-plaintext"><strong>{{ $booking->eta }}</strong></div>--}}
 
-                        {{--</div>--}}
+                    {{--</div>--}}
                     {{--</div>--}}
 
                     {{--ADEP--}}
@@ -51,7 +52,9 @@
                         <label for="adep" class="col-md-4 col-form-label text-md-right">ADEP</label>
 
                         <div class="col-md-6">
-                            <div class="form-control-plaintext"><strong><abbr title="{{ $booking->airportDep->name }}">{{ $booking->dep }}</abbr></strong></div>
+                            <div class="form-control-plaintext"><strong><abbr
+                                            title="{{ $booking->airportDep->name }}">{{ $booking->dep }}</abbr></strong>
+                            </div>
 
                         </div>
                     </div>
@@ -61,7 +64,9 @@
                         <label for="ades" class="col-md-4 col-form-label text-md-right">ADES</label>
 
                         <div class="col-md-6">
-                            <div class="form-control-plaintext"><strong><abbr title="{{ $booking->airportArr->name }}">{{ $booking->arr }}</abbr></strong></div>
+                            <div class="form-control-plaintext"><strong><abbr
+                                            title="{{ $booking->airportArr->name }}">{{ $booking->arr }}</abbr></strong>
+                            </div>
 
                         </div>
                     </div>
@@ -79,36 +84,36 @@
 
                     {{--Route--}}
                     {{--<div class="form-group row">--}}
-                        {{--<label for="route" class="col-md-4 col-form-label text-md-right">Route</label>--}}
+                    {{--<label for="route" class="col-md-4 col-form-label text-md-right">Route</label>--}}
 
-                        {{--<div class="col-md-6">--}}
-                            {{--<div class="form-control-plaintext">--}}
-                                {{--<strong>{{ $booking->route ?: 'T.B.D. / Available on day of event at 0600z' }}</strong>--}}
-                            {{--</div>--}}
+                    {{--<div class="col-md-6">--}}
+                    {{--<div class="form-control-plaintext">--}}
+                    {{--<strong>{{ $booking->route ?: 'T.B.D. / Available on day of event at 0600z' }}</strong>--}}
+                    {{--</div>--}}
 
-                        {{--</div>--}}
+                    {{--</div>--}}
                     {{--</div>--}}
 
                     {{--Track--}}
                     {{--<div class="form-group row">--}}
-                        {{--<label for="track" class="col-md-4 col-form-label text-md-right">Track</label>--}}
+                    {{--<label for="track" class="col-md-4 col-form-label text-md-right">Track</label>--}}
 
-                        {{--<div class="col-md-6">--}}
-                            {{--<div class="form-control-plaintext">--}}
-                                {{--<strong>{{ $booking->oceanicTrack ?:  'T.B.D. / Available on day of event at 0600z' }}</strong>--}}
-                            {{--</div>--}}
+                    {{--<div class="col-md-6">--}}
+                    {{--<div class="form-control-plaintext">--}}
+                    {{--<strong>{{ $booking->oceanicTrack ?:  'T.B.D. / Available on day of event at 0600z' }}</strong>--}}
+                    {{--</div>--}}
 
-                        {{--</div>--}}
+                    {{--</div>--}}
                     {{--</div>--}}
 
                     {{--Oceanic Entry FL--}}
                     {{--<div class="form-group row">--}}
-                        {{--<label for="track" class="col-md-4 col-form-label text-md-right">Oceanic Entry FL</label>--}}
+                    {{--<label for="track" class="col-md-4 col-form-label text-md-right">Oceanic Entry FL</label>--}}
 
-                        {{--<div class="col-md-6">--}}
-                            {{--<div class="form-control-plaintext"><strong>{{ $booking->oceanicFL }}</strong></div>--}}
+                    {{--<div class="col-md-6">--}}
+                    {{--<div class="form-control-plaintext"><strong>{{ $booking->oceanicFL }}</strong></div>--}}
 
-                        {{--</div>--}}
+                    {{--</div>--}}
                     {{--</div>--}}
 
                     {{--Aircraft--}}
@@ -122,47 +127,49 @@
 
                     {{--SELCAL--}}
                     {{--<div class="form-group row">--}}
-                        {{--<label for="selcal" class="col-md-4 col-form-label text-md-right">SELCAL</label>--}}
+                    {{--<label for="selcal" class="col-md-4 col-form-label text-md-right">SELCAL</label>--}}
 
-                        {{--<div class="col-md-6">--}}
-                            {{--<div class="form-control-plaintext"><strong>{{ $booking->selcal }}</strong></div>--}}
-                        {{--</div>--}}
+                    {{--<div class="col-md-6">--}}
+                    {{--<div class="form-control-plaintext"><strong>{{ $booking->selcal }}</strong></div>--}}
+                    {{--</div>--}}
                     {{--</div>--}}
 
-                        @foreach($booking->airportDep->links as $link)
-                            <div class="form-group row">
-                                <label for="{{ $link->type->name . $link->airport->icao . '-' . $loop->index }}" class="col-md-4 col-form-label text-md-right">{{ $link->name ?? $link->type->name . ' ' . $link->airport->icao }}</label>
+                    @foreach($booking->airportDep->links as $link)
+                        <div class="form-group row">
+                            <label for="{{ $link->type->name . $link->airport->icao . '-' . $loop->index }}"
+                                   class="col-md-4 col-form-label text-md-right">{{ $link->name ?? $link->type->name . ' ' . $link->airport->icao }}</label>
 
-                                <div class="col-md-6">
-                                    <div class="form-control-plaintext"><a
+                            <div class="col-md-6">
+                                <div class="form-control-plaintext"><a
                                             href="{{ $link->url }}"
                                             target="_blank">Link</a></div>
-                                </div>
                             </div>
-                        @endforeach
+                        </div>
+                    @endforeach
 
                     {{--Oceanic sheet--}}
                     {{--<div class="form-group row">--}}
-                        {{--<label for="chartsEHAM" class="col-md-4 col-form-label text-md-right">Oceanic sheet</label>--}}
+                    {{--<label for="chartsEHAM" class="col-md-4 col-form-label text-md-right">Oceanic sheet</label>--}}
 
-                            {{--<div class="col-md-6">--}}
-                                {{--<div class="form-control-plaintext"><a--}}
-                                        {{--href="https://ctp.vatsim.net/system/view/includes/Transatlantic_Radio_Operations_Checksheet.pdf"--}}
-                                        {{--target="_blank">Link</a></div>--}}
-                            {{--</div>--}}
-                        {{--</div>--}}
+                    {{--<div class="col-md-6">--}}
+                    {{--<div class="form-control-plaintext"><a--}}
+                    {{--href="https://ctp.vatsim.net/system/view/includes/Transatlantic_Radio_Operations_Checksheet.pdf"--}}
+                    {{--target="_blank">Link</a></div>--}}
+                    {{--</div>--}}
+                    {{--</div>--}}
 
-                        @foreach($booking->airportArr->links as $link)
-                            <div class="form-group row">
-                                <label for="{{ $link->type->name . $link->airport->icao . '-' . $loop->index }}" class="col-md-4 col-form-label text-md-right">{{ $link->name ?? $link->type->name . ' ' . $link->airport->icao }}</label>
+                    @foreach($booking->airportArr->links as $link)
+                        <div class="form-group row">
+                            <label for="{{ $link->type->name . $link->airport->icao . '-' . $loop->index }}"
+                                   class="col-md-4 col-form-label text-md-right">{{ $link->name ?? $link->type->name . ' ' . $link->airport->icao }}</label>
 
-                                <div class="col-md-6">
-                                    <div class="form-control-plaintext"><a
+                            <div class="col-md-6">
+                                <div class="form-control-plaintext"><a
                                             href="{{ $link->url }}"
                                             target="_blank">Link</a></div>
-                                </div>
                             </div>
-                        @endforeach
+                        </div>
+                    @endforeach
                     {{--Cancel Booking--}}
                     <div class="form-group row mb-0">
                         <div class="col-md-7 offset-md-3">
