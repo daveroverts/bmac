@@ -2,9 +2,7 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\{
-    Foundation\Http\FormRequest, Support\Facades\Auth
-};
+use Illuminate\Foundation\Http\FormRequest;
 
 class SendEmail extends FormRequest
 {
