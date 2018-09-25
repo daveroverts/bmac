@@ -7,7 +7,6 @@ use App\{Enums\BookingStatus,
     Models\Airport,
     Models\Booking,
     Models\Event,
-    Exports\BookingsExport,
     Http\Requests\AdminAutoAssign,
     Http\Requests\AdminUpdateBooking,
     Http\Requests\StoreBooking,
@@ -418,11 +417,24 @@ class BookingController extends Controller
      * Exports all active bookings to a .csv file
      *
      * @param Event $$event
-     * @return BookingsExport
      */
     public function export(Event $event)
     {
-        return new BookingsExport($event->id);
+        $bookings = Booking::where('event_id', $event->id)
+            ->where('status', BookingStatus::BOOKED)
+            ->get();
+        return (new FastExcel($bookings))->withoutHeaders()->download('bookings.csv', function ($booking) {
+            return [
+                $booking->user->full_name,
+                $booking->user_id,
+                $booking->callsign,
+                $booking->dep,
+                $booking->arr,
+                $booking->getOriginal('oceanicFL'),
+                Carbon::parse($booking->getOriginal('ctot'))->format('H:i:s'),
+                $booking->route,
+            ];
+        });
     }
 
     public function importForm(Event $event)
