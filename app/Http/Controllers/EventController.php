@@ -11,9 +11,7 @@ use App\{Enums\BookingStatus,
     Models\Event,
     Models\EventType};
 use Carbon\Carbon;
-use Illuminate\{
-    Http\Request, Support\Facades\Mail
-};
+use Illuminate\{Http\Request, Support\Facades\Mail};
 
 class EventController extends Controller
 {
@@ -152,7 +150,7 @@ class EventController extends Controller
      */
     public function sendEmail(SendEmail $request, Event $event)
     {
-        $bookings = Booking::where('event_id',$event->id)
+        $bookings = Booking::where('event_id', $event->id)
             ->where('status', BookingStatus::BOOKED)
             ->get();
         $count = 0;
@@ -160,7 +158,7 @@ class EventController extends Controller
             Mail::to($booking->user->email)->send(new EventBulkEmail($event, $booking->user, $request->subject, $request->message));
             $count++;
         }
-        flashMessage('success', 'Done', 'Bulk E-mail has been sent to '.$count.' people!');
+        flashMessage('success', 'Done', 'Bulk E-mail has been sent to ' . $count . ' people!');
         return redirect(route('event.index'));
     }
 
@@ -170,8 +168,9 @@ class EventController extends Controller
      * @param Event $event
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function sendFinalInformationMail(Event $event){
-        $bookings = Booking::where('event_id',$event->id)
+    public function sendFinalInformationMail(Event $event)
+    {
+        $bookings = Booking::where('event_id', $event->id)
             ->where('status', BookingStatus::BOOKED)
             ->get();
         $count = 0;
@@ -179,7 +178,7 @@ class EventController extends Controller
             Mail::to($booking->user->email)->send(new EventFinalInformation($booking));
             $count++;
         }
-        flashMessage('success', 'Done', 'Final Information has been sent to '.$count.' people!');
+        flashMessage('success', 'Done', 'Final Information has been sent to ' . $count . ' people!');
         return redirect(route('event.index'));
     }
 }

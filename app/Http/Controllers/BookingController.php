@@ -3,18 +3,18 @@
 namespace App\Http\Controllers;
 
 use App\{Enums\BookingStatus,
-    Http\Requests\ImportBookings,
-    Models\Airport,
-    Models\Booking,
-    Models\Event,
     Http\Requests\AdminAutoAssign,
     Http\Requests\AdminUpdateBooking,
+    Http\Requests\ImportBookings,
     Http\Requests\StoreBooking,
     Http\Requests\UpdateBooking,
     Mail\BookingCancelled,
     Mail\BookingChanged,
     Mail\BookingConfirmed,
-    Mail\BookingDeleted};
+    Mail\BookingDeleted,
+    Models\Airport,
+    Models\Booking,
+    Models\Event};
 use Carbon\Carbon;
 use Illuminate\{Http\Request, Support\Facades\Auth, Support\Facades\Mail, Support\Facades\Storage};
 use Rap2hpoutre\FastExcel\FastExcel;
@@ -50,7 +50,7 @@ class BookingController extends Controller
 
         $filter = null;
 
-        if($event) {
+        if ($event) {
             switch ($request->filter) {
                 case 'departures':
                     $bookings = Booking::where('event_id', $event->id)
@@ -132,7 +132,7 @@ class BookingController extends Controller
                     $count++;
                 }
             }
-            flashMessage('success','Done',$count.' Slots have been created!');
+            flashMessage('success', 'Done', $count . ' Slots have been created!');
         } else {
             $booking = new Booking([
                 'callsign' => $request->callsign,
@@ -152,7 +152,7 @@ class BookingController extends Controller
             $booking->event()->associate($request->id)->save();
             flashMessage('success', 'Done', 'Slot created');
         }
-        flashMessage('success','Done',$count.' Slots have been created!');
+        flashMessage('success', 'Done', $count . ' Slots have been created!');
         return redirect(route('booking.index'));
     }
 
@@ -215,13 +215,11 @@ class BookingController extends Controller
                         $booking->user()->associate(Auth::user())->save();
                         flashMessage('info', 'Slot reserved', 'Will remain reserved until ' . $booking->updated_at->addMinutes(10)->format('Hi') . 'z');
                         return view('booking.edit', compact('booking', 'user'));
-                    }
-                    else {
+                    } else {
                         flashMessage('danger', 'Nope!', 'Bookings have been closed at ' . $booking->event->endBooking->format('d-m-Y Hi') . 'z');
                         return redirect(route('booking.index'));
                     }
-                }
-                else {
+                } else {
                     flashMessage('danger', 'Nope!', 'Bookings aren\'t open yet. They will open at ' . $booking->event->startBooking->format('d-m-Y Hi') . 'z');
                     return redirect(route('booking.index'));
                 }
@@ -250,8 +248,7 @@ class BookingController extends Controller
             if ($booking->getOriginal('status') === BookingStatus::RESERVED) {
                 Mail::to(Auth::user())->send(new BookingConfirmed($booking));
                 flashMessage('success', 'Booking created!', 'Booking has been created! An E-mail with details has also been sent');
-            }
-            else {
+            } else {
                 flashMessage('success', 'Booking edited!', 'Booking has been edited!');
             }
             $booking->save();
@@ -261,8 +258,7 @@ class BookingController extends Controller
                 // We got a bad-ass over here, log that person out
                 Auth::logout();
                 return redirect('https://youtu.be/dQw4w9WgXcQ');
-            }
-            else {
+            } else {
                 flashMessage('warning', 'Nope!', 'That reservation does not belong to you!');
                 return redirect(route('booking.index'));
             }
@@ -283,7 +279,7 @@ class BookingController extends Controller
         }
 
         // Check if each character is unique
-        if (substr_count($selcal, $char1) > 1 || substr_count($selcal, $char2) > 1 || substr_count($selcal, $char3) > 1 || substr_count($selcal, $char4) > 1 ) {
+        if (substr_count($selcal, $char1) > 1 || substr_count($selcal, $char2) > 1 || substr_count($selcal, $char3) > 1 || substr_count($selcal, $char4) > 1) {
             return null;
         }
 
@@ -477,7 +473,7 @@ class BookingController extends Controller
      */
     public function adminAutoAssign(AdminAutoAssign $request, Event $event)
     {
-        $bookings = Booking::where('event_id',$event->id)
+        $bookings = Booking::where('event_id', $event->id)
             ->where('status', BookingStatus::BOOKED)
             ->orderBy('ctot')
             ->get();
@@ -510,7 +506,7 @@ class BookingController extends Controller
             $booking->save();
 
         }
-        flashMessage('success', 'Bookings changed', $count. ' Bookings have been Auto-Assigned a FL, and route');
+        flashMessage('success', 'Bookings changed', $count . ' Bookings have been Auto-Assigned a FL, and route');
         return redirect(route('event.index'));
     }
 }

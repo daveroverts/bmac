@@ -2,19 +2,15 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\{
-    Http\Controllers\Controller, Models\User
-};
+use App\{Http\Controllers\Controller, Models\User};
 use Faker\Factory as Faker;
-use Illuminate\{
+use Illuminate\{Foundation\Auth\AuthenticatesUsers,
     Support\Facades\App,
     Support\Facades\Auth,
-    Foundation\Auth\AuthenticatesUsers,
     Support\Facades\Config,
     Support\Facades\Input,
     Support\Facades\Redirect,
-    Support\Facades\Session
-};
+    Support\Facades\Session};
 use VatsimSSO;
 
 class LoginController extends Controller
@@ -49,16 +45,17 @@ class LoginController extends Controller
         $this->middleware('guest')->except('logout');
     }
 
-    public function login() {
+    public function login()
+    {
 
         $returnUrl = Config::get('vatsim-sso.return'); // load URL from config
         return VatsimSSO::login(
             $returnUrl,
-            function($key, $secret, $url) {
+            function ($key, $secret, $url) {
                 Session::put('vatsimauth', compact('key', 'secret'));
                 return Redirect::to($url);
             },
-            function($e) {
+            function ($e) {
                 throw $e; // Do something with the exception
             }
         );
@@ -71,7 +68,7 @@ class LoginController extends Controller
             $session['key'],
             $session['secret'],
             Input::get('oauth_verifier'),
-            function($user, $request) {
+            function ($user, $request) {
                 // At this point we can remove the session data.
                 Session::forget('vatsimauth');
 
@@ -90,7 +87,7 @@ class LoginController extends Controller
                 Auth::loginUsingId($user->id);
                 return Redirect('/');
             },
-            function($e) {
+            function ($e) {
                 throw $e; // Do something with the exception
             }
         );
