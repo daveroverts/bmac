@@ -1,5 +1,20 @@
 # Changelog
 
+**v0.6.1**
+- Adds check if user has multiple bookings in navbar
+    - 1 booking: Still same behaviour
+    - Multiple: Each callsign will now be shown
+- Adds check in navbar if event is active (between ``startBooking`` and ``endEvent``). If active, and user has booking, they will show (see above).
+- Fixed issue where title on booking.show, and booking.edit always shows 'My **reservation**'.
+- Fixed some spelling here and there.
+- Temporary hiding FAQ till I wrote something where admins can do stuff with it.
+- Temporary allows users to have multiple bookings (but not reservations)
+- Replaces Laravel Excel for fast-excel.
+    - fast-excel was already used in ``v0.6.0``, but only for imports.
+    - fast-excel is now also used for exports, and thus everything related to Laravel Excel has been removed.
+- Removes ``sendFeedbackFrom`` from views, controllers, and DB. It was never really used.
+    - Alternative (that was already known) would be to send everybody an E-mail with the button shown in ``event.overview``
+
 **v0.6.0b**
 - Updates homepage for the Rotterdam World Port event.
 
