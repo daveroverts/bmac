@@ -172,6 +172,9 @@
                                 <button type="submit" class="btn btn-primary">
                                     <i class="fas fa-check"></i> {{ $booking->bookedBy ? 'Edit' : 'Confirm' }} Booking
                                 </button>
+                                @if($booking->status === \App\Enums\BookingStatus::RESERVED)
+                                    <a href="{{ route('booking.cancel',$booking) }}" class="btn btn-danger"><i class="fa fa-times"></i> Cancel Reservation</a>
+                                @endif
                             </div>
                         </div>
                     </form>

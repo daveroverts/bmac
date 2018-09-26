@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - [beyondcode/laravel-er-diagram-generator](https://github.com/beyondcode/laravel-er-diagram-generator) as a dev dependency.
 - This changelog.
+- ``Cancel Reservation`` in ``booking.edit`` view
 
 
 ## [v0.6.1](https://gitlab.com/daveroverts/Book-me-a-cookie/compare/v0.6.0b...v0.6.1) - 2018-09-25
