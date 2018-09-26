@@ -441,15 +441,16 @@ class BookingController extends Controller
     public function import(ImportBookings $request, Event $event)
     {
         $file = $request->file('file')->getRealPath();
-        $collection = (new FastExcel)->importSheets($file, function ($line) use ($event) {
-            Booking::create([
-                'event_id' => $event->id,
+        $bookings = collect();
+        $collection = (new FastExcel)->importSheets($file, function ($line) use ($bookings) {
+            $bookings->push([
                 'callsign' => $line['CS'],
                 'acType' => $line['ATYP'],
                 'dep' => $line['ADEP'],
                 'arr' => $line['ADES'],
-            ]);
+                ]);
         });
+        $event->bookings()->createMany($bookings->toArray());
         Storage::delete($file);
         flashMessage('success', 'Flights imported', 'Flights have been imported');
         return redirect(route('booking.index', $event));
