@@ -18,7 +18,7 @@
                     <a class="nav-link" href="{{ route('booking.index') }}">Bookings</a>
                 </li>
                 @auth
-                    @if($event = App\Models\Event::where('endEvent', '>', now())->orderBy('startEvent', 'desc')->first())
+                    @if($event = App\Models\Event::where('endEvent', '>', now())->orderBy('startEvent', 'asc')->first())
                         @foreach($bookings = Auth::user()->booking()->where('event_id',$event->id)->get() as $booking)
                             @if($bookings->count() > 1)
                                 <li class="nav-item {{ url()->current() === route('booking.show', $booking) ? 'active' : '' }}">

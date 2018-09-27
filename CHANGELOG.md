@@ -10,6 +10,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - This changelog.
 - ``Cancel Reservation`` in ``booking.edit`` view
 
+### Changed
+- Issue if multiple events where active, ordering was not correct in this case.
 
 ## [v0.6.1](https://gitlab.com/daveroverts/Book-me-a-cookie/compare/v0.6.0b...v0.6.1) - 2018-09-25
 ### Added
