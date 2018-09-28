@@ -70,17 +70,15 @@ class EventController extends Controller
             'description' => 'required:string',
         ]);
 
-        $event = Event::create([
-            'name' => $request->name,
-            'event_type_id' => $request->eventType,
-            'dep' => $request->airport,
-            'arr' => $request->airport,
+        $event = new Event();
+        $event->fill($request->only('name', 'event_type_id', 'dep', 'arr', 'description'));
+        $event->fill([
             'startEvent' => Carbon::createFromFormat('d-m-Y H:i', $request->dateEvent . ' ' . $request->timeBeginEvent),
             'endEvent' => Carbon::createFromFormat('d-m-Y H:i', $request->dateEvent . ' ' . $request->timeEndEvent),
             'startBooking' => Carbon::createFromFormat('d-m-Y H:i', $request->dateBeginBooking . ' ' . $request->timeBeginBooking),
             'endBooking' => Carbon::createFromFormat('d-m-Y H:i', $request->dateEndBooking . ' ' . $request->timeEndBooking),
-            'description' => $request->description,
-        ]);
+        ])->save();
+
         flashMessage('success', 'Done', 'Event has been created!');
         return redirect(route('event.index'));
     }

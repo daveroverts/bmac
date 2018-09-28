@@ -12,6 +12,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 - Issue if multiple events where active, ordering was not correct in this case.
+- Makes ``store()`` for the following controllers:
+    - AirportController
+    - AirportLinkController
+    - EventController
 
 ## [v0.6.1](https://gitlab.com/daveroverts/Book-me-a-cookie/compare/v0.6.0b...v0.6.1) - 2018-09-25
 ### Added
