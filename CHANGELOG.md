@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - [beyondcode/laravel-er-diagram-generator](https://github.com/beyondcode/laravel-er-diagram-generator) as a dev dependency.
 - This changelog.
 - ``Cancel Reservation`` in ``booking.edit`` view
+- ``StoreEventRequest``, used by ``EventController@store()``
 
 ### Changed
 - Issue if multiple events where active, ordering was not correct in this case.

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\{Enums\BookingStatus,
     Http\Requests\SendEmail,
+    Http\Requests\StoreEvent,
     Mail\EventBulkEmail,
     Mail\EventFinalInformation,
     Models\Airport,
@@ -51,28 +52,16 @@ class EventController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param  StoreEvent $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreEvent $request)
     {
-        $request->validate([
-            'name' => 'bail|required:string',
-            'eventType' => 'exists:event_types,id|required',
-            'dateEvent' => 'required|date',
-            'airport' => 'exists:airports,icao|required',
-            'timeBeginEvent' => 'required',
-            'timeEndEvent' => 'required',
-            'dateBeginBooking' => 'required|date',
-            'timeBeginBooking' => 'required',
-            'dateEndBooking' => 'required|date|after_or_equal:dateBeginBooking',
-            'timeEndBooking' => 'required',
-            'description' => 'required:string',
-        ]);
-
-        $event = new Event();
-        $event->fill($request->only('name', 'event_type_id', 'dep', 'arr', 'description'));
-        $event->fill([
+        Event::create([
+            'name' => $request->name,
+            'event_type_id' => $request->eventType,
+            'dep' => $request->airport,
+            'arr' => $request->airport,
             'startEvent' => Carbon::createFromFormat('d-m-Y H:i', $request->dateEvent . ' ' . $request->timeBeginEvent),
             'endEvent' => Carbon::createFromFormat('d-m-Y H:i', $request->dateEvent . ' ' . $request->timeEndEvent),
             'startBooking' => Carbon::createFromFormat('d-m-Y H:i', $request->dateBeginBooking . ' ' . $request->timeBeginBooking),
