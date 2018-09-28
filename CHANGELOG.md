@@ -5,6 +5,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+## [v0.6.2](https://gitlab.com/daveroverts/Book-me-a-cookie/compare/v0.6.1...v0.6.2) - 2018-09-28
+
 ### Added
 - [beyondcode/laravel-er-diagram-generator](https://github.com/beyondcode/laravel-er-diagram-generator) as a dev dependency.
 - This changelog.
