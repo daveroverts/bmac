@@ -50,12 +50,7 @@ class AirportLinkController extends Controller
      */
     public function store(StoreAirportLink $request)
     {
-        $airportLink = AirportLink::create([
-            'icao_airport' => $request->airport,
-            'airportLinkType_id' => $request->airportLinkType,
-            'name' => $request->name,
-            'url' => $request->url,
-        ]);
+        $airportLink = AirportLink::create($request->only('icao_airport', 'airportLinkType_id', 'name', 'url'));
         flashMessage('success', 'Done', $airportLink->type->name . ' item has been added for ' . $airportLink->airport->name . ' [' . $airportLink->airport->icao . ' | ' . $airportLink->airport->iata . ']');
         return redirect(route('airport.index'));
     }
@@ -63,7 +58,7 @@ class AirportLinkController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\AirportLink  $airportLink
+     * @param  \App\Models\AirportLink $airportLink
      * @return \Illuminate\Http\Response
      */
     public function show(AirportLink $airportLink)
@@ -74,7 +69,7 @@ class AirportLinkController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\AirportLink  $airportLink
+     * @param  \App\Models\AirportLink $airportLink
      * @return \Illuminate\Http\Response
      */
     public function edit(AirportLink $airportLink)
@@ -85,8 +80,8 @@ class AirportLinkController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\AirportLink  $airportLink
+     * @param  \Illuminate\Http\Request $request
+     * @param  \App\Models\AirportLink $airportLink
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, AirportLink $airportLink)
@@ -97,7 +92,7 @@ class AirportLinkController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\AirportLink  $airportLink
+     * @param  \App\Models\AirportLink $airportLink
      * @return \Illuminate\Http\Response
      */
     public function destroy(AirportLink $airportLink)

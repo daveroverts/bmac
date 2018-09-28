@@ -15,7 +15,8 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">{{ $booking->event->name }} | My {{ $booking->status === \App\Enums\BookingStatus::BOOKED ? 'Booking' : 'Reservation' }}</div>
+                <div class="card-header">{{ $booking->event->name }} |
+                    My {{ $booking->status === \App\Enums\BookingStatus::BOOKED ? 'Booking' : 'Reservation' }}</div>
 
                 <div class="card-body">
                     <form method="POST" action="{{ route('booking.update',$booking) }}">
@@ -34,12 +35,12 @@
 
                         {{--CTOT--}}
                         {{--<div class="form-group row">--}}
-                            {{--<label for="ctot" class="col-md-4 col-form-label text-md-right"> CTOT</label>--}}
+                        {{--<label for="ctot" class="col-md-4 col-form-label text-md-right"> CTOT</label>--}}
 
-                            {{--<div class="col-md-6">--}}
-                                {{--<div class="form-control-plaintext"><strong>{{ $booking->ctot }}</strong></div>--}}
+                        {{--<div class="col-md-6">--}}
+                        {{--<div class="form-control-plaintext"><strong>{{ $booking->ctot }}</strong></div>--}}
 
-                            {{--</div>--}}
+                        {{--</div>--}}
                         {{--</div>--}}
 
                         {{--ADEP--}}
@@ -47,7 +48,9 @@
                             <label for="adep" class="col-md-4 col-form-label text-md-right">ADEP</label>
 
                             <div class="col-md-6">
-                                <div class="form-control-plaintext"><strong><abbr title="{{ $booking->airportDep->name }}">{{ $booking->dep }}</abbr></strong></div>
+                                <div class="form-control-plaintext"><strong><abbr
+                                                title="{{ $booking->airportDep->name }}">{{ $booking->dep }}</abbr></strong>
+                                </div>
 
                             </div>
                         </div>
@@ -57,7 +60,9 @@
                             <label for="ades" class="col-md-4 col-form-label text-md-right">ADES</label>
 
                             <div class="col-md-6">
-                                <div class="form-control-plaintext"><strong><abbr title="{{ $booking->airportArr->name }}">{{ $booking->arr }}</abbr></strong></div>
+                                <div class="form-control-plaintext"><strong><abbr
+                                                title="{{ $booking->airportArr->name }}">{{ $booking->arr }}</abbr></strong>
+                                </div>
 
                             </div>
                         </div>
@@ -75,36 +80,36 @@
 
                         {{--Route--}}
                         {{--<div class="form-group row">--}}
-                            {{--<label for="route" class="col-md-4 col-form-label text-md-right">Route</label>--}}
+                        {{--<label for="route" class="col-md-4 col-form-label text-md-right">Route</label>--}}
 
-                            {{--<div class="col-md-6">--}}
-                                {{--<div class="form-control-plaintext">--}}
-                                    {{--<strong>{{ $booking->route ?: 'T.B.D. / Available on day of event at 0600z' }}</strong>--}}
-                                {{--</div>--}}
+                        {{--<div class="col-md-6">--}}
+                        {{--<div class="form-control-plaintext">--}}
+                        {{--<strong>{{ $booking->route ?: 'T.B.D. / Available on day of event at 0600z' }}</strong>--}}
+                        {{--</div>--}}
 
-                            {{--</div>--}}
+                        {{--</div>--}}
                         {{--</div>--}}
 
                         {{--Track--}}
                         {{--<div class="form-group row">--}}
-                            {{--<label for="track" class="col-md-4 col-form-label text-md-right">Track</label>--}}
+                        {{--<label for="track" class="col-md-4 col-form-label text-md-right">Track</label>--}}
 
-                            {{--<div class="col-md-6">--}}
-                                {{--<div class="form-control-plaintext">--}}
-                                    {{--<strong>{{ $booking->oceanicTrack ?: 'T.B.D. / Available on day of event at 0600z' }}</strong>--}}
-                                {{--</div>--}}
+                        {{--<div class="col-md-6">--}}
+                        {{--<div class="form-control-plaintext">--}}
+                        {{--<strong>{{ $booking->oceanicTrack ?: 'T.B.D. / Available on day of event at 0600z' }}</strong>--}}
+                        {{--</div>--}}
 
-                            {{--</div>--}}
+                        {{--</div>--}}
                         {{--</div>--}}
 
                         {{--Oceanic Entry FL--}}
                         {{--<div class="form-group row">--}}
-                            {{--<label for="track" class="col-md-4 col-form-label text-md-right">Oceanic Entry FL</label>--}}
+                        {{--<label for="track" class="col-md-4 col-form-label text-md-right">Oceanic Entry FL</label>--}}
 
-                            {{--<div class="col-md-6">--}}
-                                {{--<div class="form-control-plaintext"><strong>{{ $booking->oceanicFL }}</strong></div>--}}
+                        {{--<div class="col-md-6">--}}
+                        {{--<div class="form-control-plaintext"><strong>{{ $booking->oceanicFL }}</strong></div>--}}
 
-                            {{--</div>--}}
+                        {{--</div>--}}
                         {{--</div>--}}
 
                         {{--Aircraft--}}
@@ -119,18 +124,18 @@
 
                         {{--SELCAL--}}
                         {{--<div class="form-group form-row align-items-center">--}}
-                            {{--<label for="selcal" class="col-md-4 col-form-label text-md-right"> Selcal</label>--}}
-                            {{--<div class="col-sm-3 my-1">--}}
-                                {{--<label class="sr-only" for="selcal1"></label>--}}
-                                {{--<input type="text" class="form-control" id="selcal1" name="selcal1" placeholder="AB"--}}
-                                       {{--min="2" max="2" value="{{ old('selcal1',substr($booking->getOriginal('selcal'),0,2)) }}">--}}
-                            {{--</div>--}}
-                            {{-----}}
-                            {{--<div class="col-sm-3 my-1">--}}
-                                {{--<label class="sr-only" for="selcal2"></label>--}}
-                                {{--<input type="text" class="form-control" id="selcal2" name="selcal2" placeholder="CD"--}}
-                                       {{--min="2" max="2" value="{{ old('selcal2',substr($booking->getOriginal('selcal'),3,5)) }}">--}}
-                            {{--</div>--}}
+                        {{--<label for="selcal" class="col-md-4 col-form-label text-md-right"> Selcal</label>--}}
+                        {{--<div class="col-sm-3 my-1">--}}
+                        {{--<label class="sr-only" for="selcal1"></label>--}}
+                        {{--<input type="text" class="form-control" id="selcal1" name="selcal1" placeholder="AB"--}}
+                        {{--min="2" max="2" value="{{ old('selcal1',substr($booking->getOriginal('selcal'),0,2)) }}">--}}
+                        {{--</div>--}}
+                        {{-----}}
+                        {{--<div class="col-sm-3 my-1">--}}
+                        {{--<label class="sr-only" for="selcal2"></label>--}}
+                        {{--<input type="text" class="form-control" id="selcal2" name="selcal2" placeholder="CD"--}}
+                        {{--min="2" max="2" value="{{ old('selcal2',substr($booking->getOriginal('selcal'),3,5)) }}">--}}
+                        {{--</div>--}}
                         {{--</div>--}}
 
                         @if($booking->status === \App\Enums\BookingStatus::RESERVED)
@@ -139,8 +144,10 @@
                                 <div class="col-md-8 offset-md-3">
                                     <div class="custom-control custom-checkbox">
                                         <input type="hidden" name="checkStudy" value="0">
-                                        <input class="custom-control-input" id="checkStudy" type="checkbox" name="checkStudy" value="1">
-                                        <label class="custom-control-label" for="checkStudy">I agree to study the provided briefing material</label>
+                                        <input class="custom-control-input" id="checkStudy" type="checkbox"
+                                               name="checkStudy" value="1">
+                                        <label class="custom-control-label" for="checkStudy">I agree to study the
+                                            provided briefing material</label>
                                     </div>
                                 </div>
                             </div>
@@ -150,8 +157,10 @@
                                 <div class="col-md-8 offset-md-3">
                                     <div class="custom-control custom-checkbox">
                                         <input type="hidden" name="checkCharts" value="0">
-                                        <input class="custom-control-input" id="checkCharts" type="checkbox" name="checkCharts" value="1">
-                                        <label class="custom-control-label" for="checkCharts">I agree to have the applicable charts at hand during the event</label>
+                                        <input class="custom-control-input" id="checkCharts" type="checkbox"
+                                               name="checkCharts" value="1">
+                                        <label class="custom-control-label" for="checkCharts">I agree to have the
+                                            applicable charts at hand during the event</label>
                                     </div>
                                 </div>
                             </div>
@@ -163,6 +172,9 @@
                                 <button type="submit" class="btn btn-primary">
                                     <i class="fas fa-check"></i> {{ $booking->bookedBy ? 'Edit' : 'Confirm' }} Booking
                                 </button>
+                                @if($booking->status === \App\Enums\BookingStatus::RESERVED)
+                                    <a href="{{ route('booking.cancel',$booking) }}" class="btn btn-danger"><i class="fa fa-times"></i> Cancel Reservation</a>
+                                @endif
                             </div>
                         </div>
                     </form>

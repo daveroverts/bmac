@@ -9,13 +9,30 @@ class Booking extends Model
 {
 
     /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'event_id', 'user_id', 'status', 'callsign', 'acType', 'selcal', 'dep', 'arr', 'ctot', 'eta', 'route', 'oceanicFL', 'oceanicTrack'
+    ];
+    /**
+     * The attributes that should be mutated to dates.
+     *
+     * @var array
+     */
+    protected $dates = [
+        'ctot', 'eta'
+    ];
+
+    /**
      *  Setup model event hooks
      */
     public static function boot()
     {
         parent::boot();
         self::creating(function ($model) {
-            $model->uuid = (string) Uuid::generate(4);
+            $model->uuid = (string)Uuid::generate(4);
         });
     }
 
@@ -28,24 +45,6 @@ class Booking extends Model
     {
         return 'uuid';
     }
-
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
-    protected $fillable = [
-        'event_id', 'user_id', 'status', 'callsign', 'acType', 'selcal', 'dep', 'arr', 'ctot', 'eta', 'route', 'oceanicFL', 'oceanicTrack'
-    ];
-
-    /**
-     * The attributes that should be mutated to dates.
-     *
-     * @var array
-     */
-    protected $dates = [
-        'ctot', 'eta'
-    ];
 
     /**
      * Format for callsign

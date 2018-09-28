@@ -63,7 +63,8 @@
 
                             {{--Aircraft--}}
                             <div class="form-group row">
-                                <label for="aircraft" class="col-md-4 col-form-label text-md-right"> Aircraft code</label>
+                                <label for="aircraft" class="col-md-4 col-form-label text-md-right"> Aircraft
+                                    code</label>
 
                                 <div class="col-md-6">
                                     <input id="aircraft" type="text"
@@ -84,10 +85,13 @@
                             <label for="end" class="col-md-4 col-form-label text-md-right"> From</label>
 
                             <div class="col-md-6">
-                                <select class="custom-select form-control{{ $errors->has('from') ? ' is-invalid' : '' }}" name="from">
+                                <select class="custom-select form-control{{ $errors->has('from') ? ' is-invalid' : '' }}"
+                                        name="from">
                                     <option value="">Choose an airport...</option>
                                     @foreach($airports as $airport)
-                                        <option value="{{ $airport->icao }}" {{ old('from', $event->dep) == $airport->icao ? 'selected' : '' }}>{{ $airport->icao }} [{{ $airport->name }} ({{ $airport->iata }})]</option>
+                                        <option value="{{ $airport->icao }}" {{ old('from', $event->dep) == $airport->icao ? 'selected' : '' }}>{{ $airport->icao }}
+                                            [{{ $airport->name }} ({{ $airport->iata }})]
+                                        </option>
                                     @endforeach
                                 </select>
 
@@ -104,10 +108,13 @@
                             <label for="end" class="col-md-4 col-form-label text-md-right"> To</label>
 
                             <div class="col-md-6">
-                                <select class="custom-select form-control{{ $errors->has('to') ? ' is-invalid' : '' }}" name="to">
+                                <select class="custom-select form-control{{ $errors->has('to') ? ' is-invalid' : '' }}"
+                                        name="to">
                                     <option value="">Choose an airport...</option>
                                     @foreach($airports as $airport)
-                                        <option value="{{ $airport->icao }}" {{ old('to', $event->arr) == $airport->icao ? 'selected' : '' }}>{{ $airport->icao }} [{{ $airport->name }} ({{ $airport->iata }})]</option>
+                                        <option value="{{ $airport->icao }}" {{ old('to', $event->arr) == $airport->icao ? 'selected' : '' }}>{{ $airport->icao }}
+                                            [{{ $airport->name }} ({{ $airport->iata }})]
+                                        </option>
                                     @endforeach
                                 </select>
 
@@ -126,8 +133,10 @@
 
                                 <div class="col-md-6">
                                     <input id="start" type="time"
-                                           class="form-control{{ $errors->has('start') ? ' is-invalid' : '' }}" name="start"
-                                           value="{{ old('start',$event->startEvent->format('H:i')) }}" required autofocus>
+                                           class="form-control{{ $errors->has('start') ? ' is-invalid' : '' }}"
+                                           name="start"
+                                           value="{{ old('start',$event->startEvent->format('H:i')) }}" required
+                                           autofocus>
 
                                     @if ($errors->has('start'))
                                         <span class="invalid-feedback">
@@ -178,7 +187,8 @@
 
                                 <div class="col-md-6">
                                     <input id="ctot" type="time"
-                                           class="form-control{{ $errors->has('ctot') ? ' is-invalid' : '' }}" name="ctot"
+                                           class="form-control{{ $errors->has('ctot') ? ' is-invalid' : '' }}"
+                                           name="ctot"
                                            value="{{ old('ctot', $event->startEvent->format('H:i')) }}">
 
                                     @if ($errors->has('ctot'))

@@ -47,7 +47,8 @@
                             <label for="eventType" class="col-md-4 col-form-label text-md-right"> Type</label>
 
                             <div class="col-md-6">
-                                <select class="custom-select form-control{{ $errors->has('eventType') ? ' is-invalid' : '' }}" name="eventType">
+                                <select class="custom-select form-control{{ $errors->has('eventType') ? ' is-invalid' : '' }}"
+                                        name="eventType">
                                     <option value="">Choose an event type...</option>
                                     @foreach($eventTypes as $eventType)
                                         <option value="{{ $eventType->id }}" {{ old('eventType') == $eventType->id ? 'selected' : '' }}>{{ $eventType->name }}</option>
@@ -67,10 +68,13 @@
                             <label for="end" class="col-md-4 col-form-label text-md-right"> Airport</label>
 
                             <div class="col-md-6">
-                                <select class="custom-select form-control{{ $errors->has('from') ? ' is-invalid' : '' }}" name="airport">
+                                <select class="custom-select form-control{{ $errors->has('from') ? ' is-invalid' : '' }}"
+                                        name="airport">
                                     <option value="">Choose an airport...</option>
                                     @foreach($airports as $airport)
-                                        <option value="{{ $airport->icao }}" {{ old('from') == $airport->icao ? 'selected' : '' }}>{{ $airport->icao }} [{{ $airport->name }} ({{ $airport->iata }})]</option>
+                                        <option value="{{ $airport->icao }}" {{ old('from') == $airport->icao ? 'selected' : '' }}>{{ $airport->icao }}
+                                            [{{ $airport->name }} ({{ $airport->iata }})]
+                                        </option>
                                     @endforeach
                                 </select>
 

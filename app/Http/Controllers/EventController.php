@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\{Enums\BookingStatus,
     Http\Requests\SendEmail,
+    Http\Requests\StoreEvent,
     Mail\EventBulkEmail,
     Mail\EventFinalInformation,
     Models\Airport,
@@ -11,9 +12,7 @@ use App\{Enums\BookingStatus,
     Models\Event,
     Models\EventType};
 use Carbon\Carbon;
-use Illuminate\{
-    Http\Request, Support\Facades\Mail
-};
+use Illuminate\{Http\Request, Support\Facades\Mail};
 
 class EventController extends Controller
 {
@@ -53,26 +52,12 @@ class EventController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param  StoreEvent $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreEvent $request)
     {
-        $request->validate([
-            'name' => 'bail|required:string',
-            'eventType' => 'exists:event_types,id|required',
-            'dateEvent' => 'required|date',
-            'airport' => 'exists:airports,icao|required',
-            'timeBeginEvent' => 'required',
-            'timeEndEvent' => 'required',
-            'dateBeginBooking' => 'required|date',
-            'timeBeginBooking' => 'required',
-            'dateEndBooking' => 'required|date|after_or_equal:dateBeginBooking',
-            'timeEndBooking' => 'required',
-            'description' => 'required:string',
-        ]);
-
-        $event = Event::create([
+        Event::create([
             'name' => $request->name,
             'event_type_id' => $request->eventType,
             'dep' => $request->airport,
@@ -81,8 +66,8 @@ class EventController extends Controller
             'endEvent' => Carbon::createFromFormat('d-m-Y H:i', $request->dateEvent . ' ' . $request->timeEndEvent),
             'startBooking' => Carbon::createFromFormat('d-m-Y H:i', $request->dateBeginBooking . ' ' . $request->timeBeginBooking),
             'endBooking' => Carbon::createFromFormat('d-m-Y H:i', $request->dateEndBooking . ' ' . $request->timeEndBooking),
-            'description' => $request->description,
-        ]);
+        ])->save();
+
         flashMessage('success', 'Done', 'Event has been created!');
         return redirect(route('event.index'));
     }
@@ -152,7 +137,7 @@ class EventController extends Controller
      */
     public function sendEmail(SendEmail $request, Event $event)
     {
-        $bookings = Booking::where('event_id',$event->id)
+        $bookings = Booking::where('event_id', $event->id)
             ->where('status', BookingStatus::BOOKED)
             ->get();
         $count = 0;
@@ -160,7 +145,7 @@ class EventController extends Controller
             Mail::to($booking->user->email)->send(new EventBulkEmail($event, $booking->user, $request->subject, $request->message));
             $count++;
         }
-        flashMessage('success', 'Done', 'Bulk E-mail has been sent to '.$count.' people!');
+        flashMessage('success', 'Done', 'Bulk E-mail has been sent to ' . $count . ' people!');
         return redirect(route('event.index'));
     }
 
@@ -170,8 +155,9 @@ class EventController extends Controller
      * @param Event $event
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function sendFinalInformationMail(Event $event){
-        $bookings = Booking::where('event_id',$event->id)
+    public function sendFinalInformationMail(Event $event)
+    {
+        $bookings = Booking::where('event_id', $event->id)
             ->where('status', BookingStatus::BOOKED)
             ->get();
         $count = 0;
@@ -179,7 +165,7 @@ class EventController extends Controller
             Mail::to($booking->user->email)->send(new EventFinalInformation($booking));
             $count++;
         }
-        flashMessage('success', 'Done', 'Final Information has been sent to '.$count.' people!');
+        flashMessage('success', 'Done', 'Final Information has been sent to ' . $count . ' people!');
         return redirect(route('event.index'));
     }
 }

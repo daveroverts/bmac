@@ -7,7 +7,8 @@
  * @param string $title
  * @param string $message
  */
-function flashMessage($type, $title, $message){
+function flashMessage($type, $title, $message)
+{
     Session::flash('type', $type);
     Session::flash('title', $title);
     Session::flash('message', $message);
