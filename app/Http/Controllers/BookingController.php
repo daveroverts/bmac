@@ -152,7 +152,6 @@ class BookingController extends Controller
             $booking->event()->associate($request->id)->save();
             flashMessage('success', 'Done', 'Slot created');
         }
-        flashMessage('success', 'Done', $count . ' Slots have been created!');
         return redirect(route('booking.index'));
     }
 
