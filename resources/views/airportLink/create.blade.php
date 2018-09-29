@@ -20,20 +20,20 @@
                         @csrf
                         {{--Type--}}
                         <div class="form-group row">
-                            <label for="airportLinkType" class="col-md-4 col-form-label text-md-right">Type</label>
+                            <label for="airportLinkType_id" class="col-md-4 col-form-label text-md-right">Type</label>
 
                             <div class="col-md-6">
                                 <select class="custom-select form-control{{ $errors->has('type') ? ' is-invalid' : '' }}"
-                                        name="airportLinkType">
+                                        name="airportLinkType_id">
                                     <option value="">Choose type...</option>
                                     @foreach($airportLinkTypes as $airportLinkType)
-                                        <option value="{{ $airportLinkType->id }}" {{ old('airportLinkType') == $airportLinkType->id ? 'selected' : '' }}>{{ $airportLinkType->name }}</option>
+                                        <option value="{{ $airportLinkType->id }}" {{ old('airportLinkType_id') == $airportLinkType->id ? 'selected' : '' }}>{{ $airportLinkType->name }}</option>
                                     @endforeach
                                 </select>
 
-                                @if ($errors->has('airportLinkType'))
+                                @if ($errors->has('airportLinkType_id'))
                                     <span class="invalid-feedback">
-                                        <strong>{{ $errors->first('airportLinkType') }}</strong>
+                                        <strong>{{ $errors->first('airportLinkType_id') }}</strong>
                                     </span>
                                 @endif
                             </div>
@@ -41,20 +41,20 @@
 
                         {{--Airport--}}
                         <div class="form-group row">
-                            <label for="airport" class="col-md-4 col-form-label text-md-right">Airport</label>
+                            <label for="icao_airport" class="col-md-4 col-form-label text-md-right">Airport</label>
 
                             <div class="col-md-6">
-                                <select class="custom-select form-control{{ $errors->has('airport') ? ' is-invalid' : '' }}"
-                                        name="airport">
+                                <select class="custom-select form-control{{ $errors->has('icao_airport') ? ' is-invalid' : '' }}"
+                                        name="icao_airport">
                                     <option value="">Choose an airport...</option>
                                     @foreach($airports as $airport)
-                                        <option value="{{ $airport->icao }}" {{ old('airport') == $airport->icao ? 'selected' : '' }}>{{ $airport->icao }}
+                                        <option value="{{ $airport->icao }}" {{ old('icao_airport') == $airport->icao ? 'selected' : '' }}>{{ $airport->icao }}
                                             [{{ $airport->name }} ({{ $airport->iata }})]
                                         </option>
                                     @endforeach
                                 </select>
 
-                                @if ($errors->has('airport'))
+                                @if ($errors->has('icao_airport'))
                                     <span class="invalid-feedback">
                                         <strong>{{ $errors->first('airport') }}</strong>
                                     </span>
