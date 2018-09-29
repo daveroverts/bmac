@@ -57,11 +57,9 @@ class EventController extends Controller
      */
     public function store(StoreEvent $request)
     {
-        Event::create([
-            'name' => $request->name,
-            'event_type_id' => $request->eventType,
-            'dep' => $request->airport,
-            'arr' => $request->airport,
+        $event = new Event();
+        $event->fill($request->only('name', 'event_type_id', 'dep', 'arr', 'description'));
+        $event->fill([
             'startEvent' => Carbon::createFromFormat('d-m-Y H:i', $request->dateEvent . ' ' . $request->timeBeginEvent),
             'endEvent' => Carbon::createFromFormat('d-m-Y H:i', $request->dateEvent . ' ' . $request->timeEndEvent),
             'startBooking' => Carbon::createFromFormat('d-m-Y H:i', $request->dateBeginBooking . ' ' . $request->timeBeginBooking),
@@ -76,7 +74,7 @@ class EventController extends Controller
      * Display the specified resource.
      *
      * @param Event $event
-     * @return void
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function show(Event $event)
     {

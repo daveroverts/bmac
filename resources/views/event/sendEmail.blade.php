@@ -24,7 +24,7 @@
                 <div class="card-header">{{ $event->name }} | Send Bulk E-mail</div>
 
                 <div class="card-body">
-                    <form method="POST" action="{{ route('event.email',$event->id) }}">
+                    <form method="POST" action="{{ route('event.email',$event) }}">
                         @csrf
                         @method('PATCH')
 
@@ -33,7 +33,7 @@
                             <label class="col-md-4 col-form-label text-md-right"></label>
 
                             <div class="col-md-6">
-                                <a href="{{ route('event.email.final',$event->id) }}" class="btn btn-primary"><i
+                                <a href="{{ route('event.email.final',$event) }}" class="btn btn-primary"><i
                                             class="fa fa-envelope"></i> Send Final Information E-mail</a>
                             </div>
                         </div>
