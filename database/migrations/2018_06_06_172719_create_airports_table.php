@@ -20,7 +20,7 @@ class CreateAirportsTable extends Migration
             $table->unique('iata');
             $table->string('name');
         });
-        DB::table('airports')->insert(['icao' => 'EHAM', 'iata' => 'AMS', 'name' => 'Amsterdam Schiphol Airport']);
+        DB::table('airports')->insert(['icao' => 'EHAM', 'iata' => 'AMS', 'name' => 'Amsterdam Airport Schiphol']);
     }
 
     /**
