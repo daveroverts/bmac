@@ -19,8 +19,7 @@
         "pragmarx/version": "^0.2.8",
         "predis/predis": "^1.1",
         "rap2hpoutre/fast-excel": "^0.9.0",
-        "vatsim/sso-laravel": "3.*",
-        "webpatser/laravel-uuid": "^3.0"
+        "vatsim/sso-laravel": "3.*"
     },
     "require-dev": {
         "beyondcode/laravel-dump-server": "^1.2",
