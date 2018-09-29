@@ -51,7 +51,7 @@ class BookingController extends Controller
         $filter = null;
 
         if ($event) {
-            switch ($request->filter) {
+            switch (strtolower($request->filter)) {
                 case 'departures':
                     $bookings = Booking::where('event_id', $event->id)
                         ->where('dep', $event->dep)
@@ -152,7 +152,6 @@ class BookingController extends Controller
             $booking->event()->associate($request->id)->save();
             flashMessage('success', 'Done', 'Slot created');
         }
-        flashMessage('success', 'Done', $count . ' Slots have been created!');
         return redirect(route('booking.index'));
     }
 
