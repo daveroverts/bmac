@@ -40,6 +40,9 @@ class Event extends Model
     protected $casts = [
         'dep' => 'string',
         'arr' => 'string',
+        'uses_times' => 'boolean',
+        'multiple_bookings_allowed' => 'boolean',
+        'is_oceanic_event' => 'boolean',
     ];
 
     public function bookings()
