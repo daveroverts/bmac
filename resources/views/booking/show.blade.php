@@ -27,25 +27,27 @@
                         </div>
                     </div>
 
-                    {{--CTOT--}}
-                    {{--<div class="form-group row">--}}
-                    {{--<label for="ctot" class="col-md-4 col-form-label text-md-right"> CTOT</label>--}}
+                    @if($booking->event->uses_times)
+                        {{--CTOT--}}
+                        <div class="form-group row">
+                            <label for="ctot" class="col-md-4 col-form-label text-md-right"> CTOT</label>
 
-                    {{--<div class="col-md-6">--}}
-                    {{--<div class="form-control-plaintext"><strong>{{ $booking->ctot }}</strong></div>--}}
+                            <div class="col-md-6">
+                                <div class="form-control-plaintext"><strong>{{ $booking->ctot }}</strong></div>
 
-                    {{--</div>--}}
-                    {{--</div>--}}
+                            </div>
+                        </div>
 
-                    {{--ETA--}}
-                    {{--<div class="form-group row">--}}
-                    {{--<label for="ctot" class="col-md-4 col-form-label text-md-right"> ETA</label>--}}
+                        {{--ETA--}}
+                        <div class="form-group row">
+                            <label for="ctot" class="col-md-4 col-form-label text-md-right"> ETA</label>
 
-                    {{--<div class="col-md-6">--}}
-                    {{--<div class="form-control-plaintext"><strong>{{ $booking->eta }}</strong></div>--}}
+                            <div class="col-md-6">
+                                <div class="form-control-plaintext"><strong>{{ $booking->eta }}</strong></div>
 
-                    {{--</div>--}}
-                    {{--</div>--}}
+                            </div>
+                        </div>
+                    @endif
 
                     {{--ADEP--}}
                     <div class="form-group row">
@@ -82,39 +84,54 @@
                         </div>
                     </div>
 
-                    {{--Route--}}
-                    {{--<div class="form-group row">--}}
-                    {{--<label for="route" class="col-md-4 col-form-label text-md-right">Route</label>--}}
+                    @if($booking->event->is_oceanic_event)
+                        {{--Route--}}
+                        <div class="form-group row">
+                            <label for="route" class="col-md-4 col-form-label text-md-right">Route</label>
 
-                    {{--<div class="col-md-6">--}}
-                    {{--<div class="form-control-plaintext">--}}
-                    {{--<strong>{{ $booking->route ?: 'T.B.D. / Available on day of event at 0600z' }}</strong>--}}
-                    {{--</div>--}}
+                            <div class="col-md-6">
+                                <div class="form-control-plaintext">
+                                    <strong>{{ $booking->route ?: 'T.B.D. / Available on day of event at 0600z' }}</strong>
+                                </div>
 
-                    {{--</div>--}}
-                    {{--</div>--}}
+                            </div>
+                        </div>
 
-                    {{--Track--}}
-                    {{--<div class="form-group row">--}}
-                    {{--<label for="track" class="col-md-4 col-form-label text-md-right">Track</label>--}}
+                        {{--Track--}}
+                        <div class="form-group row">
+                            <label for="track" class="col-md-4 col-form-label text-md-right">Track</label>
 
-                    {{--<div class="col-md-6">--}}
-                    {{--<div class="form-control-plaintext">--}}
-                    {{--<strong>{{ $booking->oceanicTrack ?:  'T.B.D. / Available on day of event at 0600z' }}</strong>--}}
-                    {{--</div>--}}
+                            <div class="col-md-6">
+                                <div class="form-control-plaintext">
+                                    <strong>{{ $booking->oceanicTrack ?:  'T.B.D. / Available on day of event at 0600z' }}</strong>
+                                </div>
 
-                    {{--</div>--}}
-                    {{--</div>--}}
+                            </div>
+                        </div>
 
-                    {{--Oceanic Entry FL--}}
-                    {{--<div class="form-group row">--}}
-                    {{--<label for="track" class="col-md-4 col-form-label text-md-right">Oceanic Entry FL</label>--}}
+                        {{--Oceanic Entry FL--}}
+                        <div class="form-group row">
+                            <label for="track" class="col-md-4 col-form-label text-md-right">Oceanic Entry FL</label>
 
-                    {{--<div class="col-md-6">--}}
-                    {{--<div class="form-control-plaintext"><strong>{{ $booking->oceanicFL }}</strong></div>--}}
+                            <div class="col-md-6">
+                                <div class="form-control-plaintext"><strong>{{ $booking->oceanicFL }}</strong></div>
 
-                    {{--</div>--}}
-                    {{--</div>--}}
+                            </div>
+                        </div>
+
+                    @elseif($booking->getOriginal('route'))
+                        {{--Route--}}
+                        <div class="form-group row">
+                            <label for="route" class="col-md-4 col-form-label text-md-right">Route</label>
+
+                            <div class="col-md-6">
+                                <div class="form-control-plaintext">
+                                    <strong>{{ $booking->route ?: '-' }}</strong>
+                                </div>
+
+                            </div>
+                        </div>
+                    @endif
 
                     {{--Aircraft--}}
                     <div class="form-group row">
@@ -125,14 +142,16 @@
                         </div>
                     </div>
 
-                    {{--SELCAL--}}
-                    {{--<div class="form-group row">--}}
-                    {{--<label for="selcal" class="col-md-4 col-form-label text-md-right">SELCAL</label>--}}
+                    @if($booking->event->is_oceanic_event)
+                        {{--SELCAL--}}
+                        <div class="form-group row">
+                            <label for="selcal" class="col-md-4 col-form-label text-md-right">SELCAL</label>
 
-                    {{--<div class="col-md-6">--}}
-                    {{--<div class="form-control-plaintext"><strong>{{ $booking->selcal }}</strong></div>--}}
-                    {{--</div>--}}
-                    {{--</div>--}}
+                            <div class="col-md-6">
+                                <div class="form-control-plaintext"><strong>{{ $booking->selcal }}</strong></div>
+                            </div>
+                        </div>
+                    @endif
 
                     @foreach($booking->airportDep->links as $link)
                         <div class="form-group row">
@@ -147,16 +166,18 @@
                         </div>
                     @endforeach
 
-                    {{--Oceanic sheet--}}
-                    {{--<div class="form-group row">--}}
-                    {{--<label for="chartsEHAM" class="col-md-4 col-form-label text-md-right">Oceanic sheet</label>--}}
+                    @if($booking->event->is_oceanic_event)
+                        {{--Oceanic sheet--}}
+                        <div class="form-group row">
+                            <label for="oceanicSheet" class="col-md-4 col-form-label text-md-right">Oceanic sheet</label>
 
-                    {{--<div class="col-md-6">--}}
-                    {{--<div class="form-control-plaintext"><a--}}
-                    {{--href="https://ctp.vatsim.net/system/view/includes/Transatlantic_Radio_Operations_Checksheet.pdf"--}}
-                    {{--target="_blank">Link</a></div>--}}
-                    {{--</div>--}}
-                    {{--</div>--}}
+                            <div class="col-md-6">
+                                <div class="form-control-plaintext"><a
+                                            href="https://ctp.vatsim.net/system/view/includes/Transatlantic_Radio_Operations_Checksheet.pdf"
+                                            target="_blank">Link</a></div>
+                            </div>
+                        </div>
+                    @endif
 
                     @foreach($booking->airportArr->links as $link)
                         <div class="form-group row">
