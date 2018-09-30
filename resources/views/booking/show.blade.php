@@ -119,7 +119,7 @@
                             </div>
                         </div>
 
-                    @elseif($booking->getOriginal('route'))
+                    @else
                         {{--Route--}}
                         <div class="form-group row">
                             <label for="route" class="col-md-4 col-form-label text-md-right">Route</label>
