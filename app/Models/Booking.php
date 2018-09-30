@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
-use Webpatser\Uuid\Uuid;
 
 class Booking extends Model
 {
