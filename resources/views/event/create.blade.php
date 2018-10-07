@@ -63,6 +63,90 @@
                             </div>
                         </div>
 
+                        {{--Only import?--}}
+                        <div class="form-group row">
+                            <label for="import_only" class="col-md-4 col-form-label text-md-right"> Only import?</label>
+                            <div class="col-md-6">
+                                <div class="custom-control custom-control-inline custom-radio">
+                                    <input type="radio" value="1" id="import_only1" name="import_only" class="custom-control-input" {{ old('import_only') == 1 ? 'selected' : '' }}>
+                                    <label class="custom-control-label" for="import_only1">Yes</label>
+                                </div>
+                                <div class="custom-control custom-control-inline custom-radio">
+                                    <input type="radio" value="0" id="import_only0" name="import_only" class="custom-control-input" {{ old('import_only') == 0 ? 'selected' : '' }}>
+                                    <label class="custom-control-label" for="import_only0">No</label>
+                                </div>
+
+                                @if ($errors->has('import_only'))
+                                    <span class="invalid-feedback">
+                                        <strong>{{ $errors->first('import_only') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
+                        {{--Show times?--}}
+                        <div class="form-group row">
+                            <label for="uses_times" class="col-md-4 col-form-label text-md-right"> Show times?</label>
+                            <div class="col-md-6">
+                                <div class="custom-control custom-control-inline custom-radio">
+                                    <input type="radio" value="1" id="uses_times1" name="uses_times" class="custom-control-input" {{ old('uses_times') == 1 ? 'selected' : '' }}>
+                                    <label class="custom-control-label" for="uses_times1">Yes</label>
+                                </div>
+                                <div class="custom-control custom-control-inline custom-radio">
+                                    <input type="radio" value="0" id="uses_times0" name="uses_times" class="custom-control-input" {{ old('uses_times') == 0 ? 'selected' : '' }}>
+                                    <label class="custom-control-label" for="uses_times0">No</label>
+                                </div>
+
+                                @if ($errors->has('import_only'))
+                                    <span class="invalid-feedback">
+                                        <strong>{{ $errors->first('import_only') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
+                        {{--Multiple bookings allowed?--}}
+                        <div class="form-group row">
+                            <label for="multiple_bookings_allowed" class="col-md-4 col-form-label text-md-right"> Multiple bookings allowed?</label>
+                            <div class="col-md-6">
+                                <div class="custom-control custom-control-inline custom-radio">
+                                    <input type="radio" value="1" id="multiple_bookings_allowed1" name="multiple_bookings_allowed" class="custom-control-input" {{ old('multiple_bookings_allowed') == 1 ? 'selected' : '' }}>
+                                    <label class="custom-control-label" for="multiple_bookings_allowed1">Yes</label>
+                                </div>
+                                <div class="custom-control custom-control-inline custom-radio">
+                                    <input type="radio" value="0" id="multiple_bookings_allowed0" name="multiple_bookings_allowed" class="custom-control-input" {{ old('multiple_bookings_allowed') == 0 ? 'selected' : '' }}>
+                                    <label class="custom-control-label" for="multiple_bookings_allowed0">No</label>
+                                </div>
+
+                                @if ($errors->has('import_only'))
+                                    <span class="invalid-feedback">
+                                        <strong>{{ $errors->first('import_only') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
+                        {{--Oceanic event?--}}
+                        <div class="form-group row">
+                            <label for="is_oceanic_event" class="col-md-4 col-form-label text-md-right"> Oceanic event?</label>
+                            <div class="col-md-6">
+                                <div class="custom-control custom-control-inline custom-radio">
+                                    <input type="radio" value="1" id="is_oceanic_event1" name="is_oceanic_event" class="custom-control-input" {{ old('is_oceanic_event') == 1 ? 'selected' : '' }}>
+                                    <label class="custom-control-label" for="is_oceanic_event1">Yes</label>
+                                </div>
+                                <div class="custom-control custom-control-inline custom-radio">
+                                    <input type="radio" value="0" id="is_oceanic_event0" name="is_oceanic_event" class="custom-control-input" {{ old('is_oceanic_event') == 0 ? 'selected' : '' }}>
+                                    <label class="custom-control-label" for="is_oceanic_event0">No</label>
+                                </div>
+
+                                @if ($errors->has('is_oceanic_event'))
+                                    <span class="invalid-feedback">
+                                        <strong>{{ $errors->first('is_oceanic_event') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
                         {{--Airport--}}
                         <div class="form-group row">
                             <label for="end" class="col-md-4 col-form-label text-md-right"> Airport</label>

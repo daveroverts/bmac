@@ -58,7 +58,7 @@ class EventController extends Controller
     public function store(StoreEvent $request)
     {
         $event = new Event();
-        $event->fill($request->only('name', 'event_type_id', 'dep', 'arr', 'description'));
+        $event->fill($request->only('name', 'event_type_id', 'import_only', 'uses_times', 'multiple_bookings_allowed', 'is_oceanic_event', 'dep', 'arr', 'description'));
         $event->fill([
             'startEvent' => Carbon::createFromFormat('d-m-Y H:i', $request->dateEvent . ' ' . $request->timeBeginEvent),
             'endEvent' => Carbon::createFromFormat('d-m-Y H:i', $request->dateEvent . ' ' . $request->timeEndEvent),
