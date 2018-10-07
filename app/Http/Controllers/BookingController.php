@@ -237,13 +237,18 @@ class BookingController extends Controller
     {
         // Check if the reservation / booking actually belongs to the correct person
         if (Auth::id() == $booking->user_id) {
-//            $booking->fill([
-//                'status' => BookingStatus::BOOKED,
-//                'callsign' => $request->callsign,
-//                'acType' => $request->aircraft,
-//            ]);
+            if (!$booking->event->import_only) {
+                $booking->fill([
+                    'callsign' => $request->callsign,
+                    'acType' => $request->aircraft
+                ]);
+            }
+
+            if ($booking->event->is_oceanic_event) {
+                $booking->selcal = $this->validateSELCAL(strtoupper($request->selcal1 . '-' . $request->selcal2), $booking->event_id);
+            }
+
             $booking->status = BookingStatus::BOOKED;
-            $booking->selcal = $this->validateSELCAL(strtoupper($request->selcal1 . '-' . $request->selcal2), $booking->event_id);
             if ($booking->getOriginal('status') === BookingStatus::RESERVED) {
                 Mail::to(Auth::user())->send(new BookingConfirmed($booking));
                 flashMessage('success', 'Booking created!', 'Booking has been created! An E-mail with details has also been sent');
