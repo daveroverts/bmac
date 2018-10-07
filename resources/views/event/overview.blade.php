@@ -52,5 +52,7 @@
                     @endphp
                     @include('layouts.alert')
                 @endforelse
+                {{ $events->links() }}
     </table>
+    {{ $events->links() }}
 @endsection

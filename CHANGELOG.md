@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- Pagination for ``events.overview``
+
+### Added
 - ``Groupflight`` in ``EventType`` Enum and ``event_types`` table
 
 ## [v0.6.3](https://gitlab.com/daveroverts/Book-me-a-cookie/compare/v0.6.2...v0.6.3) - 2018-09-29
