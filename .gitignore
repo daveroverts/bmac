@@ -17,7 +17,7 @@ npm-debug.log
 yarn-error.log
 .env
 
-_ide_helper\.php
+_ide_helper*\.php
 
 \.phpstorm\.meta\.php
 
