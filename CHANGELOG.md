@@ -8,8 +8,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - Pagination for ``events.overview``
-
-### Added
 - ``Groupflight`` in ``EventType`` Enum and ``event_types`` table
 - The following event variables in ``events`` table
     - ``import_only``
