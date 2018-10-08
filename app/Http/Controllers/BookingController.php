@@ -199,6 +199,13 @@ class BookingController extends Controller
             }
         } // If the booking hasn't been taken by anybody else, check if user doesn't already have a booking
         else {
+            // If user already has another booking, but event only allows for 1
+            if (!$booking->event->multiple_bookings_allowed && Auth::user()->booking()->where('event_id',$booking->event_id)
+                    ->where('status', BookingStatus::BOOKED)
+                    ->first()) {
+                flashMessage('danger!', 'Nope!', 'You already have a booking!');
+                return redirect(route('booking.index'));
+            }
             // If user already has another reservation open
             if (Auth::user()->booking()->where('event_id', $booking->event_id)
                 ->where('status', BookingStatus::RESERVED)
@@ -237,13 +244,18 @@ class BookingController extends Controller
     {
         // Check if the reservation / booking actually belongs to the correct person
         if (Auth::id() == $booking->user_id) {
-//            $booking->fill([
-//                'status' => BookingStatus::BOOKED,
-//                'callsign' => $request->callsign,
-//                'acType' => $request->aircraft,
-//            ]);
+            if (!$booking->event->import_only) {
+                $booking->fill([
+                    'callsign' => $request->callsign,
+                    'acType' => $request->aircraft
+                ]);
+            }
+
+            if ($booking->event->is_oceanic_event) {
+                $booking->selcal = $this->validateSELCAL(strtoupper($request->selcal1 . '-' . $request->selcal2), $booking->event_id);
+            }
+
             $booking->status = BookingStatus::BOOKED;
-            $booking->selcal = $this->validateSELCAL(strtoupper($request->selcal1 . '-' . $request->selcal2), $booking->event_id);
             if ($booking->getOriginal('status') === BookingStatus::RESERVED) {
                 Mail::to(Auth::user())->send(new BookingConfirmed($booking));
                 flashMessage('success', 'Booking created!', 'Booking has been created! An E-mail with details has also been sent');

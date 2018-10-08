@@ -26,6 +26,10 @@ class StoreEvent extends FormRequest
         return [
             'name' => 'bail|required:string',
             'eventType' => 'exists:event_types,id|required',
+            'import_only' => 'required|boolean',
+            'uses_times' => 'required|boolean',
+            'multiple_bookings_allowed' => 'required|boolean',
+            'is_oceanic_event' => 'required|boolean',
             'dateEvent' => 'required|date',
             'airport' => 'exists:airports,icao|required',
             'timeBeginEvent' => 'required',
@@ -34,6 +38,7 @@ class StoreEvent extends FormRequest
             'timeBeginBooking' => 'required',
             'dateEndBooking' => 'required|date|after_or_equal:dateBeginBooking',
             'timeEndBooking' => 'required',
+            'image_url' => 'nullable|url',
             'description' => 'required:string',
         ];
     }

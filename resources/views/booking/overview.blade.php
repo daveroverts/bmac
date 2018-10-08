@@ -29,8 +29,10 @@
                 <tr>
                     <th scope="row">From</th>
                     <th scope="row">To</th>
-                    {{--<th scope="row"><abbr title="Calculated Take Off Time">CTOT</abbr></th>--}}
-                    {{--<th scope="row"><abbr title="Estimated Time of Arrival">ETA</abbr></th>--}}
+                    @if($event->uses_times)
+                        <th scope="row"><abbr title="Calculated Take Off Time">CTOT</abbr></th>
+                        <th scope="row"><abbr title="Estimated Time of Arrival">ETA</abbr></th>
+                    @endif
                     <th scope="row">Callsign</th>
                     <th scope="row">Aircraft</th>
                     <th scope="row">Book | Available until {{ $event->endBooking->format('d-m-Y H:i') }}z</th>
@@ -48,12 +50,14 @@
                         <td>
                             <abbr title="{{ $booking->airportArr->name }}">{{ $booking->arr }}</abbr>
                         </td>
-                        {{--<td>--}}
-                        {{--{{ $booking->ctot }}--}}
-                        {{--</td>--}}
-                        {{--<td>--}}
-                        {{--{{ $booking->eta }}--}}
-                        {{--</td>--}}
+                        @if($booking->event->uses_times)
+                            <td>
+                                {{ $booking->ctot }}
+                            </td>
+                            <td>
+                                {{ $booking->eta }}
+                            </td>
+                        @endif
                         <td>{{ $booking->callsign }}</td>
                         <td>{{ $booking->acType }}</td>
                         <td>
@@ -80,18 +84,22 @@
                                         Reserved {{Auth::check() && Auth::user()->isAdmin ? '['.$booking->user->pic .']' : ''}}</button>
                                 @endif
                             @else
-                                @if(Auth::check())
-                                    {{--Check if user is logged in--}}
-                                    @if($booking->event->startBooking < now() && $booking->event->endBooking > now())
-                                        {{--Check if current date is between startBooking and endBooking--}}
-                                        <a href="{{ route('booking.edit', $booking) }}" class="btn btn-success">BOOK
-                                            NOW</a>
-                                    @else
-                                        <button class="btn btn-danger">Not available</button>
+                            @if(Auth::check())
+                                {{--Check if user is logged in--}}
+                                @if($booking->event->startBooking < now() && $booking->event->endBooking > now())
+                                    {{--Check if user already has a booking--}}
+                                    @if(($booking->event->multiple_bookings_allowed) || (!$booking->event->multiple_bookings_allowed && !Auth::user()->booking()->where('event_id',$event->id)->first()))
+                                        {{--Check if user already has a booking, and only 1 is allowed--}}
+                                        <a href="{{ route('booking.edit', $booking) }}" class="btn btn-success">BOOK NOW</a>
+                                     @else
+                                        <button class="btn btn-danger">You already have a booking</button>
                                     @endif
                                 @else
-                                    <a href="{{ route('login') }}" class="btn btn-info">Click here to login</a>
+                                    <button class="btn btn-danger">Not available</button>
                                 @endif
+                            @else
+                                <a href="{{ route('login') }}" class="btn btn-info">Click here to login</a>
+                            @endif
                             @endif
                         </td>
                         @if(Auth::check() && Auth::user()->isAdmin)
