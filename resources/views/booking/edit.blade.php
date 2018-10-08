@@ -28,8 +28,11 @@
                             <label for="callsign" class="col-md-4 col-form-label text-md-right"> Callsign</label>
 
                             <div class="col-md-6">
-                                <div class="form-control-plaintext"><strong>{{ $booking->callsign }}</strong></div>
-
+                                @if($booking->event->import_only)
+                                    <div class="form-control-plaintext"><strong>{{ $booking->callsign }}</strong></div>
+                                @else
+                                    <input id="callsign" type="text" class="form-control{{ $errors->has('callsign') ? ' is-invalid' : '' }}" name="callsign" value="{{ old('callsign', $booking->getOriginal('callsign')) }}" required autofocus max="7">
+                                @endif
                             </div>
                         </div>
 
@@ -117,8 +120,11 @@
                             <label for="aircraft" class="col-md-4 col-form-label text-md-right"> Aircraft code</label>
 
                             <div class="col-md-6">
-                                <div class="form-control-plaintext"><strong>{{ $booking->acType }}</strong></div>
-
+                                @if($booking->event->import_only)
+                                    <div class="form-control-plaintext"><strong>{{ $booking->acType }}</strong></div>
+                                @else
+                                    <input id="aircraft" type="text" class="form-control{{ $errors->has('callsign') ? ' is-invalid' : '' }}" name="aircraft" value="{{ old('aircraft', $booking->getOriginal('aircraft')) }}" required max="4">
+                                @endif
                             </div>
                         </div>
 
