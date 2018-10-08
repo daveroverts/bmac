@@ -84,18 +84,22 @@
                                         Reserved {{Auth::check() && Auth::user()->isAdmin ? '['.$booking->user->pic .']' : ''}}</button>
                                 @endif
                             @else
-                                @if(Auth::check())
-                                    {{--Check if user is logged in--}}
-                                    @if($booking->event->startBooking < now() && $booking->event->endBooking > now())
-                                        {{--Check if current date is between startBooking and endBooking--}}
-                                        <a href="{{ route('booking.edit', $booking) }}" class="btn btn-success">BOOK
-                                            NOW</a>
-                                    @else
-                                        <button class="btn btn-danger">Not available</button>
+                            @if(Auth::check())
+                                {{--Check if user is logged in--}}
+                                @if($booking->event->startBooking < now() && $booking->event->endBooking > now())
+                                    {{--Check if user already has a booking--}}
+                                    @if(($booking->event->multiple_bookings_allowed) || (!$booking->event->multiple_bookings_allowed && !Auth::user()->booking()->where('event_id',$event->id)->first()))
+                                        {{--Check if user already has a booking, and only 1 is allowed--}}
+                                        <a href="{{ route('booking.edit', $booking) }}" class="btn btn-success">BOOK NOW</a>
+                                     @else
+                                        <button class="btn btn-danger">You already have a booking</button>
                                     @endif
                                 @else
-                                    <a href="{{ route('login') }}" class="btn btn-info">Click here to login</a>
+                                    <button class="btn btn-danger">Not available</button>
                                 @endif
+                            @else
+                                <a href="{{ route('login') }}" class="btn btn-info">Click here to login</a>
+                            @endif
                             @endif
                         </td>
                         @if(Auth::check() && Auth::user()->isAdmin)
