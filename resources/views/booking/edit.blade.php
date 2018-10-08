@@ -137,7 +137,7 @@
                                 @if($booking->event->import_only)
                                     <div class="form-control-plaintext"><strong>{{ $booking->acType }}</strong></div>
                                 @else
-                                    <input id="aircraft" type="text" class="form-control{{ $errors->has('callsign') ? ' is-invalid' : '' }}" name="aircraft" value="{{ old('aircraft', $booking->getOriginal('aircraft')) }}" required max="4">
+                                    <input id="aircraft" type="text" class="form-control{{ $errors->has('aircraft') ? ' is-invalid' : '' }}" name="aircraft" value="{{ old('aircraft', $booking->getOriginal('aircraft')) }}" required max="4">
                                 @endif
                             </div>
                         </div>
