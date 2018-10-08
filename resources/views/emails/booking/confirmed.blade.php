@@ -12,7 +12,14 @@ For reference, your booking details are listed below.
 | Callsign: | **{{ $booking->callsign }}** |
 | Departs: | **{{ $booking->dep  }}** |
 | Arrives: | **{{ $booking->arr }}** |
+@if($booking->event->is_oceanic_event)
+| Cruising: | **{{ $booking->oceanicFL }}** |
+| SELCAL: | **{{ $booking->selcal }}** |
+@endif
 | Aircraft: | **{{ $booking->acType }}** |
+@if($booking->event->uses_times)
+| CTOT: | **{{ $booking->ctot }}** |
+@endif
 | Event Date: | **{{ $booking->event->startEvent->toFormattedDateString() }}** |
 @endcomponent
 
