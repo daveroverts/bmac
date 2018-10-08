@@ -36,15 +36,27 @@
                             </div>
                         </div>
 
-                        {{--CTOT--}}
-                        {{--<div class="form-group row">--}}
-                        {{--<label for="ctot" class="col-md-4 col-form-label text-md-right"> CTOT</label>--}}
+                        @if($booking->event->uses_times)
+                            {{--CTOT--}}
+                            <div class="form-group row">
+                                <label for="ctot" class="col-md-4 col-form-label text-md-right"> CTOT</label>
 
-                        {{--<div class="col-md-6">--}}
-                        {{--<div class="form-control-plaintext"><strong>{{ $booking->ctot }}</strong></div>--}}
+                                <div class="col-md-6">
+                                    <div class="form-control-plaintext"><strong>{{ $booking->ctot }}</strong></div>
 
-                        {{--</div>--}}
-                        {{--</div>--}}
+                                </div>
+                            </div>
+
+                            {{--ETA--}}
+                            <div class="form-group row">
+                                <label for="eta" class="col-md-4 col-form-label text-md-right"> ETA</label>
+
+                                <div class="col-md-6">
+                                    <div class="form-control-plaintext"><strong>{{ $booking->ctot }}</strong></div>
+
+                                </div>
+                            </div>
+                        @endif
 
                         {{--ADEP--}}
                         <div class="form-group row">
