@@ -8,6 +8,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - ``Groupflight`` in ``EventType`` Enum and ``event_types`` table
+- The following event variables in ``events`` table
+    - ``import_only``
+    - ``uses_times``
+    - ``multiple_bookings_allowed``
+    - ``is_oceanic_event``
+- Event details on homepage if active
+- ``image_url`` in ``events`` table
 
 ### Changed
 - Homepage now checks if event is active, and fill the title, date, and description
