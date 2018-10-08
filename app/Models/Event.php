@@ -15,7 +15,7 @@ class Event extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'event_type_id', 'startEvent', 'endEvent', 'startBooking', 'endBooking', 'description', 'dep', 'arr', 'import_only', 'uses_times', 'multiple_bookings_allowed', 'is_oceanic_event',
+        'name', 'event_type_id', 'startEvent', 'endEvent', 'startBooking', 'endBooking', 'image_url', 'description', 'dep', 'arr', 'import_only', 'uses_times', 'multiple_bookings_allowed', 'is_oceanic_event',
     ];
 
     /**
@@ -38,6 +38,7 @@ class Event extends Model
      * @var array
      */
     protected $casts = [
+        'image_url' => 'string',
         'dep' => 'string',
         'arr' => 'string',
         'import_only' => 'boolean',
