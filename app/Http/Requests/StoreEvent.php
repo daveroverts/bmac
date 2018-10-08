@@ -38,6 +38,7 @@ class StoreEvent extends FormRequest
             'timeBeginBooking' => 'required',
             'dateEndBooking' => 'required|date|after_or_equal:dateBeginBooking',
             'timeEndBooking' => 'required',
+            'image_url' => 'nullable|url',
             'description' => 'required:string',
         ];
     }

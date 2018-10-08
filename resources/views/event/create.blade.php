@@ -296,6 +296,23 @@
                             </div>
                         </div>
 
+                        {{--Image--}}
+                        <div class="form-group row">
+                            <label for="image_url" class="col-md-4 col-form-label text-md-right"> Image</label>
+
+                            <div class="col-md-6">
+                                <input id="image" type="url"
+                                       class="form-control{{ $errors->has('image_url') ? ' is-invalid' : '' }}" name="image_url"
+                                       value="{{ old('image_url') }}">
+
+                                @if ($errors->has('image_url'))
+                                    <span class="invalid-feedback">
+                                        <strong>{{ $errors->first('image_url') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
                         {{-- Description --}}
                         <div class="form-group row">
                             <textarea id="description" name="description"
