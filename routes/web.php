@@ -12,7 +12,8 @@
 */
 
 Route::get('/', function () {
-    return view('home');
+    $event = \App\Models\Event::where('endEvent', '>', now())->orderBy('startEvent', 'desc')->first();
+    return view('home', compact('event'));
 })->name('home');
 
 Route::get('/login', 'Auth\LoginController@login')->name('login');

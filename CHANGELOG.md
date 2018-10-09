@@ -6,6 +6,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v0.6.4](https://gitlab.com/daveroverts/Book-me-a-cookie/compare/v0.6.3...v0.6.4) - 2018-10-09
+
+### Added
+- Pagination for ``events.overview``
+- ``Groupflight`` in ``EventType`` Enum and ``event_types`` table
+- The following event variables in ``events`` table
+    - ``import_only``
+    - ``uses_times``
+    - ``multiple_bookings_allowed``
+    - ``is_oceanic_event``
+- Event details on homepage if active
+- ``image_url`` in ``events`` table
+
+### Changed
+- Homepage now checks if event is active, and fill the title, date, and description
+
 ## [v0.6.3](https://gitlab.com/daveroverts/Book-me-a-cookie/compare/v0.6.2...v0.6.3) - 2018-09-29
 
 ### Changed

@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
-use Webpatser\Uuid\Uuid;
 
 class Booking extends Model
 {
@@ -33,7 +32,7 @@ class Booking extends Model
     {
         parent::boot();
         self::creating(function ($model) {
-            $model->uuid = (string) Str::uuid();
+            $model->uuid = (string)Str::uuid();
         });
     }
 

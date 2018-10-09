@@ -28,20 +28,39 @@
                             <label for="callsign" class="col-md-4 col-form-label text-md-right"> Callsign</label>
 
                             <div class="col-md-6">
-                                <div class="form-control-plaintext"><strong>{{ $booking->callsign }}</strong></div>
-
+                                @if($booking->event->import_only)
+                                    <div class="form-control-plaintext"><strong>{{ $booking->callsign }}</strong></div>
+                                @else
+                                    <input id="callsign" type="text"
+                                           class="form-control{{ $errors->has('callsign') ? ' is-invalid' : '' }}"
+                                           name="callsign"
+                                           value="{{ old('callsign', $booking->getOriginal('callsign')) }}" required
+                                           autofocus max="7">
+                                @endif
                             </div>
                         </div>
 
-                        {{--CTOT--}}
-                        {{--<div class="form-group row">--}}
-                        {{--<label for="ctot" class="col-md-4 col-form-label text-md-right"> CTOT</label>--}}
+                        @if($booking->event->uses_times)
+                            {{--CTOT--}}
+                            <div class="form-group row">
+                                <label for="ctot" class="col-md-4 col-form-label text-md-right"> CTOT</label>
 
-                        {{--<div class="col-md-6">--}}
-                        {{--<div class="form-control-plaintext"><strong>{{ $booking->ctot }}</strong></div>--}}
+                                <div class="col-md-6">
+                                    <div class="form-control-plaintext"><strong>{{ $booking->ctot }}</strong></div>
 
-                        {{--</div>--}}
-                        {{--</div>--}}
+                                </div>
+                            </div>
+
+                            {{--ETA--}}
+                            <div class="form-group row">
+                                <label for="eta" class="col-md-4 col-form-label text-md-right"> ETA</label>
+
+                                <div class="col-md-6">
+                                    <div class="form-control-plaintext"><strong>{{ $booking->ctot }}</strong></div>
+
+                                </div>
+                            </div>
+                        @endif
 
                         {{--ADEP--}}
                         <div class="form-group row">
@@ -79,64 +98,76 @@
                         </div>
 
                         {{--Route--}}
-                        {{--<div class="form-group row">--}}
-                        {{--<label for="route" class="col-md-4 col-form-label text-md-right">Route</label>--}}
+                        <div class="form-group row">
+                            <label for="route" class="col-md-4 col-form-label text-md-right">Route</label>
 
-                        {{--<div class="col-md-6">--}}
-                        {{--<div class="form-control-plaintext">--}}
-                        {{--<strong>{{ $booking->route ?: 'T.B.D. / Available on day of event at 0600z' }}</strong>--}}
-                        {{--</div>--}}
+                            <div class="col-md-6">
+                                <div class="form-control-plaintext">
+                                    <strong>{{ $booking->route ?: '-' }}</strong>
+                                </div>
 
-                        {{--</div>--}}
-                        {{--</div>--}}
+                            </div>
+                        </div>
 
-                        {{--Track--}}
-                        {{--<div class="form-group row">--}}
-                        {{--<label for="track" class="col-md-4 col-form-label text-md-right">Track</label>--}}
+                        @if($booking->event->is_oceanic_event)
+                            {{--Track--}}
+                            <div class="form-group row">
+                                <label for="track" class="col-md-4 col-form-label text-md-right">Track</label>
 
-                        {{--<div class="col-md-6">--}}
-                        {{--<div class="form-control-plaintext">--}}
-                        {{--<strong>{{ $booking->oceanicTrack ?: 'T.B.D. / Available on day of event at 0600z' }}</strong>--}}
-                        {{--</div>--}}
+                                <div class="col-md-6">
+                                    <div class="form-control-plaintext">
+                                        <strong>{{ $booking->oceanicTrack ?: 'T.B.D. / Available on day of event at 0600z' }}</strong>
+                                    </div>
 
-                        {{--</div>--}}
-                        {{--</div>--}}
+                                </div>
+                            </div>
 
-                        {{--Oceanic Entry FL--}}
-                        {{--<div class="form-group row">--}}
-                        {{--<label for="track" class="col-md-4 col-form-label text-md-right">Oceanic Entry FL</label>--}}
+                            {{--Oceanic Entry FL--}}
+                            <div class="form-group row">
+                                <label for="track" class="col-md-4 col-form-label text-md-right">Oceanic Entry
+                                    FL</label>
 
-                        {{--<div class="col-md-6">--}}
-                        {{--<div class="form-control-plaintext"><strong>{{ $booking->oceanicFL }}</strong></div>--}}
+                                <div class="col-md-6">
+                                    <div class="form-control-plaintext"><strong>{{ $booking->oceanicFL }}</strong></div>
 
-                        {{--</div>--}}
-                        {{--</div>--}}
+                                </div>
+                            </div>
+                        @endif
 
                         {{--Aircraft--}}
                         <div class="form-group row">
                             <label for="aircraft" class="col-md-4 col-form-label text-md-right"> Aircraft code</label>
 
                             <div class="col-md-6">
-                                <div class="form-control-plaintext"><strong>{{ $booking->acType }}</strong></div>
-
+                                @if($booking->event->import_only)
+                                    <div class="form-control-plaintext"><strong>{{ $booking->acType }}</strong></div>
+                                @else
+                                    <input id="aircraft" type="text"
+                                           class="form-control{{ $errors->has('aircraft') ? ' is-invalid' : '' }}"
+                                           name="aircraft"
+                                           value="{{ old('aircraft', $booking->getOriginal('aircraft')) }}" required
+                                           max="4">
+                                @endif
                             </div>
                         </div>
 
                         {{--SELCAL--}}
-                        {{--<div class="form-group form-row align-items-center">--}}
-                        {{--<label for="selcal" class="col-md-4 col-form-label text-md-right"> Selcal</label>--}}
-                        {{--<div class="col-sm-3 my-1">--}}
-                        {{--<label class="sr-only" for="selcal1"></label>--}}
-                        {{--<input type="text" class="form-control" id="selcal1" name="selcal1" placeholder="AB"--}}
-                        {{--min="2" max="2" value="{{ old('selcal1',substr($booking->getOriginal('selcal'),0,2)) }}">--}}
-                        {{--</div>--}}
-                        {{-----}}
-                        {{--<div class="col-sm-3 my-1">--}}
-                        {{--<label class="sr-only" for="selcal2"></label>--}}
-                        {{--<input type="text" class="form-control" id="selcal2" name="selcal2" placeholder="CD"--}}
-                        {{--min="2" max="2" value="{{ old('selcal2',substr($booking->getOriginal('selcal'),3,5)) }}">--}}
-                        {{--</div>--}}
-                        {{--</div>--}}
+                        <div class="form-group form-row align-items-center">
+                            <label for="selcal" class="col-md-4 col-form-label text-md-right"> Selcal</label>
+                            <div class="col-sm-3 my-1">
+                                <label class="sr-only" for="selcal1"></label>
+                                <input type="text" class="form-control" id="selcal1" name="selcal1" placeholder="AB"
+                                       min="2" max="2"
+                                       value="{{ old('selcal1',substr($booking->getOriginal('selcal'),0,2)) }}">
+                            </div>
+                            -
+                            <div class="col-sm-3 my-1">
+                                <label class="sr-only" for="selcal2"></label>
+                                <input type="text" class="form-control" id="selcal2" name="selcal2" placeholder="CD"
+                                       min="2" max="2"
+                                       value="{{ old('selcal2',substr($booking->getOriginal('selcal'),3,5)) }}">
+                            </div>
+                        </div>
 
                         @if($booking->status === \App\Enums\BookingStatus::RESERVED)
                             {{--Study--}}
@@ -173,7 +204,8 @@
                                     <i class="fas fa-check"></i> {{ $booking->bookedBy ? 'Edit' : 'Confirm' }} Booking
                                 </button>
                                 @if($booking->status === \App\Enums\BookingStatus::RESERVED)
-                                    <a href="{{ route('booking.cancel',$booking) }}" class="btn btn-danger"><i class="fa fa-times"></i> Cancel Reservation</a>
+                                    <a href="{{ route('booking.cancel',$booking) }}" class="btn btn-danger"><i
+                                                class="fa fa-times"></i> Cancel Reservation</a>
                                 @endif
                             </div>
                         </div>
