@@ -32,7 +32,7 @@ class Booking extends Model
     {
         parent::boot();
         self::creating(function ($model) {
-            $model->uuid = (string) Str::uuid();
+            $model->uuid = (string)Str::uuid();
         });
     }
 

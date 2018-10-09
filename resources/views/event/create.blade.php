@@ -65,14 +65,18 @@
 
                         {{--Only import?--}}
                         <div class="form-group row">
-                            <label for="import_only" class="col-md-4 col-form-label text-md-right"> <abbr title="If enabled, only admins can fill in details via import script">Only import?</abbr></label>
+                            <label for="import_only" class="col-md-4 col-form-label text-md-right"> <abbr
+                                        title="If enabled, only admins can fill in details via import script">Only
+                                    import?</abbr></label>
                             <div class="col-md-6">
                                 <div class="custom-control custom-control-inline custom-radio">
-                                    <input type="radio" value="1" id="import_only1" name="import_only" class="custom-control-input" {{ old('import_only') == 1 ? 'selected' : '' }}>
+                                    <input type="radio" value="1" id="import_only1" name="import_only"
+                                           class="custom-control-input" {{ old('import_only') == 1 ? 'selected' : '' }}>
                                     <label class="custom-control-label" for="import_only1">Yes</label>
                                 </div>
                                 <div class="custom-control custom-control-inline custom-radio">
-                                    <input type="radio" value="0" id="import_only0" name="import_only" class="custom-control-input" {{ old('import_only') == 0 ? 'selected' : '' }}>
+                                    <input type="radio" value="0" id="import_only0" name="import_only"
+                                           class="custom-control-input" {{ old('import_only') == 0 ? 'selected' : '' }}>
                                     <label class="custom-control-label" for="import_only0">No</label>
                                 </div>
 
@@ -86,14 +90,18 @@
 
                         {{--Show times?--}}
                         <div class="form-group row">
-                            <label for="uses_times" class="col-md-4 col-form-label text-md-right"> <abbr title="If enabled, CTOT and ETA (if set in booking) will be shown">Show times?</abbr></label>
+                            <label for="uses_times" class="col-md-4 col-form-label text-md-right"> <abbr
+                                        title="If enabled, CTOT and ETA (if set in booking) will be shown">Show
+                                    times?</abbr></label>
                             <div class="col-md-6">
                                 <div class="custom-control custom-control-inline custom-radio">
-                                    <input type="radio" value="1" id="uses_times1" name="uses_times" class="custom-control-input" {{ old('uses_times') == 1 ? 'selected' : '' }}>
+                                    <input type="radio" value="1" id="uses_times1" name="uses_times"
+                                           class="custom-control-input" {{ old('uses_times') == 1 ? 'selected' : '' }}>
                                     <label class="custom-control-label" for="uses_times1">Yes</label>
                                 </div>
                                 <div class="custom-control custom-control-inline custom-radio">
-                                    <input type="radio" value="0" id="uses_times0" name="uses_times" class="custom-control-input" {{ old('uses_times') == 0 ? 'selected' : '' }}>
+                                    <input type="radio" value="0" id="uses_times0" name="uses_times"
+                                           class="custom-control-input" {{ old('uses_times') == 0 ? 'selected' : '' }}>
                                     <label class="custom-control-label" for="uses_times0">No</label>
                                 </div>
 
@@ -107,14 +115,20 @@
 
                         {{--Multiple bookings allowed?--}}
                         <div class="form-group row">
-                            <label for="multiple_bookings_allowed" class="col-md-4 col-form-label text-md-right"> <abbr title="If enabled, a user is allowed to book multiple flights for this event">Multiple bookings allowed?</abbr></label>
+                            <label for="multiple_bookings_allowed" class="col-md-4 col-form-label text-md-right"> <abbr
+                                        title="If enabled, a user is allowed to book multiple flights for this event">Multiple
+                                    bookings allowed?</abbr></label>
                             <div class="col-md-6">
                                 <div class="custom-control custom-control-inline custom-radio">
-                                    <input type="radio" value="1" id="multiple_bookings_allowed1" name="multiple_bookings_allowed" class="custom-control-input" {{ old('multiple_bookings_allowed') == 1 ? 'selected' : '' }}>
+                                    <input type="radio" value="1" id="multiple_bookings_allowed1"
+                                           name="multiple_bookings_allowed"
+                                           class="custom-control-input" {{ old('multiple_bookings_allowed') == 1 ? 'selected' : '' }}>
                                     <label class="custom-control-label" for="multiple_bookings_allowed1">Yes</label>
                                 </div>
                                 <div class="custom-control custom-control-inline custom-radio">
-                                    <input type="radio" value="0" id="multiple_bookings_allowed0" name="multiple_bookings_allowed" class="custom-control-input" {{ old('multiple_bookings_allowed') == 0 ? 'selected' : '' }}>
+                                    <input type="radio" value="0" id="multiple_bookings_allowed0"
+                                           name="multiple_bookings_allowed"
+                                           class="custom-control-input" {{ old('multiple_bookings_allowed') == 0 ? 'selected' : '' }}>
                                     <label class="custom-control-label" for="multiple_bookings_allowed0">No</label>
                                 </div>
 
@@ -128,14 +142,18 @@
 
                         {{--Oceanic event?--}}
                         <div class="form-group row">
-                            <label for="is_oceanic_event" class="col-md-4 col-form-label text-md-right"> <abbr title="If enabled, users can fill in a SELCAL code, and oceanic links are shown in the booking briefing">Oceanic event?</abbr></label>
+                            <label for="is_oceanic_event" class="col-md-4 col-form-label text-md-right"> <abbr
+                                        title="If enabled, users can fill in a SELCAL code, and oceanic links are shown in the booking briefing">Oceanic
+                                    event?</abbr></label>
                             <div class="col-md-6">
                                 <div class="custom-control custom-control-inline custom-radio">
-                                    <input type="radio" value="1" id="is_oceanic_event1" name="is_oceanic_event" class="custom-control-input" {{ old('is_oceanic_event') == 1 ? 'selected' : '' }}>
+                                    <input type="radio" value="1" id="is_oceanic_event1" name="is_oceanic_event"
+                                           class="custom-control-input" {{ old('is_oceanic_event') == 1 ? 'selected' : '' }}>
                                     <label class="custom-control-label" for="is_oceanic_event1">Yes</label>
                                 </div>
                                 <div class="custom-control custom-control-inline custom-radio">
-                                    <input type="radio" value="0" id="is_oceanic_event0" name="is_oceanic_event" class="custom-control-input" {{ old('is_oceanic_event') == 0 ? 'selected' : '' }}>
+                                    <input type="radio" value="0" id="is_oceanic_event0" name="is_oceanic_event"
+                                           class="custom-control-input" {{ old('is_oceanic_event') == 0 ? 'selected' : '' }}>
                                     <label class="custom-control-label" for="is_oceanic_event0">No</label>
                                 </div>
 
@@ -302,7 +320,8 @@
 
                             <div class="col-md-6">
                                 <input id="image" type="url"
-                                       class="form-control{{ $errors->has('image_url') ? ' is-invalid' : '' }}" name="image_url"
+                                       class="form-control{{ $errors->has('image_url') ? ' is-invalid' : '' }}"
+                                       name="image_url"
                                        value="{{ old('image_url') }}">
 
                                 @if ($errors->has('image_url'))

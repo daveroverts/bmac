@@ -31,7 +31,11 @@
                                 @if($booking->event->import_only)
                                     <div class="form-control-plaintext"><strong>{{ $booking->callsign }}</strong></div>
                                 @else
-                                    <input id="callsign" type="text" class="form-control{{ $errors->has('callsign') ? ' is-invalid' : '' }}" name="callsign" value="{{ old('callsign', $booking->getOriginal('callsign')) }}" required autofocus max="7">
+                                    <input id="callsign" type="text"
+                                           class="form-control{{ $errors->has('callsign') ? ' is-invalid' : '' }}"
+                                           name="callsign"
+                                           value="{{ old('callsign', $booking->getOriginal('callsign')) }}" required
+                                           autofocus max="7">
                                 @endif
                             </div>
                         </div>
@@ -120,7 +124,8 @@
 
                             {{--Oceanic Entry FL--}}
                             <div class="form-group row">
-                                <label for="track" class="col-md-4 col-form-label text-md-right">Oceanic Entry FL</label>
+                                <label for="track" class="col-md-4 col-form-label text-md-right">Oceanic Entry
+                                    FL</label>
 
                                 <div class="col-md-6">
                                     <div class="form-control-plaintext"><strong>{{ $booking->oceanicFL }}</strong></div>
@@ -137,7 +142,11 @@
                                 @if($booking->event->import_only)
                                     <div class="form-control-plaintext"><strong>{{ $booking->acType }}</strong></div>
                                 @else
-                                    <input id="aircraft" type="text" class="form-control{{ $errors->has('aircraft') ? ' is-invalid' : '' }}" name="aircraft" value="{{ old('aircraft', $booking->getOriginal('aircraft')) }}" required max="4">
+                                    <input id="aircraft" type="text"
+                                           class="form-control{{ $errors->has('aircraft') ? ' is-invalid' : '' }}"
+                                           name="aircraft"
+                                           value="{{ old('aircraft', $booking->getOriginal('aircraft')) }}" required
+                                           max="4">
                                 @endif
                             </div>
                         </div>
@@ -148,13 +157,15 @@
                             <div class="col-sm-3 my-1">
                                 <label class="sr-only" for="selcal1"></label>
                                 <input type="text" class="form-control" id="selcal1" name="selcal1" placeholder="AB"
-                                       min="2" max="2" value="{{ old('selcal1',substr($booking->getOriginal('selcal'),0,2)) }}">
+                                       min="2" max="2"
+                                       value="{{ old('selcal1',substr($booking->getOriginal('selcal'),0,2)) }}">
                             </div>
                             -
                             <div class="col-sm-3 my-1">
                                 <label class="sr-only" for="selcal2"></label>
                                 <input type="text" class="form-control" id="selcal2" name="selcal2" placeholder="CD"
-                                       min="2" max="2" value="{{ old('selcal2',substr($booking->getOriginal('selcal'),3,5)) }}">
+                                       min="2" max="2"
+                                       value="{{ old('selcal2',substr($booking->getOriginal('selcal'),3,5)) }}">
                             </div>
                         </div>
 
@@ -193,7 +204,8 @@
                                     <i class="fas fa-check"></i> {{ $booking->bookedBy ? 'Edit' : 'Confirm' }} Booking
                                 </button>
                                 @if($booking->status === \App\Enums\BookingStatus::RESERVED)
-                                    <a href="{{ route('booking.cancel',$booking) }}" class="btn btn-danger"><i class="fa fa-times"></i> Cancel Reservation</a>
+                                    <a href="{{ route('booking.cancel',$booking) }}" class="btn btn-danger"><i
+                                                class="fa fa-times"></i> Cancel Reservation</a>
                                 @endif
                             </div>
                         </div>
