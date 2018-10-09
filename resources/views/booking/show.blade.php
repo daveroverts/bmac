@@ -169,7 +169,8 @@
                     @if($booking->event->is_oceanic_event)
                         {{--Oceanic sheet--}}
                         <div class="form-group row">
-                            <label for="oceanicSheet" class="col-md-4 col-form-label text-md-right">Oceanic sheet</label>
+                            <label for="oceanicSheet" class="col-md-4 col-form-label text-md-right">Oceanic
+                                sheet</label>
 
                             <div class="col-md-6">
                                 <div class="form-control-plaintext"><a
