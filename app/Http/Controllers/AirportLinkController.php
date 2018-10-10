@@ -3,10 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreAirportLink;
+use App\Http\Requests\UpdateAirportLink;
 use App\Models\Airport;
 use App\Models\AirportLink;
 use App\Models\AirportLinkType;
-use Illuminate\Http\Request;
 
 class AirportLinkController extends Controller
 {
@@ -27,7 +27,9 @@ class AirportLinkController extends Controller
      */
     public function index()
     {
-        //
+        $airportLinks = AirportLink::orderBy('icao_airport', 'asc')
+            ->paginate();
+        return view('airportLink.overview', compact('airportLinks'));
     }
 
     /**
@@ -56,17 +58,6 @@ class AirportLinkController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\AirportLink $airportLink
-     * @return \Illuminate\Http\Response
-     */
-    public function show(AirportLink $airportLink)
-    {
-        //
-    }
-
-    /**
      * Show the form for editing the specified resource.
      *
      * @param  \App\Models\AirportLink $airportLink
@@ -74,19 +65,22 @@ class AirportLinkController extends Controller
      */
     public function edit(AirportLink $airportLink)
     {
-        //
+        $airportLinkTypes = AirportLinkType::all();
+        return view('airportLink.edit', compact('airportLink', 'airportLinkTypes'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param  UpdateAirportLink $request
      * @param  \App\Models\AirportLink $airportLink
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, AirportLink $airportLink)
+    public function update(UpdateAirportLink $request, AirportLink $airportLink)
     {
-        //
+        $airportLink->update($request->only(['airportLinkType_id', 'name', 'url']));
+        flashMessage('success', 'Done', 'Link has been updated');
+        return redirect(route('airportLink.index'));
     }
 
     /**
@@ -94,9 +88,12 @@ class AirportLinkController extends Controller
      *
      * @param  \App\Models\AirportLink $airportLink
      * @return \Illuminate\Http\Response
+     * @throws \Exception
      */
     public function destroy(AirportLink $airportLink)
     {
-        //
+        $airportLink->delete();
+        flashMessage('success', 'Airportlink deleted', 'Airportlink has been deleted');
+        return back();
     }
 }

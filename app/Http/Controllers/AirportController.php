@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\{Http\Requests\StoreAirport, Models\Airport};
+use App\{Http\Requests\StoreAirport, Http\Requests\UpdateAirport, Models\Airport};
+use Closure;
 use Illuminate\{Http\Request, Support\Facades\Storage};
 use Rap2hpoutre\FastExcel\FastExcel;
 
@@ -57,45 +58,55 @@ class AirportController extends Controller
      * Display the specified resource.
      *
      * @param Airport $airport
-     * @return void
+     * @return \Illuminate\Http\Response
      */
     public function show(Airport $airport)
     {
-        //
+        return view('airport.show', compact('airport'));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
      * @param Airport $airport
-     * @return void
+     * @return \Illuminate\Http\Response
      */
     public function edit(Airport $airport)
     {
-        //
+        return view('airport.edit', compact('airport'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param UpdateAirport $request
      * @param Airport $airport
-     * @return void
+     * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Airport $airport)
+    public function update(UpdateAirport $request, Airport $airport)
     {
-        //
+        $airport->update($request->only(['icao', 'iata', 'name']));
+        flashMessage('success', 'Done', $airport->name . ' [' . $airport->icao . ' | ' . $airport->iata . '] has been updated!');
+        return redirect(route('airport.index'));
     }
 
     /**
      * Remove the specified resource from storage.
      *
      * @param Airport $airport
-     * @return void
+     * @return Closure
+     * @throws \Exception
      */
     public function destroy(Airport $airport)
     {
-        //
+        if ($airport->bookingsDep->isEmpty() && $airport->bookingsArr->isEmpty()) {
+            $airport->delete();
+            flashMessage('success', 'Done', $airport->name . ' [' . $airport->icao . ' | ' . $airport->iata . '] has been deleted!');
+            return redirect()->back();
+        } else {
+            flashMessage('danger', 'Warning', $airport->name . ' [' . $airport->icao . ' | ' . $airport->iata . '] could not be deleted! It\'s linked to another event');
+            return redirect()->back();
+        }
     }
 
     public function import()
