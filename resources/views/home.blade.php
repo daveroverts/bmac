@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
+    @include('layouts.alert')
     @if($event)
         <h3>Welcome to {{ $event->name }} – {{ $event->startEvent->toFormattedDateString() }}</h3>
         @include('layouts.alert')
