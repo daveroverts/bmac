@@ -1,5 +1,16 @@
 image: lorisleiva/laravel-docker:latest
 
+.init_ssh: &init_ssh |
+  eval $(ssh-agent -s)
+  echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
+  mkdir -p ~/.ssh
+  chmod 700 ~/.ssh
+  [[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
+
+.change_file_permissions: &change_file_permissions |
+  find . -type f -not -path "./vendor/*" -exec chmod 664 {} \;
+  find . -type d -not -path "./vendor/*" -exec chmod 775 {} \;
+
 # Pick zero or more services to be used on all builds.
 # Only needed when using a docker container to run your tests in.
 # Check out: http://docs.gitlab.com/ce/ci/docker/using_docker_images.html#what-is-a-service
@@ -14,21 +25,17 @@ composer:
   stage: build
 
   script:
-  - composer install --prefer-dist --no-ansi --no-interaction --no-progress --no-scripts
-  - cp .env.testing .env
-  - php artisan key:generate
-  - php artisan migrate
+  - composer install --no-dev --optimize-autoloader --prefer-dist --no-ansi --no-interaction --no-progress --no-scripts
 
   artifacts:
     expire_in: 1 month
     paths:
     - vendor/
-    - .env
 
   cache:
     key: ${CI_COMMIT_REF_SLUG}-composer
     paths:
-      - vendor/
+    - vendor/
 
 yarn:
   stage: build
@@ -59,7 +66,10 @@ phpunit:
   - composer
 
   before_script:
-  - php artisan migrate
+    - composer install --prefer-dist --no-ansi --no-interaction --no-progress --no-scripts
+    - cp .env.testing .env
+    - php artisan key:generate
+    - php artisan migrate
 
   script:
   - phpunit --coverage-text --colors=never
@@ -78,11 +88,30 @@ staging:
   stage: deploy
 
   script:
-  - wget -q https://forge.laravel.com/servers/$FORGE_SERVER/sites/$FORGE_SITE/deploy/http?token=$FORGE_TOKEN
+  - *init_ssh
+  - *change_file_permissions
+  - php artisan deploy 159.65.201.236 -s upload
 
   environment:
     name: staging
     url: http://bmac.daveroverts.nl
 
   only:
-    - dev
+  - dev
+
+production:
+  stage: deploy
+
+  script:
+  - *init_ssh
+  - *change_file_permissions
+  - php artisan deploy vps1.dutchvacc.nl -s upload
+
+  environment:
+    name: production
+    url: https://booking.dutchvacc.nl
+
+  when: manual
+
+  only:
+  - master
