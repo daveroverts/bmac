@@ -6,6 +6,28 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v0.6.5](https://gitlab.com/daveroverts/Book-me-a-cookie/compare/v0.6.4...v0.6.5) - 2018-10-11
+
+### Added
+- ``AirportController``:
+    - ``edit()``
+    - ``update()``
+    - ``destroy()``
+- ``AirportLinkController``
+    - ``index()``
+    - ``edit()``
+    - ``update()``
+    - ``destroy()``
+- [lorisleiva/laravel-deployer](https://github.com/lorisleiva/laravel-deployer)
+
+### Changed
+- Deployment procedure, due to [lorisleiva/laravel-deployer](https://github.com/lorisleiva/laravel-deployer) being added
+    
+### Removed
+- ``AirportLinkController@show()``
+- [svenluijten/artisan-view](https://github.com/svenluijten/artisan-view) as dev dependency
+- ``JS`` and ``CSS`` files from the repository. They will now be generated, and uploaded on each deployment
+
 ## [v0.6.4](https://gitlab.com/daveroverts/Book-me-a-cookie/compare/v0.6.3...v0.6.4) - 2018-10-09
 
 ### Added

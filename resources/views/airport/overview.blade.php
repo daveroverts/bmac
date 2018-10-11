@@ -14,19 +14,31 @@
             <th scope="row">ICAO</th>
             <th scope="row">IATA</th>
             <th scope="row">Name</th>
-            <th scope="row">Edit (doesn't work at this time)</th>
+            <th scope="row" colspan="2">Actions</th>
         </tr>
         </thead>
         @forelse($airports as $airport)
             <tr>
-                <td>{{ $airport->icao }}</td>
-                <td>{{ $airport->iata }}</td>
-                <td>{{ $airport->name }}</td>
+                <td><a href="{{ route('airport.show', $airport) }}">{{ $airport->icao }}</a></td>
+                <td><a href="{{ route('airport.show', $airport) }}">{{ $airport->iata }}</a></td>
+                <td><a href="{{ route('airport.show', $airport) }}">{{ $airport->name }}</a></td>
                 <td>
-                    <form action="{{ route('airport.edit', $airport->icao) }}">
-                        <button class="btn btn-primary" disabled><i class="fa fa-edit"></i> Edit Airport</button>
-                        @csrf
-                    </form>
+                    <a href="{{ route('airport.edit', $airport) }}">
+                        <button class="btn btn-primary">
+                            <i class="fa fa-edit"></i> Edit Airport
+                        </button>
+                    </a>
+                </td>
+                <td>
+                    @if($airport->bookingsDep->isEmpty() && $airport->bookingsArr->isEmpty())
+                        <form action="{{ route('airport.destroy', $airport) }}" method="post">
+                            @method('DELETE')
+                            <button class="btn btn-danger"><i class="fa fa-trash"></i> Remove Airport</button>
+                            @csrf
+                        </form>
+                    @else
+                        <button class="btn btn-danger disabled" disabled><i class="fa fa-trash"></i> Remove Airport</button>
+                    @endif
                 </td>
             </tr>
         @empty
