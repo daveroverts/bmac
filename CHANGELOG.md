@@ -6,6 +6,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+- Image on homepage now uses ``img-fluid`` and ``rounded``
+
 ### Removed
 - ``public\mix-manifest.json``, CI generates this already
 

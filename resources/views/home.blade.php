@@ -6,7 +6,7 @@
         <h3>Welcome to {{ $event->name }} – {{ $event->startEvent->toFormattedDateString() }}</h3>
         @include('layouts.alert')
         @if($event->image_url)
-            <img src="{{ $event->image_url }}">
+            <img src="{{ $event->image_url }}" class="img-fluid rounded">
         @endif
         {!! $event->description !!}
     @else
