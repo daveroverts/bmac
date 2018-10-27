@@ -6,6 +6,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- Meta tag to disallow robots for the whole website
+
 ### Changed
 - Image on homepage now uses ``img-fluid`` and ``rounded``
 
