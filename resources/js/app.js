@@ -28,6 +28,19 @@ library.add(far, fas, fab);
 
 dom.watch();
 
+// TinyMCE
+import tinymce from 'tinymce';
+import 'tinymce/themes/modern/theme';
+
+import 'tinymce/plugins/code'
+import 'tinymce/plugins/paste';
+import 'tinymce/plugins/link';
+
+tinymce.init({
+    selector: '#description',
+    plugins: ['code', 'paste', 'link']
+});
+
 // window.Vue = require('vue');
 // import VueSweetalert2 from 'vue-sweetalert2';
 // Vue.use(VueSweetalert2);
