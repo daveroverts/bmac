@@ -56,18 +56,23 @@ class BookingController extends Controller
                     $bookings = Booking::where('event_id', $event->id)
                         ->where('dep', $event->dep)
                         ->orderBy('ctot')
+                        ->orderBy('callsign')
                         ->get();
                     $filter = $request->filter;
                     break;
                 case 'arrivals':
                     $bookings = Booking::where('event_id', $event->id)
                         ->where('arr', $event->arr)
-                        ->orderBy('ctot')
+                        ->orderBy('eta')
+                        ->orderBy('callsign')
                         ->get();
                     $filter = $request->filter;
                     break;
                 default:
-                    $bookings = Booking::where('event_id', $event->id)->orderBy('ctot')->get();
+                    $bookings = Booking::where('event_id', $event->id)
+                        ->orderBy('eta')
+                        ->orderBy('ctot')
+                        ->get();
             }
         }
 
@@ -336,12 +341,15 @@ class BookingController extends Controller
     {
         if (Auth::id() == $booking->user_id) {
             if ($booking->event->endBooking > now()) {
-//                $booking->fill([
-//                    'status' => BookingStatus::UNASSIGNED,
-//                    'callsign' => null,
-//                    'acType' => null,
-//                    'selcal' => null,
-//                ]);
+                if (!$booking->event->import_only) {
+                    $booking->fill([
+                        'callsign' => null,
+                        'acType' => null,
+                    ]);
+
+                    if ($booking->event->is_oceanic_event)
+                        $booking->selcal = null;
+                }
                 $booking->status = BookingStatus::UNASSIGNED;
                 if ($booking->getOriginal('status') === BookingStatus::BOOKED) {
                     $title = 'Booking removed!';
