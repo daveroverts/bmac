@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 - Image on homepage now uses ``img-fluid`` and ``rounded``
+- ``BookingController@import()`` now uses a different format
 
 ### Removed
 - ``public\mix-manifest.json``, CI generates this already

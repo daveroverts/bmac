@@ -453,13 +453,20 @@ class BookingController extends Controller
     {
         $file = $request->file('file')->getRealPath();
         $bookings = collect();
-        $collection = (new FastExcel)->importSheets($file, function ($line) use ($bookings) {
-            $bookings->push([
-                'callsign' => $line['CS'],
-                'acType' => $line['ATYP'],
-                'dep' => $line['ADEP'],
-                'arr' => $line['ADES'],
+        (new FastExcel)->importSheets($file, function ($line) use ($bookings, $event) {
+            $flight = collect([
+                'callsign' => $line['Call Sign'],
+                'acType' => $line['Aircraft Type'],
+                'dep' => $line['Origin'],
+                'arr' => $line['Destination'],
             ]);
+            if (isset($line['ETA'])) {
+                $flight->put('eta', Carbon::createFromFormat('Y-m-d H:i', $event->startEvent->toDateString() . ' ' . $line['ETA']->format('H:i')));
+            }
+            if (isset($line['EOBT'])) {
+                $flight->put('ctot', Carbon::createFromFormat('Y-m-d H:i', $event->startEvent->toDateString() . ' ' . $line['EOBT']->format('H:i')));
+            }
+            $bookings->push($flight);
         });
         $event->bookings()->createMany($bookings->toArray());
         Storage::delete($file);
