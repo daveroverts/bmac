@@ -12,7 +12,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 - Image on homepage now uses ``img-fluid`` and ``rounded``
-- ``BookingController@import()`` now uses a different format
+- ``BookingController@index()`` now also orders by callsign if CTOT/ETA is the same
+- ``BookingController@cancel()`` can once again make some variables ``null`` if event allows it
 
 ### Removed
 - ``public\mix-manifest.json``, CI generates this already
