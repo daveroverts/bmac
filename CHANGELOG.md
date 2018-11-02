@@ -8,10 +8,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 - Laravel Mix versioning will now only run with ``yarn run prod``
+- ``mix-manifest.json`` will be included again
 
 ### Removed
 - [Laravel Dusk](https://laravel.com/docs/5.7/dusk)
-- ``mix-manifest.json`` (See above in ``Changed``)
 
 ## [v0.6.6](https://gitlab.com/daveroverts/Book-me-a-cookie/compare/v0.6.5...v0.6.6) - 2018-11-02
 
