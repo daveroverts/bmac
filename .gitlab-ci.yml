@@ -88,6 +88,9 @@ codestyle:
 staging:
   stage: deploy
 
+  before_script:
+  - composer install --prefer-dist --no-ansi --no-interaction --no-progress --no-scripts
+
   script:
   - *init_ssh
   - *change_file_permissions
