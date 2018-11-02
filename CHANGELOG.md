@@ -6,6 +6,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v0.6.6](https://gitlab.com/daveroverts/Book-me-a-cookie/compare/v0.6.5...v0.6.6) - 2018-11-02
+
 ### Added
 - Meta tag to disallow robots for the whole website
 - TinyMCE (again, but now via Laravel Mix). Seems that it was removed in v0.6.0 by accident after assuming it was already done via Mix.
