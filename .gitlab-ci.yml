@@ -58,6 +58,7 @@ yarn:
     - node_modules/
     - public/css/
     - public/js/
+    - public/mix-manifest.json
 
 phpunit:
   stage: test
@@ -86,6 +87,9 @@ codestyle:
 
 staging:
   stage: deploy
+
+  before_script:
+  - composer install --prefer-dist --no-ansi --no-interaction --no-progress --no-scripts
 
   script:
   - *init_ssh

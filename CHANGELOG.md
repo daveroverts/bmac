@@ -6,6 +6,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v0.6.6](https://gitlab.com/daveroverts/Book-me-a-cookie/compare/v0.6.5...v0.6.6) - 2018-11-02
+
+### Added
+- Meta tag to disallow robots for the whole website
+- TinyMCE (again, but now via Laravel Mix). Seems that it was removed in v0.6.0 by accident after assuming it was already done via Mix.
+
+### Changed
+- Image on homepage now uses ``img-fluid`` and ``rounded``
+- ``BookingController@index()`` now also orders by callsign if CTOT/ETA is the same
+- ``BookingController@cancel()`` can once again make some variables ``null`` if event allows it
+
+### Removed
+- ``public\mix-manifest.json``, CI generates this already
+
 ## [v0.6.5](https://gitlab.com/daveroverts/Book-me-a-cookie/compare/v0.6.4...v0.6.5) - 2018-10-11
 
 ### Added

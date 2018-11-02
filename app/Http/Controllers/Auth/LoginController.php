@@ -64,33 +64,39 @@ class LoginController extends Controller
     public function validateLogin()
     {
         $session = Session::get('vatsimauth');
-        return VatsimSSO::validate(
-            $session['key'],
-            $session['secret'],
-            Input::get('oauth_verifier'),
-            function ($user, $request) {
-                // At this point we can remove the session data.
-                Session::forget('vatsimauth');
+        if (!empty(Input::get('oauth_verifier'))) {
+            return VatsimSSO::validate(
+                $session['key'],
+                $session['secret'],
+                Input::get('oauth_verifier'),
+                function ($user, $request) {
+                    // At this point we can remove the session data.
+                    Session::forget('vatsimauth');
 
-                $account = User::firstOrNew(['id' => $user->id]);
-                $account->id = $user->id;
-                $account->name_first = utf8_decode($user->name_first);
-                $account->name_last = utf8_decode($user->name_last);
-                // Check if this is the production environment to determine to use the actual E-mail adress or something random
-                $account->email = App::environment('production') ? $user->email : Faker::create()->email();
-                $account->country = $user->country->code;
-                $account->region = $user->region->code;
-                $account->division = $user->division->code;
-                $account->subdivision = $user->subdivision->code;
-                $account->save();
+                    $account = User::firstOrNew(['id' => $user->id]);
+                    $account->id = $user->id;
+                    $account->name_first = utf8_decode($user->name_first);
+                    $account->name_last = utf8_decode($user->name_last);
+                    // Check if this is the production environment to determine to use the actual E-mail adress or something random
+                    $account->email = App::environment('production') ? $user->email : Faker::create()->email();
+                    $account->country = $user->country->code;
+                    $account->region = $user->region->code;
+                    $account->division = $user->division->code;
+                    $account->subdivision = $user->subdivision->code;
+                    $account->save();
 
-                Auth::loginUsingId($user->id);
-                return Redirect('/');
-            },
-            function ($e) {
-                throw $e; // Do something with the exception
-            }
-        );
+                    Auth::loginUsingId($user->id);
+                    return Redirect('/');
+                },
+                function ($e) {
+                    throw $e; // Do something with the exception
+                }
+            );
+        } else {
+            flashMessage('danger', 'Login failed', 'Something went wrong, please try again');
+            return redirect(route('home'));
+        }
+
     }
 
     public function logout()

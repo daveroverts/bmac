@@ -56,18 +56,23 @@ class BookingController extends Controller
                     $bookings = Booking::where('event_id', $event->id)
                         ->where('dep', $event->dep)
                         ->orderBy('ctot')
+                        ->orderBy('callsign')
                         ->get();
                     $filter = $request->filter;
                     break;
                 case 'arrivals':
                     $bookings = Booking::where('event_id', $event->id)
                         ->where('arr', $event->arr)
-                        ->orderBy('ctot')
+                        ->orderBy('eta')
+                        ->orderBy('callsign')
                         ->get();
                     $filter = $request->filter;
                     break;
                 default:
-                    $bookings = Booking::where('event_id', $event->id)->orderBy('ctot')->get();
+                    $bookings = Booking::where('event_id', $event->id)
+                        ->orderBy('eta')
+                        ->orderBy('ctot')
+                        ->get();
             }
         }
 
@@ -336,12 +341,15 @@ class BookingController extends Controller
     {
         if (Auth::id() == $booking->user_id) {
             if ($booking->event->endBooking > now()) {
-//                $booking->fill([
-//                    'status' => BookingStatus::UNASSIGNED,
-//                    'callsign' => null,
-//                    'acType' => null,
-//                    'selcal' => null,
-//                ]);
+                if (!$booking->event->import_only) {
+                    $booking->fill([
+                        'callsign' => null,
+                        'acType' => null,
+                    ]);
+
+                    if ($booking->event->is_oceanic_event)
+                        $booking->selcal = null;
+                }
                 $booking->status = BookingStatus::UNASSIGNED;
                 if ($booking->getOriginal('status') === BookingStatus::BOOKED) {
                     $title = 'Booking removed!';
@@ -453,13 +461,20 @@ class BookingController extends Controller
     {
         $file = $request->file('file')->getRealPath();
         $bookings = collect();
-        $collection = (new FastExcel)->importSheets($file, function ($line) use ($bookings) {
-            $bookings->push([
-                'callsign' => $line['CS'],
-                'acType' => $line['ATYP'],
-                'dep' => $line['ADEP'],
-                'arr' => $line['ADES'],
+        (new FastExcel)->importSheets($file, function ($line) use ($bookings, $event) {
+            $flight = collect([
+                'callsign' => $line['Call Sign'],
+                'acType' => $line['Aircraft Type'],
+                'dep' => $line['Origin'],
+                'arr' => $line['Destination'],
             ]);
+            if (isset($line['ETA'])) {
+                $flight->put('eta', Carbon::createFromFormat('Y-m-d H:i', $event->startEvent->toDateString() . ' ' . $line['ETA']->format('H:i')));
+            }
+            if (isset($line['EOBT'])) {
+                $flight->put('ctot', Carbon::createFromFormat('Y-m-d H:i', $event->startEvent->toDateString() . ' ' . $line['EOBT']->format('H:i')));
+            }
+            $bookings->push($flight);
         });
         $event->bookings()->createMany($bookings->toArray());
         Storage::delete($file);
