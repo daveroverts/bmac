@@ -32,13 +32,17 @@
                     <td>
                         <a href="{{ route('event.edit',$event->id) }}" class="btn btn-primary disabled"><i
                                     class="fa fa-edit"></i> Edit Event</a>
-                        @if($event->endBooking > now())
+                        @if($event->endEvent > now())
                             <a href="{{ route('booking.admin.importForm',$event) }}" class="btn btn-success"><i
                                         class="fa fa-edit"></i> Import data</a>
                             <a href="{{ route('booking.create',$event) }}" class="btn btn-primary"><i
                                         class="fa fa-plus"></i> Add Timeslots</a>
                             <a href="{{ route('booking.admin.autoAssignForm',$event) }}" class="btn btn-primary">Auto
                                 Assign FL / Route</a>
+                            @if($event->is_oceanic_event)
+                                <a href="{{ route('booking.admin.autoAssignForm',$event) }}" class="btn btn-primary">
+                                    Auto Assign FL / Route</a>
+                            @endif
                         @endif
                         <a href="{{ route('event.email.form',$event) }}" class="btn btn-primary"><i
                                     class="fa fa-envelope"></i> Send E-mails (all persons)</a>

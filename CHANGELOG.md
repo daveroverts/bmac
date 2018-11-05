@@ -6,6 +6,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v0.6.7a](https://gitlab.com/daveroverts/Book-me-a-cookie/compare/v0.6.7...v0.6.7a) - 2018-11-02
+
+### Changed
+- Some actions in ``event.overview`` and ``booking.edit`` have different or new checks.
+
 ## [v0.6.7](https://gitlab.com/daveroverts/Book-me-a-cookie/compare/v0.6.6...v0.6.7) - 2018-11-02
 
 ### Changed
