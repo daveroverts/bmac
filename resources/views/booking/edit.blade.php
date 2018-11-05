@@ -41,25 +41,29 @@
                         </div>
 
                         @if($booking->event->uses_times)
-                            {{--CTOT--}}
-                            <div class="form-group row">
-                                <label for="ctot" class="col-md-4 col-form-label text-md-right"> CTOT</label>
+                            @if($booking->getOriginal('ctot'))
+                                {{--CTOT--}}
+                                <div class="form-group row">
+                                    <label for="ctot" class="col-md-4 col-form-label text-md-right"> CTOT</label>
 
-                                <div class="col-md-6">
-                                    <div class="form-control-plaintext"><strong>{{ $booking->ctot }}</strong></div>
+                                    <div class="col-md-6">
+                                        <div class="form-control-plaintext"><strong>{{ $booking->ctot }}</strong></div>
 
+                                    </div>
                                 </div>
-                            </div>
+                            @endif
 
-                            {{--ETA--}}
-                            <div class="form-group row">
-                                <label for="eta" class="col-md-4 col-form-label text-md-right"> ETA</label>
+                            @if($booking->getOriginal('eta'))
+                                    {{--ETA--}}
+                                    <div class="form-group row">
+                                        <label for="eta" class="col-md-4 col-form-label text-md-right"> ETA</label>
 
-                                <div class="col-md-6">
-                                    <div class="form-control-plaintext"><strong>{{ $booking->ctot }}</strong></div>
+                                        <div class="col-md-6">
+                                            <div class="form-control-plaintext"><strong>{{ $booking->eta }}</strong></div>
 
-                                </div>
-                            </div>
+                                        </div>
+                                    </div>
+                            @endif
                         @endif
 
                         {{--ADEP--}}
@@ -151,23 +155,25 @@
                             </div>
                         </div>
 
-                        {{--SELCAL--}}
-                        <div class="form-group form-row align-items-center">
-                            <label for="selcal" class="col-md-4 col-form-label text-md-right"> Selcal</label>
-                            <div class="col-sm-3 my-1">
-                                <label class="sr-only" for="selcal1"></label>
-                                <input type="text" class="form-control" id="selcal1" name="selcal1" placeholder="AB"
-                                       min="2" max="2"
-                                       value="{{ old('selcal1',substr($booking->getOriginal('selcal'),0,2)) }}">
+                        @if($booking->event->is_oceanic_event)
+                            {{--SELCAL--}}
+                            <div class="form-group form-row align-items-center">
+                                <label for="selcal" class="col-md-4 col-form-label text-md-right"> Selcal</label>
+                                <div class="col-sm-3 my-1">
+                                    <label class="sr-only" for="selcal1"></label>
+                                    <input type="text" class="form-control" id="selcal1" name="selcal1" placeholder="AB"
+                                           min="2" max="2"
+                                           value="{{ old('selcal1',substr($booking->getOriginal('selcal'),0,2)) }}">
+                                </div>
+                                -
+                                <div class="col-sm-3 my-1">
+                                    <label class="sr-only" for="selcal2"></label>
+                                    <input type="text" class="form-control" id="selcal2" name="selcal2" placeholder="CD"
+                                           min="2" max="2"
+                                           value="{{ old('selcal2',substr($booking->getOriginal('selcal'),3,5)) }}">
+                                </div>
                             </div>
-                            -
-                            <div class="col-sm-3 my-1">
-                                <label class="sr-only" for="selcal2"></label>
-                                <input type="text" class="form-control" id="selcal2" name="selcal2" placeholder="CD"
-                                       min="2" max="2"
-                                       value="{{ old('selcal2',substr($booking->getOriginal('selcal'),3,5)) }}">
-                            </div>
-                        </div>
+                        @endif
 
                         @if($booking->status === \App\Enums\BookingStatus::RESERVED)
                             {{--Study--}}
