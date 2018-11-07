@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - Request ``StoreBooking()`` callsign and aircraft rules are slightly changed
 - Moves [fzaninotto/Faker](https://github.com/fzaninotto/Faker) to a normal dependency
+- Fixes issue where tinyMCE did not initialise in event.sendEmail
 
 ## [v0.6.7a](https://gitlab.com/daveroverts/Book-me-a-cookie/compare/v0.6.7...v0.6.7a) - 2018-11-02
 

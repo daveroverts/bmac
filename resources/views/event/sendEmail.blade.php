@@ -51,7 +51,7 @@
 
                         {{-- Description --}}
                         <div class="form-group row">
-                            <textarea id="message" name="message"
+                            <textarea id="description" name="message"
                                       rows="10">{!! old(html_entity_decode('message')) !!}</textarea>
                         </div>
 
