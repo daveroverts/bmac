@@ -4,7 +4,7 @@
     <h2>Airports Overview</h2>
     @include('layouts.alert')
     <p>
-        <a href="{{ route('airport.create') }}" class="btn btn-primary"><i class="fa fa-plus"></i> Add new Airport</a>
+        <a href="{{ route('airport.create') }}" class="btn btn-primary"><i class="fa fa-plus"></i> Add new Airport</a>&nbsp;
         <a href=" {{ route('airportLink.create') }}" class="btn btn-primary"><i class="fa fa-plus"></i> Add new Airport
             Link</a>
     </p>

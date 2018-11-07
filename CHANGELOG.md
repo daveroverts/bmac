@@ -6,6 +6,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- [renatomarinho/laravel-page-speed](https://github.com/renatomarinho/laravel-page-speed)
+
 ### Changed
 - Request ``StoreBooking()`` callsign and aircraft rules are slightly changed
 - Moves [fzaninotto/Faker](https://github.com/fzaninotto/Faker) to a normal dependency
