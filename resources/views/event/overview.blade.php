@@ -30,24 +30,24 @@
                     <td>{{ $event->startEvent->format('Hi') }}z</td>
                     <td>{{ $event->endEvent->format('Hi') }}z</td>
                     <td>
-                        <a href="{{ route('event.edit',$event->id) }}" class="btn btn-primary disabled"><i
-                                    class="fa fa-edit"></i> Edit Event</a>
+                        <a href="{{ route('event.edit',$event->id) }}" role="button" class="btn btn-primary disabled"><i
+                                    class="fa fa-edit"></i> Edit Event</a>&nbsp;
                         @if($event->endEvent > now())
                             <a href="{{ route('booking.admin.importForm',$event) }}" class="btn btn-success"><i
-                                        class="fa fa-edit"></i> Import data</a>
+                                        class="fa fa-edit"></i> Import data</a>&nbsp;
                             <a href="{{ route('booking.create',$event) }}" class="btn btn-primary"><i
-                                        class="fa fa-plus"></i> Add Timeslots</a>
+                                        class="fa fa-plus"></i> Add Timeslots</a>&nbsp;
                             <a href="{{ route('booking.admin.autoAssignForm',$event) }}" class="btn btn-primary">Auto
-                                Assign FL / Route</a>
+                                Assign FL / Route</a>&nbsp;
                             @if($event->is_oceanic_event)
                                 <a href="{{ route('booking.admin.autoAssignForm',$event) }}" class="btn btn-primary">
-                                    Auto Assign FL / Route</a>
+                                    Auto Assign FL / Route</a>&nbsp;
                             @endif
                         @endif
                         <a href="{{ route('event.email.form',$event) }}" class="btn btn-primary"><i
-                                    class="fa fa-envelope"></i> Send E-mails (all persons)</a>
+                                    class="fa fa-envelope"></i> Send E-mails (all persons)</a>&nbsp;
                         <a href="{{ route('booking.export',$event) }}" class="btn btn-success"><i
-                                    class="fa fa-edit"></i> Export data</a>
+                                    class="fa fa-edit"></i> Export data</a>&nbsp;
                     </td>
                 </tr>
                 @empty
