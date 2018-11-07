@@ -31,6 +31,23 @@ composer:
     paths:
     - vendor/
 
+composer_dev:
+  stage: build
+
+  script:
+  - composer install --prefer-dist --no-ansi --no-interaction --no-progress --no-scripts
+
+  artifacts:
+    expire_in: 1 month
+    paths:
+    - vendor/
+
+  cache:
+    key: ${CI_COMMIT_REF_SLUG}-composer_dev
+    paths:
+    - vendor/
+
+
 yarn:
   stage: build
 
@@ -61,10 +78,9 @@ phpunit:
   - mysql:latest
 
   dependencies:
-  - composer
+  - composer_dev
 
   before_script:
-    - composer install --prefer-dist --no-ansi --no-interaction --no-progress --no-scripts
     - cp .env.testing .env
     - php artisan key:generate
     - php artisan migrate
@@ -85,8 +101,8 @@ codestyle:
 staging:
   stage: deploy
 
-  before_script:
-  - composer install --prefer-dist --no-ansi --no-interaction --no-progress --no-scripts
+  dependencies:
+  - composer_dev
 
   script:
   - *init_ssh
@@ -102,6 +118,9 @@ staging:
 
 production:
   stage: deploy
+
+  dependencies:
+  - composer
 
   script:
   - *init_ssh
