@@ -6,6 +6,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v0.6.7b](https://gitlab.com/daveroverts/Book-me-a-cookie/compare/v0.6.7a...v0.6.7b) - 2018-11-13
+
+### Added
+- ETA to:
+    - ``booking.admin.edit`` view
+    - ``AdminUpdateBooking`` validator
+    - ``BookingController@adminUpdate()``
+    - ``booking.changed`` email
+
 ## [v0.6.7a](https://gitlab.com/daveroverts/Book-me-a-cookie/compare/v0.6.7...v0.6.7a) - 2018-11-02
 
 ### Changed
