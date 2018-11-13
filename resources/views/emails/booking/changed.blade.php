@@ -16,6 +16,9 @@ Your booking for the **{{ $booking->event->name }}** has been amended, please re
 @case('ctot')
 | CTOT: | **{{ \Carbon\Carbon::parse($change['new'])->format('Hi').'z' }}** | (was {{ \Carbon\Carbon::parse($change['old'])->format('Hi').'z' }}) |
 @break
+@case('eta')
+| ETA: | **{{ \Carbon\Carbon::parse($change['new'])->format('Hi').'z' }}** | (was {{ \Carbon\Carbon::parse($change['old'])->format('Hi').'z' }}) |
+@break
 @case('route')
 | Route: | **{{ $change['new'] }}** | (was {{ $change['old'] }}) |
 @break

@@ -57,6 +57,24 @@
                             </div>
                         </div>
 
+                        {{--ETA--}}
+                        <div class="form-group row">
+                            <label for="eta" class="col-md-4 col-form-label text-md-right">ETA</label>
+
+                            <div class="col-md-6">
+                                <input id="eta" type="time"
+                                       class="form-control{{ $errors->has('eta') ? ' is-invalid' : '' }}" name="eta"
+                                       value="{{ old('eta', \Carbon\Carbon::parse($booking->getOriginal('eta'))->format('H:i')) }}"
+                                       required>
+
+                                @if ($errors->has('eta'))
+                                    <span class="invalid-feedback">
+                                        <strong>{{ $errors->first('eta') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
                         {{--ADEP--}}
                         <div class="form-group row">
                             <label for="end" class="col-md-4 col-form-label text-md-right"> ADEP</label>

@@ -396,6 +396,7 @@ class BookingController extends Controller
         $booking->fill([
             'callsign' => $request->callsign,
             'ctot' => Carbon::createFromFormat('Y-m-d H:i', $booking->event->startEvent->toDateString() . ' ' . $request->ctot),
+            'eta' => Carbon::createFromFormat('Y-m-d H:i', $booking->event->startEvent->toDateString() . ' ' . $request->eta),
             'dep' => $request->ADEP,
             'arr' => $request->ADES,
             'route' => $request->route,
