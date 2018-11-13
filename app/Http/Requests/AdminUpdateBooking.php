@@ -25,8 +25,8 @@ class AdminUpdateBooking extends FormRequest
     {
         return [
             'callsign' => 'nullable|alpha_num|max:7',
-            'ctot' => 'nullable|date_format:H:i',
-            'eta' => 'nullable|date_format:H:i',
+            'ctot' => 'present|nullable|date_format:H:i',
+            'eta' => 'present|nullable|date_format:H:i',
             'ADEP' => 'exists:airports,icao|different:ADES|required',
             'ADES' => 'exists:airports,icao|required',
             'route' => 'nullable',
