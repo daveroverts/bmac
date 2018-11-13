@@ -395,8 +395,6 @@ class BookingController extends Controller
     {
         $booking->fill([
             'callsign' => $request->callsign,
-            'ctot' => Carbon::createFromFormat('Y-m-d H:i', $booking->event->startEvent->toDateString() . ' ' . $request->ctot),
-            'eta' => Carbon::createFromFormat('Y-m-d H:i', $booking->event->startEvent->toDateString() . ' ' . $request->eta),
             'dep' => $request->ADEP,
             'arr' => $request->ADES,
             'route' => $request->route,
@@ -404,6 +402,12 @@ class BookingController extends Controller
             'oceanicTrack' => $request->oceanicTrack,
             'acType' => $request->aircraft,
         ]);
+        if ($request->ctot)
+            $booking->ctot = Carbon::createFromFormat('Y-m-d H:i', $booking->event->startEvent->toDateString() . ' ' . $request->ctot);
+
+        if ($request->eta)
+            $booking->eta = Carbon::createFromFormat('Y-m-d H:i', $booking->event->startEvent->toDateString() . ' ' . $request->eta);
+
         $changes = collect();
         if (!empty($booking->user)) {
             foreach ($booking->getDirty() as $key => $value) {
