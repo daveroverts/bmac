@@ -6,6 +6,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v0.6.8](https://gitlab.com/daveroverts/Book-me-a-cookie/compare/v0.6.7c...v0.6.8) - 2018-11-19
+
+### Added
+- [renatomarinho/laravel-page-speed](https://github.com/renatomarinho/laravel-page-speed)
+
+### Changed
+- Request ``StoreBooking()`` callsign and aircraft rules are slightly changed
+- Moves [fzaninotto/Faker](https://github.com/fzaninotto/Faker) to a normal dependency
+- Fixes issue where tinyMCE did not initialise in event.sendEmail
+
 ## [v0.6.7c](https://gitlab.com/daveroverts/Book-me-a-cookie/compare/v0.6.7b...v0.6.7c) - 2018-11-13
 
 ### Changed

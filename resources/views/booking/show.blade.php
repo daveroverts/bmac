@@ -196,9 +196,9 @@
                     <div class="form-group row mb-0">
                         <div class="col-md-7 offset-md-3">
                             @if(!$booking->event->import_only)
-                                <a href="{{ route('booking.edit',$booking) }}" class="btn btn-primary">Edit Booking</a>
+                                <a href="{{ route('booking.edit',$booking) }}" class="btn btn-primary">Edit Booking</a>&nbsp;
                             @endif
-                            <a href="{{ route('booking.cancel', $booking) }}" class="btn btn-danger">Cancel Booking</a>
+                            <a href="{{ route('booking.cancel', $booking) }}" class="btn btn-danger">Cancel Booking</a>&nbsp;
                         </div>
                     </div>
                 </div>
