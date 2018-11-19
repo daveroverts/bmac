@@ -6,6 +6,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v0.6.8](https://gitlab.com/daveroverts/Book-me-a-cookie/compare/v0.6.7c...v0.6.8) - 2018-11-19
+
 ### Added
 - [renatomarinho/laravel-page-speed](https://github.com/renatomarinho/laravel-page-speed)
 
