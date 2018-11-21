@@ -539,6 +539,6 @@ class BookingController extends Controller
 
         }
         flashMessage('success', 'Bookings changed', $count . ' Bookings have been Auto-Assigned a FL, and route');
-        return redirect(route('event.index'));
+        return redirect(route('events.index'));
     }
 }

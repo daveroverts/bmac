@@ -25,10 +25,10 @@ Route::resource('admin/airports', 'AirportController');
 
 Route::resource('admin/airportLinks', 'AirportLinkController')->except(['show']);
 
-Route::resource('admin/event', 'EventController');
-Route::get('/admin/event/{event}/email', 'EventController@sendEmailForm')->name('event.email.form');
-Route::patch('/admin/event/{event}/email', 'EventController@sendEmail')->name('event.email');
-Route::get('/admin/event/{event}/email_final', 'EventController@sendFinalInformationMail')->name('event.email.final');
+Route::resource('admin/events', 'EventController');
+Route::get('/admin/events/{event}/email', 'EventController@sendEmailForm')->name('events.email.form');
+Route::patch('/admin/events/{event}/email', 'EventController@sendEmail')->name('events.email');
+Route::get('/admin/events/{event}/email_final', 'EventController@sendFinalInformationMail')->name('events.email.final');
 
 Route::resource('booking', 'BookingController')->except(['index', 'create']);
 Route::get('/bookings/{event?}/{filter?}', 'BookingController@index')->name('booking.index');

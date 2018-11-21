@@ -17,7 +17,7 @@
                 <div class="card-header">Add new Event</div>
 
                 <div class="card-body">
-                    <form method="POST" action="{{ route('event.store') }}">
+                    <form method="POST" action="{{ route('events.store') }}">
                         @csrf
                         {{--Name--}}
                         <div class="form-group row">
