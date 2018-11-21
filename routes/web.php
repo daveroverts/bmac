@@ -23,7 +23,7 @@ Route::get('/logout', 'Auth\LoginController@logout')->name('logout');
 Route::get('/admin/airports/import', 'AirportController@import')->name('airports.import');
 Route::resource('admin/airports', 'AirportController');
 
-Route::resource('admin/airportLink', 'AirportLinkController')->except(['show']);
+Route::resource('admin/airportLinks', 'AirportLinkController')->except(['show']);
 
 Route::resource('admin/event', 'EventController');
 Route::get('/admin/event/{event}/email', 'EventController@sendEmailForm')->name('event.email.form');

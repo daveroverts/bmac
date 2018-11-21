@@ -80,7 +80,7 @@ class AirportLinkController extends Controller
     {
         $airportLink->update($request->only(['airportLinkType_id', 'name', 'url']));
         flashMessage('success', 'Done', 'Link has been updated');
-        return redirect(route('airportLink.index'));
+        return redirect(route('airportLinks.index'));
     }
 
     /**

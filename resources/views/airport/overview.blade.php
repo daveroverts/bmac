@@ -5,7 +5,7 @@
     @include('layouts.alert')
     <p>
         <a href="{{ route('airports.create') }}" class="btn btn-primary"><i class="fa fa-plus"></i> Add new Airport</a>&nbsp;
-        <a href=" {{ route('airportLink.create') }}" class="btn btn-primary"><i class="fa fa-plus"></i> Add new Airport
+        <a href=" {{ route('airportLinks.create') }}" class="btn btn-primary"><i class="fa fa-plus"></i> Add new Airport
             Link</a>
     </p>
     <table class="table table-hover">
