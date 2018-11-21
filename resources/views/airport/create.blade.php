@@ -16,7 +16,7 @@
                 <div class="card-header">Add new Airport</div>
 
                 <div class="card-body">
-                    <form method="POST" action="{{ route('airport.store') }}">
+                    <form method="POST" action="{{ route('airports.store') }}">
                         @csrf
                         {{--ICAO--}}
                         <div class="form-group row">

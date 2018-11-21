@@ -20,8 +20,8 @@ Route::get('/login', 'Auth\LoginController@login')->name('login');
 Route::get('/validateLogin', 'Auth\LoginController@validateLogin');
 Route::get('/logout', 'Auth\LoginController@logout')->name('logout');
 
-Route::get('/admin/airport/import', 'AirportController@import')->name('airport.import');
-Route::resource('admin/airport', 'AirportController');
+Route::get('/admin/airports/import', 'AirportController@import')->name('airports.import');
+Route::resource('admin/airports', 'AirportController');
 
 Route::resource('admin/airportLink', 'AirportLinkController')->except(['show']);
 

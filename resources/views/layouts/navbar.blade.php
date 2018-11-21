@@ -47,8 +47,8 @@
                             </a>
 
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                <a class="dropdown-item {{ Route::currentRouteNamed('airport.index') ? 'active' : '' }}"
-                                   href="{{ route('airport.index') }}">Airports</a>
+                                <a class="dropdown-item {{ Route::currentRouteNamed('airports.index') ? 'active' : '' }}"
+                                   href="{{ route('airports.index') }}">Airports</a>
                                 <a class="dropdown-item {{ Route::currentRouteNamed('event.index') ? 'active' : '' }}"
                                    href="{{ route('event.index') }}">Events</a>
                             </div>

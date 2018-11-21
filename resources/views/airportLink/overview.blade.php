@@ -17,7 +17,7 @@
         </thead>
         @forelse($airportLinks as $airportLink)
             <tr>
-                <td><a href="{{ route('airport.show', $airportLink->airport) }}">{{ $airportLink->airport->name }} [{{ $airportLink->airport->icao }} | {{ $airportLink->airport->iata }}]</a></td>
+                <td><a href="{{ route('airports.show', $airportLink->airport) }}">{{ $airportLink->airport->name }} [{{ $airportLink->airport->icao }} | {{ $airportLink->airport->iata }}]</a></td>
                 <td><a href="{{ $airportLink->url }}">{{ $airportLink->name ?? $airportLink->type->name }}</a></td>
                 <td>
                     <a href="{{ route('airportLink.edit', $airportLink) }}">
