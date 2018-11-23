@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 - Production stage will now use both dependencies again. This was the reason the JS/CSS files where not included in production, but where included in dev
+- ``app.css`` and ``app.js`` in ``app.blade.php`` now use ``mix()`` instead of ``asset()`` for better detection for versioning
 
 ## [v0.6.8b](https://gitlab.com/daveroverts/Book-me-a-cookie/compare/v0.6.8a...v0.6.8b) - 2018-11-23
 
