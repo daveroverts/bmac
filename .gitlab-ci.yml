@@ -100,9 +100,6 @@ staging:
 production:
   stage: deploy
 
-  dependencies:
-  - composer
-
   script:
   - *init_ssh
   - *change_file_permissions
