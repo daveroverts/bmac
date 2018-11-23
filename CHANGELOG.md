@@ -10,6 +10,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - [renatomarinho/laravel-page-speed](https://github.com/renatomarinho/laravel-page-speed)
     - This was **not** the cause of JS/CSS not initialising
 
+## [v0.6.8b](https://gitlab.com/daveroverts/Book-me-a-cookie/compare/v0.6.8a...v0.6.8b) - 2018-11-23
+
+### Changed
+- ``users``.``division`` is now nullable. In case a member did not join a division yet.
+
 ## [v0.6.8a](https://gitlab.com/daveroverts/Book-me-a-cookie/compare/v0.6.8...v0.6.8a) - 2018-11-19
 
 ### Removed
