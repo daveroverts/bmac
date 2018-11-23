@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - [renatomarinho/laravel-page-speed](https://github.com/renatomarinho/laravel-page-speed)
     - This was **not** the cause of JS/CSS not initialising
+- ``mix.extract()``
 
 ### Changed
 - Production stage will now use both dependencies again. This was the reason the JS/CSS files where not included in production, but where included in dev

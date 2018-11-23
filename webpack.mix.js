@@ -15,6 +15,8 @@ mix.js('resources/js/app.js', 'public/js')
     .sass('resources/sass/app.scss', 'public/css')
     .copy('node_modules/tinymce/skins', 'public/js/skins');
 
+mix.extract(['jquery', 'tinymce']);
+
 if (mix.inProduction()) {
     mix.version();
 }
