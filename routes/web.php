@@ -16,6 +16,9 @@ Route::get('/', function () {
     return view('home', compact('event'));
 })->name('home');
 
+// Keeping this here for a while to prevent some 404's should people access /booking directly
+Route::redirect('/booking', route('bookings.index'), 301);
+
 Route::get('/login', 'Auth\LoginController@login')->name('login');
 Route::get('/validateLogin', 'Auth\LoginController@validateLogin');
 Route::get('/logout', 'Auth\LoginController@logout')->name('logout');
