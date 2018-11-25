@@ -4,7 +4,7 @@
     @if($event)
         <h2>{{ $event->name }} | {{ $filter ? ucfirst($filter) : 'Slot Table' }}</h2>
         <p>
-            @if(!$event->type == \App\Enums\EventType::ONEWAY)
+            @if($event->type->id != \App\Enums\EventType::ONEWAY)
                 <a href="{{ route('bookings.event.index',$event) }}"
                    class="btn btn-{{ url()->current() === route('bookings.event.index', $event) || url()->current() === route('bookings.event.index', $event) ? 'success' : 'primary' }}">Show
                     All</a>&nbsp;

@@ -56,7 +56,7 @@ class BookingController extends Controller
         $filter = null;
 
         if ($event) {
-            if (!$event->type == EventType::ONEWAY) {
+            if ($event->type->id !== EventType::ONEWAY) {
                 switch (strtolower($request->filter)) {
                     case 'departures':
                         $bookings = Booking::where('event_id', $event->id)
