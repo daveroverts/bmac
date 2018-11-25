@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\{Enums\BookingStatus,
+    Enums\EventType,
     Http\Requests\AdminAutoAssign,
     Http\Requests\AdminUpdateBooking,
     Http\Requests\ImportBookings,
@@ -51,28 +52,35 @@ class BookingController extends Controller
         $filter = null;
 
         if ($event) {
-            switch (strtolower($request->filter)) {
-                case 'departures':
-                    $bookings = Booking::where('event_id', $event->id)
-                        ->where('dep', $event->dep)
-                        ->orderBy('ctot')
-                        ->orderBy('callsign')
-                        ->get();
-                    $filter = $request->filter;
-                    break;
-                case 'arrivals':
-                    $bookings = Booking::where('event_id', $event->id)
-                        ->where('arr', $event->arr)
-                        ->orderBy('eta')
-                        ->orderBy('callsign')
-                        ->get();
-                    $filter = $request->filter;
-                    break;
-                default:
-                    $bookings = Booking::where('event_id', $event->id)
-                        ->orderBy('eta')
-                        ->orderBy('ctot')
-                        ->get();
+            if (!$event->type == EventType::ONEWAY) {
+                switch (strtolower($request->filter)) {
+                    case 'departures':
+                        $bookings = Booking::where('event_id', $event->id)
+                            ->where('dep', $event->dep)
+                            ->orderBy('ctot')
+                            ->orderBy('callsign')
+                            ->get();
+                        $filter = $request->filter;
+                        break;
+                    case 'arrivals':
+                        $bookings = Booking::where('event_id', $event->id)
+                            ->where('arr', $event->arr)
+                            ->orderBy('eta')
+                            ->orderBy('callsign')
+                            ->get();
+                        $filter = $request->filter;
+                        break;
+                    default:
+                        $bookings = Booking::where('event_id', $event->id)
+                            ->orderBy('eta')
+                            ->orderBy('ctot')
+                            ->get();
+                }
+            } else {
+                $bookings = Booking::where('event_id', $event->id)
+                    ->orderBy('eta')
+                    ->orderBy('ctot')
+                    ->get();
             }
         }
 
