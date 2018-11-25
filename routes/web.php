@@ -16,9 +16,6 @@ Route::get('/', function () {
     return view('home', compact('event'));
 })->name('home');
 
-// Keeping this here for a while to prevent some 404's should people access /booking directly
-Route::redirect('/booking', route('bookings.index'), 301);
-
 Route::get('/login', 'Auth\LoginController@login')->name('login');
 Route::get('/validateLogin', 'Auth\LoginController@validateLogin');
 Route::get('/logout', 'Auth\LoginController@logout')->name('logout');
@@ -44,6 +41,9 @@ Route::get('/admin/bookings/{booking}/edit', 'BookingController@adminEdit')->nam
 Route::patch('/admin/bookings/{booking}/edit', 'BookingController@adminUpdate')->name('bookings.admin.update');
 Route::get('/admin/{event}/bookings/autoAssign', 'BookingController@adminAutoAssignForm')->name('bookings.admin.autoAssignForm');
 Route::patch('/admin/{event}/bookings/autoAssign', 'BookingController@adminAutoAssign')->name('bookings.admin.autoAssign');
+
+// Keeping this here for a while to prevent some 404's should people access /booking directly
+Route::redirect('/booking', route('bookings.index'), 301);
 
 Route::get('/faq', function () {
     return view('faq');
