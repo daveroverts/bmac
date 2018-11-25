@@ -55,7 +55,8 @@ return [
         '*.flv',
         '*.m4v',
         '*.torrent',
-        '_debugbar/*'
+        '_debugbar/*',
+        '*/export',
     ],
 
 ];
