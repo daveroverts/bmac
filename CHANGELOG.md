@@ -9,6 +9,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - [renatomarinho/laravel-page-speed](https://github.com/renatomarinho/laravel-page-speed)
     - This was **not** the cause of JS/CSS not initialising
+- ``bookings.event.index`` This will now be used to show the Slot Table (``booking.overview``)
+- A 301 redirect from ``/booking`` to ``/bookings`` (``bookings.index``). Plan is to keep this for at least 2 events
+
+### Changed
+- Most URL's now include a extra 's'
 
 ## [v0.6.8a](https://gitlab.com/daveroverts/Book-me-a-cookie/compare/v0.6.8...v0.6.8a) - 2018-11-19
 
