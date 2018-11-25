@@ -16,7 +16,7 @@
                 <div class="card-header">Edit Airport</div>
 
                 <div class="card-body">
-                    <form method="POST" action="{{ route('airport.update', $airport) }}">
+                    <form method="POST" action="{{ route('airports.update', $airport) }}">
                         @csrf
                         @method('PATCH')
                         {{--ICAO--}}

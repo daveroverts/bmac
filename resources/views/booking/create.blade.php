@@ -17,7 +17,7 @@
                 <div class="card-header">{{ $event->name }} | Add {{ $bulk ? 'Timeslots' : 'Slot' }}</div>
 
                 <div class="card-body">
-                    <form method="POST" action="{{ route('booking.store',$event) }}">
+                    <form method="POST" action="{{ route('bookings.store',$event) }}">
                         @csrf
                         <input type="hidden" name="id" value="{{ $event->id }}">
                         <input type="hidden" name="bulk" value="{{ $bulk ? 1 : 0 }}">

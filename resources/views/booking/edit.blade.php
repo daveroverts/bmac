@@ -19,7 +19,7 @@
                     My {{ $booking->status === \App\Enums\BookingStatus::BOOKED ? 'Booking' : 'Reservation' }}</div>
 
                 <div class="card-body">
-                    <form method="POST" action="{{ route('booking.update',$booking) }}">
+                    <form method="POST" action="{{ route('bookings.update',$booking) }}">
                         @csrf
                         @method('PATCH')
 
@@ -210,7 +210,7 @@
                                     <i class="fas fa-check"></i> {{ $booking->bookedBy ? 'Edit' : 'Confirm' }} Booking
                                 </button>&nbsp;
                                 @if($booking->status === \App\Enums\BookingStatus::RESERVED)
-                                    <a href="{{ route('booking.cancel',$booking) }}" class="btn btn-danger"><i
+                                    <a href="{{ route('bookings.cancel',$booking) }}" class="btn btn-danger"><i
                                                 class="fa fa-times"></i> Cancel Reservation</a>
                                 @endif
                             </div>

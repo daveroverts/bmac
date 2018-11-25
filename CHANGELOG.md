@@ -11,8 +11,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     - This was **not** the cause of JS/CSS not initialising
 - ``mix.extract()``
 - ``booking.export`` in ``laravel-page-speed`` ``skip``
+- ``bookings.event.index`` This will now be used to show the Slot Table (``booking.overview``)
+- A 301 redirect from ``/booking`` to ``/bookings`` (``bookings.index``). Plan is to keep this for at least 2 events
 
 ### Changed
+- Most URL's now include a extra 's'
 - Production stage will now use both dependencies again. This was the reason the JS/CSS files where not included in production, but where included in dev
 - ``app.css`` and ``app.js`` in ``app.blade.php`` now use ``mix()`` instead of ``asset()`` for better detection for versioning
 - ``FAQ`` nows shows up again in the navbar. Text is also changed for the ``Holland - America Line [KBOS-EHAM]``

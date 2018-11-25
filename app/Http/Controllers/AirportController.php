@@ -51,7 +51,7 @@ class AirportController extends Controller
     {
         $airport = Airport::create($request->only(['icao', 'iata', 'name']));
         flashMessage('success', 'Done', $airport->name . ' [' . $airport->icao . ' | ' . $airport->iata . '] has been added!');
-        return redirect(route('airport.index'));
+        return redirect(route('airports.index'));
     }
 
     /**
@@ -87,7 +87,7 @@ class AirportController extends Controller
     {
         $airport->update($request->only(['icao', 'iata', 'name']));
         flashMessage('success', 'Done', $airport->name . ' [' . $airport->icao . ' | ' . $airport->iata . '] has been updated!');
-        return redirect(route('airport.index'));
+        return redirect(route('airports.index'));
     }
 
     /**

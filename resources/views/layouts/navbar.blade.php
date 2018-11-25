@@ -14,19 +14,19 @@
                 <li class="nav-item {{ Route::currentRouteNamed('home') ? 'active' : '' }}">
                     <a class="nav-link" href="{{ url('/') }}">Home</a>
                 </li>
-                <li class="nav-item {{ Route::currentRouteNamed('booking.index') ? 'active' : '' }}">
-                    <a class="nav-link" href="{{ route('booking.index') }}">Bookings</a>
+                <li class="nav-item {{ Route::currentRouteNamed('bookings.index') || Route::currentRouteNamed('bookings.event.index') ? 'active' : '' }}">
+                    <a class="nav-link" href="{{ route('bookings.index') }}">Bookings</a>
                 </li>
                 @auth
                     @if($event = App\Models\Event::where('endEvent', '>', now())->orderBy('startEvent', 'asc')->first())
                         @foreach($bookings = Auth::user()->booking()->where('event_id',$event->id)->get() as $booking)
                             @if($bookings->count() > 1)
-                                <li class="nav-item {{ url()->current() === route('booking.show', $booking) ? 'active' : '' }}">
-                                    <a class="nav-link" href="{{ route('booking.show', $booking) }}">
+                                <li class="nav-item {{ url()->current() === route('bookings.show', $booking) ? 'active' : '' }}">
+                                    <a class="nav-link" href="{{ route('bookings.show', $booking) }}">
                                         {{ $booking->callsign }}</a></li>
                             @else
-                                <li class="nav-item {{ Route::currentRouteNamed('booking.show') ? 'active' : '' }}">
-                                    <a class="nav-link" href="{{ route('booking.show', $booking) }}">
+                                <li class="nav-item {{ Route::currentRouteNamed('bookings.show') ? 'active' : '' }}">
+                                    <a class="nav-link" href="{{ route('bookings.show', $booking) }}">
                                         My booking</a></li>
                             @endif
                         @endforeach
@@ -47,10 +47,10 @@
                             </a>
 
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                <a class="dropdown-item {{ Route::currentRouteNamed('airport.index') ? 'active' : '' }}"
-                                   href="{{ route('airport.index') }}">Airports</a>
-                                <a class="dropdown-item {{ Route::currentRouteNamed('event.index') ? 'active' : '' }}"
-                                   href="{{ route('event.index') }}">Events</a>
+                                <a class="dropdown-item {{ Route::currentRouteNamed('airports.index') ? 'active' : '' }}"
+                                   href="{{ route('airports.index') }}">Airports</a>
+                                <a class="dropdown-item {{ Route::currentRouteNamed('events.index') ? 'active' : '' }}"
+                                   href="{{ route('events.index') }}">Events</a>
                             </div>
                         </div>
                     </li>

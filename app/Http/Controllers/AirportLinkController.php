@@ -54,7 +54,7 @@ class AirportLinkController extends Controller
     {
         $airportLink = AirportLink::create($request->only('icao_airport', 'airportLinkType_id', 'name', 'url'));
         flashMessage('success', 'Done', $airportLink->type->name . ' item has been added for ' . $airportLink->airport->name . ' [' . $airportLink->airport->icao . ' | ' . $airportLink->airport->iata . ']');
-        return redirect(route('airport.index'));
+        return redirect(route('airports.index'));
     }
 
     /**
@@ -80,7 +80,7 @@ class AirportLinkController extends Controller
     {
         $airportLink->update($request->only(['airportLinkType_id', 'name', 'url']));
         flashMessage('success', 'Done', 'Link has been updated');
-        return redirect(route('airportLink.index'));
+        return redirect(route('airportLinks.index'));
     }
 
     /**
