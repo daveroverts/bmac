@@ -6,6 +6,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v0.7.0](https://gitlab.com/daveroverts/Book-me-a-cookie/compare/v0.6.8b...v0.7.0) - 2018-11-23
+
 ### Added
 - [renatomarinho/laravel-page-speed](https://github.com/renatomarinho/laravel-page-speed)
     - This was **not** the cause of JS/CSS not initialising
