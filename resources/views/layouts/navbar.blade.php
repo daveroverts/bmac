@@ -32,8 +32,8 @@
                         @endforeach
                     @endif
                 @endauth
-                {{--<li class="nav-item {{ Route::currentRouteNamed('faq') ? 'active' : '' }}">--}}
-                {{--<a class="nav-link" href="{{ route('faq') }}">FAQ</a></li>--}}
+                <li class="nav-item {{ Route::currentRouteNamed('faq') ? 'active' : '' }}">
+                <a class="nav-link" href="{{ route('faq') }}">FAQ</a></li>
                 <li class="nav-item">
                     <a class="nav-link" href="mailto:events@dutchvacc.nl">Contact Us</a>
                 </li>
