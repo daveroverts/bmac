@@ -170,11 +170,11 @@
                         {{--Oceanic sheet--}}
                         <div class="form-group row">
                             <label for="oceanicSheet" class="col-md-4 col-form-label text-md-right">Oceanic
-                                sheet</label>
+                                procedures</label>
 
                             <div class="col-md-6">
                                 <div class="form-control-plaintext"><a
-                                            href="https://ctp.vatsim.net/system/view/includes/Transatlantic_Radio_Operations_Checksheet.pdf"
+                                            href="https://www.virtualnorwegian.net/oceanic/"
                                             target="_blank">Link</a></div>
                             </div>
                         </div>

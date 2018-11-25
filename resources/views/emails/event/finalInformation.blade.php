@@ -25,7 +25,7 @@ A: CTOT stands for "Calculated Takeoff Time". This is the time when you're clear
 
 Q: How do I request oceanic clearance or make a position report?
 
-A: Download the [Transatlantic Operations Checklist (click here)](https://ctp.vatsim.net/system/view/includes/Transatlantic_Radio_Operations_Checksheet.pdf). There are example clearance requests and position reports within this document.
+A: Click [here](https://www.virtualnorwegian.net/oceanic/). There are example clearance requests and position reports within this website.
 
 ---
 INFORMATION - DEPARTURE
@@ -71,7 +71,6 @@ Remember that all times given during oceanic procedures are zulu time,therefore 
 Important information about oceanic procedures can be found at:
 
 - [Oceanic Operating Procedures](https://www.virtualnorwegian.net/oceanic/)
-- [Oceanic Radio Checklist](https://ctp.vatsim.net/system/view/includes/Transatlantic_Radio_Operations_Checksheet.pdf)
 
 
 ---
