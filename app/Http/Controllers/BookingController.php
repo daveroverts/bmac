@@ -312,7 +312,7 @@ class BookingController extends Controller
         }
 
         // Check if characters per pair are in alphabetical order
-        if ($char1 > $char2 || $char4 > $char3) {
+        if ($char1 > $char2 || $char3 > $char4) {
             return null;
         }
 
