@@ -4,15 +4,17 @@
     @if($event)
         <h2>{{ $event->name }} | {{ $filter ? ucfirst($filter) : 'Slot Table' }}</h2>
         <p>
-            <a href="{{ route('booking.index',$event) }}"
-               class="btn btn-{{ url()->current() === route('booking.index') || url()->current() === route('booking.index', $event) ? 'success' : 'primary' }}">Show
-                All</a>&nbsp;
-            <a href="{{ route('booking.index',$event) }}/departures"
-               class="btn btn-{{ url()->current() === route('booking.index', $event) . '/departures' ? 'success' : 'primary' }}">Show
-                Departures</a>&nbsp;
-            <a href="{{ route('booking.index',$event) }}/arrivals"
-               class="btn btn-{{ url()->current() === route('booking.index', $event) . '/arrivals' ? 'success' : 'primary' }}">Show
-                Arrivals</a>&nbsp;
+            @if(!$event->type == \App\Enums\EventType::ONEWAY)
+                <a href="{{ route('booking.index',$event) }}"
+                   class="btn btn-{{ url()->current() === route('booking.index') || url()->current() === route('booking.index', $event) ? 'success' : 'primary' }}">Show
+                    All</a>&nbsp;
+                <a href="{{ route('booking.index',$event) }}/departures"
+                   class="btn btn-{{ url()->current() === route('booking.index', $event) . '/departures' ? 'success' : 'primary' }}">Show
+                    Departures</a>&nbsp;
+                <a href="{{ route('booking.index',$event) }}/arrivals"
+                   class="btn btn-{{ url()->current() === route('booking.index', $event) . '/arrivals' ? 'success' : 'primary' }}">Show
+                    Arrivals</a>&nbsp;
+            @endif
             @if(Auth::check() && Auth::user()->isAdmin && $event->endBooking > now())
                 <a href="{{ route('booking.create',$event) }}" class="btn btn-primary"><i class="fa fa-plus"></i> Add
                     Booking</a>&nbsp;
