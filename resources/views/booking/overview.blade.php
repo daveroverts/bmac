@@ -6,13 +6,13 @@
         <p>
             @if(!$event->type == \App\Enums\EventType::ONEWAY)
                 <a href="{{ route('bookings.event.index',$event) }}"
-                   class="btn btn-{{ url()->current() === route('bookings.index') || url()->current() === route('bookings.index', $event) ? 'success' : 'primary' }}">Show
+                   class="btn btn-{{ url()->current() === route('bookings.event.index', $event) || url()->current() === route('bookings.event.index', $event) ? 'success' : 'primary' }}">Show
                     All</a>&nbsp;
                 <a href="{{ route('bookings.event.index',$event) }}/departures"
-                   class="btn btn-{{ url()->current() === route('bookings.index', $event) . '/departures' ? 'success' : 'primary' }}">Show
+                   class="btn btn-{{ url()->current() === route('bookings.event.index', $event) . '/departures' ? 'success' : 'primary' }}">Show
                     Departures</a>&nbsp;
                 <a href="{{ route('bookings.event.index',$event) }}/arrivals"
-                   class="btn btn-{{ url()->current() === route('bookings.index', $event) . '/arrivals' ? 'success' : 'primary' }}">Show
+                   class="btn btn-{{ url()->current() === route('bookings.event.index', $event) . '/arrivals' ? 'success' : 'primary' }}">Show
                     Arrivals</a>&nbsp;
             @endif
             @if(Auth::check() && Auth::user()->isAdmin && $event->endBooking > now())
