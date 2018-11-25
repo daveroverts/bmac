@@ -6,12 +6,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [v0.7.0a](https://gitlab.com/daveroverts/Book-me-a-cookie/compare/v0.7.0...v0.7.0a) - 2018-11-23
+## [v0.7.0b](https://gitlab.com/daveroverts/Book-me-a-cookie/compare/v0.7.0a...v0.7.0b) - 2018-11-25
+
+### Changed
+- SELCAL validation was wrong at one point. This is now solved
+
+## [v0.7.0a](https://gitlab.com/daveroverts/Book-me-a-cookie/compare/v0.7.0...v0.7.0a) - 2018-11-25
 
 ### Changed
 - Oceanic PDF is no longer available. Changed to VNAS information instead
 
-## [v0.7.0](https://gitlab.com/daveroverts/Book-me-a-cookie/compare/v0.6.8b...v0.7.0) - 2018-11-23
+## [v0.7.0](https://gitlab.com/daveroverts/Book-me-a-cookie/compare/v0.6.8b...v0.7.0) - 2018-11-25
 
 ### Added
 - [renatomarinho/laravel-page-speed](https://github.com/renatomarinho/laravel-page-speed)
