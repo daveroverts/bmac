@@ -4,19 +4,19 @@
     @if($event)
         <h2>{{ $event->name }} | {{ $filter ? ucfirst($filter) : 'Slot Table' }}</h2>
         <p>
-            <a href="{{ route('booking.index',$event) }}"
-               class="btn btn-{{ url()->current() === route('booking.index') || url()->current() === route('booking.index', $event) ? 'success' : 'primary' }}">Show
+            <a href="{{ route('bookings.event.index',$event) }}"
+               class="btn btn-{{ url()->current() === route('bookings.index') || url()->current() === route('bookings.index', $event) ? 'success' : 'primary' }}">Show
                 All</a>&nbsp;
-            <a href="{{ route('booking.index',$event) }}/departures"
-               class="btn btn-{{ url()->current() === route('booking.index', $event) . '/departures' ? 'success' : 'primary' }}">Show
+            <a href="{{ route('bookings.event.index',$event) }}/departures"
+               class="btn btn-{{ url()->current() === route('bookings.index', $event) . '/departures' ? 'success' : 'primary' }}">Show
                 Departures</a>&nbsp;
-            <a href="{{ route('booking.index',$event) }}/arrivals"
-               class="btn btn-{{ url()->current() === route('booking.index', $event) . '/arrivals' ? 'success' : 'primary' }}">Show
+            <a href="{{ route('bookings.event.index',$event) }}/arrivals"
+               class="btn btn-{{ url()->current() === route('bookings.index', $event) . '/arrivals' ? 'success' : 'primary' }}">Show
                 Arrivals</a>&nbsp;
             @if(Auth::check() && Auth::user()->isAdmin && $event->endBooking > now())
-                <a href="{{ route('booking.create',$event) }}" class="btn btn-primary"><i class="fa fa-plus"></i> Add
+                <a href="{{ route('bookings.create',$event) }}" class="btn btn-primary"><i class="fa fa-plus"></i> Add
                     Booking</a>&nbsp;
-                <a href="{{ route('booking.create',$event) }}/bulk" class="btn btn-primary"><i class="fa fa-plus"></i>
+                <a href="{{ route('bookings.create',$event) }}/bulk" class="btn btn-primary"><i class="fa fa-plus"></i>
                     Add
                     Timeslots</a>&nbsp;
             @endif
@@ -65,7 +65,7 @@
                             @if($booking->status === \App\Enums\BookingStatus::BOOKED)
                                 {{--Check if booking has been booked by current user--}}
                                 @if(Auth::check() && $booking->user_id == Auth::id())
-                                    <a href="{{ route('booking.show',$booking) }}" class="btn btn-info">My
+                                    <a href="{{ route('bookings.show',$booking) }}" class="btn btn-info">My
                                         booking</a>
                                 @else
                                     <button class="btn btn-dark disabled">
@@ -77,7 +77,7 @@
                                 {{--Check if a booking has been reserved--}}
                                 @if(Auth::check() && $booking->user_id == Auth::id())
                                     {{--Check if a booking has been reserved by current user--}}
-                                    <a href="{{ route('booking.edit',$booking) }}" class="btn btn-info">My
+                                    <a href="{{ route('bookings.edit',$booking) }}" class="btn btn-info">My
                                         Reservation</a>
                                 @else
                                     <button class="btn btn-dark disabled">
@@ -90,7 +90,7 @@
                                         {{--Check if user already has a booking--}}
                                         @if(($booking->event->multiple_bookings_allowed) || (!$booking->event->multiple_bookings_allowed && !Auth::user()->booking()->where('event_id',$event->id)->first()))
                                             {{--Check if user already has a booking, and only 1 is allowed--}}
-                                            <a href="{{ route('booking.edit', $booking) }}" class="btn btn-success">BOOK
+                                            <a href="{{ route('bookings.edit', $booking) }}" class="btn btn-success">BOOK
                                                 NOW</a>
                                         @else
                                             <button class="btn btn-danger">You already have a booking</button>
@@ -104,11 +104,11 @@
                             @endif
                         </td>
                         @if(Auth::check() && Auth::user()->isAdmin)
-                            <td><a href="{{ route('booking.admin.edit', $booking) }}" class="btn btn-info"><i
+                            <td><a href="{{ route('bookings.admin.edit', $booking) }}" class="btn btn-info"><i
                                             class="fa fa-edit"></i> Edit</a>
                             </td>
                             <td>
-                                <form action="{{ route('booking.destroy', $booking) }}" method="post">
+                                <form action="{{ route('bookings.destroy', $booking) }}" method="post">
                                     @csrf
                                     @method('DELETE')
                                     <button class="btn btn-danger"><i class="fas fa-trash"></i> Delete</button>
