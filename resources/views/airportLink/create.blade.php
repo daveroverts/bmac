@@ -16,7 +16,7 @@
                 <div class="card-header">Add new Airport Link</div>
 
                 <div class="card-body">
-                    <form method="POST" action="{{ route('airportLink.store') }}">
+                    <form method="POST" action="{{ route('airportLinks.store') }}">
                         @csrf
                         {{--Type--}}
                         <div class="form-group row">

@@ -6,6 +6,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v0.7.0](https://gitlab.com/daveroverts/Book-me-a-cookie/compare/v0.6.8b...v0.7.0) - 2018-11-23
+
+### Added
+- [renatomarinho/laravel-page-speed](https://github.com/renatomarinho/laravel-page-speed)
+    - This was **not** the cause of JS/CSS not initialising
+- ``mix.extract()``
+- ``booking.export`` in ``laravel-page-speed`` ``skip``
+- ``bookings.event.index`` This will now be used to show the Slot Table (``booking.overview``)
+- A 301 redirect from ``/booking`` to ``/bookings`` (``bookings.index``). Plan is to keep this for at least 2 events
+
+### Changed
+- Most URL's now include a extra 's'
+- Production stage will now use both dependencies again. This was the reason the JS/CSS files where not included in production, but where included in dev
+- ``app.css`` and ``app.js`` in ``app.blade.php`` now use ``mix()`` instead of ``asset()`` for better detection for versioning
+- ``FAQ`` nows shows up again in the navbar. Text is also changed for the ``Holland - America Line [KBOS-EHAM]``
+- If event is a ``ONEWAY`` event, filter buttons are hidden
+
 ## [v0.6.8b](https://gitlab.com/daveroverts/Book-me-a-cookie/compare/v0.6.8a...v0.6.8b) - 2018-11-23
 
 ### Changed

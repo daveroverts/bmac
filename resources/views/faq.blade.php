@@ -2,7 +2,7 @@
 
 @section('content')
     <p>
-        <strong>I do not have a booking, can I still fly from Amsterdam to Boston?</strong>
+        <strong>I do not have a booking, can I still fly from Boston to Amsterdam?</strong>
         <br>
         You will still be able to participate in the event, even without a slot. The scheduled slots allow for
         additional flights, be aware of possible delays though if you do not have a slot. On the day of the event a

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\{Enums\BookingStatus,
+    Enums\EventType,
     Http\Requests\AdminAutoAssign,
     Http\Requests\AdminUpdateBooking,
     Http\Requests\ImportBookings,
@@ -43,36 +44,47 @@ class BookingController extends Controller
         $this->removeOverdueReservations();
 
         //Check if specific event is requested, else fall back to current ongoing event
-        if (!$event)
+        if (!$event) {
             $event = Event::where('endEvent', '>', now())->orderBy('startEvent', 'desc')->first();
+            if (!empty($event)) {
+                return redirect(route('bookings.event.index', $event));
+            }
+        }
 
         $bookings = collect();
 
         $filter = null;
 
         if ($event) {
-            switch (strtolower($request->filter)) {
-                case 'departures':
-                    $bookings = Booking::where('event_id', $event->id)
-                        ->where('dep', $event->dep)
-                        ->orderBy('ctot')
-                        ->orderBy('callsign')
-                        ->get();
-                    $filter = $request->filter;
-                    break;
-                case 'arrivals':
-                    $bookings = Booking::where('event_id', $event->id)
-                        ->where('arr', $event->arr)
-                        ->orderBy('eta')
-                        ->orderBy('callsign')
-                        ->get();
-                    $filter = $request->filter;
-                    break;
-                default:
-                    $bookings = Booking::where('event_id', $event->id)
-                        ->orderBy('eta')
-                        ->orderBy('ctot')
-                        ->get();
+            if ($event->type->id !== EventType::ONEWAY) {
+                switch (strtolower($request->filter)) {
+                    case 'departures':
+                        $bookings = Booking::where('event_id', $event->id)
+                            ->where('dep', $event->dep)
+                            ->orderBy('ctot')
+                            ->orderBy('callsign')
+                            ->get();
+                        $filter = $request->filter;
+                        break;
+                    case 'arrivals':
+                        $bookings = Booking::where('event_id', $event->id)
+                            ->where('arr', $event->arr)
+                            ->orderBy('eta')
+                            ->orderBy('callsign')
+                            ->get();
+                        $filter = $request->filter;
+                        break;
+                    default:
+                        $bookings = Booking::where('event_id', $event->id)
+                            ->orderBy('eta')
+                            ->orderBy('ctot')
+                            ->get();
+                }
+            } else {
+                $bookings = Booking::where('event_id', $event->id)
+                    ->orderBy('eta')
+                    ->orderBy('ctot')
+                    ->get();
             }
         }
 
@@ -157,7 +169,7 @@ class BookingController extends Controller
             $booking->event()->associate($request->id)->save();
             flashMessage('success', 'Done', 'Slot created');
         }
-        return redirect(route('booking.index'));
+        return redirect(route('bookings.event.index', $event));
     }
 
     /**
@@ -172,7 +184,7 @@ class BookingController extends Controller
             return view('booking.show', compact('booking'));
         } else {
             flashMessage('danger', 'Already booked', 'Whoops that booking belongs to somebody else!');
-            return redirect(route('booking.index'));
+            return redirect(route('bookings.event.index', $booking->event));
         }
     }
 
@@ -194,12 +206,12 @@ class BookingController extends Controller
                 // Check if the booking has already been reserved
                 if ($booking->status === BookingStatus::RESERVED) {
                     flashMessage('danger', 'Warning', 'Whoops! Somebody else reserved that slot just before you! Please choose another one. The slot will become available if it isn\'t confirmed within 10 minutes.');
-                    return redirect(route('booking.index'));
+                    return redirect(route('bookings.event.index', $booking->event));
 
                 } // In case the booking has already been booked
                 else {
                     flashMessage('danger', 'Warning', 'Whoops! Somebody else booked that slot just before you! Please choose another one.');
-                    return redirect(route('booking.index'));
+                    return redirect(route('bookings.event.index', $booking->event));
                 }
             }
         } // If the booking hasn't been taken by anybody else, check if user doesn't already have a booking
@@ -209,14 +221,14 @@ class BookingController extends Controller
                     ->where('status', BookingStatus::BOOKED)
                     ->first()) {
                 flashMessage('danger!', 'Nope!', 'You already have a booking!');
-                return redirect(route('booking.index'));
+                return redirect(route('bookings.event.index', $booking->event));
             }
             // If user already has another reservation open
             if (Auth::user()->booking()->where('event_id', $booking->event_id)
                 ->where('status', BookingStatus::RESERVED)
                 ->first()) {
                 flashMessage('danger!', 'Nope!', 'You already have a reservation!');
-                return redirect(route('booking.index'));
+                return redirect(route('bookings.event.index', $booking->event));
             } // Reserve booking, and redirect to booking.edit
             else {
                 // Check if you are allowed to reserve the slot
@@ -228,11 +240,11 @@ class BookingController extends Controller
                         return view('booking.edit', compact('booking', 'user'));
                     } else {
                         flashMessage('danger', 'Nope!', 'Bookings have been closed at ' . $booking->event->endBooking->format('d-m-Y Hi') . 'z');
-                        return redirect(route('booking.index'));
+                        return redirect(route('bookings.event.index', $booking->event));
                     }
                 } else {
                     flashMessage('danger', 'Nope!', 'Bookings aren\'t open yet. They will open at ' . $booking->event->startBooking->format('d-m-Y Hi') . 'z');
-                    return redirect(route('booking.index'));
+                    return redirect(route('bookings.event.index', $booking->event));
                 }
             }
         }
@@ -268,7 +280,7 @@ class BookingController extends Controller
                 flashMessage('success', 'Booking edited!', 'Booking has been edited!');
             }
             $booking->save();
-            return redirect(route('booking.index'));
+            return redirect(route('bookings.event.index', $booking->event));
         } else {
             if ($booking->user_id != null) {
                 // We got a bad-ass over here, log that person out
@@ -276,7 +288,7 @@ class BookingController extends Controller
                 return redirect('https://youtu.be/dQw4w9WgXcQ');
             } else {
                 flashMessage('warning', 'Nope!', 'That reservation does not belong to you!');
-                return redirect(route('booking.index'));
+                return redirect(route('bookings.event.index', $booking->event));
             }
         }
     }
@@ -328,7 +340,7 @@ class BookingController extends Controller
             Mail::to(Auth::user())->send(new BookingDeleted($booking->event, $booking->user));
         }
         flashMessage('success', 'Booking deleted!', $message);
-        return redirect(route('booking.index'));
+        return redirect(route('bookings.event.index', $booking->event));
     }
 
     /**
@@ -361,7 +373,7 @@ class BookingController extends Controller
                 }
                 flashMessage('info', $title, $message);
                 $booking->user()->dissociate()->save();
-                return redirect(route('booking.index'));
+                return redirect(route('bookings.event.index', $booking->event));
             }
             flashMessage('danger', 'Nope!', 'Bookings have been locked at ' . $booking->event->endBooking->format('d-m-Y Hi') . 'z');
 
@@ -430,7 +442,7 @@ class BookingController extends Controller
             $message .= ' A E-mail has also been sent to the person that booked.';
         }
         flashMessage('success', 'Booking changed', $message);
-        return redirect(route('booking.index'));
+        return redirect(route('bookings.event.index', $booking->event));
     }
 
     /**
@@ -484,7 +496,7 @@ class BookingController extends Controller
         $event->bookings()->createMany($bookings->toArray());
         Storage::delete($file);
         flashMessage('success', 'Flights imported', 'Flights have been imported');
-        return redirect(route('booking.index', $event));
+        return redirect(route('bookings.event.index', $event));
     }
 
     /**
@@ -539,6 +551,6 @@ class BookingController extends Controller
 
         }
         flashMessage('success', 'Bookings changed', $count . ' Bookings have been Auto-Assigned a FL, and route');
-        return redirect(route('event.index'));
+        return redirect(route('events.index'));
     }
 }

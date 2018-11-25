@@ -67,7 +67,7 @@ class EventController extends Controller
         ])->save();
 
         flashMessage('success', 'Done', 'Event has been created!');
-        return redirect(route('event.index'));
+        return redirect(route('events.index'));
     }
 
     /**
@@ -144,7 +144,7 @@ class EventController extends Controller
             $count++;
         }
         flashMessage('success', 'Done', 'Bulk E-mail has been sent to ' . $count . ' people!');
-        return redirect(route('event.index'));
+        return redirect(route('events.index'));
     }
 
     /**
@@ -164,6 +164,6 @@ class EventController extends Controller
             $count++;
         }
         flashMessage('success', 'Done', 'Final Information has been sent to ' . $count . ' people!');
-        return redirect(route('event.index'));
+        return redirect(route('events.index'));
     }
 }
