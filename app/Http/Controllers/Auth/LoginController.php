@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\{Http\Controllers\Controller, Models\User};
+use App\{Http\Controllers\Controller, Models\Booking, Models\User};
 use Faker\Factory as Faker;
 use Illuminate\{Foundation\Auth\AuthenticatesUsers,
     Support\Facades\App,
@@ -45,8 +45,11 @@ class LoginController extends Controller
         $this->middleware('guest')->except('logout');
     }
 
-    public function login()
+    public function login(Booking $booking)
     {
+        if (!empty($booking)) {
+            Session::put('booking', $booking->uuid);
+        }
 
         $returnUrl = Config::get('vatsim-sso.return'); // load URL from config
         return VatsimSSO::login(
@@ -86,6 +89,15 @@ class LoginController extends Controller
                     $account->save();
 
                     Auth::loginUsingId($user->id);
+
+                    if (Session::get('booking')) {
+                        $booking = Booking::where('uuid', Session::get('booking'))->first();
+                        Session::forget('booking');
+                        if (!empty($booking)) {
+                            return Redirect::route('bookings.edit', $booking);
+                        }
+                    }
+
                     return Redirect('/');
                 },
                 function ($e) {
