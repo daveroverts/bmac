@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\{Http\Controllers\Controller, Models\Booking, Models\User};
+use App\{Enums\BookingStatus, Http\Controllers\Controller, Models\Booking, Models\User};
 use Faker\Factory as Faker;
 use Illuminate\{Foundation\Auth\AuthenticatesUsers,
     Support\Facades\App,
@@ -94,7 +94,10 @@ class LoginController extends Controller
                         $booking = Booking::where('uuid', Session::get('booking'))->first();
                         Session::forget('booking');
                         if (!empty($booking)) {
-                            return Redirect::route('bookings.edit', $booking);
+                            if ($booking->status !== BookingStatus::BOOKED) {
+                                return Redirect::route('bookings.edit', $booking);
+                            }
+                            return Redirect::route('bookings.show', $booking);
                         }
                     }
 

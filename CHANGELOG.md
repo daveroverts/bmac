@@ -6,6 +6,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- Redirect to a booking if logging in (and available)
+
 ## [v0.7.0b](https://gitlab.com/daveroverts/Book-me-a-cookie/compare/v0.7.0a...v0.7.0b) - 2018-11-25
 
 ### Changed
