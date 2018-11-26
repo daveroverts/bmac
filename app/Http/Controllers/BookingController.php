@@ -45,7 +45,7 @@ class BookingController extends Controller
 
         //Check if specific event is requested, else fall back to current ongoing event
         if (!$event) {
-            $event = Event::where('endEvent', '>', now())->orderBy('startEvent', 'desc')->first();
+            $event = nextEvent();
             if (!empty($event)) {
                 return redirect(route('bookings.event.index', $event));
             }
