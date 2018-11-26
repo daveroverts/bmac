@@ -16,7 +16,7 @@ Route::get('/', function () {
     return view('home', compact('event'));
 })->name('home');
 
-Route::get('/login', 'Auth\LoginController@login')->name('login');
+Route::get('/login/{booking?}', 'Auth\LoginController@login')->name('login');
 Route::get('/validateLogin', 'Auth\LoginController@validateLogin');
 Route::get('/logout', 'Auth\LoginController@logout')->name('logout');
 

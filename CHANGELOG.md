@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- Redirect to a booking if logging in (and available)
 - ``nextEvent()``, which is now placed in ``routes/web.php`` for route ``/`` + ``BookingController@index()``
 
 ### Changed
