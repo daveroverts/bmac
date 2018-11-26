@@ -12,7 +12,7 @@
 */
 
 Route::get('/', function () {
-    $event = \App\Models\Event::where('endEvent', '>', now())->orderBy('startEvent', 'desc')->first();
+    $event = nextEvent();
     return view('home', compact('event'));
 })->name('home');
 
