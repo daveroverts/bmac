@@ -25,6 +25,7 @@
     @include('layouts.navbar')
     <main class="py-4">
         <div class="container">
+            {{ Breadcrumbs::render() }}
             @yield('content')
             @include('layouts.footer')
         </div>
