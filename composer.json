@@ -12,6 +12,7 @@
         "bensampo/laravel-enum": "^1.12",
         "bugsnag/bugsnag-laravel": "^2.0",
         "cviebrock/eloquent-sluggable": "4.6",
+        "davejamesmiller/laravel-breadcrumbs": "^5.2",
         "doctrine/dbal": "^2.8",
         "fideloper/proxy": "^4.0",
         "fzaninotto/faker": "^1.8",
