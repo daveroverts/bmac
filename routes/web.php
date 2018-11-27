@@ -32,8 +32,8 @@ Route::get('/admin/events/{event}/email_final', 'EventController@sendFinalInform
 
 Route::resource('bookings', 'BookingController')->except(['create']);
 Route::get('/{event}/bookings/export', 'BookingController@export')->name('bookings.export');
-Route::get('/{event}/bookings/{filter?}', 'BookingController@index')->name('bookings.event.index');
 Route::get('/{event}/bookings/create/{bulk?}', 'BookingController@create')->name('bookings.create');
+Route::get('/{event}/bookings/{filter?}', 'BookingController@index')->name('bookings.event.index');
 Route::get('/bookings/{booking}/cancel', 'BookingController@cancel')->name('bookings.cancel');
 Route::get('/admin/{event}/bookings/import', 'BookingController@importForm')->name('bookings.admin.importForm');
 Route::put('/admin/{event}/bookings/import', 'BookingController@import')->name('bookings.admin.import');
