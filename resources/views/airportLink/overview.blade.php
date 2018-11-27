@@ -35,12 +35,10 @@
                 </td>
             </tr>
         @empty
-            @component('layouts.alert.warning')
-                @slot('title')
-                    No airport links found
-                @endslot
-                No airport links are in the system, consider adding one, using the button above
-            @endcomponent
+            @php
+                flashMessage('warning', 'No airport links found', 'No airport links are in the system, consider adding one, using the button above');
+            @endphp
+            @include('layouts.alert')
         @endforelse
         {{ $airportLinks->links() }}
     </table>
