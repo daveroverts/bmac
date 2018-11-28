@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Redirect to a booking if logging in (and available)
 - ``nextEvent()``, which is now placed in ``routes/web.php`` for route ``/`` + ``BookingController@index()``
 - [laravel-breadcrumbs](https://github.com/davejamesmiller/laravel-breadcrumbs)
+- Extra ``/`` in ``public/robots.txt``
 
 ### Changed
 - Upcoming event order is now correct
