@@ -114,7 +114,7 @@ class BookingController extends Controller
     public function create(Event $event, Request $request)
     {
         $bulk = $request->bulk;
-        $airports = Airport::all();
+        $airports = Airport::orderBy('ICAO')->get();
 
         return view('booking.create', compact('event', 'airports', 'bulk'));
     }
@@ -391,7 +391,7 @@ class BookingController extends Controller
      */
     public function adminEdit(Booking $booking)
     {
-        $airports = Airport::all();
+        $airports = Airport::orderBy('ICAO')->get();
 
         return view('booking.admin.edit', compact('booking', 'airports'));
     }

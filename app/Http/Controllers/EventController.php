@@ -44,7 +44,7 @@ class EventController extends Controller
      */
     public function create()
     {
-        $airports = Airport::all();
+        $airports = Airport::orderBy('ICAO')->get();
         $eventTypes = EventType::all();
         return view('event.create', compact('airports', 'eventTypes'));
     }
