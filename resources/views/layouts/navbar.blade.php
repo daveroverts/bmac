@@ -19,7 +19,7 @@
                 </li>
                 @auth
                     @if($event = App\Models\Event::where('endEvent', '>', now())->orderBy('startEvent', 'asc')->first())
-                        @foreach($bookings = Auth::user()->booking()->where('event_id',$event->id)->get() as $booking)
+                        @foreach($bookings = Auth::user()->bookings()->where('event_id',$event->id)->get() as $booking)
                             @if($bookings->count() > 1)
                                 <li class="nav-item {{ url()->current() === route('bookings.show', $booking) ? 'active' : '' }}">
                                     <a class="nav-link" href="{{ route('bookings.show', $booking) }}">
