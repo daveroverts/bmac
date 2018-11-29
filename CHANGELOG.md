@@ -22,6 +22,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
    - EventsCollection / ``/events``
    - UserResource / ``/users/{user}``
    - UsersCollection / ``/users``
+- PHP CodeSniffer xml file, source: [https://medium.com/@nandosalles/the-ruleset-phpcs-for-my-laravel-projects-a54cb3c95b31](https://medium.com/@nandosalles/the-ruleset-phpcs-for-my-laravel-projects-a54cb3c95b31)
 
 ### Changed
 - Upcoming event order is now correct
