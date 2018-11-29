@@ -27,7 +27,7 @@ class AirportController extends Controller
      */
     public function index()
     {
-        $airports = Airport::paginate(100);
+        $airports = Airport::orderBy('icao')->paginate(100);
         return view('airport.overview', compact('airports'));
     }
 
