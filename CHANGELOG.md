@@ -11,11 +11,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - ``nextEvent()``, which is now placed in ``routes/web.php`` for route ``/`` + ``BookingController@index()``
 - [laravel-breadcrumbs](https://github.com/davejamesmiller/laravel-breadcrumbs)
 - Extra ``/`` in ``public/robots.txt``
+- The following API resources / routes:
+   - AirportLinkResource
+   - AirportLinksCollection
+   - AirportResource / ``/airports/{airport}``
+   - AirportsCollection / ``/airports``
+   - BookingResource / ``/bookings/{booking}``
+   - BookingsCollection / ``/bookings``
+   - EventResource / ``/events/{event}``
+   - EventsCollection / ``/events``
+   - UserResource / ``/users/{user}``
+   - UsersCollection / ``/users``
 
 ### Changed
 - Upcoming event order is now correct
 - ``BookingController@edit()`` had one ``flashMessage()`` that did not show correctly
 - Airports now use a ``orderBy('ICAO')``
+- Relation ``Event``->``dep`` renamed to ``Event``->``airportDep``
+- Relation ``Event``->``arr`` renamed to ``Event``->``airportArr``
+- Both of these relations where not in use before, but if called, it would not really work due to same names.
 
 ## [v0.7.0b](https://gitlab.com/daveroverts/Book-me-a-cookie/compare/v0.7.0a...v0.7.0b) - 2018-11-25
 
