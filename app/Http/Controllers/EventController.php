@@ -2,17 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\{Enums\BookingStatus,
-    Http\Requests\SendEmail,
-    Http\Requests\StoreEvent,
-    Mail\EventBulkEmail,
-    Mail\EventFinalInformation,
-    Models\Airport,
-    Models\Booking,
-    Models\Event,
-    Models\EventType};
+use App\Enums\BookingStatus;
+use App\Http\Requests\SendEmail;
+use App\Http\Requests\StoreEvent;
+use App\Mail\EventBulkEmail;
+use App\Mail\EventFinalInformation;
+use App\Models\Airport;
+use App\Models\Booking;
+use App\Models\Event;
+use App\Models\EventType;
 use Carbon\Carbon;
-use Illuminate\{Http\Request, Support\Facades\Mail};
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class EventController extends Controller
 {

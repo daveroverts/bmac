@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\{Http\Requests\StoreAirport, Http\Requests\UpdateAirport, Models\Airport};
+use App\Http\Requests\StoreAirport;
+use App\Http\Requests\UpdateAirport;
+use App\Models\Airport;
 use Closure;
-use Illuminate\{Http\Request, Support\Facades\Storage};
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Rap2hpoutre\FastExcel\FastExcel;
 
 class AirportController extends Controller
@@ -44,7 +47,7 @@ class AirportController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param StoreAirport $request
      * @return \Illuminate\Http\Response
      */
     public function store(StoreAirport $request)

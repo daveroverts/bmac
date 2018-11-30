@@ -6,7 +6,7 @@ Breadcrumbs::for('home', function ($trail) {
 });
 
 // Home > Admin
-Breadcrumbs::for('admin', function ($trail){
+Breadcrumbs::for('admin', function ($trail) {
     $trail->parent('home');
     $trail->push('Admin');
 });
