@@ -2,22 +2,25 @@
 
 namespace App\Http\Controllers;
 
-use App\{Enums\BookingStatus,
-    Enums\EventType,
-    Http\Requests\AdminAutoAssign,
-    Http\Requests\AdminUpdateBooking,
-    Http\Requests\ImportBookings,
-    Http\Requests\StoreBooking,
-    Http\Requests\UpdateBooking,
-    Mail\BookingCancelled,
-    Mail\BookingChanged,
-    Mail\BookingConfirmed,
-    Mail\BookingDeleted,
-    Models\Airport,
-    Models\Booking,
-    Models\Event};
+use App\Enums\BookingStatus;
+use App\Enums\EventType;
+use App\Http\Requests\AdminAutoAssign;
+use App\Http\Requests\AdminUpdateBooking;
+use App\Http\Requests\ImportBookings;
+use App\Http\Requests\StoreBooking;
+use App\Http\Requests\UpdateBooking;
+use App\Mail\BookingCancelled;
+use App\Mail\BookingChanged;
+use App\Mail\BookingConfirmed;
+use App\Mail\BookingDeleted;
+use App\Models\Airport;
+use App\Models\Booking;
+use App\Models\Event;
 use Carbon\Carbon;
-use Illuminate\{Http\Request, Support\Facades\Auth, Support\Facades\Mail, Support\Facades\Storage};
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Storage;
 use Rap2hpoutre\FastExcel\FastExcel;
 
 class BookingController extends Controller
@@ -37,6 +40,8 @@ class BookingController extends Controller
     /**
      * Display a listing of the bookings.
      *
+     * @param Request $request
+     * @param Event|null $event
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request, Event $event = null)
@@ -109,6 +114,7 @@ class BookingController extends Controller
      * Show the form for creating new timeslots
      *
      * @param Event $event
+     * @param Request $request
      * @return \Illuminate\Http\Response
      */
     public function create(Event $event, Request $request)
@@ -330,6 +336,7 @@ class BookingController extends Controller
      *
      * @param Booking $booking
      * @return \Illuminate\Http\Response
+     * @throws \Exception
      */
     public function destroy(Booking $booking)
     {
@@ -376,6 +383,7 @@ class BookingController extends Controller
                 return redirect(route('bookings.event.index', $booking->event));
             }
             flashMessage('danger', 'Nope!', 'Bookings have been locked at ' . $booking->event->endBooking->format('d-m-Y Hi') . 'z');
+            return redirect(route('bookings.event.index', $booking->event));
 
         } else {
             // We got a bad-ass over here, log that person out
@@ -448,7 +456,12 @@ class BookingController extends Controller
     /**
      * Exports all active bookings to a .csv file
      *
-     * @param Event $$event
+     * @param Event $event
+     * @return string|\Symfony\Component\HttpFoundation\StreamedResponse
+     * @throws \Box\Spout\Common\Exception\IOException
+     * @throws \Box\Spout\Common\Exception\InvalidArgumentException
+     * @throws \Box\Spout\Common\Exception\UnsupportedTypeException
+     * @throws \Box\Spout\Writer\Exception\WriterNotOpenedException
      */
     public function export(Event $event)
     {
