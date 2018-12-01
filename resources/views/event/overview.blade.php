@@ -30,7 +30,7 @@
                     <td>{{ $event->startEvent->format('Hi') }}z</td>
                     <td>{{ $event->endEvent->format('Hi') }}z</td>
                     <td>
-                        <a href="{{ route('events.edit',$event->id) }}" role="button" class="btn btn-primary disabled"><i
+                        <a href="{{ route('events.edit',$event) }}" role="button" class="btn btn-primary"><i
                                     class="fa fa-edit"></i> Edit Event</a>&nbsp;
                         @if($event->endEvent > now())
                             <a href="{{ route('bookings.admin.importForm',$event) }}" class="btn btn-success"><i
@@ -48,6 +48,13 @@
                                     class="fa fa-envelope"></i> Send E-mails (all persons)</a>&nbsp;
                         <a href="{{ route('bookings.export',$event) }}" class="btn btn-success"><i
                                     class="fa fa-edit"></i> Export data</a>&nbsp;
+                        @if($event->startEvent > now())
+                            <form action="{{ route('events.destroy', $event) }}" method="post">
+                                @csrf
+                                @method('DELETE')
+                                <button class="btn btn-danger">Delete Event</button>
+                            </form>
+                        @endif
                     </td>
                 </tr>
                 @empty
