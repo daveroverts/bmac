@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Enums\BookingStatus;
 use App\Http\Requests\SendEmail;
 use App\Http\Requests\StoreEvent;
+use App\Http\Requests\UpdateEvent;
 use App\Mail\EventBulkEmail;
 use App\Mail\EventFinalInformation;
 use App\Models\Airport;
@@ -59,12 +60,17 @@ class EventController extends Controller
     public function store(StoreEvent $request)
     {
         $event = new Event();
-        $event->fill($request->only('name', 'event_type_id', 'import_only', 'uses_times', 'multiple_bookings_allowed', 'is_oceanic_event', 'dep', 'arr', 'image_url', 'description'));
+        $event->fill($request->only('name', 'event_type_id', 'import_only', 'uses_times',
+            'multiple_bookings_allowed', 'is_oceanic_event', 'dep', 'arr', 'image_url', 'description'));
         $event->fill([
-            'startEvent' => Carbon::createFromFormat('d-m-Y H:i', $request->dateEvent . ' ' . $request->timeBeginEvent),
-            'endEvent' => Carbon::createFromFormat('d-m-Y H:i', $request->dateEvent . ' ' . $request->timeEndEvent),
-            'startBooking' => Carbon::createFromFormat('d-m-Y H:i', $request->dateBeginBooking . ' ' . $request->timeBeginBooking),
-            'endBooking' => Carbon::createFromFormat('d-m-Y H:i', $request->dateEndBooking . ' ' . $request->timeEndBooking),
+            'startEvent' => Carbon::createFromFormat('d-m-Y H:i',
+                $request->dateEvent . ' ' . $request->timeBeginEvent),
+            'endEvent' => Carbon::createFromFormat('d-m-Y H:i',
+                $request->dateEvent . ' ' . $request->timeEndEvent),
+            'startBooking' => Carbon::createFromFormat('d-m-Y H:i',
+                $request->dateBeginBooking . ' ' . $request->timeBeginBooking),
+            'endBooking' => Carbon::createFromFormat('d-m-Y H:i',
+                $request->dateEndBooking . ' ' . $request->timeEndBooking),
         ])->save();
 
         flashMessage('success', 'Done', 'Event has been created!');
@@ -86,34 +92,57 @@ class EventController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param Event $event
-     * @return void
+     * @return \Illuminate\Http\Response
      */
     public function edit(Event $event)
     {
-        //
+        $airports = Airport::orderBy('ICAO')->get();
+        $eventTypes = EventType::all();
+        return view('event.edit', compact('event', 'airports', 'eventTypes'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param  UpdateEvent $request
      * @param Event $event
-     * @return void
+     * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Event $event)
+    public function update(UpdateEvent $request, Event $event)
     {
-        //
+        $event->fill($request->only('name', 'event_type_id', 'import_only', 'uses_times',
+            'multiple_bookings_allowed', 'is_oceanic_event', 'dep', 'arr', 'image_url', 'description'));
+        $event->fill([
+            'startEvent' => Carbon::createFromFormat('d-m-Y H:i',
+                $request->dateEvent . ' ' . $request->timeBeginEvent),
+            'endEvent' => Carbon::createFromFormat('d-m-Y H:i',
+                $request->dateEvent . ' ' . $request->timeEndEvent),
+            'startBooking' => Carbon::createFromFormat('d-m-Y H:i',
+                $request->dateBeginBooking . ' ' . $request->timeBeginBooking),
+            'endBooking' => Carbon::createFromFormat('d-m-Y H:i',
+                $request->dateEndBooking . ' ' . $request->timeEndBooking),
+        ])->save();
+        flashMessage('success', 'Done', 'Event has been updated!');
+        return redirect(route('events.index'));
     }
 
     /**
      * Remove the specified resource from storage.
      *
      * @param Event $event
-     * @return void
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws \Exception
      */
     public function destroy(Event $event)
     {
-        //
+        if ($event->startEvent > now()) {
+            $event->delete();
+            flashMessage('success', 'Done', $event->name . ' has been deleted!');
+            return redirect()->back();
+        } else {
+            flashMessage('danger', 'Nope!', 'You cannot remove a event after it has begun!');
+            return redirect()->back();
+        }
     }
 
     /**
@@ -141,7 +170,9 @@ class EventController extends Controller
             ->get();
         $count = 0;
         foreach ($bookings as $booking) {
-            Mail::to($booking->user->email)->send(new EventBulkEmail($event, $booking->user, $request->subject, $request->message));
+            Mail::to($booking->user->email)->send(
+                new EventBulkEmail($event, $booking->user, $request->subject, $request->message)
+            );
             $count++;
         }
         flashMessage('success', 'Done', 'Bulk E-mail has been sent to ' . $count . ' people!');

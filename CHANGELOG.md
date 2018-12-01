@@ -23,6 +23,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
    - UserResource / ``/users/{user}``
    - UsersCollection / ``/users``
 - PHP CodeSniffer xml file, source: [https://medium.com/@nandosalles/the-ruleset-phpcs-for-my-laravel-projects-a54cb3c95b31](https://medium.com/@nandosalles/the-ruleset-phpcs-for-my-laravel-projects-a54cb3c95b31)
+- ``EventController@destroy()``
+- Relation ``Airport``->``Event`` ``eventDep`` + ``eventArr`` 
+- ``EventController@update()``
+- ``UpdateEvent`` Request
 
 ### Changed
 - Upcoming event order is now correct
@@ -31,6 +35,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Relation ``Event``->``dep`` renamed to ``Event``->``airportDep``
 - Relation ``Event``->``arr`` renamed to ``Event``->``airportArr``
 - Both of these relations where not in use before, but if called, it would not really work due to same names.
+- When creating an event, ``dep`` and ``arr`` are now separated, and now actually save in the database
+- ``event.create`` now picks up old values correctly
 
 ## [v0.7.0b](https://gitlab.com/daveroverts/Book-me-a-cookie/compare/v0.7.0a...v0.7.0b) - 2018-11-25
 

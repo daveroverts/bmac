@@ -35,6 +35,16 @@ class Airport extends Model
         return $this->hasMany(Booking::class, 'arr');
     }
 
+    public function eventDep()
+    {
+        return $this->hasMany(Event::class, 'dep');
+    }
+
+    public function eventArr()
+    {
+        return $this->hasMany(Event::class, 'arr');
+    }
+
     public function links()
     {
         return $this->hasMany(AirportLink::class, 'icao_airport');
