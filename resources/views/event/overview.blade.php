@@ -37,8 +37,6 @@
                                         class="fa fa-edit"></i> Import data</a>&nbsp;
                             <a href="{{ route('bookings.create',$event) }}" class="btn btn-primary"><i
                                         class="fa fa-plus"></i> Add Timeslots</a>&nbsp;
-                            <a href="{{ route('bookings.admin.autoAssignForm',$event) }}" class="btn btn-primary">Auto
-                                Assign FL / Route</a>&nbsp;
                             @if($event->is_oceanic_event)
                                 <a href="{{ route('bookings.admin.autoAssignForm',$event) }}" class="btn btn-primary">
                                     Auto Assign FL / Route</a>&nbsp;
