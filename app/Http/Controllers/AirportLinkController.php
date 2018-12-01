@@ -40,7 +40,7 @@ class AirportLinkController extends Controller
     public function create()
     {
         $airportLinkTypes = AirportLinkType::all();
-        $airports = Airport::orderBy('ICAO')->get();
+        $airports = Airport::orderBy('icao')->get();
         return view('airportLink.create', compact('airportLinkTypes', 'airports'));
     }
 
