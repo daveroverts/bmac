@@ -37,6 +37,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Both of these relations where not in use before, but if called, it would not really work due to same names.
 - When creating an event, ``dep`` and ``arr`` are now separated, and now actually save in the database
 - ``event.create`` now picks up old values correctly
+- Some if statements in ``BookingController`` and ``booking.overview`` now check if the dateTime are on the current minute (example: Bookings should be available at 0000z, not a minute later)
 
 ## [v0.7.0b](https://gitlab.com/daveroverts/Book-me-a-cookie/compare/v0.7.0a...v0.7.0b) - 2018-11-25
 
