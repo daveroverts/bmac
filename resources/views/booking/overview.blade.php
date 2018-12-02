@@ -15,7 +15,7 @@
                    class="btn btn-{{ url()->current() === route('bookings.event.index', $event) . '/arrivals' ? 'success' : 'primary' }}">Show
                     Arrivals</a>&nbsp;
             @endif
-            @if(Auth::check() && Auth::user()->isAdmin && $event->endBooking > now())
+            @if(Auth::check() && Auth::user()->isAdmin && $event->endBooking >= now())
                 <a href="{{ route('bookings.create',$event) }}" class="btn btn-primary"><i class="fa fa-plus"></i> Add
                     Booking</a>&nbsp;
                 <a href="{{ route('bookings.create',$event) }}/bulk" class="btn btn-primary"><i class="fa fa-plus"></i>
@@ -24,7 +24,7 @@
             @endif
         </p>
         @include('layouts.alert')
-        @if($event->startBooking < now() || Auth::check() && Auth::user()->isAdmin)
+        @if($event->startBooking <= now() || Auth::check() && Auth::user()->isAdmin)
             Flights available: {{ count($bookings) - count($bookings->where('status',\App\Enums\BookingStatus::BOOKED)) }} / {{ count($bookings) }}
             <table class="table table-hover">
                 <thead>
@@ -88,7 +88,7 @@
                             @else
                                 @if(Auth::check())
                                     {{--Check if user is logged in--}}
-                                    @if($booking->event->startBooking < now() && $booking->event->endBooking > now())
+                                    @if($booking->event->startBooking <= now() && $booking->event->endBooking >= now())
                                         {{--Check if user already has a booking--}}
                                         @if(($booking->event->multiple_bookings_allowed) || (!$booking->event->multiple_bookings_allowed && !Auth::user()->bookings()->where('event_id',$event->id)->first()))
                                             {{--Check if user already has a booking, and only 1 is allowed--}}

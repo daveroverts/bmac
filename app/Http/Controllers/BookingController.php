@@ -238,8 +238,8 @@ class BookingController extends Controller
             } // Reserve booking, and redirect to booking.edit
             else {
                 // Check if you are allowed to reserve the slot
-                if ($booking->event->startBooking < now()) {
-                    if ($booking->event->endBooking > now()) {
+                if ($booking->event->startBooking <= now()) {
+                    if ($booking->event->endBooking >= now()) {
                         $booking->status = BookingStatus::RESERVED;
                         $booking->user()->associate(Auth::user())->save();
                         flashMessage('info', 'Slot reserved', 'Will remain reserved until ' . $booking->updated_at->addMinutes(10)->format('Hi') . 'z');
