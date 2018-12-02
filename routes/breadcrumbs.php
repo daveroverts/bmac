@@ -61,7 +61,7 @@ Breadcrumbs::for('events.index', function ($trail) {
 
 // Home > Admin > Events > [Event] > Edit event
 Breadcrumbs::for('events.edit', function ($trail, $event) {
-    $trail->parent('events.index');
+    $trail->parent('events.show', $event);
     $trail->push('Edit Event', route('events.edit', $event));
 });
 
@@ -74,7 +74,7 @@ Breadcrumbs::for('events.create', function ($trail) {
 // Home > Admin > Events > [Event]
 Breadcrumbs::for('events.show', function ($trail, $event) {
     $trail->parent('events.index');
-    $trail->push($event->name . ' [' . $event->startEvent->toFormattedDateString() . ']');
+    $trail->push($event->name . ' [' . $event->startEvent->toFormattedDateString() . ']', route('events.show', $event));
 });
 
 // Home > Admin > Events > [Event] > Send E-mail

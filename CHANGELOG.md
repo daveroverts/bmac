@@ -27,6 +27,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Relation ``Airport``->``Event`` ``eventDep`` + ``eventArr`` 
 - ``EventController@update()``
 - ``UpdateEvent`` Request
+- ``events.show`` now actually does something
 
 ### Changed
 - Upcoming event order is now correct
