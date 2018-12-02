@@ -145,6 +145,7 @@ class BookingController extends Controller
                 if (!Booking::where([
                     'event_id' => $request->id,
                     'ctot' => $event_start,
+                    'dep' => $from->icao,
                 ])->first()) {
                     Booking::create([
                         'event_id' => $request->id,

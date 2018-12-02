@@ -27,6 +27,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Relation ``Airport``->``Event`` ``eventDep`` + ``eventArr`` 
 - ``EventController@update()``
 - ``UpdateEvent`` Request
+- ``BookingController@store()`` now allows same CTOT's, as long as the Departure Airports are different.
 
 ### Changed
 - Upcoming event order is now correct
