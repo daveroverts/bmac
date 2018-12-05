@@ -29,6 +29,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - ``UpdateEvent`` Request
 - ``events.show`` now actually does something
 - ``BookingController@store()`` now allows same CTOT's, as long as the Departure Airports are different.
+- Enum ``AirportView``:
+   - 0 = ``NAME``: Amsterdam Airport Schiphol - EHAM | [AMS]
+   - 1 = ``ICAO``: EHAM - Amsterdam Airport Schiphol | [AMS]
+   - 2 = ``IATA``: AMS - Amsterdam Airport Schiphol | [EHAM]
+   - This is now added in the ``users`` Model. Users can now choose what to see by default in views (except e-mails, that might come in later).
+- ``use_monospace_font`` Allows users to see ``callsign`` and ``aircraft`` with a monospace font.
+- ``users`` prefix:
+   - ``settings``:
+      - Makes it possible to edit user settings (see previous 2 points)
 
 ### Changed
 - Upcoming event order is now correct

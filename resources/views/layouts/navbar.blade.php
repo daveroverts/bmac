@@ -37,28 +37,32 @@
                 <li class="nav-item">
                     <a class="nav-link" href="mailto:events@dutchvacc.nl">Contact Us</a>
                 </li>
-                @if(Auth::check() && Auth::user()->isAdmin)
-                    <li class="nav-item">
-                        <div class="dropdown">
-                            <a class="btn btn-outline-secondary text-white dropdown-toggle {{ Request::is('admin/*') ? 'active' : '' }}"
-                               href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
-                               aria-expanded="false">
-                                Admin
-                            </a>
-
-                            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                <a class="dropdown-item {{ Route::currentRouteNamed('airports.index') ? 'active' : '' }}"
-                                   href="{{ route('airports.index') }}">Airports</a>
-                                <a class="dropdown-item {{ Route::currentRouteNamed('events.index') ? 'active' : '' }}"
-                                   href="{{ route('events.index') }}">Events</a>
-                            </div>
-                        </div>
-                    </li>
-                @endif
                 @guest
                     <li class="nav-item"><a class="nav-link" href="{{ route('login') }}">Login</a></li>
                 @else
                     <li class="nav-item"><a class="nav-link" href="{{ route('logout') }}">Logout</a></li>
+
+                    <li class="nav-item">
+                        <div class="dropdown">
+                            <a class="btn btn-outline-secondary text-white dropdown-toggle {{ Request::is('admin/*') || Request::is('user/*') ? 'active' : '' }}"
+                               href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
+                               aria-expanded="false">
+                                {{ Auth::user()->pic }}
+                            </a>
+
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                <a class="dropdown-item {{ Route::currentRouteNamed('user.settings') ? 'active' : '' }}"
+                                   href="{{ route('user.settings') }}">My settings</a>
+                                @if(Auth::user()->isAdmin)
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item {{ Route::currentRouteNamed('airports.index') ? 'active' : '' }}"
+                                       href="{{ route('airports.index') }}">Airports</a>
+                                    <a class="dropdown-item {{ Route::currentRouteNamed('events.index') ? 'active' : '' }}"
+                                       href="{{ route('events.index') }}">Events</a>
+                                @endif
+                            </div>
+                        </div>
+                    </li>
                 @endguest
             </ul>
 

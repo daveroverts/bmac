@@ -48,3 +48,20 @@ Route::redirect('/booking', route('bookings.index'), 301);
 Route::get('/faq', function () {
     return view('faq');
 })->name('faq');
+
+Route::middleware('auth.isLoggedIn')->group(function () {
+    Route::prefix('user')->name('user.')
+        ->group(function () {
+        Route::get('settings', function () {
+            $user = Auth::user();
+            return view('user.settings', compact('user'));
+        })->name('settings');
+
+        Route::patch('settings', function (\App\Http\Requests\UpdateUserSettings $request) {
+            $user = Auth::user();
+            $user->update($request->only(['airport_view', 'use_monospace_font']));
+            flashMessage('success', 'Done', 'Settings saved!');
+            return back();
+        })->name('saveSettings');
+    });
+});
