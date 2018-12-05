@@ -135,3 +135,9 @@ Breadcrumbs::for('faq', function ($trail) {
     $trail->parent('home');
     $trail->push('FAQ', route('faq'));
 });
+
+// Home > My settings
+Breadcrumbs::for('user.settings', function ($trail) {
+    $trail->parent('home');
+    $trail->push('My settings', route('user.settings', Auth::user()));
+});

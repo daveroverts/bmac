@@ -54,8 +54,16 @@
                         <label for="adep" class="col-md-4 col-form-label text-md-right">ADEP</label>
 
                         <div class="col-md-6">
-                            <div class="form-control-plaintext"><strong><abbr
-                                            title="{{ $booking->airportDep->name }}">{{ $booking->dep }}</abbr></strong>
+                            <div class="form-control-plaintext">
+                                <strong>
+                                    @if(Auth::user()->airport_view == \App\Enums\AirportView::NAME)
+                                        <abbr title="{{ $booking->dep }} | [{{ $booking->airportDep->iata }}]">{{ $booking->airportDep->name }}</abbr>
+                                    @elseif(Auth::user()->airport_view == \App\Enums\AirportView::IATA)
+                                        <abbr title="{{ $booking->airportDep->name }} | [{{ $booking->dep }}]">{{ $booking->airportDep->iata }}</abbr>
+                                    @else
+                                        <abbr title="{{ $booking->airportDep->name }} | [{{ $booking->airportDep->iata }}]">{{ $booking->dep }}</abbr>
+                                    @endif
+                                </strong>
                             </div>
 
                         </div>
@@ -66,8 +74,16 @@
                         <label for="ades" class="col-md-4 col-form-label text-md-right">ADES</label>
 
                         <div class="col-md-6">
-                            <div class="form-control-plaintext"><strong><abbr
-                                            title="{{ $booking->airportArr->name }}">{{ $booking->arr }}</abbr></strong>
+                            <div class="form-control-plaintext">
+                                <strong>
+                                    @if(Auth::user()->airport_view == \App\Enums\AirportView::NAME)
+                                        <abbr title="{{ $booking->arr }} | [{{ $booking->airportArr->iata }}]">{{ $booking->airportArr->name }}</abbr>
+                                    @elseif(Auth::user()->airport_view == \App\Enums\AirportView::IATA)
+                                        <abbr title="{{ $booking->airportArr->name }} | [{{ $booking->arr }}]">{{ $booking->airportArr->iata }}</abbr>
+                                    @else
+                                        <abbr title="{{ $booking->airportArr->name }} | [{{ $booking->airportArr->iata }}]">{{ $booking->arr }}</abbr>
+                                    @endif
+                                </strong>
                             </div>
 
                         </div>
