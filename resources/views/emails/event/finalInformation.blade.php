@@ -31,31 +31,29 @@ A: Click [here](https://www.virtualnorwegian.net/oceanic/). There are example cl
 INFORMATION - DEPARTURE
 ---
 ---
-The controllers at Amsterdam are provided with a tool that allows them to prioritize departures based on whether or not your flight is booked, your CTOT and the distance you’ll have to taxi. Using these values a TSAT (targeted start-up approval time) will be calculated which the planner will use to get you pushed back and on your way at the right time.
+Pilots can anticipate receiving a clearance through CPDLC. The clearance may include route amendments. CPDLC clearances are accomplished via private message from ATC. Pilots who are not able to accept clearance via CPDLC should disregard the message and request a voice clearance.
 
-We advise you to be online 35 minutes prior to your CTOT and request your clearance shortly thereafter.
+Remember, you need a specific clearance to cross each runway you come to (active or inactive). Always hold short of a runway unless you have received a crossing instruction. If you are unsure, ask!
 
-A live overview of free stands can be found [here](http://scripts.dutchvacc.nl/aipcharts.php?airport=eham).
+The phrase “climb via SID” will be used on all RNAV departures. This phrase instructs aircraft to stop the initial climb at the SID top altitude (5,000’) until receiving further instruction from ATC.
 
 Important information about your departure airport can be found at:
-- [Pilot Briefing](https://www.dutchvacc.nl/index.php?option=com_content&view=article&id=149&Itemid=149)
-- [Charts](http://scripts.dutchvacc.nl/aipcharts.php?airport=eham)
+- [Pilot Briefing](https://www.dutchvacc.nl/downloads/various/Pilot%20Briefing%20Holland-America%20Line%202018.pdf)
+- [Charts](https://www.airnav.com/airport/KBOS)
 
 ---
 INFORMATION - ARRIVAL
 ---
 ---
 
-Boston ARTCC will issue "descend via" instructions for aircraft on STAR arrival procedures. When given "descend via", you are cleared to follow the published altitude restrictions on the STAR. Otherwise, you must remain at your last cleared altitude.
+The STAR into Amsterdam will terminate at waypoint SUGOL which has to passed below FL100, plan your descent accordingly. After SUGOL you can expect a direct to SPL, you will need to add this manually into your FMS.
 
-Ensure the assigned runway matches with your FMS route. Regardless of "descend via", published speed restrictions are always mandatory.
-
-When you check in on a new frequency while “descending via”, you are required to state the arrival and runway (if any) when you check in: "Boston Approach, KLM391, 17,500, descending via the OOSHN5 arrival, Runway 22L, with information Kilo".
+Standard speed within the 15NM radius of SPL is 220kts. When cleared on the ILS maintain speed 180kts or more until established on the glide path, unless instructed otherwise.
 
 Important information about your arrival airport can be found at:
 
-- [Pilot Briefing](http://www.bvartcc.com/LTA)
-- [Charts](https://www.airnav.com/airport/KBOS)
+- [Pilot Briefing](https://www.dutchvacc.nl/downloads/various/Pilot%20Briefing%20Holland-America%20Line%202018.pdf)
+- [Charts](http://scripts.dutchvacc.nl/aipcharts.php?airport=eham)
 
 
 ---
