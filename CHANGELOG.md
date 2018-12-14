@@ -50,6 +50,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - ``event.create`` now picks up old values correctly
 - Some if statements in ``BookingController`` and ``booking.overview`` now check if the dateTime are on the current minute (example: Bookings should be available at 0000z, not a minute later)
 
+## [v0.7.0c](https://gitlab.com/daveroverts/Book-me-a-cookie/compare/v0.7.0b...v0.7.0c) - 2018-12-14
+
+### Changed
+- Final information E-mail for the Holland - America line event [KBOS-EHAM]
+
 ## [v0.7.0b](https://gitlab.com/daveroverts/Book-me-a-cookie/compare/v0.7.0a...v0.7.0b) - 2018-11-25
 
 ### Changed
