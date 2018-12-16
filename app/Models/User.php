@@ -4,9 +4,11 @@ namespace App\Models;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class User extends Authenticatable
 {
+    use LogsActivity;
     use Notifiable;
 
     /**
@@ -36,6 +38,9 @@ class User extends Authenticatable
         'is_admin' => 'boolean',
         'use_monospace_font' => 'boolean',
     ];
+
+    protected static $logAttributes = ['*'];
+    protected static $logOnlyDirty = true;
 
     public function bookings()
     {

@@ -3,9 +3,11 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class Airport extends Model
 {
+    use LogsActivity;
 
     public $incrementing = false;
     /**
@@ -24,6 +26,9 @@ class Airport extends Model
     protected $fillable = [
         'icao', 'iata', 'name',
     ];
+
+    protected static $logAttributes = ['*'];
+    protected static $logOnlyDirty = true;
 
     public function bookingsDep()
     {

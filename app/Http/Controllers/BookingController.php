@@ -241,6 +241,10 @@ class BookingController extends Controller
                 // Check if you are allowed to reserve the slot
                 if ($booking->event->startBooking <= now()) {
                     if ($booking->event->endBooking >= now()) {
+                        activity()
+                            ->by(Auth::user())
+                            ->on($booking)
+                            ->log('Flight reserved');
                         $booking->status = BookingStatus::RESERVED;
                         $booking->user()->associate(Auth::user())->save();
                         flashMessage('info', 'Slot reserved', 'Will remain reserved until ' . $booking->updated_at->addMinutes(10)->format('Hi') . 'z');
@@ -281,6 +285,10 @@ class BookingController extends Controller
 
             $booking->status = BookingStatus::BOOKED;
             if ($booking->getOriginal('status') === BookingStatus::RESERVED) {
+                activity()
+                    ->by(Auth::user())
+                    ->on($booking)
+                    ->log('Flight booked');
                 Mail::to(Auth::user())->send(new BookingConfirmed($booking));
                 flashMessage('success', 'Booking created!', 'Booking has been created! An E-mail with details has also been sent');
             } else {
@@ -371,6 +379,10 @@ class BookingController extends Controller
                         $booking->selcal = null;
                 }
                 $booking->status = BookingStatus::UNASSIGNED;
+                activity()
+                    ->by(Auth::user())
+                    ->on($booking)
+                    ->log('Flight available');
                 if ($booking->getOriginal('status') === BookingStatus::BOOKED) {
                     $title = 'Booking removed!';
                     $message = 'Booking has been removed! A E-mail has also been sent';
@@ -466,6 +478,10 @@ class BookingController extends Controller
      */
     public function export(Event $event)
     {
+        activity()
+            ->by(Auth::user())
+            ->on($event)
+            ->log('Export triggered');
         $bookings = Booking::where('event_id', $event->id)
             ->where('status', BookingStatus::BOOKED)
             ->get();
@@ -490,6 +506,10 @@ class BookingController extends Controller
 
     public function import(ImportBookings $request, Event $event)
     {
+        activity()
+            ->by(Auth::user())
+            ->on($event)
+            ->log('Import triggered');
         $file = $request->file('file')->getRealPath();
         $bookings = collect();
         (new FastExcel)->importSheets($file, function ($line) use ($bookings, $event) {
@@ -565,6 +585,19 @@ class BookingController extends Controller
 
         }
         flashMessage('success', 'Bookings changed', $count . ' Bookings have been Auto-Assigned a FL, and route');
+        activity()
+            ->by(Auth::user())
+            ->on($event)
+            ->withProperties(
+                [
+                    'Track 1' => $request->oceanicTrack1,
+                    'Route 1' => $request->route1,
+                    'Track 2' => $request->oceanicTrack2,
+                    'Route 2' => $request->route2,
+                    'count' => $count,
+                ]
+            )
+            ->log('Flights auto-assigned');
         return redirect(route('events.index'));
     }
 }

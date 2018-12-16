@@ -4,9 +4,11 @@ namespace App\Models;
 
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class Event extends Model
 {
+    use LogsActivity;
     use Sluggable;
 
     /**
@@ -46,6 +48,9 @@ class Event extends Model
         'multiple_bookings_allowed' => 'boolean',
         'is_oceanic_event' => 'boolean',
     ];
+
+    protected static $logAttributes = ['*'];
+    protected static $logOnlyDirty = true;
 
     public function bookings()
     {
