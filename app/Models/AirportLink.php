@@ -3,9 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class AirportLink extends Model
 {
+    use LogsActivity;
+
     /**
      * The attributes that are mass assignable.
      *
@@ -14,6 +17,9 @@ class AirportLink extends Model
     protected $fillable = [
         'icao_airport', 'airportLinkType_id', 'name', 'url',
     ];
+
+    protected static $logAttributes = ['*'];
+    protected static $logOnlyDirty = true;
 
     public function airport()
     {

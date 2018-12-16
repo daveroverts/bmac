@@ -4,9 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class Booking extends Model
 {
+    use LogsActivity;
 
     /**
      * The attributes that are mass assignable.
@@ -24,6 +26,9 @@ class Booking extends Model
     protected $dates = [
         'ctot', 'eta'
     ];
+
+    protected static $logAttributes = ['*'];
+    protected static $logOnlyDirty = true;
 
     /**
      *  Setup model event hooks

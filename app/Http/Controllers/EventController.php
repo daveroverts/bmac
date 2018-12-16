@@ -14,6 +14,7 @@ use App\Models\Event;
 use App\Models\EventType;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 
 class EventController extends Controller
@@ -176,6 +177,17 @@ class EventController extends Controller
             $count++;
         }
         flashMessage('success', 'Done', 'Bulk E-mail has been sent to ' . $count . ' people!');
+        activity()
+            ->by(Auth::user())
+            ->on($event)
+            ->withProperties(
+                [
+                    'subject' => $request->subject,
+                    'message' => $request->message,
+                    'count' => $count,
+                ]
+            )
+            ->log('Bulk E-mail');
         return redirect(route('events.index'));
     }
 
@@ -196,6 +208,11 @@ class EventController extends Controller
             $count++;
         }
         flashMessage('success', 'Done', 'Final Information has been sent to ' . $count . ' people!');
+        activity()
+            ->by(Auth::user())
+            ->on($event)
+            ->withProperty('count', $count)
+            ->log('Final Information E-mail');
         return redirect(route('events.index'));
     }
 }
