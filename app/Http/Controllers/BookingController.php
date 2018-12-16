@@ -2,22 +2,25 @@
 
 namespace App\Http\Controllers;
 
-use App\{Enums\BookingStatus,
-    Enums\EventType,
-    Http\Requests\AdminAutoAssign,
-    Http\Requests\AdminUpdateBooking,
-    Http\Requests\ImportBookings,
-    Http\Requests\StoreBooking,
-    Http\Requests\UpdateBooking,
-    Mail\BookingCancelled,
-    Mail\BookingChanged,
-    Mail\BookingConfirmed,
-    Mail\BookingDeleted,
-    Models\Airport,
-    Models\Booking,
-    Models\Event};
+use App\Enums\BookingStatus;
+use App\Enums\EventType;
+use App\Http\Requests\AdminAutoAssign;
+use App\Http\Requests\AdminUpdateBooking;
+use App\Http\Requests\ImportBookings;
+use App\Http\Requests\StoreBooking;
+use App\Http\Requests\UpdateBooking;
+use App\Mail\BookingCancelled;
+use App\Mail\BookingChanged;
+use App\Mail\BookingConfirmed;
+use App\Mail\BookingDeleted;
+use App\Models\Airport;
+use App\Models\Booking;
+use App\Models\Event;
 use Carbon\Carbon;
-use Illuminate\{Http\Request, Support\Facades\Auth, Support\Facades\Mail, Support\Facades\Storage};
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Storage;
 use Rap2hpoutre\FastExcel\FastExcel;
 
 class BookingController extends Controller
@@ -37,6 +40,8 @@ class BookingController extends Controller
     /**
      * Display a listing of the bookings.
      *
+     * @param Request $request
+     * @param Event|null $event
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request, Event $event = null)
@@ -45,7 +50,7 @@ class BookingController extends Controller
 
         //Check if specific event is requested, else fall back to current ongoing event
         if (!$event) {
-            $event = Event::where('endEvent', '>', now())->orderBy('startEvent', 'desc')->first();
+            $event = nextEvent();
             if (!empty($event)) {
                 return redirect(route('bookings.event.index', $event));
             }
@@ -109,12 +114,13 @@ class BookingController extends Controller
      * Show the form for creating new timeslots
      *
      * @param Event $event
+     * @param Request $request
      * @return \Illuminate\Http\Response
      */
     public function create(Event $event, Request $request)
     {
         $bulk = $request->bulk;
-        $airports = Airport::all();
+        $airports = Airport::orderBy('icao')->get();
 
         return view('booking.create', compact('event', 'airports', 'bulk'));
     }
@@ -139,6 +145,7 @@ class BookingController extends Controller
                 if (!Booking::where([
                     'event_id' => $request->id,
                     'ctot' => $event_start,
+                    'dep' => $from->icao,
                 ])->first()) {
                     Booking::create([
                         'event_id' => $request->id,
@@ -217,23 +224,23 @@ class BookingController extends Controller
         } // If the booking hasn't been taken by anybody else, check if user doesn't already have a booking
         else {
             // If user already has another booking, but event only allows for 1
-            if (!$booking->event->multiple_bookings_allowed && Auth::user()->booking()->where('event_id', $booking->event_id)
+            if (!$booking->event->multiple_bookings_allowed && Auth::user()->bookings()->where('event_id', $booking->event_id)
                     ->where('status', BookingStatus::BOOKED)
                     ->first()) {
                 flashMessage('danger!', 'Nope!', 'You already have a booking!');
                 return redirect(route('bookings.event.index', $booking->event));
             }
             // If user already has another reservation open
-            if (Auth::user()->booking()->where('event_id', $booking->event_id)
+            if (Auth::user()->bookings()->where('event_id', $booking->event_id)
                 ->where('status', BookingStatus::RESERVED)
                 ->first()) {
-                flashMessage('danger!', 'Nope!', 'You already have a reservation!');
+                flashMessage('danger', 'Nope!', 'You already have a reservation!');
                 return redirect(route('bookings.event.index', $booking->event));
             } // Reserve booking, and redirect to booking.edit
             else {
                 // Check if you are allowed to reserve the slot
-                if ($booking->event->startBooking < now()) {
-                    if ($booking->event->endBooking > now()) {
+                if ($booking->event->startBooking <= now()) {
+                    if ($booking->event->endBooking >= now()) {
                         $booking->status = BookingStatus::RESERVED;
                         $booking->user()->associate(Auth::user())->save();
                         flashMessage('info', 'Slot reserved', 'Will remain reserved until ' . $booking->updated_at->addMinutes(10)->format('Hi') . 'z');
@@ -330,6 +337,7 @@ class BookingController extends Controller
      *
      * @param Booking $booking
      * @return \Illuminate\Http\Response
+     * @throws \Exception
      */
     public function destroy(Booking $booking)
     {
@@ -376,6 +384,7 @@ class BookingController extends Controller
                 return redirect(route('bookings.event.index', $booking->event));
             }
             flashMessage('danger', 'Nope!', 'Bookings have been locked at ' . $booking->event->endBooking->format('d-m-Y Hi') . 'z');
+            return redirect(route('bookings.event.index', $booking->event));
 
         } else {
             // We got a bad-ass over here, log that person out
@@ -391,7 +400,7 @@ class BookingController extends Controller
      */
     public function adminEdit(Booking $booking)
     {
-        $airports = Airport::all();
+        $airports = Airport::orderBy('icao')->get();
 
         return view('booking.admin.edit', compact('booking', 'airports'));
     }
@@ -448,7 +457,12 @@ class BookingController extends Controller
     /**
      * Exports all active bookings to a .csv file
      *
-     * @param Event $$event
+     * @param Event $event
+     * @return string|\Symfony\Component\HttpFoundation\StreamedResponse
+     * @throws \Box\Spout\Common\Exception\IOException
+     * @throws \Box\Spout\Common\Exception\InvalidArgumentException
+     * @throws \Box\Spout\Common\Exception\UnsupportedTypeException
+     * @throws \Box\Spout\Writer\Exception\WriterNotOpenedException
      */
     public function export(Event $event)
     {

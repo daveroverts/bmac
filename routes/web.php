@@ -12,11 +12,11 @@
 */
 
 Route::get('/', function () {
-    $event = \App\Models\Event::where('endEvent', '>', now())->orderBy('startEvent', 'desc')->first();
+    $event = nextEvent();
     return view('home', compact('event'));
 })->name('home');
 
-Route::get('/login', 'Auth\LoginController@login')->name('login');
+Route::get('/login/{booking?}', 'Auth\LoginController@login')->name('login');
 Route::get('/validateLogin', 'Auth\LoginController@validateLogin');
 Route::get('/logout', 'Auth\LoginController@logout')->name('logout');
 
@@ -32,8 +32,8 @@ Route::get('/admin/events/{event}/email_final', 'EventController@sendFinalInform
 
 Route::resource('bookings', 'BookingController')->except(['create']);
 Route::get('/{event}/bookings/export', 'BookingController@export')->name('bookings.export');
-Route::get('/{event}/bookings/{filter?}', 'BookingController@index')->name('bookings.event.index');
 Route::get('/{event}/bookings/create/{bulk?}', 'BookingController@create')->name('bookings.create');
+Route::get('/{event}/bookings/{filter?}', 'BookingController@index')->name('bookings.event.index');
 Route::get('/bookings/{booking}/cancel', 'BookingController@cancel')->name('bookings.cancel');
 Route::get('/admin/{event}/bookings/import', 'BookingController@importForm')->name('bookings.admin.importForm');
 Route::put('/admin/{event}/bookings/import', 'BookingController@import')->name('bookings.admin.import');
@@ -48,3 +48,20 @@ Route::redirect('/booking', route('bookings.index'), 301);
 Route::get('/faq', function () {
     return view('faq');
 })->name('faq');
+
+Route::middleware('auth.isLoggedIn')->group(function () {
+    Route::prefix('user')->name('user.')
+        ->group(function () {
+        Route::get('settings', function () {
+            $user = Auth::user();
+            return view('user.settings', compact('user'));
+        })->name('settings');
+
+        Route::patch('settings', function (\App\Http\Requests\UpdateUserSettings $request) {
+            $user = Auth::user();
+            $user->update($request->only(['airport_view', 'use_monospace_font']));
+            flashMessage('success', 'Done', 'Settings saved!');
+            return back();
+        })->name('saveSettings');
+    });
+});

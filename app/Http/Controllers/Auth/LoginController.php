@@ -2,15 +2,18 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\{Http\Controllers\Controller, Models\User};
+use App\Enums\BookingStatus;
+use App\Http\Controllers\Controller;
+use App\Models\Booking;
+use App\Models\User;
 use Faker\Factory as Faker;
-use Illuminate\{Foundation\Auth\AuthenticatesUsers,
-    Support\Facades\App,
-    Support\Facades\Auth,
-    Support\Facades\Config,
-    Support\Facades\Input,
-    Support\Facades\Redirect,
-    Support\Facades\Session};
+use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Session;
 use VatsimSSO;
 
 class LoginController extends Controller
@@ -45,8 +48,11 @@ class LoginController extends Controller
         $this->middleware('guest')->except('logout');
     }
 
-    public function login()
+    public function login(Booking $booking)
     {
+        if (!empty($booking)) {
+            Session::put('booking', $booking->uuid);
+        }
 
         $returnUrl = Config::get('vatsim-sso.return'); // load URL from config
         return VatsimSSO::login(
@@ -86,6 +92,18 @@ class LoginController extends Controller
                     $account->save();
 
                     Auth::loginUsingId($user->id);
+
+                    if (Session::get('booking')) {
+                        $booking = Booking::where('uuid', Session::get('booking'))->first();
+                        Session::forget('booking');
+                        if (!empty($booking)) {
+                            if ($booking->status !== BookingStatus::BOOKED) {
+                                return Redirect::route('bookings.edit', $booking);
+                            }
+                            return Redirect::route('bookings.show', $booking);
+                        }
+                    }
+
                     return Redirect('/');
                 },
                 function ($e) {
@@ -96,7 +114,6 @@ class LoginController extends Controller
             flashMessage('danger', 'Login failed', 'Something went wrong, please try again');
             return redirect(route('home'));
         }
-
     }
 
     public function logout()
@@ -104,5 +121,4 @@ class LoginController extends Controller
         Auth::logout();
         return redirect('/');
     }
-
 }

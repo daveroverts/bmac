@@ -15,7 +15,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'country', 'region', 'division', 'subdivision',
+        'name_first', 'name_last', 'email', 'country', 'region', 'division', 'subdivision', 'airport_view', 'use_monospace_font',
     ];
 
     /**
@@ -34,9 +34,10 @@ class User extends Authenticatable
      */
     protected $casts = [
         'is_admin' => 'boolean',
+        'use_monospace_font' => 'boolean',
     ];
 
-    public function booking()
+    public function bookings()
     {
         return $this->hasMany(Booking::class);
     }

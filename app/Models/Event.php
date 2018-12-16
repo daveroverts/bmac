@@ -57,12 +57,12 @@ class Event extends Model
         return $this->hasOne(EventType::class, 'id', 'event_type_id');
     }
 
-    public function dep()
+    public function airportDep()
     {
         return $this->hasOne(Airport::class, 'icao', 'dep');
     }
 
-    public function arr()
+    public function airportArr()
     {
         return $this->hasOne(Airport::class, 'icao', 'arr');
     }

@@ -29,7 +29,6 @@
     },
     "dependencies": {
         "bootswatch": "^4.1.1",
-        "tinymce": "^4.8.4",
-        "vue-sweetalert2": "^1.4.2"
+        "tinymce": "^4.8.4"
     }
 }

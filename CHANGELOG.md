@@ -6,6 +6,52 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v1.0.0](https://gitlab.com/daveroverts/Book-me-a-cookie/compare/v0.7.0c...v1.0.0) - 2018-12-15
+
+### Added
+- Redirect to a booking if logging in (and available)
+- ``nextEvent()``, which is now placed in ``routes/web.php`` for route ``/`` + ``BookingController@index()``
+- [laravel-breadcrumbs](https://github.com/davejamesmiller/laravel-breadcrumbs)
+- Extra ``/`` in ``public/robots.txt``
+- The following API resources / routes:
+   - AirportLinkResource
+   - AirportLinksCollection
+   - AirportResource / ``/airports/{airport}``
+   - AirportsCollection / ``/airports``
+   - BookingResource / ``/bookings/{booking}``
+   - BookingsCollection / ``/bookings``
+   - EventResource / ``/events/{event}``
+   - EventsCollection / ``/events``
+   - UserResource / ``/users/{user}``
+   - UsersCollection / ``/users``
+- PHP CodeSniffer xml file, source: [https://medium.com/@nandosalles/the-ruleset-phpcs-for-my-laravel-projects-a54cb3c95b31](https://medium.com/@nandosalles/the-ruleset-phpcs-for-my-laravel-projects-a54cb3c95b31)
+- ``EventController@destroy()``
+- Relation ``Airport``->``Event`` ``eventDep`` + ``eventArr`` 
+- ``EventController@update()``
+- ``UpdateEvent`` Request
+- ``events.show`` now actually does something
+- ``BookingController@store()`` now allows same CTOT's, as long as the Departure Airports are different.
+- Enum ``AirportView``:
+   - 0 = ``NAME``: Amsterdam Airport Schiphol - EHAM | [AMS]
+   - 1 = ``ICAO``: EHAM - Amsterdam Airport Schiphol | [AMS]
+   - 2 = ``IATA``: AMS - Amsterdam Airport Schiphol | [EHAM]
+   - This is now added in the ``users`` Model. Users can now choose what to see by default in views (except e-mails, that might come in later).
+- ``use_monospace_font`` Allows users to see ``callsign`` and ``aircraft`` with a monospace font.
+- ``users`` prefix:
+   - ``settings``:
+      - Makes it possible to edit user settings (see previous 2 points)
+
+### Changed
+- Upcoming event order is now correct
+- ``BookingController@edit()`` had one ``flashMessage()`` that did not show correctly
+- Airports now use a ``orderBy('ICAO')``
+- Relation ``Event``->``dep`` renamed to ``Event``->``airportDep``
+- Relation ``Event``->``arr`` renamed to ``Event``->``airportArr``
+- Both of these relations where not in use before, but if called, it would not really work due to same names.
+- When creating an event, ``dep`` and ``arr`` are now separated, and now actually save in the database
+- ``event.create`` now picks up old values correctly
+- Some if statements in ``BookingController`` and ``booking.overview`` now check if the dateTime are on the current minute (example: Bookings should be available at 0000z, not a minute later)
+
 ## [v0.7.0c](https://gitlab.com/daveroverts/Book-me-a-cookie/compare/v0.7.0b...v0.7.0c) - 2018-12-14
 
 ### Changed
