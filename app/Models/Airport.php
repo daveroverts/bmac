@@ -19,13 +19,11 @@ class Airport extends Model
     protected $primaryKey = 'icao';
     protected $keyType = 'string';
     /**
-     * The attributes that are mass assignable.
+     * The attributes that aren't mass assignable.
      *
      * @var array
      */
-    protected $fillable = [
-        'icao', 'iata', 'name',
-    ];
+    protected $guarded = [];
 
     protected static $logAttributes = ['*'];
     protected static $logOnlyDirty = true;
