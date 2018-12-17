@@ -11,12 +11,12 @@ class Booking extends Model
     use LogsActivity;
 
     /**
-     * The attributes that are mass assignable.
+     * The attributes that aren't mass assignable.
      *
      * @var array
      */
-    protected $fillable = [
-        'event_id', 'user_id', 'status', 'callsign', 'acType', 'selcal', 'dep', 'arr', 'ctot', 'eta', 'route', 'oceanicFL', 'oceanicTrack'
+    protected $guarded = [
+        'id', 'uuid', 'event_id', 'status', 'selcal',
     ];
     /**
      * The attributes that should be mutated to dates.
