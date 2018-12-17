@@ -10,13 +10,11 @@ class AirportLinkType extends Model
     use LogsActivity;
 
     /**
-     * The attributes that are mass assignable.
+     * The attributes that aren't mass assignable.
      *
      * @var array
      */
-    protected $fillable = [
-        'name', 'class',
-    ];
+    protected $guarded = ['id'];
 
     protected static $logAttributes = ['*'];
     protected static $logOnlyDirty = true;
