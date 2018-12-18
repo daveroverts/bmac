@@ -12,7 +12,7 @@ image: lorisleiva/laravel-docker:latest
   find . -type d -not -path "./vendor/*" -exec chmod 775 {} \;
 
 variables:
-  MYSQL_DATABASE: book_me_a_cookie
+  MYSQL_DATABASE: book_me_a_cookie_test
   MYSQL_ROOT_PASSWORD: secret
 
 composer:
