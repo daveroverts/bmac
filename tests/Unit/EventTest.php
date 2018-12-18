@@ -19,29 +19,10 @@ class EventTest extends TestCase
      */
     public function testItCreatesNewEvent()
     {
-        $name = 'Amsterdam - Eelde Fly-In';
-        $description = 'Si, Fly';
-        $startEvent = now()->addMonth()->toDateTimeString();
-        $endEvent = now()->addMonth()->addHours(3)->toDateTimeString();
-        $startBooking = now()->addWeek()->toDateTimeString();
-        $endBooking = now()->subDay()->toDateTimeString();
+        $event = factory(\App\Models\Event::class)->make();
 
-        Event::create([
-            'name' => $name,
-            'description' => $description,
-            'startEvent' => $startEvent,
-            'endEvent' => $endEvent,
-            'startBooking' => $startBooking,
-            'endBooking' => $endBooking,
-        ]);
+        Event::create($event->toArray());
 
-        $this->assertDatabaseHas('events', [
-            'name' => $name,
-            'description' => $description,
-            'startEvent' => $startEvent,
-            'endEvent' => $endEvent,
-            'startBooking' => $startBooking,
-            'endBooking' => $endBooking,
-        ]);
+        $this->assertDatabaseHas('events', $event->toArray());
     }
 }
