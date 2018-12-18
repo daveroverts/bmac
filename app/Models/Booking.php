@@ -16,7 +16,7 @@ class Booking extends Model
      * @var array
      */
     protected $guarded = [
-        'id', 'uuid', 'event_id', 'status', 'selcal',
+        'id', 'uuid', 'status', 'selcal',
     ];
     /**
      * The attributes that should be mutated to dates.
