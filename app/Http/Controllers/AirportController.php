@@ -52,7 +52,7 @@ class AirportController extends Controller
      */
     public function store(StoreAirport $request)
     {
-        $airport = Airport::create($request->only(['icao', 'iata', 'name']));
+        $airport = Airport::create($request->all());
         flashMessage('success', 'Done', $airport->name . ' [' . $airport->icao . ' | ' . $airport->iata . '] has been added!');
         return redirect(route('airports.index'));
     }
@@ -88,7 +88,7 @@ class AirportController extends Controller
      */
     public function update(UpdateAirport $request, Airport $airport)
     {
-        $airport->update($request->only(['icao', 'iata', 'name']));
+        $airport->update($request->all());
         flashMessage('success', 'Done', $airport->name . ' [' . $airport->icao . ' | ' . $airport->iata . '] has been updated!');
         return redirect(route('airports.index'));
     }

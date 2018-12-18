@@ -23,6 +23,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - ``.env.testing`` + ``MYSQL_DATABASE``
     - ``DB_DATABASE`` added ``_test`` in the name
 
+### Changed
+- Optimizes ``$fillable`` vs ``$guarded`` in Models.
+- Some models use ``Request->all()`` now
+
 ## [v1.0.0](https://gitlab.com/daveroverts/Book-me-a-cookie/compare/v0.7.0c...v1.0.0) - 2018-12-15
 
 ### Added
