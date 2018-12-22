@@ -31,20 +31,17 @@ composer:
     paths:
     - vendor/
 
-yarn:
+npm:
   stage: build
 
-  before_script:
-  - apk add --no-cache yarn
-
   cache:
-    key: ${CI_COMMIT_REF_SLUG}-yarn
+    key: ${CI_COMMIT_REF_SLUG}-npm
     paths:
     - node_modules/
 
   script:
-    - yarn
-    - yarn run prod
+    - npm install
+    - npm run prod
 
   artifacts:
     expire_in: 1 month
