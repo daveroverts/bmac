@@ -47,30 +47,10 @@
                     {{--Check if flight belongs to the logged in user--}}
                     <tr class="{{ Auth::check() && $booking->user_id == Auth::id() ? 'table-primary' : '' }}">
                         <td>
-                            @if(Auth::check())
-                                @if(Auth::user()->airport_view == \App\Enums\AirportView::NAME)
-                                    <abbr title="{{ $booking->dep }} | [{{ $booking->airportDep->iata }}]">{{ $booking->airportDep->name }}</abbr>
-                                @elseif(Auth::user()->airport_view == \App\Enums\AirportView::IATA)
-                                    <abbr title="{{ $booking->airportDep->name }} | [{{ $booking->dep }}]">{{ $booking->airportDep->iata }}</abbr>
-                                @else
-                                    <abbr title="{{ $booking->airportDep->name }} | [{{ $booking->airportDep->iata }}]">{{ $booking->dep }}</abbr>
-                                @endif
-                            @else
-                                <abbr title="{{ $booking->airportDep->name }} | [{{ $booking->airportDep->iata }}]">{{ $booking->dep }}</abbr>
-                            @endif
+                            {!! $booking->airportDep->fullName !!}
                         </td>
                         <td>
-                            @if(Auth::check())
-                                @if(Auth::user()->airport_view == \App\Enums\AirportView::NAME)
-                                    <abbr title="{{ $booking->arr }} | [{{ $booking->airportArr->iata }}]">{{ $booking->airportArr->name }}</abbr>
-                                @elseif(Auth::user()->airport_view == \App\Enums\AirportView::IATA)
-                                    <abbr title="{{ $booking->airportArr->name }} | [{{ $booking->arr }}]">{{ $booking->airportArr->iata }}</abbr>
-                                @else
-                                    <abbr title="{{ $booking->airportArr->name }} | [{{ $booking->airportArr->iata }}]">{{ $booking->arr }}</abbr>
-                                @endif
-                            @else
-                                <abbr title="{{ $booking->airportArr->name }} | [{{ $booking->airportArr->iata }}]">{{ $booking->arr }}</abbr>
-                            @endif
+                            {!! $booking->airportArr->fullName !!}
                         </td>
                         @if($booking->event->uses_times)
                             <td>

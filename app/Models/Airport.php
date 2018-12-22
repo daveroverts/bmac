@@ -2,7 +2,9 @@
 
 namespace App\Models;
 
+use App\Enums\AirportView;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 use Spatie\Activitylog\Traits\LogsActivity;
 
 class Airport extends Model
@@ -51,5 +53,18 @@ class Airport extends Model
     public function links()
     {
         return $this->hasMany(AirportLink::class, 'icao_airport');
+    }
+
+    public function getFullNameAttribute()
+    {
+        if (Auth::check()) {
+            if (Auth::user()->airport_view == AirportView::IATA) {
+                return '<abbr title="' . $this->name . ' | [' . $this->icao . ']">' . $this->iata . '</abbr>';
+            }
+            if (Auth::user()->airport_view == AirportView::NAME) {
+                return '<abbr title="' . $this->icao . ' | [' . $this->iata . ']">' . $this->name . '</abbr>';
+            }
+        }
+        return '<abbr title="' . $this->name . ' | [' . $this->iata . ']">' . $this->icao . '</abbr>';
     }
 }
