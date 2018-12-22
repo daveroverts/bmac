@@ -35,7 +35,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $casts = [
-        'is_admin' => 'boolean',
+        'isAdmin' => 'boolean',
         'use_monospace_font' => 'boolean',
     ];
 
