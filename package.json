@@ -30,5 +30,8 @@
     "dependencies": {
         "bootswatch": "^4.1.1",
         "tinymce": "^4.8.4"
+    },
+    "engines": {
+        "yarn": "YARN NO LONGER USED - use npm instead."
     }
 }

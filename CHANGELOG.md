@@ -18,15 +18,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     - ``AirportLinkTest``
     - ``BookingsTest``
 - ``fullName`` attribute for ``Airport`` model
+- A warning if you try to do something with ``yarn``
     
 ### Changed
 - ``AirportTest`` and ``EventTest``
 - ``.env.testing`` + ``MYSQL_DATABASE``
     - ``DB_DATABASE`` added ``_test`` in the name
-
-### Changed
 - Optimizes ``$fillable`` vs ``$guarded`` in Models.
 - Some models use ``Request->all()`` now
+- ``yarn`` to ``npm`` in GitLab CI.
+
+### Removed
+- ``yarn.lock`` (replaced by ``package-lock.json``)
 
 ## [v1.0.0](https://gitlab.com/daveroverts/Book-me-a-cookie/compare/v0.7.0c...v1.0.0) - 2018-12-15
 
