@@ -56,13 +56,7 @@
                         <div class="col-md-6">
                             <div class="form-control-plaintext">
                                 <strong>
-                                    @if(Auth::user()->airport_view == \App\Enums\AirportView::NAME)
-                                        <abbr title="{{ $booking->dep }} | [{{ $booking->airportDep->iata }}]">{{ $booking->airportDep->name }}</abbr>
-                                    @elseif(Auth::user()->airport_view == \App\Enums\AirportView::IATA)
-                                        <abbr title="{{ $booking->airportDep->name }} | [{{ $booking->dep }}]">{{ $booking->airportDep->iata }}</abbr>
-                                    @else
-                                        <abbr title="{{ $booking->airportDep->name }} | [{{ $booking->airportDep->iata }}]">{{ $booking->dep }}</abbr>
-                                    @endif
+                                    {!! $booking->airportDep->fullName !!}
                                 </strong>
                             </div>
 
@@ -76,13 +70,7 @@
                         <div class="col-md-6">
                             <div class="form-control-plaintext">
                                 <strong>
-                                    @if(Auth::user()->airport_view == \App\Enums\AirportView::NAME)
-                                        <abbr title="{{ $booking->arr }} | [{{ $booking->airportArr->iata }}]">{{ $booking->airportArr->name }}</abbr>
-                                    @elseif(Auth::user()->airport_view == \App\Enums\AirportView::IATA)
-                                        <abbr title="{{ $booking->airportArr->name }} | [{{ $booking->arr }}]">{{ $booking->airportArr->iata }}</abbr>
-                                    @else
-                                        <abbr title="{{ $booking->airportArr->name }} | [{{ $booking->airportArr->iata }}]">{{ $booking->arr }}</abbr>
-                                    @endif
+                                    {!! $booking->airportArr->fullName !!}
                                 </strong>
                             </div>
 
