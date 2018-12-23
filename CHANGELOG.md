@@ -35,6 +35,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Some models use ``Request->all()`` now
 - ``yarn`` to ``npm`` in GitLab CI.
 - ``npm install`` changed to ``npm ci``
+- ``Laravel Mix`` has been updated from v2 to v4
 
 ### Removed
 - ``yarn.lock`` (replaced by ``package-lock.json``)
