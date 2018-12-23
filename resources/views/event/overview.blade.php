@@ -35,7 +35,7 @@
                         @if($event->endEvent > now())
                             <a href="{{ route('bookings.admin.importForm',$event) }}" class="btn btn-success"><i
                                         class="fa fa-edit"></i> Import data</a>&nbsp;
-                            <a href="{{ route('bookings.create', ['event' => $event, 'bulk' => 'bulk']) }}" class="btn btn-primary"><i
+                            <a href="{{ route('bookings.create', $event) }}/bulk" class="btn btn-primary"><i
                                         class="fa fa-plus"></i> Add Timeslots</a>&nbsp;
                             @if($event->is_oceanic_event)
                                 <a href="{{ route('bookings.admin.autoAssignForm',$event) }}" class="btn btn-primary">
