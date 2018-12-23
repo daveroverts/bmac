@@ -40,7 +40,7 @@ npm:
     - node_modules/
 
   script:
-    - npm install
+    - npm ci
     - npm run prod
 
   artifacts:
