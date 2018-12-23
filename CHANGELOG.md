@@ -25,6 +25,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     - ``AirportController@index()`` / ``airport.overview``
     - ``AirportLinkController@index()`` / ``airportLink.overview``
     - ``EventController@index()`` / ``event.overview``
+- Check in ``BookingController@destroy()`` and ``BookingController@adminEdit`` to prevent data being edited after a event has ended
     
 ### Changed
 - ``AirportTest`` and ``EventTest``
