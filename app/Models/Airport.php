@@ -5,11 +5,11 @@ namespace App\Models;
 use App\Enums\AirportView;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
-use Spatie\Activitylog\Traits\LogsActivity;
+//use Spatie\Activitylog\Traits\LogsActivity;
 
 class Airport extends Model
 {
-    use LogsActivity;
+//    use LogsActivity;
 
     public $incrementing = false;
     /**
@@ -27,8 +27,8 @@ class Airport extends Model
      */
     protected $guarded = [];
 
-    protected static $logAttributes = ['*'];
-    protected static $logOnlyDirty = true;
+//    protected static $logAttributes = ['*'];
+//    protected static $logOnlyDirty = true;
 
     public function bookingsDep()
     {
