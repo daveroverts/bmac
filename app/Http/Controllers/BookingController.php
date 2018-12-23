@@ -89,6 +89,7 @@ class BookingController extends Controller
                 $bookings = Booking::where('event_id', $event->id)
                     ->orderBy('eta')
                     ->orderBy('ctot')
+                    ->with(['airportDep', 'airportArr', 'event', 'user'])
                     ->get();
             }
         }
