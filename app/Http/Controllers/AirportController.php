@@ -30,7 +30,9 @@ class AirportController extends Controller
      */
     public function index()
     {
-        $airports = Airport::orderBy('icao')->paginate(100);
+        $airports = Airport::orderBy('icao')
+            ->with(['bookingsDep', 'bookingsArr', 'eventDep', 'eventArr'])
+            ->paginate(100);
         return view('airport.overview', compact('airports'));
     }
 

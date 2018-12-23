@@ -19,6 +19,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     - ``BookingsTest``
 - ``fullName`` attribute for ``Airport`` model
 - A warning if you try to do something with ``yarn``
+- ``laravel-query-detector`` as dev dependency
+- Eager loading to several controllers / view to make them load faster, thanks to ``laravel-query-detector``:
+    - ``BookingController@index()`` / ``booking.overview``
+    - ``AirportController@index()`` / ``airport.overview``
+    - ``AirportLinkController@index()`` / ``airportLink.overview``
+    - ``EventController@index()`` / ``event.overview``
     
 ### Changed
 - ``AirportTest`` and ``EventTest``
