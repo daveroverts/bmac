@@ -39,8 +39,11 @@ npm:
     paths:
     - node_modules/
 
+  before_script:
+    - npm i -g npm@6.5.0
+
   script:
-    - npm install
+    - npm ci
     - npm run prod
 
   artifacts:

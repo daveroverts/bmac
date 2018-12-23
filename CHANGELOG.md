@@ -33,6 +33,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Optimizes ``$fillable`` vs ``$guarded`` in Models.
 - Some models use ``Request->all()`` now
 - ``yarn`` to ``npm`` in GitLab CI.
+- ``npm install`` changed to ``npm ci``
 
 ### Removed
 - ``yarn.lock`` (replaced by ``package-lock.json``)
