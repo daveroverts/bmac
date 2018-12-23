@@ -38,7 +38,7 @@
                     <th scope="row">Callsign</th>
                     <th scope="row">Aircraft</th>
                     <th scope="row">Book | Available until {{ $event->endBooking->format('d-m-Y H:i') }}z</th>
-                    @if(Auth::check() && Auth::user()->isAdmin)
+                    @if((Auth::check() && Auth::user()->isAdmin) && $event->endEvent >= now())
                         <th colspan="3" scope="row">Admin actions</th>
                     @endif
                 </tr>
@@ -105,7 +105,7 @@
                                 @endif
                             @endif
                         </td>
-                        @if(Auth::check() && Auth::user()->isAdmin)
+                        @if((Auth::check() && Auth::user()->isAdmin) && ($event->endEvent >= now()))
                             <td><a href="{{ route('bookings.admin.edit', $booking) }}" class="btn btn-info"><i
                                             class="fa fa-edit"></i> Edit</a>
                             </td>

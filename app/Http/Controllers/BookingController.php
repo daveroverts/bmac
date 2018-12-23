@@ -350,14 +350,18 @@ class BookingController extends Controller
      */
     public function destroy(Booking $booking)
     {
-        $booking->delete();
-        $message = 'Booking has been deleted.';
-        if (!empty($booking->user)) {
-            $message .= ' A E-mail has also been sent to the person that booked.';
-            Mail::to(Auth::user())->send(new BookingDeleted($booking->event, $booking->user));
+        if ($booking->event->endEvent >= now()) {
+            $booking->delete();
+            $message = 'Booking has been deleted.';
+            if (!empty($booking->user)) {
+                $message .= ' A E-mail has also been sent to the person that booked.';
+                Mail::to(Auth::user())->send(new BookingDeleted($booking->event, $booking->user));
+            }
+            flashMessage('success', 'Booking deleted!', $message);
+            return redirect(route('bookings.event.index', $booking->event));
         }
-        flashMessage('success', 'Booking deleted!', $message);
-        return redirect(route('bookings.event.index', $booking->event));
+        flashMessage('danger', 'Nope!', 'You cannot delete a booking after the event ended');
+        return back();
     }
 
     /**
@@ -413,9 +417,12 @@ class BookingController extends Controller
      */
     public function adminEdit(Booking $booking)
     {
-        $airports = Airport::orderBy('icao')->get();
-
-        return view('booking.admin.edit', compact('booking', 'airports'));
+        if ($booking->event->endEvent >= now()) {
+            $airports = Airport::orderBy('icao')->get();
+            return view('booking.admin.edit', compact('booking', 'airports'));
+        }
+        flashMessage('danger', 'Nope!', 'You cannot edit a booking after the event ended');
+        return back();
     }
 
     /**
