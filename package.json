@@ -33,6 +33,7 @@
     },
     "dependencies": {
         "bootswatch": "^4.1.1",
+        "sweetalert2": "^7.33.1",
         "tinymce": "^4.8.4"
     },
     "engines": {

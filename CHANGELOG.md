@@ -26,6 +26,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     - ``AirportLinkController@index()`` / ``airportLink.overview``
     - ``EventController@index()`` / ``event.overview``
 - Check in ``BookingController@destroy()`` and ``BookingController@adminEdit`` to prevent data being edited after a event has ended
+- [sweetalert2](https://github.com/sweetalert2/sweetalert2)
+- ``scripts`` stack, placed below the default scripts
+    - This is used to show SweetAlert, but can be used for others things if needed.
+- Confirm messages to most 'destructive' actions (deletes and emails).
     
 ### Changed
 - ``AirportTest`` and ``EventTest``
@@ -36,6 +40,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - ``yarn`` to ``npm`` in GitLab CI.
 - ``npm install`` changed to ``npm ci``
 - ``Laravel Mix`` has been updated from v2 to v4
+- The old alerts have been replaced by SweetAlert
+- ``events.email.final`` is now a ``PATCH`` route
+- ``bookings.cancel`` is now a ``PATCH`` route
 
 ### Removed
 - ``yarn.lock`` (replaced by ``package-lock.json``)

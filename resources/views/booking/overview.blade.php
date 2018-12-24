@@ -16,6 +16,25 @@
                     Arrivals</a>&nbsp;
             @endif
             @if(Auth::check() && Auth::user()->isAdmin && $event->endBooking >= now())
+                    @push('scripts')
+                        <script>
+                            $('.delete-booking').on('click', function (e) {
+                                e.preventDefault();
+                                swal({
+                                    title: 'Are you sure',
+                                    text: 'Are you sure you want to remove this booking?',
+                                    type: 'warning',
+                                    showCancelButton: true,
+                                }).then((result) => {
+                                    if (result.value) {
+                                        swal('Deleting booking...');
+                                        swal.showLoading();
+                                        $(this).closest('form').submit();
+                                    }
+                                });
+                            });
+                        </script>
+                    @endpush
                 <a href="{{ route('bookings.create',$event) }}" class="btn btn-primary"><i class="fa fa-plus"></i> Add
                     Booking</a>&nbsp;
                 <a href="{{ route('bookings.create',$event) }}/bulk" class="btn btn-primary"><i class="fa fa-plus"></i>
@@ -113,7 +132,7 @@
                                 <form action="{{ route('bookings.destroy', $booking) }}" method="post">
                                     @csrf
                                     @method('DELETE')
-                                    <button class="btn btn-danger"><i class="fas fa-trash"></i> Delete</button>
+                                    <button class="btn btn-danger delete-booking"><i class="fas fa-trash"></i> Delete</button>
                                 </form>
                             </td>
                             <td>

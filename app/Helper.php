@@ -7,13 +7,13 @@ use App\Models\Event;
  *
  * @param string $type
  * @param string $title
- * @param string $message
+ * @param string $text
  */
-function flashMessage($type, $title, $message)
+function flashMessage($type, $title, $text)
 {
     Session::flash('type', $type);
     Session::flash('title', $title);
-    Session::flash('message', $message);
+    Session::flash('text', $text);
 }
 
 /**
