@@ -12,25 +12,70 @@
         </div>
     @endif
     @include('layouts.alert')
+    @push('scripts')
+        <script>
+            $('.send-final-email').on('click', function (e) {
+                e.preventDefault();
+                swal({
+                    title: 'Are you sure',
+                    text: 'Are you sure you want to send the Final Information Email?',
+                    type: 'warning',
+                    showCancelButton: true,
+                }).then((result) => {
+                    if (result.value) {
+                        swal('Sending Final Information Email...');
+                        swal.showLoading();
+                        $(this).closest('form').submit();
+                    }
+                });
+            });
+
+            $('.send-email').on('click', function (e) {
+                e.preventDefault();
+                swal({
+                    title: 'Are you sure',
+                    text: 'Are you sure you want to send a Email?',
+                    type: 'warning',
+                    showCancelButton: true,
+                }).then((result) => {
+                    if (result.value) {
+                        swal('Sending Email...');
+                        swal.showLoading();
+                        $(this).closest('form').submit();
+                    }
+                });
+            });
+        </script>
+    @endpush
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header">{{ $event->name }} | Send Bulk E-mail</div>
 
                 <div class="card-body">
-                    <form method="POST" action="{{ route('events.email',$event) }}">
+
+                    <form method="POST" action="{{ route('events.email.final', $event) }}">
                         @csrf
                         @method('PATCH')
-
                         {{--Send Final Information E-mail--}}
                         <div class="form-group row">
                             <label class="col-md-4 col-form-label text-md-right"></label>
 
                             <div class="col-md-6">
-                                <a href="{{ route('events.email.final',$event) }}" class="btn btn-primary"><i
-                                            class="fa fa-envelope"></i> Send Final Information E-mail</a>
+                                <button class="btn btn-primary send-final-email">
+                                    <i class="fa fa-envelope"></i> Send <strong>Final Information</strong> E-mail
+                                </button>
+
                             </div>
                         </div>
+                    </form>
+
+                    <hr>
+
+                    <form method="POST" action="{{ route('events.email', $event) }}">
+                        @csrf
+                        @method('PATCH')
+
                         {{--Subject--}}
                         <div class="form-group row">
                             <label for="subject" class="col-md-4 col-form-label text-md-right"> Subject</label>
@@ -58,7 +103,7 @@
                         {{--Send--}}
                         <div class="form-group row mb-0">
                             <div class="col-md-6 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
+                                <button type="submit" class="btn btn-primary send-email">
                                     <i class="fas fa-envelope"></i> Send E-mail
                                 </button>
                             </div>

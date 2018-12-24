@@ -3,6 +3,25 @@
 @section('content')
     <h2>Airport Links Overview</h2>
     @include('layouts.alert')
+    @push('scripts')
+        <script>
+            $('.delete-airportlink').on('click', function (e) {
+                e.preventDefault();
+                swal({
+                    title: 'Are you sure',
+                    text: 'Are you sure you want to remove this airport link?',
+                    type: 'warning',
+                    showCancelButton: true,
+                }).then((result) => {
+                    if (result.value) {
+                        swal('Deleting airport link...');
+                        swal.showLoading();
+                        $(this).closest('form').submit();
+                    }
+                });
+            });
+        </script>
+    @endpush
     <p>
         <a href=" {{ route('airportLinks.create') }}" class="btn btn-primary"><i class="fa fa-plus"></i> Add new Airport
             Link</a>
@@ -29,7 +48,7 @@
                 <td>
                     <form action="{{ route('airportLinks.destroy', $airportLink) }}" method="post">
                         @method('DELETE')
-                        <button class="btn btn-danger"><i class="fa fa-trash"></i> Remove Airport Link</button>
+                        <button class="btn btn-danger delete-airportlink"><i class="fa fa-trash"></i> Remove Airport Link</button>
                         @csrf
                     </form>
                 </td>
