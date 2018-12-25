@@ -30,6 +30,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - ``scripts`` stack, placed below the default scripts
     - This is used to show SweetAlert, but can be used for others things if needed.
 - Confirm messages to most 'destructive' actions (deletes and emails).
+- Duplicate check for ``ICAO`` and ``IATA`` in ``StoreAirport`` request
     
 ### Changed
 - ``AirportTest`` and ``EventTest``
