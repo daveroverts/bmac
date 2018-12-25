@@ -13,6 +13,12 @@ Your booking for the **{{ $booking->event->name }}** has been amended, please re
 @case('callsign')
 | Callsign: | **{{ $change['new'] }}** | (was {{ $change['old'] }}) |
 @break
+@case('dep')
+| ADEP: | **{{ \App\Models\Airport::find($change['new'])->icao }}** | (was {{ \App\Models\Airport::find($change['old'])->first()->icao }}) |
+@break
+@case('arr')
+| ADES: | **{{ \App\Models\Airport::find($change['new'])->icao }}** | (was {{ \App\Models\Airport::find($change['old'])->first()->icao }}) |
+@break
 @case('ctot')
 | CTOT: | **{{ \Carbon\Carbon::parse($change['new'])->format('Hi').'z' }}** | (was {{ \Carbon\Carbon::parse($change['old'])->format('Hi').'z' }}) |
 @break

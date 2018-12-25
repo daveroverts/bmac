@@ -5,21 +5,12 @@ namespace App\Models;
 use App\Enums\AirportView;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
-//use Spatie\Activitylog\Traits\LogsActivity;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class Airport extends Model
 {
-//    use LogsActivity;
+    use LogsActivity;
 
-    public $incrementing = false;
-    /**
-     * Indicates if the model should be timestamped.
-     *
-     * @var bool
-     */
-    public $timestamps = false;
-    protected $primaryKey = 'icao';
-    protected $keyType = 'string';
     /**
      * The attributes that aren't mass assignable.
      *
@@ -27,8 +18,8 @@ class Airport extends Model
      */
     protected $guarded = [];
 
-//    protected static $logAttributes = ['*'];
-//    protected static $logOnlyDirty = true;
+    protected static $logAttributes = ['*'];
+    protected static $logOnlyDirty = true;
 
     public function bookingsDep()
     {
@@ -52,7 +43,7 @@ class Airport extends Model
 
     public function links()
     {
-        return $this->hasMany(AirportLink::class, 'icao_airport');
+        return $this->hasMany(AirportLink::class);
     }
 
     public function getFullNameAttribute()
@@ -66,5 +57,15 @@ class Airport extends Model
             }
         }
         return '<abbr title="' . $this->name . ' | [' . $this->iata . ']">' . $this->icao . '</abbr>';
+    }
+
+    /**
+     * Get the route key for the model.
+     *
+     * @return string
+     */
+    public function getRouteKeyName()
+    {
+        return 'icao';
     }
 }

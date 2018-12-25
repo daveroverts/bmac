@@ -135,8 +135,6 @@ class BookingController extends Controller
     public function store(StoreBooking $request)
     {
         $event = Event::whereKey($request->id)->first();
-        $from = Airport::findOrFail($request->from);
-        $to = Airport::findOrFail($request->to);
         if ($request->bulk) {
             $event_start = Carbon::createFromFormat('Y-m-d H:i', $event->startEvent->toDateString() . ' ' . $request->start);
             $event_end = Carbon::createFromFormat('Y-m-d H:i', $event->endEvent->toDateString() . ' ' . $request->end);
@@ -146,12 +144,12 @@ class BookingController extends Controller
                 if (!Booking::where([
                     'event_id' => $request->id,
                     'ctot' => $event_start,
-                    'dep' => $from->icao,
+                    'dep' => $request->from,
                 ])->first()) {
                     Booking::create([
                         'event_id' => $request->id,
-                        'dep' => $from->icao,
-                        'arr' => $to->icao,
+                        'dep' => $request->dep,
+                        'arr' => $request->arr,
                         'ctot' => $event_start,
                     ])->save();
                     $count++;
@@ -162,8 +160,8 @@ class BookingController extends Controller
             $booking = new Booking([
                 'callsign' => $request->callsign,
                 'acType' => $request->aircraft,
-                'dep' => $from->icao,
-                'arr' => $to->icao,
+                'dep' => $request->dep,
+                'arr' => $request->arr,
                 'route' => $request->route,
                 'oceanicFL' => $request->oceanicFL,
             ]);
@@ -436,8 +434,8 @@ class BookingController extends Controller
     {
         $booking->fill([
             'callsign' => $request->callsign,
-            'dep' => $request->ADEP,
-            'arr' => $request->ADES,
+            'dep' => $request->dep,
+            'arr' => $request->arr,
             'route' => $request->route,
             'oceanicFL' => $request->oceanicFL,
             'oceanicTrack' => $request->oceanicTrack,
@@ -456,11 +454,11 @@ class BookingController extends Controller
                     ['name' => $key, 'old' => $booking->getOriginal($key), 'new' => $value]
                 );
             }
-        }
-        if (!empty($request->message)) {
-            $changes->push(
-                ['name' => 'message', 'new' => $request->message]
-            );
+            if (!empty($request->message)) {
+                $changes->push(
+                    ['name' => 'message', 'new' => $request->message]
+                );
+            }
         }
         $booking->save();
         if (!empty($booking->user)) {
@@ -498,8 +496,8 @@ class BookingController extends Controller
                 $booking->user->full_name,
                 $booking->user_id,
                 $booking->callsign,
-                $booking->dep,
-                $booking->arr,
+                $booking->airportDep->icao,
+                $booking->airportArr->icao,
                 $booking->getOriginal('oceanicFL'),
                 Carbon::parse($booking->getOriginal('ctot'))->format('H:i:s'),
                 $booking->route,
@@ -521,11 +519,14 @@ class BookingController extends Controller
         $file = $request->file('file')->getRealPath();
         $bookings = collect();
         (new FastExcel)->importSheets($file, function ($line) use ($bookings, $event) {
+            $dep = Airport::where('icao', $line['Origin'])->first();
+            $arr = Airport::where('icao', $line['Destination'])->first();
+
             $flight = collect([
                 'callsign' => $line['Call Sign'],
                 'acType' => $line['Aircraft Type'],
-                'dep' => $line['Origin'],
-                'arr' => $line['Destination'],
+                'dep' => $dep->icao,
+                'arr' => $arr->icao,
             ]);
             if (isset($line['ETA'])) {
                 $flight->put('eta', Carbon::createFromFormat('Y-m-d H:i', $event->startEvent->toDateString() . ' ' . $line['ETA']->format('H:i')));

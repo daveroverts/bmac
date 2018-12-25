@@ -24,7 +24,7 @@ class StoreAirportLink extends FormRequest
     public function rules()
     {
         return [
-            'icao_airport' => 'exists:airports,icao',
+            'airport_id' => 'exists:airports,id',
             'airportLinkType_id' => 'exists:airport_link_types,id',
             'name' => 'nullable|string',
             'url' => 'required|url',

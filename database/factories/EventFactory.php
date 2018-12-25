@@ -10,10 +10,10 @@ $factory->define(App\Models\Event::class, function (Faker $faker) {
         'slug' => Str::slug($name),
         'description' => $faker->text(),
         'dep' => function () {
-        return factory(App\Models\Airport::class)->create()->icao;
+        return factory(App\Models\Airport::class)->create()->id;
         },
         'arr' => function () {
-            return factory(App\Models\Airport::class)->create()->icao;
+            return factory(App\Models\Airport::class)->create()->id;
         },
         'startEvent' => now()->addMonth()->toDateTimeString(),
         'endEvent' => now()->addMonth()->addHours(3)->toDateTimeString(),

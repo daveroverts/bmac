@@ -169,7 +169,7 @@
                                         name="dep">
                                     <option value="">Choose an airport...</option>
                                     @foreach($airports as $airport)
-                                        <option value="{{ $airport->icao }}" {{ old('dep', $event->airportDep->icao) == $airport->icao ? 'selected' : '' }}>{{ $airport->icao }}
+                                        <option value="{{ $airport->id }}" {{ old('dep', $event->dep) == $airport->id ? 'selected' : '' }}>{{ $airport->icao }}
                                             [{{ $airport->name }} ({{ $airport->iata }})]
                                         </option>
                                     @endforeach
@@ -192,7 +192,7 @@
                                         name="arr">
                                     <option value="">Choose an airport...</option>
                                     @foreach($airports as $airport)
-                                        <option value="{{ $airport->icao }}" {{ old('arr', $event->airportArr->icao) == $airport->icao ? 'selected' : '' }}>{{ $airport->icao }}
+                                        <option value="{{ $airport->id }}" {{ old('arr', $event->arr) == $airport->id ? 'selected' : '' }}>{{ $airport->icao }}
                                             [{{ $airport->name }} ({{ $airport->iata }})]
                                         </option>
                                     @endforeach

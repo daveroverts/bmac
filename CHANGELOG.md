@@ -31,6 +31,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     - This is used to show SweetAlert, but can be used for others things if needed.
 - Confirm messages to most 'destructive' actions (deletes and emails).
 - Duplicate check for ``ICAO`` and ``IATA`` in ``StoreAirport`` request
+- ``id`` (auto-increment) to Airport Model.
     
 ### Changed
 - ``AirportTest`` and ``EventTest``
@@ -44,6 +45,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - The old alerts have been replaced by SweetAlert
 - ``events.email.final`` is now a ``PATCH`` route
 - ``bookings.cancel`` is now a ``PATCH`` route
+- ``id`` is now the primary key for the Airport Model.
+- Lots of views, emails, requests, and controllers have been changed to work with the new changes.
 
 ### Removed
 - ``yarn.lock`` (replaced by ``package-lock.json``)
