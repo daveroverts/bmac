@@ -88,11 +88,11 @@ staging:
   script:
   - *init_ssh
   - *change_file_permissions
-  - php artisan deploy 159.65.201.236 -s upload
+  - php artisan deploy 104.248.84.152 -s upload
 
   environment:
     name: staging
-    url: http://bmac.daveroverts.nl
+    url: https://bmac.daveroverts.nl
 
   only:
   - dev
