@@ -57,7 +57,7 @@ return [
         '*.torrent',
         '_debugbar/*',
         '*/export',
-        '/admin/airports/import',
+        '*/airports/import',
     ],
 
 ];
