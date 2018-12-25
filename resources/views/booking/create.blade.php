@@ -80,47 +80,47 @@
                             </div>
                         @endif
 
-                        {{--From--}}
+                        {{--ADEP--}}
                         <div class="form-group row">
-                            <label for="end" class="col-md-4 col-form-label text-md-right"> From</label>
+                            <label for="end" class="col-md-4 col-form-label text-md-right"> ADEP</label>
 
                             <div class="col-md-6">
-                                <select class="custom-select form-control{{ $errors->has('from') ? ' is-invalid' : '' }}"
-                                        name="from">
+                                <select class="custom-select form-control{{ $errors->has('dep') ? ' is-invalid' : '' }}"
+                                        name="dep">
                                     <option value="">Choose an airport...</option>
                                     @foreach($airports as $airport)
-                                        <option value="{{ $airport->icao }}" {{ old('from', $event->dep) == $airport->icao ? 'selected' : '' }}>{{ $airport->icao }}
+                                        <option value="{{ $airport->id }}" {{ old('dep', $event->dep) == $airport->id ? 'selected' : '' }}>{{ $airport->icao }}
                                             [{{ $airport->name }} ({{ $airport->iata }})]
                                         </option>
                                     @endforeach
                                 </select>
 
-                                @if ($errors->has('from'))
+                                @if ($errors->has('dep'))
                                     <span class="invalid-feedback">
-                                        <strong>{{ $errors->first('from') }}</strong>
+                                        <strong>{{ $errors->first('dep') }}</strong>
                                     </span>
                                 @endif
                             </div>
                         </div>
 
-                        {{--To--}}
+                        {{--ADES--}}
                         <div class="form-group row">
-                            <label for="end" class="col-md-4 col-form-label text-md-right"> To</label>
+                            <label for="end" class="col-md-4 col-form-label text-md-right"> ADES</label>
 
                             <div class="col-md-6">
-                                <select class="custom-select form-control{{ $errors->has('to') ? ' is-invalid' : '' }}"
-                                        name="to">
+                                <select class="cusarrm-select form-control{{ $errors->has('arr') ? ' is-invalid' : '' }}"
+                                        name="arr">
                                     <option value="">Choose an airport...</option>
                                     @foreach($airports as $airport)
-                                        <option value="{{ $airport->icao }}" {{ old('to', $event->arr) == $airport->icao ? 'selected' : '' }}>{{ $airport->icao }}
+                                        <option value="{{ $airport->id }}" {{ old('arr', $event->arr) == $airport->id ? 'selected' : '' }}>{{ $airport->icao }}
                                             [{{ $airport->name }} ({{ $airport->iata }})]
                                         </option>
                                     @endforeach
                                 </select>
 
-                                @if ($errors->has('to'))
+                                @if ($errors->has('arr'))
                                     <span class="invalid-feedback">
-                                        <strong>{{ $errors->first('to') }}</strong>
+                                        <strong>{{ $errors->first('arr') }}</strong>
                                     </span>
                                 @endif
                             </div>

@@ -81,9 +81,9 @@ SELCAL: **{{ $booking->selcal }}**
 
 It is important you stick to these details to save confusion on the day! We will try to make sure you will be able to use this callsign. Do not worry if someone else has already logged in using your callsign, your booking will still be recognized when you log in under another callsign!
 
-Departure airport: **{{ $booking->dep  }}**
+Departure airport: **{{ $booking->airportDep->icao  }}**
 
-Arrival airport: **{{ $booking->arr }}**
+Arrival airport: **{{ $booking->airportDep->icao }}**
 
 CTOT: **{{ $booking->ctot }}**
 

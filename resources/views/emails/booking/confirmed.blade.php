@@ -10,8 +10,8 @@ For reference, your booking details are listed below.
 |  |  |
 |-----------|---------------------------|
 | Callsign: | **{{ $booking->callsign }}** |
-| Departs: | **{{ $booking->dep  }}** |
-| Arrives: | **{{ $booking->arr }}** |
+| Departs: | **{{ $booking->airportDep->icao  }}** |
+| Arrives: | **{{ $booking->airportArr->icao }}** |
 @if($booking->event->is_oceanic_event)
 | Cruising: | **{{ $booking->oceanicFL }}** |
 | SELCAL: | **{{ $booking->selcal }}** |

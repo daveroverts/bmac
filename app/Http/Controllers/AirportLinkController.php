@@ -27,7 +27,7 @@ class AirportLinkController extends Controller
      */
     public function index()
     {
-        $airportLinks = AirportLink::orderBy('icao_airport', 'asc')
+        $airportLinks = AirportLink::orderBy('airport_id', 'asc')
             ->with(['airport', 'type'])
             ->paginate();
         return view('airportLink.overview', compact('airportLinks'));

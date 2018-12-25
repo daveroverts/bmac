@@ -72,7 +72,7 @@
 
                             <div class="col-md-6">
                                 <div class="form-control-plaintext"><strong><abbr
-                                                title="{{ $booking->airportDep->name }}">{{ $booking->dep }}</abbr></strong>
+                                                title="{{ $booking->airportDep->name }}">{{ $booking->airportDep->icao }}</abbr></strong>
                                 </div>
 
                             </div>
@@ -84,7 +84,7 @@
 
                             <div class="col-md-6">
                                 <div class="form-control-plaintext"><strong><abbr
-                                                title="{{ $booking->airportArr->name }}">{{ $booking->arr }}</abbr></strong>
+                                                title="{{ $booking->airportArr->name }}">{{ $booking->airportArr->icao }}</abbr></strong>
                                 </div>
 
                             </div>

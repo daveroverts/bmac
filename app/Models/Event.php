@@ -64,12 +64,12 @@ class Event extends Model
 
     public function airportDep()
     {
-        return $this->hasOne(Airport::class, 'icao', 'dep');
+        return $this->hasOne(Airport::class, 'id', 'dep');
     }
 
     public function airportArr()
     {
-        return $this->hasOne(Airport::class, 'icao', 'arr');
+        return $this->hasOne(Airport::class, 'id', 'arr');
     }
 
     public function sluggable()
