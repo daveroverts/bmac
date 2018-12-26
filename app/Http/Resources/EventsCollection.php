@@ -16,7 +16,6 @@ class EventsCollection extends ResourceCollection
     {
         return [
             'data' => EventResource::collection($this->collection),
-            'meta' => ['event_count' => $this->collection->count()],
         ];
     }
 }

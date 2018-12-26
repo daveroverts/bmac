@@ -16,21 +16,26 @@ class BookingResource extends JsonResource
     {
         return [
             'uuid' => $this->uuid,
-            'event' => $this->event->name,
-            'user' => new UserResource($this->user),
+            'event_id' => $this->event->id,
+            'user' => $this->user->id ?? null,
             'status' => $this->status,
             'callsign' => $this->callsign,
             'acType' => $this->acType,
             'selcal' => $this->selcal,
-            'dep' => new AirportResource($this->airportDep),
-            'arr' => new AirportResource($this->airportArr),
+            'dep' => $this->airportDep->icao,
+            'arr' => $this->airportArr->icao,
             'ctot' => $this->ctot,
             'eta' => $this->eta,
             'route' => $this->route,
             'oceanicFL' => $this->oceanicFL,
             'oceanicTrack' => $this->oceanicTrack,
             'created_at' => (string) $this->created_at,
-            'updated_at' => (string) $this->updated_at
+            'updated_at' => (string) $this->updated_at,
+            'links' => [
+                'user' => url('/api/users/' . $this->user->id),
+                'dep' => url('/api/airports/' . $this->airportDep->icao),
+                'arr' => url('/api/airports/' . $this->airportArr->icao),
+            ],
         ];
     }
 }
