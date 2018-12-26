@@ -64,7 +64,7 @@ class User extends Authenticatable
      */
     public function getPicAttribute()
     {
-        return ucfirst($this->name_first) . ' ' . ucfirst($this->name_last) . ' | ' . $this->id;
+        return "{$this->full_name} | {$this->id}";
     }
 
 }

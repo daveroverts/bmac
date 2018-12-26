@@ -32,6 +32,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Confirm messages to most 'destructive' actions (deletes and emails).
 - Duplicate check for ``ICAO`` and ``IATA`` in ``StoreAirport`` request
 - ``id`` (auto-increment) to Airport Model.
+- API Resource:
+    - ``/events/upcoming/{limit?}``, which is the same as ``/events``, but with a optional limit (default 3)
+    - ``/api/events`` now has pagination
+    - ``/events/{event}/bookings``, which shows all **booked** bookings related to the event
+    - ``BookingResource`` + ``EventResource``:
+        - Links have been added to both ``dep`` and ``arr``, routing to ``AirportResource``
+    - ``BookingResource``:
+        - Link to the user has been added.
     
 ### Changed
 - ``AirportTest`` and ``EventTest``
@@ -47,9 +55,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - ``bookings.cancel`` is now a ``PATCH`` route
 - ``id`` is now the primary key for the Airport Model.
 - Lots of views, emails, requests, and controllers have been changed to work with the new changes.
+- API Resource:
+    - Resources that showed ``AirportResource``, now only show the ICAO
+    - ``BookingResource``:
+        - ``user`` now only shows the id or ``null``
+        - ``event`` (name) replaced with ``event_id``
 
 ### Removed
 - ``yarn.lock`` (replaced by ``package-lock.json``)
+- API Resource:
+    - ``meta`` removed from all collections
+    - ``AirportLinkResource``:
+        - ``airport`` removed. Was a bit strange to include that, as you should only get ``AirportLink`` via ``Airport``
 
 ## [v1.0.0](https://gitlab.com/daveroverts/Book-me-a-cookie/compare/v0.7.0c...v1.0.0) - 2018-12-15
 

@@ -3,6 +3,7 @@
 use App\Http\Resources\AirportResource;
 use App\Http\Resources\AirportsCollection;
 use App\Http\Resources\BookingResource;
+use App\Http\Resources\BookingsCollection;
 use App\Http\Resources\EventResource;
 use App\Http\Resources\EventsCollection;
 use App\Http\Resources\UserResource;
@@ -31,12 +32,23 @@ Route::get('/users', function () {
     return new UsersCollection(User::all());
 });
 
+Route::get('/events/upcoming/{limit?}', function ($limit = 3) {
+    return new EventsCollection(Event::where('endEvent', '>', now())
+        ->orderBy('startEvent', 'asc')
+        ->limit($limit)
+        ->get());
+});
+
+Route::get('/events/{event}/bookings', function (Event $event) {
+    return new BookingsCollection($event->bookings->where('status', \App\Enums\BookingStatus::BOOKED));
+});
+
 Route::get('/events/{event}', function (Event $event) {
     return new EventResource($event);
 });
 
 Route::get('/events', function () {
-    return new EventsCollection(Event::all());
+    return new EventsCollection(Event::paginate());
 });
 
 Route::get('/bookings/{booking}', function (Booking $booking) {

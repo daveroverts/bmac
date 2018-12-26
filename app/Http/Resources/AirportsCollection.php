@@ -16,7 +16,6 @@ class AirportsCollection extends ResourceCollection
     {
         return [
             'data' => AirportResource::collection($this->collection),
-            'meta' => ['airport_count' => $this->collection->count()],
         ];
     }
 }
