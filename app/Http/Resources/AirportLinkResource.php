@@ -18,7 +18,7 @@ class AirportLinkResource extends JsonResource
             'id' => $this->id,
             'type' => $this->type->name,
             'name' => $this->name,
-            'url' => url($this->url),
+            'url' => $this->url,
             'created_at' => (string) $this->created_at,
             'updated_at' => (string) $this->updated_at,
         ];

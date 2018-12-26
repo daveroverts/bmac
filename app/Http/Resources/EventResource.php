@@ -20,7 +20,7 @@ class EventResource extends JsonResource
             'event_type' => $this->type->name,
             'name' => $this->name,
             'slug' => $this->slug,
-            'image_url' => url($this->image_url),
+            'image_url' => $this->image_url,
             'description' => $this->description,
             'dep' => $this->airportDep->icao,
             'arr' => $this->airportArr->icao,
@@ -35,9 +35,9 @@ class EventResource extends JsonResource
             'created_at' => (string) $this->created_at,
             'updated_at' => (string) $this->updated_at,
             'links' => [
-                'bookings' => url('api/events/' . $this->slug . '/bookings'),
-                'dep' => url('api/airports/' . $this->airportDep->icao),
-                'arr' => url('api/airports/' . $this->airportArr->icao),
+                'bookings' => url('/api/events/' . $this->slug . '/bookings'),
+                'dep' => url('/api/airports/' . $this->airportDep->icao),
+                'arr' => url('/api/airports/' . $this->airportArr->icao),
             ]
         ];
     }
