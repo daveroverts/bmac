@@ -21,7 +21,7 @@ class AirportLink extends Model
 
     public function airport()
     {
-        return $this->hasOne(Airport::class, 'id');
+        return $this->hasOne(Airport::class, 'id', 'airport_id');
     }
 
     public function type()
