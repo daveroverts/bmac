@@ -23,3 +23,13 @@ function nextEvent()
 {
     return Event::where('endEvent', '>', now())->orderBy('startEvent', 'asc')->first();
 }
+
+/**
+ * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+ */
+function holdOnWeGotABadAss()
+{
+    Auth::logout();
+    flashMessage('error', 'Error', 'Something went wrong');
+    return redirect('/');
+}
