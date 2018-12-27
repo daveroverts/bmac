@@ -20,7 +20,6 @@ class IsAdmin
             return $next($request);
         }
         // We got a bad-ass over here, log that person out
-        Auth::logout();
-        return redirect('https://youtu.be/dQw4w9WgXcQ');
+        return holdOnWeGotABadAss();
     }
 }

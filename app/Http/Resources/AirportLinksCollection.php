@@ -16,7 +16,6 @@ class AirportLinksCollection extends ResourceCollection
     {
         return [
             'data' => AirportLinkResource::collection($this->collection),
-            'meta' => ['link_count' => $this->collection->count()],
         ];
     }
 }

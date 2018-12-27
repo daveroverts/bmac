@@ -1,11 +1,11 @@
 @component('mail::message')
 # {{ $subject }}
 
-Dear **{{ $user->full_name }}**,
+Dear **{{ $full_name }}**,
 
 {!! $content !!}
 
-Regards,
+@lang('Regards'),
 
-**Dutch VACC**
+**{{ config('mail.from.name', config('app.name')) }}**
 @endcomponent

@@ -4,6 +4,25 @@
     <h2>Events Overview</h2>
     <p><a href="{{ route('events.create') }}" class="btn btn-primary"><i class="fa fa-plus"></i> Add new Event</a></p>
     @include('layouts.alert')
+    @push('scripts')
+        <script>
+            $('.delete-event').on('click', function (e) {
+                e.preventDefault();
+                swal({
+                    title: 'Are you sure',
+                    text: 'Are you sure you want to remove this event?',
+                    type: 'warning',
+                    showCancelButton: true,
+                }).then((result) => {
+                    if (result.value) {
+                        swal('Deleting event...');
+                        swal.showLoading();
+                        $(this).closest('form').submit();
+                    }
+                });
+            });
+        </script>
+    @endpush
     <table class="table table-hover">
         <thead>
         <tr>
@@ -35,7 +54,7 @@
                         @if($event->endEvent > now())
                             <a href="{{ route('bookings.admin.importForm',$event) }}" class="btn btn-success"><i
                                         class="fa fa-edit"></i> Import data</a>&nbsp;
-                            <a href="{{ route('bookings.create',$event) }}" class="btn btn-primary"><i
+                            <a href="{{ route('bookings.create', $event) }}/bulk" class="btn btn-primary"><i
                                         class="fa fa-plus"></i> Add Timeslots</a>&nbsp;
                             @if($event->is_oceanic_event)
                                 <a href="{{ route('bookings.admin.autoAssignForm',$event) }}" class="btn btn-primary">
@@ -50,7 +69,7 @@
                             <form action="{{ route('events.destroy', $event) }}" method="post">
                                 @csrf
                                 @method('DELETE')
-                                <button class="btn btn-danger">Delete Event</button>
+                                <button class="btn btn-danger delete-event">Delete Event</button>
                             </form>
                         @endif
                     </td>

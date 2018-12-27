@@ -9,13 +9,13 @@ use App\Http\Requests\AdminUpdateBooking;
 use App\Http\Requests\ImportBookings;
 use App\Http\Requests\StoreBooking;
 use App\Http\Requests\UpdateBooking;
-use App\Mail\BookingCancelled;
-use App\Mail\BookingChanged;
-use App\Mail\BookingConfirmed;
-use App\Mail\BookingDeleted;
 use App\Models\Airport;
 use App\Models\Booking;
 use App\Models\Event;
+use App\Notifications\BookingCancelled;
+use App\Notifications\BookingChanged;
+use App\Notifications\BookingConfirmed;
+use App\Notifications\BookingDeleted;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -68,6 +68,7 @@ class BookingController extends Controller
                             ->where('dep', $event->dep)
                             ->orderBy('ctot')
                             ->orderBy('callsign')
+                            ->with(['airportDep', 'airportArr', 'event', 'user'])
                             ->get();
                         $filter = $request->filter;
                         break;
@@ -76,6 +77,7 @@ class BookingController extends Controller
                             ->where('arr', $event->arr)
                             ->orderBy('eta')
                             ->orderBy('callsign')
+                            ->with(['airportDep', 'airportArr', 'event', 'user'])
                             ->get();
                         $filter = $request->filter;
                         break;
@@ -83,12 +85,14 @@ class BookingController extends Controller
                         $bookings = Booking::where('event_id', $event->id)
                             ->orderBy('eta')
                             ->orderBy('ctot')
+                            ->with(['airportDep', 'airportArr', 'event', 'user'])
                             ->get();
                 }
             } else {
                 $bookings = Booking::where('event_id', $event->id)
                     ->orderBy('eta')
                     ->orderBy('ctot')
+                    ->with(['airportDep', 'airportArr', 'event', 'user'])
                     ->get();
             }
         }
@@ -102,9 +106,7 @@ class BookingController extends Controller
         foreach (Booking::where('status', BookingStatus::RESERVED)->get() as $booking) {
             // If a reservation has been reserved for more then 10 minutes, remove user_id, and make booking available
             if (now() > Carbon::createFromFormat('Y-m-d H:i:s', $booking->updated_at)->addMinutes(10)) {
-                $booking->fill([
-                    'status' => BookingStatus::UNASSIGNED,
-                ]);
+                $booking->status = BookingStatus::UNASSIGNED;
                 $booking->user()->dissociate()->save();
             }
         }
@@ -134,8 +136,6 @@ class BookingController extends Controller
     public function store(StoreBooking $request)
     {
         $event = Event::whereKey($request->id)->first();
-        $from = Airport::findOrFail($request->from);
-        $to = Airport::findOrFail($request->to);
         if ($request->bulk) {
             $event_start = Carbon::createFromFormat('Y-m-d H:i', $event->startEvent->toDateString() . ' ' . $request->start);
             $event_end = Carbon::createFromFormat('Y-m-d H:i', $event->endEvent->toDateString() . ' ' . $request->end);
@@ -145,12 +145,12 @@ class BookingController extends Controller
                 if (!Booking::where([
                     'event_id' => $request->id,
                     'ctot' => $event_start,
-                    'dep' => $from->icao,
+                    'dep' => $request->from,
                 ])->first()) {
                     Booking::create([
                         'event_id' => $request->id,
-                        'dep' => $from->icao,
-                        'arr' => $to->icao,
+                        'dep' => $request->dep,
+                        'arr' => $request->arr,
                         'ctot' => $event_start,
                     ])->save();
                     $count++;
@@ -161,8 +161,8 @@ class BookingController extends Controller
             $booking = new Booking([
                 'callsign' => $request->callsign,
                 'acType' => $request->aircraft,
-                'dep' => $from->icao,
-                'arr' => $to->icao,
+                'dep' => $request->dep,
+                'arr' => $request->arr,
                 'route' => $request->route,
                 'oceanicFL' => $request->oceanicFL,
             ]);
@@ -208,7 +208,7 @@ class BookingController extends Controller
             // Check if current user has booked/reserved
             if ($booking->user_id == Auth::id()) {
                 flashMessage('info', 'Slot reserved', 'Will remain reserved until ' . $booking->updated_at->addMinutes(10)->format('Hi') . 'z');
-                return view('booking.edit', compact('booking', 'user'));
+                return view('booking.edit', compact('booking'));
             } else {
                 // Check if the booking has already been reserved
                 if ($booking->status === BookingStatus::RESERVED) {
@@ -241,10 +241,14 @@ class BookingController extends Controller
                 // Check if you are allowed to reserve the slot
                 if ($booking->event->startBooking <= now()) {
                     if ($booking->event->endBooking >= now()) {
+                        activity()
+                            ->by(Auth::user())
+                            ->on($booking)
+                            ->log('Flight reserved');
                         $booking->status = BookingStatus::RESERVED;
                         $booking->user()->associate(Auth::user())->save();
                         flashMessage('info', 'Slot reserved', 'Will remain reserved until ' . $booking->updated_at->addMinutes(10)->format('Hi') . 'z');
-                        return view('booking.edit', compact('booking', 'user'));
+                        return view('booking.edit', compact('booking'));
                     } else {
                         flashMessage('danger', 'Nope!', 'Bookings have been closed at ' . $booking->event->endBooking->format('d-m-Y Hi') . 'z');
                         return redirect(route('bookings.event.index', $booking->event));
@@ -281,7 +285,11 @@ class BookingController extends Controller
 
             $booking->status = BookingStatus::BOOKED;
             if ($booking->getOriginal('status') === BookingStatus::RESERVED) {
-                Mail::to(Auth::user())->send(new BookingConfirmed($booking));
+                activity()
+                    ->by(Auth::user())
+                    ->on($booking)
+                    ->log('Flight booked');
+                $booking->user->notify(new BookingConfirmed($booking));
                 flashMessage('success', 'Booking created!', 'Booking has been created! An E-mail with details has also been sent');
             } else {
                 flashMessage('success', 'Booking edited!', 'Booking has been edited!');
@@ -291,8 +299,7 @@ class BookingController extends Controller
         } else {
             if ($booking->user_id != null) {
                 // We got a bad-ass over here, log that person out
-                Auth::logout();
-                return redirect('https://youtu.be/dQw4w9WgXcQ');
+                return holdOnWeGotABadAss();
             } else {
                 flashMessage('warning', 'Nope!', 'That reservation does not belong to you!');
                 return redirect(route('bookings.event.index', $booking->event));
@@ -341,14 +348,18 @@ class BookingController extends Controller
      */
     public function destroy(Booking $booking)
     {
-        $booking->delete();
-        $message = 'Booking has been deleted.';
-        if (!empty($booking->user)) {
-            $message .= ' A E-mail has also been sent to the person that booked.';
-            Mail::to(Auth::user())->send(new BookingDeleted($booking->event, $booking->user));
+        if ($booking->event->endEvent >= now()) {
+            $booking->delete();
+            $message = 'Booking has been deleted.';
+            if (!empty($booking->user)) {
+                $message .= ' A E-mail has also been sent to the person that booked.';
+                $booking->user->notify(new BookingDeleted($booking->event));
+            }
+            flashMessage('success', 'Booking deleted!', $message);
+            return redirect(route('bookings.event.index', $booking->event));
         }
-        flashMessage('success', 'Booking deleted!', $message);
-        return redirect(route('bookings.event.index', $booking->event));
+        flashMessage('danger', 'Nope!', 'You cannot delete a booking after the event ended');
+        return back();
     }
 
     /**
@@ -371,10 +382,15 @@ class BookingController extends Controller
                         $booking->selcal = null;
                 }
                 $booking->status = BookingStatus::UNASSIGNED;
+                activity()
+                    ->by(Auth::user())
+                    ->on($booking)
+                    ->log('Flight available');
                 if ($booking->getOriginal('status') === BookingStatus::BOOKED) {
                     $title = 'Booking removed!';
                     $message = 'Booking has been removed! A E-mail has also been sent';
-                    Mail::to(Auth::user())->send(new BookingCancelled($booking->event, Auth::user()));
+                    $booking->user->notify(new BookingCancelled($booking->event));
+
                 } else {
                     $title = 'Slot free';
                     $message = 'Slot is now free to use again';
@@ -388,8 +404,7 @@ class BookingController extends Controller
 
         } else {
             // We got a bad-ass over here, log that person out
-            Auth::logout();
-            return redirect('https://youtu.be/dQw4w9WgXcQ');
+            return holdOnWeGotABadAss();
         }
     }
 
@@ -400,9 +415,12 @@ class BookingController extends Controller
      */
     public function adminEdit(Booking $booking)
     {
-        $airports = Airport::orderBy('icao')->get();
-
-        return view('booking.admin.edit', compact('booking', 'airports'));
+        if ($booking->event->endEvent >= now()) {
+            $airports = Airport::orderBy('icao')->get();
+            return view('booking.admin.edit', compact('booking', 'airports'));
+        }
+        flashMessage('danger', 'Nope!', 'You cannot edit a booking after the event ended');
+        return back();
     }
 
     /**
@@ -416,8 +434,8 @@ class BookingController extends Controller
     {
         $booking->fill([
             'callsign' => $request->callsign,
-            'dep' => $request->ADEP,
-            'arr' => $request->ADES,
+            'dep' => $request->dep,
+            'arr' => $request->arr,
             'route' => $request->route,
             'oceanicFL' => $request->oceanicFL,
             'oceanicTrack' => $request->oceanicTrack,
@@ -436,15 +454,15 @@ class BookingController extends Controller
                     ['name' => $key, 'old' => $booking->getOriginal($key), 'new' => $value]
                 );
             }
-        }
-        if (!empty($request->message)) {
-            $changes->push(
-                ['name' => 'message', 'new' => $request->message]
-            );
+            if (!empty($request->message)) {
+                $changes->push(
+                    ['name' => 'message', 'new' => $request->message]
+                );
+            }
         }
         $booking->save();
         if (!empty($booking->user)) {
-            Mail::to($booking->user->email)->send(new BookingChanged($booking, $changes));
+            $booking->user->notify(new BookingChanged($booking, $changes));
         }
         $message = 'Booking has been changed!';
         if (!empty($booking->user)) {
@@ -466,6 +484,10 @@ class BookingController extends Controller
      */
     public function export(Event $event)
     {
+        activity()
+            ->by(Auth::user())
+            ->on($event)
+            ->log('Export triggered');
         $bookings = Booking::where('event_id', $event->id)
             ->where('status', BookingStatus::BOOKED)
             ->get();
@@ -474,8 +496,8 @@ class BookingController extends Controller
                 $booking->user->full_name,
                 $booking->user_id,
                 $booking->callsign,
-                $booking->dep,
-                $booking->arr,
+                $booking->airportDep->icao,
+                $booking->airportArr->icao,
                 $booking->getOriginal('oceanicFL'),
                 Carbon::parse($booking->getOriginal('ctot'))->format('H:i:s'),
                 $booking->route,
@@ -490,14 +512,21 @@ class BookingController extends Controller
 
     public function import(ImportBookings $request, Event $event)
     {
+        activity()
+            ->by(Auth::user())
+            ->on($event)
+            ->log('Import triggered');
         $file = $request->file('file')->getRealPath();
         $bookings = collect();
         (new FastExcel)->importSheets($file, function ($line) use ($bookings, $event) {
+            $dep = Airport::where('icao', $line['Origin'])->first();
+            $arr = Airport::where('icao', $line['Destination'])->first();
+
             $flight = collect([
                 'callsign' => $line['Call Sign'],
                 'acType' => $line['Aircraft Type'],
-                'dep' => $line['Origin'],
-                'arr' => $line['Destination'],
+                'dep' => $dep->icao,
+                'arr' => $arr->icao,
             ]);
             if (isset($line['ETA'])) {
                 $flight->put('eta', Carbon::createFromFormat('Y-m-d H:i', $event->startEvent->toDateString() . ' ' . $line['ETA']->format('H:i')));
@@ -565,6 +594,19 @@ class BookingController extends Controller
 
         }
         flashMessage('success', 'Bookings changed', $count . ' Bookings have been Auto-Assigned a FL, and route');
+        activity()
+            ->by(Auth::user())
+            ->on($event)
+            ->withProperties(
+                [
+                    'Track 1' => $request->oceanicTrack1,
+                    'Route 1' => $request->route1,
+                    'Track 2' => $request->oceanicTrack2,
+                    'Route 2' => $request->route2,
+                    'count' => $count,
+                ]
+            )
+            ->log('Flights auto-assigned');
         return redirect(route('events.index'));
     }
 }

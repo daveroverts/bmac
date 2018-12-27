@@ -44,7 +44,7 @@
                                        class="form-control{{ $errors->has('iata') ? ' is-invalid' : '' }}" name="iata"
                                        value="{{ old('iata') }}" required>
 
-                                @if ($errors->has('name'))
+                                @if ($errors->has('iata'))
                                     <span class="invalid-feedback">
                                         <strong>{{ $errors->first('iata') }}</strong>
                                     </span>

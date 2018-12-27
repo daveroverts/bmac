@@ -10,8 +10,8 @@ For reference, your booking details are listed below.
 |  |  |
 |-----------|---------------------------|
 | Callsign: | **{{ $booking->callsign }}** |
-| Departs: | **{{ $booking->dep  }}** |
-| Arrives: | **{{ $booking->arr }}** |
+| Departs: | **{{ $booking->airportDep->icao  }}** |
+| Arrives: | **{{ $booking->airportArr->icao }}** |
 @if($booking->event->is_oceanic_event)
 | Cruising: | **{{ $booking->oceanicFL }}** |
 | SELCAL: | **{{ $booking->selcal }}** |
@@ -23,7 +23,7 @@ For reference, your booking details are listed below.
 | Event Date: | **{{ $booking->event->startEvent->toFormattedDateString() }}** |
 @endcomponent
 
-Regards,
+@lang('Regards'),
 
-**Dutch VACC**
+**{{ config('mail.from.name', config('app.name')) }}**
 @endcomponent

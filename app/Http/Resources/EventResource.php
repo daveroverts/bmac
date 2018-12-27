@@ -22,8 +22,8 @@ class EventResource extends JsonResource
             'slug' => $this->slug,
             'image_url' => $this->image_url,
             'description' => $this->description,
-            'dep' => new AirportResource($this->airportDep),
-            'arr' => new AirportResource($this->airportArr),
+            'dep' => $this->airportDep->icao,
+            'arr' => $this->airportArr->icao,
             'startEvent' => (string) $this->startEvent,
             'endEvent' => (string) $this->endEvent,
             'startBooking' => (string) $this->startBooking,
@@ -34,7 +34,11 @@ class EventResource extends JsonResource
             'is_oceanic_event' => (bool) $this->oceanic_event,
             'created_at' => (string) $this->created_at,
             'updated_at' => (string) $this->updated_at,
-            'bookings' => new BookingsCollection($this->bookings),
+            'links' => [
+                'bookings' => url('/api/events/' . $this->slug . '/bookings'),
+                'dep' => url('/api/airports/' . $this->airportDep->icao),
+                'arr' => url('/api/airports/' . $this->airportArr->icao),
+            ]
         ];
     }
 }

@@ -38,20 +38,20 @@
 
                         {{--Type--}}
                         <div class="form-group row">
-                            <label for="eventType" class="col-md-4 col-form-label text-md-right"> Type</label>
+                            <label for="event_type_id" class="col-md-4 col-form-label text-md-right"> Type</label>
 
                             <div class="col-md-6">
-                                <select class="custom-select form-control{{ $errors->has('eventType') ? ' is-invalid' : '' }}"
-                                        name="eventType">
+                                <select class="custom-select form-control{{ $errors->has('event_type_id') ? ' is-invalid' : '' }}"
+                                        name="event_type_id">
                                     <option value="">Choose an event type...</option>
                                     @foreach($eventTypes as $eventType)
-                                        <option value="{{ $eventType->id }}" {{ old('eventType') == $eventType->id ? 'selected' : '' }}>{{ $eventType->name }}</option>
+                                        <option value="{{ $eventType->id }}" {{ old('event_type_id') == $eventType->id ? 'selected' : '' }}>{{ $eventType->name }}</option>
                                     @endforeach
                                 </select>
 
-                                @if ($errors->has('eventType'))
+                                @if ($errors->has('event_type_id'))
                                     <span class="invalid-feedback">
-                                        <strong>{{ $errors->first('eventType') }}</strong>
+                                        <strong>{{ $errors->first('event_type_id') }}</strong>
                                     </span>
                                 @endif
                             </div>
@@ -168,7 +168,7 @@
                                         name="dep">
                                     <option value="">Choose an airport...</option>
                                     @foreach($airports as $airport)
-                                        <option value="{{ $airport->icao }}" {{ old('dep') == $airport->icao ? 'selected' : '' }}>{{ $airport->icao }}
+                                        <option value="{{ $airport->id }}" {{ old('dep') == $airport->id ? 'selected' : '' }}>{{ $airport->icao }}
                                             [{{ $airport->name }} ({{ $airport->iata }})]
                                         </option>
                                     @endforeach
@@ -191,7 +191,7 @@
                                         name="arr">
                                     <option value="">Choose an airport...</option>
                                     @foreach($airports as $airport)
-                                        <option value="{{ $airport->icao }}" {{ old('arr') == $airport->icao ? 'selected' : '' }}>{{ $airport->icao }}
+                                        <option value="{{ $airport->id }}" {{ old('arr') == $airport->id ? 'selected' : '' }}>{{ $airport->icao }}
                                             [{{ $airport->name }} ({{ $airport->iata }})]
                                         </option>
                                     @endforeach

@@ -4,18 +4,20 @@ namespace App\Models;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class User extends Authenticatable
 {
+    use LogsActivity;
     use Notifiable;
 
     /**
-     * The attributes that are mass assignable.
+     * The attributes that aren't mass assignable.
      *
      * @var array
      */
-    protected $fillable = [
-        'name_first', 'name_last', 'email', 'country', 'region', 'division', 'subdivision', 'airport_view', 'use_monospace_font',
+    protected $guarded = [
+        'id', 'isAdmin'
     ];
 
     /**
@@ -33,9 +35,12 @@ class User extends Authenticatable
      * @var array
      */
     protected $casts = [
-        'is_admin' => 'boolean',
+        'isAdmin' => 'boolean',
         'use_monospace_font' => 'boolean',
     ];
+
+    protected static $logAttributes = ['*'];
+    protected static $logOnlyDirty = true;
 
     public function bookings()
     {
@@ -59,7 +64,7 @@ class User extends Authenticatable
      */
     public function getPicAttribute()
     {
-        return ucfirst($this->name_first) . ' ' . ucfirst($this->name_last) . ' | ' . $this->id;
+        return "{$this->full_name} | {$this->id}";
     }
 
 }

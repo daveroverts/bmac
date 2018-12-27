@@ -81,9 +81,9 @@ SELCAL: **{{ $booking->selcal }}**
 
 It is important you stick to these details to save confusion on the day! We will try to make sure you will be able to use this callsign. Do not worry if someone else has already logged in using your callsign, your booking will still be recognized when you log in under another callsign!
 
-Departure airport: **{{ $booking->dep  }}**
+Departure airport: **{{ $booking->airportDep->icao  }}**
 
-Arrival airport: **{{ $booking->arr }}**
+Arrival airport: **{{ $booking->airportDep->icao }}**
 
 CTOT: **{{ $booking->ctot }}**
 
@@ -104,7 +104,7 @@ We would also like to encourage you to take screenshots, videos, recordings of c
 In closing, we would like to ask all participants of the event to send us their feedback via the feedback forms in the pilots area after the event has taken place - this will ensure we can further improve the event in the future.
 
 
-Regards,
+@lang('Regards'),
 
-**Dutch VACC**
+**{{ config('mail.from.name', config('app.name')) }}**
 @endcomponent

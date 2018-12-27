@@ -111,7 +111,7 @@ return [
             'deploy_path' => '/home/webmaster/www/booking/home',
             'user' => 'webmaster',
         ],
-        '159.65.201.236' => [
+        '104.248.84.152' => [
             'deploy_path' => '/home/forge/bmac.daveroverts.nl',
             'user' => 'forge'
         ]

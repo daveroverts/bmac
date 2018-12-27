@@ -4,18 +4,20 @@ namespace App\Models;
 
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class Event extends Model
 {
+    use LogsActivity;
     use Sluggable;
 
     /**
-     * The attributes that are mass assignable.
+     * The attributes that aren't mass assignable.
      *
      * @var array
      */
-    protected $fillable = [
-        'name', 'event_type_id', 'startEvent', 'endEvent', 'startBooking', 'endBooking', 'image_url', 'description', 'dep', 'arr', 'import_only', 'uses_times', 'multiple_bookings_allowed', 'is_oceanic_event',
+    protected $guarded = [
+        'id', 'slug',
     ];
 
     /**
@@ -47,6 +49,9 @@ class Event extends Model
         'is_oceanic_event' => 'boolean',
     ];
 
+    protected static $logAttributes = ['*'];
+    protected static $logOnlyDirty = true;
+
     public function bookings()
     {
         return $this->hasMany(Booking::class);
@@ -59,12 +64,12 @@ class Event extends Model
 
     public function airportDep()
     {
-        return $this->hasOne(Airport::class, 'icao', 'dep');
+        return $this->hasOne(Airport::class, 'id', 'dep');
     }
 
     public function airportArr()
     {
-        return $this->hasOne(Airport::class, 'icao', 'arr');
+        return $this->hasOne(Airport::class, 'id', 'arr');
     }
 
     public function sluggable()

@@ -18,20 +18,10 @@ class AirportTest extends TestCase
      */
     public function testItCreatesNewAirport()
     {
-        $icao = 'EHGG';
-        $iata = 'GRQ';
-        $name = 'Groningen Airport Eelde';
+        $airport = factory(\App\Models\Airport::class)->make();
 
-        Airport::create([
-            'icao' => $icao,
-            'iata' => $iata,
-            'name' => $name,
-        ]);
+        Airport::create($airport->toArray());
 
-        $this->assertDatabaseHas('airports', [
-            'icao' => $icao,
-            'iata' => $iata,
-            'name' => $name,
-        ]);
+        $this->assertDatabaseHas('airports', $airport->toArray());
     }
 }

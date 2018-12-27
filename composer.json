@@ -23,11 +23,13 @@
         "predis/predis": "^1.1",
         "rap2hpoutre/fast-excel": "^0.9.0",
         "renatomarinho/laravel-page-speed": "^1.8",
+        "spatie/laravel-activitylog": "^3.1",
         "vatsim/sso-laravel": "3.*"
     },
     "require-dev": {
         "beyondcode/laravel-dump-server": "^1.2",
         "beyondcode/laravel-er-diagram-generator": "^1.2",
+        "beyondcode/laravel-query-detector": "^1.0",
         "filp/whoops": "^2.0",
         "mockery/mockery": "^1.0",
         "nunomaduro/collision": "^2.0",

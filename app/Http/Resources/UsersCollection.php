@@ -16,7 +16,6 @@ class UsersCollection extends ResourceCollection
     {
         return [
             'data' => UserResource::collection($this->collection),
-            'meta' => ['user_count' => $this->collection->count()],
         ];
     }
 }

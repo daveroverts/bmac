@@ -16,6 +16,25 @@
                     Arrivals</a>&nbsp;
             @endif
             @if(Auth::check() && Auth::user()->isAdmin && $event->endBooking >= now())
+                    @push('scripts')
+                        <script>
+                            $('.delete-booking').on('click', function (e) {
+                                e.preventDefault();
+                                swal({
+                                    title: 'Are you sure',
+                                    text: 'Are you sure you want to remove this booking?',
+                                    type: 'warning',
+                                    showCancelButton: true,
+                                }).then((result) => {
+                                    if (result.value) {
+                                        swal('Deleting booking...');
+                                        swal.showLoading();
+                                        $(this).closest('form').submit();
+                                    }
+                                });
+                            });
+                        </script>
+                    @endpush
                 <a href="{{ route('bookings.create',$event) }}" class="btn btn-primary"><i class="fa fa-plus"></i> Add
                     Booking</a>&nbsp;
                 <a href="{{ route('bookings.create',$event) }}/bulk" class="btn btn-primary"><i class="fa fa-plus"></i>
@@ -38,7 +57,7 @@
                     <th scope="row">Callsign</th>
                     <th scope="row">Aircraft</th>
                     <th scope="row">Book | Available until {{ $event->endBooking->format('d-m-Y H:i') }}z</th>
-                    @if(Auth::check() && Auth::user()->isAdmin)
+                    @if((Auth::check() && Auth::user()->isAdmin) && $event->endEvent >= now())
                         <th colspan="3" scope="row">Admin actions</th>
                     @endif
                 </tr>
@@ -47,30 +66,10 @@
                     {{--Check if flight belongs to the logged in user--}}
                     <tr class="{{ Auth::check() && $booking->user_id == Auth::id() ? 'table-primary' : '' }}">
                         <td>
-                            @if(Auth::check())
-                                @if(Auth::user()->airport_view == \App\Enums\AirportView::NAME)
-                                    <abbr title="{{ $booking->dep }} | [{{ $booking->airportDep->iata }}]">{{ $booking->airportDep->name }}</abbr>
-                                @elseif(Auth::user()->airport_view == \App\Enums\AirportView::IATA)
-                                    <abbr title="{{ $booking->airportDep->name }} | [{{ $booking->dep }}]">{{ $booking->airportDep->iata }}</abbr>
-                                @else
-                                    <abbr title="{{ $booking->airportDep->name }} | [{{ $booking->airportDep->iata }}]">{{ $booking->dep }}</abbr>
-                                @endif
-                            @else
-                                <abbr title="{{ $booking->airportDep->name }} | [{{ $booking->airportDep->iata }}]">{{ $booking->dep }}</abbr>
-                            @endif
+                            {!! $booking->airportDep->fullName !!}
                         </td>
                         <td>
-                            @if(Auth::check())
-                                @if(Auth::user()->airport_view == \App\Enums\AirportView::NAME)
-                                    <abbr title="{{ $booking->arr }} | [{{ $booking->airportArr->iata }}]">{{ $booking->airportArr->name }}</abbr>
-                                @elseif(Auth::user()->airport_view == \App\Enums\AirportView::IATA)
-                                    <abbr title="{{ $booking->airportArr->name }} | [{{ $booking->arr }}]">{{ $booking->airportArr->iata }}</abbr>
-                                @else
-                                    <abbr title="{{ $booking->airportArr->name }} | [{{ $booking->airportArr->iata }}]">{{ $booking->arr }}</abbr>
-                                @endif
-                            @else
-                                <abbr title="{{ $booking->airportArr->name }} | [{{ $booking->airportArr->iata }}]">{{ $booking->arr }}</abbr>
-                            @endif
+                            {!! $booking->airportArr->fullName !!}
                         </td>
                         @if($booking->event->uses_times)
                             <td>
@@ -125,7 +124,7 @@
                                 @endif
                             @endif
                         </td>
-                        @if(Auth::check() && Auth::user()->isAdmin)
+                        @if((Auth::check() && Auth::user()->isAdmin) && ($event->endEvent >= now()))
                             <td><a href="{{ route('bookings.admin.edit', $booking) }}" class="btn btn-info"><i
                                             class="fa fa-edit"></i> Edit</a>
                             </td>
@@ -133,7 +132,7 @@
                                 <form action="{{ route('bookings.destroy', $booking) }}" method="post">
                                     @csrf
                                     @method('DELETE')
-                                    <button class="btn btn-danger"><i class="fas fa-trash"></i> Delete</button>
+                                    <button class="btn btn-danger delete-booking"><i class="fas fa-trash"></i> Delete</button>
                                 </form>
                             </td>
                             <td>

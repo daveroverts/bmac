@@ -16,7 +16,6 @@ class AirportLinkResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'airport' => $this->airport->icao,
             'type' => $this->type->name,
             'name' => $this->name,
             'url' => $this->url,

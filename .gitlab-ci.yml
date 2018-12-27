@@ -12,7 +12,7 @@ image: lorisleiva/laravel-docker:latest
   find . -type d -not -path "./vendor/*" -exec chmod 775 {} \;
 
 variables:
-  MYSQL_DATABASE: book_me_a_cookie
+  MYSQL_DATABASE: book_me_a_cookie_test
   MYSQL_ROOT_PASSWORD: secret
 
 composer:
@@ -31,20 +31,20 @@ composer:
     paths:
     - vendor/
 
-yarn:
+npm:
   stage: build
 
-  before_script:
-  - apk add --no-cache yarn
-
   cache:
-    key: ${CI_COMMIT_REF_SLUG}-yarn
+    key: ${CI_COMMIT_REF_SLUG}-npm
     paths:
     - node_modules/
 
+  before_script:
+    - npm i -g npm@6.5.0
+
   script:
-    - yarn
-    - yarn run prod
+    - npm ci
+    - npm run prod
 
   artifacts:
     expire_in: 1 month
@@ -88,11 +88,11 @@ staging:
   script:
   - *init_ssh
   - *change_file_permissions
-  - php artisan deploy 159.65.201.236 -s upload
+  - php artisan deploy 104.248.84.152 -s upload
 
   environment:
     name: staging
-    url: http://bmac.daveroverts.nl
+    url: https://bmac.daveroverts.nl
 
   only:
   - dev

@@ -3,9 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class EventType extends Model
 {
+    use LogsActivity;
+
     public $incrementing = false;
     /**
      * Indicates if the model should be timestamped.
@@ -15,13 +18,14 @@ class EventType extends Model
     public $timestamps = false;
 
     /**
-     * The attributes that are mass assignable.
+     * The attributes that aren't mass assignable.
      *
      * @var array
      */
-    protected $fillable = [
-        'id', 'name',
-    ];
+    protected $guarded = ['id'];
+
+    protected static $logAttributes = ['*'];
+    protected static $logOnlyDirty = true;
 
     public function events()
     {

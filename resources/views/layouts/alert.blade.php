@@ -1,7 +1,11 @@
-@if(session('message'))
-    <div class="alert alert-dismissable alert-{{ session('type') }}" role="alert">
-        <button type="button" class="close" data-dismiss="alert">&times;</button>
-        <div class="alert-title"><strong>{{ session('title') }}</strong></div>
-        {{ session('message') }}
-    </div>
+@if(session('text'))
+    @push('scripts')
+        <script>
+            swal({
+                title: '{{ session('title') }}',
+                text: '{{ session('text') }}',
+                type: '{{ session('type') }}'
+            })
+        </script>
+    @endpush
 @endif

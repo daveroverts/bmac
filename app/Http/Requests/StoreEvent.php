@@ -25,14 +25,14 @@ class StoreEvent extends FormRequest
     {
         return [
             'name' => 'bail|required:string',
-            'eventType' => 'exists:event_types,id|required',
+            'event_type_id' => 'exists:event_types,id|required',
             'import_only' => 'required|boolean',
             'uses_times' => 'required|boolean',
             'multiple_bookings_allowed' => 'required|boolean',
             'is_oceanic_event' => 'required|boolean',
             'dateEvent' => 'required|date',
-            'dep' => 'exists:airports,icao|required',
-            'arr' => 'exists:airports,icao|required',
+            'dep' => 'exists:airports,id|required',
+            'arr' => 'exists:airports,id|required',
             'timeBeginEvent' => 'required',
             'timeEndEvent' => 'required',
             'dateBeginBooking' => 'required|date',

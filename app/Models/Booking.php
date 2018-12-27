@@ -4,17 +4,19 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class Booking extends Model
 {
+    use LogsActivity;
 
     /**
-     * The attributes that are mass assignable.
+     * The attributes that aren't mass assignable.
      *
      * @var array
      */
-    protected $fillable = [
-        'event_id', 'user_id', 'status', 'callsign', 'acType', 'selcal', 'dep', 'arr', 'ctot', 'eta', 'route', 'oceanicFL', 'oceanicTrack'
+    protected $guarded = [
+        'id', 'uuid', 'status', 'selcal',
     ];
     /**
      * The attributes that should be mutated to dates.
@@ -24,6 +26,9 @@ class Booking extends Model
     protected $dates = [
         'ctot', 'eta'
     ];
+
+    protected static $logAttributes = ['*'];
+    protected static $logOnlyDirty = true;
 
     /**
      *  Setup model event hooks
@@ -176,12 +181,12 @@ class Booking extends Model
 
     public function airportDep()
     {
-        return $this->hasOne(Airport::class, 'icao', 'dep');
+        return $this->hasOne(Airport::class, 'id', 'dep');
     }
 
     public function airportArr()
     {
-        return $this->hasOne(Airport::class, 'icao', 'arr');
+        return $this->hasOne(Airport::class, 'id', 'arr');
     }
 
     public function event()

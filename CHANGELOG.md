@@ -6,6 +6,74 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v1.1.0](https://gitlab.com/daveroverts/Book-me-a-cookie/compare/v1.1.0...v1.0.0) - 2018-12-27
+
+### Added
+- [spatie/laravel-activitylog](https://github.com/spatie/laravel-activitylog)
+   - ``.env``: ``ACTIVITY_LOGGER_ENABLED``, default ``true``
+- Factories:
+    - ``AirportFactory``
+    - ``AirportLinkFactory``
+    - ``BookingFactory``
+    - ``EventFactory``
+- Tests:
+    - ``AirportLinkTest``
+    - ``BookingsTest``
+- ``fullName`` attribute for ``Airport`` model
+- A warning if you try to do something with ``yarn``
+- ``laravel-query-detector`` as dev dependency
+- Eager loading to several controllers / view to make them load faster, thanks to ``laravel-query-detector``:
+    - ``BookingController@index()`` / ``booking.overview``
+    - ``AirportController@index()`` / ``airport.overview``
+    - ``AirportLinkController@index()`` / ``airportLink.overview``
+    - ``EventController@index()`` / ``event.overview``
+- Check in ``BookingController@destroy()`` and ``BookingController@adminEdit`` to prevent data being edited after a event has ended
+- [sweetalert2](https://github.com/sweetalert2/sweetalert2)
+- ``scripts`` stack, placed below the default scripts
+    - This is used to show SweetAlert, but can be used for others things if needed.
+- Confirm messages to most 'destructive' actions (deletes and emails).
+- Duplicate check for ``ICAO`` and ``IATA`` in ``StoreAirport`` request
+- ``id`` (auto-increment) to Airport Model.
+- API Resource:
+    - ``/events/upcoming/{limit?}``, which is the same as ``/events``, but with a optional limit (default 3)
+    - ``/api/events`` now has pagination
+    - ``/events/{event}/bookings``, which shows all **booked** bookings related to the event
+    - ``BookingResource`` + ``EventResource``:
+        - Links have been added to both ``dep`` and ``arr``, routing to ``AirportResource``
+    - ``BookingResource``:
+        - Link to the user has been added.
+        - ``full_name`` and ``event_name`` have been added
+- Route binding for ``event`` now accepts ``id`` and ``slug``
+- ``holdOnWeGotABadAss()`` that replaces all RickRolls
+    
+### Changed
+- ``AirportTest`` and ``EventTest``
+- ``.env.testing`` + ``MYSQL_DATABASE``
+    - ``DB_DATABASE`` added ``_test`` in the name
+- Optimizes ``$fillable`` vs ``$guarded`` in Models.
+- Some models use ``Request->all()`` now
+- ``yarn`` to ``npm`` in GitLab CI.
+- ``npm install`` changed to ``npm ci``
+- ``Laravel Mix`` has been updated from v2 to v4
+- The old alerts have been replaced by SweetAlert
+- ``events.email.final`` is now a ``PATCH`` route
+- ``bookings.cancel`` is now a ``PATCH`` route
+- ``id`` is now the primary key for the Airport Model.
+- Lots of views, emails, requests, and controllers have been changed to work with the new changes.
+- API Resource:
+    - Resources that showed ``AirportResource``, now only show the ICAO
+    - ``BookingResource``:
+        - ``user`` now only shows the id or ``null``
+        - ``event`` (name) replaced with ``event_id``
+- All ``Mailables`` have been converted to ``Notifications``. For now, E-mails, but it could be expanded to notifications on the site
+
+### Removed
+- ``yarn.lock`` (replaced by ``package-lock.json``)
+- API Resource:
+    - ``meta`` removed from all collections
+    - ``AirportLinkResource``:
+        - ``airport`` removed. Was a bit strange to include that, as you should only get ``AirportLink`` via ``Airport``
+
 ## [v1.0.0](https://gitlab.com/daveroverts/Book-me-a-cookie/compare/v0.7.0c...v1.0.0) - 2018-12-15
 
 ### Added

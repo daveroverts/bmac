@@ -16,7 +16,6 @@ class BookingsCollection extends ResourceCollection
     {
         return [
             'data' => BookingResource::collection($this->collection),
-            'meta' => ['bookings_count' => $this->collection->count()],
         ];
     }
 }
