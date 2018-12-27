@@ -247,7 +247,7 @@ class BookingController extends Controller
                         $booking->status = BookingStatus::RESERVED;
                         $booking->user()->associate(Auth::user())->save();
                         flashMessage('info', 'Slot reserved', 'Will remain reserved until ' . $booking->updated_at->addMinutes(10)->format('Hi') . 'z');
-                        return view('booking.edit', compact('booking', 'user'));
+                        return view('booking.edit', compact('booking'));
                     } else {
                         flashMessage('danger', 'Nope!', 'Bookings have been closed at ' . $booking->event->endBooking->format('d-m-Y Hi') . 'z');
                         return redirect(route('bookings.event.index', $booking->event));
