@@ -6,6 +6,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v1.1.0](https://gitlab.com/daveroverts/Book-me-a-cookie/compare/v1.1.0...v1.0.0) - 2018-12-27
+
 ### Added
 - [spatie/laravel-activitylog](https://github.com/spatie/laravel-activitylog)
    - ``.env``: ``ACTIVITY_LOGGER_ENABLED``, default ``true``
