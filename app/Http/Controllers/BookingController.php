@@ -103,9 +103,7 @@ class BookingController extends Controller
         foreach (Booking::where('status', BookingStatus::RESERVED)->get() as $booking) {
             // If a reservation has been reserved for more then 10 minutes, remove user_id, and make booking available
             if (now() > Carbon::createFromFormat('Y-m-d H:i:s', $booking->updated_at)->addMinutes(10)) {
-                $booking->fill([
-                    'status' => BookingStatus::UNASSIGNED,
-                ]);
+                $booking->status = BookingStatus::UNASSIGNED;
                 $booking->user()->dissociate()->save();
             }
         }
