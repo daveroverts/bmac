@@ -23,7 +23,7 @@ For reference, your booking details are listed below.
 | Event Date: | **{{ $booking->event->startEvent->toFormattedDateString() }}** |
 @endcomponent
 
-Regards,
+@lang('Regards'),
 
-**Dutch VACC**
+**{{ config('mail.from.name', config('app.name')) }}**
 @endcomponent

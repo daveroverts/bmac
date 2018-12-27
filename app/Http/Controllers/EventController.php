@@ -6,16 +6,18 @@ use App\Enums\BookingStatus;
 use App\Http\Requests\SendEmail;
 use App\Http\Requests\StoreEvent;
 use App\Http\Requests\UpdateEvent;
-use App\Mail\EventBulkEmail;
-use App\Mail\EventFinalInformation;
 use App\Models\Airport;
 use App\Models\Booking;
 use App\Models\Event;
 use App\Models\EventType;
+use App\Models\User;
+use App\Notifications\EventBulkEmail;
+use App\Notifications\EventFinalInformation;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
+use Notification;
 
 class EventController extends Controller
 {
@@ -171,13 +173,10 @@ class EventController extends Controller
         $bookings = Booking::where('event_id', $event->id)
             ->where('status', BookingStatus::BOOKED)
             ->get();
-        $count = 0;
-        foreach ($bookings as $booking) {
-            Mail::to($booking->user->email)->send(
-                new EventBulkEmail($event, $booking->user, $request->subject, $request->message)
-            );
-            $count++;
-        }
+        $users = User::find($bookings->pluck('user_id'));
+        Notification::send($users, new EventBulkEmail($event, $request->subject, $request->message));
+        $count = $users->count();
+
         flashMessage('success', 'Done', 'Bulk E-mail has been sent to ' . $count . ' people!');
         activity()
             ->by(Auth::user())
@@ -204,10 +203,9 @@ class EventController extends Controller
         $bookings = Booking::where('event_id', $event->id)
             ->where('status', BookingStatus::BOOKED)
             ->get();
-        $count = 0;
+        $count = $bookings->count();
         foreach ($bookings as $booking) {
-            Mail::to($booking->user->email)->send(new EventFinalInformation($booking));
-            $count++;
+            $booking->user->notify(new EventFinalInformation($booking));
         }
         flashMessage('success', 'Done', 'Final Information has been sent to ' . $count . ' people!');
         activity()
