@@ -40,6 +40,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
         - Links have been added to both ``dep`` and ``arr``, routing to ``AirportResource``
     - ``BookingResource``:
         - Link to the user has been added.
+        - ``full_name`` and ``event_name`` have been added
+- Route binding for ``event`` now accepts ``id`` and ``slug``
     
 ### Changed
 - ``AirportTest`` and ``EventTest``
