@@ -42,6 +42,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
         - Link to the user has been added.
         - ``full_name`` and ``event_name`` have been added
 - Route binding for ``event`` now accepts ``id`` and ``slug``
+- ``holdOnWeGotABadAss()`` that replaces all RickRolls
     
 ### Changed
 - ``AirportTest`` and ``EventTest``

@@ -296,8 +296,7 @@ class BookingController extends Controller
         } else {
             if ($booking->user_id != null) {
                 // We got a bad-ass over here, log that person out
-                Auth::logout();
-                return redirect('https://youtu.be/dQw4w9WgXcQ');
+                return holdOnWeGotABadAss();
             } else {
                 flashMessage('warning', 'Nope!', 'That reservation does not belong to you!');
                 return redirect(route('bookings.event.index', $booking->event));
@@ -402,8 +401,7 @@ class BookingController extends Controller
 
         } else {
             // We got a bad-ass over here, log that person out
-            Auth::logout();
-            return redirect('https://youtu.be/dQw4w9WgXcQ');
+            return holdOnWeGotABadAss();
         }
     }
 
