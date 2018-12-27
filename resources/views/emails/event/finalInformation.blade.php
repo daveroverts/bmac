@@ -104,7 +104,7 @@ We would also like to encourage you to take screenshots, videos, recordings of c
 In closing, we would like to ask all participants of the event to send us their feedback via the feedback forms in the pilots area after the event has taken place - this will ensure we can further improve the event in the future.
 
 
-Regards,
+@lang('Regards'),
 
-**Dutch VACC**
+**{{ config('mail.from.name', config('app.name')) }}**
 @endcomponent

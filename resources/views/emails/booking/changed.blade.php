@@ -44,7 +44,7 @@ Your booking for the **{{ $booking->event->name }}** has been amended, please re
 @endforeach
 @endcomponent
 
-Regards,
+@lang('Regards'),
 
-**Dutch VACC**
+**{{ config('mail.from.name', config('app.name')) }}**
 @endcomponent

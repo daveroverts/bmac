@@ -9,13 +9,13 @@ use App\Http\Requests\AdminUpdateBooking;
 use App\Http\Requests\ImportBookings;
 use App\Http\Requests\StoreBooking;
 use App\Http\Requests\UpdateBooking;
-use App\Mail\BookingCancelled;
-use App\Mail\BookingChanged;
-use App\Mail\BookingConfirmed;
-use App\Mail\BookingDeleted;
 use App\Models\Airport;
 use App\Models\Booking;
 use App\Models\Event;
+use App\Notifications\BookingCancelled;
+use App\Notifications\BookingChanged;
+use App\Notifications\BookingConfirmed;
+use App\Notifications\BookingDeleted;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -288,7 +288,7 @@ class BookingController extends Controller
                     ->by(Auth::user())
                     ->on($booking)
                     ->log('Flight booked');
-                Mail::to(Auth::user())->send(new BookingConfirmed($booking));
+                $booking->user->notify(new BookingConfirmed($booking));
                 flashMessage('success', 'Booking created!', 'Booking has been created! An E-mail with details has also been sent');
             } else {
                 flashMessage('success', 'Booking edited!', 'Booking has been edited!');
@@ -353,7 +353,7 @@ class BookingController extends Controller
             $message = 'Booking has been deleted.';
             if (!empty($booking->user)) {
                 $message .= ' A E-mail has also been sent to the person that booked.';
-                Mail::to(Auth::user())->send(new BookingDeleted($booking->event, $booking->user));
+                $booking->user->notify(new BookingDeleted($booking->event));
             }
             flashMessage('success', 'Booking deleted!', $message);
             return redirect(route('bookings.event.index', $booking->event));
@@ -389,7 +389,8 @@ class BookingController extends Controller
                 if ($booking->getOriginal('status') === BookingStatus::BOOKED) {
                     $title = 'Booking removed!';
                     $message = 'Booking has been removed! A E-mail has also been sent';
-                    Mail::to(Auth::user())->send(new BookingCancelled($booking->event, Auth::user()));
+                    $booking->user->notify(new BookingCancelled($booking->event));
+
                 } else {
                     $title = 'Slot free';
                     $message = 'Slot is now free to use again';
@@ -462,7 +463,7 @@ class BookingController extends Controller
         }
         $booking->save();
         if (!empty($booking->user)) {
-            Mail::to($booking->user->email)->send(new BookingChanged($booking, $changes));
+            $booking->user->notify(new BookingChanged($booking, $changes));
         }
         $message = 'Booking has been changed!';
         if (!empty($booking->user)) {
