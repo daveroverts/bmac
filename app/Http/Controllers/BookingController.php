@@ -68,6 +68,7 @@ class BookingController extends Controller
                             ->where('dep', $event->dep)
                             ->orderBy('ctot')
                             ->orderBy('callsign')
+                            ->with(['airportDep', 'airportArr', 'event', 'user'])
                             ->get();
                         $filter = $request->filter;
                         break;
@@ -76,6 +77,7 @@ class BookingController extends Controller
                             ->where('arr', $event->arr)
                             ->orderBy('eta')
                             ->orderBy('callsign')
+                            ->with(['airportDep', 'airportArr', 'event', 'user'])
                             ->get();
                         $filter = $request->filter;
                         break;
@@ -83,6 +85,7 @@ class BookingController extends Controller
                         $bookings = Booking::where('event_id', $event->id)
                             ->orderBy('eta')
                             ->orderBy('ctot')
+                            ->with(['airportDep', 'airportArr', 'event', 'user'])
                             ->get();
                 }
             } else {
