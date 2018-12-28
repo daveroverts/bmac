@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - [Laravel Telescope](https://laravel.com/docs/5.7/telescope) as dev dependency, only used local
+- Bugsnag recipe for Deployer
 
 ## [v1.1.0](https://gitlab.com/daveroverts/Book-me-a-cookie/compare/v1.1.0...v1.0.0) - 2018-12-27
 
