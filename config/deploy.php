@@ -70,7 +70,7 @@ return [
         
         // Deployment succeeded.
         'success' => [
-            'deploy:bugsnag',
+            'bugsnag:notify',
         ],
         
         // Deployment failed.
