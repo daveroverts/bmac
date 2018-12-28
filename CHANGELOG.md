@@ -70,6 +70,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
         - ``user`` now only shows the id or ``null``
         - ``event`` (name) replaced with ``event_id``
 - All ``Mailables`` have been converted to ``Notifications``. For now, E-mails, but it could be expanded to notifications on the site
+- CI script
 
 ### Removed
 - ``yarn.lock`` (replaced by ``package-lock.json``)
