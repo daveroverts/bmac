@@ -26,7 +26,7 @@ class Kernel extends ConsoleKernel
     {
         $schedule->command('activitylog:clean')->daily();
         if (app()->isLocal()) {
-            $schedule->command('telescope:prune')->everyMinute();
+            $schedule->command('telescope:prune')->daily();
         }
 
     }
