@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreAirport;
 use App\Http\Requests\UpdateAirport;
 use App\Models\Airport;
+use App\Policies\AirportPolicy;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -21,6 +22,8 @@ class AirportController extends Controller
     public function __construct()
     {
         $this->middleware('auth.isAdmin');
+
+        $this->authorizeResource(AirportPolicy::class, 'airport');
     }
 
     /**

@@ -16,6 +16,7 @@ use App\Notifications\BookingCancelled;
 use App\Notifications\BookingChanged;
 use App\Notifications\BookingConfirmed;
 use App\Notifications\BookingDeleted;
+use App\Policies\BookingPolicy;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -33,8 +34,9 @@ class BookingController extends Controller
     public function __construct()
     {
         $this->middleware('auth.isLoggedIn')->except('index');
-
         $this->middleware('auth.isAdmin')->only(['create', 'store', 'destroy', 'adminEdit', 'adminUpdate', 'export', 'importForm', 'import', 'adminAutoAssignForm', 'adminAutoAssign']);
+
+        $this->authorizeResource(BookingPolicy::class, 'booking');
     }
 
     /**
@@ -187,12 +189,7 @@ class BookingController extends Controller
      */
     public function show(Booking $booking)
     {
-        if (Auth::check() && Auth::id() == $booking->user_id || Auth::user()->isAdmin) {
-            return view('booking.show', compact('booking'));
-        } else {
-            flashMessage('danger', 'Already booked', 'Whoops that booking belongs to somebody else!');
-            return redirect(route('bookings.event.index', $booking->event));
-        }
+        return view('booking.show', compact('booking'));
     }
 
     /**
@@ -270,41 +267,30 @@ class BookingController extends Controller
      */
     public function update(UpdateBooking $request, Booking $booking)
     {
-        // Check if the reservation / booking actually belongs to the correct person
-        if (Auth::id() == $booking->user_id) {
-            if (!$booking->event->import_only) {
-                $booking->fill([
-                    'callsign' => $request->callsign,
-                    'acType' => $request->aircraft
-                ]);
-            }
-
-            if ($booking->event->is_oceanic_event) {
-                $booking->selcal = $this->validateSELCAL(strtoupper($request->selcal1 . '-' . $request->selcal2), $booking->event_id);
-            }
-
-            $booking->status = BookingStatus::BOOKED;
-            if ($booking->getOriginal('status') === BookingStatus::RESERVED) {
-                activity()
-                    ->by(Auth::user())
-                    ->on($booking)
-                    ->log('Flight booked');
-                $booking->user->notify(new BookingConfirmed($booking));
-                flashMessage('success', 'Booking created!', 'Booking has been created! An E-mail with details has also been sent');
-            } else {
-                flashMessage('success', 'Booking edited!', 'Booking has been edited!');
-            }
-            $booking->save();
-            return redirect(route('bookings.event.index', $booking->event));
-        } else {
-            if ($booking->user_id != null) {
-                // We got a bad-ass over here, log that person out
-                return holdOnWeGotABadAss();
-            } else {
-                flashMessage('warning', 'Nope!', 'That reservation does not belong to you!');
-                return redirect(route('bookings.event.index', $booking->event));
-            }
+        if (!$booking->event->import_only) {
+            $booking->fill([
+                'callsign' => $request->callsign,
+                'acType' => $request->aircraft
+            ]);
         }
+
+        if ($booking->event->is_oceanic_event) {
+            $booking->selcal = $this->validateSELCAL(strtoupper($request->selcal1 . '-' . $request->selcal2), $booking->event_id);
+        }
+
+        $booking->status = BookingStatus::BOOKED;
+        if ($booking->getOriginal('status') === BookingStatus::RESERVED) {
+            activity()
+                ->by(Auth::user())
+                ->on($booking)
+                ->log('Flight booked');
+            $booking->user->notify(new BookingConfirmed($booking));
+            flashMessage('success', 'Booking created!', 'Booking has been created! An E-mail with details has also been sent');
+        } else {
+            flashMessage('success', 'Booking edited!', 'Booking has been edited!');
+        }
+        $booking->save();
+        return redirect(route('bookings.event.index', $booking->event));
     }
 
     public function validateSELCAL($selcal, $eventId)
@@ -367,45 +353,41 @@ class BookingController extends Controller
      *
      * @param Booking $booking
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function cancel(Booking $booking)
     {
-        if (Auth::id() == $booking->user_id) {
-            if ($booking->event->endBooking > now()) {
-                if (!$booking->event->import_only) {
-                    $booking->fill([
-                        'callsign' => null,
-                        'acType' => null,
-                    ]);
+        $this->authorize('cancel', $booking);
+        if ($booking->event->endBooking > now()) {
+            if (!$booking->event->import_only) {
+                $booking->fill([
+                    'callsign' => null,
+                    'acType' => null,
+                ]);
 
-                    if ($booking->event->is_oceanic_event)
-                        $booking->selcal = null;
-                }
-                $booking->status = BookingStatus::UNASSIGNED;
-                activity()
-                    ->by(Auth::user())
-                    ->on($booking)
-                    ->log('Flight available');
-                if ($booking->getOriginal('status') === BookingStatus::BOOKED) {
-                    $title = 'Booking removed!';
-                    $message = 'Booking has been removed! A E-mail has also been sent';
-                    $booking->user->notify(new BookingCancelled($booking->event));
-
-                } else {
-                    $title = 'Slot free';
-                    $message = 'Slot is now free to use again';
-                }
-                flashMessage('info', $title, $message);
-                $booking->user()->dissociate()->save();
-                return redirect(route('bookings.event.index', $booking->event));
+                if ($booking->event->is_oceanic_event)
+                    $booking->selcal = null;
             }
-            flashMessage('danger', 'Nope!', 'Bookings have been locked at ' . $booking->event->endBooking->format('d-m-Y Hi') . 'z');
-            return redirect(route('bookings.event.index', $booking->event));
+            $booking->status = BookingStatus::UNASSIGNED;
+            activity()
+                ->by(Auth::user())
+                ->on($booking)
+                ->log('Flight available');
+            if ($booking->getOriginal('status') === BookingStatus::BOOKED) {
+                $title = 'Booking removed!';
+                $message = 'Booking has been removed! A E-mail has also been sent';
+                $booking->user->notify(new BookingCancelled($booking->event));
 
-        } else {
-            // We got a bad-ass over here, log that person out
-            return holdOnWeGotABadAss();
+            } else {
+                $title = 'Slot free';
+                $message = 'Slot is now free to use again';
+            }
+            flashMessage('info', $title, $message);
+            $booking->user()->dissociate()->save();
+            return redirect(route('bookings.event.index', $booking->event));
         }
+        flashMessage('danger', 'Nope!', 'Bookings have been locked at ' . $booking->event->endBooking->format('d-m-Y Hi') . 'z');
+        return redirect(route('bookings.event.index', $booking->event));
     }
 
     /**
