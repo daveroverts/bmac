@@ -7,6 +7,7 @@ use App\Http\Requests\UpdateAirportLink;
 use App\Models\Airport;
 use App\Models\AirportLink;
 use App\Models\AirportLinkType;
+use App\Policies\AirportLinkPolicy;
 
 class AirportLinkController extends Controller
 {
@@ -18,6 +19,8 @@ class AirportLinkController extends Controller
     public function __construct()
     {
         $this->middleware('auth.isAdmin');
+
+        $this->authorizeResource(AirportLinkPolicy::class, 'airportLink');
     }
 
     /**
