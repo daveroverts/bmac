@@ -28,8 +28,6 @@ cache:
 
 composer:
   stage: preparation
-  services:
-    - mysql:5.7
   image: edbizarro/gitlab-ci-pipeline-php:7.2
   script:
     - php -v
