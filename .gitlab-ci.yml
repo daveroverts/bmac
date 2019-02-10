@@ -107,13 +107,14 @@ phpunit:
     - db-seeding
   script:
     - php -v
-    - ./vendor/phpunit/phpunit/phpunit --version
-    - php -d short_open_tag=off ./vendor/phpunit/phpunit/phpunit -v --colors=never --stderr
+    - vendor/bin/phpunit --coverage-text --colors=never --coverage-clover code-coverage --log-junit test-executions
   artifacts:
     paths:
       - ./storage/logs # for debugging
+      - code-coverage
+      - test-executions
     expire_in: 1 days
-    when: on_failure
+    when: always
 
 codestyle:
   stage: testing
@@ -121,6 +122,7 @@ codestyle:
   script:
     - phpcs --extensions=php app
   dependencies: []
+  allow_failure: true
 
 phpcpd:
   stage: testing
