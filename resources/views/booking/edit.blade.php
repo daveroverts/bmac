@@ -54,15 +54,15 @@
                             @endif
 
                             @if($booking->getOriginal('eta'))
-                                    {{--ETA--}}
-                                    <div class="form-group row">
-                                        <label for="eta" class="col-md-4 col-form-label text-md-right"> ETA</label>
+                                {{--ETA--}}
+                                <div class="form-group row">
+                                    <label for="eta" class="col-md-4 col-form-label text-md-right"> ETA</label>
 
-                                        <div class="col-md-6">
-                                            <div class="form-control-plaintext"><strong>{{ $booking->eta }}</strong></div>
+                                    <div class="col-md-6">
+                                        <div class="form-control-plaintext"><strong>{{ $booking->eta }}</strong></div>
 
-                                        </div>
                                     </div>
+                                </div>
                             @endif
                         @endif
 
@@ -72,7 +72,7 @@
 
                             <div class="col-md-6">
                                 <div class="form-control-plaintext"><strong><abbr
-                                                title="{{ $booking->airportDep->name }}">{{ $booking->airportDep->icao }}</abbr></strong>
+                                            title="{{ $booking->airportDep->name }}">{{ $booking->airportDep->icao }}</abbr></strong>
                                 </div>
 
                             </div>
@@ -84,7 +84,7 @@
 
                             <div class="col-md-6">
                                 <div class="form-control-plaintext"><strong><abbr
-                                                title="{{ $booking->airportArr->name }}">{{ $booking->airportArr->icao }}</abbr></strong>
+                                            title="{{ $booking->airportArr->name }}">{{ $booking->airportArr->icao }}</abbr></strong>
                                 </div>
 
                             </div>
@@ -210,11 +210,17 @@
                                     <i class="fas fa-check"></i> {{ $booking->bookedBy ? 'Edit' : 'Confirm' }} Booking
                                 </button>&nbsp;
                                 @if($booking->status === \App\Enums\BookingStatus::RESERVED)
-                                    <a href="{{ route('bookings.cancel',$booking) }}" class="btn btn-danger"><i
-                                                class="fa fa-times"></i> Cancel Reservation</a>
+                                    <a href="{{ route('bookings.cancel',$booking) }}" class="btn btn-danger"
+                                       onclick="event.preventDefault(); document.getElementById('cancel-form').submit();"><i
+                                            class="fa fa-times"></i> Cancel Reservation</a>
                                 @endif
                             </div>
                         </div>
+                    </form>
+
+                    <form id="cancel-form" action="{{ route('bookings.cancel', $booking) }}" method="post" style="display: none;">
+                        @csrf
+                        @method('PATCH')
                     </form>
                 </div>
             </div>
