@@ -96,14 +96,14 @@
 
                             @elseif($booking->status === \App\Enums\BookingStatus::RESERVED)
                                 {{--Check if a booking has been reserved--}}
-                                @if(Auth::check() && $booking->user_id == Auth::id())
+                                @can('update', $booking)
                                     {{--Check if a booking has been reserved by current user--}}
                                     <a href="{{ route('bookings.edit',$booking) }}" class="btn btn-info">My
                                         Reservation</a>
                                 @else
                                     <button class="btn btn-dark disabled">
                                         Reserved {{Auth::check() && Auth::user()->isAdmin ? '['.$booking->user->pic .']' : ''}}</button>
-                                @endif
+                                @endcan
                             @else
                                 @if(Auth::check())
                                     {{--Check if user is logged in--}}

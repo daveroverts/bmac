@@ -6,6 +6,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v1.2.0](https://gitlab.com/daveroverts/Book-me-a-cookie/compare/v1.2.0...v1.1.0) - 2019-02-11
+
+### Added
+- [Laravel Telescope](https://laravel.com/docs/5.7/telescope) as dev dependency, only used local
+- Bugsnag recipe for Deployer
+- Gates/Policies
+- ``mix-manifest.json`` once again excluded (not sure what past me was thinking)
+
 ## [v1.1.0](https://gitlab.com/daveroverts/Book-me-a-cookie/compare/v1.1.0...v1.0.0) - 2018-12-27
 
 ### Added
@@ -66,6 +74,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
         - ``user`` now only shows the id or ``null``
         - ``event`` (name) replaced with ``event_id``
 - All ``Mailables`` have been converted to ``Notifications``. For now, E-mails, but it could be expanded to notifications on the site
+- CI script
 
 ### Removed
 - ``yarn.lock`` (replaced by ``package-lock.json``)

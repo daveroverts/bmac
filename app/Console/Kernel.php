@@ -13,7 +13,7 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        //
+        \Bugsnag\BugsnagLaravel\Commands\DeployCommand::class
     ];
 
     /**
@@ -25,6 +25,10 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         $schedule->command('activitylog:clean')->daily();
+        if (app()->isLocal()) {
+            $schedule->command('telescope:prune')->daily();
+        }
+
     }
 
     /**

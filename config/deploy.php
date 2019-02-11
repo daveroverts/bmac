@@ -70,7 +70,7 @@ return [
         
         // Deployment succeeded.
         'success' => [
-            //
+            'bugsnag:notify',
         ],
         
         // Deployment failed.
@@ -93,6 +93,7 @@ return [
     'options' => [
         'application' => env('APP_NAME', 'Laravel'),
         'repository' => 'git@gitlab.com:daveroverts/Book-me-a-cookie.git',
+        'bugsnag_api_key' => env('BUGSNAG_API_KEY'),
     ],
 
     /*
@@ -144,7 +145,7 @@ return [
     */
 
     'include' => [
-        //
+        'recipe/bugsnag.php'
     ],
 
     /*

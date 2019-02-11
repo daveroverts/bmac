@@ -13,6 +13,7 @@ use App\Models\EventType;
 use App\Models\User;
 use App\Notifications\EventBulkEmail;
 use App\Notifications\EventFinalInformation;
+use App\Policies\EventPolicy;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -29,6 +30,8 @@ class EventController extends Controller
     public function __construct()
     {
         $this->middleware('auth.isAdmin');
+
+        $this->authorizeResource(EventPolicy::class, 'event');
     }
 
     /**
