@@ -36,7 +36,7 @@ class StoreBooking extends FormRequest
             'start' => 'sometimes|date_format:H:i',
             'end' => 'sometimes|date_format:H:i',
             'separation' => 'sometimes|integer|min:1',
-            'oceanicFL' => 'sometimes|integer',
+            'oceanicFL' => 'sometimes|nullable|integer:3',
         ];
     }
 }

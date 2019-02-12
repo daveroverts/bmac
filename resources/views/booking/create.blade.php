@@ -222,7 +222,7 @@
 
                                 <div class="col-md-6">
                                 <textarea class="form-control" id="route"
-                                          name="route">{{ old('route','vRoute') }}</textarea>
+                                          name="route">{{ old('route') }}</textarea>
 
                                     @if ($errors->has('route'))
                                         <span class="invalid-feedback">
@@ -240,7 +240,7 @@
                                     <input id="oceanicFL" type="text"
                                            class="form-control{{ $errors->has('oceanicFL') ? ' is-invalid' : '' }}"
                                            name="oceanicFL"
-                                           value="{{ old('oceanicFL',240) }}" min="3" max="3">
+                                           value="{{ old('oceanicFL') }}" min="3" max="3">
 
                                     @if ($errors->has('oceanicFL'))
                                         <span class="invalid-feedback">
