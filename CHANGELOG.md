@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - SonarQube Scans, thanks to @Johnnei
+- Bugsnag Browser integration
 
 ### Changed
 - ``oceanicFL`` is now always nullable
