@@ -43,9 +43,10 @@ class AirportLinkController extends Controller
      */
     public function create()
     {
+        $airportLink = new AirportLink;
         $airportLinkTypes = AirportLinkType::all();
         $airports = Airport::orderBy('icao')->get();
-        return view('airportLink.create', compact('airportLinkTypes', 'airports'));
+        return view('airportLink.form', compact('airportLink', 'airportLinkTypes', 'airports'));
     }
 
     /**
@@ -56,7 +57,7 @@ class AirportLinkController extends Controller
      */
     public function store(StoreAirportLink $request)
     {
-        $airportLink = AirportLink::create($request->all());
+        $airportLink = AirportLink::create($request->validated());
         flashMessage('success', 'Done', $airportLink->type->name . ' item has been added for ' . $airportLink->airport->name . ' [' . $airportLink->airport->icao . ' | ' . $airportLink->airport->iata . ']');
         return redirect(route('airports.index'));
     }
@@ -70,7 +71,7 @@ class AirportLinkController extends Controller
     public function edit(AirportLink $airportLink)
     {
         $airportLinkTypes = AirportLinkType::all();
-        return view('airportLink.edit', compact('airportLink', 'airportLinkTypes'));
+        return view('airportLink.form', compact('airportLink', 'airportLinkTypes'));
     }
 
     /**
@@ -82,7 +83,7 @@ class AirportLinkController extends Controller
      */
     public function update(UpdateAirportLink $request, AirportLink $airportLink)
     {
-        $airportLink->update($request->all());
+        $airportLink->update($request->validated());
         flashMessage('success', 'Done', 'Link has been updated');
         return redirect(route('airportLinks.index'));
     }

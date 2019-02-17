@@ -46,7 +46,7 @@ class AirportController extends Controller
      */
     public function create()
     {
-        return view('airport.create');
+        return view('airport.form', ['airport' => new Airport]);
     }
 
     /**
@@ -57,7 +57,7 @@ class AirportController extends Controller
      */
     public function store(StoreAirport $request)
     {
-        $airport = Airport::create($request->all());
+        $airport = Airport::create($request->validated());
         flashMessage('success', 'Done', $airport->name . ' [' . $airport->icao . ' | ' . $airport->iata . '] has been added!');
         return redirect(route('airports.index'));
     }
@@ -81,7 +81,7 @@ class AirportController extends Controller
      */
     public function edit(Airport $airport)
     {
-        return view('airport.edit', compact('airport'));
+        return view('airport.form', compact('airport'));
     }
 
     /**
@@ -93,7 +93,7 @@ class AirportController extends Controller
      */
     public function update(UpdateAirport $request, Airport $airport)
     {
-        $airport->update($request->all());
+        $airport->update($request->validated());
         flashMessage('success', 'Done', $airport->name . ' [' . $airport->icao . ' | ' . $airport->iata . '] has been updated!');
         return redirect(route('airports.index'));
     }
