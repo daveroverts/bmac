@@ -54,9 +54,10 @@ class EventController extends Controller
      */
     public function create()
     {
+        $event = new Event;
         $airports = Airport::orderBy('icao')->get();
         $eventTypes = EventType::all();
-        return view('event.create', compact('airports', 'eventTypes'));
+        return view('event.form', compact('event', 'airports', 'eventTypes'));
     }
 
     /**
@@ -106,7 +107,7 @@ class EventController extends Controller
     {
         $airports = Airport::orderBy('icao')->get();
         $eventTypes = EventType::all();
-        return view('event.edit', compact('event', 'airports', 'eventTypes'));
+        return view('event.form', compact('event', 'airports', 'eventTypes'));
     }
 
     /**
