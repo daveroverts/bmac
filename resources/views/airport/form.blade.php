@@ -13,12 +13,14 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">Edit Airport</div>
+                <div class="card-header">{{ $airport->id ? 'Edit' : 'Add new' }} Airport</div>
 
                 <div class="card-body">
-                    <form method="POST" action="{{ route('airports.update', $airport) }}">
+                    <form method="POST" action="{{ $airport->id ? route('airports.update', $airport) : route('airports.store') }}">
                         @csrf
-                        @method('PATCH')
+                        @if($airport->id)
+                            @method('PATCH')
+                        @endif
                         {{--ICAO--}}
                         <div class="form-group row">
                             <label for="icao" class="col-md-4 col-form-label text-md-right"> ICAO</label>
@@ -70,11 +72,15 @@
                             </div>
                         </div>
 
-                        {{--Edit--}}
+                        {{--Add/Edit--}}
                         <div class="form-group row mb-0">
                             <div class="col-md-6 offset-md-4">
                                 <button type="submit" class="btn btn-primary">
-                                    <i class="fa fa-check"></i> Edit
+                                    @if($airport->id)
+                                        <i class="fa fa-check"></i> Edit
+                                    @else
+                                        <i class="fa fa-plus"></i> Add
+                                    @endif
                                 </button>
                             </div>
                         </div>
