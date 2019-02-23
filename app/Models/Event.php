@@ -72,6 +72,11 @@ class Event extends Model
         return $this->hasOne(Airport::class, 'id', 'arr');
     }
 
+    public function faqs()
+    {
+        return $this->belongsToMany(Faq::class);
+    }
+
     public function sluggable()
     {
         return [

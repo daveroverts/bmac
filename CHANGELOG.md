@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - SonarQube Scans, thanks to @Johnnei
 - Bugsnag Browser integration
 - Login + Logout are now logged
+- FAQ is now a CRUD thingy
 
 ### Changed
 - ``oceanicFL`` is now always nullable
