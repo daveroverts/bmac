@@ -136,6 +136,30 @@ Breadcrumbs::for('faq', function ($trail) {
     $trail->push('FAQ', route('faq'));
 });
 
+// Home > Admin > FAQ
+Breadcrumbs::for('faq.index', function ($trail) {
+    $trail->parent('admin');
+    $trail->push('FAQ', route('faq.index'));
+});
+
+// Home > Admin > FAQ > New
+Breadcrumbs::for('faq.create', function ($trail) {
+    $trail->parent('faq.index');
+    $trail->push('New', route('faq.create'));
+});
+
+// Home > Admin > FAQ > [FAQ]
+Breadcrumbs::for('faq.show', function ($trail, $faq) {
+    $trail->parent('faq.index');
+    $trail->push('[' . $faq->id . '] ' . $faq->question);
+});
+
+// Home > Admin > FAQ > [FAQ] > Edit FAQ
+Breadcrumbs::for('faq.edit', function ($trail, $faq) {
+    $trail->parent('faq.show', $faq);
+    $trail->push('Edit FAQ', route('faq.edit', $faq));
+});
+
 // Home > My settings
 Breadcrumbs::for('user.settings', function ($trail) {
     $trail->parent('home');

@@ -46,8 +46,15 @@ Route::patch('/admin/{event}/bookings/autoAssign', 'BookingController@adminAutoA
 Route::redirect('/booking', route('bookings.index'), 301);
 
 Route::get('/faq', function () {
-    return view('faq');
+    $faqs = \App\Models\Faq::doesntHave('events')
+    ->where('is_online', '=' , '1')
+    ->get();
+
+    return view('faq', compact('faqs'));
 })->name('faq');
+
+Route::resource('admin/faq', 'FaqController')->except('show');
+Route::patch('/admin/faq/{faq}/toggle-event/{event}', 'FaqController@toggleEvent')->name('faq.toggleEvent');
 
 Route::middleware('auth.isLoggedIn')->group(function () {
     Route::prefix('user')->name('user.')
