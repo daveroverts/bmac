@@ -42,7 +42,7 @@ class FaqController extends Controller
     public function create()
     {
         $faq = new Faq;
-        return view('faq.form', compact('faq', 'events'));
+        return view('faq.form', compact('faq'));
     }
 
     /**
