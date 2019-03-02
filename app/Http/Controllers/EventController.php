@@ -174,25 +174,40 @@ class EventController extends Controller
      */
     public function sendEmail(SendEmail $request, Event $event)
     {
-        $bookings = Booking::where('event_id', $event->id)
-            ->where('status', BookingStatus::BOOKED)
-            ->get();
-        $users = User::find($bookings->pluck('user_id'));
-        Notification::send($users, new EventBulkEmail($event, $request->subject, $request->message));
-        $count = $users->count();
+        if ($request->testmode) {
+            Notification::send(Auth::user(), new EventBulkEmail($event, $request->subject, $request->message));
+            activity()
+                ->by(Auth::user())
+                ->on($event)
+                ->withProperties(
+                    [
+                        'subject' => $request->subject,
+                        'message' => $request->message,
+                    ]
+                )
+                ->log('Bulk E-mail test performed');
+            return response()->json(['success' => 'Email has been sent to yourself']);
+        } else {
+            $bookings = Booking::where('event_id', $event->id)
+                ->where('status', BookingStatus::BOOKED)
+                ->get();
+            $users = User::find($bookings->pluck('user_id'));
+            Notification::send($users, new EventBulkEmail($event, $request->subject, $request->message));
+            $count = $users->count();
 
-        flashMessage('success', 'Done', 'Bulk E-mail has been sent to ' . $count . ' people!');
-        activity()
-            ->by(Auth::user())
-            ->on($event)
-            ->withProperties(
-                [
-                    'subject' => $request->subject,
-                    'message' => $request->message,
-                    'count' => $count,
-                ]
-            )
-            ->log('Bulk E-mail');
+            flashMessage('success', 'Done', 'Bulk E-mail has been sent to ' . $count . ' people!');
+            activity()
+                ->by(Auth::user())
+                ->on($event)
+                ->withProperties(
+                    [
+                        'subject' => $request->subject,
+                        'message' => $request->message,
+                        'count' => $count,
+                    ]
+                )
+                ->log('Bulk E-mail');
+        }
         return redirect(route('events.index'));
     }
 
@@ -202,21 +217,38 @@ class EventController extends Controller
      * @param Event $event
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function sendFinalInformationMail(Event $event)
+    public function sendFinalInformationMail(Request $request, Event $event)
     {
         $bookings = Booking::where('event_id', $event->id)
             ->where('status', BookingStatus::BOOKED)
             ->get();
-        $count = $bookings->count();
-        foreach ($bookings as $booking) {
-            $booking->user->notify(new EventFinalInformation($booking));
+
+        if ($request->testmode) {
+            $booking = $bookings->random();
+            Notification::send(Auth::user(), new EventFinalInformation($booking));
+
+            activity()
+                ->by(Auth::user())
+                ->on($event)
+                ->withProperties(
+                    [
+                        'booking' => $booking,
+                    ]
+                )
+                ->log('Final Information E-mail test performed');
+            return response()->json(['success' => 'Email has been sent to yourself']);
+        } else {
+            $count = $bookings->count();
+            foreach ($bookings as $booking) {
+                $booking->user->notify(new EventFinalInformation($booking));
+            }
+            flashMessage('success', 'Done', 'Final Information has been sent to ' . $count . ' people!');
+            activity()
+                ->by(Auth::user())
+                ->on($event)
+                ->withProperty('count', $count)
+                ->log('Final Information E-mail');
         }
-        flashMessage('success', 'Done', 'Final Information has been sent to ' . $count . ' people!');
-        activity()
-            ->by(Auth::user())
-            ->on($event)
-            ->withProperty('count', $count)
-            ->log('Final Information E-mail');
         return redirect(route('events.index'));
     }
 }
