@@ -26,6 +26,7 @@ class SendEmail extends FormRequest
         return [
             'subject' => 'bail|required:string',
             'message' => 'required:string',
+            'testmode' => 'boolean'
         ];
     }
 }
