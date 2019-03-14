@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - ``oceanicFL`` is now always nullable
 - ``Airport``, ``AirportLink``, and ``Event`` now use 1 form, instead of 2 different for ``create`` and ``edit``
+- ``BookingController@store()`` Bulk save now allows a float as separator (examples: 1.5 and 1.25)
 
 ## [v1.2.0](https://gitlab.com/daveroverts/Book-me-a-cookie/compare/v1.2.0...v1.1.0) - 2019-02-11
 

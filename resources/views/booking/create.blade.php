@@ -171,7 +171,7 @@
                                 <div class="col-md-6">
                                     <input id="separation" type="number"
                                            class="form-control{{ $errors->has('separation') ? ' is-invalid' : '' }}"
-                                           name="separation" value="{{ old('separation',2) }}" required min="1">
+                                           name="separation" value="{{ old('separation',2) }}" required step=".01">
 
                                     @if ($errors->has('separation'))
                                         <span class="invalid-feedback">
