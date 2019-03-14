@@ -35,7 +35,7 @@ class StoreBooking extends FormRequest
             'arr' => 'exists:airports,id|required',
             'start' => 'sometimes|date_format:H:i',
             'end' => 'sometimes|date_format:H:i',
-            'separation' => 'sometimes|integer|min:1',
+            'separation' => 'sometimes|numeric|min:1',
             'oceanicFL' => 'sometimes|nullable|integer:3',
         ];
     }
