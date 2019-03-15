@@ -12,6 +12,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Login + Logout are now logged
 - FAQ is now a CRUD thingy
 - E-mail tester for event E-mails
+- A event can now be marked as online/offline
+- ``nextEvents()`` now also accepts a second parameter ``showAll``, default false. This can be used to show offline events
 
 ### Changed
 - ``oceanicFL`` is now always nullable

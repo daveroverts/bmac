@@ -22,6 +22,33 @@
                         @if($event->id)
                             @method('PATCH')
                         @endif
+                        {{--Show online?--}}
+                        <div class="form-group row">
+                            <label for="is_online" class="col-md-4 col-form-label text-md-right"> <abbr
+                                    title="Choose here if you want to show the event on the main page. Do note that it will go offline after the event has ended">Show
+                                    online?</abbr></label>
+                            <div class="col-md-6">
+                                <div class="custom-control custom-control-inline custom-radio">
+                                    <input type="radio" value="1" id="is_online1"
+                                           name="is_online"
+                                           class="custom-control-input" {{ old('is_online', $event->is_online) == 1 ? 'checked' : '' }}>
+                                    <label class="custom-control-label" for="is_online1">Yes</label>
+                                </div>
+                                <div class="custom-control custom-control-inline custom-radio">
+                                    <input type="radio" value="0" id="is_online0"
+                                           name="is_online"
+                                           class="custom-control-input" {{ old('is_online', $event->is_online) == 0 ? 'checked' : '' }}>
+                                    <label class="custom-control-label" for="is_online0">No</label>
+                                </div>
+
+                                @if ($errors->has('import_only'))
+                                    <span class="invalid-feedback">
+                                        <strong>{{ $errors->first('import_only') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
                         {{--Name--}}
                         <div class="form-group row">
                             <label for="name" class="col-md-4 col-form-label text-md-right"> Name</label>

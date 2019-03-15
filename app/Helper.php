@@ -28,14 +28,23 @@ function nextEvent()
 
 /**
  * @param bool $one
+ * @param bool $showAll
  * @return Event|\Illuminate\Database\Eloquent\Model|null|object
  */
-function nextEvents($one = false)
+function nextEvents($one = false, $showAll = false)
 {
     if ($one) {
-        return Event::where('endEvent', '>', now())->orderBy('startEvent', 'asc')->first();
+        if ($showAll) {
+            return Event::where('endEvent', '>', now())->orderBy('startEvent', 'asc')->first();
+        }
+        return Event::where('is_online', true)
+            ->where('endEvent', '>', now())->orderBy('startEvent', 'asc')->first();
     }
-    return Event::where('endEvent', '>', now())->orderBy('startEvent', 'asc')->get();
+    if ($showAll) {
+        return Event::where('endEvent', '>', now())->orderBy('startEvent', 'asc')->get();
+    }
+    return Event::where('is_online', true)
+        ->where('endEvent', '>', now())->orderBy('startEvent', 'asc')->get();
 }
 
 /**
