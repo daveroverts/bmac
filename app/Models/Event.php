@@ -40,6 +40,7 @@ class Event extends Model
      * @var array
      */
     protected $casts = [
+        'is_online' => 'boolean',
         'image_url' => 'string',
         'dep' => 'string',
         'arr' => 'string',

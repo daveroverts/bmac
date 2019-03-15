@@ -69,7 +69,7 @@ class EventController extends Controller
     public function store(StoreEvent $request)
     {
         $event = new Event();
-        $event->fill($request->only('name', 'event_type_id', 'import_only', 'uses_times',
+        $event->fill($request->only('is_online', 'name', 'event_type_id', 'import_only', 'uses_times',
             'multiple_bookings_allowed', 'is_oceanic_event', 'dep', 'arr', 'image_url', 'description'));
         $event->fill([
             'startEvent' => Carbon::createFromFormat('d-m-Y H:i',
@@ -119,7 +119,7 @@ class EventController extends Controller
      */
     public function update(UpdateEvent $request, Event $event)
     {
-        $event->fill($request->only('name', 'event_type_id', 'import_only', 'uses_times',
+        $event->fill($request->only('is_online', 'name', 'event_type_id', 'import_only', 'uses_times',
             'multiple_bookings_allowed', 'is_oceanic_event', 'dep', 'arr', 'image_url', 'description'));
         $event->fill([
             'startEvent' => Carbon::createFromFormat('d-m-Y H:i',
