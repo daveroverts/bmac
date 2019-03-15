@@ -64,7 +64,7 @@
                 </thead>
                 @foreach($bookings as $booking)
                     {{--Check if flight belongs to the logged in user--}}
-                    <tr class="{{ Auth::check() && $booking->user_id == Auth::id() ? 'table-primary' : '' }}">
+                    <tr class="{{ Auth::check() && $booking->user_id == Auth::id() ? 'table-active' : '' }}">
                         <td>
                             {!! $booking->airportDep->fullName !!}
                         </td>
