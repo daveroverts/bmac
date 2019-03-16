@@ -20,6 +20,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - ``Airport``, ``AirportLink``, and ``Event`` now use 1 form, instead of 2 different for ``create`` and ``edit``
 - ``BookingController@store()`` Bulk save now allows a float as separator (examples: 1.5 and 1.25)
 - Changed ``table-primary`` to ``table-active``
+- [Laravel Telescope](https://laravel.com/docs/5.7/telescope) is now also enabled outside of local. Admin rights are needed to access.
 
 ## [v1.2.0](https://gitlab.com/daveroverts/Book-me-a-cookie/compare/v1.2.0...v1.1.0) - 2019-02-11
 
