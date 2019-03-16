@@ -63,39 +63,43 @@ class BookingController extends Controller
         $filter = null;
 
         if ($event) {
-            if ($event->type->id !== EventType::ONEWAY) {
-                switch (strtolower($request->filter)) {
-                    case 'departures':
-                        $bookings = Booking::where('event_id', $event->id)
-                            ->where('dep', $event->dep)
-                            ->orderBy('ctot')
-                            ->orderBy('callsign')
-                            ->with(['airportDep', 'airportArr', 'event', 'user'])
-                            ->get();
-                        $filter = $request->filter;
-                        break;
-                    case 'arrivals':
-                        $bookings = Booking::where('event_id', $event->id)
-                            ->where('arr', $event->arr)
-                            ->orderBy('eta')
-                            ->orderBy('callsign')
-                            ->with(['airportDep', 'airportArr', 'event', 'user'])
-                            ->get();
-                        $filter = $request->filter;
-                        break;
-                    default:
-                        $bookings = Booking::where('event_id', $event->id)
-                            ->orderBy('eta')
-                            ->orderBy('ctot')
-                            ->with(['airportDep', 'airportArr', 'event', 'user'])
-                            ->get();
+            if ($event->is_online) {
+                if ($event->type->id !== EventType::ONEWAY) {
+                    switch (strtolower($request->filter)) {
+                        case 'departures':
+                            $bookings = Booking::where('event_id', $event->id)
+                                ->where('dep', $event->dep)
+                                ->orderBy('ctot')
+                                ->orderBy('callsign')
+                                ->with(['airportDep', 'airportArr', 'event', 'user'])
+                                ->get();
+                            $filter = $request->filter;
+                            break;
+                        case 'arrivals':
+                            $bookings = Booking::where('event_id', $event->id)
+                                ->where('arr', $event->arr)
+                                ->orderBy('eta')
+                                ->orderBy('callsign')
+                                ->with(['airportDep', 'airportArr', 'event', 'user'])
+                                ->get();
+                            $filter = $request->filter;
+                            break;
+                        default:
+                            $bookings = Booking::where('event_id', $event->id)
+                                ->orderBy('eta')
+                                ->orderBy('ctot')
+                                ->with(['airportDep', 'airportArr', 'event', 'user'])
+                                ->get();
+                    }
+                } else {
+                    $bookings = Booking::where('event_id', $event->id)
+                        ->orderBy('eta')
+                        ->orderBy('ctot')
+                        ->with(['airportDep', 'airportArr', 'event', 'user'])
+                        ->get();
                 }
             } else {
-                $bookings = Booking::where('event_id', $event->id)
-                    ->orderBy('eta')
-                    ->orderBy('ctot')
-                    ->with(['airportDep', 'airportArr', 'event', 'user'])
-                    ->get();
+                abort_unless(Auth::check() && Auth::user()->isAdmin, 404);
             }
         }
 

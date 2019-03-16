@@ -33,7 +33,8 @@ Route::get('/users', function () {
 });
 
 Route::get('/events/upcoming/{limit?}', function ($limit = 3) {
-    return new EventsCollection(Event::where('endEvent', '>', now())
+    return new EventsCollection(Event::where('is_online', true)
+        ->where('endEvent', '>', now())
         ->orderBy('startEvent', 'asc')
         ->limit($limit)
         ->get());
