@@ -147,6 +147,7 @@ sensiolabs:
   cache:
     paths:
       - security-checker/
+  allow_failure: true
 
 sonarqube:
   image: johnnei/sonarqube-scanner:3.2.0.1227-4

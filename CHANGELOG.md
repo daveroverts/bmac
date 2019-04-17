@@ -22,6 +22,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Changed ``table-primary`` to ``table-active``
 - [Laravel Telescope](https://laravel.com/docs/5.7/telescope) is now also enabled outside of local. Admin rights are needed to access.
 
+## [v1.2.0a](https://gitlab.com/daveroverts/Book-me-a-cookie/compare/v1.2.0a...v1.2.0) - 2019-04-17
+
+### Changed
+- Fix for Booking import not working, due to ``airports`` table change (id [int])
+
 ## [v1.2.0](https://gitlab.com/daveroverts/Book-me-a-cookie/compare/v1.2.0...v1.1.0) - 2019-02-11
 
 ### Added
