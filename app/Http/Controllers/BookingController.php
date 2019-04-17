@@ -507,8 +507,8 @@ class BookingController extends Controller
             $flight = collect([
                 'callsign' => $line['Call Sign'],
                 'acType' => $line['Aircraft Type'],
-                'dep' => $dep->icao,
-                'arr' => $arr->icao,
+                'dep' => $dep->id,
+                'arr' => $arr->id,
             ]);
             if (isset($line['ETA'])) {
                 $flight->put('eta', Carbon::createFromFormat('Y-m-d H:i', $event->startEvent->toDateString() . ' ' . $line['ETA']->format('H:i')));

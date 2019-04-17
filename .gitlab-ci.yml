@@ -147,6 +147,7 @@ sensiolabs:
   cache:
     paths:
       - security-checker/
+  allow_failure: true
 
 staging:
   stage: deploy
