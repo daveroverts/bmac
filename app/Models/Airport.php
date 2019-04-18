@@ -48,15 +48,17 @@ class Airport extends Model
 
     public function getFullNameAttribute()
     {
-        if (Auth::check()) {
-            if (Auth::user()->airport_view == AirportView::IATA) {
-                return '<abbr title="' . $this->name . ' | [' . $this->icao . ']">' . $this->iata . '</abbr>';
-            }
-            if (Auth::user()->airport_view == AirportView::NAME) {
-                return '<abbr title="' . $this->icao . ' | [' . $this->iata . ']">' . $this->name . '</abbr>';
+        if (Auth::check() && Auth::user()->airport_view !== AirportView::NAME) {
+            switch (Auth::user()->airport_view) {
+                case AirportView::ICAO:
+                    return '<abbr title="' . $this->name . ' | [' . $this->iata . ']">' . $this->icao . '</abbr>';
+                    break;
+                case AirportView::IATA:
+                    return '<abbr title="' . $this->name . ' | [' . $this->icao . ']">' . $this->iata . '</abbr>';
+                    break;
             }
         }
-        return '<abbr title="' . $this->name . ' | [' . $this->iata . ']">' . $this->icao . '</abbr>';
+        return '<abbr title="' . $this->icao . ' | [' . $this->iata . ']">' . $this->name . '</abbr>';
     }
 
     /**
