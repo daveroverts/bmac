@@ -21,6 +21,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - ``BookingController@store()`` Bulk save now allows a float as separator (examples: 1.5 and 1.25)
 - Changed ``table-primary`` to ``table-active``
 - [Laravel Telescope](https://laravel.com/docs/5.7/telescope) is now also enabled outside of local. Admin rights are needed to access.
+- ``Airport`` ``getFullNameAttribute()`` now uses name by default in case you are not logged in (same behaviour as when you create account for the first time).
 
 ## [v1.2.0a](https://gitlab.com/daveroverts/Book-me-a-cookie/compare/v1.2.0a...v1.2.0) - 2019-04-17
 
