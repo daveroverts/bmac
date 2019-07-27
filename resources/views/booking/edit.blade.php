@@ -28,7 +28,7 @@
                             <label for="callsign" class="col-md-4 col-form-label text-md-right"> Callsign</label>
 
                             <div class="col-md-6">
-                                @if($booking->event->import_only)
+                                @if(!$booking->is_editable)
                                     <div class="form-control-plaintext"><strong>{{ $booking->callsign }}</strong></div>
                                 @else
                                     <input id="callsign" type="text"
@@ -143,7 +143,7 @@
                             <label for="aircraft" class="col-md-4 col-form-label text-md-right"> Aircraft code</label>
 
                             <div class="col-md-6">
-                                @if($booking->event->import_only)
+                                @if(!$booking->is_editable)
                                     <div class="form-control-plaintext"><strong>{{ $booking->acType }}</strong></div>
                                 @else
                                     <input id="aircraft" type="text"
