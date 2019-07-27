@@ -149,6 +149,18 @@ sensiolabs:
       - security-checker/
   allow_failure: true
 
+sonarqube:
+  image: johnnei/sonarqube-scanner:3.2.0.1227-4
+  stage: security
+  dependencies:
+  - composer
+  - phpunit
+  only:
+  - dev
+  script:
+  - "sonar-scanner -Dsonar.login=$SONAR_TOKEN"
+
+
 staging:
   stage: deploy
 

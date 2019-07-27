@@ -43,6 +43,32 @@
                             </div>
                         </div>
 
+                        {{--Editable?--}}
+                        <div class="form-group row">
+                            <label for="is_editable" class="col-md-4 col-form-label text-md-right"> <abbr
+                                    title="Choose if you want the booking to be editable (Callsign and Aircraft Code only) by users. This is useful when using 'import only', but want to add extra slots">Editable?</abbr></label>
+                            <div class="col-md-6">
+                                <div class="custom-control custom-control-inline custom-radio">
+                                    <input type="radio" value="1" id="is_editable1"
+                                           name="is_editable"
+                                           class="custom-control-input" {{ old('is_editable') == 1 ? 'checked' : '' }}>
+                                    <label class="custom-control-label" for="is_editable1">Yes</label>
+                                </div>
+                                <div class="custom-control custom-control-inline custom-radio">
+                                    <input type="radio" value="0" id="is_editable0"
+                                           name="is_editable"
+                                           class="custom-control-input" {{ old('is_editable') == 0 ? 'checked' : '' }}>
+                                    <label class="custom-control-label" for="is_editable0">No</label>
+                                </div>
+
+                                @if ($errors->has('is_editable'))
+                                    <span class="invalid-feedback">
+                                        <strong>{{ $errors->first('is_editable') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
                         @if(!$bulk)
                             {{--Callsign--}}
                             <div class="form-group row">
@@ -171,7 +197,7 @@
                                 <div class="col-md-6">
                                     <input id="separation" type="number"
                                            class="form-control{{ $errors->has('separation') ? ' is-invalid' : '' }}"
-                                           name="separation" value="{{ old('separation',2) }}" required min="1">
+                                           name="separation" value="{{ old('separation',2) }}" required step=".01">
 
                                     @if ($errors->has('separation'))
                                         <span class="invalid-feedback">
@@ -222,7 +248,7 @@
 
                                 <div class="col-md-6">
                                 <textarea class="form-control" id="route"
-                                          name="route">{{ old('route','vRoute') }}</textarea>
+                                          name="route">{{ old('route') }}</textarea>
 
                                     @if ($errors->has('route'))
                                         <span class="invalid-feedback">
@@ -240,7 +266,7 @@
                                     <input id="oceanicFL" type="text"
                                            class="form-control{{ $errors->has('oceanicFL') ? ' is-invalid' : '' }}"
                                            name="oceanicFL"
-                                           value="{{ old('oceanicFL',240) }}" min="3" max="3">
+                                           value="{{ old('oceanicFL') }}" min="3" max="3">
 
                                     @if ($errors->has('oceanicFL'))
                                         <span class="invalid-feedback">

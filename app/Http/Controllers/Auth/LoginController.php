@@ -92,6 +92,7 @@ class LoginController extends Controller
                     $account->save();
 
                     Auth::loginUsingId($user->id);
+                    activity()->log('Login');
 
                     if (Session::get('booking')) {
                         $booking = Booking::where('uuid', Session::get('booking'))->first();
@@ -118,6 +119,7 @@ class LoginController extends Controller
 
     public function logout()
     {
+        activity()->log('Logout');
         Auth::logout();
         return redirect('/');
     }

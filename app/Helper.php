@@ -17,11 +17,34 @@ function flashMessage($type, $title, $text)
 }
 
 /**
+ * Alias for nextEvent(), limit to 1
+ *
  * @return Event
  */
 function nextEvent()
 {
-    return Event::where('endEvent', '>', now())->orderBy('startEvent', 'asc')->first();
+    return nextEvents(true);
+}
+
+/**
+ * @param bool $one
+ * @param bool $showAll
+ * @return Event|\Illuminate\Database\Eloquent\Model|null|object
+ */
+function nextEvents($one = false, $showAll = false)
+{
+    if ($one) {
+        if ($showAll) {
+            return Event::where('endEvent', '>', now())->orderBy('startEvent', 'asc')->first();
+        }
+        return Event::where('is_online', true)
+            ->where('endEvent', '>', now())->orderBy('startEvent', 'asc')->first();
+    }
+    if ($showAll) {
+        return Event::where('endEvent', '>', now())->orderBy('startEvent', 'asc')->get();
+    }
+    return Event::where('is_online', true)
+        ->where('endEvent', '>', now())->orderBy('startEvent', 'asc')->get();
 }
 
 /**

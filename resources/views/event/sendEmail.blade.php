@@ -16,34 +16,65 @@
         <script>
             $('.send-final-email').on('click', function (e) {
                 e.preventDefault();
-                swal({
-                    title: 'Are you sure',
-                    text: 'Are you sure you want to send the Final Information Email?',
-                    type: 'warning',
-                    showCancelButton: true,
-                }).then((result) => {
-                    if (result.value) {
-                        swal('Sending Final Information Email...');
-                        swal.showLoading();
-                        $(this).closest('form').submit();
-                    }
-                });
+                if ($('#testmode1').prop('checked')) {
+                    swal('Sending test Email...');
+                    swal.showLoading();
+                    var url = '{{ route('events.email.final', $event) }}';
+                    axios.post(url, {
+                        'testmode': 1,
+                        '_method': 'PATCH',
+                    })
+                        .then(function (response) {
+                            console.log(response);
+                            swal(response.data.success);
+                        });
+                } else {
+                    swal({
+                        title: 'Are you sure',
+                        text: 'Are you sure you want to send the Final Information Email?',
+                        type: 'warning',
+                        showCancelButton: true,
+                    }).then((result) => {
+                        if (result.value) {
+                            swal('Sending Final Information Email...');
+                            swal.showLoading();
+                            $(this).closest('form').submit();
+                        }
+                    });
+                }
             });
 
             $('.send-email').on('click', function (e) {
                 e.preventDefault();
-                swal({
-                    title: 'Are you sure',
-                    text: 'Are you sure you want to send a Email?',
-                    type: 'warning',
-                    showCancelButton: true,
-                }).then((result) => {
-                    if (result.value) {
-                        swal('Sending Email...');
-                        swal.showLoading();
-                        $(this).closest('form').submit();
-                    }
-                });
+                if ($('#testmode2').prop('checked')) {
+                    swal('Sending test Email...');
+                    swal.showLoading();
+                    var url = '{{ route('events.email', $event) }}';
+                    axios.post(url, {
+                        'subject': $('#subject').val(),
+                        'message': tinymce.get('description').getContent(),
+                        'testmode': 1,
+                        '_method': 'PATCH',
+                    })
+                        .then(function (response) {
+                            console.log(response);
+                            swal(response.data.success);
+                        });
+                } else {
+                    swal({
+                        title: 'Are you sure',
+                        text: 'Are you sure you want to send a Email?',
+                        type: 'warning',
+                        showCancelButton: true,
+                    }).then((result) => {
+                        if (result.value) {
+                            swal('Sending Email...');
+                            swal.showLoading();
+                            $(this).closest('form').submit();
+                        }
+                    });
+                }
+
             });
         </script>
     @endpush
@@ -65,7 +96,10 @@
                                 <button class="btn btn-primary send-final-email">
                                     <i class="fa fa-envelope"></i> Send <strong>Final Information</strong> E-mail
                                 </button>
-
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" id="testmode1">
+                                    <label class="custom-control-label" for="testmode1">Test mode</label>
+                                </div>
                             </div>
                         </div>
                     </form>
@@ -106,6 +140,12 @@
                                 <button type="submit" class="btn btn-primary send-email">
                                     <i class="fas fa-envelope"></i> Send E-mail
                                 </button>
+                            </div>
+                            <div class="col-md-6 offset-md-4">
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" id="testmode2">
+                                    <label class="custom-control-label" for="testmode2">Test mode</label>
+                                </div>
                             </div>
                         </div>
                     </form>

@@ -40,6 +40,7 @@ class Event extends Model
      * @var array
      */
     protected $casts = [
+        'is_online' => 'boolean',
         'image_url' => 'string',
         'dep' => 'string',
         'arr' => 'string',
@@ -70,6 +71,11 @@ class Event extends Model
     public function airportArr()
     {
         return $this->hasOne(Airport::class, 'id', 'arr');
+    }
+
+    public function faqs()
+    {
+        return $this->belongsToMany(Faq::class);
     }
 
     public function sluggable()

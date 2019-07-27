@@ -21,6 +21,32 @@
                         @csrf
                         @method('PATCH')
 
+                        {{--Editable?--}}
+                        <div class="form-group row">
+                            <label for="is_editable" class="col-md-4 col-form-label text-md-right"> <abbr
+                                    title="Choose if you want the booking to be editable (Callsign and Aircraft Code only) by users. This is useful when using 'import only', but want to add extra slots">Editable?</abbr></label>
+                            <div class="col-md-6">
+                                <div class="custom-control custom-control-inline custom-radio">
+                                    <input type="radio" value="1" id="is_editable1"
+                                           name="is_editable"
+                                           class="custom-control-input" {{ old('is_editable', $booking->is_editable) == 1 ? 'checked' : '' }}>
+                                    <label class="custom-control-label" for="is_editable1">Yes</label>
+                                </div>
+                                <div class="custom-control custom-control-inline custom-radio">
+                                    <input type="radio" value="0" id="is_editable0"
+                                           name="is_editable"
+                                           class="custom-control-input" {{ old('is_editable', $booking->is_editable) == 0 ? 'checked' : '' }}>
+                                    <label class="custom-control-label" for="is_editable0">No</label>
+                                </div>
+
+                                @if ($errors->has('is_editable'))
+                                    <span class="invalid-feedback">
+                                        <strong>{{ $errors->first('is_editable') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
                         {{--Callsign--}}
                         <div class="form-group row">
                             <label for="callsign" class="col-md-4 col-form-label text-md-right">Callsign</label>

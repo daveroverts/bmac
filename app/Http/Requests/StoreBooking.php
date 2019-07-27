@@ -26,6 +26,7 @@ class StoreBooking extends FormRequest
         return [
             'id' => 'exists:events,id|required',
             'bulk' => 'required|boolean',
+            'is_editable' => 'required|boolean',
             'callsign' => 'sometimes|alpha_num|between:4,7',
             'aircraft' => 'sometimes|alpha_num|between:3,4',
             'ctot' => 'sometimes|nullable',
@@ -35,8 +36,8 @@ class StoreBooking extends FormRequest
             'arr' => 'exists:airports,id|required',
             'start' => 'sometimes|date_format:H:i',
             'end' => 'sometimes|date_format:H:i',
-            'separation' => 'sometimes|integer|min:1',
-            'oceanicFL' => 'sometimes|integer',
+            'separation' => 'sometimes|numeric|min:1',
+            'oceanicFL' => 'sometimes|nullable|integer:3',
         ];
     }
 }

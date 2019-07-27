@@ -14,11 +14,41 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">Add new Event</div>
+                <div class="card-header">{{ $event->id ? 'Edit' : 'Add new' }} Event</div>
 
                 <div class="card-body">
-                    <form method="POST" action="{{ route('events.store') }}">
+                    <form method="POST" action="{{ $event->id ? route('events.update', $event) : route('events.store') }}">
                         @csrf
+                        @if($event->id)
+                            @method('PATCH')
+                        @endif
+                        {{--Show online?--}}
+                        <div class="form-group row">
+                            <label for="is_online" class="col-md-4 col-form-label text-md-right"> <abbr
+                                    title="Choose here if you want to show the event on the main page. Do note that it will go offline after the event has ended">Show
+                                    online?</abbr></label>
+                            <div class="col-md-6">
+                                <div class="custom-control custom-control-inline custom-radio">
+                                    <input type="radio" value="1" id="is_online1"
+                                           name="is_online"
+                                           class="custom-control-input" {{ old('is_online', $event->is_online) == 1 ? 'checked' : '' }}>
+                                    <label class="custom-control-label" for="is_online1">Yes</label>
+                                </div>
+                                <div class="custom-control custom-control-inline custom-radio">
+                                    <input type="radio" value="0" id="is_online0"
+                                           name="is_online"
+                                           class="custom-control-input" {{ old('is_online', $event->is_online) == 0 ? 'checked' : '' }}>
+                                    <label class="custom-control-label" for="is_online0">No</label>
+                                </div>
+
+                                @if ($errors->has('import_only'))
+                                    <span class="invalid-feedback">
+                                        <strong>{{ $errors->first('import_only') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
                         {{--Name--}}
                         <div class="form-group row">
                             <label for="name" class="col-md-4 col-form-label text-md-right"> Name</label>
@@ -26,7 +56,7 @@
                             <div class="col-md-6">
                                 <input id="name" type="text"
                                        class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" name="name"
-                                       value="{{ old('name') }}" required autofocus>
+                                       value="{{ old('name', $event->name) }}" required autofocus>
 
                                 @if ($errors->has('name'))
                                     <span class="invalid-feedback">
@@ -45,7 +75,7 @@
                                         name="event_type_id">
                                     <option value="">Choose an event type...</option>
                                     @foreach($eventTypes as $eventType)
-                                        <option value="{{ $eventType->id }}" {{ old('event_type_id') == $eventType->id ? 'selected' : '' }}>{{ $eventType->name }}</option>
+                                        <option value="{{ $eventType->id }}" {{ old('event_type_id', $event->event_type_id) == $eventType->id ? 'selected' : '' }}>{{ $eventType->name }}</option>
                                     @endforeach
                                 </select>
 
@@ -65,12 +95,12 @@
                             <div class="col-md-6">
                                 <div class="custom-control custom-control-inline custom-radio">
                                     <input type="radio" value="1" id="import_only1" name="import_only"
-                                           class="custom-control-input" {{ old('import_only') == 1 ? 'checked' : '' }}>
+                                           class="custom-control-input" {{ old('import_only', $event->import_only) == 1 ? 'checked' : '' }}>
                                     <label class="custom-control-label" for="import_only1">Yes</label>
                                 </div>
                                 <div class="custom-control custom-control-inline custom-radio">
                                     <input type="radio" value="0" id="import_only0" name="import_only"
-                                           class="custom-control-input" {{ old('import_only') == 0 ? 'checked' : '' }}>
+                                           class="custom-control-input" {{ old('import_only', $event->import_only) == 0 ? 'checked' : '' }}>
                                     <label class="custom-control-label" for="import_only0">No</label>
                                 </div>
 
@@ -90,12 +120,12 @@
                             <div class="col-md-6">
                                 <div class="custom-control custom-control-inline custom-radio">
                                     <input type="radio" value="1" id="uses_times1" name="uses_times"
-                                           class="custom-control-input" {{ old('uses_times') == 1 ? 'checked' : '' }}>
+                                           class="custom-control-input" {{ old('uses_times', $event->uses_times) == 1 ? 'checked' : '' }}>
                                     <label class="custom-control-label" for="uses_times1">Yes</label>
                                 </div>
                                 <div class="custom-control custom-control-inline custom-radio">
                                     <input type="radio" value="0" id="uses_times0" name="uses_times"
-                                           class="custom-control-input" {{ old('uses_times') == 0 ? 'checked' : '' }}>
+                                           class="custom-control-input" {{ old('uses_times', $event->uses_times) == 0 ? 'checked' : '' }}>
                                     <label class="custom-control-label" for="uses_times0">No</label>
                                 </div>
 
@@ -116,13 +146,13 @@
                                 <div class="custom-control custom-control-inline custom-radio">
                                     <input type="radio" value="1" id="multiple_bookings_allowed1"
                                            name="multiple_bookings_allowed"
-                                           class="custom-control-input" {{ old('multiple_bookings_allowed') == 1 ? 'checked' : '' }}>
+                                           class="custom-control-input" {{ old('multiple_bookings_allowed', $event->multiple_bookings_allowed) == 1 ? 'checked' : '' }}>
                                     <label class="custom-control-label" for="multiple_bookings_allowed1">Yes</label>
                                 </div>
                                 <div class="custom-control custom-control-inline custom-radio">
                                     <input type="radio" value="0" id="multiple_bookings_allowed0"
                                            name="multiple_bookings_allowed"
-                                           class="custom-control-input" {{ old('multiple_bookings_allowed') == 0 ? 'checked' : '' }}>
+                                           class="custom-control-input" {{ old('multiple_bookings_allowed', $event->multiple_bookings_allowed) == 0 ? 'checked' : '' }}>
                                     <label class="custom-control-label" for="multiple_bookings_allowed0">No</label>
                                 </div>
 
@@ -142,12 +172,12 @@
                             <div class="col-md-6">
                                 <div class="custom-control custom-control-inline custom-radio">
                                     <input type="radio" value="1" id="is_oceanic_event1" name="is_oceanic_event"
-                                           class="custom-control-input" {{ old('is_oceanic_event') == 1 ? 'checked' : '' }}>
+                                           class="custom-control-input" {{ old('is_oceanic_event', $event->is_oceanic_event) == 1 ? 'checked' : '' }}>
                                     <label class="custom-control-label" for="is_oceanic_event1">Yes</label>
                                 </div>
                                 <div class="custom-control custom-control-inline custom-radio">
                                     <input type="radio" value="0" id="is_oceanic_event0" name="is_oceanic_event"
-                                           class="custom-control-input" {{ old('is_oceanic_event') == 0 ? 'checked' : '' }}>
+                                           class="custom-control-input" {{ old('is_oceanic_event', $event->is_oceanic_event) == 0 ? 'checked' : '' }}>
                                     <label class="custom-control-label" for="is_oceanic_event0">No</label>
                                 </div>
 
@@ -168,7 +198,7 @@
                                         name="dep">
                                     <option value="">Choose an airport...</option>
                                     @foreach($airports as $airport)
-                                        <option value="{{ $airport->id }}" {{ old('dep') == $airport->id ? 'selected' : '' }}>{{ $airport->icao }}
+                                        <option value="{{ $airport->id }}" {{ old('dep', $event->dep) == $airport->id ? 'selected' : '' }}>{{ $airport->icao }}
                                             [{{ $airport->name }} ({{ $airport->iata }})]
                                         </option>
                                     @endforeach
@@ -191,7 +221,7 @@
                                         name="arr">
                                     <option value="">Choose an airport...</option>
                                     @foreach($airports as $airport)
-                                        <option value="{{ $airport->id }}" {{ old('arr') == $airport->id ? 'selected' : '' }}>{{ $airport->icao }}
+                                        <option value="{{ $airport->id }}" {{ old('arr', $event->arr) == $airport->id ? 'selected' : '' }}>{{ $airport->icao }}
                                             [{{ $airport->name }} ({{ $airport->iata }})]
                                         </option>
                                     @endforeach
@@ -213,7 +243,7 @@
                             <div class="col-md-6">
                                 <input type="text"
                                        class="form-control{{ $errors->has('date') ? ' is-invalid' : '' }} datepicker"
-                                       name="dateEvent" value="{{ old('dateEvent') }}" required>
+                                       name="dateEvent" value="{{ old('dateEvent', $event->id ? $event->startEvent->format('d-m-Y') : null) }}" required>
 
                                 @if ($errors->has('dateEvent'))
                                     <span class="invalid-feedback">
@@ -231,7 +261,7 @@
                             <div class="col-md-6">
                                 <input id="timeBeginEvent" type="time"
                                        class="form-control{{ $errors->has('timeEndEvent') ? ' is-invalid' : '' }}"
-                                       name="timeBeginEvent" value="{{ old('timeBeginEvent') }}" required>
+                                       name="timeBeginEvent" value="{{ old('timeBeginEvent', $event->id ? $event->startEvent->format('H:i') : null) }}" required>
 
                                 @if ($errors->has('name'))
                                     <span class="invalid-feedback">
@@ -249,7 +279,7 @@
                             <div class="col-md-6">
                                 <input id="timeEndEvent" type="time"
                                        class="form-control{{ $errors->has('timeEndEvent') ? ' is-invalid' : '' }}"
-                                       name="timeEndEvent" value="{{ old('timeEndEvent') }}" required>
+                                       name="timeEndEvent" value="{{ old('timeEndEvent', $event->id ? $event->endEvent->format('H:i') : null) }}" required>
 
                                 @if ($errors->has('timeEndEvent'))
                                     <span class="invalid-feedback">
@@ -267,7 +297,7 @@
                             <div class="col-md-6">
                                 <input type="text"
                                        class="form-control{{ $errors->has('date') ? ' is-invalid' : '' }} datepicker"
-                                       name="dateBeginBooking" value="{{ old('dateBeginBooking') }}" required>
+                                       name="dateBeginBooking" value="{{ old('dateBeginBooking', $event->id ? $event->startBooking->format('d-m-Y') : null) }}" required>
 
                                 @if ($errors->has('dateBeginBooking'))
                                     <span class="invalid-feedback">
@@ -285,7 +315,7 @@
                             <div class="col-md-6">
                                 <input id="timeBeginEvent" type="time"
                                        class="form-control{{ $errors->has('timeBeginBooking') ? ' is-invalid' : '' }}"
-                                       name="timeBeginBooking" value="{{ old('timeBeginBooking') }}" required>
+                                       name="timeBeginBooking" value="{{ old('timeBeginBooking', $event->id ? $event->startBooking->format('H:i') : null) }}" required>
 
                                 @if ($errors->has('name'))
                                     <span class="invalid-feedback">
@@ -303,7 +333,7 @@
                             <div class="col-md-6">
                                 <input type="text"
                                        class="form-control{{ $errors->has('date') ? ' is-invalid' : '' }} datepicker"
-                                       name="dateEndBooking" value="{{ old('dateEndBooking') }}" required>
+                                       name="dateEndBooking" value="{{ old('dateEndBooking', $event->id ? $event->endBooking->format('d-m-Y') : null) }}" required>
 
                                 @if ($errors->has('dateBeginBooking'))
                                     <span class="invalid-feedback">
@@ -321,7 +351,7 @@
                             <div class="col-md-6">
                                 <input id="timeEndBooking" type="time"
                                        class="form-control{{ $errors->has('timeEndBooking') ? ' is-invalid' : '' }}"
-                                       name="timeEndBooking" value="{{ old('timeEndBooking') }}" required>
+                                       name="timeEndBooking" value="{{ old('timeEndBooking', $event->id ? $event->endBooking->format('H:i') : null) }}" required>
 
                                 @if ($errors->has('timeEndBooking'))
                                     <span class="invalid-feedback">
@@ -339,7 +369,7 @@
                                 <input id="image" type="url"
                                        class="form-control{{ $errors->has('image_url') ? ' is-invalid' : '' }}"
                                        name="image_url"
-                                       value="{{ old('image_url') }}">
+                                       value="{{ old('image_url', $event->image_url) }}">
 
                                 @if ($errors->has('image_url'))
                                     <span class="invalid-feedback">
@@ -352,14 +382,18 @@
                         {{-- Description --}}
                         <div class="form-group row">
                             <textarea id="description" name="description"
-                                      rows="10">{!! old(html_entity_decode('description')) !!}</textarea>
+                                      rows="10">{!! html_entity_decode(old('description', $event->description)) !!}</textarea>
                         </div>
 
-                        {{--Add--}}
+                        {{--Add/Edit--}}
                         <div class="form-group row mb-0">
                             <div class="col-md-6 offset-md-4">
                                 <button type="submit" class="btn btn-primary">
-                                    <i class="fa fa-plus"></i> Add
+                                    @if($event->id)
+                                        <i class="fa fa-check"></i> Edit
+                                    @else
+                                        <i class="fa fa-plus"></i> Add
+                                    @endif
                                 </button>
                             </div>
                         </div>

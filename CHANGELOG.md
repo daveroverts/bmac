@@ -6,6 +6,31 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v1.3.0](https://gitlab.com/daveroverts/Book-me-a-cookie/compare/v1.3.0...v1.2.0a) - 2019-07-27
+
+### Added
+- SonarQube Scans, thanks to @Johnnei
+- Bugsnag Browser integration
+- Login + Logout are now logged
+- FAQ is now a CRUD thingy
+- E-mail tester for event E-mails
+- A event can now be marked as online/offline
+- ``nextEvents()`` now also accepts a second parameter ``showAll``, default false. This can be used to show offline events
+- A ``Booking`` now has ``is_editable`` to determine if a user can edit some details (``callsign`` and ``acType``)
+
+### Changed
+- ``oceanicFL`` is now always nullable
+- ``Airport``, ``AirportLink``, and ``Event`` now use 1 form, instead of 2 different for ``create`` and ``edit``
+- ``BookingController@store()`` Bulk save now allows a float as separator (examples: 1.5 and 1.25)
+- Changed ``table-primary`` to ``table-active``
+- [Laravel Telescope](https://laravel.com/docs/5.7/telescope) is now also enabled outside of local. Admin rights are needed to access.
+- ``Airport`` ``getFullNameAttribute()`` now uses name by default in case you are not logged in (same behaviour as when you create account for the first time).
+- Updated to Laravel 5.8
+- A ``Event`` is now only reachable via the slug to prevent PostgreSQL issues
+
+### Security
+- [CVE-2019-10905](https://github.com/erusev/parsedown/issues/699)
+
 ## [v1.2.0a](https://gitlab.com/daveroverts/Book-me-a-cookie/compare/v1.2.0a...v1.2.0) - 2019-04-17
 
 ### Changed

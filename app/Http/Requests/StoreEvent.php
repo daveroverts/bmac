@@ -24,6 +24,7 @@ class StoreEvent extends FormRequest
     public function rules()
     {
         return [
+            'is_online' => 'required|boolean',
             'name' => 'bail|required:string',
             'event_type_id' => 'exists:event_types,id|required',
             'import_only' => 'required|boolean',

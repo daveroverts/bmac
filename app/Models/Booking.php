@@ -18,6 +18,11 @@ class Booking extends Model
     protected $guarded = [
         'id', 'uuid', 'status', 'selcal',
     ];
+
+    protected $casts = [
+        'is_editable' => 'boolean'
+    ];
+
     /**
      * The attributes that should be mutated to dates.
      *

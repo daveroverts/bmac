@@ -63,39 +63,43 @@ class BookingController extends Controller
         $filter = null;
 
         if ($event) {
-            if ($event->type->id !== EventType::ONEWAY) {
-                switch (strtolower($request->filter)) {
-                    case 'departures':
-                        $bookings = Booking::where('event_id', $event->id)
-                            ->where('dep', $event->dep)
-                            ->orderBy('ctot')
-                            ->orderBy('callsign')
-                            ->with(['airportDep', 'airportArr', 'event', 'user'])
-                            ->get();
-                        $filter = $request->filter;
-                        break;
-                    case 'arrivals':
-                        $bookings = Booking::where('event_id', $event->id)
-                            ->where('arr', $event->arr)
-                            ->orderBy('eta')
-                            ->orderBy('callsign')
-                            ->with(['airportDep', 'airportArr', 'event', 'user'])
-                            ->get();
-                        $filter = $request->filter;
-                        break;
-                    default:
-                        $bookings = Booking::where('event_id', $event->id)
-                            ->orderBy('eta')
-                            ->orderBy('ctot')
-                            ->with(['airportDep', 'airportArr', 'event', 'user'])
-                            ->get();
+            if ($event->is_online) {
+                if ($event->type->id !== EventType::ONEWAY) {
+                    switch (strtolower($request->filter)) {
+                        case 'departures':
+                            $bookings = Booking::where('event_id', $event->id)
+                                ->where('dep', $event->dep)
+                                ->orderBy('ctot')
+                                ->orderBy('callsign')
+                                ->with(['airportDep', 'airportArr', 'event', 'user'])
+                                ->get();
+                            $filter = $request->filter;
+                            break;
+                        case 'arrivals':
+                            $bookings = Booking::where('event_id', $event->id)
+                                ->where('arr', $event->arr)
+                                ->orderBy('eta')
+                                ->orderBy('callsign')
+                                ->with(['airportDep', 'airportArr', 'event', 'user'])
+                                ->get();
+                            $filter = $request->filter;
+                            break;
+                        default:
+                            $bookings = Booking::where('event_id', $event->id)
+                                ->orderBy('eta')
+                                ->orderBy('ctot')
+                                ->with(['airportDep', 'airportArr', 'event', 'user'])
+                                ->get();
+                    }
+                } else {
+                    $bookings = Booking::where('event_id', $event->id)
+                        ->orderBy('eta')
+                        ->orderBy('ctot')
+                        ->with(['airportDep', 'airportArr', 'event', 'user'])
+                        ->get();
                 }
             } else {
-                $bookings = Booking::where('event_id', $event->id)
-                    ->orderBy('eta')
-                    ->orderBy('ctot')
-                    ->with(['airportDep', 'airportArr', 'event', 'user'])
-                    ->get();
+                abort_unless(Auth::check() && Auth::user()->isAdmin, 404);
             }
         }
 
@@ -141,19 +145,26 @@ class BookingController extends Controller
         if ($request->bulk) {
             $event_start = Carbon::createFromFormat('Y-m-d H:i', $event->startEvent->toDateString() . ' ' . $request->start);
             $event_end = Carbon::createFromFormat('Y-m-d H:i', $event->endEvent->toDateString() . ' ' . $request->end);
-            $separation = $request->separation;
+            $separation = $request->separation * 60;
             $count = 0;
-            for ($event_start; $event_start <= $event_end; $event_start->addMinutes($separation)) {
+            for (; $event_start <= $event_end; $event_start->addSeconds($separation)) {
+                $time = $event_start->copy();
+                if ($time->second >= 30) {
+                    $time->addMinute();
+                }
+                $time->second = 0;
+
                 if (!Booking::where([
                     'event_id' => $request->id,
-                    'ctot' => $event_start,
+                    'ctot' => $time,
                     'dep' => $request->from,
                 ])->first()) {
                     Booking::create([
                         'event_id' => $request->id,
+                        'is_editable' => $request->is_editable,
                         'dep' => $request->dep,
                         'arr' => $request->arr,
-                        'ctot' => $event_start,
+                        'ctot' => $time,
                     ])->save();
                     $count++;
                 }
@@ -161,6 +172,7 @@ class BookingController extends Controller
             flashMessage('success', 'Done', $count . ' Slots have been created!');
         } else {
             $booking = new Booking([
+                'is_editable' => $request->is_editable,
                 'callsign' => $request->callsign,
                 'acType' => $request->aircraft,
                 'dep' => $request->dep,
@@ -267,7 +279,7 @@ class BookingController extends Controller
      */
     public function update(UpdateBooking $request, Booking $booking)
     {
-        if (!$booking->event->import_only) {
+        if ($booking->is_editable) {
             $booking->fill([
                 'callsign' => $request->callsign,
                 'acType' => $request->aircraft
@@ -359,7 +371,7 @@ class BookingController extends Controller
     {
         $this->authorize('cancel', $booking);
         if ($booking->event->endBooking > now()) {
-            if (!$booking->event->import_only) {
+            if ($booking->is_editable) {
                 $booking->fill([
                     'callsign' => null,
                     'acType' => null,
@@ -415,6 +427,7 @@ class BookingController extends Controller
     public function adminUpdate(AdminUpdateBooking $request, Booking $booking)
     {
         $booking->fill([
+            'is_editable' => $request->is_editable,
             'callsign' => $request->callsign,
             'dep' => $request->dep,
             'arr' => $request->arr,

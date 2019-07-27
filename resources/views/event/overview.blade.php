@@ -37,7 +37,7 @@
         </thead>
         @forelse($events as $event)
             @if($event->endEvent < now())
-                <tr class="table-primary">
+                <tr class="table-active">
             @else
                 <tr>
                     @endif
