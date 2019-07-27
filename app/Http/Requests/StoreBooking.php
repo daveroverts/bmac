@@ -26,6 +26,7 @@ class StoreBooking extends FormRequest
         return [
             'id' => 'exists:events,id|required',
             'bulk' => 'required|boolean',
+            'is_editable' => 'required|boolean',
             'callsign' => 'sometimes|alpha_num|between:4,7',
             'aircraft' => 'sometimes|alpha_num|between:3,4',
             'ctot' => 'sometimes|nullable',

@@ -24,6 +24,7 @@ class AdminUpdateBooking extends FormRequest
     public function rules()
     {
         return [
+            'is_editable' => 'required|boolean',
             'callsign' => 'nullable|alpha_num|max:7',
             'ctot' => 'present|nullable|date_format:H:i',
             'eta' => 'present|nullable|date_format:H:i',
