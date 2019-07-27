@@ -161,6 +161,7 @@ class BookingController extends Controller
                 ])->first()) {
                     Booking::create([
                         'event_id' => $request->id,
+                        'is_editable' => $request->is_editable,
                         'dep' => $request->dep,
                         'arr' => $request->arr,
                         'ctot' => $time,
@@ -171,6 +172,7 @@ class BookingController extends Controller
             flashMessage('success', 'Done', $count . ' Slots have been created!');
         } else {
             $booking = new Booking([
+                'is_editable' => $request->is_editable,
                 'callsign' => $request->callsign,
                 'acType' => $request->aircraft,
                 'dep' => $request->dep,
@@ -277,7 +279,7 @@ class BookingController extends Controller
      */
     public function update(UpdateBooking $request, Booking $booking)
     {
-        if (!$booking->event->import_only) {
+        if ($booking->is_editable) {
             $booking->fill([
                 'callsign' => $request->callsign,
                 'acType' => $request->aircraft
@@ -369,7 +371,7 @@ class BookingController extends Controller
     {
         $this->authorize('cancel', $booking);
         if ($booking->event->endBooking > now()) {
-            if (!$booking->event->import_only) {
+            if ($booking->is_editable) {
                 $booking->fill([
                     'callsign' => null,
                     'acType' => null,
@@ -425,6 +427,7 @@ class BookingController extends Controller
     public function adminUpdate(AdminUpdateBooking $request, Booking $booking)
     {
         $booking->fill([
+            'is_editable' => $request->is_editable,
             'callsign' => $request->callsign,
             'dep' => $request->dep,
             'arr' => $request->arr,

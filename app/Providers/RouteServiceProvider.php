@@ -24,9 +24,7 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        Route::bind('event', function ($value) {
-            return Event::where('id', $value)->orWhere('slug', $value)->first();
-        });
+        //
 
         parent::boot();
     }
