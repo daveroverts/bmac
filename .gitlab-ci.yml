@@ -43,6 +43,7 @@ composer:
   cache:
     paths:
       - vendor/
+  allow_failure: true
 
 npm:
   stage: preparation
