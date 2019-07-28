@@ -20,11 +20,8 @@ image: lorisleiva/laravel-docker:latest
 
 # Variables
 variables:
-  MYSQL_ROOT_PASSWORD: secret
-  MYSQL_USER: homestead
   MYSQL_DATABASE: book_me_a_cookie_test
-  MYSQL_PASSWORD: secret
-  DB_HOST: mysql
+  MYSQL_ROOT_PASSWORD: secret
 
 cache:
   key: "$CI_JOB_NAME-$CI_COMMIT_REF_SLUG"
@@ -36,6 +33,7 @@ composer:
     - php -v
     - composer install --prefer-dist --no-ansi --no-interaction --no-progress --no-scripts
     - cp .env.testing .env
+    - php artisan config:clear
     - php artisan key:generate
   artifacts:
     paths:
@@ -91,6 +89,7 @@ db-seeding:
     - composer
     - npm
   script:
+    - php artisan config:clear
     - php artisan migrate:fresh --seed
   artifacts:
     paths:
@@ -170,6 +169,7 @@ staging:
   script:
   - *init_ssh
   - *change_file_permissions
+  - php artisan config:clear
   - php artisan deploy 104.248.84.152 -s upload
 
   environment:
@@ -185,6 +185,7 @@ production:
   script:
   - *init_ssh
   - *change_file_permissions
+  - php artisan config:clear
   - php artisan deploy vps1.dutchvacc.nl -s upload
 
   environment:
