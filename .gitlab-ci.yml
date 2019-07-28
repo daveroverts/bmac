@@ -28,6 +28,8 @@ cache:
 
 composer:
   stage: preparation
+  services:
+    - mysql:5.7
   image: edbizarro/gitlab-ci-pipeline-php:7.2
   script:
     - php -v
@@ -89,7 +91,6 @@ db-seeding:
     - composer
     - npm
   script:
-    - php artisan config:clear
     - php artisan migrate:fresh --seed
   artifacts:
     paths:
@@ -169,7 +170,6 @@ staging:
   script:
   - *init_ssh
   - *change_file_permissions
-  - php artisan config:clear
   - php artisan deploy 104.248.84.152 -s upload
 
   environment:
@@ -181,11 +181,11 @@ staging:
 
 production:
   stage: deploy
-
+  services:
+    - mysql:5.7
   script:
   - *init_ssh
   - *change_file_permissions
-  - php artisan config:clear
   - php artisan deploy vps1.dutchvacc.nl -s upload
 
   environment:
