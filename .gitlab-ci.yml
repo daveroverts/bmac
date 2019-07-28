@@ -20,15 +20,18 @@ image: lorisleiva/laravel-docker:latest
 
 # Variables
 variables:
-  MYSQL_DATABASE: book_me_a_cookie_test
   MYSQL_ROOT_PASSWORD: secret
+  MYSQL_USER: homestead
+  MYSQL_DATABASE: book_me_a_cookie_test
+  MYSQL_PASSWORD: secret
+  DB_HOST: mysql
 
 cache:
   key: "$CI_JOB_NAME-$CI_COMMIT_REF_SLUG"
 
 composer:
   stage: preparation
-  image: edbizarro/gitlab-ci-pipeline-php:7.3
+  image: edbizarro/gitlab-ci-pipeline-php:7.2
   script:
     - php -v
     - composer install --prefer-dist --no-ansi --no-interaction --no-progress --no-scripts
@@ -46,7 +49,7 @@ composer:
 
 npm:
   stage: preparation
-  image: edbizarro/gitlab-ci-pipeline-php:7.3
+  image: edbizarro/gitlab-ci-pipeline-php:7.2
   script:
     - npm --version
     - npm ci
@@ -61,7 +64,7 @@ npm:
 
 build-assets:
   stage: building
-  image: edbizarro/gitlab-ci-pipeline-php:7.3
+  image: edbizarro/gitlab-ci-pipeline-php:7.2
   # Download the artifacts for these jobs
   dependencies:
     - composer
@@ -82,7 +85,7 @@ db-seeding:
   stage: building
   services:
     - mysql:5.7
-  image: edbizarro/gitlab-ci-pipeline-php:7.3
+  image: edbizarro/gitlab-ci-pipeline-php:7.2
   # Download the artifacts for these jobs
   dependencies:
     - composer
@@ -99,7 +102,7 @@ phpunit:
   stage: testing
   services:
     - mysql:5.7
-  image: edbizarro/gitlab-ci-pipeline-php:7.3
+  image: edbizarro/gitlab-ci-pipeline-php:7.2
   # Download the artifacts for these jobs
   dependencies:
     - build-assets
@@ -126,7 +129,7 @@ codestyle:
 
 phpcpd:
   stage: testing
-  image: edbizarro/gitlab-ci-pipeline-php:7.3
+  image: edbizarro/gitlab-ci-pipeline-php:7.2
   script:
     - test -f phpcpd.phar || curl -L https://phar.phpunit.de/phpcpd.phar -o phpcpd.phar
     - php phpcpd.phar app/ --min-lines=50
@@ -137,7 +140,7 @@ phpcpd:
 
 sensiolabs:
   stage: security
-  image: edbizarro/gitlab-ci-pipeline-php:7.3
+  image: edbizarro/gitlab-ci-pipeline-php:7.2
   script:
     - test -d security-checker || git clone https://github.com/sensiolabs/security-checker.git
     - cd security-checker
