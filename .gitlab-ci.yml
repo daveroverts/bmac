@@ -28,14 +28,11 @@ cache:
 
 composer:
   stage: preparation
-  services:
-    - mysql:5.7
   image: edbizarro/gitlab-ci-pipeline-php:7.2
   script:
     - php -v
     - composer install --prefer-dist --no-ansi --no-interaction --no-progress --no-scripts
     - cp .env.testing .env
-    - php artisan config:clear
     - php artisan key:generate
   artifacts:
     paths:
@@ -181,8 +178,6 @@ staging:
 
 production:
   stage: deploy
-  services:
-    - mysql:5.7
   script:
   - *init_ssh
   - *change_file_permissions
