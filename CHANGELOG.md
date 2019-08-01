@@ -6,6 +6,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- You can now use ``DB_LOWER_STRING_LENGTH=true`` in the ``.env`` file to use shorter string lengths (especially for indexes)
+
+### Changed
+- CI images now use 7.3 alpine images https://github.com/edbizarro/gitlab-ci-pipeline-php
+
 ## [v1.3.0](https://gitlab.com/daveroverts/Book-me-a-cookie/compare/v1.3.0...v1.2.0a) - 2019-07-27
 
 ### Added
