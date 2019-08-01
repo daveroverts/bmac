@@ -34,6 +34,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - ``Airport`` ``getFullNameAttribute()`` now uses name by default in case you are not logged in (same behaviour as when you create account for the first time).
 - Updated to Laravel 5.8
 - A ``Event`` is now only reachable via the slug to prevent PostgreSQL issues
+- ``booking.show`` will only show a edit button if a booking is editable
+- When editing a booking you already own, you won't see the 'Slot reserved' message
 
 ### Security
 - [CVE-2019-10905](https://github.com/erusev/parsedown/issues/699)

@@ -219,7 +219,7 @@
                     {{--Edit Booking--}}
                     <div class="form-group row mb-0">
                         <div class="col-md-7 offset-md-3">
-                            @if(!$booking->event->import_only)
+                            @if($booking->is_editable)
                                 <a href="{{ route('bookings.edit',$booking) }}" class="btn btn-primary">Edit Booking</a>
                                 &nbsp;
                             @endif
