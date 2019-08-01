@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 - CI images now use 7.3 alpine images https://github.com/edbizarro/gitlab-ci-pipeline-php
+- ``booking.overview`` now only shows Vatsim ID instead of name + Vatsim ID
 
 ## [v1.3.0](https://gitlab.com/daveroverts/Book-me-a-cookie/compare/v1.3.0...v1.2.0a) - 2019-07-27
 

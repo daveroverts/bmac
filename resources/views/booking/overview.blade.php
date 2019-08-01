@@ -90,7 +90,7 @@
                                         booking</a>
                                 @else
                                     <button class="btn btn-dark disabled">
-                                        Booked [{{ $booking->user->pic }}]
+                                        Booked [{{ $booking->user->id }}]
                                     </button>
                                 @endif
 
