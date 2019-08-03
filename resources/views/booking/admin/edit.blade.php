@@ -72,7 +72,7 @@
                             <div class="col-md-6">
                                 <input id="ctot" type="time"
                                        class="form-control{{ $errors->has('ctot') ? ' is-invalid' : '' }}" name="ctot"
-                                       value="{{ old('ctot', \Carbon\Carbon::parse($booking->getOriginal('ctot'))->format('H:i')) }}">
+                                       value="{{ old('ctot', !empty($booking->getOriginal('ctot')) ? \Carbon\Carbon::parse($booking->getOriginal('ctot'))->format('H:i') : '') }}">
 
                                 @if ($errors->has('ctot'))
                                     <span class="invalid-feedback">
@@ -89,7 +89,7 @@
                             <div class="col-md-6">
                                 <input id="eta" type="time"
                                        class="form-control{{ $errors->has('eta') ? ' is-invalid' : '' }}" name="eta"
-                                       value="{{ old('eta', \Carbon\Carbon::parse($booking->getOriginal('eta'))->format('H:i')) }}">
+                                       value="{{ old('eta', !empty($booking->getOriginal('eta')) ? \Carbon\Carbon::parse($booking->getOriginal('eta'))->format('H:i') : '') }}">
 
                                 @if ($errors->has('eta'))
                                     <span class="invalid-feedback">
