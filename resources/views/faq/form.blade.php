@@ -129,7 +129,7 @@
                                         <td>{{ $event->name }} [{{ $event->startEvent->format('d-m-Y') }}]</td>
                                         <td>
                                             <form
-                                                action="{{ route('faq.toggleEvent', ['faq' => $faq, 'event' => $event->id]) }}"
+                                                action="{{ route('faq.toggleEvent', ['faq' => $faq, 'event' => $event]) }}"
                                                 method="post">
                                                 @csrf
                                                 @method('PATCH')

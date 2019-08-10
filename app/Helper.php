@@ -1,6 +1,9 @@
 <?php
 
 use App\Models\Event;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Routing\Redirector;
 
 /**
  * Flash a message that can be used in layouts.alert
@@ -19,36 +22,41 @@ function flashMessage($type, $title, $text)
 /**
  * Alias for nextEvent(), limit to 1
  *
+ * @param bool $homepage
+ *
  * @return Event
  */
-function nextEvent()
+function nextEvent($homepage = false)
 {
-    return nextEvents(true);
+    return nextEvents(true, false, $homepage);
 }
 
 /**
  * @param bool $one
  * @param bool $showAll
- * @return Event|\Illuminate\Database\Eloquent\Model|null|object
+ * @param bool $homepage
+ * @return Event|Model|null|object
  */
-function nextEvents($one = false, $showAll = false)
+function nextEvents($one = false, $showAll = false, $homepage = false)
 {
+    $events = Event::where('endEvent', '>', now())
+        ->orderBy('startEvent');
+    if (!$showAll) {
+        $events = $events->where('is_online', true);
+    }
+    if ($homepage) {
+        $events = $events->where('show_on_homepage', true);
+    }
     if ($one) {
-        if ($showAll) {
-            return Event::where('endEvent', '>', now())->orderBy('startEvent', 'asc')->first();
-        }
-        return Event::where('is_online', true)
-            ->where('endEvent', '>', now())->orderBy('startEvent', 'asc')->first();
+        $events = $events->first();
+    } else {
+        $events = $events->get();
     }
-    if ($showAll) {
-        return Event::where('endEvent', '>', now())->orderBy('startEvent', 'asc')->get();
-    }
-    return Event::where('is_online', true)
-        ->where('endEvent', '>', now())->orderBy('startEvent', 'asc')->get();
+    return $events;
 }
 
 /**
- * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+ * @return RedirectResponse|Redirector
  */
 function holdOnWeGotABadAss()
 {
