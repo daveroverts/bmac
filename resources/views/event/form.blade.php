@@ -25,7 +25,7 @@
                         {{--Show online?--}}
                         <div class="form-group row">
                             <label for="is_online" class="col-md-4 col-form-label text-md-right"> <abbr
-                                    title="Choose here if you want to show the event on the main page. Do note that it will go offline after the event has ended">Show
+                                    title="Choose here if you want the event to be reachable by it's generated url">Show
                                     online?</abbr></label>
                             <div class="col-md-6">
                                 <div class="custom-control custom-control-inline custom-radio">
@@ -41,9 +41,35 @@
                                     <label class="custom-control-label" for="is_online0">No</label>
                                 </div>
 
-                                @if ($errors->has('import_only'))
+                                @if ($errors->has('is_online'))
                                     <span class="invalid-feedback">
-                                        <strong>{{ $errors->first('import_only') }}</strong>
+                                        <strong>{{ $errors->first('is_online') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
+                        {{--Show on homepage?--}}
+                        <div class="form-group row">
+                            <label for="show_on_homepage" class="col-md-4 col-form-label text-md-right"> <abbr
+                                    title="Choose here if you want to show the event on the homepage. If turned off, the event can only be reached by the url. NOTE: If 'Show Online' is off, the event won't be shown at all">Show on homepage?</abbr></label>
+                            <div class="col-md-6">
+                                <div class="custom-control custom-control-inline custom-radio">
+                                    <input type="radio" value="1" id="show_on_homepage1"
+                                           name="show_on_homepage"
+                                           class="custom-control-input" {{ old('show_on_homepage', $event->show_on_homepage) == 1 ? 'checked' : '' }}>
+                                    <label class="custom-control-label" for="show_on_homepage1">Yes</label>
+                                </div>
+                                <div class="custom-control custom-control-inline custom-radio">
+                                    <input type="radio" value="0" id="show_on_homepage0"
+                                           name="show_on_homepage"
+                                           class="custom-control-input" {{ old('show_on_homepage', $event->show_on_homepage) == 0 ? 'checked' : '' }}>
+                                    <label class="custom-control-label" for="show_on_homepage0">No</label>
+                                </div>
+
+                                @if ($errors->has('show_on_homepage'))
+                                    <span class="invalid-feedback">
+                                        <strong>{{ $errors->first('show_on_homepage') }}</strong>
                                     </span>
                                 @endif
                             </div>

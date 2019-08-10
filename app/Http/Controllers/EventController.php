@@ -69,7 +69,7 @@ class EventController extends Controller
     public function store(StoreEvent $request)
     {
         $event = new Event();
-        $event->fill($request->only('is_online', 'name', 'event_type_id', 'import_only', 'uses_times',
+        $event->fill($request->only('is_online', 'show_on_homepage', 'name', 'event_type_id', 'import_only', 'uses_times',
             'multiple_bookings_allowed', 'is_oceanic_event', 'dep', 'arr', 'image_url', 'description'));
         $event->fill([
             'startEvent' => Carbon::createFromFormat('d-m-Y H:i',
@@ -98,6 +98,17 @@ class EventController extends Controller
     }
 
     /**
+     * Display the specified resource.
+     *
+     * @param Event $event
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function adminShow(Event $event)
+    {
+        return view('event.admin.show', compact('event'));
+    }
+
+    /**
      * Show the form for editing the specified resource.
      *
      * @param Event $event
@@ -119,7 +130,7 @@ class EventController extends Controller
      */
     public function update(UpdateEvent $request, Event $event)
     {
-        $event->fill($request->only('is_online', 'name', 'event_type_id', 'import_only', 'uses_times',
+        $event->fill($request->only('is_online', 'show_on_homepage', 'name', 'event_type_id', 'import_only', 'uses_times',
             'multiple_bookings_allowed', 'is_oceanic_event', 'dep', 'arr', 'image_url', 'description'));
         $event->fill([
             'startEvent' => Carbon::createFromFormat('d-m-Y H:i',

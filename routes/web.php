@@ -12,7 +12,7 @@
 */
 
 Route::get('/', function () {
-    $event = nextEvent();
+    $event = nextEvent(true);
     return view('home', compact('event'));
 })->name('home');
 
@@ -25,7 +25,8 @@ Route::resource('admin/airports', 'AirportController');
 
 Route::resource('admin/airportLinks', 'AirportLinkController')->except(['show']);
 
-Route::resource('admin/events', 'EventController');
+Route::resource('admin/events', 'EventController')->except(['show']);
+Route::get('/admin/events/{event}', 'EventController@adminShow')->name('events.admin.show');
 Route::get('/admin/events/{event}/email', 'EventController@sendEmailForm')->name('events.email.form');
 Route::patch('/admin/events/{event}/email', 'EventController@sendEmail')->name('events.email');
 Route::patch('/admin/events/{event}/email_final', 'EventController@sendFinalInformationMail')->name('events.email.final');
@@ -55,6 +56,8 @@ Route::get('/faq', function () {
 
 Route::resource('admin/faq', 'FaqController')->except('show');
 Route::patch('/admin/faq/{faq}/toggle-event/{event}', 'FaqController@toggleEvent')->name('faq.toggleEvent');
+
+Route::get('/{event}', 'EventController@show')->name('events.show');
 
 Route::middleware('auth.isLoggedIn')->group(function () {
     Route::prefix('user')->name('user.')
