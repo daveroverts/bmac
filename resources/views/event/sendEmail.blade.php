@@ -17,8 +17,8 @@
             $('.send-final-email').on('click', function (e) {
                 e.preventDefault();
                 if ($('#testmode1').prop('checked')) {
-                    swal('Sending test Email...');
-                    swal.showLoading();
+                    Swal.fire('Sending test Email...');
+                    Swal.showLoading();
                     var url = '{{ route('events.email.final', $event) }}';
                     axios.post(url, {
                         'testmode': 1,
@@ -26,18 +26,18 @@
                     })
                         .then(function (response) {
                             console.log(response);
-                            swal(response.data.success);
+                            Swal.fire(response.data.success);
                         });
                 } else {
-                    swal({
+                    Swal.fire({
                         title: 'Are you sure',
                         text: 'Are you sure you want to send the Final Information Email?',
                         type: 'warning',
                         showCancelButton: true,
                     }).then((result) => {
                         if (result.value) {
-                            swal('Sending Final Information Email...');
-                            swal.showLoading();
+                            Swal.fire('Sending Final Information Email...');
+                            Swal.showLoading();
                             $(this).closest('form').submit();
                         }
                     });
@@ -47,8 +47,8 @@
             $('.send-email').on('click', function (e) {
                 e.preventDefault();
                 if ($('#testmode2').prop('checked')) {
-                    swal('Sending test Email...');
-                    swal.showLoading();
+                    Swal.fire('Sending test Email...');
+                    Swal.showLoading();
                     var url = '{{ route('events.email', $event) }}';
                     axios.post(url, {
                         'subject': $('#subject').val(),
@@ -58,18 +58,18 @@
                     })
                         .then(function (response) {
                             console.log(response);
-                            swal(response.data.success);
+                            Swal.fire(response.data.success);
                         });
                 } else {
-                    swal({
+                    Swal.fire({
                         title: 'Are you sure',
                         text: 'Are you sure you want to send a Email?',
                         type: 'warning',
                         showCancelButton: true,
                     }).then((result) => {
                         if (result.value) {
-                            swal('Sending Email...');
-                            swal.showLoading();
+                            Swal.fire('Sending Email...');
+                            Swal.showLoading();
                             $(this).closest('form').submit();
                         }
                     });

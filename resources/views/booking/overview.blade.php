@@ -20,15 +20,15 @@
                         <script>
                             $('.delete-booking').on('click', function (e) {
                                 e.preventDefault();
-                                swal({
+                                Swal.fire({
                                     title: 'Are you sure',
                                     text: 'Are you sure you want to remove this booking?',
                                     type: 'warning',
                                     showCancelButton: true,
                                 }).then((result) => {
                                     if (result.value) {
-                                        swal('Deleting booking...');
-                                        swal.showLoading();
+                                        Swal.fire('Deleting booking...');
+                                        Swal.showLoading();
                                         $(this).closest('form').submit();
                                     }
                                 });

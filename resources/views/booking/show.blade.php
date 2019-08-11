@@ -15,15 +15,15 @@
         <script>
             $('.cancel-booking').on('click', function (e) {
                 e.preventDefault();
-                swal({
+                Swal.fire({
                     title: 'Are you sure',
                     text: 'Are you sure you want to cancel your booking?',
                     type: 'warning',
                     showCancelButton: true,
                 }).then((result) => {
                     if (result.value) {
-                        swal('Canceling booking...');
-                        swal.showLoading();
+                        Swal.fire('Canceling booking...');
+                        Swal.showLoading();
                         $(this).closest('form').submit();
                     }
                 });

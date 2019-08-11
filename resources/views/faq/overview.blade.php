@@ -7,15 +7,15 @@
         <script>
             $('.delete-faq').on('click', function (e) {
                 e.preventDefault();
-                swal({
+                Swal.fire({
                     title: 'Are you sure',
                     text: 'Are you sure you want to remove this faq?',
                     type: 'warning',
                     showCancelButton: true,
                 }).then((result) => {
                     if (result.value) {
-                        swal('Deleting faq...');
-                        swal.showLoading();
+                        Swal.fire('Deleting faq...');
+                        Swal.showLoading();
                         $(this).closest('form').submit();
                     }
                 });
