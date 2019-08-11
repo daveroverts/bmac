@@ -7,15 +7,15 @@
         <script>
             $('.delete-airportlink').on('click', function (e) {
                 e.preventDefault();
-                swal({
+                Swal.fire({
                     title: 'Are you sure',
                     text: 'Are you sure you want to remove this airport link?',
                     type: 'warning',
                     showCancelButton: true,
                 }).then((result) => {
                     if (result.value) {
-                        swal('Deleting airport link...');
-                        swal.showLoading();
+                        Swal.fire('Deleting airport link...');
+                        Swal.showLoading();
                         $(this).closest('form').submit();
                     }
                 });
