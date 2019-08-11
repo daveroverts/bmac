@@ -30,7 +30,7 @@ dom.watch();
 
 // TinyMCE
 import tinymce from 'tinymce';
-import 'tinymce/themes/modern/theme';
+import 'tinymce/themes/silver/theme';
 
 import 'tinymce/plugins/code'
 import 'tinymce/plugins/paste';
