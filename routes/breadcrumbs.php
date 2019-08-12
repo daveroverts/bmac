@@ -61,7 +61,7 @@ Breadcrumbs::for('events.index', function ($trail) {
 
 // Home > Admin > Events > [Event] > Edit event
 Breadcrumbs::for('events.edit', function ($trail, $event) {
-    $trail->parent('events.show', $event);
+    $trail->parent('events.admin.show', $event);
     $trail->push('Edit Event', route('events.edit', $event));
 });
 
@@ -72,14 +72,14 @@ Breadcrumbs::for('events.create', function ($trail) {
 });
 
 // Home > Admin > Events > [Event]
-Breadcrumbs::for('events.show', function ($trail, $event) {
+Breadcrumbs::for('events.admin.show', function ($trail, $event) {
     $trail->parent('events.index');
-    $trail->push($event->name . ' [' . $event->startEvent->toFormattedDateString() . ']', route('events.show', $event));
+    $trail->push($event->name . ' [' . $event->startEvent->toFormattedDateString() . ']', route('events.admin.show', $event));
 });
 
 // Home > Admin > Events > [Event] > Send E-mail
 Breadcrumbs::for('events.email.form', function ($trail, $event) {
-    $trail->parent('events.show', $event);
+    $trail->parent('events.admin.show', $event);
     $trail->push('Send E-mail', route('events.email.form', $event));
 });
 
@@ -89,9 +89,15 @@ Breadcrumbs::for('bookings.index', function ($trail) {
 });
 
 // Home > [Event]
-Breadcrumbs::for('bookings.event.index', function ($trail, $event) {
+Breadcrumbs::for('events.show', function ($trail, $event) {
     $trail->parent('home');
-    $trail->push($event->name . ' [' . $event->startEvent->toFormattedDateString() . ']', route('bookings.event.index', $event));
+    $trail->push($event->name . ' [' . $event->startEvent->toFormattedDateString() . ']', route('events.show', $event));
+});
+
+// Home > [Event] > Bookings
+Breadcrumbs::for('bookings.event.index', function ($trail, $event) {
+    $trail->parent('events.show', $event);
+    $trail->push('Bookings', route('bookings.event.index', $event));
 });
 
 // Home > [Event] > Booking
@@ -108,25 +114,25 @@ Breadcrumbs::for('bookings.show', function ($trail, $booking) {
 
 // Home > Admin > [Event] > Add Slot
 Breadcrumbs::for('bookings.create', function ($trail, $event) {
-    $trail->parent('events.show', $event);
+    $trail->parent('events.admin.show', $event);
     $trail->push('Add Slot(s)', route('bookings.create', $event));
 });
 
 // Home > Admin > [Event] > Import
 Breadcrumbs::for('bookings.admin.importForm', function ($trail, $event) {
-    $trail->parent('events.show', $event);
+    $trail->parent('events.admin.show', $event);
     $trail->push('Import', route('bookings.admin.importForm', $event));
 });
 
 // Home > Admin > [Event] > Booking
 Breadcrumbs::for('bookings.admin.edit', function ($trail, $booking) {
-    $trail->parent('events.show', $booking->event);
+    $trail->parent('events.admin.show', $booking->event);
     $trail->push('Edit Booking', route('bookings.admin.edit', $booking));
 });
 
 // Home > Admin > [Event] > Auto-Assign FL / Route
 Breadcrumbs::for('bookings.admin.autoAssignForm', function ($trail, $event) {
-    $trail->parent('events.show', $event);
+    $trail->parent('events.admin.show', $event);
     $trail->push('Auto-Assign FL / Route', route('bookings.admin.autoAssignForm', $event));
 });
 

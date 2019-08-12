@@ -41,6 +41,7 @@ class Event extends Model
      */
     protected $casts = [
         'is_online' => 'boolean',
+        'show_on_homepage' => 'boolean',
         'image_url' => 'string',
         'dep' => 'string',
         'arr' => 'string',

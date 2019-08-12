@@ -15,15 +15,15 @@
         <script>
             $('.unlik-event').on('click', function (e) {
                 e.preventDefault();
-                swal({
+                Swal.fire({
                     title: 'Are you sure',
                     text: 'Are you sure you want to unlink this event?',
                     type: 'warning',
                     showCancelButton: true,
                 }).then((result) => {
                     if (result.value) {
-                        swal('Unlinking event...');
-                        swal.showLoading();
+                        Swal.fire('Unlinking event...');
+                        Swal.showLoading();
                         $(this).closest('form').submit();
                     }
                 });
@@ -129,7 +129,7 @@
                                         <td>{{ $event->name }} [{{ $event->startEvent->format('d-m-Y') }}]</td>
                                         <td>
                                             <form
-                                                action="{{ route('faq.toggleEvent', ['faq' => $faq, 'event' => $event->id]) }}"
+                                                action="{{ route('faq.toggleEvent', ['faq' => $faq, 'event' => $event]) }}"
                                                 method="post">
                                                 @csrf
                                                 @method('PATCH')

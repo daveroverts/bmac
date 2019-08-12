@@ -14,26 +14,38 @@
                 <li class="nav-item {{ Route::currentRouteNamed('home') ? 'active' : '' }}">
                     <a class="nav-link" href="{{ url('/') }}">Home</a>
                 </li>
-                <li class="nav-item {{ Route::currentRouteNamed('bookings.index') || Route::currentRouteNamed('bookings.event.index') ? 'active' : '' }}">
-                    <a class="nav-link" href="{{ route('bookings.index') }}">Bookings</a>
+
+                <li class="nav-item">
+                    <div class="dropdown">
+                        <a class="btn btn-outline-secondary text-white dropdown-toggle {{ Route::currentRouteNamed('events.*') || Route::currentRouteNamed('bookings.*') ? 'active' : '' }}"
+                           href="#" role="button" id="dropdownEvents" data-toggle="dropdown" aria-haspopup="true"
+                           aria-expanded="false">
+                            Events
+                        </a>
+
+                        <div class="dropdown-menu" aria-labelledby="dropdownEvents">
+                            @foreach(nextEvents() as $event)
+                                <a class="dropdown-item {{ url()->current() == route('events.show', $event) || url()->current() == route('bookings.event.index', $event) ? 'active' : '' }}"
+                                   href="{{ route('events.show', $event) }}">{{ $event->name }}
+                                    – {{ $event->startEvent->toFormattedDateString() }}</a>
+                                @auth
+                                    @foreach($bookings = Auth::user()->bookings()->where('event_id', $event->id)->get() as $booking)
+                                        <a class="dropdown-item {{ url()->current() == route('bookings.show', $booking) ? 'active' : '' }}"
+                                           href="{{ route('bookings.show', $booking) }}">
+                                            <i class="fas fa-arrow-right"></i>&nbsp;{{ $bookings->count() > 1 ? $booking->callsign : 'My booking' }}
+                                        </a>
+                                    @endforeach
+                                @endauth
+                                @if(!$loop->last)
+                                    <div class="dropdown-divider"></div>
+                                @endif
+                            @endforeach
+                        </div>
+                    </div>
                 </li>
-                @auth
-                    @if($event = App\Models\Event::where('endEvent', '>', now())->orderBy('startEvent', 'asc')->first())
-                        @foreach($bookings = Auth::user()->bookings()->where('event_id',$event->id)->get() as $booking)
-                            @if($bookings->count() > 1)
-                                <li class="nav-item {{ url()->current() === route('bookings.show', $booking) ? 'active' : '' }}">
-                                    <a class="nav-link" href="{{ route('bookings.show', $booking) }}">
-                                        {{ $booking->callsign }}</a></li>
-                            @else
-                                <li class="nav-item {{ Route::currentRouteNamed('bookings.show') ? 'active' : '' }}">
-                                    <a class="nav-link" href="{{ route('bookings.show', $booking) }}">
-                                        My booking</a></li>
-                            @endif
-                        @endforeach
-                    @endif
-                @endauth
+
                 <li class="nav-item {{ Route::currentRouteNamed('faq') ? 'active' : '' }}">
-                <a class="nav-link" href="{{ route('faq') }}">FAQ</a></li>
+                    <a class="nav-link" href="{{ route('faq') }}">FAQ</a></li>
                 <li class="nav-item">
                     <a class="nav-link" href="mailto:events@dutchvacc.nl">Contact Us</a>
                 </li>
@@ -45,21 +57,21 @@
                     <li class="nav-item">
                         <div class="dropdown">
                             <a class="btn btn-outline-secondary text-white dropdown-toggle {{ Request::is('admin/*') || Request::is('user/*') ? 'active' : '' }}"
-                               href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
+                               href="#" role="button" id="dropdownUser" data-toggle="dropdown" aria-haspopup="true"
                                aria-expanded="false">
                                 {{ Auth::user()->pic }}
                             </a>
 
-                            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                            <div class="dropdown-menu" aria-labelledby="dropdownUser">
                                 <a class="dropdown-item {{ Route::currentRouteNamed('user.settings') ? 'active' : '' }}"
                                    href="{{ route('user.settings') }}">My settings</a>
                                 @if(Auth::user()->isAdmin)
                                     <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item {{ Route::currentRouteNamed('airports.index') ? 'active' : '' }}"
+                                    <a class="dropdown-item {{ Route::currentRouteNamed('airports.*') ? 'active' : '' }}"
                                        href="{{ route('airports.index') }}">Airports</a>
-                                    <a class="dropdown-item {{ Route::currentRouteNamed('events.index') ? 'active' : '' }}"
+                                    <a class="dropdown-item {{ Route::currentRouteNamed('events.*') ? 'active' : '' }}"
                                        href="{{ route('events.index') }}">Events</a>
-                                    <a class="dropdown-item {{ Route::currentRouteNamed('faq.index') ? 'active' : '' }}"
+                                    <a class="dropdown-item {{ Route::currentRouteNamed('faq.*') ? 'active' : '' }}"
                                        href="{{ route('faq.index') }}">FAQ</a>
                                 @endif
                             </div>

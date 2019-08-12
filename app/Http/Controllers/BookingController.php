@@ -216,7 +216,10 @@ class BookingController extends Controller
         if ($booking->status !== BookingStatus::UNASSIGNED) {
             // Check if current user has booked/reserved
             if ($booking->user_id == Auth::id()) {
-                flashMessage('info', 'Slot reserved', 'Will remain reserved until ' . $booking->updated_at->addMinutes(10)->format('Hi') . 'z');
+                if ($booking->status == BookingStatus::BOOKED && !$booking->is_editable) {
+                    flashMessage('info', 'Nope!', 'You cannot edit the booking!');
+                    return redirect(route('bookings.event.index', $booking->event));
+                }
                 return view('booking.edit', compact('booking'));
             } else {
                 // Check if the booking has already been reserved

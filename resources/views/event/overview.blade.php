@@ -8,15 +8,15 @@
         <script>
             $('.delete-event').on('click', function (e) {
                 e.preventDefault();
-                swal({
+                Swal.fire({
                     title: 'Are you sure',
                     text: 'Are you sure you want to remove this event?',
                     type: 'warning',
                     showCancelButton: true,
                 }).then((result) => {
                     if (result.value) {
-                        swal('Deleting event...');
-                        swal.showLoading();
+                        Swal.fire('Deleting event...');
+                        Swal.showLoading();
                         $(this).closest('form').submit();
                     }
                 });
@@ -42,7 +42,7 @@
                 <tr>
                     @endif
                     <td>{{ $event->id }}</td>
-                    <td><a href="{{ route('events.show', $event) }}">{{ $event->name }}</a>
+                    <td><a href="{{ route('events.admin.show', $event) }}">{{ $event->name }}</a>
                     </td>
                     <td>{{ $event->type->name }}</td>
                     <td>{{ $event->startEvent->format('d-m-Y') }}</td>

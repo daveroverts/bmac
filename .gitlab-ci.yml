@@ -28,7 +28,7 @@ cache:
 
 composer:
   stage: preparation
-  image: edbizarro/gitlab-ci-pipeline-php:7.2
+  image: edbizarro/gitlab-ci-pipeline-php:7.3-alpine
   script:
     - php -v
     - composer install --prefer-dist --no-ansi --no-interaction --no-progress --no-scripts
@@ -46,7 +46,7 @@ composer:
 
 npm:
   stage: preparation
-  image: edbizarro/gitlab-ci-pipeline-php:7.2
+  image: edbizarro/gitlab-ci-pipeline-php:7.3-alpine
   script:
     - npm --version
     - npm ci
@@ -61,7 +61,7 @@ npm:
 
 build-assets:
   stage: building
-  image: edbizarro/gitlab-ci-pipeline-php:7.2
+  image: edbizarro/gitlab-ci-pipeline-php:7.3-alpine
   # Download the artifacts for these jobs
   dependencies:
     - composer
@@ -82,7 +82,7 @@ db-seeding:
   stage: building
   services:
     - mysql:5.7
-  image: edbizarro/gitlab-ci-pipeline-php:7.2
+  image: edbizarro/gitlab-ci-pipeline-php:7.3-alpine
   # Download the artifacts for these jobs
   dependencies:
     - composer
@@ -99,7 +99,7 @@ phpunit:
   stage: testing
   services:
     - mysql:5.7
-  image: edbizarro/gitlab-ci-pipeline-php:7.2
+  image: edbizarro/gitlab-ci-pipeline-php:7.3-alpine
   # Download the artifacts for these jobs
   dependencies:
     - build-assets
@@ -126,7 +126,7 @@ codestyle:
 
 phpcpd:
   stage: testing
-  image: edbizarro/gitlab-ci-pipeline-php:7.2
+  image: edbizarro/gitlab-ci-pipeline-php:7.3-alpine
   script:
     - test -f phpcpd.phar || curl -L https://phar.phpunit.de/phpcpd.phar -o phpcpd.phar
     - php phpcpd.phar app/ --min-lines=50
@@ -137,7 +137,7 @@ phpcpd:
 
 sensiolabs:
   stage: security
-  image: edbizarro/gitlab-ci-pipeline-php:7.2
+  image: edbizarro/gitlab-ci-pipeline-php:7.3-alpine
   script:
     - test -d security-checker || git clone https://github.com/sensiolabs/security-checker.git
     - cd security-checker

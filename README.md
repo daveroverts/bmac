@@ -17,6 +17,7 @@ Before you begin, make sure you have a server to run everything on. For local de
         - Anything else will use the demo server
     - APP_URL: Be sure to set this, if you don't, SSO will redirect you incorrectly.
     - DB_*: As required
+        - If your database does not support long indexes, add ``DB_LOWER_STRING_LENGTH=true``
     - QUEUE_DRIVER: I recommend either to use ``database`` or ``redis``, but this depends on your setup.
     - MAIL_DRIVER: For testing, use something like [Mailtrap](https://mailtrap.io/)
     - MAIL_FROM_ADDRESS: For testing, this can be anything.

@@ -23,15 +23,6 @@ class Booking extends Model
         'is_editable' => 'boolean'
     ];
 
-    /**
-     * The attributes that should be mutated to dates.
-     *
-     * @var array
-     */
-    protected $dates = [
-        'ctot', 'eta'
-    ];
-
     protected static $logAttributes = ['*'];
     protected static $logOnlyDirty = true;
 

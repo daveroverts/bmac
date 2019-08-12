@@ -15,15 +15,15 @@
         <script>
             $('.cancel-booking').on('click', function (e) {
                 e.preventDefault();
-                swal({
+                Swal.fire({
                     title: 'Are you sure',
                     text: 'Are you sure you want to cancel your booking?',
                     type: 'warning',
                     showCancelButton: true,
                 }).then((result) => {
                     if (result.value) {
-                        swal('Canceling booking...');
-                        swal.showLoading();
+                        Swal.fire('Canceling booking...');
+                        Swal.showLoading();
                         $(this).closest('form').submit();
                     }
                 });
@@ -219,7 +219,7 @@
                     {{--Edit Booking--}}
                     <div class="form-group row mb-0">
                         <div class="col-md-7 offset-md-3">
-                            @if(!$booking->event->import_only)
+                            @if($booking->is_editable)
                                 <a href="{{ route('bookings.edit',$booking) }}" class="btn btn-primary">Edit Booking</a>
                                 &nbsp;
                             @endif

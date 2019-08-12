@@ -215,7 +215,7 @@
                                     <input id="ctot" type="time"
                                            class="form-control{{ $errors->has('ctot') ? ' is-invalid' : '' }}"
                                            name="ctot"
-                                           value="{{ old('ctot', $event->startEvent->format('H:i')) }}">
+                                           value="{{ old('ctot') }}">
 
                                     @if ($errors->has('ctot'))
                                         <span class="invalid-feedback">
@@ -232,7 +232,7 @@
                                 <div class="col-md-6">
                                     <input id="eta" type="time"
                                            class="form-control{{ $errors->has('eta') ? ' is-invalid' : '' }}" name="eta"
-                                           value="{{ old('eta', $event->startEvent->format('H:i')) }}">
+                                           value="{{ old('eta') }}">
 
                                     @if ($errors->has('eta'))
                                         <span class="invalid-feedback">
