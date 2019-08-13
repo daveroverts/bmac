@@ -30,7 +30,7 @@ class EventController extends Controller
     public function __construct()
     {
         $this->middleware('auth.isAdmin')
-        ->except(['show']);
+            ->except(['show']);
 
         $this->authorizeResource(EventPolicy::class, 'event');
     }

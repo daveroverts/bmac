@@ -6,10 +6,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v1.4.0c](https://gitlab.com/daveroverts/Book-me-a-cookie/compare/v1.4.0c...v1.4.0b) - 2019-08-13
+
+### Changed
+- ``EventPolicy@view`` now always returns true
+
 ## [v1.4.0b](https://gitlab.com/daveroverts/Book-me-a-cookie/compare/v1.4.0b...v1.4.0a) - 2019-08-13
 
 ### Changed
-- ``BookingController@show`` no longer uses ``EventPolicy@show``
+- ``EventController@show`` no longer uses ``EventPolicy@view``
 
 ## [v1.4.0a](https://gitlab.com/daveroverts/Book-me-a-cookie/compare/v1.4.0a...v1.4.0) - 2019-08-13
 

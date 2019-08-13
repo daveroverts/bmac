@@ -17,7 +17,7 @@ class EventPolicy
      * @param  \App\Models\Event  $event
      * @return mixed
      */
-    public function view(User $user, Event $event)
+    public function view(?User $user, Event $event)
     {
         return true;
     }
