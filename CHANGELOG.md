@@ -6,6 +6,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v1.4.0a](https://gitlab.com/daveroverts/Book-me-a-cookie/compare/v1.4.0a...v1.4.0) - 2019-08-13
+- ``events.show`` now no longer uses the ``IsAdmin`` middleware
+
+### Added
+- You can now use ``DB_LOWER_STRING_LENGTH=true`` in the ``.env`` file to use shorter string lengths (especially for indexes)
+- ``events.admin.show``, which is a copy of ``events.show``
+- In ``home`` and ``events.show``, the word 'the' has been added before the event name + date
+- A ``Event`` can now be shown on the homepage or not
+
 ## [v1.4.0](https://gitlab.com/daveroverts/Book-me-a-cookie/compare/v1.4.0...v1.3.0) - 2019-08-12
 
 ### Added

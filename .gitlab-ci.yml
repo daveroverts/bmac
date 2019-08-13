@@ -178,7 +178,6 @@ staging:
 
 production:
   stage: deploy
-
   script:
   - *init_ssh
   - *change_file_permissions
