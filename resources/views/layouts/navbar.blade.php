@@ -25,9 +25,11 @@
 
                         <div class="dropdown-menu" aria-labelledby="dropdownEvents">
                             @foreach(nextEvents() as $event)
-                                <a class="dropdown-item {{ url()->current() == route('events.show', $event) || url()->current() == route('bookings.event.index', $event) ? 'active' : '' }}"
+                                <a class="dropdown-item {{ url()->current() == route('events.show', $event) ? 'active' : '' }}"
                                    href="{{ route('events.show', $event) }}">{{ $event->name }}
                                     – {{ $event->startEvent->toFormattedDateString() }}</a>
+                                <a class="dropdown-item {{ url()->current() == route('bookings.event.index', $event) ? 'active' : '' }}"
+                                   href="{{ route('bookings.event.index', $event) }}">Bookings</a>
                                 @auth
                                     @foreach($bookings = Auth::user()->bookings()->where('event_id', $event->id)->get() as $booking)
                                         <a class="dropdown-item {{ url()->current() == route('bookings.show', $booking) ? 'active' : '' }}"

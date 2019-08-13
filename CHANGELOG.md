@@ -6,6 +6,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+- Navbar now has a extra link to goto it's bookings
+- Homepage now shows all online events that have 'show on homepage' enabled
+- 'Open Booking Table' button is now moved to the bottom and middle
+
 ## [v1.4.0c](https://gitlab.com/daveroverts/Book-me-a-cookie/compare/v1.4.0c...v1.4.0b) - 2019-08-13
 
 ### Changed
