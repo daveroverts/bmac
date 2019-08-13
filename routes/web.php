@@ -12,8 +12,8 @@
 */
 
 Route::get('/', function () {
-    $event = nextEvent(true);
-    return view('home', compact('event'));
+    $events = nextEvents(false, false, true);
+    return view('home', compact('events'));
 })->name('home');
 
 Route::get('/login/{booking?}', 'Auth\LoginController@login')->name('login');
