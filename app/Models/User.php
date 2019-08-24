@@ -4,13 +4,17 @@ namespace App\Models;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Laravel\Passport\HasApiTokens;
 use Spatie\Activitylog\Traits\LogsActivity;
 
 class User extends Authenticatable
 {
+    use HasApiTokens;
     use LogsActivity;
     use Notifiable;
 
+    protected static $logAttributes = ['*'];
+    protected static $logOnlyDirty = true;
     /**
      * The attributes that aren't mass assignable.
      *
@@ -19,7 +23,6 @@ class User extends Authenticatable
     protected $guarded = [
         'id', 'isAdmin'
     ];
-
     /**
      * The attributes that should be hidden for arrays.
      *
@@ -28,7 +31,6 @@ class User extends Authenticatable
     protected $hidden = [
         'remember_token',
     ];
-
     /**
      * The attributes that should be cast to native types.
      *
@@ -38,9 +40,6 @@ class User extends Authenticatable
         'isAdmin' => 'boolean',
         'use_monospace_font' => 'boolean',
     ];
-
-    protected static $logAttributes = ['*'];
-    protected static $logOnlyDirty = true;
 
     public function bookings()
     {

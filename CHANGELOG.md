@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Added ``AdminController``, that is used by all AdminControllers. It uses the ``IsAdmin`` Middleware by default.
 - Added ``nextEventsForFaq()`` helper function, that makes use of the new parameter found in ``nextEvents()`` (see below).
+- [Laravel Passport](https://laravel.com/docs/5.8), at the time of writing, only to prepare to consume own API.
 
 ### Changed
 - Controllers have been split into normal and AdminControllers
