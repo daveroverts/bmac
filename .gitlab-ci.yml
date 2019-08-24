@@ -20,7 +20,7 @@ image: lorisleiva/laravel-docker:latest
 
 # Variables
 variables:
-  MYSQL_DATABASE: book_me_a_cookie_test
+  MYSQL_DATABASE: homestead
   MYSQL_ROOT_PASSWORD: secret
 
 cache:
