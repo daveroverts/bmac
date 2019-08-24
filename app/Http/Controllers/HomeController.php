@@ -4,23 +4,15 @@ namespace App\Http\Controllers;
 
 class HomeController extends Controller
 {
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
 
     /**
-     * Show the application dashboard.
+     * Show the homepage
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function __invoke()
     {
-        return view('home');
+        $events = nextEvents(false, false, true);
+        return view('home', compact('events'));
     }
 }

@@ -6,6 +6,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- Added ``AdminController``, that is used by all AdminControllers. It uses the ``IsAdmin`` Middleware by default.
+- Added ``nextEventsForFaq()`` helper function, that makes use of the new parameter found in ``nextEvents()`` (see below).
+
+### Changed
+- Controllers have been split into normal and AdminControllers
+- Views have been split into normal and admin views.
+- Requests have been split into normal and admin requests.
+- ``routes/web.php`` now only includes calls to controllers.
+- Pretty much all routes have been renamed (admin routes now has ``admin.`` as prefix)
+- Fixed issue where it was never possible to update a FAQ item.
+- ``nextEvents()`` now accepts parameter to use ``with()`` to prevent N+1 problem
+
+### Removed
+- Removed Default Auth scaffolding, as it was never used (except some parts of ``LoginController``.
+
 ## [v1.4.1](https://gitlab.com/daveroverts/Book-me-a-cookie/compare/v1.4.1...v1.4.0c) - 2019-08-13
 
 ### Changed

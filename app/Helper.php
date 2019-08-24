@@ -32,12 +32,16 @@ function nextEvent($homepage = false)
 }
 
 /**
+ * Function to get upcoming event(s)
+ *
  * @param bool $one
  * @param bool $showAll
  * @param bool $homepage
+ * @param string|array $withRelations
+ *
  * @return Event|Model|null|object
  */
-function nextEvents($one = false, $showAll = false, $homepage = false)
+function nextEvents($one = false, $showAll = false, $homepage = false, $withRelations = [])
 {
     $events = Event::where('endEvent', '>', now())
         ->orderBy('startEvent');
@@ -47,12 +51,26 @@ function nextEvents($one = false, $showAll = false, $homepage = false)
     if ($homepage) {
         $events = $events->where('show_on_homepage', true);
     }
+
+    if (!empty($withRelations)) {
+        $events = $events->with($withRelations);
+    }
+
     if ($one) {
         $events = $events->first();
     } else {
         $events = $events->get();
     }
+
     return $events;
+}
+
+/**
+ * @return Event|Model|object|null
+ */
+function nextEventsForFaq()
+{
+    return nextEvents(false, false, false, 'faqs');
 }
 
 /**

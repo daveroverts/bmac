@@ -11,67 +11,56 @@
 |
 */
 
-Route::get('/', function () {
-    $events = nextEvents(false, false, true);
-    return view('home', compact('events'));
-})->name('home');
+Route::get('/', 'HomeController')->name('home');
 
 Route::get('/login/{booking?}', 'Auth\LoginController@login')->name('login');
 Route::get('/validateLogin', 'Auth\LoginController@validateLogin');
 Route::get('/logout', 'Auth\LoginController@logout')->name('logout');
 
-Route::get('/admin/airports/import', 'AirportController@import')->name('airports.import');
-Route::resource('admin/airports', 'AirportController');
+// Admin routes
+Route::group(['as' => 'admin.', 'prefix' => 'admin', 'middleware' => 'auth.isAdmin'], function () {
+    // Airports
+    Route::get('airports/import', 'Airport\AirportAdminController@import')->name('admin.airports.import');
+    Route::resource('airports', 'Airport\AirportAdminController');
 
-Route::resource('admin/airportLinks', 'AirportLinkController')->except(['show']);
+    // AirportLinks
+    Route::resource('airportLinks', 'AirportLink\AirportLinkAdminController')->except(['show']);
 
-Route::resource('admin/events', 'EventController')->except(['show']);
-Route::get('/admin/events/{event}', 'EventController@adminShow')->name('events.admin.show');
-Route::get('/admin/events/{event}/email', 'EventController@sendEmailForm')->name('events.email.form');
-Route::patch('/admin/events/{event}/email', 'EventController@sendEmail')->name('events.email');
-Route::patch('/admin/events/{event}/email_final', 'EventController@sendFinalInformationMail')->name('events.email.final');
+    // Faq
+    Route::resource('faq', 'Faq\FaqAdminController')->except('show');
+    Route::patch('faq/{faq}/toggle-event/{event}', 'Faq\FaqAdminController@toggleEvent')->name('faq.toggleEvent');
 
-Route::resource('bookings', 'BookingController')->except(['create']);
-Route::get('/{event}/bookings/export', 'BookingController@export')->name('bookings.export');
-Route::get('/{event}/bookings/create/{bulk?}', 'BookingController@create')->name('bookings.create');
-Route::get('/{event}/bookings/{filter?}', 'BookingController@index')->name('bookings.event.index');
-Route::patch('/bookings/{booking}/cancel', 'BookingController@cancel')->name('bookings.cancel');
-Route::get('/admin/{event}/bookings/import', 'BookingController@importForm')->name('bookings.admin.importForm');
-Route::put('/admin/{event}/bookings/import', 'BookingController@import')->name('bookings.admin.import');
-Route::get('/admin/bookings/{booking}/edit', 'BookingController@adminEdit')->name('bookings.admin.edit');
-Route::patch('/admin/bookings/{booking}/edit', 'BookingController@adminUpdate')->name('bookings.admin.update');
-Route::get('/admin/{event}/bookings/autoAssign', 'BookingController@adminAutoAssignForm')->name('bookings.admin.autoAssignForm');
-Route::patch('/admin/{event}/bookings/autoAssign', 'BookingController@adminAutoAssign')->name('bookings.admin.autoAssign');
+    // Event
+    Route::resource('events', 'Event\EventAdminController');
+    Route::get('{event}/email', 'Event\EventAdminController@sendEmailForm')->name('events.email.form');
+    Route::patch('{event}/email', 'Event\EventAdminController@sendEmail')->name('events.email');
+    Route::patch('{event}/email_final', 'Event\EventAdminController@sendFinalInformationMail')->name('events.email.final');
+
+    // Booking
+    Route::resource('bookings', 'Booking\BookingAdminController')->except(['index', 'show']);
+    Route::get('{event}/bookings/export', 'Booking\BookingAdminController@export')->name('bookings.export');
+    Route::get('{event}/bookings/create/{bulk?}', 'Booking\BookingAdminController@create')->name('bookings.create');
+    Route::get('{event}/bookings/import', 'Booking\BookingAdminController@importForm')->name('bookings.importForm');
+    Route::put('{event}/bookings/import', 'Booking\BookingAdminController@import')->name('bookings.import');
+    Route::get('{event}/bookings/autoAssign', 'Booking\BookingAdminController@adminAutoAssignForm')->name('bookings.autoAssignForm');
+    Route::patch('{event}/bookings/autoAssign', 'Booking\BookingAdminController@adminAutoAssign')->name('bookings.autoAssign');
+});
+
+Route::resource('bookings', 'Booking\BookingController')->except(['create', 'store', 'destroy']);
+Route::get('/{event}/bookings/{filter?}', 'Booking\BookingController@index')->name('bookings.event.index');
+Route::patch('/bookings/{booking}/cancel', 'Booking\BookingController@cancel')->name('bookings.cancel');
 
 // Keeping this here for a while to prevent some 404's should people access /booking directly
 Route::redirect('/booking', route('bookings.index'), 301);
 
-Route::get('/faq', function () {
-    $faqs = \App\Models\Faq::doesntHave('events')
-    ->where('is_online', '=' , '1')
-    ->get();
+Route::get('faq', 'Faq\FaqController')->name('faq');
 
-    return view('faq', compact('faqs'));
-})->name('faq');
-
-Route::resource('admin/faq', 'FaqController')->except('show');
-Route::patch('/admin/faq/{faq}/toggle-event/{event}', 'FaqController@toggleEvent')->name('faq.toggleEvent');
-
-Route::get('/{event}', 'EventController@show')->name('events.show');
+Route::get('{event}', 'Event\EventController')->name('events.show');
 
 Route::middleware('auth.isLoggedIn')->group(function () {
     Route::prefix('user')->name('user.')
         ->group(function () {
-        Route::get('settings', function () {
-            $user = Auth::user();
-            return view('user.settings', compact('user'));
-        })->name('settings');
-
-        Route::patch('settings', function (\App\Http\Requests\UpdateUserSettings $request) {
-            $user = Auth::user();
-            $user->update($request->only(['airport_view', 'use_monospace_font']));
-            flashMessage('success', 'Done', 'Settings saved!');
-            return back();
-        })->name('saveSettings');
-    });
+            Route::get('settings', 'User\UserController@showSettingsForm')->name('settings');
+            Route::patch('settings', 'User\UserController@saveSettings')->name('saveSettings');
+        });
 });

@@ -43,7 +43,7 @@
                         <div class="col-md-6">
                             <div class="form-control-plaintext">
                                 <strong>
-                                    <a href="{{ route('airports.show', $event->airportDep) }}">
+                                    <a href="{{ route('admin.airports.show', $event->airportDep) }}">
                                         {{ $event->airportDep->name }} [{{ $event->airportDep->icao }} | {{ $event->airportDep->iata }}]
                                     </a>
                                 </strong>
@@ -58,7 +58,7 @@
                         <div class="col-md-6">
                             <div class="form-control-plaintext">
                                 <strong>
-                                    <a href="{{ route('airports.show', $event->airportArr) }}">
+                                    <a href="{{ route('admin.airports.show', $event->airportArr) }}">
                                         {{ $event->airportArr->name }} [{{ $event->airportArr->icao }} | {{ $event->airportArr->iata }}]
                                     </a>
                                 </strong>
