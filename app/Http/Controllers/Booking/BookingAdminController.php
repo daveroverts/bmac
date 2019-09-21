@@ -5,9 +5,9 @@ namespace App\Http\Controllers\Booking;
 use App\Enums\BookingStatus;
 use App\Http\Controllers\AdminController;
 use App\Http\Requests\Booking\Admin\AutoAssign;
-use App\Http\Requests\Booking\Admin\UpdateBooking;
 use App\Http\Requests\Booking\Admin\ImportBookings;
 use App\Http\Requests\Booking\Admin\StoreBooking;
+use App\Http\Requests\Booking\Admin\UpdateBooking;
 use App\Models\Airport;
 use App\Models\Booking;
 use App\Models\Event;
@@ -295,9 +295,12 @@ class BookingAdminController extends AdminController
     public function adminAutoAssign(AutoAssign $request, Event $event)
     {
         $bookings = Booking::where('event_id', $event->id)
-            ->where('status', BookingStatus::BOOKED)
-            ->orderBy('ctot')
-            ->get();
+            ->orderBy('ctot');
+
+        if (!$request->checkAssignAllFlights) {
+            $bookings = $bookings->where('status', BookingStatus::BOOKED);
+        }
+        $bookings = $bookings->get();
         $count = 0;
         $flOdd = $request->maxFL;
         $flEven = $request->minFL;
