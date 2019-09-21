@@ -20,6 +20,7 @@ class AutoAssign extends Request
             'route2' => 'required',
             'minFL' => 'required|int:3',
             'maxFL' => 'required|int:3',
+            'checkAssignAllFlights' => 'sometimes',
         ];
     }
 }
