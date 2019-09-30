@@ -5,7 +5,7 @@ stages:
   - security
   - deploy
 
-image: lorisleiva/laravel-docker:latest
+image: edbizarro/gitlab-ci-pipeline-php:7.3-alpine
 
 .init_ssh: &init_ssh |
   eval $(ssh-agent -s)
@@ -28,7 +28,6 @@ cache:
 
 composer:
   stage: preparation
-  image: edbizarro/gitlab-ci-pipeline-php:7.3-alpine
   script:
     - php -v
     - composer install --prefer-dist --no-ansi --no-interaction --no-progress --no-scripts
@@ -46,7 +45,6 @@ composer:
 
 npm:
   stage: preparation
-  image: edbizarro/gitlab-ci-pipeline-php:7.3-alpine
   script:
     - npm --version
     - npm ci
@@ -61,10 +59,8 @@ npm:
 
 build-assets:
   stage: building
-  image: edbizarro/gitlab-ci-pipeline-php:7.3-alpine
   # Download the artifacts for these jobs
-  dependencies:
-    - composer
+  needs:
     - npm
   script:
     - npm --version
@@ -82,11 +78,9 @@ db-seeding:
   stage: building
   services:
     - mysql:5.7
-  image: edbizarro/gitlab-ci-pipeline-php:7.3-alpine
   # Download the artifacts for these jobs
-  dependencies:
+  needs:
     - composer
-    - npm
   script:
     - php artisan migrate:fresh --seed
   artifacts:
@@ -99,12 +93,9 @@ phpunit:
   stage: testing
   services:
     - mysql:5.7
-  image: edbizarro/gitlab-ci-pipeline-php:7.3-alpine
   # Download the artifacts for these jobs
-  dependencies:
-    - build-assets
+  needs:
     - composer
-    - db-seeding
   script:
     - php -v
     - vendor/bin/phpunit --coverage-text --colors=never --coverage-clover code-coverage --log-junit test-executions
@@ -126,7 +117,6 @@ codestyle:
 
 phpcpd:
   stage: testing
-  image: edbizarro/gitlab-ci-pipeline-php:7.3-alpine
   script:
     - test -f phpcpd.phar || curl -L https://phar.phpunit.de/phpcpd.phar -o phpcpd.phar
     - php phpcpd.phar app/ --min-lines=50
@@ -137,13 +127,12 @@ phpcpd:
 
 sensiolabs:
   stage: security
-  image: edbizarro/gitlab-ci-pipeline-php:7.3-alpine
   script:
     - test -d security-checker || git clone https://github.com/sensiolabs/security-checker.git
     - cd security-checker
-    - composer install
     - php security-checker security:check ../composer.lock
-  dependencies: []
+  needs:
+    - composer
   cache:
     paths:
       - security-checker/
@@ -152,7 +141,7 @@ sensiolabs:
 sonarqube:
   image: johnnei/sonarqube-scanner:3.2.0.1227-4
   stage: security
-  dependencies:
+  needs:
   - composer
   - phpunit
   only:
@@ -163,7 +152,7 @@ sonarqube:
 
 staging:
   stage: deploy
-
+  image: lorisleiva/laravel-docker
   script:
   - *init_ssh
   - *change_file_permissions
@@ -178,6 +167,7 @@ staging:
 
 production:
   stage: deploy
+  image: lorisleiva/laravel-docker
   script:
   - *init_ssh
   - *change_file_permissions
