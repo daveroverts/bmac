@@ -26,6 +26,13 @@ variables:
 cache:
   key: "$CI_JOB_NAME-$CI_COMMIT_REF_SLUG"
 
+noNeeds:
+  stage: preparation
+  image: alpine:latest
+  script:
+    - echo "This build is a workaround for 'https://gitlab.com/gitlab-org/gitlab/issues/30631'"
+  dependencies: []
+
 composer:
   stage: preparation
   script:
@@ -112,6 +119,8 @@ codestyle:
   image: lorisleiva/laravel-docker
   script:
     - phpcs --extensions=php app
+  needs:
+    - noNeeds
   dependencies: []
   allow_failure: true
 
@@ -120,6 +129,8 @@ phpcpd:
   script:
     - test -f phpcpd.phar || curl -L https://phar.phpunit.de/phpcpd.phar -o phpcpd.phar
     - php phpcpd.phar app/ --min-lines=50
+  needs:
+    - noNeeds
   dependencies: []
   cache:
     paths:
@@ -128,9 +139,8 @@ phpcpd:
 sensiolabs:
   stage: security
   script:
-    - test -d security-checker || git clone https://github.com/sensiolabs/security-checker.git
-    - cd security-checker
-    - php security-checker security:check ../composer.lock
+    - cd vendor/sensiolabs/security-checker
+    - php security-checker security:check ../../../composer.lock
   needs:
     - composer
   cache:
@@ -142,36 +152,36 @@ sonarqube:
   image: johnnei/sonarqube-scanner:3.2.0.1227-4
   stage: security
   needs:
-  - composer
-  - phpunit
+    - noNeeds
+  dependencies: []
   only:
-  - dev
+    - dev
   script:
-  - "sonar-scanner -Dsonar.login=$SONAR_TOKEN"
+    - "sonar-scanner -Dsonar.login=$SONAR_TOKEN"
 
 
 staging:
   stage: deploy
   image: lorisleiva/laravel-docker
   script:
-  - *init_ssh
-  - *change_file_permissions
-  - php artisan deploy 104.248.84.152 -s upload
+    - *init_ssh
+    - *change_file_permissions
+    - php artisan deploy 104.248.84.152 -s upload
 
   environment:
     name: staging
     url: https://bmac.daveroverts.nl
 
   only:
-  - dev
+    - dev
 
 production:
   stage: deploy
   image: lorisleiva/laravel-docker
   script:
-  - *init_ssh
-  - *change_file_permissions
-  - php artisan deploy vps1.dutchvacc.nl -s upload
+    - *init_ssh
+    - *change_file_permissions
+    - php artisan deploy vps1.dutchvacc.nl -s upload
 
   environment:
     name: production
@@ -180,4 +190,4 @@ production:
   when: manual
 
   only:
-  - master
+    - master
