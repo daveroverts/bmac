@@ -154,6 +154,7 @@ sonarqube:
   needs:
     - noNeeds
   dependencies: []
+  allow_failure: true
   only:
     - dev
   script:
