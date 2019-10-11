@@ -111,6 +111,7 @@ return [
         'vps1.dutchvacc.nl' => [
             'deploy_path' => '/home/webmaster/www/booking/home',
             'user' => 'webmaster',
+            'port' => 16793,
         ],
         '104.248.84.152' => [
             'deploy_path' => '/home/forge/bmac.daveroverts.nl',
