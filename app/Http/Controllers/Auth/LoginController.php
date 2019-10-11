@@ -67,14 +67,14 @@ class LoginController extends Controller
         );
     }
 
-    public function validateLogin()
+    public function validateLogin(Request $request)
     {
         $session = Session::get('vatsimauth');
-        if (!empty(Request::get('oauth_verifier'))) {
+        if (!empty($request->get('oauth_verifier'))) {
             return VatsimSSO::validate(
                 $session['key'],
                 $session['secret'],
-                Request::get('oauth_verifier'),
+                $request->get('oauth_verifier'),
                 function ($user, $request) {
                     // At this point we can remove the session data.
                     Session::forget('vatsimauth');
