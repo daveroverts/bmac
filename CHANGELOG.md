@@ -6,6 +6,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v1.4.2](https://gitlab.com/daveroverts/Book-me-a-cookie/compare/v1.4.2...v1.4.1) - 2019-10-11
+
+### Changed
+- Fixed issue where a user could book a flight, after 10 minutes has passed, and crash the whole ``booking.overview`` view
+
 ## [v1.4.1](https://gitlab.com/daveroverts/Book-me-a-cookie/compare/v1.4.1...v1.4.0c) - 2019-08-13
 
 ### Changed
