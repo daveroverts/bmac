@@ -184,30 +184,35 @@ class BookingController extends Controller
      */
     public function update(UpdateBooking $request, Booking $booking)
     {
-        if ($booking->is_editable) {
-            $booking->fill([
-                'callsign' => $request->callsign,
-                'acType' => $request->aircraft
-            ]);
-        }
+        // This check should actually be in the policy, but is now here as a quick fix
+        if ($booking->user_id === $request->user()->id) {
+            if ($booking->is_editable) {
+                $booking->fill([
+                    'callsign' => $request->callsign,
+                    'acType' => $request->aircraft
+                ]);
+            }
 
-        if ($booking->event->is_oceanic_event) {
-            $booking->selcal = $this->validateSELCAL(strtoupper($request->selcal1 . '-' . $request->selcal2), $booking->event_id);
-        }
+            if ($booking->event->is_oceanic_event) {
+                $booking->selcal = $this->validateSELCAL(strtoupper($request->selcal1 . '-' . $request->selcal2), $booking->event_id);
+            }
 
-        $booking->status = BookingStatus::BOOKED;
-        if ($booking->getOriginal('status') === BookingStatus::RESERVED) {
-            activity()
-                ->by(Auth::user())
-                ->on($booking)
-                ->log('Flight booked');
-            $booking->user->notify(new BookingConfirmed($booking));
-            flashMessage('success', 'Booking created!', 'Booking has been created! An E-mail with details has also been sent');
+            $booking->status = BookingStatus::BOOKED;
+            if ($booking->getOriginal('status') === BookingStatus::RESERVED) {
+                activity()
+                    ->by(Auth::user())
+                    ->on($booking)
+                    ->log('Flight booked');
+                $booking->user->notify(new BookingConfirmed($booking));
+                flashMessage('success', 'Booking created!', 'Booking has been created! An E-mail with details has also been sent');
+            } else {
+                flashMessage('success', 'Booking edited!', 'Booking has been edited!');
+            }
+            $booking->save();
+            return redirect(route('bookings.event.index', $booking->event));
         } else {
-            flashMessage('success', 'Booking edited!', 'Booking has been edited!');
+            abort(403);
         }
-        $booking->save();
-        return redirect(route('bookings.event.index', $booking->event));
     }
 
     public function validateSELCAL($selcal, $eventId)

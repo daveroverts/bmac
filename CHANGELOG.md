@@ -6,6 +6,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v1.4.2](https://gitlab.com/daveroverts/Book-me-a-cookie/compare/v1.4.2...v1.4.1) - 2019-10-11
+
+### Changed
+- Fixed issue where a user could book a flight, after 10 minutes has passed, and crash the whole ``booking.overview`` view
+
 ### Added
 - Added ``AdminController``, that is used by all AdminControllers. It uses the ``IsAdmin`` Middleware by default.
 - Added ``nextEventsForFaq()`` helper function, that makes use of the new parameter found in ``nextEvents()`` (see below).
