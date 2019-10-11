@@ -37,7 +37,7 @@ return [
     | Hooks
     |--------------------------------------------------------------------------
     |
-    | Hooks let you customize your deployments conveniently by pushing tasks 
+    | Hooks let you customize your deployments conveniently by pushing tasks
     | into strategic places of your deployment flow. Each of the official
     | strategies invoke hooks in different ways to implement their logic.
     |
@@ -48,12 +48,12 @@ return [
         'start' => [
             //
         ],
-        
+
         // Code and composer vendors are ready but nothing is built.
         'build' => [
             //
         ],
-        
+
         // Deployment is done but not live yet (before symlink)
         'ready' => [
             'artisan:storage:link',
@@ -62,17 +62,17 @@ return [
             'artisan:config:cache',
             'artisan:migrate',
         ],
-        
+
         // Deployment is done and live
         'done' => [
             //
         ],
-        
+
         // Deployment succeeded.
         'success' => [
             'bugsnag:notify',
         ],
-        
+
         // Deployment failed.
         'fail' => [
             //
@@ -111,6 +111,7 @@ return [
         'vps1.dutchvacc.nl' => [
             'deploy_path' => '/home/webmaster/www/booking/home',
             'user' => 'webmaster',
+            'port' => 16793,
         ],
         '104.248.84.152' => [
             'deploy_path' => '/home/forge/bmac.daveroverts.nl',
@@ -138,7 +139,7 @@ return [
     | Include additional Deployer recipes
     |--------------------------------------------------------------------------
     |
-    | Here, you can add any third party recipes to provide additional tasks, 
+    | Here, you can add any third party recipes to provide additional tasks,
     | options and strategies. Therefore, it also allows you to create and
     | include your own recipes to define more complex deployment flows.
     |
