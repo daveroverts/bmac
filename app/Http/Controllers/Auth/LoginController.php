@@ -8,10 +8,10 @@ use App\Models\Booking;
 use App\Models\User;
 use Faker\Factory as Faker;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
 use VatsimSSO;
@@ -70,11 +70,11 @@ class LoginController extends Controller
     public function validateLogin()
     {
         $session = Session::get('vatsimauth');
-        if (!empty(Input::get('oauth_verifier'))) {
+        if (!empty(Request::get('oauth_verifier'))) {
             return VatsimSSO::validate(
                 $session['key'],
                 $session['secret'],
-                Input::get('oauth_verifier'),
+                Request::get('oauth_verifier'),
                 function ($user, $request) {
                     // At this point we can remove the session data.
                     Session::forget('vatsimauth');
