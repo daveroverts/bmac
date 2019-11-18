@@ -16,7 +16,8 @@
                 <div class="card-header">{{ $airport->id ? 'Edit' : 'Add new' }} Airport</div>
 
                 <div class="card-body">
-                    <form method="POST" action="{{ $airport->id ? route('admin.airports.update', $airport) : route('admin.airports.store') }}">
+                    <form method="POST"
+                          action="{{ $airport->id ? route('admin.airports.update', $airport) : route('admin.airports.store') }}">
                         @csrf
                         @if($airport->id)
                             @method('PATCH')

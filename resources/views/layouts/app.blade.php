@@ -18,7 +18,7 @@
     <link href="{{ mix('css/app.css') }}" rel="stylesheet">
 
     <!-- Robots -->
-    <meta name="robots" content="noindex" />
+    <meta name="robots" content="noindex"/>
 </head>
 <body>
 <div id="app">

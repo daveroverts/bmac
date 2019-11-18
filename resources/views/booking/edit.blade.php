@@ -218,7 +218,8 @@
                         </div>
                     </form>
 
-                    <form id="cancel-form" action="{{ route('bookings.cancel', $booking) }}" method="post" style="display: none;">
+                    <form id="cancel-form" action="{{ route('bookings.cancel', $booking) }}" method="post"
+                          style="display: none;">
                         @csrf
                         @method('PATCH')
                     </form>

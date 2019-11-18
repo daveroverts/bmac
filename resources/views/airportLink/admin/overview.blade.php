@@ -23,7 +23,8 @@
         </script>
     @endpush
     <p>
-        <a href=" {{ route('admin.airportLinks.create') }}" class="btn btn-primary"><i class="fa fa-plus"></i> Add new Airport
+        <a href=" {{ route('admin.airportLinks.create') }}" class="btn btn-primary"><i class="fa fa-plus"></i> Add new
+            Airport
             Link</a>
     </p>
     <table class="table table-hover">
@@ -36,7 +37,9 @@
         </thead>
         @forelse($airportLinks as $airportLink)
             <tr>
-                <td><a href="{{ route('admin.airports.show', $airportLink->airport) }}">{{ $airportLink->airport->name }} [{{ $airportLink->airport->icao }} | {{ $airportLink->airport->iata }}]</a></td>
+                <td>
+                    <a href="{{ route('admin.airports.show', $airportLink->airport) }}">{{ $airportLink->airport->name }}
+                        [{{ $airportLink->airport->icao }} | {{ $airportLink->airport->iata }}]</a></td>
                 <td><a href="{{ $airportLink->url }}">{{ $airportLink->name ?? $airportLink->type->name }}</a></td>
                 <td>
                     <a href="{{ route('admin.airportLinks.edit', $airportLink) }}">
@@ -48,7 +51,9 @@
                 <td>
                     <form action="{{ route('admin.airportLinks.destroy', $airportLink) }}" method="post">
                         @method('DELETE')
-                        <button class="btn btn-danger delete-airportlink"><i class="fa fa-trash"></i> Remove Airport Link</button>
+                        <button class="btn btn-danger delete-airportlink"><i class="fa fa-trash"></i> Remove Airport
+                            Link
+                        </button>
                         @csrf
                     </form>
                 </td>

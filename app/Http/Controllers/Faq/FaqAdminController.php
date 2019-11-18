@@ -40,14 +40,14 @@ class FaqAdminController extends AdminController
      */
     public function create()
     {
-        $faq = new Faq;
+        $faq = new Faq();
         return view('faq.admin.form', compact('faq'));
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param StoreFaq $request
+     * @param  StoreFaq  $request
      * @return \Illuminate\Http\Response
      */
     public function store(StoreFaq $request)
@@ -60,7 +60,7 @@ class FaqAdminController extends AdminController
     /**
      * Show the form for editing the specified resource.
      *
-     * @param Faq $faq
+     * @param  Faq  $faq
      * @return \Illuminate\Http\Response
      */
     public function edit(Faq $faq)
@@ -75,8 +75,8 @@ class FaqAdminController extends AdminController
     /**
      * Update the specified resource in storage.
      *
-     * @param UpdateFaq $request
-     * @param Faq $faq
+     * @param  UpdateFaq  $request
+     * @param  Faq  $faq
      * @return \Illuminate\Http\Response
      */
     public function update(UpdateFaq $request, Faq $faq)
@@ -89,7 +89,7 @@ class FaqAdminController extends AdminController
     /**
      * Remove the specified resource from storage.
      *
-     * @param Faq $faq
+     * @param  Faq  $faq
      * @return \Illuminate\Http\Response
      * @throws \Exception
      */
@@ -103,8 +103,8 @@ class FaqAdminController extends AdminController
     /**
      * Link or unlink a event to a FAQ
      *
-     * @param Faq $faq
-     * @param Event $event
+     * @param  Faq  $faq
+     * @param  Event  $event
      * @return \Illuminate\Http\RedirectResponse
      */
     public function toggleEvent(Faq $faq, Event $event)

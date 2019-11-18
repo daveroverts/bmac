@@ -16,28 +16,30 @@
                     Arrivals</a>&nbsp;
             @endif
             @if(Auth::check() && Auth::user()->isAdmin && $event->endBooking >= now())
-                    @push('scripts')
-                        <script>
-                            $('.delete-booking').on('click', function (e) {
-                                e.preventDefault();
-                                Swal.fire({
-                                    title: 'Are you sure',
-                                    text: 'Are you sure you want to remove this booking?',
-                                    type: 'warning',
-                                    showCancelButton: true,
-                                }).then((result) => {
-                                    if (result.value) {
-                                        Swal.fire('Deleting booking...');
-                                        Swal.showLoading();
-                                        $(this).closest('form').submit();
-                                    }
-                                });
+                @push('scripts')
+                    <script>
+                        $('.delete-booking').on('click', function (e) {
+                            e.preventDefault();
+                            Swal.fire({
+                                title: 'Are you sure',
+                                text: 'Are you sure you want to remove this booking?',
+                                type: 'warning',
+                                showCancelButton: true,
+                            }).then((result) => {
+                                if (result.value) {
+                                    Swal.fire('Deleting booking...');
+                                    Swal.showLoading();
+                                    $(this).closest('form').submit();
+                                }
                             });
-                        </script>
-                    @endpush
-                <a href="{{ route('admin.bookings.create',$event) }}" class="btn btn-primary"><i class="fa fa-plus"></i> Add
+                        });
+                    </script>
+                @endpush
+                <a href="{{ route('admin.bookings.create',$event) }}" class="btn btn-primary"><i class="fa fa-plus"></i>
+                    Add
                     Booking</a>&nbsp;
-                <a href="{{ route('admin.bookings.create',$event) }}/bulk" class="btn btn-primary"><i class="fa fa-plus"></i>
+                <a href="{{ route('admin.bookings.create',$event) }}/bulk" class="btn btn-primary"><i
+                        class="fa fa-plus"></i>
                     Add
                     Timeslots</a>&nbsp;
             @endif
@@ -120,19 +122,21 @@
                                         <button class="btn btn-danger">Not available</button>
                                     @endif
                                 @else
-                                    <a href="{{ route('login', $booking) }}" class="btn btn-info">Click here to login</a>
+                                    <a href="{{ route('login', $booking) }}" class="btn btn-info">Click here to
+                                        login</a>
                                 @endif
                             @endif
                         </td>
                         @if((Auth::check() && Auth::user()->isAdmin) && ($event->endEvent >= now()))
                             <td><a href="{{ route('admin.bookings.edit', $booking) }}" class="btn btn-info"><i
-                                            class="fa fa-edit"></i> Edit</a>
+                                        class="fa fa-edit"></i> Edit</a>
                             </td>
                             <td>
                                 <form action="{{ route('admin.bookings.destroy', $booking) }}" method="post">
                                     @csrf
                                     @method('DELETE')
-                                    <button class="btn btn-danger delete-booking"><i class="fas fa-trash"></i> Delete</button>
+                                    <button class="btn btn-danger delete-booking"><i class="fas fa-trash"></i> Delete
+                                    </button>
                                 </form>
                             </td>
                             <td>

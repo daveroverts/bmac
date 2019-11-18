@@ -10,7 +10,7 @@ class EventController extends Controller
     /**
      * Handle the incoming request.
      *
-     * @param Event $event
+     * @param  Event  $event
      * @return \Illuminate\Http\Response
      */
     public function __invoke(Event $event)

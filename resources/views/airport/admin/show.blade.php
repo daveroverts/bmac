@@ -24,8 +24,8 @@
 
                             <div class="col-md-6">
                                 <div class="form-control-plaintext"><a
-                                            href="{{ $link->url }}"
-                                            target="_blank">Link</a></div>
+                                        href="{{ $link->url }}"
+                                        target="_blank">Link</a></div>
                             </div>
                         </div>
                     @endforeach

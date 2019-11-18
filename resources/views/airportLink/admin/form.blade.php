@@ -16,7 +16,8 @@
                 <div class="card-header">{{ $airportLink->id ? 'Edit' : 'Add new' }} Airport Link</div>
 
                 <div class="card-body">
-                    <form method="POST" action="{{ $airportLink->id ? route('admin.airportLinks.update', $airportLink) : route('admin.airportLinks.store') }}">
+                    <form method="POST"
+                          action="{{ $airportLink->id ? route('admin.airportLinks.update', $airportLink) : route('admin.airportLinks.store') }}">
                         @csrf
                         @if($airportLink->id)
                             @method('PATCH')
@@ -26,16 +27,19 @@
                             <label for="airportLinkType_id" class="col-md-4 col-form-label text-md-right">Type</label>
 
                             <div class="col-md-6">
-                                <select class="custom-select form-control{{ $errors->has('type') ? ' is-invalid' : '' }}"
-                                        name="airportLinkType_id">
+                                <select
+                                    class="custom-select form-control{{ $errors->has('type') ? ' is-invalid' : '' }}"
+                                    name="airportLinkType_id">
                                     <option value="">Choose type...</option>
                                     @if($airportLink->id)
                                         @foreach($airportLinkTypes as $airportLinkType)
-                                            <option value="{{ $airportLinkType->id }}" {{ old('airportLinkType_id', $airportLink->type->id) == $airportLinkType->id ? 'selected' : '' }}>{{ $airportLinkType->name }}</option>
+                                            <option
+                                                value="{{ $airportLinkType->id }}" {{ old('airportLinkType_id', $airportLink->type->id) == $airportLinkType->id ? 'selected' : '' }}>{{ $airportLinkType->name }}</option>
                                         @endforeach
                                     @else
                                         @foreach($airportLinkTypes as $airportLinkType)
-                                            <option value="{{ $airportLinkType->id }}" {{ old('airportLinkType_id') == $airportLinkType->id ? 'selected' : '' }}>{{ $airportLinkType->name }}</option>
+                                            <option
+                                                value="{{ $airportLinkType->id }}" {{ old('airportLinkType_id') == $airportLinkType->id ? 'selected' : '' }}>{{ $airportLinkType->name }}</option>
                                         @endforeach
                                     @endif
                                 </select>
@@ -55,14 +59,17 @@
                             <div class="col-md-6">
                                 @if($airportLink->id)
                                     <div class="form-control form-control-plaintext">
-                                        {{ $airportLink->airport->icao }} [{{ $airportLink->airport->name }} ({{ $airportLink->airport->iata }})]
+                                        {{ $airportLink->airport->icao }} [{{ $airportLink->airport->name }}
+                                        ({{ $airportLink->airport->iata }})]
                                     </div>
                                 @else
-                                    <select class="custom-select form-control{{ $errors->has('airport_id') ? ' is-invalid' : '' }}"
-                                            name="airport_id">
+                                    <select
+                                        class="custom-select form-control{{ $errors->has('airport_id') ? ' is-invalid' : '' }}"
+                                        name="airport_id">
                                         <option value="">Choose an airport...</option>
                                         @foreach($airports as $airport)
-                                            <option value="{{ $airport->id }}" {{ old('airport_id') == $airport->id ? 'selected' : '' }}>{{ $airport->icao }}
+                                            <option
+                                                value="{{ $airport->id }}" {{ old('airport_id') == $airport->id ? 'selected' : '' }}>{{ $airport->icao }}
                                                 [{{ $airport->name }} ({{ $airport->iata }})]
                                             </option>
                                         @endforeach
