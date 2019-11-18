@@ -2,7 +2,8 @@
 
 @section('content')
     <h2>Events Overview</h2>
-    <p><a href="{{ route('admin.events.create') }}" class="btn btn-primary"><i class="fa fa-plus"></i> Add new Event</a></p>
+    <p><a href="{{ route('admin.events.create') }}" class="btn btn-primary"><i class="fa fa-plus"></i> Add new Event</a>
+    </p>
     @include('layouts.alert')
     @push('scripts')
         <script>
@@ -50,21 +51,21 @@
                     <td>{{ $event->endEvent->format('Hi') }}z</td>
                     <td>
                         <a href="{{ route('admin.events.edit',$event) }}" role="button" class="btn btn-primary"><i
-                                    class="fa fa-edit"></i> Edit Event</a>&nbsp;
+                                class="fa fa-edit"></i> Edit Event</a>&nbsp;
                         @if($event->endEvent > now())
                             <a href="{{ route('admin.bookings.importForm',$event) }}" class="btn btn-success"><i
-                                        class="fa fa-edit"></i> Import data</a>&nbsp;
+                                    class="fa fa-edit"></i> Import data</a>&nbsp;
                             <a href="{{ route('admin.bookings.create', $event) }}/bulk" class="btn btn-primary"><i
-                                        class="fa fa-plus"></i> Add Timeslots</a>&nbsp;
+                                    class="fa fa-plus"></i> Add Timeslots</a>&nbsp;
                             @if($event->is_oceanic_event)
                                 <a href="{{ route('admin.bookings.autoAssignForm',$event) }}" class="btn btn-primary">
                                     Auto Assign FL / Route</a>&nbsp;
                             @endif
                         @endif
                         <a href="{{ route('admin.events.email.form',$event) }}" class="btn btn-primary"><i
-                                    class="fa fa-envelope"></i> Send E-mails (all persons)</a>&nbsp;
+                                class="fa fa-envelope"></i> Send E-mails (all persons)</a>&nbsp;
                         <a href="{{ route('admin.bookings.export',$event) }}" class="btn btn-success"><i
-                                    class="fa fa-edit"></i> Export data</a>&nbsp;
+                                class="fa fa-edit"></i> Export data</a>&nbsp;
                         @if($event->startEvent > now())
                             <form action="{{ route('admin.events.destroy', $event) }}" method="post">
                                 @csrf

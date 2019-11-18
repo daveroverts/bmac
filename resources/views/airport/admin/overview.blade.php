@@ -23,8 +23,10 @@
         </script>
     @endpush
     <p>
-        <a href="{{ route('admin.airports.create') }}" class="btn btn-primary"><i class="fa fa-plus"></i> Add new Airport</a>&nbsp;
-        <a href=" {{ route('admin.airportLinks.create') }}" class="btn btn-primary"><i class="fa fa-plus"></i> Add new Airport
+        <a href="{{ route('admin.airports.create') }}" class="btn btn-primary"><i class="fa fa-plus"></i> Add new
+            Airport</a>&nbsp;
+        <a href=" {{ route('admin.airportLinks.create') }}" class="btn btn-primary"><i class="fa fa-plus"></i> Add new
+            Airport
             Link</a>
     </p>
     <table class="table table-hover">
@@ -52,11 +54,13 @@
                     @if($airport->bookingsDep->isEmpty() && $airport->bookingsArr->isEmpty() && $airport->eventDep->isEmpty() && $airport->eventArr->isEmpty())
                         <form action="{{ route('admin.airports.destroy', $airport) }}" method="post">
                             @method('DELETE')
-                            <button class="btn btn-danger delete-airport"><i class="fa fa-trash"></i> Remove Airport</button>
+                            <button class="btn btn-danger delete-airport"><i class="fa fa-trash"></i> Remove Airport
+                            </button>
                             @csrf
                         </form>
                     @else
-                        <button class="btn btn-danger disabled" disabled><i class="fa fa-trash"></i> Remove Airport</button>
+                        <button class="btn btn-danger disabled" disabled><i class="fa fa-trash"></i> Remove Airport
+                        </button>
                     @endif
                 </td>
             </tr>

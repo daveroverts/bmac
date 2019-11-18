@@ -34,7 +34,8 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin', 'middleware' => 'auth.isAdm
     Route::resource('events', 'Event\EventAdminController');
     Route::get('{event}/email', 'Event\EventAdminController@sendEmailForm')->name('events.email.form');
     Route::patch('{event}/email', 'Event\EventAdminController@sendEmail')->name('events.email');
-    Route::patch('{event}/email_final', 'Event\EventAdminController@sendFinalInformationMail')->name('events.email.final');
+    Route::patch('{event}/email_final',
+        'Event\EventAdminController@sendFinalInformationMail')->name('events.email.final');
 
     // Booking
     Route::resource('bookings', 'Booking\BookingAdminController')->except(['index', 'show']);
@@ -42,8 +43,10 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin', 'middleware' => 'auth.isAdm
     Route::get('{event}/bookings/create/{bulk?}', 'Booking\BookingAdminController@create')->name('bookings.create');
     Route::get('{event}/bookings/import', 'Booking\BookingAdminController@importForm')->name('bookings.importForm');
     Route::put('{event}/bookings/import', 'Booking\BookingAdminController@import')->name('bookings.import');
-    Route::get('{event}/bookings/autoAssign', 'Booking\BookingAdminController@adminAutoAssignForm')->name('bookings.autoAssignForm');
-    Route::patch('{event}/bookings/autoAssign', 'Booking\BookingAdminController@adminAutoAssign')->name('bookings.autoAssign');
+    Route::get('{event}/bookings/autoAssign',
+        'Booking\BookingAdminController@adminAutoAssignForm')->name('bookings.autoAssignForm');
+    Route::patch('{event}/bookings/autoAssign',
+        'Booking\BookingAdminController@adminAutoAssign')->name('bookings.autoAssign');
 });
 
 Route::resource('bookings', 'Booking\BookingController')->except(['create', 'store', 'destroy']);

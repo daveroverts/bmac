@@ -115,7 +115,8 @@
                                         name="dep">
                                     <option value="">Choose an airport...</option>
                                     @foreach($airports as $airport)
-                                        <option value="{{ $airport->id }}" {{ old('dep', $event->dep) == $airport->id ? 'selected' : '' }}>{{ $airport->icao }}
+                                        <option
+                                            value="{{ $airport->id }}" {{ old('dep', $event->dep) == $airport->id ? 'selected' : '' }}>{{ $airport->icao }}
                                             [{{ $airport->name }} ({{ $airport->iata }})]
                                         </option>
                                     @endforeach
@@ -134,11 +135,13 @@
                             <label for="end" class="col-md-4 col-form-label text-md-right"> ADES</label>
 
                             <div class="col-md-6">
-                                <select class="cusarrm-select form-control{{ $errors->has('arr') ? ' is-invalid' : '' }}"
-                                        name="arr">
+                                <select
+                                    class="cusarrm-select form-control{{ $errors->has('arr') ? ' is-invalid' : '' }}"
+                                    name="arr">
                                     <option value="">Choose an airport...</option>
                                     @foreach($airports as $airport)
-                                        <option value="{{ $airport->id }}" {{ old('arr', $event->arr) == $airport->id ? 'selected' : '' }}>{{ $airport->icao }}
+                                        <option
+                                            value="{{ $airport->id }}" {{ old('arr', $event->arr) == $airport->id ? 'selected' : '' }}>{{ $airport->icao }}
                                             [{{ $airport->name }} ({{ $airport->iata }})]
                                         </option>
                                     @endforeach

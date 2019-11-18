@@ -61,23 +61,24 @@ class EventAdminController extends AdminController
     /**
      * Store a newly created resource in storage.
      *
-     * @param StoreEvent $request
+     * @param  StoreEvent  $request
      * @return \Illuminate\Http\Response
      */
     public function store(StoreEvent $request)
     {
         $event = new Event();
-        $event->fill($request->only('is_online', 'show_on_homepage', 'name', 'event_type_id', 'import_only', 'uses_times',
+        $event->fill($request->only('is_online', 'show_on_homepage', 'name', 'event_type_id', 'import_only',
+            'uses_times',
             'multiple_bookings_allowed', 'is_oceanic_event', 'dep', 'arr', 'image_url', 'description'));
         $event->fill([
             'startEvent' => Carbon::createFromFormat('d-m-Y H:i',
-                $request->dateEvent . ' ' . $request->timeBeginEvent),
+                $request->dateEvent.' '.$request->timeBeginEvent),
             'endEvent' => Carbon::createFromFormat('d-m-Y H:i',
-                $request->dateEvent . ' ' . $request->timeEndEvent),
+                $request->dateEvent.' '.$request->timeEndEvent),
             'startBooking' => Carbon::createFromFormat('d-m-Y H:i',
-                $request->dateBeginBooking . ' ' . $request->timeBeginBooking),
+                $request->dateBeginBooking.' '.$request->timeBeginBooking),
             'endBooking' => Carbon::createFromFormat('d-m-Y H:i',
-                $request->dateEndBooking . ' ' . $request->timeEndBooking),
+                $request->dateEndBooking.' '.$request->timeEndBooking),
         ])->save();
 
         flashMessage('success', 'Done', 'Event has been created!');
@@ -87,7 +88,7 @@ class EventAdminController extends AdminController
     /**
      * Display the specified resource.
      *
-     * @param Event $event
+     * @param  Event  $event
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function show(Event $event)
@@ -98,7 +99,7 @@ class EventAdminController extends AdminController
     /**
      * Show the form for editing the specified resource.
      *
-     * @param Event $event
+     * @param  Event  $event
      * @return \Illuminate\Http\Response
      */
     public function edit(Event $event)
@@ -111,23 +112,24 @@ class EventAdminController extends AdminController
     /**
      * Update the specified resource in storage.
      *
-     * @param UpdateEvent $request
-     * @param Event $event
+     * @param  UpdateEvent  $request
+     * @param  Event  $event
      * @return \Illuminate\Http\Response
      */
     public function update(UpdateEvent $request, Event $event)
     {
-        $event->fill($request->only('is_online', 'show_on_homepage', 'name', 'event_type_id', 'import_only', 'uses_times',
+        $event->fill($request->only('is_online', 'show_on_homepage', 'name', 'event_type_id', 'import_only',
+            'uses_times',
             'multiple_bookings_allowed', 'is_oceanic_event', 'dep', 'arr', 'image_url', 'description'));
         $event->fill([
             'startEvent' => Carbon::createFromFormat('d-m-Y H:i',
-                $request->dateEvent . ' ' . $request->timeBeginEvent),
+                $request->dateEvent.' '.$request->timeBeginEvent),
             'endEvent' => Carbon::createFromFormat('d-m-Y H:i',
-                $request->dateEvent . ' ' . $request->timeEndEvent),
+                $request->dateEvent.' '.$request->timeEndEvent),
             'startBooking' => Carbon::createFromFormat('d-m-Y H:i',
-                $request->dateBeginBooking . ' ' . $request->timeBeginBooking),
+                $request->dateBeginBooking.' '.$request->timeBeginBooking),
             'endBooking' => Carbon::createFromFormat('d-m-Y H:i',
-                $request->dateEndBooking . ' ' . $request->timeEndBooking),
+                $request->dateEndBooking.' '.$request->timeEndBooking),
         ])->save();
         flashMessage('success', 'Done', 'Event has been updated!');
         return redirect(route('admin.events.index'));
@@ -136,7 +138,7 @@ class EventAdminController extends AdminController
     /**
      * Remove the specified resource from storage.
      *
-     * @param Event $event
+     * @param  Event  $event
      * @return \Illuminate\Http\RedirectResponse
      * @throws \Exception
      */
@@ -144,7 +146,7 @@ class EventAdminController extends AdminController
     {
         if ($event->startEvent > now()) {
             $event->delete();
-            flashMessage('success', 'Done', $event->name . ' has been deleted!');
+            flashMessage('success', 'Done', $event->name.' has been deleted!');
             return redirect()->back();
         } else {
             flashMessage('danger', 'Nope!', 'You cannot remove a event after it has begun!');
@@ -155,7 +157,7 @@ class EventAdminController extends AdminController
     /**
      * Opens form to either use sendEmail() or sendFinalInformationMail()
      *
-     * @param Event $event
+     * @param  Event  $event
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function sendEmailForm(Event $event)
@@ -166,8 +168,8 @@ class EventAdminController extends AdminController
     /**
      * Sends E-mail to all users who booked a flight as a notification by administrators.
      *
-     * @param SendEmail $request
-     * @param Event $event
+     * @param  SendEmail  $request
+     * @param  Event  $event
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
     public function sendEmail(SendEmail $request, Event $event)
@@ -193,7 +195,7 @@ class EventAdminController extends AdminController
             Notification::send($users, new EventBulkEmail($event, $request->subject, $request->message));
             $count = $users->count();
 
-            flashMessage('success', 'Done', 'Bulk E-mail has been sent to ' . $count . ' people!');
+            flashMessage('success', 'Done', 'Bulk E-mail has been sent to '.$count.' people!');
             activity()
                 ->by(Auth::user())
                 ->on($event)
@@ -212,7 +214,7 @@ class EventAdminController extends AdminController
     /**
      * Sends E-mail to all users who booked a flight the final information.
      *
-     * @param Event $event
+     * @param  Event  $event
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
     public function sendFinalInformationMail(Request $request, Event $event)
@@ -240,7 +242,7 @@ class EventAdminController extends AdminController
             foreach ($bookings as $booking) {
                 $booking->user->notify(new EventFinalInformation($booking));
             }
-            flashMessage('success', 'Done', 'Final Information has been sent to ' . $count . ' people!');
+            flashMessage('success', 'Done', 'Final Information has been sent to '.$count.' people!');
             activity()
                 ->by(Auth::user())
                 ->on($event)

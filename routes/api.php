@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\BookingStatus;
 use App\Http\Resources\AirportResource;
 use App\Http\Resources\AirportsCollection;
 use App\Http\Resources\BookingResource;
@@ -41,7 +42,7 @@ Route::get('/events/upcoming/{limit?}', function ($limit = 3) {
 });
 
 Route::get('/events/{event}/bookings', function (Event $event) {
-    return new BookingsCollection($event->bookings->where('status', \App\Enums\BookingStatus::BOOKED));
+    return new BookingsCollection($event->bookings->where('status', BookingStatus::BOOKED));
 });
 
 Route::get('/events/{event}', function (Event $event) {

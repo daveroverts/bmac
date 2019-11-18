@@ -36,7 +36,8 @@
                 <div class="card-header">{{ $faq->id ? 'Edit' : 'Add new' }} FAQ</div>
 
                 <div class="card-body">
-                    <form method="POST" action="{{ $faq ? route('admin.faq.update', $faq) : route('admin.faq.store') }}">
+                    <form method="POST"
+                          action="{{ $faq ? route('admin.faq.update', $faq) : route('admin.faq.store') }}">
                         @csrf
                         @if($faq->id)
                             @method('PATCH')

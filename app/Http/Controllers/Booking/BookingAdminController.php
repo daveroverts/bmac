@@ -35,8 +35,8 @@ class BookingAdminController extends AdminController
     /**
      * Show the form for creating new timeslots
      *
-     * @param Event $event
-     * @param Request $request
+     * @param  Event  $event
+     * @param  Request  $request
      * @return \Illuminate\Http\Response
      */
     public function create(Event $event, Request $request)
@@ -50,15 +50,16 @@ class BookingAdminController extends AdminController
     /**
      * Store new timeslots in storage.
      *
-     * @param StoreBooking $request
+     * @param  StoreBooking  $request
      * @return \Illuminate\Http\Response
      */
     public function store(StoreBooking $request)
     {
         $event = Event::whereKey($request->id)->first();
         if ($request->bulk) {
-            $event_start = Carbon::createFromFormat('Y-m-d H:i', $event->startEvent->toDateString() . ' ' . $request->start);
-            $event_end = Carbon::createFromFormat('Y-m-d H:i', $event->endEvent->toDateString() . ' ' . $request->end);
+            $event_start = Carbon::createFromFormat('Y-m-d H:i',
+                $event->startEvent->toDateString().' '.$request->start);
+            $event_end = Carbon::createFromFormat('Y-m-d H:i', $event->endEvent->toDateString().' '.$request->end);
             $separation = $request->separation * 60;
             $count = 0;
             for (; $event_start <= $event_end; $event_start->addSeconds($separation)) {
@@ -83,7 +84,7 @@ class BookingAdminController extends AdminController
                     $count++;
                 }
             }
-            flashMessage('success', 'Done', $count . ' Slots have been created!');
+            flashMessage('success', 'Done', $count.' Slots have been created!');
         } else {
             $booking = new Booking([
                 'is_editable' => $request->is_editable,
@@ -95,11 +96,13 @@ class BookingAdminController extends AdminController
                 'oceanicFL' => $request->oceanicFL,
             ]);
             if ($request->ctot) {
-                $booking->ctot = Carbon::createFromFormat('Y-m-d H:i', $event->startEvent->toDateString() . ' ' . $request->ctot);
+                $booking->ctot = Carbon::createFromFormat('Y-m-d H:i',
+                    $event->startEvent->toDateString().' '.$request->ctot);
             }
 
             if ($request->eta) {
-                $booking->eta = Carbon::createFromFormat('Y-m-d H:i', $event->startEvent->toDateString() . ' ' . $request->eta);
+                $booking->eta = Carbon::createFromFormat('Y-m-d H:i',
+                    $event->startEvent->toDateString().' '.$request->eta);
             }
             $booking->event()->associate($request->id)->save();
             flashMessage('success', 'Done', 'Slot created');
@@ -110,7 +113,7 @@ class BookingAdminController extends AdminController
     /**
      * Display the specified booking.
      *
-     * @param Booking $booking
+     * @param  Booking  $booking
      * @return \Illuminate\Http\Response
      */
     public function show(Booking $booking)
@@ -120,7 +123,7 @@ class BookingAdminController extends AdminController
 
     /**
      * Show the form for editing the specified booking.
-     * @param Booking $booking
+     * @param  Booking  $booking
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function edit(Booking $booking)
@@ -136,8 +139,8 @@ class BookingAdminController extends AdminController
     /**
      * Updates booking.
      *
-     * @param UpdateBooking $request
-     * @param Booking $booking
+     * @param  UpdateBooking  $request
+     * @param  Booking  $booking
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
     public function update(UpdateBooking $request, Booking $booking)
@@ -152,11 +155,15 @@ class BookingAdminController extends AdminController
             'oceanicTrack' => $request->oceanicTrack,
             'acType' => $request->aircraft,
         ]);
-        if ($request->ctot)
-            $booking->ctot = Carbon::createFromFormat('Y-m-d H:i', $booking->event->startEvent->toDateString() . ' ' . $request->ctot);
+        if ($request->ctot) {
+            $booking->ctot = Carbon::createFromFormat('Y-m-d H:i',
+                $booking->event->startEvent->toDateString().' '.$request->ctot);
+        }
 
-        if ($request->eta)
-            $booking->eta = Carbon::createFromFormat('Y-m-d H:i', $booking->event->startEvent->toDateString() . ' ' . $request->eta);
+        if ($request->eta) {
+            $booking->eta = Carbon::createFromFormat('Y-m-d H:i',
+                $booking->event->startEvent->toDateString().' '.$request->eta);
+        }
 
         $changes = collect();
         if (!empty($booking->user)) {
@@ -186,7 +193,7 @@ class BookingAdminController extends AdminController
     /**
      * Remove the specified booking from storage.
      *
-     * @param Booking $booking
+     * @param  Booking  $booking
      * @return \Illuminate\Http\Response
      * @throws \Exception
      */
@@ -209,7 +216,7 @@ class BookingAdminController extends AdminController
     /**
      * Exports all active bookings to a .csv file
      *
-     * @param Event $event
+     * @param  Event  $event
      * @return string|\Symfony\Component\HttpFoundation\StreamedResponse
      * @throws \Box\Spout\Common\Exception\IOException
      * @throws \Box\Spout\Common\Exception\InvalidArgumentException
@@ -263,10 +270,12 @@ class BookingAdminController extends AdminController
                 'arr' => $arr->id,
             ]);
             if (isset($line['ETA'])) {
-                $flight->put('eta', Carbon::createFromFormat('Y-m-d H:i', $event->startEvent->toDateString() . ' ' . $line['ETA']->format('H:i')));
+                $flight->put('eta', Carbon::createFromFormat('Y-m-d H:i',
+                    $event->startEvent->toDateString().' '.$line['ETA']->format('H:i')));
             }
             if (isset($line['EOBT'])) {
-                $flight->put('ctot', Carbon::createFromFormat('Y-m-d H:i', $event->startEvent->toDateString() . ' ' . $line['EOBT']->format('H:i')));
+                $flight->put('ctot', Carbon::createFromFormat('Y-m-d H:i',
+                    $event->startEvent->toDateString().' '.$line['EOBT']->format('H:i')));
             }
             $bookings->push($flight);
         });
@@ -279,7 +288,7 @@ class BookingAdminController extends AdminController
     /**
      * Show the form for editing the specified booking.
      *
-     * @param Event $event
+     * @param  Event  $event
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function adminAutoAssignForm(Event $event)
@@ -288,8 +297,8 @@ class BookingAdminController extends AdminController
     }
 
     /**
-     * @param AutoAssign $request
-     * @param Event $event
+     * @param  AutoAssign  $request
+     * @param  Event  $event
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
     public function adminAutoAssign(AutoAssign $request, Event $event)
@@ -330,7 +339,7 @@ class BookingAdminController extends AdminController
             $booking->save();
 
         }
-        flashMessage('success', 'Bookings changed', $count . ' Bookings have been Auto-Assigned a FL, and route');
+        flashMessage('success', 'Bookings changed', $count.' Bookings have been Auto-Assigned a FL, and route');
         activity()
             ->by(Auth::user())
             ->on($event)

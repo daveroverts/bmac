@@ -17,7 +17,8 @@
                 <div class="card-header">{{ $event->id ? 'Edit' : 'Add new' }} Event</div>
 
                 <div class="card-body">
-                    <form method="POST" action="{{ $event->id ? route('admin.events.update', $event) : route('admin.events.store') }}">
+                    <form method="POST"
+                          action="{{ $event->id ? route('admin.events.update', $event) : route('admin.events.store') }}">
                         @csrf
                         @if($event->id)
                             @method('PATCH')
@@ -52,7 +53,8 @@
                         {{--Show on homepage?--}}
                         <div class="form-group row">
                             <label for="show_on_homepage" class="col-md-4 col-form-label text-md-right"> <abbr
-                                    title="Choose here if you want to show the event on the homepage. If turned off, the event can only be reached by the url. NOTE: If 'Show Online' is off, the event won't be shown at all">Show on homepage?</abbr></label>
+                                    title="Choose here if you want to show the event on the homepage. If turned off, the event can only be reached by the url. NOTE: If 'Show Online' is off, the event won't be shown at all">Show
+                                    on homepage?</abbr></label>
                             <div class="col-md-6">
                                 <div class="custom-control custom-control-inline custom-radio">
                                     <input type="radio" value="1" id="show_on_homepage1"
@@ -97,11 +99,13 @@
                             <label for="event_type_id" class="col-md-4 col-form-label text-md-right"> Type</label>
 
                             <div class="col-md-6">
-                                <select class="custom-select form-control{{ $errors->has('event_type_id') ? ' is-invalid' : '' }}"
-                                        name="event_type_id">
+                                <select
+                                    class="custom-select form-control{{ $errors->has('event_type_id') ? ' is-invalid' : '' }}"
+                                    name="event_type_id">
                                     <option value="">Choose an event type...</option>
                                     @foreach($eventTypes as $eventType)
-                                        <option value="{{ $eventType->id }}" {{ old('event_type_id', $event->event_type_id) == $eventType->id ? 'selected' : '' }}>{{ $eventType->name }}</option>
+                                        <option
+                                            value="{{ $eventType->id }}" {{ old('event_type_id', $event->event_type_id) == $eventType->id ? 'selected' : '' }}>{{ $eventType->name }}</option>
                                     @endforeach
                                 </select>
 
@@ -116,7 +120,7 @@
                         {{--Only import?--}}
                         <div class="form-group row">
                             <label for="import_only" class="col-md-4 col-form-label text-md-right"> <abbr
-                                        title="If enabled, only admins can fill in details via import script">Only
+                                    title="If enabled, only admins can fill in details via import script">Only
                                     import?</abbr></label>
                             <div class="col-md-6">
                                 <div class="custom-control custom-control-inline custom-radio">
@@ -141,7 +145,7 @@
                         {{--Show times?--}}
                         <div class="form-group row">
                             <label for="uses_times" class="col-md-4 col-form-label text-md-right"> <abbr
-                                        title="If enabled, CTOT and ETA (if set in booking) will be shown">Show
+                                    title="If enabled, CTOT and ETA (if set in booking) will be shown">Show
                                     times?</abbr></label>
                             <div class="col-md-6">
                                 <div class="custom-control custom-control-inline custom-radio">
@@ -166,7 +170,7 @@
                         {{--Multiple bookings allowed?--}}
                         <div class="form-group row">
                             <label for="multiple_bookings_allowed" class="col-md-4 col-form-label text-md-right"> <abbr
-                                        title="If enabled, a user is allowed to book multiple flights for this event">Multiple
+                                    title="If enabled, a user is allowed to book multiple flights for this event">Multiple
                                     bookings allowed?</abbr></label>
                             <div class="col-md-6">
                                 <div class="custom-control custom-control-inline custom-radio">
@@ -193,7 +197,7 @@
                         {{--Oceanic event?--}}
                         <div class="form-group row">
                             <label for="is_oceanic_event" class="col-md-4 col-form-label text-md-right"> <abbr
-                                        title="If enabled, users can fill in a SELCAL code, and oceanic links are shown in the booking briefing">Oceanic
+                                    title="If enabled, users can fill in a SELCAL code, and oceanic links are shown in the booking briefing">Oceanic
                                     event?</abbr></label>
                             <div class="col-md-6">
                                 <div class="custom-control custom-control-inline custom-radio">
@@ -224,7 +228,8 @@
                                         name="dep">
                                     <option value="">Choose an airport...</option>
                                     @foreach($airports as $airport)
-                                        <option value="{{ $airport->id }}" {{ old('dep', $event->dep) == $airport->id ? 'selected' : '' }}>{{ $airport->icao }}
+                                        <option
+                                            value="{{ $airport->id }}" {{ old('dep', $event->dep) == $airport->id ? 'selected' : '' }}>{{ $airport->icao }}
                                             [{{ $airport->name }} ({{ $airport->iata }})]
                                         </option>
                                     @endforeach
@@ -247,7 +252,8 @@
                                         name="arr">
                                     <option value="">Choose an airport...</option>
                                     @foreach($airports as $airport)
-                                        <option value="{{ $airport->id }}" {{ old('arr', $event->arr) == $airport->id ? 'selected' : '' }}>{{ $airport->icao }}
+                                        <option
+                                            value="{{ $airport->id }}" {{ old('arr', $event->arr) == $airport->id ? 'selected' : '' }}>{{ $airport->icao }}
                                             [{{ $airport->name }} ({{ $airport->iata }})]
                                         </option>
                                     @endforeach
@@ -264,12 +270,14 @@
                         {{--Date Event--}}
                         <div class="form-group row">
                             <label for="dateEvent" class="col-md-4 col-form-label text-md-right"><i
-                                        class="fa fa-calendar"></i> Date Event</label>
+                                    class="fa fa-calendar"></i> Date Event</label>
 
                             <div class="col-md-6">
                                 <input type="text"
                                        class="form-control{{ $errors->has('date') ? ' is-invalid' : '' }} datepicker"
-                                       name="dateEvent" value="{{ old('dateEvent', $event->id ? $event->startEvent->format('d-m-Y') : null) }}" required>
+                                       name="dateEvent"
+                                       value="{{ old('dateEvent', $event->id ? $event->startEvent->format('d-m-Y') : null) }}"
+                                       required>
 
                                 @if ($errors->has('dateEvent'))
                                     <span class="invalid-feedback">
@@ -282,12 +290,14 @@
                         {{--Time begin--}}
                         <div class="form-group row">
                             <label for="timeBeginEvent" class="col-md-4 col-form-label text-md-right"><i
-                                        class="far fa-clock"></i> Begin (UTC)</label>
+                                    class="far fa-clock"></i> Begin (UTC)</label>
 
                             <div class="col-md-6">
                                 <input id="timeBeginEvent" type="time"
                                        class="form-control{{ $errors->has('timeEndEvent') ? ' is-invalid' : '' }}"
-                                       name="timeBeginEvent" value="{{ old('timeBeginEvent', $event->id ? $event->startEvent->format('H:i') : null) }}" required>
+                                       name="timeBeginEvent"
+                                       value="{{ old('timeBeginEvent', $event->id ? $event->startEvent->format('H:i') : null) }}"
+                                       required>
 
                                 @if ($errors->has('name'))
                                     <span class="invalid-feedback">
@@ -300,12 +310,14 @@
                         {{--Time end--}}
                         <div class="form-group row">
                             <label for="timeEndEvent" class="col-md-4 col-form-label text-md-right"><i
-                                        class="far fa-clock fa-flip-horizontal"></i> End (UTC)</label>
+                                    class="far fa-clock fa-flip-horizontal"></i> End (UTC)</label>
 
                             <div class="col-md-6">
                                 <input id="timeEndEvent" type="time"
                                        class="form-control{{ $errors->has('timeEndEvent') ? ' is-invalid' : '' }}"
-                                       name="timeEndEvent" value="{{ old('timeEndEvent', $event->id ? $event->endEvent->format('H:i') : null) }}" required>
+                                       name="timeEndEvent"
+                                       value="{{ old('timeEndEvent', $event->id ? $event->endEvent->format('H:i') : null) }}"
+                                       required>
 
                                 @if ($errors->has('timeEndEvent'))
                                     <span class="invalid-feedback">
@@ -318,12 +330,14 @@
                         {{--Date--}}
                         <div class="form-group row">
                             <label for="dateBeginBooking" class="col-md-4 col-form-label text-md-right"><i
-                                        class="fa fa-calendar"></i> Date Start Bookings</label>
+                                    class="fa fa-calendar"></i> Date Start Bookings</label>
 
                             <div class="col-md-6">
                                 <input type="text"
                                        class="form-control{{ $errors->has('date') ? ' is-invalid' : '' }} datepicker"
-                                       name="dateBeginBooking" value="{{ old('dateBeginBooking', $event->id ? $event->startBooking->format('d-m-Y') : null) }}" required>
+                                       name="dateBeginBooking"
+                                       value="{{ old('dateBeginBooking', $event->id ? $event->startBooking->format('d-m-Y') : null) }}"
+                                       required>
 
                                 @if ($errors->has('dateBeginBooking'))
                                     <span class="invalid-feedback">
@@ -336,12 +350,14 @@
                         {{--Time begin--}}
                         <div class="form-group row">
                             <label for="timeBeginBooking" class="col-md-4 col-form-label text-md-right"><i
-                                        class="far fa-clock"></i> Begin (UTC)</label>
+                                    class="far fa-clock"></i> Begin (UTC)</label>
 
                             <div class="col-md-6">
                                 <input id="timeBeginEvent" type="time"
                                        class="form-control{{ $errors->has('timeBeginBooking') ? ' is-invalid' : '' }}"
-                                       name="timeBeginBooking" value="{{ old('timeBeginBooking', $event->id ? $event->startBooking->format('H:i') : null) }}" required>
+                                       name="timeBeginBooking"
+                                       value="{{ old('timeBeginBooking', $event->id ? $event->startBooking->format('H:i') : null) }}"
+                                       required>
 
                                 @if ($errors->has('name'))
                                     <span class="invalid-feedback">
@@ -354,12 +370,14 @@
                         {{--Date--}}
                         <div class="form-group row">
                             <label for="dateEndBooking" class="col-md-4 col-form-label text-md-right"><i
-                                        class="fa fa-calendar"></i> Date End Bookings</label>
+                                    class="fa fa-calendar"></i> Date End Bookings</label>
 
                             <div class="col-md-6">
                                 <input type="text"
                                        class="form-control{{ $errors->has('date') ? ' is-invalid' : '' }} datepicker"
-                                       name="dateEndBooking" value="{{ old('dateEndBooking', $event->id ? $event->endBooking->format('d-m-Y') : null) }}" required>
+                                       name="dateEndBooking"
+                                       value="{{ old('dateEndBooking', $event->id ? $event->endBooking->format('d-m-Y') : null) }}"
+                                       required>
 
                                 @if ($errors->has('dateBeginBooking'))
                                     <span class="invalid-feedback">
@@ -372,12 +390,14 @@
                         {{--Time end--}}
                         <div class="form-group row">
                             <label for="timeEndBooking" class="col-md-4 col-form-label text-md-right"><i
-                                        class="far fa-clock fa-flip-horizontal"></i> End (UTC)</label>
+                                    class="far fa-clock fa-flip-horizontal"></i> End (UTC)</label>
 
                             <div class="col-md-6">
                                 <input id="timeEndBooking" type="time"
                                        class="form-control{{ $errors->has('timeEndBooking') ? ' is-invalid' : '' }}"
-                                       name="timeEndBooking" value="{{ old('timeEndBooking', $event->id ? $event->endBooking->format('H:i') : null) }}" required>
+                                       name="timeEndBooking"
+                                       value="{{ old('timeEndBooking', $event->id ? $event->endBooking->format('H:i') : null) }}"
+                                       required>
 
                                 @if ($errors->has('timeEndBooking'))
                                     <span class="invalid-feedback">

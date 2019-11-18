@@ -58,11 +58,11 @@ class EventBulkEmail extends Notification implements ShouldQueue
      * Get the mail representation of the notification.
      *
      * @param  mixed  $notifiable
-     * @return \Illuminate\Notifications\Messages\MailMessage
+     * @return MailMessage
      */
     public function toMail($notifiable)
     {
-        $subject = $this->event->name . ': ' . $this->subject;
+        $subject = $this->event->name.': '.$this->subject;
         $content = $this->content;
         return (new MailMessage)
             ->subject($subject)
@@ -83,7 +83,7 @@ class EventBulkEmail extends Notification implements ShouldQueue
     {
         return [
             'user_id' => $notifiable->id,
-            'subject' => $subject = $this->event->name . ': ' . $this->subject,
+            'subject' => $subject = $this->event->name.': '.$this->subject,
             'content' => $this->content,
         ];
     }
