@@ -301,6 +301,7 @@ class BookingAdminController extends AdminController
 
                 $booking = Booking::create([
                     'event_id' => $event->id,
+                    'is_editable' => true,
                 ]);
 
                 $booking->flights()->createMany([
