@@ -217,4 +217,16 @@ class Booking extends Model
         }
         return '-';
     }
+
+    public function uniqueAirports()
+    {
+        $airports = collect();
+        $this->flights()->each(function ($flight) use ($airports) {
+            /* @var Flight $flight */
+            $airports->push($flight->airportDep);
+            $airports->push($flight->airportArr);
+        });
+
+        return $airports->unique();
+    }
 }

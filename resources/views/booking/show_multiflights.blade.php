@@ -141,45 +141,21 @@
                         </div>
                     </div>
 
-                    @foreach($booking->flights()->first()->airportDep->links as $link)
-                        <div class="form-group row">
-                            <label for="{{ $link->type->name . $link->airport->icao . '-' . $loop->index }}"
-                                   class="col-md-4 col-form-label text-md-right">{{ $link->name ?? $link->type->name . ' ' . $link->airport->icao }}</label>
+                    @foreach($booking->uniqueAirports() as $airport)
+                        @foreach($airport->links as $link)
+                            <div class="form-group row">
+                                <label for="{{ $link->type->name . $link->airport->icao . '-' . $loop->index }}"
+                                       class="col-md-4 col-form-label text-md-right">{{ $link->name ?? $link->type->name . ' ' . $link->airport->icao }}</label>
 
-                            <div class="col-md-6">
-                                <div class="form-control-plaintext"><a
-                                        href="{{ $link->url }}"
-                                        target="_blank">Link</a></div>
+                                <div class="col-md-6">
+                                    <div class="form-control-plaintext"><a
+                                            href="{{ $link->url }}"
+                                            target="_blank">Link</a></div>
+                                </div>
                             </div>
-                        </div>
+                        @endforeach
                     @endforeach
 
-                    @if($booking->event->is_oceanic_event)
-                        {{--Oceanic sheet--}}
-                        <div class="form-group row">
-                            <label for="oceanicSheet" class="col-md-4 col-form-label text-md-right">Oceanic
-                                procedures</label>
-
-                            <div class="col-md-6">
-                                <div class="form-control-plaintext"><a
-                                        href="https://www.virtualnorwegian.net/oceanic/"
-                                        target="_blank">Link</a></div>
-                            </div>
-                        </div>
-                    @endif
-
-                    @foreach($booking->flights()->first()->airportArr->links as $link)
-                        <div class="form-group row">
-                            <label for="{{ $link->type->name . $link->airport->icao . '-' . $loop->index }}"
-                                   class="col-md-4 col-form-label text-md-right">{{ $link->name ?? $link->type->name . ' ' . $link->airport->icao }}</label>
-
-                            <div class="col-md-6">
-                                <div class="form-control-plaintext"><a
-                                        href="{{ $link->url }}"
-                                        target="_blank">Link</a></div>
-                            </div>
-                        </div>
-                    @endforeach
                     {{--Edit Booking--}}
                     <div class="form-group row mb-0">
                         <div class="col-md-7 offset-md-3">
