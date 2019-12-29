@@ -72,7 +72,7 @@
                             <div class="col-md-6">
                                 <input id="ctot" type="time"
                                        class="form-control{{ $errors->has('ctot') ? ' is-invalid' : '' }}" name="ctot"
-                                       value="{{ old('ctot', !empty($booking->getOriginal('ctot')) ? \Carbon\Carbon::parse($booking->getOriginal('ctot'))->format('H:i') : '') }}">
+                                       value="{{ old('ctot', !empty($flight->getOriginal('ctot')) ? \Carbon\Carbon::parse($flight->getOriginal('ctot'))->format('H:i') : '') }}">
 
                                 @if ($errors->has('ctot'))
                                     <span class="invalid-feedback">
@@ -89,7 +89,7 @@
                             <div class="col-md-6">
                                 <input id="eta" type="time"
                                        class="form-control{{ $errors->has('eta') ? ' is-invalid' : '' }}" name="eta"
-                                       value="{{ old('eta', !empty($booking->getOriginal('eta')) ? \Carbon\Carbon::parse($booking->getOriginal('eta'))->format('H:i') : '') }}">
+                                       value="{{ old('eta', !empty($flight->getOriginal('eta')) ? \Carbon\Carbon::parse($flight->getOriginal('eta'))->format('H:i') : '') }}">
 
                                 @if ($errors->has('eta'))
                                     <span class="invalid-feedback">
@@ -108,7 +108,7 @@
                                     <option value="">Choose an airport...</option>
                                     @foreach($airports as $airport)
                                         <option
-                                            value="{{ $airport->id }}" {{ old('dep', $booking->dep) == $airport->id ? 'selected' : '' }}>{{ $airport->icao }}
+                                            value="{{ $airport->id }}" {{ old('dep', $flight->dep) == $airport->id ? 'selected' : '' }}>{{ $airport->icao }}
                                             [{{ $airport->name }} ({{ $airport->iata }})]
                                         </option>
                                     @endforeach
@@ -131,7 +131,7 @@
                                     <option value="">Choose an airport...</option>
                                     @foreach($airports as $airport)
                                         <option
-                                            value="{{ $airport->id }}" {{ old('arr', $booking->arr) == $airport->id ? 'selected' : '' }}>{{ $airport->icao }}
+                                            value="{{ $airport->id }}" {{ old('arr', $flight->arr) == $airport->id ? 'selected' : '' }}>{{ $airport->icao }}
                                             [{{ $airport->name }} ({{ $airport->iata }})]
                                         </option>
                                     @endforeach
@@ -161,7 +161,7 @@
 
                             <div class="col-md-6">
                                 <textarea class="form-control" id="route"
-                                          name="route">{{ old('route',$booking->route) }}</textarea>
+                                          name="route">{{ old('route',$flight->route) }}</textarea>
 
                                 @if ($errors->has('route'))
                                     <span class="invalid-feedback">
@@ -179,7 +179,7 @@
                                 <input id="oceanicTrack" type="text"
                                        class="form-control{{ $errors->has('oceanicTrack') ? ' is-invalid' : '' }}"
                                        name="oceanicTrack"
-                                       value="{{ old('oceanicTrack',$booking->getOriginal('oceanicTrack')) }}" max="2">
+                                       value="{{ old('oceanicTrack',$flight->getOriginal('oceanicTrack')) }}" max="2">
 
                                 @if ($errors->has('oceanicTrack'))
                                     <span class="invalid-feedback">
@@ -198,7 +198,7 @@
                                 <input id="oceanicFL" type="text"
                                        class="form-control{{ $errors->has('oceanicFL') ? ' is-invalid' : '' }}"
                                        name="oceanicFL"
-                                       value="{{ old('oceanicFL',$booking->getOriginal('oceanicFL')) }}" max="3">
+                                       value="{{ old('oceanicFL',$flight->getOriginal('oceanicFL')) }}" max="3">
 
                                 @if ($errors->has('oceanicFL'))
                                     <span class="invalid-feedback">

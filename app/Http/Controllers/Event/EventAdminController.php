@@ -39,7 +39,7 @@ class EventAdminController extends AdminController
      */
     public function index()
     {
-        $events = Event::orderBy('startEvent')
+        $events = Event::orderByDesc('startEvent')
             ->with('type')
             ->paginate();
         return view('event.admin.overview', compact('events'));

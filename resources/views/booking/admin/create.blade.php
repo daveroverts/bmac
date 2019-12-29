@@ -136,7 +136,7 @@
 
                             <div class="col-md-6">
                                 <select
-                                    class="cusarrm-select form-control{{ $errors->has('arr') ? ' is-invalid' : '' }}"
+                                    class="custom-select form-control{{ $errors->has('arr') ? ' is-invalid' : '' }}"
                                     name="arr">
                                     <option value="">Choose an airport...</option>
                                     @foreach($airports as $airport)

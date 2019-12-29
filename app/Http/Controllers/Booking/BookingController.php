@@ -39,58 +39,79 @@ class BookingController extends Controller
 
         if ($event) {
             if ($event->is_online) {
-                if ($event->type->id !== EventType::ONEWAY) {
+                if ($event->hasOrderButtons()) {
                     switch (strtolower($request->filter)) {
                         case 'departures':
                             $bookings = Booking::where('event_id', $event->id)
-                                ->where('dep', $event->dep)
-                                ->orderBy('ctot')
                                 ->orderBy('callsign')
-                                ->with(['airportDep', 'airportArr', 'event', 'user'])
+                                ->with([
+                                    'event',
+                                    'user',
+                                    'flights' => function ($query) use ($event) {
+                                        $query->where('dep', $event->dep);
+                                        $query->orderBy('ctot');
+                                    }
+                                ])
                                 ->get();
                             $filter = $request->filter;
                             break;
                         case 'arrivals':
                             $bookings = Booking::where('event_id', $event->id)
-                                ->where('arr', $event->arr)
-                                ->orderBy('eta')
                                 ->orderBy('callsign')
-                                ->with(['airportDep', 'airportArr', 'event', 'user'])
+                                ->with([
+                                    'event',
+                                    'user',
+                                    'flights' => function ($query) use ($event) {
+                                    $query->where('dep', $event->arr);
+                                    $query->orderBy('eta');
+                                    }
+                                ])
                                 ->get();
                             $filter = $request->filter;
                             break;
                         default:
                             $bookings = Booking::where('event_id', $event->id)
-                                ->orderBy('eta')
-                                ->orderBy('ctot')
-                                ->with(['airportDep', 'airportArr', 'event', 'user'])
+                                ->with([
+                                    'flights' => function ($query) {
+                                    $query->orderBy('eta');
+                                    $query->orderBy('ctot');
+                                    },
+                                ])
                                 ->get();
                     }
                 } else {
                     $bookings = Booking::where('event_id', $event->id)
-                        ->orderBy('eta')
-                        ->orderBy('ctot')
-                        ->with(['airportDep', 'airportArr', 'event', 'user'])
+                        ->with([
+                            'event',
+                            'user',
+                            'flights' => function ($query) {
+                                $query->orderBy('order_by');
+                                $query->orderBy('eta');
+                                $query->orderBy('ctot');
+                            },
+                        ])
                         ->get();
                 }
             } else {
                 abort_unless(auth()->check() && auth()->user()->isAdmin, 404);
             }
         }
-
+        if ($event->event_type_id == EventType::MULTIFLIGHTS) {
+            return view('booking.overview_multiflights', compact('event', 'bookings', 'filter'));
+        }
         return view('booking.overview', compact('event', 'bookings', 'filter'));
     }
 
     public function removeOverdueReservations()
     {
         // Get all reservations that have been reserved
-        foreach (Booking::where('status', BookingStatus::RESERVED)->get() as $booking) {
+        Booking::whereStatus(BookingStatus::RESERVED)->each(function ($booking) {
             // If a reservation has been reserved for more then 10 minutes, remove user_id, and make booking available
             if (now() > Carbon::createFromFormat('Y-m-d H:i:s', $booking->updated_at)->addMinutes(10)) {
                 $booking->status = BookingStatus::UNASSIGNED;
                 $booking->user()->dissociate()->save();
             }
-        }
+        });
     }
 
     /**
@@ -101,6 +122,9 @@ class BookingController extends Controller
      */
     public function show(Booking $booking)
     {
+        if ($booking->event->event_type_id == EventType::MULTIFLIGHTS) {
+            return view('booking.show_multiflights', compact('booking'));
+        }
         return view('booking.show', compact('booking'));
     }
 
@@ -119,6 +143,9 @@ class BookingController extends Controller
                 if ($booking->status == BookingStatus::BOOKED && !$booking->is_editable) {
                     flashMessage('info', 'Nope!', 'You cannot edit the booking!');
                     return redirect(route('bookings.event.index', $booking->event));
+                }
+                if ($booking->event->event_type_id == EventType::MULTIFLIGHTS) {
+                    return view('booking.edit_multiflights', compact('booking'));
                 }
                 return view('booking.edit', compact('booking'));
             } else {
@@ -164,6 +191,9 @@ class BookingController extends Controller
                         $booking->user()->associate(auth()->user())->save();
                         flashMessage('info', 'Slot reserved',
                             'Will remain reserved until '.$booking->updated_at->addMinutes(10)->format('Hi').'z');
+                        if ($booking->event->event_type_id == EventType::MULTIFLIGHTS) {
+                            return view('booking.edit_multiflights', compact('booking'));
+                        }
                         return view('booking.edit', compact('booking'));
                     } else {
                         flashMessage('danger', 'Nope!',

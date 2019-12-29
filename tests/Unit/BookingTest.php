@@ -2,7 +2,7 @@
 
 namespace Tests\Unit;
 
-use App\Models\Booking;
+use App\Models\Flight;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -18,10 +18,10 @@ class BookingTest extends TestCase
      */
     public function testItCreatesNewBooking()
     {
-        $booking = factory(\App\Models\Booking::class)->make();
+        $flight = factory(\App\Models\Flight::class)->make();
 
-        Booking::create($booking->toArray());
+        Flight::create($flight->toArray());
 
-        $this->assertDatabaseHas('bookings', $booking->toArray());
+        $this->assertDatabaseHas('flights', $flight->toArray());
     }
 }

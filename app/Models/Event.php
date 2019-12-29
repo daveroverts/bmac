@@ -97,4 +97,12 @@ class Event extends Model
     {
         return 'slug';
     }
+
+    public function hasOrderButtons()
+    {
+        return in_array($this->event_type_id, [
+            \App\Enums\EventType::FLYIN,
+            \App\Enums\EventType::GROUPFLIGHT
+        ]);
+    }
 }

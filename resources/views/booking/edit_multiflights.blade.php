@@ -23,6 +23,75 @@
                         @csrf
                         @method('PATCH')
 
+                        @foreach($booking->flights as $flight)
+                            <div class="form-group row">
+                                <label for="ctot" class="col-md-4 col-form-label text-md-right"> <strong>Leg #{{ $loop->iteration }}</strong></label>
+                            </div>
+
+                            @if($booking->event->uses_times)
+                                @if($flight->getOriginal('ctot'))
+                                    {{--CTOT--}}
+                                    <div class="form-group row">
+                                        <label for="ctot" class="col-md-4 col-form-label text-md-right"> CTOT</label>
+
+                                        <div class="col-md-6">
+                                            <div class="form-control-plaintext"><strong>{{ $flight->ctot }}</strong></div>
+
+                                        </div>
+                                    </div>
+                                @endif
+
+                                @if($flight->getOriginal('eta'))
+                                    {{--ETA--}}
+                                    <div class="form-group row">
+                                        <label for="eta" class="col-md-4 col-form-label text-md-right"> ETA</label>
+
+                                        <div class="col-md-6">
+                                            <div class="form-control-plaintext"><strong>{{ $flight->eta }}</strong></div>
+
+                                        </div>
+                                    </div>
+                                @endif
+                            @endif
+
+                            {{--ADEP--}}
+                            <div class="form-group row">
+                                <label for="adep" class="col-md-4 col-form-label text-md-right">ADEP</label>
+
+                                <div class="col-md-6">
+                                    <div class="form-control-plaintext"><strong><abbr
+                                                title="{{ $flight->airportDep->name }}">{{ $flight->airportDep->icao }}</abbr></strong>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            {{--ADES--}}
+                            <div class="form-group row">
+                                <label for="ades" class="col-md-4 col-form-label text-md-right">ADES</label>
+
+                                <div class="col-md-6">
+                                    <div class="form-control-plaintext"><strong><abbr
+                                                title="{{ $flight->airportArr->name }}">{{ $flight->airportArr->icao }}</abbr></strong>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            {{--Route--}}
+                            <div class="form-group row">
+                                <label for="route" class="col-md-4 col-form-label text-md-right">Route</label>
+
+                                <div class="col-md-6">
+                                    <div class="form-control-plaintext">
+                                        <strong>{{ $flight->route ?: '-' }}</strong>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <hr>
+                        @endforeach
+
                         {{--Callsign--}}
                         <div class="form-group row">
                             <label for="callsign" class="col-md-4 col-form-label text-md-right"> Callsign</label>
@@ -40,56 +109,6 @@
                             </div>
                         </div>
 
-                        @if($booking->event->uses_times)
-                            @if($booking->getOriginal('ctot'))
-                                {{--CTOT--}}
-                                <div class="form-group row">
-                                    <label for="ctot" class="col-md-4 col-form-label text-md-right"> CTOT</label>
-
-                                    <div class="col-md-6">
-                                        <div class="form-control-plaintext"><strong>{{ $booking->flights()->first()->ctot }}</strong></div>
-
-                                    </div>
-                                </div>
-                            @endif
-
-                            @if($booking->getOriginal('eta'))
-                                {{--ETA--}}
-                                <div class="form-group row">
-                                    <label for="eta" class="col-md-4 col-form-label text-md-right"> ETA</label>
-
-                                    <div class="col-md-6">
-                                        <div class="form-control-plaintext"><strong>{{ $booking->flights()->first()->eta }}</strong></div>
-
-                                    </div>
-                                </div>
-                            @endif
-                        @endif
-
-                        {{--ADEP--}}
-                        <div class="form-group row">
-                            <label for="adep" class="col-md-4 col-form-label text-md-right">ADEP</label>
-
-                            <div class="col-md-6">
-                                <div class="form-control-plaintext"><strong><abbr
-                                            title="{{ $booking->flights()->first()->airportDep->name }}">{{ $booking->flights()->first()->airportDep->icao }}</abbr></strong>
-                                </div>
-
-                            </div>
-                        </div>
-
-                        {{--ADES--}}
-                        <div class="form-group row">
-                            <label for="ades" class="col-md-4 col-form-label text-md-right">ADES</label>
-
-                            <div class="col-md-6">
-                                <div class="form-control-plaintext"><strong><abbr
-                                            title="{{ $booking->flights()->first()->airportArr->name }}">{{ $booking->flights()->first()->airportArr->icao }}</abbr></strong>
-                                </div>
-
-                            </div>
-                        </div>
-
                         {{--PIC--}}
                         <div class="form-group row">
                             <label for="pic" class="col-md-4 col-form-label text-md-right">PIC</label>
@@ -98,18 +117,6 @@
                                 <div class="form-control-plaintext">
                                     <strong>{{ $booking->user->pic }}</strong>
                                 </div>
-                            </div>
-                        </div>
-
-                        {{--Route--}}
-                        <div class="form-group row">
-                            <label for="route" class="col-md-4 col-form-label text-md-right">Route</label>
-
-                            <div class="col-md-6">
-                                <div class="form-control-plaintext">
-                                    <strong>{{ $booking->flights()->first()->route ?: '-' }}</strong>
-                                </div>
-
                             </div>
                         </div>
 
