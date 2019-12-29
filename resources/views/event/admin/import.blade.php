@@ -17,7 +17,7 @@
                 <div class="card-header">{{ $event->name }} | Import</div>
 
                 <div class="card-body">
-                    <form method="POST" action="{{ route('bookings.admin.import',$event) }}"
+                    <form method="POST" action="{{ route('admin.bookings.import',$event) }}"
                           enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
@@ -34,6 +34,24 @@
                                         <strong>{{ $errors->first('file') }}</strong>
                                     </span>
                                 @endif
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+
+                            <label for="ctot" class="col-md-2 col-form-label text-md-right"> Format</label>
+                            <div class="col-md-10">
+                                <div class="form-control-plaintext">
+                                    @if($event->event_type_id == \App\Enums\EventType::MULTIFLIGHTS)
+                                        CTOT 1 - Airport 1 - CTOT 2 - Airport 2 - Airport 3
+                                    @else
+                                        <strong>Arrivals</strong> - Call Sign | Origin | Destination | ETA | Aircraft
+                                        Type
+                                        <br>
+                                        <strong>Departures</strong> - Call Sign | Origin | Destination | EOBT | Aircraft
+                                        Type
+                                    @endif
+                                </div>
                             </div>
                         </div>
 

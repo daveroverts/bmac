@@ -81,17 +81,17 @@ SELCAL: **{{ $booking->selcal }}**
 
 It is important you stick to these details to save confusion on the day! We will try to make sure you will be able to use this callsign. Do not worry if someone else has already logged in using your callsign, your booking will still be recognized when you log in under another callsign!
 
-Departure airport: **{{ $booking->airportDep->icao  }}**
+Departure airport: **{{ $booking->flights()->first()->airportDep->icao  }}**
 
-Arrival airport: **{{ $booking->airportDep->icao }}**
+Arrival airport: **{{ $booking->flights()->first()->airportDep->icao }}**
 
-CTOT: **{{ $booking->ctot }}**
+CTOT: **{{ $booking->flights()->first()->ctot }}**
 
-Full Route: **{{ $booking->route }}**
+Full Route: **{{ $booking->flights()->first()->route }}**
 
-Oceanic Entry Level: **FL{{ $booking->getOriginal('oceanicFL') }}**
+Oceanic Entry Level: **FL{{ $booking->flights()->first()->getOriginal('oceanicFL') }}**
 
-NAT Track: **{{ $booking->oceanicTrack }}**
+NAT Track: **{{ $booking->flights()->first()->oceanicTrack }}**
 
 NAT TMI: **{{ $booking->event->startEvent->dayOfYear + 1 }}**
 

@@ -13,8 +13,8 @@ class FaqPolicy
     /**
      * Determine whether the user can view the faq.
      *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\Faq  $faq
+     * @param  User  $user
+     * @param  Faq  $faq
      * @return mixed
      */
     public function view(Faq $faq)
@@ -25,7 +25,7 @@ class FaqPolicy
     /**
      * Determine whether the user can create faqs.
      *
-     * @param  \App\Models\User  $user
+     * @param  User  $user
      * @return mixed
      */
     public function create(User $user)
@@ -36,8 +36,8 @@ class FaqPolicy
     /**
      * Determine whether the user can update the faq.
      *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\Faq  $faq
+     * @param  User  $user
+     * @param  Faq  $faq
      * @return mixed
      */
     public function update(User $user, Faq $faq)
@@ -48,8 +48,8 @@ class FaqPolicy
     /**
      * Determine whether the user can delete the faq.
      *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\Faq  $faq
+     * @param  User  $user
+     * @param  Faq  $faq
      * @return mixed
      */
     public function delete(User $user, Faq $faq)
@@ -60,8 +60,8 @@ class FaqPolicy
     /**
      * Determine whether the user can restore the faq.
      *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\Faq  $faq
+     * @param  User  $user
+     * @param  Faq  $faq
      * @return mixed
      */
     public function restore(User $user, Faq $faq)
@@ -72,8 +72,8 @@ class FaqPolicy
     /**
      * Determine whether the user can permanently delete the faq.
      *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\Faq  $faq
+     * @param  User  $user
+     * @param  Faq  $faq
      * @return mixed
      */
     public function forceDelete(User $user, Faq $faq)

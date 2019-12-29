@@ -12,75 +12,75 @@ Breadcrumbs::for('admin', function ($trail) {
 });
 
 // Home > Admin > Airports
-Breadcrumbs::for('airports.index', function ($trail) {
+Breadcrumbs::for('admin.airports.index', function ($trail) {
     $trail->parent('admin');
-    $trail->push('Airports', route('airports.index'));
+    $trail->push('Airports', route('admin.airports.index'));
 });
 
 // Home > Admin > Airports > New
-Breadcrumbs::for('airports.create', function ($trail) {
-    $trail->parent('airports.index');
-    $trail->push('New', route('airports.create'));
+Breadcrumbs::for('admin.airports.create', function ($trail) {
+    $trail->parent('admin.airports.index');
+    $trail->push('New', route('admin.airports.create'));
 });
 
 // Home > Admin > Airports > [Airport]
-Breadcrumbs::for('airports.show', function ($trail, $airport) {
-    $trail->parent('airports.index');
-    $trail->push($airport->name . ' [' . $airport->icao . ' | ' . $airport->iata . ']', route('airports.show', $airport));
+Breadcrumbs::for('admin.airports.show', function ($trail, $airport) {
+    $trail->parent('admin.airports.index');
+    $trail->push($airport->name . ' [' . $airport->icao . ' | ' . $airport->iata . ']', route('admin.airports.show', $airport));
 });
 
 // Home > Admin > Airports > [Airport] > Edit Airport
-Breadcrumbs::for('airports.edit', function ($trail, $airport) {
-    $trail->parent('airports.show', $airport);
-    $trail->push('Edit Airport', route('airports.edit', $airport));
+Breadcrumbs::for('admin.airports.edit', function ($trail, $airport) {
+    $trail->parent('admin.airports.show', $airport);
+    $trail->push('Edit Airport', route('admin.airports.edit', $airport));
 });
 
 // Home > Admin > Airport Links
-Breadcrumbs::for('airportLinks.index', function ($trail) {
+Breadcrumbs::for('admin.airportLinks.index', function ($trail) {
     $trail->parent('admin');
-    $trail->push('Airport Links', route('airportLinks.index'));
+    $trail->push('Airport Links', route('admin.airportLinks.index'));
 });
 
 // Home > Admin > Airport Links > New
-Breadcrumbs::for('airportLinks.create', function ($trail) {
-    $trail->parent('airportLinks.index');
-    $trail->push('New', route('airportLinks.create'));
+Breadcrumbs::for('admin.airportLinks.create', function ($trail) {
+    $trail->parent('admin.airportLinks.index');
+    $trail->push('New', route('admin.airportLinks.create'));
 });
 
 // Home > Admin > Airports > [Airport] > [Airport Link] >  Edit Airport Link
-Breadcrumbs::for('airportLinks.edit', function ($trail, $airportLink) {
-    $trail->parent('airports.show', $airportLink->airport);
-    $trail->push('Edit Airport Link', route('airportLinks.edit', $airportLink));
+Breadcrumbs::for('admin.airportLinks.edit', function ($trail, $airportLink) {
+    $trail->parent('admin.airports.show', $airportLink->airport);
+    $trail->push('Edit Airport Link', route('admin.airportLinks.edit', $airportLink));
 });
 
 // Home > Admin > Events
-Breadcrumbs::for('events.index', function ($trail) {
+Breadcrumbs::for('admin.events.index', function ($trail) {
     $trail->parent('admin');
-    $trail->push('Events', route('events.index'));
+    $trail->push('Events', route('admin.events.index'));
 });
 
 // Home > Admin > Events > [Event] > Edit event
-Breadcrumbs::for('events.edit', function ($trail, $event) {
-    $trail->parent('events.admin.show', $event);
-    $trail->push('Edit Event', route('events.edit', $event));
+Breadcrumbs::for('admin.events.edit', function ($trail, $event) {
+    $trail->parent('admin.events.show', $event);
+    $trail->push('Edit Event', route('admin.events.edit', $event));
 });
 
 // Home > Admin > Events > New
-Breadcrumbs::for('events.create', function ($trail) {
-    $trail->parent('events.index');
-    $trail->push('New', route('events.create'));
+Breadcrumbs::for('admin.events.create', function ($trail) {
+    $trail->parent('admin.events.index');
+    $trail->push('New', route('admin.events.create'));
 });
 
 // Home > Admin > Events > [Event]
-Breadcrumbs::for('events.admin.show', function ($trail, $event) {
-    $trail->parent('events.index');
-    $trail->push($event->name . ' [' . $event->startEvent->toFormattedDateString() . ']', route('events.admin.show', $event));
+Breadcrumbs::for('admin.events.show', function ($trail, $event) {
+    $trail->parent('admin.events.index');
+    $trail->push($event->name . ' [' . $event->startEvent->toFormattedDateString() . ']', route('admin.events.show', $event));
 });
 
 // Home > Admin > Events > [Event] > Send E-mail
-Breadcrumbs::for('events.email.form', function ($trail, $event) {
-    $trail->parent('events.admin.show', $event);
-    $trail->push('Send E-mail', route('events.email.form', $event));
+Breadcrumbs::for('admin.events.email.form', function ($trail, $event) {
+    $trail->parent('admin.events.show', $event);
+    $trail->push('Send E-mail', route('admin.events.email.form', $event));
 });
 
 // Home (no event found)
@@ -113,27 +113,27 @@ Breadcrumbs::for('bookings.show', function ($trail, $booking) {
 });
 
 // Home > Admin > [Event] > Add Slot
-Breadcrumbs::for('bookings.create', function ($trail, $event) {
-    $trail->parent('events.admin.show', $event);
-    $trail->push('Add Slot(s)', route('bookings.create', $event));
+Breadcrumbs::for('admin.bookings.create', function ($trail, $event) {
+    $trail->parent('admin.events.show', $event);
+    $trail->push('Add Slot(s)', route('admin.bookings.create', $event));
 });
 
 // Home > Admin > [Event] > Import
-Breadcrumbs::for('bookings.admin.importForm', function ($trail, $event) {
-    $trail->parent('events.admin.show', $event);
-    $trail->push('Import', route('bookings.admin.importForm', $event));
+Breadcrumbs::for('admin.bookings.importForm', function ($trail, $event) {
+    $trail->parent('admin.events.show', $event);
+    $trail->push('Import', route('admin.bookings.importForm', $event));
 });
 
 // Home > Admin > [Event] > Booking
-Breadcrumbs::for('bookings.admin.edit', function ($trail, $booking) {
-    $trail->parent('events.admin.show', $booking->event);
-    $trail->push('Edit Booking', route('bookings.admin.edit', $booking));
+Breadcrumbs::for('admin.bookings.edit', function ($trail, $booking) {
+    $trail->parent('admin.events.show', $booking->event);
+    $trail->push('Edit Booking', route('admin.bookings.edit', $booking));
 });
 
 // Home > Admin > [Event] > Auto-Assign FL / Route
-Breadcrumbs::for('bookings.admin.autoAssignForm', function ($trail, $event) {
-    $trail->parent('events.admin.show', $event);
-    $trail->push('Auto-Assign FL / Route', route('bookings.admin.autoAssignForm', $event));
+Breadcrumbs::for('admin.bookings.autoAssignForm', function ($trail, $event) {
+    $trail->parent('admin.events.show', $event);
+    $trail->push('Auto-Assign FL / Route', route('admin.bookings.autoAssignForm', $event));
 });
 
 // Home > FAQ
@@ -143,27 +143,27 @@ Breadcrumbs::for('faq', function ($trail) {
 });
 
 // Home > Admin > FAQ
-Breadcrumbs::for('faq.index', function ($trail) {
+Breadcrumbs::for('admin.faq.index', function ($trail) {
     $trail->parent('admin');
-    $trail->push('FAQ', route('faq.index'));
+    $trail->push('FAQ', route('admin.faq.index'));
 });
 
 // Home > Admin > FAQ > New
-Breadcrumbs::for('faq.create', function ($trail) {
-    $trail->parent('faq.index');
-    $trail->push('New', route('faq.create'));
+Breadcrumbs::for('admin.faq.create', function ($trail) {
+    $trail->parent('admin.faq.index');
+    $trail->push('New', route('admin.faq.create'));
 });
 
 // Home > Admin > FAQ > [FAQ]
-Breadcrumbs::for('faq.show', function ($trail, $faq) {
-    $trail->parent('faq.index');
+Breadcrumbs::for('admin.faq.show', function ($trail, $faq) {
+    $trail->parent('admin.faq.index');
     $trail->push('[' . $faq->id . '] ' . $faq->question);
 });
 
 // Home > Admin > FAQ > [FAQ] > Edit FAQ
-Breadcrumbs::for('faq.edit', function ($trail, $faq) {
-    $trail->parent('faq.show', $faq);
-    $trail->push('Edit FAQ', route('faq.edit', $faq));
+Breadcrumbs::for('admin.faq.edit', function ($trail, $faq) {
+    $trail->parent('admin.faq.show', $faq);
+    $trail->push('Edit FAQ', route('admin.faq.edit', $faq));
 });
 
 // Home > My settings

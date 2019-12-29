@@ -47,7 +47,7 @@
                                     <label for="ctot" class="col-md-4 col-form-label text-md-right"> CTOT</label>
 
                                     <div class="col-md-6">
-                                        <div class="form-control-plaintext"><strong>{{ $booking->ctot }}</strong></div>
+                                        <div class="form-control-plaintext"><strong>{{ $booking->flights()->first()->ctot }}</strong></div>
 
                                     </div>
                                 </div>
@@ -59,7 +59,7 @@
                                     <label for="eta" class="col-md-4 col-form-label text-md-right"> ETA</label>
 
                                     <div class="col-md-6">
-                                        <div class="form-control-plaintext"><strong>{{ $booking->eta }}</strong></div>
+                                        <div class="form-control-plaintext"><strong>{{ $booking->flights()->first()->eta }}</strong></div>
 
                                     </div>
                                 </div>
@@ -72,7 +72,7 @@
 
                             <div class="col-md-6">
                                 <div class="form-control-plaintext"><strong><abbr
-                                            title="{{ $booking->airportDep->name }}">{{ $booking->airportDep->icao }}</abbr></strong>
+                                            title="{{ $booking->flights()->first()->airportDep->name }}">{{ $booking->flights()->first()->airportDep->icao }}</abbr></strong>
                                 </div>
 
                             </div>
@@ -84,7 +84,7 @@
 
                             <div class="col-md-6">
                                 <div class="form-control-plaintext"><strong><abbr
-                                            title="{{ $booking->airportArr->name }}">{{ $booking->airportArr->icao }}</abbr></strong>
+                                            title="{{ $booking->flights()->first()->airportArr->name }}">{{ $booking->flights()->first()->airportArr->icao }}</abbr></strong>
                                 </div>
 
                             </div>
@@ -107,7 +107,7 @@
 
                             <div class="col-md-6">
                                 <div class="form-control-plaintext">
-                                    <strong>{{ $booking->route ?: '-' }}</strong>
+                                    <strong>{{ $booking->flights()->first()->route ?: '-' }}</strong>
                                 </div>
 
                             </div>
@@ -120,7 +120,7 @@
 
                                 <div class="col-md-6">
                                     <div class="form-control-plaintext">
-                                        <strong>{{ $booking->oceanicTrack ?: 'T.B.D. / Available on day of event at 0600z' }}</strong>
+                                        <strong>{{ $booking->flights()->first()->oceanicTrack ?: 'T.B.D. / Available on day of event at 0600z' }}</strong>
                                     </div>
 
                                 </div>
@@ -132,7 +132,7 @@
                                     FL</label>
 
                                 <div class="col-md-6">
-                                    <div class="form-control-plaintext"><strong>{{ $booking->oceanicFL }}</strong></div>
+                                    <div class="form-control-plaintext"><strong>{{ $booking->flights()->first()->oceanicFL }}</strong></div>
 
                                 </div>
                             </div>
@@ -218,7 +218,8 @@
                         </div>
                     </form>
 
-                    <form id="cancel-form" action="{{ route('bookings.cancel', $booking) }}" method="post" style="display: none;">
+                    <form id="cancel-form" action="{{ route('bookings.cancel', $booking) }}" method="post"
+                          style="display: none;">
                         @csrf
                         @method('PATCH')
                     </form>

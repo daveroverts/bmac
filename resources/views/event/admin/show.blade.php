@@ -23,7 +23,10 @@
                         <label for="name" class="col-md-4 col-form-label text-md-right">Name</label>
 
                         <div class="col-md-6">
-                            <div class="form-control-plaintext"><strong><a href="{{ route('events.show', $event) }}" title="Open event page as users would see">{{ $event->name }}</a> | <a href="{{ route('bookings.event.index', $event) }}" title="Open slot table of the event">Slot table</a></strong></div>
+                            <div class="form-control-plaintext"><strong><a href="{{ route('events.show', $event) }}"
+                                                                           title="Open event page as users would see">{{ $event->name }}</a>
+                                    | <a href="{{ route('bookings.event.index', $event) }}"
+                                         title="Open slot table of the event">Slot table</a></strong></div>
                         </div>
                     </div>
 
@@ -36,43 +39,50 @@
                         </div>
                     </div>
 
-                    {{--Departure Airport--}}
-                    <div class="form-group row">
-                        <label for="dep" class="col-md-4 col-form-label text-md-right">Departure Airport</label>
+                    @if($event->type->id != \App\Enums\EventType::MULTIFLIGHTS)
+                        {{--Departure Airport--}}
+                        <div class="form-group row">
+                            <label for="dep" class="col-md-4 col-form-label text-md-right">Departure Airport</label>
 
-                        <div class="col-md-6">
-                            <div class="form-control-plaintext">
-                                <strong>
-                                    <a href="{{ route('airports.show', $event->airportDep) }}">
-                                        {{ $event->airportDep->name }} [{{ $event->airportDep->icao }} | {{ $event->airportDep->iata }}]
-                                    </a>
-                                </strong>
+                            <div class="col-md-6">
+                                <div class="form-control-plaintext">
+                                    <strong>
+                                        <a href="{{ route('admin.airports.show', $event->airportDep) }}">
+                                            {{ $event->airportDep->name }} [{{ $event->airportDep->icao }}
+                                            | {{ $event->airportDep->iata }}]
+                                        </a>
+                                    </strong>
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    {{--Arrival Airport--}}
-                    <div class="form-group row">
-                        <label for="arr" class="col-md-4 col-form-label text-md-right">Arrival Airport</label>
+                        {{--Arrival Airport--}}
+                        <div class="form-group row">
+                            <label for="arr" class="col-md-4 col-form-label text-md-right">Arrival Airport</label>
 
-                        <div class="col-md-6">
-                            <div class="form-control-plaintext">
-                                <strong>
-                                    <a href="{{ route('airports.show', $event->airportArr) }}">
-                                        {{ $event->airportArr->name }} [{{ $event->airportArr->icao }} | {{ $event->airportArr->iata }}]
-                                    </a>
-                                </strong>
+                            <div class="col-md-6">
+                                <div class="form-control-plaintext">
+                                    <strong>
+                                        <a href="{{ route('admin.airports.show', $event->airportArr) }}">
+                                            {{ $event->airportArr->name }} [{{ $event->airportArr->icao }}
+                                            | {{ $event->airportArr->iata }}]
+                                        </a>
+                                    </strong>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    @endif
 
                     {{--Event date/time--}}
                     <div class="form-group row">
-                        <label for="eventDateTime" class="col-md-4 col-form-label text-md-right">Event date | time</label>
+                        <label for="eventDateTime"
+                               class="col-md-4 col-form-label text-md-right">Event date | time</label>
 
                         <div class="col-md-6">
                             <div class="form-control-plaintext">
-                                <strong>{{ $event->startEvent->toFormattedDateString() }} | {{ $event->startEvent->format('Hi') }}z - {{ $event->endEvent->format('Hi') }}z</strong>
+                                <strong>{{ $event->startEvent->toFormattedDateString() }}
+                                    | {{ $event->startEvent->format('Hi') }}z - {{ $event->endEvent->format('Hi') }}
+                                    z</strong>
                             </div>
                         </div>
                     </div>
@@ -85,12 +95,20 @@
                             <div class="form-control-plaintext">
                                 <strong>
                                     @if($event->startBooking >= now())
-                                        <u>Bookings</u> will <u>open</u> at <u>{{ $event->startBooking->toFormattedDateString() }} {{ $event->startBooking->format('Hi') }}z</u>
+                                        <u>Bookings</u> will <u>open</u> at
+                                        <u>{{ $event->startBooking->toFormattedDateString() }} {{ $event->startBooking->format('Hi') }}
+                                            z</u>
                                     @elseif($event->endBooking <= now())
-                                        <u>Bookings locked</u> since <u>{{ $event->endBooking->toFormattedDateString() }} {{ $event->endBooking->format('Hi') }}z</u>
+                                        <u>Bookings locked</u> since
+                                        <u>{{ $event->endBooking->toFormattedDateString() }} {{ $event->endBooking->format('Hi') }}
+                                            z</u>
                                     @else
-                                        <u>Bookings open</u> since <u>{{ $event->startBooking->toFormattedDateString() }} {{ $event->startBooking->format('Hi') }}z</u><br>
-                                        Closes at {{ $event->endBooking->toFormattedDateString() }} {{ $event->endBooking->format('Hi') }}z
+                                        <u>Bookings open</u> since
+                                        <u>{{ $event->startBooking->toFormattedDateString() }} {{ $event->startBooking->format('Hi') }}
+                                            z</u><br>
+                                        Closes
+                                        at {{ $event->endBooking->toFormattedDateString() }} {{ $event->endBooking->format('Hi') }}
+                                        z
                                     @endif
                                 </strong>
                             </div>
@@ -152,7 +170,8 @@
                         {{--Is oceanic event?--}}
                         <div class="form-group row">
                             <label for="isOceanicEvent" class="col-md-4 col-form-label text-md-right">
-                                <abbr title="If enabled, users can fill in a SELCAL code, and oceanic links are shown in the booking briefing">
+                                <abbr
+                                    title="If enabled, users can fill in a SELCAL code, and oceanic links are shown in the booking briefing">
                                     Oceanic event?
                                 </abbr>
                             </label>

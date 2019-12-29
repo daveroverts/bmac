@@ -4,7 +4,6 @@ namespace App\Models;
 
 use App\Enums\AirportView;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Auth;
 use Spatie\Activitylog\Traits\LogsActivity;
 
 class Airport extends Model
@@ -21,14 +20,14 @@ class Airport extends Model
     protected static $logAttributes = ['*'];
     protected static $logOnlyDirty = true;
 
-    public function bookingsDep()
+    public function flightsDep()
     {
-        return $this->hasMany(Booking::class, 'dep');
+        return $this->hasMany(Flight::class, 'dep');
     }
 
-    public function bookingsArr()
+    public function flightsArr()
     {
-        return $this->hasMany(Booking::class, 'arr');
+        return $this->hasMany(Flight::class, 'arr');
     }
 
     public function eventDep()
@@ -48,8 +47,8 @@ class Airport extends Model
 
     public function getFullNameAttribute()
     {
-        if (Auth::check() && Auth::user()->airport_view !== AirportView::NAME) {
-            switch (Auth::user()->airport_view) {
+        if (auth()->check() && auth()->user()->airport_view !== AirportView::NAME) {
+            switch (auth()->user()->airport_view) {
                 case AirportView::ICAO:
                     return '<abbr title="' . $this->name . ' | [' . $this->iata . ']">' . $this->icao . '</abbr>';
                     break;

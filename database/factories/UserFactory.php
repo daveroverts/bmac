@@ -1,6 +1,7 @@
 <?php
 
 use Faker\Generator as Faker;
+use Illuminate\Support\Str;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,6 +23,6 @@ $factory->define(App\Models\User::class, function (Faker $faker) {
         'country' => 'GB',
         'region' => 'EUR',
         'division' => 'EUD',
-        'remember_token' => str_random(10),
+        'remember_token' => Str::random(10),
     ];
 });

@@ -6,14 +6,10 @@ use App\Enums\BookingStatus;
 use App\Http\Controllers\Controller;
 use App\Models\Booking;
 use App\Models\User;
+use Bugsnag\BugsnagLaravel\Facades\Bugsnag;
 use Faker\Factory as Faker;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
-use Illuminate\Support\Facades\App;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\Input;
-use Illuminate\Support\Facades\Redirect;
-use Illuminate\Support\Facades\Session;
+use Illuminate\Http\Request;
 use VatsimSSO;
 
 class LoginController extends Controller
@@ -51,61 +47,64 @@ class LoginController extends Controller
     public function login(Booking $booking)
     {
         if (!empty($booking)) {
-            Session::put('booking', $booking->uuid);
+            session()->put('booking', $booking->uuid);
         }
 
-        $returnUrl = Config::get('vatsim-sso.return'); // load URL from config
+        $returnUrl = config('vatsim-sso.return'); // load URL from config
         return VatsimSSO::login(
             $returnUrl,
             function ($key, $secret, $url) {
-                Session::put('vatsimauth', compact('key', 'secret'));
-                return Redirect::to($url);
+                session()->put('vatsimauth', compact('key', 'secret'));
+                return redirect($url);
             },
             function ($e) {
-                throw $e; // Do something with the exception
+                Bugsnag::notifyException($e);
+                flashMessage('danger', 'Login failed', 'Something went wrong, please try again');
+                return redirect(route('home'));
             }
         );
     }
 
-    public function validateLogin()
+    public function validateLogin(Request $request)
     {
-        $session = Session::get('vatsimauth');
-        if (!empty(Input::get('oauth_verifier'))) {
+        $session = session('vatsimauth');
+        if (!empty($request->get('oauth_verifier'))) {
             return VatsimSSO::validate(
                 $session['key'],
                 $session['secret'],
-                Input::get('oauth_verifier'),
+                $request->get('oauth_verifier'),
                 function ($user, $request) {
                     // At this point we can remove the session data.
-                    Session::forget('vatsimauth');
+                    session()->forget('vatsimauth');
 
                     $account = User::firstOrNew(['id' => $user->id]);
                     $account->id = $user->id;
                     $account->name_first = utf8_decode($user->name_first);
                     $account->name_last = utf8_decode($user->name_last);
                     // Check if this is the production environment to determine to use the actual E-mail adress or something random
-                    $account->email = App::environment('production') ? $user->email : Faker::create()->email();
+//                    $account->email = App::environment('production') ? $user->email : Faker::create()->email();
+                    $account->email = app()->environment() == 'production' ? $user->email : Faker::create()->email();
                     $account->country = $user->country->code;
                     $account->region = $user->region->code;
                     $account->division = $user->division->code;
                     $account->subdivision = $user->subdivision->code;
                     $account->save();
 
-                    Auth::loginUsingId($user->id);
+                    auth()->loginUsingId($user->id);
                     activity()->log('Login');
 
-                    if (Session::get('booking')) {
-                        $booking = Booking::where('uuid', Session::get('booking'))->first();
-                        Session::forget('booking');
+                    if (session('booking')) {
+                        $booking = Booking::where('uuid', session('booking'))->first();
+                        session()->forget('booking');
                         if (!empty($booking)) {
                             if ($booking->status !== BookingStatus::BOOKED) {
-                                return Redirect::route('bookings.edit', $booking);
+                                return redirect(route('bookings.edit', $booking));
                             }
-                            return Redirect::route('bookings.show', $booking);
+                            return redirect(route('bookings.show', $booking));
                         }
                     }
 
-                    return Redirect('/');
+                    return redirect('/');
                 },
                 function ($e) {
                     throw $e; // Do something with the exception
@@ -120,7 +119,7 @@ class LoginController extends Controller
     public function logout()
     {
         activity()->log('Logout');
-        Auth::logout();
+        auth()->logout();
         return redirect('/');
     }
 }

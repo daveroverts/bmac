@@ -18,6 +18,7 @@ class BookingDeleted extends Notification implements ShouldQueue
      * @var Event
      */
     public $event;
+
     /**
      * Create a new notification instance.
      *
@@ -43,18 +44,18 @@ class BookingDeleted extends Notification implements ShouldQueue
      * Get the mail representation of the notification.
      *
      * @param  mixed  $notifiable
-     * @return \Illuminate\Notifications\Messages\MailMessage
+     * @return MailMessage
      */
     public function toMail($notifiable)
     {
         $event = $this->event;
 
         return (new MailMessage)
-                    ->greeting('Booking deleted')
-                    ->line('Dear ' . $notifiable->full_name . ',')
-                    ->line('Your booking for ' . $event->name . ' event has been removed by an administrator. If you would like to know why, please send a E-mail to [events@dutchvacc.nl](mailto:events@dutchvacc.nl)')
-                    ->line('As long as the bookings remain open (' . $event->endBooking->format('d-m-Y H:i') . 'z), you can still create a new booking.')
-                    ->action('Book new flight', route('bookings.event.index', $event));
+            ->greeting('Booking deleted')
+            ->line('Dear '.$notifiable->full_name.',')
+            ->line('Your booking for '.$event->name.' event has been removed by an administrator. If you would like to know why, please send a E-mail to [events@dutchvacc.nl](mailto:events@dutchvacc.nl)')
+            ->line('As long as the bookings remain open ('.$event->endBooking->format('d-m-Y H:i').'z), you can still create a new booking.')
+            ->action('Book new flight', route('bookings.event.index', $event));
     }
 
     /**

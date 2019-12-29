@@ -17,7 +17,7 @@
                 <div class="card-header">{{ $event->name }} | Auto-Assign FL / Route</div>
 
                 <div class="card-body">
-                    <form method="POST" action="{{ route('bookings.admin.autoAssign',$event) }}">
+                    <form method="POST" action="{{ route('admin.bookings.autoAssign',$event) }}">
                         @csrf
                         @method('PATCH')
 
@@ -124,6 +124,19 @@
                                         <strong>{{ $errors->first('maxFL') }}</strong>
                                     </span>
                                 @endif
+                            </div>
+                        </div>
+
+                        {{--Assign All Flights--}}
+                        <div class="form-group row">
+                            <div class="col-md-6 offset-md-4">
+                                <div class="custom-control custom-checkbox">
+                                    <input class="custom-control-input" id="checkAssignAllFlights" type="checkbox"
+                                           name="checkAssignAllFlights">
+                                    <label class="custom-control-label" for="checkAssignAllFlights"><abbr
+                                            title="When enabled, all flights, regardless of being booked will be auto-assigned">Auto-assign
+                                            all flights?</abbr></label>
+                                </div>
                             </div>
                         </div>
 

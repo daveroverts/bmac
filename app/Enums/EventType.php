@@ -10,4 +10,5 @@ final class EventType extends Enum
     const CITYPAIR = 2;
     const FLYIN = 3;
     const GROUPFLIGHT = 4;
+    const MULTIFLIGHTS = 5;
 }

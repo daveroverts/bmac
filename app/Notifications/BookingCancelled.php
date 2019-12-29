@@ -44,16 +44,16 @@ class BookingCancelled extends Notification implements ShouldQueue
      * Get the mail representation of the notification.
      *
      * @param  mixed  $notifiable
-     * @return \Illuminate\Notifications\Messages\MailMessage
+     * @return MailMessage
      */
     public function toMail($notifiable)
     {
         $eventName = $this->event->name;
         return (new MailMessage)
-                    ->greeting('Booking cancelled')
-                    ->line('Dear ' . $notifiable->full_name . ',')
-                    ->line('We’ve processed your cancellation for the ' . $eventName . ' event and opened the slot you held for other pilots to book. Thanks for letting us know.')
-                    ->line('We hope to see you at Schiphol in the future.');
+            ->greeting('Booking cancelled')
+            ->line('Dear '.$notifiable->full_name.',')
+            ->line('We’ve processed your cancellation for the '.$eventName.' event and opened the slot you held for other pilots to book. Thanks for letting us know.')
+            ->line('We hope to see you at Schiphol in the future.');
     }
 
     /**
