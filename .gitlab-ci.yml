@@ -5,7 +5,7 @@ stages:
   - security
   - deploy
 
-image: edbizarro/gitlab-ci-pipeline-php:7.3-alpine
+image: edbizarro/gitlab-ci-pipeline-php:7.4-alpine
 
 .init_ssh: &init_ssh |
   eval $(ssh-agent -s)
