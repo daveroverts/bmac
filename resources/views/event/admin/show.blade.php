@@ -39,37 +39,39 @@
                         </div>
                     </div>
 
-                    {{--Departure Airport--}}
-                    <div class="form-group row">
-                        <label for="dep" class="col-md-4 col-form-label text-md-right">Departure Airport</label>
+                    @if($event->type->id != \App\Enums\EventType::MULTIFLIGHTS)
+                        {{--Departure Airport--}}
+                        <div class="form-group row">
+                            <label for="dep" class="col-md-4 col-form-label text-md-right">Departure Airport</label>
 
-                        <div class="col-md-6">
-                            <div class="form-control-plaintext">
-                                <strong>
-                                    <a href="{{ route('admin.airports.show', $event->airportDep) }}">
-                                        {{ $event->airportDep->name }} [{{ $event->airportDep->icao }}
-                                        | {{ $event->airportDep->iata }}]
-                                    </a>
-                                </strong>
+                            <div class="col-md-6">
+                                <div class="form-control-plaintext">
+                                    <strong>
+                                        <a href="{{ route('admin.airports.show', $event->airportDep) }}">
+                                            {{ $event->airportDep->name }} [{{ $event->airportDep->icao }}
+                                            | {{ $event->airportDep->iata }}]
+                                        </a>
+                                    </strong>
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    {{--Arrival Airport--}}
-                    <div class="form-group row">
-                        <label for="arr" class="col-md-4 col-form-label text-md-right">Arrival Airport</label>
+                        {{--Arrival Airport--}}
+                        <div class="form-group row">
+                            <label for="arr" class="col-md-4 col-form-label text-md-right">Arrival Airport</label>
 
-                        <div class="col-md-6">
-                            <div class="form-control-plaintext">
-                                <strong>
-                                    <a href="{{ route('admin.airports.show', $event->airportArr) }}">
-                                        {{ $event->airportArr->name }} [{{ $event->airportArr->icao }}
-                                        | {{ $event->airportArr->iata }}]
-                                    </a>
-                                </strong>
+                            <div class="col-md-6">
+                                <div class="form-control-plaintext">
+                                    <strong>
+                                        <a href="{{ route('admin.airports.show', $event->airportArr) }}">
+                                            {{ $event->airportArr->name }} [{{ $event->airportArr->icao }}
+                                            | {{ $event->airportArr->iata }}]
+                                        </a>
+                                    </strong>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    @endif
 
                     {{--Event date/time--}}
                     <div class="form-group row">

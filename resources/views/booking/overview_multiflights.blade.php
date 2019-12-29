@@ -50,12 +50,8 @@
             <table class="table table-hover">
                 <thead>
                 <tr>
-                    <th scope="row">From</th>
-                    <th scope="row">To</th>
-                    @if($event->uses_times)
-                        <th scope="row"><abbr title="Calculated Take Off Time">CTOT</abbr></th>
-                        <th scope="row"><abbr title="Estimated Time of Arrival">ETA</abbr></th>
-                    @endif
+                    <th scope="row">Flight #1</th>
+                    <th scope="row">Flight #2</th>
                     <th scope="row">Callsign</th>
                     <th scope="row">Aircraft</th>
                     <th scope="row">Book | Available until {{ $event->endBooking->format('d-m-Y H:i') }}z</th>
@@ -68,19 +64,11 @@
                     {{--Check if flight belongs to the logged in user--}}
                     <tr class="{{ auth()->check() && $booking->user_id == auth()->id() ? 'table-active' : '' }}">
                         <td>
-                            {!! $booking->flights()->first()->airportDep->fullName !!}
+                            {!! $booking->airportCtot(1) !!}
                         </td>
                         <td>
-                            {!! $booking->flights()->first()->airportArr->fullName !!}
+                            {!! $booking->airportCtot(2) !!}
                         </td>
-                        @if($booking->event->uses_times)
-                            <td>
-                                {{ $booking->flights()->first()->ctot }}
-                            </td>
-                            <td>
-                                {{ $booking->flights()->first()->eta }}
-                            </td>
-                        @endif
                         <td class="{{ auth()->check() && auth()->user()->use_monospace_font ? 'text-monospace' : '' }}">{{ $booking->callsign }}</td>
                         <td class="{{ auth()->check() && auth()->user()->use_monospace_font ? 'text-monospace' : '' }}">{{ $booking->acType }}</td>
                         <td>

@@ -36,64 +36,88 @@
                 <div class="card-header">{{ $booking->event->name }} |
                     My {{ $booking->status === \App\Enums\BookingStatus::BOOKED ? 'Booking' : 'Reservation' }}</div>
 
-
                 <div class="card-body">
+                    @foreach($booking->flights as $flight)
+                        <div class="form-group row">
+                            <label for="ctot" class="col-md-4 col-form-label text-md-right"> <strong>Leg
+                                    #{{ $loop->iteration }}</strong></label>
+                        </div>
+
+                        @if($booking->event->uses_times)
+                            @if($flight->getOriginal('ctot'))
+                                {{--CTOT--}}
+                                <div class="form-group row">
+                                    <label for="ctot" class="col-md-4 col-form-label text-md-right"> CTOT</label>
+
+                                    <div class="col-md-6">
+                                        <div class="form-control-plaintext"><strong>{{ $flight->ctot }}</strong></div>
+
+                                    </div>
+                                </div>
+                            @endif
+
+                            @if($flight->getOriginal('eta'))
+                                {{--ETA--}}
+                                <div class="form-group row">
+                                    <label for="ctot" class="col-md-4 col-form-label text-md-right"> ETA</label>
+
+                                    <div class="col-md-6">
+                                        <div class="form-control-plaintext"><strong>{{ $flight->eta }}</strong></div>
+
+                                    </div>
+                                </div>
+                            @endif
+                        @endif
+
+                        {{--ADEP--}}
+                        <div class="form-group row">
+                            <label for="adep" class="col-md-4 col-form-label text-md-right">ADEP</label>
+
+                            <div class="col-md-6">
+                                <div class="form-control-plaintext">
+                                    <strong>
+                                        {!! $flight->airportDep->fullName !!}
+                                    </strong>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        {{--ADES--}}
+                        <div class="form-group row">
+                            <label for="ades" class="col-md-4 col-form-label text-md-right">ADES</label>
+
+                            <div class="col-md-6">
+                                <div class="form-control-plaintext">
+                                    <strong>
+                                        {!! $flight->airportArr->fullName !!}
+                                    </strong>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        {{--Route--}}
+                        <div class="form-group row">
+                            <label for="route" class="col-md-4 col-form-label text-md-right">Route</label>
+
+                            <div class="col-md-6">
+                                <div class="form-control-plaintext">
+                                    <strong>{{ $flight->route ?: '-' }}</strong>
+                                </div>
+
+                            </div>
+                        </div>
+                        <hr>
+                    @endforeach
+
+
                     {{--Callsign--}}
                     <div class="form-group row">
                         <label for="callsign" class="col-md-4 col-form-label text-md-right">Callsign</label>
 
                         <div class="col-md-6">
                             <div class="form-control-plaintext"><strong>{{ $booking->callsign }}</strong></div>
-                        </div>
-                    </div>
-
-                    @if($booking->event->uses_times)
-                        {{--CTOT--}}
-                        <div class="form-group row">
-                            <label for="ctot" class="col-md-4 col-form-label text-md-right"> CTOT</label>
-
-                            <div class="col-md-6">
-                                <div class="form-control-plaintext"><strong>{{ $booking->flights()->first()->ctot }}</strong></div>
-
-                            </div>
-                        </div>
-
-                        {{--ETA--}}
-                        <div class="form-group row">
-                            <label for="ctot" class="col-md-4 col-form-label text-md-right"> ETA</label>
-
-                            <div class="col-md-6">
-                                <div class="form-control-plaintext"><strong>{{ $booking->flights()->first()->eta }}</strong></div>
-
-                            </div>
-                        </div>
-                    @endif
-
-                    {{--ADEP--}}
-                    <div class="form-group row">
-                        <label for="adep" class="col-md-4 col-form-label text-md-right">ADEP</label>
-
-                        <div class="col-md-6">
-                            <div class="form-control-plaintext">
-                                <strong>
-                                    {!! $booking->flights()->first()->airportDep->fullName !!}
-                                </strong>
-                            </div>
-
-                        </div>
-                    </div>
-
-                    {{--ADES--}}
-                    <div class="form-group row">
-                        <label for="ades" class="col-md-4 col-form-label text-md-right">ADES</label>
-
-                        <div class="col-md-6">
-                            <div class="form-control-plaintext">
-                                <strong>
-                                    {!! $booking->flights()->first()->airportArr->fullName !!}
-                                </strong>
-                            </div>
-
                         </div>
                     </div>
 
@@ -108,55 +132,6 @@
                         </div>
                     </div>
 
-                    @if($booking->event->is_oceanic_event)
-                        {{--Route--}}
-                        <div class="form-group row">
-                            <label for="route" class="col-md-4 col-form-label text-md-right">Route</label>
-
-                            <div class="col-md-6">
-                                <div class="form-control-plaintext">
-                                    <strong>{{ $booking->flights()->first()->route ?: 'T.B.D. / Available on day of event at 0600z' }}</strong>
-                                </div>
-
-                            </div>
-                        </div>
-
-                        {{--Track--}}
-                        <div class="form-group row">
-                            <label for="track" class="col-md-4 col-form-label text-md-right">Track</label>
-
-                            <div class="col-md-6">
-                                <div class="form-control-plaintext">
-                                    <strong>{{ $booking->flights()->first()->oceanicTrack ?:  'T.B.D. / Available on day of event at 0600z' }}</strong>
-                                </div>
-
-                            </div>
-                        </div>
-
-                        {{--Oceanic Entry FL--}}
-                        <div class="form-group row">
-                            <label for="track" class="col-md-4 col-form-label text-md-right">Oceanic Entry FL</label>
-
-                            <div class="col-md-6">
-                                <div class="form-control-plaintext"><strong>{{ $booking->flights()->first()->oceanicFL }}</strong></div>
-
-                            </div>
-                        </div>
-
-                    @else
-                        {{--Route--}}
-                        <div class="form-group row">
-                            <label for="route" class="col-md-4 col-form-label text-md-right">Route</label>
-
-                            <div class="col-md-6">
-                                <div class="form-control-plaintext">
-                                    <strong>{{ $booking->flights()->first()->route ?: '-' }}</strong>
-                                </div>
-
-                            </div>
-                        </div>
-                    @endif
-
                     {{--Aircraft--}}
                     <div class="form-group row">
                         <label for="aircraft" class="col-md-4 col-form-label text-md-right">Aircraft</label>
@@ -165,17 +140,6 @@
                             <div class="form-control-plaintext"><strong>{{ $booking->acType }}</strong></div>
                         </div>
                     </div>
-
-                    @if($booking->event->is_oceanic_event)
-                        {{--SELCAL--}}
-                        <div class="form-group row">
-                            <label for="selcal" class="col-md-4 col-form-label text-md-right">SELCAL</label>
-
-                            <div class="col-md-6">
-                                <div class="form-control-plaintext"><strong>{{ $booking->selcal }}</strong></div>
-                            </div>
-                        </div>
-                    @endif
 
                     @foreach($booking->flights()->first()->airportDep->links as $link)
                         <div class="form-group row">

@@ -38,6 +38,13 @@ class Booking extends Model
     }
 
     /**
+     * The relations to eager load on every query.
+     *
+     * @var array
+     */
+    protected $with = ['flights'];
+
+    /**
      * Get the route key for the model.
      *
      * @return string
@@ -55,9 +62,7 @@ class Booking extends Model
      */
     public function getCallsignAttribute($value)
     {
-        if (!empty($value)) {
-            return $value;
-        } else return '-';
+        return $value ?? '-';
     }
 
     /**
@@ -68,9 +73,7 @@ class Booking extends Model
      */
     public function getActypeAttribute($value)
     {
-        if (!empty($value)) {
-            return $value;
-        } else return '-';
+        return $value ?? '-';
     }
 
     /**
@@ -83,7 +86,9 @@ class Booking extends Model
     {
         if (!empty($value)) {
             return \Carbon\Carbon::parse($value)->format('Hi') . 'z';
-        } else return '-';
+        }
+
+        return '-';
     }
 
     /**
@@ -96,7 +101,9 @@ class Booking extends Model
     {
         if (!empty($value)) {
             return \Carbon\Carbon::parse($value)->format('Hi') . 'z';
-        } else return '-';
+        }
+
+        return '-';
     }
 
     /**
@@ -109,7 +116,9 @@ class Booking extends Model
     {
         if (!empty($value)) {
             return 'FL' . $value . ' / Subject to change';
-        } else return 'T.B.D.';
+        }
+
+        return 'T.B.D.';
     }
 
     /**
@@ -120,9 +129,7 @@ class Booking extends Model
      */
     public function getSelcalAttribute($value)
     {
-        if (!empty($value)) {
-            return $value;
-        } else return '-';
+        return $value ?? '-';
     }
 
     /**
@@ -193,5 +200,18 @@ class Booking extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function flights()
+    {
+        return $this->hasMany(Flight::class);
+    }
+
+    public function airportCtot($orderBy)
+    {
+        if ($flight = $this->flights()->where('order_by', $orderBy)->first()) {
+            return "<abbr title='{$flight->airportDep->name} | [{$flight->airportDep->iata}]'>{$flight->airportDep->icao}</abbr> - <abbr title='{$flight->airportArr->name} | [{$flight->airportArr->iata}]'>{$flight->airportArr->icao}</abbr> {$flight->ctot}";
+        }
+        return '-';
     }
 }

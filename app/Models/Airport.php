@@ -20,14 +20,14 @@ class Airport extends Model
     protected static $logAttributes = ['*'];
     protected static $logOnlyDirty = true;
 
-    public function bookingsDep()
+    public function flightsDep()
     {
-        return $this->hasMany(Booking::class, 'dep');
+        return $this->hasMany(Flight::class, 'dep');
     }
 
-    public function bookingsArr()
+    public function flightsArr()
     {
-        return $this->hasMany(Booking::class, 'arr');
+        return $this->hasMany(Flight::class, 'arr');
     }
 
     public function eventDep()

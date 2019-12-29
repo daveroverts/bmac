@@ -31,7 +31,7 @@ class AirportAdminController extends AdminController
     public function index()
     {
         $airports = Airport::orderBy('icao')
-            ->with(['bookingsDep', 'bookingsArr', 'eventDep', 'eventArr'])
+            ->with(['flightsDep', 'flightsArr', 'eventDep', 'eventArr'])
             ->paginate(100);
         return view('airport.admin.overview', compact('airports'));
     }
@@ -104,7 +104,7 @@ class AirportAdminController extends AdminController
      */
     public function destroy(Airport $airport)
     {
-        if ($airport->bookingsDep->isEmpty() && $airport->bookingsArr->isEmpty()) {
+        if ($airport->flightsDep->isEmpty() && $airport->flightsArr->isEmpty()) {
             $airport->delete();
             flashMessage('success', 'Done',
                 $airport->name.' ['.$airport->icao.' | '.$airport->iata.'] has been deleted!');

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Booking;
 
 use App\Enums\BookingStatus;
+use App\Enums\EventType;
 use App\Http\Controllers\AdminController;
 use App\Http\Requests\Booking\Admin\AutoAssign;
 use App\Http\Requests\Booking\Admin\ImportBookings;
@@ -11,6 +12,7 @@ use App\Http\Requests\Booking\Admin\UpdateBooking;
 use App\Models\Airport;
 use App\Models\Booking;
 use App\Models\Event;
+use App\Models\Flight;
 use App\Notifications\BookingChanged;
 use App\Notifications\BookingDeleted;
 use App\Policies\BookingPolicy;
@@ -69,18 +71,21 @@ class BookingAdminController extends AdminController
                 }
                 $time->second = 0;
 
-                if (!Booking::where([
-                    'event_id' => $request->id,
+                if (!Flight::whereHas('booking', function ($query) use ($request) {
+                    $query->where('event_id', $request->id);
+                })->where([
                     'ctot' => $time,
-                    'dep' => $request->from,
+                    'dep' => $request->dep,
                 ])->first()) {
                     Booking::create([
                         'event_id' => $request->id,
                         'is_editable' => $request->is_editable,
+                    ])->flights()->create([
                         'dep' => $request->dep,
                         'arr' => $request->arr,
                         'ctot' => $time,
-                    ])->save();
+                    ]);
+
                     $count++;
                 }
             }
@@ -90,21 +95,27 @@ class BookingAdminController extends AdminController
                 'is_editable' => $request->is_editable,
                 'callsign' => $request->callsign,
                 'acType' => $request->aircraft,
+            ]);
+
+            $booking->event()->associate($request->id)->save();
+            $flightAttributes = [
                 'dep' => $request->dep,
                 'arr' => $request->arr,
                 'route' => $request->route,
                 'oceanicFL' => $request->oceanicFL,
-            ]);
+            ];
+
             if ($request->ctot) {
-                $booking->ctot = Carbon::createFromFormat('Y-m-d H:i',
+                $flightAttributes['ctot'] = Carbon::createFromFormat('Y-m-d H:i',
                     $event->startEvent->toDateString().' '.$request->ctot);
             }
 
             if ($request->eta) {
-                $booking->eta = Carbon::createFromFormat('Y-m-d H:i',
+                $flightAttributes['eta'] = Carbon::createFromFormat('Y-m-d H:i',
                     $event->startEvent->toDateString().' '.$request->eta);
             }
-            $booking->event()->associate($request->id)->save();
+
+            $booking->flights()->create($flightAttributes);
             flashMessage('success', 'Done', 'Slot created');
         }
         return redirect(route('bookings.event.index', $event));
@@ -130,7 +141,8 @@ class BookingAdminController extends AdminController
     {
         if ($booking->event->endEvent >= now()) {
             $airports = Airport::orderBy('icao')->get();
-            return view('booking.admin.edit', compact('booking', 'airports'));
+            $flight = $booking->flights()->first();
+            return view('booking.admin.edit', compact('booking', 'airports', 'flight'));
         }
         flashMessage('danger', 'Nope!', 'You cannot edit a booking after the event ended');
         return back();
@@ -145,31 +157,43 @@ class BookingAdminController extends AdminController
      */
     public function update(UpdateBooking $request, Booking $booking)
     {
+        $flight = $booking->flights()->first();
         $booking->fill([
             'is_editable' => $request->is_editable,
             'callsign' => $request->callsign,
+            'acType' => $request->aircraft,
+        ]);
+
+        $flightAttributes = [
             'dep' => $request->dep,
             'arr' => $request->arr,
             'route' => $request->route,
             'oceanicFL' => $request->oceanicFL,
             'oceanicTrack' => $request->oceanicTrack,
-            'acType' => $request->aircraft,
-        ]);
+        ];
+
         if ($request->ctot) {
-            $booking->ctot = Carbon::createFromFormat('Y-m-d H:i',
+            $flightAttributes['ctot'] = Carbon::createFromFormat('Y-m-d H:i',
                 $booking->event->startEvent->toDateString().' '.$request->ctot);
         }
 
         if ($request->eta) {
-            $booking->eta = Carbon::createFromFormat('Y-m-d H:i',
+            $flightAttributes['eta'] = Carbon::createFromFormat('Y-m-d H:i',
                 $booking->event->startEvent->toDateString().' '.$request->eta);
         }
+
+        $flight->fill($flightAttributes);
 
         $changes = collect();
         if (!empty($booking->user)) {
             foreach ($booking->getDirty() as $key => $value) {
                 $changes->push(
                     ['name' => $key, 'old' => $booking->getOriginal($key), 'new' => $value]
+                );
+            }
+            foreach ($flight->getDirty() as $key => $value) {
+                $changes->push(
+                    ['name' => $key, 'old' => $flight->getOriginal($key), 'new' => $value]
                 );
             }
             if (!empty($request->message)) {
@@ -179,6 +203,7 @@ class BookingAdminController extends AdminController
             }
         }
         $booking->save();
+        $flight->save();
         if (!empty($booking->user)) {
             $booking->user->notify(new BookingChanged($booking, $changes));
         }
@@ -233,15 +258,16 @@ class BookingAdminController extends AdminController
             ->where('status', BookingStatus::BOOKED)
             ->get();
         return (new FastExcel($bookings))->withoutHeaders()->download('bookings.csv', function ($booking) {
+            $flight = $booking->flights()->first();
             return [
                 $booking->user->full_name,
                 $booking->user_id,
                 $booking->callsign,
-                $booking->airportDep->icao,
-                $booking->airportArr->icao,
-                $booking->getOriginal('oceanicFL'),
-                Carbon::parse($booking->getOriginal('ctot'))->format('H:i:s'),
-                $booking->route,
+                $flight->airportDep->icao,
+                $flight->airportArr->icao,
+                $flight->getOriginal('oceanicFL'),
+                Carbon::parse($flight->getOriginal('ctot'))->format('H:i:s'),
+                $flight->route,
             ];
         });
     }
@@ -258,28 +284,67 @@ class BookingAdminController extends AdminController
             ->on($event)
             ->log('Import triggered');
         $file = $request->file('file')->getRealPath();
-        $bookings = collect();
-        (new FastExcel)->importSheets($file, function ($line) use ($bookings, $event) {
-            $dep = Airport::where('icao', $line['Origin'])->first();
-            $arr = Airport::where('icao', $line['Destination'])->first();
+        if ($event->event_type_id == EventType::MULTIFLIGHTS) {
+            (new FastExcel)->importSheets($file, function ($line) use ($event) {
+               $airport1 = Airport::where('icao', $line['Airport 1'])->first();
+               $airport2 = Airport::where('icao', $line['Airport 2'])->first();
+               $airport3 = Airport::where('icao', $line['Airport 3'])->first();
 
-            $flight = collect([
-                'callsign' => $line['Call Sign'],
-                'acType' => $line['Aircraft Type'],
-                'dep' => $dep->id,
-                'arr' => $arr->id,
-            ]);
-            if (isset($line['ETA'])) {
-                $flight->put('eta', Carbon::createFromFormat('Y-m-d H:i',
-                    $event->startEvent->toDateString().' '.$line['ETA']->format('H:i')));
-            }
-            if (isset($line['EOBT'])) {
-                $flight->put('ctot', Carbon::createFromFormat('Y-m-d H:i',
-                    $event->startEvent->toDateString().' '.$line['EOBT']->format('H:i')));
-            }
-            $bookings->push($flight);
-        });
-        $event->bookings()->createMany($bookings->toArray());
+               if (isset($line['CTOT 1'])) {
+                   $ctot1 = Carbon::createFromFormat('Y-m-d H:i',
+                       $event->startEvent->toDateString().' '.$line['CTOT 1']->format('H:i'));
+               }
+                if (isset($line['CTOT 2'])) {
+                    $ctot2 = Carbon::createFromFormat('Y-m-d H:i',
+                       $event->startEvent->toDateString().' '.$line['CTOT 2']->format('H:i'));
+                }
+
+                $booking = Booking::create([
+                    'event_id' => $event->id,
+                ]);
+
+                $booking->flights()->createMany([
+                    [
+                        'order_by' => 1,
+                        'dep' => $airport1->id,
+                        'arr' => $airport2->id,
+                        'ctot' => $ctot1,
+                    ],
+                    [
+                        'order_by' => 2,
+                        'dep' => $airport2->id,
+                        'arr' => $airport3->id,
+                        'ctot' => $ctot2,
+                    ],
+                ]);
+            });
+        } else {
+            (new FastExcel)->importSheets($file, function ($line) use ($event) {
+                $dep = Airport::where('icao', $line['Origin'])->first();
+                $arr = Airport::where('icao', $line['Destination'])->first();
+
+                $booking = new Booking();
+                $booking->fill([
+                    'event_id' => $event->id,
+                    'callsign' => $line['Call Sign'],
+                    'acType' => $line['Aircraft Type'],
+
+                ])->save();
+                $flight = collect([
+                    'dep' => $dep->id,
+                    'arr' => $arr->id,
+                ]);
+                if (isset($line['ETA'])) {
+                    $flight->put('eta', Carbon::createFromFormat('Y-m-d H:i',
+                        $event->startEvent->toDateString().' '.$line['ETA']->format('H:i')));
+                }
+                if (isset($line['EOBT'])) {
+                    $flight->put('ctot', Carbon::createFromFormat('Y-m-d H:i',
+                        $event->startEvent->toDateString().' '.$line['EOBT']->format('H:i')));
+                }
+                $booking->flights()->create($flight->toArray());
+            });
+        }
         Storage::delete($file);
         flashMessage('success', 'Flights imported', 'Flights have been imported');
         return redirect(route('bookings.event.index', $event));

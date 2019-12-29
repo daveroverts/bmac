@@ -37,6 +37,24 @@
                             </div>
                         </div>
 
+                        <div class="form-group row">
+
+                            <label for="ctot" class="col-md-2 col-form-label text-md-right"> Format</label>
+                            <div class="col-md-10">
+                                <div class="form-control-plaintext">
+                                    @if($event->event_type_id == \App\Enums\EventType::MULTIFLIGHTS)
+                                        CTOT 1 - Airport 1 - CTOT 2 - Airport 2 - Airport 3
+                                    @else
+                                        <strong>Arrivals</strong> - Call Sign | Origin | Destination | ETA | Aircraft
+                                        Type
+                                        <br>
+                                        <strong>Departures</strong> - Call Sign | Origin | Destination | EOBT | Aircraft
+                                        Type
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+
                         {{--Import--}}
                         <div class="form-group row mb-0">
                             <div class="col-md-6 offset-md-4">
