@@ -6,10 +6,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [v1.4.2](https://gitlab.com/daveroverts/Book-me-a-cookie/compare/v1.4.2...v1.4.1) - 2019-10-11
+## [v1.5.0](https://gitlab.com/daveroverts/Book-me-a-cookie/compare/v1.5.0...v1.4.2) - 2019-12-29
 
-### Changed
-- Fixed issue where a user could book a flight, after 10 minutes has passed, and crash the whole ``booking.overview`` view
+### Added
+- Event type 'multi city'
+- ``Flight`` model, which takes over most fields from ``Booking`` model
+- Some separate views for multi city event type (too lazy to combine for now)
+
+## [v1.4.2](https://gitlab.com/daveroverts/Book-me-a-cookie/compare/v1.4.2...v1.4.1) - 2019-10-11
 
 ### Added
 - Added ``AdminController``, that is used by all AdminControllers. It uses the ``IsAdmin`` Middleware by default.
@@ -27,6 +31,31 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed issue where it was never possible to update a FAQ item.
 - ``nextEvents()`` now accepts parameter to use ``with()`` to prevent N+1 problem
 - Upgraded to Laravel 6.0
+- Fixed issue where a user could book a flight, after 10 minutes has passed, and crash the whole ``booking.overview`` view
+
+### Removed
+- Removed Default Auth scaffolding, as it was never used (except some parts of ``LoginController``.
+- Removed ``pragmarx/version``, as it was never used
+
+## [v1.4.2](https://gitlab.com/daveroverts/Book-me-a-cookie/compare/v1.4.2...v1.4.1) - 2019-10-11
+
+### Added
+- Added ``AdminController``, that is used by all AdminControllers. It uses the ``IsAdmin`` Middleware by default.
+- Added ``nextEventsForFaq()`` helper function, that makes use of the new parameter found in ``nextEvents()`` (see below).
+- [Laravel Passport](https://laravel.com/docs/5.8), at the time of writing, only to prepare to consume own API.
+- AutoAssign now has the possibility to auto-assign all flights, regardless of being booked, if needed.
+- Added ``facade/ignition``
+
+### Changed
+- Controllers have been split into normal and AdminControllers
+- Views have been split into normal and admin views.
+- Requests have been split into normal and admin requests.
+- ``routes/web.php`` now only includes calls to controllers.
+- Pretty much all routes have been renamed (admin routes now has ``admin.`` as prefix)
+- Fixed issue where it was never possible to update a FAQ item.
+- ``nextEvents()`` now accepts parameter to use ``with()`` to prevent N+1 problem
+- Upgraded to Laravel 6.0
+- Fixed issue where a user could book a flight, after 10 minutes has passed, and crash the whole ``booking.overview`` view
 
 ### Removed
 - Removed Default Auth scaffolding, as it was never used (except some parts of ``LoginController``.
