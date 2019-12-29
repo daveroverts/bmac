@@ -7,6 +7,15 @@ Thank you for your recent booking for **{{ $booking->event->name }}** event.
 For reference, your booking details are listed below.
 
 @component('mail::table')
+@if($booking->event->event_type_id == \App\Enums\EventType::MULTIFLIGHTS)
+|  |  |
+|-----------|---------------------------|
+| Callsign: | **{{ $booking->callsign }}** |
+| Aircraft: | **{{ $booking->acType }}** |
+| Flight #1: | **{{ $booking->airportCtot(1, false)  }}** |
+| Flight #2: | **{{ $booking->airportCtot(2, false)  }}** |
+| Event Date: | **{{ $booking->event->startEvent->toFormattedDateString() }}** |
+@else
 |  |  |
 |-----------|---------------------------|
 | Callsign: | **{{ $booking->callsign }}** |
@@ -21,6 +30,7 @@ For reference, your booking details are listed below.
 | CTOT: | **{{ $booking->flights()->first()->ctot }}** |
 @endif
 | Event Date: | **{{ $booking->event->startEvent->toFormattedDateString() }}** |
+@endif
 @endcomponent
 
 @lang('Regards'),
