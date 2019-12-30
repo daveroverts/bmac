@@ -6,6 +6,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+- in ``booking.overview`` views, the 'bookings will be available at x' is now a h3 with a br
+
 ## [v1.5.0](https://gitlab.com/daveroverts/Book-me-a-cookie/compare/v1.5.0...v1.4.2) - 2019-12-29
 
 ### Added
