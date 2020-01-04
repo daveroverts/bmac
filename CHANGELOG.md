@@ -6,6 +6,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+- ``event.admin.import`` view formats now include ``<abbr>``'s to better explain what's needed
+
 ## [v1.5.0a](https://gitlab.com/daveroverts/Book-me-a-cookie/compare/v1.5.0.a...v1.5.0) - 2019-12-30
 
 ### Changed
