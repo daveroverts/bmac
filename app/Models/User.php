@@ -63,7 +63,10 @@ class User extends Authenticatable
      */
     public function getPicAttribute()
     {
-        return "{$this->full_name} | {$this->id}";
+        if (!empty($this->full_name) && !empty($this->id)) {
+            return "{$this->full_name} | {$this->id}";
+        }
+        return '-';
     }
 
 }
