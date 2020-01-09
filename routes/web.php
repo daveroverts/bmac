@@ -39,7 +39,7 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin', 'middleware' => 'auth.isAdm
 
     // Booking
     Route::resource('bookings', 'Booking\BookingAdminController')->except(['index', 'show']);
-    Route::get('{event}/bookings/export', 'Booking\BookingAdminController@export')->name('bookings.export');
+    Route::get('{event}/bookings/export/{vacc?}', 'Booking\BookingAdminController@export')->name('bookings.export');
     Route::get('{event}/bookings/create/{bulk?}', 'Booking\BookingAdminController@create')->name('bookings.create');
     Route::get('{event}/bookings/import', 'Booking\BookingAdminController@importForm')->name('bookings.importForm');
     Route::put('{event}/bookings/import', 'Booking\BookingAdminController@import')->name('bookings.import');
