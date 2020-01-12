@@ -9,6 +9,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Export for Multi-city event type (with e-mails and with CTOT's)
 
+### Changed
+- In the navbar, the Dutch VACC logo's are now routing to the Dutch VACC website
+
 ## [v1.5.0c](https://gitlab.com/daveroverts/Book-me-a-cookie/compare/v1.5.0.c...v1.5.0.b) - 2020-01-07
 
 ### Changed
