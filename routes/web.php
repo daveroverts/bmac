@@ -49,8 +49,10 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin', 'middleware' => 'auth.isAdm
         'Booking\BookingAdminController@adminAutoAssign')->name('bookings.autoAssign');
 });
 
-Route::resource('bookings', 'Booking\BookingController')->except(['create', 'store', 'destroy']);
+Route::resource('bookings', 'Booking\BookingController')->except(['create', 'edit', 'store', 'destroy']);
 Route::get('/{event}/bookings/{filter?}', 'Booking\BookingController@index')->name('bookings.event.index');
+Route::get('/bookings/{booking}/edit', 'Booking\BookingController@edit')
+    ->middleware('auth.isLoggedIn')->name('bookings.edit');
 Route::patch('/bookings/{booking}/cancel', 'Booking\BookingController@cancel')->name('bookings.cancel');
 
 // Keeping this here for a while to prevent some 404's should people access /booking directly

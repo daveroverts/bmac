@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - Export for Multi-city event type (with e-mails and with CTOT's)
+- Added ``auth.isLoggedIn`` middleware to ``BookingController@edit()`` that you are logged in
 
 ### Changed
 - In the navbar, the Dutch VACC logo's are now routing to the Dutch VACC website
