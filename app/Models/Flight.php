@@ -72,6 +72,21 @@ class Flight extends Model
     }
 
     /**
+     * Format for notes
+     *
+     * @param $value
+     * @return string
+     */
+    public function getNotesAttribute($value)
+    {
+        if (!empty($value)) {
+            return $value;
+        }
+
+        return '-';
+    }
+
+    /**
      * Capitalize Route
      *
      * @param $value
