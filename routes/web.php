@@ -39,18 +39,24 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin', 'middleware' => 'auth.isAdm
 
     // Booking
     Route::resource('bookings', 'Booking\BookingAdminController')->except(['index', 'show']);
-    Route::get('{event}/bookings/export', 'Booking\BookingAdminController@export')->name('bookings.export');
+    Route::get('{event}/bookings/export/{vacc?}', 'Booking\BookingAdminController@export')->name('bookings.export');
     Route::get('{event}/bookings/create/{bulk?}', 'Booking\BookingAdminController@create')->name('bookings.create');
     Route::get('{event}/bookings/import', 'Booking\BookingAdminController@importForm')->name('bookings.importForm');
     Route::put('{event}/bookings/import', 'Booking\BookingAdminController@import')->name('bookings.import');
-    Route::get('{event}/bookings/autoAssign',
+    Route::get('{event}/bookings/auto-assign',
         'Booking\BookingAdminController@adminAutoAssignForm')->name('bookings.autoAssignForm');
-    Route::patch('{event}/bookings/autoAssign',
+    Route::patch('{event}/bookings/auto-assign',
         'Booking\BookingAdminController@adminAutoAssign')->name('bookings.autoAssign');
+    Route::get('{event}/bookings/route-assign',
+        'Booking\BookingAdminController@routeAssignForm')->name('bookings.routeAssignForm');
+    Route::patch('{event}/bookings/route-assign',
+        'Booking\BookingAdminController@routeAssign')->name('bookings.routeAssign');
 });
 
-Route::resource('bookings', 'Booking\BookingController')->except(['create', 'store', 'destroy']);
+Route::resource('bookings', 'Booking\BookingController')->except(['create', 'edit', 'store', 'destroy']);
 Route::get('/{event}/bookings/{filter?}', 'Booking\BookingController@index')->name('bookings.event.index');
+Route::get('/bookings/{booking}/edit', 'Booking\BookingController@edit')
+    ->middleware('auth.isLoggedIn')->name('bookings.edit');
 Route::patch('/bookings/{booking}/cancel', 'Booking\BookingController@cancel')->name('bookings.cancel');
 
 // Keeping this here for a while to prevent some 404's should people access /booking directly

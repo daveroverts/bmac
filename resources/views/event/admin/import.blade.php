@@ -43,12 +43,18 @@
                             <div class="col-md-10">
                                 <div class="form-control-plaintext">
                                     @if($event->event_type_id == \App\Enums\EventType::MULTIFLIGHTS)
-                                        CTOT 1 - Airport 1 - CTOT 2 - Airport 2 - Airport 3
+                                        <abbr title="[hh:mm]">CTOT 1</abbr> - <abbr title="[ICAO]">Airport 1</abbr> -
+                                        <abbr title="[hh:mm]">CTOT 2</abbr> - <abbr title="[ICAO]">Airport 2</abbr> -
+                                        <abbr title="[ICAO]">Airport 3</abbr>
                                     @else
-                                        <strong>Arrivals</strong> - Call Sign | Origin | Destination | ETA | Aircraft
+                                        <strong>Arrivals</strong> - Call Sign | <abbr title="[ICAO]">Origin</abbr> |
+                                        <abbr title="[ICAO]">Destination</abbr> | <abbr title="[hh:mm]">ETA</abbr> |
+                                        <abbr title="[ICAO]">Aircraft</abbr>
                                         Type
                                         <br>
-                                        <strong>Departures</strong> - Call Sign | Origin | Destination | EOBT | Aircraft
+                                        <strong>Departures</strong> - Call Sign | <abbr title="[ICAO]">Origin</abbr> |
+                                        <abbr title="[ICAO]">Destination</abbr> |
+                                        <abbr title="[hh:mm]">EOBT</abbr> | <abbr title="[ICAO]">Aircraft</abbr>
                                         Type
                                     @endif
                                 </div>

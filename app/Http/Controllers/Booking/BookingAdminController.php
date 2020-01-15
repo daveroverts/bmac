@@ -7,6 +7,7 @@ use App\Enums\EventType;
 use App\Http\Controllers\AdminController;
 use App\Http\Requests\Booking\Admin\AutoAssign;
 use App\Http\Requests\Booking\Admin\ImportBookings;
+use App\Http\Requests\Booking\Admin\RouteAssign;
 use App\Http\Requests\Booking\Admin\StoreBooking;
 use App\Http\Requests\Booking\Admin\UpdateBooking;
 use App\Models\Airport;
@@ -248,7 +249,7 @@ class BookingAdminController extends AdminController
      * @throws \Box\Spout\Common\Exception\UnsupportedTypeException
      * @throws \Box\Spout\Writer\Exception\WriterNotOpenedException
      */
-    public function export(Event $event)
+    public function export(Event $event, Request $request)
     {
         activity()
             ->by(Auth::user())
@@ -257,19 +258,59 @@ class BookingAdminController extends AdminController
         $bookings = Booking::where('event_id', $event->id)
             ->where('status', BookingStatus::BOOKED)
             ->get();
-        return (new FastExcel($bookings))->withoutHeaders()->download('bookings.csv', function ($booking) {
-            $flight = $booking->flights()->first();
-            return [
-                $booking->user->full_name,
-                $booking->user_id,
-                $booking->callsign,
-                $flight->airportDep->icao,
-                $flight->airportArr->icao,
-                $flight->getOriginal('oceanicFL'),
-                Carbon::parse($flight->getOriginal('ctot'))->format('H:i:s'),
-                $flight->route,
-            ];
-        });
+        if ($event->event_type_id == EventType::MULTIFLIGHTS) {
+            if ($request->vacc) {
+                return (new FastExcel($bookings))->withoutHeaders()->download('bookings.csv', function ($booking) {
+                    /* @var Booking $booking */
+                    /* @var Flight $flight1 */
+                    /* @var Flight $flight2 */
+                    $flight1 = $booking->flights()->first();
+                    $flight2 = $booking->flights()->whereKeyNot($flight1->id)->first();
+                    return [
+                        $booking->user->full_name,
+                        $booking->user_id,
+                        $booking->user->email,
+                        $booking->callsign,
+                        $flight1->airportDep->icao,
+                        $flight2->airportDep->icao,
+                        $flight2->airportArr->icao,
+                    ];
+                });
+            }
+            return (new FastExcel($bookings))->withoutHeaders()->download('bookings.csv', function ($booking) {
+                /* @var Booking $booking */
+                /* @var Flight $flight1 */
+                /* @var Flight $flight2 */
+                $flight1 = $booking->flights()->first();
+                $flight2 = $booking->flights()->whereKeyNot($flight1->id)->first();
+                return [
+                    $booking->user->full_name,
+                    $booking->user_id,
+                    $booking->callsign,
+                    $flight1->airportDep->icao,
+                    Carbon::parse($flight1->getOriginal('ctot'))->format('H:i:s'),
+                    $flight2->airportDep->icao,
+                    Carbon::parse($flight2->getOriginal('ctot'))->format('H:i:s'),
+                    $flight2->airportArr->icao,
+                ];
+            });
+        } else {
+            return (new FastExcel($bookings))->withoutHeaders()->download('bookings.csv', function ($booking) {
+                /* @var Booking $booking */
+                /* @var Flight $flight */
+                $flight = $booking->flights()->first();
+                return [
+                    $booking->user->full_name,
+                    $booking->user_id,
+                    $booking->callsign,
+                    $flight->airportDep->icao,
+                    $flight->airportArr->icao,
+                    $flight->getOriginal('oceanicFL'),
+                    Carbon::parse($flight->getOriginal('ctot'))->format('H:i:s'),
+                    $flight->route,
+                ];
+            });
+        }
     }
 
     public function importForm(Event $event)
@@ -420,5 +461,36 @@ class BookingAdminController extends AdminController
             )
             ->log('Flights auto-assigned');
         return redirect(route('admin.events.index'));
+    }
+
+    public function routeAssignForm(Event $event)
+    {
+        return view('event.admin.routeAssign', compact('event'));
+    }
+
+
+    public function routeAssign(RouteAssign $request, Event $event)
+    {
+        activity()
+            ->by(Auth::user())
+            ->on($event)
+            ->log('Route assign triggered');
+        $file = $request->file('file')->getRealPath();
+        //From,To,Route,Notes
+        (new FastExcel)->importSheets($file, function ($line) use ($event) {
+            $from = Airport::where('icao', $line['From'])->first();
+            $to = Airport::where('icao', $line['To'])->first();
+            $notes = $line['Notes'] ?? null;
+            Flight::whereDep($from->id)
+                ->whereArr($to->id)
+                ->update([
+                'route' => $line['Route'],
+                'notes' => $notes
+            ]);
+
+        });
+        Storage::delete($file);
+        flashMessage('success', 'Routes assigned', 'Routes have been assigned to flights');
+        return redirect(route('bookings.event.index', $event));
     }
 }

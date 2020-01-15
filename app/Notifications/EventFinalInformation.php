@@ -2,6 +2,7 @@
 
 namespace App\Notifications;
 
+use App\Enums\EventType;
 use App\Models\Booking;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
@@ -49,8 +50,11 @@ class EventFinalInformation extends Notification implements ShouldQueue
     public function toMail($notifiable)
     {
         $booking = $this->booking;
+        $flight1 = $booking->flights()->first();
+        $flight2 = $booking->flights()->whereKeyNot($flight1->id)->first();
+        $template = $booking->event->event_type_id == EventType::MULTIFLIGHTS ? 'emails.event.finalInformation_multiflights' : 'emails.event.finalInformation';
 
-        return (new MailMessage)->markdown('emails.event.finalInformation', ['booking' => $booking]);
+        return (new MailMessage)->markdown($template, compact('booking', 'flight1', 'flight2'));
     }
 
     /**

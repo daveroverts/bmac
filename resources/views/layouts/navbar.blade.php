@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-md navbar-dark navbar-laravel">
     <div class="container">
-        <a class="navbar-brand" href="{{ url('/') }}">
+        <a class="navbar-brand" href="https://www.dutchvacc.nl/">
             <img src="{{ asset('images/DV-Logo3-icon.png') }}" width="40">
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
@@ -84,7 +84,9 @@
 
             <!-- Right Side Of Navbar -->
             <ul class="navbar-nav ml-auto">
-                <li class="nav-item"><img src="{{ asset('images/DV-Logo3.png') }}" width="200"></li>
+                <li class="nav-item">
+                    <a href="https://www.dutchvacc.nl/"><img src="{{ asset('images/DV-Logo3.png') }}" width="200"></a>
+                </li>
             </ul>
 
         </div>
