@@ -136,6 +136,12 @@ Breadcrumbs::for('admin.bookings.autoAssignForm', function ($trail, $event) {
     $trail->push('Auto-Assign FL / Route', route('admin.bookings.autoAssignForm', $event));
 });
 
+// Home > Admin > [Event] > Route assign
+Breadcrumbs::for('admin.bookings.routeAssignForm', function ($trail, $event) {
+    $trail->parent('admin.events.show', $event);
+    $trail->push('Route assign', route('admin.bookings.routeAssignForm', $event));
+});
+
 // Home > FAQ
 Breadcrumbs::for('faq', function ($trail) {
     $trail->parent('home');

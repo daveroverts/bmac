@@ -10,9 +10,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Export for Multi-city event type (with e-mails and with CTOT's)
 - Added ``auth.isLoggedIn`` middleware to ``BookingController@edit()`` that you are logged in
 - E-mail template for Multi city event type
+- Route assign for multi-city event type
 
 ### Changed
 - In the navbar, the Dutch VACC logo's are now routing to the Dutch VACC website
+- Route for `bookings.autoAssignForm` + ``bookings.autoAssign` is now URL friendly
 
 ## [v1.5.0c](https://gitlab.com/daveroverts/Book-me-a-cookie/compare/v1.5.0.c...v1.5.0.b) - 2020-01-07
 

@@ -43,10 +43,14 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin', 'middleware' => 'auth.isAdm
     Route::get('{event}/bookings/create/{bulk?}', 'Booking\BookingAdminController@create')->name('bookings.create');
     Route::get('{event}/bookings/import', 'Booking\BookingAdminController@importForm')->name('bookings.importForm');
     Route::put('{event}/bookings/import', 'Booking\BookingAdminController@import')->name('bookings.import');
-    Route::get('{event}/bookings/autoAssign',
+    Route::get('{event}/bookings/auto-assign',
         'Booking\BookingAdminController@adminAutoAssignForm')->name('bookings.autoAssignForm');
-    Route::patch('{event}/bookings/autoAssign',
+    Route::patch('{event}/bookings/auto-assign',
         'Booking\BookingAdminController@adminAutoAssign')->name('bookings.autoAssign');
+    Route::get('{event}/bookings/route-assign',
+        'Booking\BookingAdminController@routeAssignForm')->name('bookings.routeAssignForm');
+    Route::patch('{event}/bookings/route-assign',
+        'Booking\BookingAdminController@routeAssign')->name('bookings.routeAssign');
 });
 
 Route::resource('bookings', 'Booking\BookingController')->except(['create', 'edit', 'store', 'destroy']);

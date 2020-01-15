@@ -7,6 +7,7 @@ use App\Enums\EventType;
 use App\Http\Controllers\AdminController;
 use App\Http\Requests\Booking\Admin\AutoAssign;
 use App\Http\Requests\Booking\Admin\ImportBookings;
+use App\Http\Requests\Booking\Admin\RouteAssign;
 use App\Http\Requests\Booking\Admin\StoreBooking;
 use App\Http\Requests\Booking\Admin\UpdateBooking;
 use App\Models\Airport;
@@ -460,5 +461,36 @@ class BookingAdminController extends AdminController
             )
             ->log('Flights auto-assigned');
         return redirect(route('admin.events.index'));
+    }
+
+    public function routeAssignForm(Event $event)
+    {
+        return view('event.admin.routeAssign', compact('event'));
+    }
+
+
+    public function routeAssign(RouteAssign $request, Event $event)
+    {
+        activity()
+            ->by(Auth::user())
+            ->on($event)
+            ->log('Route assign triggered');
+        $file = $request->file('file')->getRealPath();
+        //From,To,Route,Notes
+        (new FastExcel)->importSheets($file, function ($line) use ($event) {
+            $from = Airport::where('icao', $line['From'])->first();
+            $to = Airport::where('icao', $line['To'])->first();
+            $notes = $line['Notes'] ?? null;
+            Flight::whereDep($from->id)
+                ->whereArr($to->id)
+                ->update([
+                'route' => $line['Route'],
+                'notes' => $notes
+            ]);
+
+        });
+        Storage::delete($file);
+        flashMessage('success', 'Routes assigned', 'Routes have been assigned to flights');
+        return redirect(route('bookings.event.index', $event));
     }
 }

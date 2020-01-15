@@ -69,6 +69,8 @@
                         @if($event->event_type_id == \App\Enums\EventType::MULTIFLIGHTS)
                             <a href="{{ route('admin.bookings.export',[$event, 'vacc']) }}" class="btn btn-success"><i
                                     class="fa fa-edit"></i> Export data + VACC data</a>&nbsp;
+                            <a href="{{ route('admin.bookings.routeAssignForm', $event) }}" class="btn btn-primary"><i
+                                    class="fa fa-edit"></i> Assign Routes</a>&nbsp;
                         @endif
                         @if($event->startEvent > now())
                             <form action="{{ route('admin.events.destroy', $event) }}" method="post">
