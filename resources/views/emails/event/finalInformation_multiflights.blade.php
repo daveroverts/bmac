@@ -16,11 +16,9 @@ Callsign: **{{ $booking->callsign }}**
 
 Visit the [Website]({{ url('/') }}) for further information.
 
-We look forward to seeing you in the virtual skies.
-
-Good luck with the product giveaways!
+We look forward to seeing you in the virtual skies, and wish you best of luck with the giveaways.
 
 @lang('Regards'),
 
-**{{ config('mail.from.name', config('app.name')) }}**
+**VATEUD**
 @endcomponent
