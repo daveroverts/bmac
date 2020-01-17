@@ -14,6 +14,8 @@ Callsign: **{{ $booking->callsign }}**
 | {{ $flight2->airportDep->icao }} | {{ $flight2->airportArr->icao }} | {{ $flight2->ctot }} | {{ $flight2->route }}
 @endcomponent
 
+Visit the [Website]({{ url('/') }}) for further information.
+
 We look forward to seeing you in the virtual skies.
 
 Good luck with the product giveaways!
