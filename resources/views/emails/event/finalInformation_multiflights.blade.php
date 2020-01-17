@@ -9,7 +9,7 @@ Callsign: **{{ $booking->callsign }}**
 
 @component('mail::table')
 | FROM | TO | CTOT | ROUTE |
-|-----------|:-----------:|:-----------:|:---------------------------:|
+|----------------------------|:--------------------------:|:--------------------------:|:----:|
 | {{ $flight1->airportDep->icao }} | {{ $flight1->airportArr->icao }} | {{ $flight1->ctot }} | {{ $flight1->route }}
 | {{ $flight2->airportDep->icao }} | {{ $flight2->airportArr->icao }} | {{ $flight2->ctot }} | {{ $flight2->route }}
 @endcomponent
