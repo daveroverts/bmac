@@ -6,6 +6,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v1.5.1.b](https://gitlab.com/daveroverts/Book-me-a-cookie/compare/v1.5.1.b...v1.5.1.a) - 2020-01-17
+
+### Changed
+- Some more email stuff and added notes to view
+
 ## [v1.5.1.a](https://gitlab.com/daveroverts/Book-me-a-cookie/compare/v1.5.1.a...v1.5.1) - 2020-01-17
 
 ### Changed
