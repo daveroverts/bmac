@@ -6,6 +6,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v1.5.1.d](https://gitlab.com/daveroverts/Book-me-a-cookie/compare/v1.5.1.d...v1.5.1.c) - 2020-01-22
+
+### Added
+- Bookingsexport now contains aircraft
+
 ### Changed ``BookingController@edit()`` 'Already reserved' message to be more understanding
 
 ## [v1.5.1.c](https://gitlab.com/daveroverts/Book-me-a-cookie/compare/v1.5.1.c...v1.5.1.b) - 2020-01-17
