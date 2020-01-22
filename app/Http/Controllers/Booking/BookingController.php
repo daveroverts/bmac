@@ -176,7 +176,7 @@ class BookingController extends Controller
             if (auth()->user()->bookings()->where('event_id', $booking->event_id)
                 ->where('status', BookingStatus::RESERVED)
                 ->first()) {
-                flashMessage('danger', 'Nope!', 'You already have a reservation!');
+                flashMessage('danger', 'Nope!', 'You already have a reservation! Please cancel or book that flight first.');
                 return redirect(route('bookings.event.index', $booking->event));
             } // Reserve booking, and redirect to booking.edit
             else {

@@ -6,6 +6,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed ``BookingController@edit()`` 'Already reserved' message to be more understanding
+
 ## [v1.5.1.c](https://gitlab.com/daveroverts/Book-me-a-cookie/compare/v1.5.1.c...v1.5.1.b) - 2020-01-17
 
 ### Changed
