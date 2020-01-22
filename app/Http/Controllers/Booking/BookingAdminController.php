@@ -303,6 +303,7 @@ class BookingAdminController extends AdminController
                     $booking->user->full_name,
                     $booking->user_id,
                     $booking->callsign,
+                    $booking->acType,
                     $flight->airportDep->icao,
                     $flight->airportArr->icao,
                     $flight->getOriginal('oceanicFL'),
