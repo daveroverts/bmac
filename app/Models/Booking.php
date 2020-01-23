@@ -77,51 +77,6 @@ class Booking extends Model
     }
 
     /**
-     * Format for CTOT
-     *
-     * @param $value
-     * @return string
-     */
-    public function getCtotAttribute($value)
-    {
-        if (!empty($value)) {
-            return \Carbon\Carbon::parse($value)->format('Hi') . 'z';
-        }
-
-        return '-';
-    }
-
-    /**
-     * Format for ETA
-     *
-     * @param $value
-     * @return string
-     */
-    public function getEtaAttribute($value)
-    {
-        if (!empty($value)) {
-            return \Carbon\Carbon::parse($value)->format('Hi') . 'z';
-        }
-
-        return '-';
-    }
-
-    /**
-     * Format for oceanicFL
-     *
-     * @param $value
-     * @return string
-     */
-    public function getOceanicflAttribute($value)
-    {
-        if (!empty($value)) {
-            return 'FL' . $value . ' / Subject to change';
-        }
-
-        return 'T.B.D.';
-    }
-
-    /**
      * Format for SELCAL
      *
      * @param $value
@@ -139,17 +94,7 @@ class Booking extends Model
      */
     public function setCallsignAttribute($value)
     {
-        $this->attributes['callsign'] = strtoupper($value);
-    }
-
-    /**
-     * Capitalize Route
-     *
-     * @param $value
-     */
-    public function setRouteAttribute($value)
-    {
-        $this->attributes['route'] = strtoupper($value);
+        $this->attributes['callsign'] = !empty($value) ? strtoupper($value) : null;
     }
 
     /**
@@ -159,7 +104,7 @@ class Booking extends Model
      */
     public function setActypeAttribute($value)
     {
-        $this->attributes['acType'] = strtoupper($value);
+        $this->attributes['acType'] = !empty($value) ? strtoupper($value) : null;
     }
 
     /**
@@ -169,17 +114,7 @@ class Booking extends Model
      */
     public function setSelcalAttribute($value)
     {
-        $this->attributes['selcal'] = strtoupper($value);
-    }
-
-    /**
-     * Capitalize Oceanic Track
-     *
-     * @param $value
-     */
-    public function setOceanictrackAttribute($value)
-    {
-        $this->attributes['oceanicTrack'] = strtoupper($value);
+        $this->attributes['selcal'] = !empty($value) ? strtoupper($value) : null;
     }
 
     public function airportDep()

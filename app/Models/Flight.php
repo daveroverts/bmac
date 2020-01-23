@@ -37,7 +37,6 @@ class Flight extends Model
         if (!empty($value)) {
             return \Carbon\Carbon::parse($value)->format('Hi') . 'z';
         }
-
         return '-';
     }
 
@@ -52,7 +51,6 @@ class Flight extends Model
         if (!empty($value)) {
             return \Carbon\Carbon::parse($value)->format('Hi') . 'z';
         }
-
         return '-';
     }
 
@@ -93,7 +91,7 @@ class Flight extends Model
      */
     public function setRouteAttribute($value)
     {
-        $this->attributes['route'] = strtoupper($value);
+        $this->attributes['route'] = !empty($value) ? strtoupper($value) : null;
     }
 
     /**
@@ -103,7 +101,7 @@ class Flight extends Model
      */
     public function setOceanictrackAttribute($value)
     {
-        $this->attributes['oceanicTrack'] = strtoupper($value);
+        $this->attributes['oceanicTrack'] = !empty($value) ? strtoupper($value) : null;
     }
 
     public function booking()
