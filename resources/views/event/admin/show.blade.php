@@ -115,7 +115,7 @@
                         </div>
                     </div>
 
-                    @if(Auth::check() && Auth::user()->isAdmin)
+                    @if(auth()->check() && auth()->user()->isAdmin)
                         {{--Import only?--}}
                         <div class="form-group row">
                             <label for="importOnly" class="col-md-4 col-form-label text-md-right">

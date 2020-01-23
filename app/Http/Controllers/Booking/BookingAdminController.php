@@ -252,7 +252,7 @@ class BookingAdminController extends AdminController
     public function export(Event $event, Request $request)
     {
         activity()
-            ->by(Auth::user())
+            ->by(auth()->user())
             ->on($event)
             ->log('Export triggered');
         $bookings = Booking::where('event_id', $event->id)
@@ -322,7 +322,7 @@ class BookingAdminController extends AdminController
     public function import(ImportBookings $request, Event $event)
     {
         activity()
-            ->by(Auth::user())
+            ->by(auth()->user())
             ->on($event)
             ->log('Import triggered');
         $file = $request->file('file')->getRealPath();
@@ -449,7 +449,7 @@ class BookingAdminController extends AdminController
         }
         flashMessage('success', 'Bookings changed', $count.' Bookings have been Auto-Assigned a FL, and route');
         activity()
-            ->by(Auth::user())
+            ->by(auth()->user())
             ->on($event)
             ->withProperties(
                 [
@@ -473,7 +473,7 @@ class BookingAdminController extends AdminController
     public function routeAssign(RouteAssign $request, Event $event)
     {
         activity()
-            ->by(Auth::user())
+            ->by(auth()->user())
             ->on($event)
             ->log('Route assign triggered');
         $file = $request->file('file')->getRealPath();

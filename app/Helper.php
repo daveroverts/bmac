@@ -78,7 +78,7 @@ function nextEventsForFaq()
  */
 function holdOnWeGotABadAss()
 {
-    Auth::logout();
+    auth()->logout();
     flashMessage('error', 'Error', 'Something went wrong');
     return redirect('/');
 }

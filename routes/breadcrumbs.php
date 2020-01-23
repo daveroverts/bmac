@@ -175,5 +175,5 @@ Breadcrumbs::for('admin.faq.edit', function ($trail, $faq) {
 // Home > My settings
 Breadcrumbs::for('user.settings', function ($trail) {
     $trail->parent('home');
-    $trail->push('My settings', route('user.settings', Auth::user()));
+    $trail->push('My settings', route('user.settings', auth()->user()));
 });

@@ -16,7 +16,7 @@ class IsAdmin
      */
     public function handle($request, Closure $next)
     {
-        if (Auth::check() && Auth::user()->isAdmin) {
+        if (auth()->check() && auth()->user()->isAdmin) {
             return $next($request);
         }
         // We got a bad-ass over here, log that person out

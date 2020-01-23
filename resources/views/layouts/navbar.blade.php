@@ -31,7 +31,7 @@
                                 <a class="dropdown-item {{ request()->fullUrlIs(route('bookings.event.index', $event)) ? 'active' : '' }}"
                                    href="{{ route('bookings.event.index', $event) }}">Bookings</a>
                                 @auth
-                                    @foreach($bookings = Auth::user()->bookings()->where('event_id', $event->id)->get() as $booking)
+                                    @foreach($bookings = auth()->user()->bookings()->where('event_id', $event->id)->get() as $booking)
                                         <a class="dropdown-item {{ request()->fullUrlIs(route('bookings.show', $booking)) ? 'active' : '' }}"
                                            href="{{ route('bookings.show', $booking) }}">
                                             <i class="fas fa-arrow-right"></i>&nbsp;{{ $bookings->count() > 1 ? $booking->callsign : 'My booking' }}
@@ -61,13 +61,13 @@
                             <a class="btn btn-outline-secondary text-white dropdown-toggle {{ request()->routeIs(['admin*', 'user*']) ? 'active' : '' }}"
                                href="#" role="button" id="dropdownUser" data-toggle="dropdown" aria-haspopup="true"
                                aria-expanded="false">
-                                {{ Auth::user()->pic }}
+                                {{ auth()->user()->pic }}
                             </a>
 
                             <div class="dropdown-menu" aria-labelledby="dropdownUser">
                                 <a class="dropdown-item {{ request()->routeIs('user.settings') ? 'active' : '' }}"
                                    href="{{ route('user.settings') }}">My settings</a>
-                                @if(Auth::user()->isAdmin)
+                                @if(auth()->user()->isAdmin)
                                     <div class="dropdown-divider"></div>
                                     <a class="dropdown-item {{ request()->routeIs('admin.airports*') ? 'active' : '' }}"
                                        href="{{ route('admin.airports.index') }}">Airports</a>

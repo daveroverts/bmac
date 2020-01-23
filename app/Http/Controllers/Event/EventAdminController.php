@@ -175,9 +175,9 @@ class EventAdminController extends AdminController
     public function sendEmail(SendEmail $request, Event $event)
     {
         if ($request->testmode) {
-            Notification::send(Auth::user(), new EventBulkEmail($event, $request->subject, $request->message));
+            Notification::send(auth()->user(), new EventBulkEmail($event, $request->subject, $request->message));
             activity()
-                ->by(Auth::user())
+                ->by(auth()->user())
                 ->on($event)
                 ->withProperties(
                     [
@@ -197,7 +197,7 @@ class EventAdminController extends AdminController
 
             flashMessage('success', 'Done', 'Bulk E-mail has been sent to '.$count.' people!');
             activity()
-                ->by(Auth::user())
+                ->by(auth()->user())
                 ->on($event)
                 ->withProperties(
                     [
@@ -225,10 +225,10 @@ class EventAdminController extends AdminController
 
         if ($request->testmode) {
             $booking = $bookings->random();
-            Notification::send(Auth::user(), new EventFinalInformation($booking));
+            Notification::send(auth()->user(), new EventFinalInformation($booking));
 
             activity()
-                ->by(Auth::user())
+                ->by(auth()->user())
                 ->on($event)
                 ->withProperties(
                     [
@@ -244,7 +244,7 @@ class EventAdminController extends AdminController
             }
             flashMessage('success', 'Done', 'Final Information has been sent to '.$count.' people!');
             activity()
-                ->by(Auth::user())
+                ->by(auth()->user())
                 ->on($event)
                 ->withProperty('count', $count)
                 ->log('Final Information E-mail');
