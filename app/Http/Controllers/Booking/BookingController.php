@@ -299,11 +299,8 @@ class BookingController extends Controller
                 $booking->fill([
                     'callsign' => null,
                     'acType' => null,
+                    'selcal' => null,
                 ]);
-
-                if ($booking->event->is_oceanic_event) {
-                    $booking->selcal = null;
-                }
             }
             $booking->status = BookingStatus::UNASSIGNED;
             activity()
