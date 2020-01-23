@@ -17,7 +17,6 @@ use App\Notifications\EventFinalInformation;
 use App\Policies\EventPolicy;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Notification;
 
 class EventAdminController extends AdminController
@@ -239,10 +238,23 @@ class EventAdminController extends AdminController
             return response()->json(['success' => 'Email has been sent to yourself']);
         } else {
             $count = $bookings->count();
+            $countSkipped = 0;
+            $now = now();
             foreach ($bookings as $booking) {
-                $booking->user->notify(new EventFinalInformation($booking));
+                // @TODO Maybe better in a Event/Listener?
+                if (!$booking->has_received_final_information_email) {
+                    $booking->user->notify(new EventFinalInformation($booking));
+                    $booking->update(['final_information_email_sent_at' => $now]);
+                } else {
+                    $count--;
+                    $countSkipped++;
+                }
             }
-            flashMessage('success', 'Done', 'Final Information has been sent to '.$count.' people!');
+            $message = 'Final Information has been sent to '.$count.' people!';
+            if ($countSkipped != 0) {
+                $message .= ' However, ' . $countSkipped . ' where skipped, because they already received one';
+            }
+            flashMessage('success', 'Done', $message);
             activity()
                 ->by(auth()->user())
                 ->on($event)

@@ -163,6 +163,7 @@ class BookingAdminController extends AdminController
             'is_editable' => $request->is_editable,
             'callsign' => $request->callsign,
             'acType' => $request->aircraft,
+            'final_information_email_sent_at' => null
         ]);
 
         $flightAttributes = [
