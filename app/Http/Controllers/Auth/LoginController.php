@@ -68,7 +68,7 @@ class LoginController extends Controller
     public function validateLogin(Request $request)
     {
         $session = session('vatsimauth');
-        if (!empty($request->get('oauth_verifier'))) {
+        if (!empty($request->get('oauth_verifier')) && !empty($session)) {
             return VatsimSSO::validate(
                 $session['key'],
                 $session['secret'],
@@ -82,7 +82,6 @@ class LoginController extends Controller
                     $account->name_first = utf8_decode($user->name_first);
                     $account->name_last = utf8_decode($user->name_last);
                     // Check if this is the production environment to determine to use the actual E-mail adress or something random
-//                    $account->email = App::environment('production') ? $user->email : Faker::create()->email();
                     $account->email = app()->environment() == 'production' ? $user->email : Faker::create()->email();
                     $account->country = $user->country->code;
                     $account->region = $user->region->code;
@@ -107,11 +106,11 @@ class LoginController extends Controller
                     return redirect('/');
                 },
                 function ($e) {
-                    throw $e; // Do something with the exception
+                    Bugsnag::notifyException($e); // Do something with the exception
                 }
             );
         } else {
-            flashMessage('danger', 'Login failed', 'Something went wrong, please try again');
+            flashMessage('error', 'Login failed', 'Something went wrong, please try again');
             return redirect(route('home'));
         }
     }

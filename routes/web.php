@@ -14,7 +14,7 @@
 Route::get('/', 'HomeController')->name('home');
 
 Route::get('/login/{booking?}', 'Auth\LoginController@login')->name('login');
-Route::get('/validateLogin', 'Auth\LoginController@validateLogin');
+Route::get('/validate-login', 'Auth\LoginController@validateLogin');
 Route::get('/logout', 'Auth\LoginController@logout')->name('logout');
 
 // Admin routes
