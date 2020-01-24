@@ -73,7 +73,7 @@ BOOKING - DETAILS
 ---
 Callsign: **{{ $booking->callsign }}**
 
-Aircraft: **{{ $booking->acType }}
+Aircraft: **{{ $booking->acType }}**
 
 SELCAL: **{{ $booking->selcal }}**
 
