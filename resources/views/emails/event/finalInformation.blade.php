@@ -31,36 +31,22 @@ A: Click [here](https://www.virtualnorwegian.net/oceanic/). There are example cl
 INFORMATION - DEPARTURE
 ---
 ---
-Pilots can anticipate receiving a clearance through CPDLC. The clearance may include route amendments. CPDLC clearances are accomplished via private message from ATC. Pilots who are not able to accept clearance via CPDLC should disregard the message and request a voice clearance.
+After receiving your clearance you will be instructed to report ready with Planner [EHAM_P_DEL] on 121.650. You are advised to report ready as soon as you are, so we can plan your flight in the departure sequence. You will be advised of an expected start-up time, which will ensure you'll arrive at the runway within your CTOT window.
 
-Remember, you need a specific clearance to cross each runway you come to (active or inactive). Always hold short of a runway unless you have received a crossing instruction. If you are unsure, ask!
+The initial climb altitude for all departures is FL060. Do NOT climb further without any instructions. This may cause a conflict with inbound traffic.
 
-The phrase “climb via SID” will be used on all RNAV departures. This phrase instructs aircraft to stop the initial climb at the SID top altitude (5,000’) until receiving further instruction from ATC.
+After departure, when passing 2000ft, you switch from TOWER to APPROACH [EHAM_W_APP] yourself without contact instructions by ATC, unless TOWER specifically instructs you to: “remain this frequency”.
 
 Important information about your departure airport can be found at:
-- [Pilot Briefing](https://www.dutchvacc.nl/downloads/various/Pilot%20Briefing%20Holland-America%20Line%202018.pdf)
-- [Charts](https://www.airnav.com/airport/KBOS)
-
----
-INFORMATION - ARRIVAL
----
----
-
-The STAR into Amsterdam will terminate at waypoint SUGOL which has to passed below FL100, plan your descent accordingly. After SUGOL you can expect a direct to SPL, you will need to add this manually into your FMS.
-
-Standard speed within the 15NM radius of SPL is 220kts. When cleared on the ILS maintain speed 180kts or more until established on the glide path, unless instructed otherwise.
-
-Important information about your arrival airport can be found at:
-
-- [Pilot Briefing](https://www.dutchvacc.nl/downloads/various/Pilot%20Briefing%20Holland-America%20Line%202018.pdf)
-- [Charts](http://scripts.dutchvacc.nl/aipcharts.php?airport=eham)
+- [Pilot Briefing](https://www.dutchvacc.nl/visiting-pilots/)
+- [Charts](https://www.dutchvacc.nl/charts/)
 
 
 ---
 INFORMATION - ENROUTE/OCEANIC
 ---
-
-
+---
+It will be possible to make position reports using [natTRAK](https://nattrak.vatsim.net/). Oceanic clearance will still need to be requested with Shanwick Delivery [EGGX_DEL] over voice.
 
 When making calls to Gander/Oceanic be sure to include all the required information. The controllers will not have time to keep asking you for the pieces of information, so ensure you know everything you need to tell them in your clearance request and position reports.
 
@@ -69,6 +55,16 @@ Remember that all times given during oceanic procedures are zulu time,therefore 
 Important information about oceanic procedures can be found at:
 
 - [Oceanic Operating Procedures](https://www.virtualnorwegian.net/oceanic/)
+
+
+---
+INFORMATION - ARRIVAL
+---
+---
+Important information about your arrival airport can be found at:
+
+- [Pilot Resources](https://torontofir.ca/pilots/)
+- [Charts](https://torontofir.ca/airport-charts/)
 
 
 ---

@@ -25,6 +25,9 @@ For reference, your booking details are listed below.
 | Cruising: | **{{ $booking->flights()->first()->oceanicFL }}** |
 | SELCAL: | **{{ $booking->selcal }}** |
 @endif
+@if(!empty($booking->flights()->first()->route))
+| Route: | **{{ $booking->flights()->first()->route }}** |
+@endif
 | Aircraft: | **{{ $booking->acType }}** |
 @if($booking->event->uses_times)
 | CTOT: | **{{ $booking->flights()->first()->ctot }}** |

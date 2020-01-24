@@ -411,8 +411,11 @@ class BookingAdminController extends AdminController
      */
     public function adminAutoAssign(AutoAssign $request, Event $event)
     {
-        $bookings = Booking::where('event_id', $event->id)
-            ->orderBy('ctot');
+        // @TODO Optimise this, for now it's a ugly fix
+        $bookings = $event->bookings()
+        ->with(['flights' => function ($query) {
+            $query->orderBy('ctot');
+        }]);
 
         if (!$request->checkAssignAllFlights) {
             $bookings = $bookings->where('status', BookingStatus::BOOKED);
@@ -422,9 +425,10 @@ class BookingAdminController extends AdminController
         $flOdd = $request->maxFL;
         $flEven = $request->minFL;
         foreach ($bookings as $booking) {
+            $flight = $booking->flights()->first();
             $count++;
             if ($count % 2 == 0) {
-                $booking->fill([
+                $flight->fill([
                     'oceanicTrack' => $request->oceanicTrack2,
                     'route' => $request->route2,
                     'oceanicFL' => $flEven,
@@ -434,7 +438,7 @@ class BookingAdminController extends AdminController
                     $flEven = $request->minFL;
                 }
             } else {
-                $booking->fill([
+                $flight->fill([
                     'oceanicTrack' => $request->oceanicTrack1,
                     'route' => $request->route1,
                     'oceanicFL' => $flOdd,
@@ -444,7 +448,7 @@ class BookingAdminController extends AdminController
                     $flOdd = $request->maxFL;
                 }
             }
-            $booking->save();
+            $flight->save();
 
         }
         flashMessage('success', 'Bookings changed', $count.' Bookings have been Auto-Assigned a FL, and route');
