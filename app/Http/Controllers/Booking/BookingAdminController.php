@@ -19,7 +19,6 @@ use App\Notifications\BookingDeleted;
 use App\Policies\BookingPolicy;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Rap2hpoutre\FastExcel\FastExcel;
 
@@ -158,6 +157,11 @@ class BookingAdminController extends AdminController
      */
     public function update(UpdateBooking $request, Booking $booking)
     {
+        $shouldSendEmail = false;
+        if (!empty($booking->user) && $request->notify_user) {
+            $shouldSendEmail = true;
+        }
+        /* @var Flight $flight */
         $flight = $booking->flights()->first();
         $booking->fill([
             'is_editable' => $request->is_editable,
@@ -186,8 +190,8 @@ class BookingAdminController extends AdminController
 
         $flight->fill($flightAttributes);
 
-        $changes = collect();
-        if (!empty($booking->user)) {
+        if ($shouldSendEmail) {
+            $changes = collect();
             foreach ($booking->getDirty() as $key => $value) {
                 $changes->push(
                     ['name' => $key, 'old' => $booking->getOriginal($key), 'new' => $value]
@@ -204,13 +208,12 @@ class BookingAdminController extends AdminController
                 );
             }
         }
+
         $booking->save();
         $flight->save();
-        if (!empty($booking->user)) {
-            $booking->user->notify(new BookingChanged($booking, $changes));
-        }
         $message = 'Booking has been changed!';
-        if (!empty($booking->user)) {
+        if ($shouldSendEmail) {
+            $booking->user->notify(new BookingChanged($booking, $changes));
             $message .= ' A E-mail has also been sent to the person that booked.';
         }
         flashMessage('success', 'Booking changed', $message);

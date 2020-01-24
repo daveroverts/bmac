@@ -245,7 +245,7 @@ class EventAdminController extends AdminController
                 if (!$booking->has_received_final_information_email || $request->forceSend) {
                     $shouldSend = true;
                 }
-                
+
                 // @TODO Maybe better in a Event/Listener?
                 if ($shouldSend) {
                     $booking->user->notify(new EventFinalInformation($booking));
