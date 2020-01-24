@@ -13,6 +13,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [v1.5.1.e](https://gitlab.com/daveroverts/Book-me-a-cookie/compare/v1.5.1.e...v1.5.1.d) - 2020-01-24
 
+### Added
+- Route is now included in booking.confirmed email if one is actually set
+
 ### Changed
 - Fix for ``BookingAdminController@autoAssign()`` giving 500's. Will have to optimise the check later on.
 
