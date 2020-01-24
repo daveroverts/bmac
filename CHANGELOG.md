@@ -6,6 +6,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+- Always empty `SELCAL` from ``Booking`` when cancelling one. We never need that for unbooked flights
+- Fixed issue where mutators would not set something to null when actually needed.
+- Removed some mutators and accessors from `Booking` model that got moved to the `Flight` model
+
+## [v1.5.1.e](https://gitlab.com/daveroverts/Book-me-a-cookie/compare/v1.5.1.e...v1.5.1.d) - 2020-01-24
+
+### Changed
+- Fix for ``BookingAdminController@autoAssign()`` giving 500's. Will have to optimise the check later on.
+
 ## [v1.5.1.d](https://gitlab.com/daveroverts/Book-me-a-cookie/compare/v1.5.1.d...v1.5.1.c) - 2020-01-22
 
 ### Added
