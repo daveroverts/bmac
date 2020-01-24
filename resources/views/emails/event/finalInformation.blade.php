@@ -89,7 +89,7 @@ Oceanic Entry Level: **FL{{ $booking->flights()->first()->getOriginal('oceanicFL
 
 NAT Track: **{{ $booking->flights()->first()->oceanicTrack }}**
 
-NAT TMI: **{{ $booking->event->startEvent->dayOfYear + 1 }}**
+NAT TMI: **{{ $booking->event->startEvent->dayOfYear }}**
 
 ---
 
