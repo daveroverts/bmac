@@ -128,7 +128,7 @@
                                 </form>
                             </td>
                             <td>
-                                @if($booking->user)
+                                @if($booking->user_id)
                                     <a href="mailto:{{ $booking->user->email }}" style="color: white;">
                                         <button class="btn btn-info">
                                             <i class="fas fa-envelope"></i> Send E-mail [{{ $booking->user->email }}]

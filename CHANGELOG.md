@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Always empty `SELCAL` from ``Booking`` when cancelling one. We never need that for unbooked flights
 - Fixed issue where mutators would not set something to null when actually needed.
 - Removed some mutators and accessors from `Booking` model that got moved to the `Flight` model
+- Don't show `Send e-mail` button if there's no user coupled to a booking
 
 ## [v1.5.1.d](https://gitlab.com/daveroverts/Book-me-a-cookie/compare/v1.5.1.d...v1.5.1.c) - 2020-01-22
 
