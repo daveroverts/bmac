@@ -6,6 +6,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added `final_information_email_sent_at` to `Booking` model to keep track if the 'final_information_email' was already sent.
+
 ### Changed
 - Always empty `SELCAL` from ``Booking`` when cancelling one. We never need that for unbooked flights
 - Fixed issue where mutators would not set something to null when actually needed.

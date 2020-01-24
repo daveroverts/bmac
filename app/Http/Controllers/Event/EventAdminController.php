@@ -241,8 +241,13 @@ class EventAdminController extends AdminController
             $countSkipped = 0;
             $now = now();
             foreach ($bookings as $booking) {
+                $shouldSend = false;
+                if (!$booking->has_received_final_information_email || $request->forceSend) {
+                    $shouldSend = true;
+                }
+                
                 // @TODO Maybe better in a Event/Listener?
-                if (!$booking->has_received_final_information_email) {
+                if ($shouldSend) {
                     $booking->user->notify(new EventFinalInformation($booking));
                     $booking->update(['final_information_email_sent_at' => $now]);
                 } else {
