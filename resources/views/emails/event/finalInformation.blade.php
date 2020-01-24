@@ -73,13 +73,15 @@ BOOKING - DETAILS
 ---
 Callsign: **{{ $booking->callsign }}**
 
+Aircraft: **{{ $booking->acType }}
+
 SELCAL: **{{ $booking->selcal }}**
 
 It is important you stick to these details to save confusion on the day! We will try to make sure you will be able to use this callsign. Do not worry if someone else has already logged in using your callsign, your booking will still be recognized when you log in under another callsign!
 
 Departure airport: **{{ $booking->flights()->first()->airportDep->icao  }}**
 
-Arrival airport: **{{ $booking->flights()->first()->airportDep->icao }}**
+Arrival airport: **{{ $booking->flights()->first()->airportArr->icao }}**
 
 CTOT: **{{ $booking->flights()->first()->ctot }}**
 
