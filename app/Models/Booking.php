@@ -20,7 +20,12 @@ class Booking extends Model
     ];
 
     protected $casts = [
-        'is_editable' => 'boolean'
+        'is_editable' => 'boolean',
+        'has_already_received_final_information_email' => 'boolean',
+    ];
+
+    protected $dates = [
+        'final_information_email_sent_at',
     ];
 
     protected static $logAttributes = ['*'];
@@ -85,6 +90,14 @@ class Booking extends Model
     public function getSelcalAttribute($value)
     {
         return $value ?? '-';
+    }
+
+    /*
+     * Determine if the FinalInformationEmail was already sent or not
+     * @return bool
+     * */
+    public function getHasReceivedFinalInformationEmailAttribute($value) {
+        return !empty($this->final_information_email_sent_at);
     }
 
     /**

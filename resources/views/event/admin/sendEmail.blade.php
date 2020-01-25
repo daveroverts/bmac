@@ -25,7 +25,6 @@
                         '_method': 'PATCH',
                     })
                         .then(function (response) {
-                            console.log(response);
                             Swal.fire(response.data.success);
                         });
                 } else {
@@ -99,6 +98,11 @@
                                 <div class="custom-control custom-checkbox">
                                     <input type="checkbox" class="custom-control-input" id="testmode1">
                                     <label class="custom-control-label" for="testmode1">Test mode</label>
+                                </div>
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" id="force-send" name="forceSend">
+                                    <label class="custom-control-label" for="force-send"><abbr
+                                            title="Send to all particpants, even though they already received it (and no edit was made)">Send to everybody</abbr></label>
                                 </div>
                             </div>
                         </div>

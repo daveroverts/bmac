@@ -6,10 +6,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- `final_information_email_sent_at` to `Booking` model to keep track if the 'final_information_email' was already sent.
+- It's now possible to not notify users when a booking is changed, should that be needed.
+
 ### Changed
 - Always empty `SELCAL` from ``Booking`` when cancelling one. We never need that for unbooked flights
 - Fixed issue where mutators would not set something to null when actually needed.
 - Removed some mutators and accessors from `Booking` model that got moved to the `Flight` model
+- Fixed issue where ``BookingAdminController@update()`` did not take the `Flight` model changes
 
 ## [v1.5.1.e](https://gitlab.com/daveroverts/Book-me-a-cookie/compare/v1.5.1.e...v1.5.1.d) - 2020-01-24
 
