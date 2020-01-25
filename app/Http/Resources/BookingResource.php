@@ -14,6 +14,7 @@ class BookingResource extends JsonResource
      */
     public function toArray($request)
     {
+        $flight = $this->flights()->first();
         return [
             'uuid' => $this->uuid,
             'event_id' => $this->event->id,
@@ -24,19 +25,19 @@ class BookingResource extends JsonResource
             'callsign' => $this->callsign,
             'acType' => $this->acType,
             'selcal' => $this->selcal,
-            'dep' => $this->airportDep->icao,
-            'arr' => $this->airportArr->icao,
-            'ctot' => $this->ctot,
-            'eta' => $this->eta,
-            'route' => $this->route,
-            'oceanicFL' => $this->oceanicFL,
-            'oceanicTrack' => $this->oceanicTrack,
+            'dep' => $flight->airportDep->icao,
+            'arr' => $flight->airportArr->icao,
+            'ctot' => $flight->ctot,
+            'eta' => $flight->eta,
+            'route' => $flight->route,
+            'oceanicFL' => $flight->oceanicFL,
+            'oceanicTrack' => $flight->oceanicTrack,
             'created_at' => (string) $this->created_at,
             'updated_at' => (string) $this->updated_at,
             'links' => [
                 'user' => url('/api/users/' . $this->user->id),
-                'dep' => url('/api/airports/' . $this->airportDep->icao),
-                'arr' => url('/api/airports/' . $this->airportArr->icao),
+                'dep' => url('/api/airports/' . $flight->airportDep->icao),
+                'arr' => url('/api/airports/' . $flight->airportArr->icao),
             ],
         ];
     }
