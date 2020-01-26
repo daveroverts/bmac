@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Removed some mutators and accessors from `Booking` model that got moved to the `Flight` model
 - Fixed issue where ``BookingAdminController@update()`` did not take the `Flight` model changes
 - Don't show `Send e-mail` button if there's no user coupled to a booking
+- The order thingy for multi city
 
 ## [v1.5.1.e](https://gitlab.com/daveroverts/Book-me-a-cookie/compare/v1.5.1.e...v1.5.1.d) - 2020-01-24
 
