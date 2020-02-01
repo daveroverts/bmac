@@ -29,7 +29,7 @@ class FaqAdminController extends AdminController
      */
     public function index()
     {
-        $faqs = Faq::paginate();
+        $faqs = Faq::withCount('events')->paginate();
         return view('faq.admin.overview', compact('faqs'));
     }
 
