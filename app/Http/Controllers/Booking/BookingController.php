@@ -147,7 +147,8 @@ class BookingController extends Controller
                 if ($booking->event->event_type_id == EventType::MULTIFLIGHTS) {
                     return view('booking.edit_multiflights', compact('booking'));
                 }
-                return view('booking.edit', compact('booking'));
+                $flight = $booking->flights()->first();
+                return view('booking.edit', compact('booking', 'flight'));
             } else {
                 // Check if the booking has already been reserved
                 if ($booking->status === BookingStatus::RESERVED) {
