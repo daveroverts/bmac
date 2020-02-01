@@ -124,7 +124,8 @@ class BookingController extends Controller
         if ($booking->event->event_type_id == EventType::MULTIFLIGHTS) {
             return view('booking.show_multiflights', compact('booking'));
         }
-        return view('booking.show', compact('booking'));
+        $flight = $booking->flights()->first();
+        return view('booking.show', compact('booking', 'flight'));
     }
 
     /**
