@@ -110,7 +110,7 @@
                                         <button class="btn btn-danger">Not available</button>
                                     @endif
                                 @else
-                                    <a href="{{ route('login', $booking) }}" class="btn btn-info">Click here to
+                                    <a href="{{ route('login', ['booking' => $booking]) }}" class="btn btn-info">Click here to
                                         login</a>
                                 @endif
                             @endif

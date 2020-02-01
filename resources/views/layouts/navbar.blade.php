@@ -52,7 +52,11 @@
                     <a class="nav-link" href="mailto:events@dutchvacc.nl">Contact Us</a>
                 </li>
                 @guest
-                    <li class="nav-item"><a class="nav-link" href="{{ route('login') }}">Login</a></li>
+                    @if(request()->routeIs('events.show'))
+                        <li class="nav-item"><a class="nav-link" href="{{ route('login', ['event' => $event]) }}">Login</a></li>
+                    @else
+                        <li class="nav-item"><a class="nav-link" href="{{ route('login') }}">Login</a></li>
+                    @endif
                 @else
                     <li class="nav-item"><a class="nav-link" href="{{ route('logout') }}">Logout</a></li>
 
