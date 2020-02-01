@@ -53,7 +53,7 @@
                             <label for="ctot" class="col-md-4 col-form-label text-md-right"> CTOT</label>
 
                             <div class="col-md-6">
-                                <div class="form-control-plaintext"><strong>{{ $booking->flights()->first()->ctot }}</strong></div>
+                                <div class="form-control-plaintext"><strong>{{ $flight->ctot }}</strong></div>
 
                             </div>
                         </div>
@@ -63,7 +63,7 @@
                             <label for="ctot" class="col-md-4 col-form-label text-md-right"> ETA</label>
 
                             <div class="col-md-6">
-                                <div class="form-control-plaintext"><strong>{{ $booking->flights()->first()->eta }}</strong></div>
+                                <div class="form-control-plaintext"><strong>{{ $flight->eta }}</strong></div>
 
                             </div>
                         </div>
@@ -76,7 +76,7 @@
                         <div class="col-md-6">
                             <div class="form-control-plaintext">
                                 <strong>
-                                    {!! $booking->flights()->first()->airportDep->fullName !!}
+                                    {!! $flight->airportDep->fullName !!}
                                 </strong>
                             </div>
 
@@ -90,7 +90,7 @@
                         <div class="col-md-6">
                             <div class="form-control-plaintext">
                                 <strong>
-                                    {!! $booking->flights()->first()->airportArr->fullName !!}
+                                    {!! $flight->airportArr->fullName !!}
                                 </strong>
                             </div>
 
@@ -115,7 +115,7 @@
 
                             <div class="col-md-6">
                                 <div class="form-control-plaintext">
-                                    <strong>{{ $booking->flights()->first()->route ?: 'T.B.D. / Available on day of event at 0600z' }}</strong>
+                                    <strong>{{ $flight->route ?: 'T.B.D. / Available on day of event at 0600z' }}</strong>
                                 </div>
 
                             </div>
@@ -127,7 +127,7 @@
 
                             <div class="col-md-6">
                                 <div class="form-control-plaintext">
-                                    <strong>{{ $booking->flights()->first()->oceanicTrack ?:  'T.B.D. / Available on day of event at 0600z' }}</strong>
+                                    <strong>{{ $flight->oceanicTrack ?:  'T.B.D. / Available on day of event at 0600z' }}</strong>
                                 </div>
 
                             </div>
@@ -138,7 +138,7 @@
                             <label for="track" class="col-md-4 col-form-label text-md-right">Oceanic Entry FL</label>
 
                             <div class="col-md-6">
-                                <div class="form-control-plaintext"><strong>{{ $booking->flights()->first()->oceanicFL }}</strong></div>
+                                <div class="form-control-plaintext"><strong>{{ $flight->oceanicFL }}</strong></div>
 
                             </div>
                         </div>
@@ -150,7 +150,7 @@
 
                             <div class="col-md-6">
                                 <div class="form-control-plaintext">
-                                    <strong>{{ $booking->flights()->first()->route ?: '-' }}</strong>
+                                    <strong>{{ $flight->route ?: '-' }}</strong>
                                 </div>
 
                             </div>
@@ -177,7 +177,7 @@
                         </div>
                     @endif
 
-                    @foreach($booking->flights()->first()->airportDep->links as $link)
+                    @foreach($flight->airportDep->links as $link)
                         <div class="form-group row">
                             <label for="{{ $link->type->name . $link->airport->icao . '-' . $loop->index }}"
                                    class="col-md-4 col-form-label text-md-right">{{ $link->name ?? $link->type->name . ' ' . $link->airport->icao }}</label>
@@ -204,7 +204,7 @@
                         </div>
                     @endif
 
-                    @foreach($booking->flights()->first()->airportArr->links as $link)
+                    @foreach($flight->airportArr->links as $link)
                         <div class="form-group row">
                             <label for="{{ $link->type->name . $link->airport->icao . '-' . $loop->index }}"
                                    class="col-md-4 col-form-label text-md-right">{{ $link->name ?? $link->type->name . ' ' . $link->airport->icao }}</label>

@@ -42,7 +42,7 @@ class BookingController extends Controller
                 if ($event->hasOrderButtons()) {
                     switch (strtolower($request->filter)) {
                         case 'departures':
-                            $bookings = Booking::where('event_id', $event->id)
+                            $bookings = Booking::whereEventId($event->id)
                                 ->orderBy('callsign')
                                 ->with([
                                     'event',
@@ -56,7 +56,7 @@ class BookingController extends Controller
                             $filter = $request->filter;
                             break;
                         case 'arrivals':
-                            $bookings = Booking::where('event_id', $event->id)
+                            $bookings = Booking::whereEventId($event->id)
                                 ->orderBy('callsign')
                                 ->with([
                                     'event',
@@ -70,7 +70,7 @@ class BookingController extends Controller
                             $filter = $request->filter;
                             break;
                         default:
-                            $bookings = Booking::where('event_id', $event->id)
+                            $bookings = Booking::whereEventId($event->id)
                                 ->with([
                                     'flights' => function ($query) {
                                     $query->orderBy('eta');
@@ -80,12 +80,11 @@ class BookingController extends Controller
                                 ->get();
                     }
                 } else {
-                    $bookings = Booking::where('event_id', $event->id)
+                    $bookings = Booking::whereEventId($event->id)
                         ->with([
                             'event',
                             'user',
                             'flights' => function ($query) {
-                                $query->orderBy('order_by');
                                 $query->orderBy('eta');
                                 $query->orderBy('ctot');
                             },
@@ -125,7 +124,8 @@ class BookingController extends Controller
         if ($booking->event->event_type_id == EventType::MULTIFLIGHTS) {
             return view('booking.show_multiflights', compact('booking'));
         }
-        return view('booking.show', compact('booking'));
+        $flight = $booking->flights()->first();
+        return view('booking.show', compact('booking', 'flight'));
     }
 
     /**
@@ -147,7 +147,8 @@ class BookingController extends Controller
                 if ($booking->event->event_type_id == EventType::MULTIFLIGHTS) {
                     return view('booking.edit_multiflights', compact('booking'));
                 }
-                return view('booking.edit', compact('booking'));
+                $flight = $booking->flights()->first();
+                return view('booking.edit', compact('booking', 'flight'));
             } else {
                 // Check if the booking has already been reserved
                 if ($booking->status === BookingStatus::RESERVED) {

@@ -65,20 +65,21 @@
                 </tr>
                 </thead>
                 @foreach($bookings as $booking)
+                    @php($flight = $booking->flights()->first())
                     {{--Check if flight belongs to the logged in user--}}
                     <tr class="{{ auth()->check() && $booking->user_id == auth()->id() ? 'table-active' : '' }}">
                         <td>
-                            {!! $booking->flights()->first()->airportDep->fullName !!}
+                            {!! $flight->airportDep->fullName !!}
                         </td>
                         <td>
-                            {!! $booking->flights()->first()->airportArr->fullName !!}
+                            {!! $flight->airportArr->fullName !!}
                         </td>
                         @if($booking->event->uses_times)
                             <td>
-                                {{ $booking->flights()->first()->ctot }}
+                                {{ $flight->ctot }}
                             </td>
                             <td>
-                                {{ $booking->flights()->first()->eta }}
+                                {{ $flight->eta }}
                             </td>
                         @endif
                         <td class="{{ auth()->check() && auth()->user()->use_monospace_font ? 'text-monospace' : '' }}">{{ $booking->callsign }}</td>

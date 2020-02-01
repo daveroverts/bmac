@@ -47,7 +47,7 @@
                                     <label for="ctot" class="col-md-4 col-form-label text-md-right"> CTOT</label>
 
                                     <div class="col-md-6">
-                                        <div class="form-control-plaintext"><strong>{{ $booking->flights()->first()->ctot }}</strong></div>
+                                        <div class="form-control-plaintext"><strong>{{ $flight->ctot }}</strong></div>
 
                                     </div>
                                 </div>
@@ -59,7 +59,7 @@
                                     <label for="eta" class="col-md-4 col-form-label text-md-right"> ETA</label>
 
                                     <div class="col-md-6">
-                                        <div class="form-control-plaintext"><strong>{{ $booking->flights()->first()->eta }}</strong></div>
+                                        <div class="form-control-plaintext"><strong>{{ $flight->eta }}</strong></div>
 
                                     </div>
                                 </div>
@@ -72,7 +72,7 @@
 
                             <div class="col-md-6">
                                 <div class="form-control-plaintext"><strong><abbr
-                                            title="{{ $booking->flights()->first()->airportDep->name }}">{{ $booking->flights()->first()->airportDep->icao }}</abbr></strong>
+                                            title="{{ $flight->airportDep->name }}">{{ $flight->airportDep->icao }}</abbr></strong>
                                 </div>
 
                             </div>
@@ -84,7 +84,7 @@
 
                             <div class="col-md-6">
                                 <div class="form-control-plaintext"><strong><abbr
-                                            title="{{ $booking->flights()->first()->airportArr->name }}">{{ $booking->flights()->first()->airportArr->icao }}</abbr></strong>
+                                            title="{{ $flight->airportArr->name }}">{{ $flight->airportArr->icao }}</abbr></strong>
                                 </div>
 
                             </div>
@@ -107,7 +107,7 @@
 
                             <div class="col-md-6">
                                 <div class="form-control-plaintext">
-                                    <strong>{{ $booking->flights()->first()->route ?: '-' }}</strong>
+                                    <strong>{{ $flight->route ?: '-' }}</strong>
                                 </div>
 
                             </div>
@@ -120,7 +120,7 @@
 
                                 <div class="col-md-6">
                                     <div class="form-control-plaintext">
-                                        <strong>{{ $booking->flights()->first()->oceanicTrack ?: 'T.B.D. / Available on day of event at 0600z' }}</strong>
+                                        <strong>{{ $flight->oceanicTrack ?: 'T.B.D. / Available on day of event at 0600z' }}</strong>
                                     </div>
 
                                 </div>
@@ -132,7 +132,7 @@
                                     FL</label>
 
                                 <div class="col-md-6">
-                                    <div class="form-control-plaintext"><strong>{{ $booking->flights()->first()->oceanicFL }}</strong></div>
+                                    <div class="form-control-plaintext"><strong>{{ $flight->oceanicFL }}</strong></div>
 
                                 </div>
                             </div>

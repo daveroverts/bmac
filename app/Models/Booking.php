@@ -47,7 +47,7 @@ class Booking extends Model
      *
      * @var array
      */
-    protected $with = ['flights'];
+//    protected $with = ['flights'];
 
     /**
      * Get the route key for the model.
@@ -152,7 +152,7 @@ class Booking extends Model
 
     public function flights()
     {
-        return $this->hasMany(Flight::class);
+        return $this->hasMany(Flight::class)->orderBy('order_by');
     }
 
     public function airportCtot($orderBy, $withAbbr = true)
