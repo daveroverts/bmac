@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - `final_information_email_sent_at` to `Booking` model to keep track if the 'final_information_email' was already sent.
 - It's now possible to not notify users when a booking is changed, should that be needed.
+- We can redirect to the `events.show` page if one was opened before logging in.
 
 ### Changed
 - Always empty `SELCAL` from ``Booking`` when cancelling one. We never need that for unbooked flights
@@ -17,6 +18,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed issue where ``BookingAdminController@update()`` did not take the `Flight` model changes
 - Don't show `Send e-mail` button if there's no user coupled to a booking
 - The order thingy for multi city
+- `login` route no longer accepts a optional Booking, it now accepts either `booking` or `event` in the GET request.
 
 ## [v1.5.1.e](https://gitlab.com/daveroverts/Book-me-a-cookie/compare/v1.5.1.e...v1.5.1.d) - 2020-01-24
 

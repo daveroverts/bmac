@@ -13,7 +13,7 @@
 
 Route::get('/', 'HomeController')->name('home');
 
-Route::get('/login/{booking?}', 'Auth\LoginController@login')->name('login');
+Route::get('/login', 'Auth\LoginController@login')->name('login');
 Route::get('/validate-login', 'Auth\LoginController@validateLogin');
 Route::get('/logout', 'Auth\LoginController@logout')->name('logout');
 
