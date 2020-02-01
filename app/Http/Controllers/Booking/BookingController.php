@@ -42,7 +42,7 @@ class BookingController extends Controller
                 if ($event->hasOrderButtons()) {
                     switch (strtolower($request->filter)) {
                         case 'departures':
-                            $bookings = Booking::where('event_id', $event->id)
+                            $bookings = Booking::whereEventId($event->id)
                                 ->orderBy('callsign')
                                 ->with([
                                     'event',
@@ -56,7 +56,7 @@ class BookingController extends Controller
                             $filter = $request->filter;
                             break;
                         case 'arrivals':
-                            $bookings = Booking::where('event_id', $event->id)
+                            $bookings = Booking::whereEventId($event->id)
                                 ->orderBy('callsign')
                                 ->with([
                                     'event',
@@ -70,7 +70,7 @@ class BookingController extends Controller
                             $filter = $request->filter;
                             break;
                         default:
-                            $bookings = Booking::where('event_id', $event->id)
+                            $bookings = Booking::whereEventId($event->id)
                                 ->with([
                                     'flights' => function ($query) {
                                     $query->orderBy('eta');
@@ -80,12 +80,11 @@ class BookingController extends Controller
                                 ->get();
                     }
                 } else {
-                    $bookings = Booking::where('event_id', $event->id)
+                    $bookings = Booking::whereEventId($event->id)
                         ->with([
                             'event',
                             'user',
                             'flights' => function ($query) {
-                                $query->orderBy('order_by');
                                 $query->orderBy('eta');
                                 $query->orderBy('ctot');
                             },
