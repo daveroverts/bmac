@@ -5,6 +5,47 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
 
+/**
+ * App\Models\Flight
+ *
+ * @property int $id
+ * @property int $booking_id
+ * @property int $order_by
+ * @property int $dep
+ * @property int $arr
+ * @property string $ctot
+ * @property string $eta
+ * @property string|null $route
+ * @property string $notes
+ * @property string|null $oceanicFL
+ * @property string|null $oceanicTrack
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\Activitylog\Models\Activity[] $activities
+ * @property-read int|null $activities_count
+ * @property-read \App\Models\Airport $airportArr
+ * @property-read \App\Models\Airport $airportDep
+ * @property-read \App\Models\Booking $booking
+ * @property-read string $oceanicfl
+ * @property-write mixed $oceanictrack
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Flight newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Flight newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Flight query()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Flight whereArr($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Flight whereBookingId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Flight whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Flight whereCtot($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Flight whereDep($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Flight whereEta($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Flight whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Flight whereNotes($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Flight whereOceanicFL($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Flight whereOceanicTrack($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Flight whereOrderBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Flight whereRoute($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Flight whereUpdatedAt($value)
+ * @mixin \Eloquent
+ */
 class Flight extends Model
 {
     use LogsActivity;

@@ -6,6 +6,64 @@ use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
 
+/**
+ * App\Models\Event
+ *
+ * @property int $id
+ * @property int $event_type_id
+ * @property bool $is_online
+ * @property bool $show_on_homepage
+ * @property string $name
+ * @property string $slug
+ * @property string|null $image_url
+ * @property string $description
+ * @property string $dep
+ * @property string $arr
+ * @property \Illuminate\Support\Carbon $startEvent
+ * @property \Illuminate\Support\Carbon $endEvent
+ * @property \Illuminate\Support\Carbon $startBooking
+ * @property \Illuminate\Support\Carbon $endBooking
+ * @property bool $import_only
+ * @property bool $uses_times
+ * @property bool $multiple_bookings_allowed
+ * @property bool $is_oceanic_event
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\Activitylog\Models\Activity[] $activities
+ * @property-read int|null $activities_count
+ * @property-read \App\Models\Airport $airportArr
+ * @property-read \App\Models\Airport $airportDep
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Booking[] $bookings
+ * @property-read int|null $bookings_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Faq[] $faqs
+ * @property-read int|null $faqs_count
+ * @property-read \App\Models\EventType $type
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Event findSimilarSlugs($attribute, $config, $slug)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Event newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Event newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Event query()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Event whereArr($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Event whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Event whereDep($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Event whereDescription($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Event whereEndBooking($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Event whereEndEvent($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Event whereEventTypeId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Event whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Event whereImageUrl($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Event whereImportOnly($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Event whereIsOceanicEvent($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Event whereIsOnline($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Event whereMultipleBookingsAllowed($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Event whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Event whereShowOnHomepage($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Event whereSlug($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Event whereStartBooking($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Event whereStartEvent($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Event whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Event whereUsesTimes($value)
+ * @mixin \Eloquent
+ */
 class Event extends Model
 {
     use LogsActivity;
