@@ -199,7 +199,7 @@ class Booking extends Model
 
     public function airportCtot($orderBy, $withAbbr = true)
     {
-        if ($flight = $this->flights()->where('order_by', $orderBy)->first()) {
+        if ($flight = $this->flights->where('order_by', $orderBy)->first()) {
             if ($withAbbr) {
                 return "<abbr title='{$flight->airportDep->name} | [{$flight->airportDep->iata}]'>{$flight->airportDep->icao}</abbr> - <abbr title='{$flight->airportArr->name} | [{$flight->airportArr->iata}]'>{$flight->airportArr->icao}</abbr> {$flight->ctot}";
             }

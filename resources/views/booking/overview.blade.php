@@ -65,7 +65,7 @@
                 </tr>
                 </thead>
                 @foreach($bookings as $booking)
-                    @php($flight = $booking->flights()->first())
+                    @php($flight = $booking->flights->first())
                     {{--Check if flight belongs to the logged in user--}}
                     <tr class="{{ auth()->check() && $booking->user_id == auth()->id() ? 'table-active' : '' }}">
                         <td>
@@ -112,7 +112,7 @@
                                     {{--Check if user is logged in--}}
                                     @if($booking->event->startBooking <= now() && $booking->event->endBooking >= now())
                                         {{--Check if user already has a booking--}}
-                                        @if(($booking->event->multiple_bookings_allowed) || (!$booking->event->multiple_bookings_allowed && !auth()->user()->bookings()->where('event_id',$event->id)->first()))
+                                        @if(($booking->event->multiple_bookings_allowed) || (!$booking->event->multiple_bookings_allowed && !auth()->user()->bookings->where('event_id',$event->id)->first()))
                                             {{--Check if user already has a booking, and only 1 is allowed--}}
                                             <a href="{{ route('bookings.edit', $booking) }}" class="btn btn-success">BOOK
                                                 NOW</a>
