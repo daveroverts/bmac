@@ -65,7 +65,7 @@
                 </tr>
                 </thead>
                 @foreach($bookings as $booking)
-                    @php($flight = $booking->flights()->first())
+                    @php($flight = $booking->flights->first())
                     {{--Check if flight belongs to the logged in user--}}
                     <tr class="{{ auth()->check() && $booking->user_id == auth()->id() ? 'table-active' : '' }}">
                         <td>

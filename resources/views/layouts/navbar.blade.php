@@ -31,7 +31,7 @@
                                 <a class="dropdown-item {{ request()->fullUrlIs(route('bookings.event.index', $event)) ? 'active' : '' }}"
                                    href="{{ route('bookings.event.index', $event) }}">Bookings</a>
                                 @auth
-                                    @foreach($bookings = auth()->user()->bookings()->where('event_id', $event->id)->get() as $booking)
+                                    @foreach($bookings = auth()->user()->bookings->where('event_id', $event->id) as $booking)
                                         <a class="dropdown-item {{ request()->fullUrlIs(route('bookings.show', $booking)) ? 'active' : '' }}"
                                            href="{{ route('bookings.show', $booking) }}">
                                             <i class="fas fa-arrow-right"></i>&nbsp;{{ $bookings->count() > 1 ? $booking->callsign : 'My booking' }}
