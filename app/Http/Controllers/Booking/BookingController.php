@@ -76,6 +76,8 @@ class BookingController extends Controller
                         default:
                             $bookings = Booking::whereEventId($event->id)
                                 ->with([
+                                    'event',
+                                    'user',
                                     'flights' => function ($query) {
                                     $query->orderBy('eta');
                                     $query->orderBy('ctot');
