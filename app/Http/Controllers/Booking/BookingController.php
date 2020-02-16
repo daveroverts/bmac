@@ -55,6 +55,9 @@ class BookingController extends Controller
                                     'flights.airportDep',
                                     'flights.airportArr',
                                 ])
+                                ->withCount(['flights' => function ($query) use ($event) {
+                                    $query->where('dep', $event->dep);
+                                },])
                                 ->get();
                             $filter = $request->filter;
                             break;
@@ -71,6 +74,9 @@ class BookingController extends Controller
                                     'flights.airportDep',
                                     'flights.airportArr',
                                 ])
+                                ->withCount(['flights' => function ($query) use ($event) {
+                                    $query->where('dep', $event->arr);
+                                },])
                                 ->get();
                             $filter = $request->filter;
                             break;
@@ -86,6 +92,7 @@ class BookingController extends Controller
                                     'flights.airportDep',
                                     'flights.airportArr',
                                 ])
+                                ->withCount('flights')
                                 ->get();
                     }
                 } else {
@@ -100,16 +107,23 @@ class BookingController extends Controller
                             'flights.airportDep',
                             'flights.airportArr',
                         ])
+                        ->withCount('flights')
                         ->get();
                 }
             } else {
                 abort_unless(auth()->check() && auth()->user()->isAdmin, 404);
             }
         }
+        $booked = $bookings->where('status', BookingStatus::BOOKED)->count();
         if ($event->event_type_id == EventType::MULTIFLIGHTS) {
-            return view('booking.overview_multiflights', compact('event', 'bookings', 'filter'));
+            $total = $bookings->count();
+            return view('booking.overview_multiflights', compact('event', 'bookings', 'filter', 'total', 'booked'));
         }
-        return view('booking.overview', compact('event', 'bookings', 'filter'));
+        $total = $bookings->sum(function ($booking) {
+            /* @var Booking $booking */
+            return $booking->flights_count;
+        });
+        return view('booking.overview', compact('event', 'bookings', 'filter', 'total', 'booked'));
     }
 
     public function removeOverdueReservations()

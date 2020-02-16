@@ -46,7 +46,7 @@
         </p>
         @include('layouts.alert')
         @if($event->startBooking <= now() || auth()->check() && auth()->user()->isAdmin)
-            Flights available: {{ count($bookings) - count($bookings->where('status',\App\Enums\BookingStatus::BOOKED)) }} / {{ count($bookings) }}
+            Flights available: {{ $total - $booked }} / {{ $total }}
             <table class="table table-hover">
                 <thead>
                 <tr>
