@@ -6,6 +6,48 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use Spatie\Activitylog\Traits\LogsActivity;
 
+/**
+ * App\Models\Booking
+ *
+ * @property int $id
+ * @property string|null $uuid
+ * @property int $event_id
+ * @property int|null $user_id
+ * @property int $status
+ * @property bool $is_editable
+ * @property string $callsign
+ * @property string|null $acType
+ * @property string $selcal
+ * @property \Illuminate\Support\Carbon|null $final_information_email_sent_at
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\Activitylog\Models\Activity[] $activities
+ * @property-read int|null $activities_count
+ * @property-read \App\Models\Airport $airportArr
+ * @property-read \App\Models\Airport $airportDep
+ * @property-read \App\Models\Event $event
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Flight[] $flights
+ * @property-read int|null $flights_count
+ * @property string $actype
+ * @property-read mixed $has_received_final_information_email
+ * @property-read \App\Models\User|null $user
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Booking newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Booking newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Booking query()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Booking whereAcType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Booking whereCallsign($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Booking whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Booking whereEventId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Booking whereFinalInformationEmailSentAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Booking whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Booking whereIsEditable($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Booking whereSelcal($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Booking whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Booking whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Booking whereUserId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Booking whereUuid($value)
+ * @mixin \Eloquent
+ */
 class Booking extends Model
 {
     use LogsActivity;
@@ -20,7 +62,12 @@ class Booking extends Model
     ];
 
     protected $casts = [
-        'is_editable' => 'boolean'
+        'is_editable' => 'boolean',
+        'has_already_received_final_information_email' => 'boolean',
+    ];
+
+    protected $dates = [
+        'final_information_email_sent_at',
     ];
 
     protected static $logAttributes = ['*'];
@@ -42,7 +89,7 @@ class Booking extends Model
      *
      * @var array
      */
-    protected $with = ['flights'];
+//    protected $with = ['flights'];
 
     /**
      * Get the route key for the model.
@@ -77,51 +124,6 @@ class Booking extends Model
     }
 
     /**
-     * Format for CTOT
-     *
-     * @param $value
-     * @return string
-     */
-    public function getCtotAttribute($value)
-    {
-        if (!empty($value)) {
-            return \Carbon\Carbon::parse($value)->format('Hi') . 'z';
-        }
-
-        return '-';
-    }
-
-    /**
-     * Format for ETA
-     *
-     * @param $value
-     * @return string
-     */
-    public function getEtaAttribute($value)
-    {
-        if (!empty($value)) {
-            return \Carbon\Carbon::parse($value)->format('Hi') . 'z';
-        }
-
-        return '-';
-    }
-
-    /**
-     * Format for oceanicFL
-     *
-     * @param $value
-     * @return string
-     */
-    public function getOceanicflAttribute($value)
-    {
-        if (!empty($value)) {
-            return 'FL' . $value . ' / Subject to change';
-        }
-
-        return 'T.B.D.';
-    }
-
-    /**
      * Format for SELCAL
      *
      * @param $value
@@ -132,6 +134,14 @@ class Booking extends Model
         return $value ?? '-';
     }
 
+    /*
+     * Determine if the FinalInformationEmail was already sent or not
+     * @return bool
+     * */
+    public function getHasReceivedFinalInformationEmailAttribute($value) {
+        return !empty($this->final_information_email_sent_at);
+    }
+
     /**
      * Capitalize Callsign
      *
@@ -139,17 +149,7 @@ class Booking extends Model
      */
     public function setCallsignAttribute($value)
     {
-        $this->attributes['callsign'] = strtoupper($value);
-    }
-
-    /**
-     * Capitalize Route
-     *
-     * @param $value
-     */
-    public function setRouteAttribute($value)
-    {
-        $this->attributes['route'] = strtoupper($value);
+        $this->attributes['callsign'] = !empty($value) ? strtoupper($value) : null;
     }
 
     /**
@@ -159,7 +159,7 @@ class Booking extends Model
      */
     public function setActypeAttribute($value)
     {
-        $this->attributes['acType'] = strtoupper($value);
+        $this->attributes['acType'] = !empty($value) ? strtoupper($value) : null;
     }
 
     /**
@@ -169,17 +169,7 @@ class Booking extends Model
      */
     public function setSelcalAttribute($value)
     {
-        $this->attributes['selcal'] = strtoupper($value);
-    }
-
-    /**
-     * Capitalize Oceanic Track
-     *
-     * @param $value
-     */
-    public function setOceanictrackAttribute($value)
-    {
-        $this->attributes['oceanicTrack'] = strtoupper($value);
+        $this->attributes['selcal'] = !empty($value) ? strtoupper($value) : null;
     }
 
     public function airportDep()
@@ -204,12 +194,12 @@ class Booking extends Model
 
     public function flights()
     {
-        return $this->hasMany(Flight::class);
+        return $this->hasMany(Flight::class)->orderBy('order_by');
     }
 
     public function airportCtot($orderBy, $withAbbr = true)
     {
-        if ($flight = $this->flights()->where('order_by', $orderBy)->first()) {
+        if ($flight = $this->flights->where('order_by', $orderBy)->first()) {
             if ($withAbbr) {
                 return "<abbr title='{$flight->airportDep->name} | [{$flight->airportDep->iata}]'>{$flight->airportDep->icao}</abbr> - <abbr title='{$flight->airportArr->name} | [{$flight->airportArr->iata}]'>{$flight->airportArr->icao}</abbr> {$flight->ctot}";
             }

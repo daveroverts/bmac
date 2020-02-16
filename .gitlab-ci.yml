@@ -33,9 +33,7 @@ noNeeds:
     GIT_STRATEGY: none
   script:
     - echo "This build is a workaround for 'https://gitlab.com/gitlab-org/gitlab/issues/30631'"
-  cache:
-    key: noNeeds
-    paths: []
+  cache: {}
   dependencies: []
 
 composer:

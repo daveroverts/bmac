@@ -25,6 +25,7 @@ class UpdateBooking extends Request
             'oceanicTrack' => 'nullable|alpha|min:1|max:2',
             'aircraft' => 'nullable|alpha_num|between:3,4',
             'message' => 'nullable',
+            'notify_user' => 'nullable'
         ];
     }
 }

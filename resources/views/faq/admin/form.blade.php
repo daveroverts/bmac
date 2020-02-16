@@ -37,7 +37,7 @@
 
                 <div class="card-body">
                     <form method="POST"
-                          action="{{ $faq ? route('admin.faq.update', $faq) : route('admin.faq.store') }}">
+                          action="{{ $faq->id ? route('admin.faq.update', $faq) : route('admin.faq.store') }}">
                         @csrf
                         @if($faq->id)
                             @method('PATCH')

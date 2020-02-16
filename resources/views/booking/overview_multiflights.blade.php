@@ -46,7 +46,7 @@
         </p>
         @include('layouts.alert')
         @if($event->startBooking <= now() || auth()->check() && auth()->user()->isAdmin)
-            Flights available: {{ count($bookings) - count($bookings->where('status',\App\Enums\BookingStatus::BOOKED)) }} / {{ count($bookings) }}
+            Flights available: {{ $total - $booked }} / {{ $total }}
             <table class="table table-hover">
                 <thead>
                 <tr>
@@ -99,7 +99,7 @@
                                     {{--Check if user is logged in--}}
                                     @if($booking->event->startBooking <= now() && $booking->event->endBooking >= now())
                                         {{--Check if user already has a booking--}}
-                                        @if(($booking->event->multiple_bookings_allowed) || (!$booking->event->multiple_bookings_allowed && !auth()->user()->bookings()->where('event_id',$event->id)->first()))
+                                        @if(($booking->event->multiple_bookings_allowed) || (!$booking->event->multiple_bookings_allowed && !auth()->user()->bookings->where('event_id',$event->id)->first()))
                                             {{--Check if user already has a booking, and only 1 is allowed--}}
                                             <a href="{{ route('bookings.edit', $booking) }}" class="btn btn-success">BOOK
                                                 NOW</a>
@@ -110,7 +110,7 @@
                                         <button class="btn btn-danger">Not available</button>
                                     @endif
                                 @else
-                                    <a href="{{ route('login', $booking) }}" class="btn btn-info">Click here to
+                                    <a href="{{ route('login', ['booking' => $booking]) }}" class="btn btn-info">Click here to
                                         login</a>
                                 @endif
                             @endif
@@ -128,7 +128,7 @@
                                 </form>
                             </td>
                             <td>
-                                @if($booking->user)
+                                @if($booking->user_id)
                                     <a href="mailto:{{ $booking->user->email }}" style="color: white;">
                                         <button class="btn btn-info">
                                             <i class="fas fa-envelope"></i> Send E-mail [{{ $booking->user->email }}]

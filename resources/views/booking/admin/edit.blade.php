@@ -254,6 +254,12 @@
                         {{--Update--}}
                         <div class="form-group row mb-0">
                             <div class="col-md-6 offset-md-4">
+                                @if(!empty($booking->user_id))
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" id="notify-user" name="notify_user" value="1" checked>
+                                        <label class="custom-control-label" for="notify-user">Notify user?</label>
+                                    </div>
+                                @endif
                                 <button type="submit" class="btn btn-primary">
                                     <i class="fas fa-check"></i> Update
                                 </button>

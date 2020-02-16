@@ -31,7 +31,7 @@
                                 <a class="dropdown-item {{ request()->fullUrlIs(route('bookings.event.index', $event)) ? 'active' : '' }}"
                                    href="{{ route('bookings.event.index', $event) }}">Bookings</a>
                                 @auth
-                                    @foreach($bookings = Auth::user()->bookings()->where('event_id', $event->id)->get() as $booking)
+                                    @foreach($bookings = auth()->user()->bookings->where('event_id', $event->id) as $booking)
                                         <a class="dropdown-item {{ request()->fullUrlIs(route('bookings.show', $booking)) ? 'active' : '' }}"
                                            href="{{ route('bookings.show', $booking) }}">
                                             <i class="fas fa-arrow-right"></i>&nbsp;{{ $bookings->count() > 1 ? $booking->callsign : 'My booking' }}
@@ -52,7 +52,11 @@
                     <a class="nav-link" href="mailto:events@dutchvacc.nl">Contact Us</a>
                 </li>
                 @guest
-                    <li class="nav-item"><a class="nav-link" href="{{ route('login') }}">Login</a></li>
+                    @if(request()->routeIs('events.show'))
+                        <li class="nav-item"><a class="nav-link" href="{{ route('login', ['event' => $event]) }}">Login</a></li>
+                    @else
+                        <li class="nav-item"><a class="nav-link" href="{{ route('login') }}">Login</a></li>
+                    @endif
                 @else
                     <li class="nav-item"><a class="nav-link" href="{{ route('logout') }}">Logout</a></li>
 
@@ -61,13 +65,13 @@
                             <a class="btn btn-outline-secondary text-white dropdown-toggle {{ request()->routeIs(['admin*', 'user*']) ? 'active' : '' }}"
                                href="#" role="button" id="dropdownUser" data-toggle="dropdown" aria-haspopup="true"
                                aria-expanded="false">
-                                {{ Auth::user()->pic }}
+                                {{ auth()->user()->pic }}
                             </a>
 
                             <div class="dropdown-menu" aria-labelledby="dropdownUser">
                                 <a class="dropdown-item {{ request()->routeIs('user.settings') ? 'active' : '' }}"
                                    href="{{ route('user.settings') }}">My settings</a>
-                                @if(Auth::user()->isAdmin)
+                                @if(auth()->user()->isAdmin)
                                     <div class="dropdown-divider"></div>
                                     <a class="dropdown-item {{ request()->routeIs('admin.airports*') ? 'active' : '' }}"
                                        href="{{ route('admin.airports.index') }}">Airports</a>

@@ -14,9 +14,9 @@ use Illuminate\Routing\Redirector;
  */
 function flashMessage($type, $title, $text)
 {
-    Session::flash('type', $type);
-    Session::flash('title', $title);
-    Session::flash('text', $text);
+    session()->flash('type', $type);
+    session()->flash('title', $title);
+    session()->flash('text', $text);
 }
 
 /**
@@ -78,7 +78,7 @@ function nextEventsForFaq()
  */
 function holdOnWeGotABadAss()
 {
-    Auth::logout();
+    auth()->logout();
     flashMessage('error', 'Error', 'Something went wrong');
     return redirect('/');
 }

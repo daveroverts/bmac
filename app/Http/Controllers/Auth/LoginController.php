@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Enums\BookingStatus;
 use App\Http\Controllers\Controller;
 use App\Models\Booking;
+use App\Models\Event;
 use App\Models\User;
 use Bugsnag\BugsnagLaravel\Facades\Bugsnag;
 use Faker\Factory as Faker;
@@ -44,10 +45,20 @@ class LoginController extends Controller
         $this->middleware('guest')->except('logout');
     }
 
-    public function login(Booking $booking)
+    public function login(Request $request)
     {
-        if (!empty($booking)) {
-            session()->put('booking', $booking->uuid);
+        if ($request->get('booking')) {
+            // Check if the booking exists, just to prevent a 404 later on
+            $booking = Booking::whereUuid($request->booking)->first();
+            if (!empty($booking)) {
+                session()->put('booking', $booking->uuid);
+            }
+        } elseif ($request->get('event')) {
+            // Check if the event exists, just to prevent a 404 later on
+            $event = Event::whereSlug($request->event)->first();
+            if (!empty($event)) {
+                session()->put('event', $event->slug);
+            }
         }
 
         $returnUrl = config('vatsim-sso.return'); // load URL from config
@@ -68,7 +79,7 @@ class LoginController extends Controller
     public function validateLogin(Request $request)
     {
         $session = session('vatsimauth');
-        if (!empty($request->get('oauth_verifier'))) {
+        if (!empty($request->get('oauth_verifier')) && !empty($session)) {
             return VatsimSSO::validate(
                 $session['key'],
                 $session['secret'],
@@ -82,7 +93,6 @@ class LoginController extends Controller
                     $account->name_first = utf8_decode($user->name_first);
                     $account->name_last = utf8_decode($user->name_last);
                     // Check if this is the production environment to determine to use the actual E-mail adress or something random
-//                    $account->email = App::environment('production') ? $user->email : Faker::create()->email();
                     $account->email = app()->environment() == 'production' ? $user->email : Faker::create()->email();
                     $account->country = $user->country->code;
                     $account->region = $user->region->code;
@@ -94,7 +104,7 @@ class LoginController extends Controller
                     activity()->log('Login');
 
                     if (session('booking')) {
-                        $booking = Booking::where('uuid', session('booking'))->first();
+                        $booking = Booking::whereUuid(session('booking'))->first();
                         session()->forget('booking');
                         if (!empty($booking)) {
                             if ($booking->status !== BookingStatus::BOOKED) {
@@ -102,16 +112,22 @@ class LoginController extends Controller
                             }
                             return redirect(route('bookings.show', $booking));
                         }
+                    } elseif (session('event')) {
+                        $event = Event::whereSlug(session('event'))->first();
+                        session()->forget('event');
+                        if (!empty($event)) {
+                            return redirect(route('events.show', $event));
+                        }
                     }
 
                     return redirect('/');
                 },
                 function ($e) {
-                    throw $e; // Do something with the exception
+                    Bugsnag::notifyException($e);
                 }
             );
         } else {
-            flashMessage('danger', 'Login failed', 'Something went wrong, please try again');
+            flashMessage('error', 'Login failed', 'Something went wrong, please try again');
             return redirect(route('home'));
         }
     }

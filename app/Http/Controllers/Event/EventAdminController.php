@@ -17,7 +17,6 @@ use App\Notifications\EventFinalInformation;
 use App\Policies\EventPolicy;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Notification;
 
 class EventAdminController extends AdminController
@@ -175,9 +174,9 @@ class EventAdminController extends AdminController
     public function sendEmail(SendEmail $request, Event $event)
     {
         if ($request->testmode) {
-            Notification::send(Auth::user(), new EventBulkEmail($event, $request->subject, $request->message));
+            Notification::send(auth()->user(), new EventBulkEmail($event, $request->subject, $request->message));
             activity()
-                ->by(Auth::user())
+                ->by(auth()->user())
                 ->on($event)
                 ->withProperties(
                     [
@@ -197,7 +196,7 @@ class EventAdminController extends AdminController
 
             flashMessage('success', 'Done', 'Bulk E-mail has been sent to '.$count.' people!');
             activity()
-                ->by(Auth::user())
+                ->by(auth()->user())
                 ->on($event)
                 ->withProperties(
                     [
@@ -225,10 +224,10 @@ class EventAdminController extends AdminController
 
         if ($request->testmode) {
             $booking = $bookings->random();
-            Notification::send(Auth::user(), new EventFinalInformation($booking));
+            Notification::send(auth()->user(), new EventFinalInformation($booking));
 
             activity()
-                ->by(Auth::user())
+                ->by(auth()->user())
                 ->on($event)
                 ->withProperties(
                     [
@@ -239,12 +238,30 @@ class EventAdminController extends AdminController
             return response()->json(['success' => 'Email has been sent to yourself']);
         } else {
             $count = $bookings->count();
+            $countSkipped = 0;
+            $now = now();
             foreach ($bookings as $booking) {
-                $booking->user->notify(new EventFinalInformation($booking));
+                $shouldSend = false;
+                if (!$booking->has_received_final_information_email || $request->forceSend) {
+                    $shouldSend = true;
+                }
+
+                // @TODO Maybe better in a Event/Listener?
+                if ($shouldSend) {
+                    $booking->user->notify(new EventFinalInformation($booking));
+                    $booking->update(['final_information_email_sent_at' => $now]);
+                } else {
+                    $count--;
+                    $countSkipped++;
+                }
             }
-            flashMessage('success', 'Done', 'Final Information has been sent to '.$count.' people!');
+            $message = 'Final Information has been sent to '.$count.' people!';
+            if ($countSkipped != 0) {
+                $message .= ' However, ' . $countSkipped . ' where skipped, because they already received one';
+            }
+            flashMessage('success', 'Done', $message);
             activity()
-                ->by(Auth::user())
+                ->by(auth()->user())
                 ->on($event)
                 ->withProperty('count', $count)
                 ->log('Final Information E-mail');

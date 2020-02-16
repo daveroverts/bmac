@@ -38,7 +38,7 @@
             <tr>
                 <td>{{ $faq->id }}</td>
                 <td>{{ $faq->question }}</td>
-                <td>{{ $faq->events()->count() ? 'Yes' : 'No' }}</td>
+                <td>{{ $faq->events_count ? 'Yes' : 'No' }}</td>
                 <td>
                     <a href="{{ route('admin.faq.edit', $faq) }}">
                         <button class="btn btn-primary">

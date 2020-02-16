@@ -19,7 +19,6 @@ use App\Notifications\BookingDeleted;
 use App\Policies\BookingPolicy;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Rap2hpoutre\FastExcel\FastExcel;
 
@@ -158,11 +157,17 @@ class BookingAdminController extends AdminController
      */
     public function update(UpdateBooking $request, Booking $booking)
     {
+        $shouldSendEmail = false;
+        if (!empty($booking->user) && $request->notify_user) {
+            $shouldSendEmail = true;
+        }
+        /* @var Flight $flight */
         $flight = $booking->flights()->first();
         $booking->fill([
             'is_editable' => $request->is_editable,
             'callsign' => $request->callsign,
             'acType' => $request->aircraft,
+            'final_information_email_sent_at' => null
         ]);
 
         $flightAttributes = [
@@ -185,8 +190,8 @@ class BookingAdminController extends AdminController
 
         $flight->fill($flightAttributes);
 
-        $changes = collect();
-        if (!empty($booking->user)) {
+        if ($shouldSendEmail) {
+            $changes = collect();
             foreach ($booking->getDirty() as $key => $value) {
                 $changes->push(
                     ['name' => $key, 'old' => $booking->getOriginal($key), 'new' => $value]
@@ -203,13 +208,12 @@ class BookingAdminController extends AdminController
                 );
             }
         }
+
         $booking->save();
         $flight->save();
-        if (!empty($booking->user)) {
-            $booking->user->notify(new BookingChanged($booking, $changes));
-        }
         $message = 'Booking has been changed!';
-        if (!empty($booking->user)) {
+        if ($shouldSendEmail) {
+            $booking->user->notify(new BookingChanged($booking, $changes));
             $message .= ' A E-mail has also been sent to the person that booked.';
         }
         flashMessage('success', 'Booking changed', $message);
@@ -252,7 +256,7 @@ class BookingAdminController extends AdminController
     public function export(Event $event, Request $request)
     {
         activity()
-            ->by(Auth::user())
+            ->by(auth()->user())
             ->on($event)
             ->log('Export triggered');
         $bookings = Booking::where('event_id', $event->id)
@@ -322,7 +326,7 @@ class BookingAdminController extends AdminController
     public function import(ImportBookings $request, Event $event)
     {
         activity()
-            ->by(Auth::user())
+            ->by(auth()->user())
             ->on($event)
             ->log('Import triggered');
         $file = $request->file('file')->getRealPath();
@@ -453,7 +457,7 @@ class BookingAdminController extends AdminController
         }
         flashMessage('success', 'Bookings changed', $count.' Bookings have been Auto-Assigned a FL, and route');
         activity()
-            ->by(Auth::user())
+            ->by(auth()->user())
             ->on($event)
             ->withProperties(
                 [
@@ -477,7 +481,7 @@ class BookingAdminController extends AdminController
     public function routeAssign(RouteAssign $request, Event $event)
     {
         activity()
-            ->by(Auth::user())
+            ->by(auth()->user())
             ->on($event)
             ->log('Route assign triggered');
         $file = $request->file('file')->getRealPath();

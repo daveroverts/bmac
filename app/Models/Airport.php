@@ -6,6 +6,39 @@ use App\Enums\AirportView;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
 
+/**
+ * App\Models\Airport
+ *
+ * @property int $id
+ * @property string $icao
+ * @property string $iata
+ * @property string $name
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\Activitylog\Models\Activity[] $activities
+ * @property-read int|null $activities_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Event[] $eventArr
+ * @property-read int|null $event_arr_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Event[] $eventDep
+ * @property-read int|null $event_dep_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Flight[] $flightsArr
+ * @property-read int|null $flights_arr_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Flight[] $flightsDep
+ * @property-read int|null $flights_dep_count
+ * @property-read mixed $full_name
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\AirportLink[] $links
+ * @property-read int|null $links_count
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Airport newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Airport newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Airport query()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Airport whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Airport whereIata($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Airport whereIcao($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Airport whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Airport whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Airport whereUpdatedAt($value)
+ * @mixin \Eloquent
+ */
 class Airport extends Model
 {
     use LogsActivity;
