@@ -6,6 +6,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v1.5.2](https://gitlab.com/daveroverts/Book-me-a-cookie/compare/v1.5.2...v1.5.1.e) - 2020-02-16
+
 ### Added
 - `final_information_email_sent_at` to `Booking` model to keep track if the 'final_information_email' was already sent.
 - It's now possible to not notify users when a booking is changed, should that be needed.
