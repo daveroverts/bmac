@@ -38,7 +38,8 @@ class BookingController extends Controller
         $filter = null;
 
         if ($event) {
-            if ($event->is_online) {
+            // @TODO Check should actually be in a policy
+            if ($event->is_online || auth()->check() && auth()->user()->isAdmin) {
                 if ($event->hasOrderButtons()) {
                     switch (strtolower($request->filter)) {
                         case 'departures':
