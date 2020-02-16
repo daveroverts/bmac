@@ -68,7 +68,7 @@ class BookingController extends Controller
                                     'event',
                                     'user',
                                     'flights' => function ($query) use ($event) {
-                                    $query->where('dep', $event->arr);
+                                    $query->where('arr', $event->arr);
                                     $query->orderBy('eta');
                                     },
                                     'flights.airportDep',
