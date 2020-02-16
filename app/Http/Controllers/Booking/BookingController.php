@@ -10,6 +10,7 @@ use App\Models\Event;
 use App\Notifications\BookingCancelled;
 use App\Notifications\BookingConfirmed;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -55,7 +56,7 @@ class BookingController extends Controller
                                     'flights.airportDep',
                                     'flights.airportArr',
                                 ])
-                                ->withCount(['flights' => function ($query) use ($event) {
+                                ->withCount(['flights' => function (Builder $query) use ($event) {
                                     $query->where('dep', $event->dep);
                                 },])
                                 ->get();
@@ -74,8 +75,8 @@ class BookingController extends Controller
                                     'flights.airportDep',
                                     'flights.airportArr',
                                 ])
-                                ->withCount(['flights' => function ($query) use ($event) {
-                                    $query->where('dep', $event->arr);
+                                ->withCount(['flights' => function (Builder $query) use ($event) {
+                                    $query->where('arr', $event->arr);
                                 },])
                                 ->get();
                             $filter = $request->filter;
