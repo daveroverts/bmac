@@ -113,7 +113,13 @@ class BookingController extends Controller
                 abort_unless(auth()->check() && auth()->user()->isAdmin, 404);
             }
         }
-        $booked = $bookings->where('status', BookingStatus::BOOKED)->count();
+
+        $booked = $bookings->where('status', BookingStatus::BOOKED)
+            ->filter(function ($booking) {
+            /* @var Booking $booking */
+            return $booking->flights_count;
+        })->count();
+
         if ($event->event_type_id == EventType::MULTIFLIGHTS) {
             $total = $bookings->count();
             return view('booking.overview_multiflights', compact('event', 'bookings', 'filter', 'total', 'booked'));
