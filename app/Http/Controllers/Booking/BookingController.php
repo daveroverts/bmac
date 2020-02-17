@@ -45,7 +45,6 @@ class BookingController extends Controller
                     switch (strtolower($request->filter)) {
                         case 'departures':
                             $bookings = Booking::whereEventId($event->id)
-                                ->orderBy('callsign')
                                 ->with([
                                     'event',
                                     'user',
@@ -64,7 +63,6 @@ class BookingController extends Controller
                             break;
                         case 'arrivals':
                             $bookings = Booking::whereEventId($event->id)
-                                ->orderBy('callsign')
                                 ->with([
                                     'event',
                                     'user',
