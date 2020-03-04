@@ -303,6 +303,16 @@ class BookingAdminController extends AdminController
                 /* @var Booking $booking */
                 /* @var Flight $flight */
                 $flight = $booking->flights()->first();
+                if (!empty($flight->getOriginal('ctot'))) {
+                    $ctot = Carbon::parse($flight->getOriginal('ctot'))->format('H:i:s');
+                } else {
+                    $ctot = null;
+                }
+                if (!empty($flight->getOriginal('eta'))) {
+                    $eta = Carbon::parse($flight->getOriginal('eta'))->format('H:i:s');
+                } else {
+                    $eta = null;
+                }
                 return [
                     $booking->user->full_name,
                     $booking->user_id,
@@ -311,7 +321,8 @@ class BookingAdminController extends AdminController
                     $flight->airportDep->icao,
                     $flight->airportArr->icao,
                     $flight->getOriginal('oceanicFL'),
-                    Carbon::parse($flight->getOriginal('ctot'))->format('H:i:s'),
+                    $ctot,
+                    $eta,
                     $flight->route,
                 ];
             });

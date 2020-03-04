@@ -6,6 +6,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+- BookingController@export() for normal events now includes ETA, and now never falls back to event times
+
 ## [v1.5.2](https://gitlab.com/daveroverts/Book-me-a-cookie/compare/v1.5.2...v1.5.1.e) - 2020-02-16
 
 ### Added
