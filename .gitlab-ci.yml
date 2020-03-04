@@ -26,16 +26,6 @@ variables:
 cache:
   key: "$CI_JOB_NAME-$CI_COMMIT_REF_SLUG"
 
-noNeeds:
-  stage: preparation
-  image: alpine:latest
-  variables:
-    GIT_STRATEGY: none
-  script:
-    - echo "This build is a workaround for 'https://gitlab.com/gitlab-org/gitlab/issues/30631'"
-  cache: {}
-  dependencies: []
-
 composer:
   stage: preparation
   script:
@@ -122,8 +112,7 @@ codestyle:
   image: lorisleiva/laravel-docker
   script:
     - phpcs --extensions=php app
-  needs:
-    - noNeeds
+  needs: []
   dependencies: []
   allow_failure: true
 
@@ -132,8 +121,7 @@ phpcpd:
   script:
     - test -f phpcpd.phar || curl -L https://phar.phpunit.de/phpcpd.phar -o phpcpd.phar
     - php phpcpd.phar app/ --min-lines=50
-  needs:
-    - noNeeds
+  needs: []
   dependencies: []
   cache:
     paths:
@@ -154,8 +142,7 @@ sensiolabs:
 sonarqube:
   image: johnnei/sonarqube-scanner:3.2.0.1227-4
   stage: security
-  needs:
-    - noNeeds
+  needs: []
   dependencies: []
   allow_failure: true
   only:
