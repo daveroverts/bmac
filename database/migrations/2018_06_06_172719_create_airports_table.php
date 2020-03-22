@@ -15,7 +15,6 @@ class CreateAirportsTable extends Migration
     {
         Schema::create('airports', function (Blueprint $table) {
             $table->string('icao')->primary();
-            $table->unique('icao');
             $table->string('iata');
             $table->unique('iata');
             $table->string('name');
