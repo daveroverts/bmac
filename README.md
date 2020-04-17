@@ -1,5 +1,6 @@
-[![pipeline status](https://gitlab.com/daveroverts/Book-me-a-cookie/badges/dev/pipeline.svg)](https://gitlab.com/daveroverts/Book-me-a-cookie/commits/dev) 
-[![coverage report](https://gitlab.com/daveroverts/Book-me-a-cookie/badges/dev/coverage.svg)](https://gitlab.com/daveroverts/Book-me-a-cookie/commits/dev)
+# REPO IS MOVING TO GITHUB (if you're watching this on GitLab)
+This repo is moving to a new home, which can be found here: https://github.com/daveroverts
+Be sure to update your remotes ASAP. I've enabled mirroring, but chances are that I'll archive the project in GitLab.
 
 # About this project
 Book me a Cookie is a booking system created in Laravel. It's initial purpose was to be used for one event (The Holland - America Line), howerver, this system is already ready to be used for more events.
