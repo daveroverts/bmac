@@ -4047,25 +4047,25 @@
         },
         {
             "name": "rap2hpoutre/fast-excel",
-            "version": "v1.6.1",
+            "version": "v1.7.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/rap2hpoutre/fast-excel.git",
-                "reference": "24abb21ecf25f50dca0b3554250688d758bee2c9"
+                "reference": "be62e7e8279d0877592a6f7190e1fcb81295909b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/rap2hpoutre/fast-excel/zipball/24abb21ecf25f50dca0b3554250688d758bee2c9",
-                "reference": "24abb21ecf25f50dca0b3554250688d758bee2c9",
+                "url": "https://api.github.com/repos/rap2hpoutre/fast-excel/zipball/be62e7e8279d0877592a6f7190e1fcb81295909b",
+                "reference": "be62e7e8279d0877592a6f7190e1fcb81295909b",
                 "shasum": ""
             },
             "require": {
                 "box/spout": "^2.7",
-                "illuminate/database": "5.3.* || 5.4.* || 5.5.* || 5.6.* || 5.7.* || 5.8.* || ^6.0",
-                "illuminate/support": "5.3.* || 5.4.* || 5.5.* || 5.6.* || 5.7.* || 5.8.* || ^6.0",
+                "illuminate/support": "5.3.* || 5.4.* || 5.5.* || 5.6.* || 5.7.* || 5.8.* || ^6.0 || ^7.0",
                 "php": "^7.0"
             },
             "require-dev": {
+                "illuminate/database": "5.3.* || 5.4.* || 5.5.* || 5.6.* || 5.7.* || 5.8.* || ^6.0 || ^7.0",
                 "phpunit/phpunit": "^6.4"
             },
             "type": "library",
@@ -4102,7 +4102,7 @@
                 "xls",
                 "xlsx"
             ],
-            "time": "2019-12-23T07:57:53+00:00"
+            "time": "2020-02-20T11:02:08+00:00"
         },
         {
             "name": "renatomarinho/laravel-page-speed",
