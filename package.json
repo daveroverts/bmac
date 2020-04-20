@@ -35,7 +35,7 @@
         "@bugsnag/js": "^6.5.0",
         "bootswatch": "^4.4.1",
         "sweetalert2": "^8.19.0",
-        "tinymce": "^5.1.5"
+        "tinymce": "^5.2.1"
     },
     "engines": {
         "yarn": "YARN NO LONGER USED - use npm instead."
