@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 - Removed unique index for ``icao`` in ``2018_06_06_172719_create_airports_table.php`` to fix a problem in the first migrations, Thanks to @blt950
+- Upgraded to Laravel 7
 
 ## [v1.5.3](https://gitlab.com/daveroverts/Book-me-a-cookie/compare/v1.5.3...v1.5.2) - 2020-03-04
 
