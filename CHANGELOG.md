@@ -6,6 +6,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- Vatsim SSO replaced with Vatsim Connect
+
 ### Changed
 - Removed unique index for ``icao`` in ``2018_06_06_172719_create_airports_table.php`` to fix a problem in the first migrations, Thanks to @blt950
 
