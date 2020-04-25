@@ -20,9 +20,6 @@ $factory->define(App\Models\User::class, function (Faker $faker) {
         'name_first' => $faker->firstName,
         'name_last' => $faker->lastName,
         'email' => $faker->unique()->safeEmail,
-        'country' => 'GB',
-        'region' => 'EUR',
-        'division' => 'EUD',
         'remember_token' => Str::random(10),
     ];
 });
