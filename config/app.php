@@ -64,8 +64,9 @@ return [
     |
     */
 
-    'division' => env('SITE_DIVISION'),
-    'division_url' => env('SITE_DIVISION_URL'),
+    'title' => env('SITE_TITLE', 'Booking'),
+    'division' => env('SITE_DIVISION', 'Unknown Division'),
+    'division_url' => env('SITE_DIVISION_URL', '#'),
     'contact_mail' => env('SITE_CONTACT_MAIL'),
 
     /*
