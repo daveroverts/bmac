@@ -72,6 +72,9 @@ return [
     'pilotbrief_url' => env('SITE_PILOTBRIEF_URL'),
     'charts_url' => env('SITE_CHARTS_URL'),
 
+    'color_navbar' => env('SITE_COLOR_NAVBAR'),
+    'color_links' => env('SITE_COLOR_LINKS'),
+
     /*
     |--------------------------------------------------------------------------
     | Application Timezone

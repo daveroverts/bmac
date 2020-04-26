@@ -14,12 +14,12 @@
 }
 
 .navbar-laravel {
-  background-color: #2C3E50;
+  background-color: $envColorNavbar;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
 }
 
 .navbar-dark .navbar-nav .show > .nav-link, .navbar-dark .navbar-nav .active > .nav-link, .navbar-dark .navbar-nav .nav-link.show, .navbar-dark .navbar-nav .nav-link.active {
-  color: #18BC9C;
+  color: $envColorNavbarLinks;
 }
 
 h5 {
