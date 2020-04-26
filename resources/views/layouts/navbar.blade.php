@@ -89,7 +89,7 @@
             <!-- Right Side Of Navbar -->
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a href="https://www.dutchvacc.nl/"><img src="{{ asset('images/DV-Logo3.png') }}" width="200"></a>
+                    <a href="{{ config('app.division_url') }}"><img src="{{ asset('images/division-horizontal.png') }}" height="45"></a>
                 </li>
             </ul>
 
