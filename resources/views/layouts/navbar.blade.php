@@ -49,7 +49,7 @@
                 <li class="nav-item {{ request()->routeIs('faq') ? 'active' : '' }}">
                     <a class="nav-link" href="{{ route('faq') }}">FAQ</a></li>
                 <li class="nav-item">
-                    <a class="nav-link" href="mailto:events@dutchvacc.nl">Contact Us</a>
+                    <a class="nav-link" href="mailto:{{ config('app.contact_mail') }}">Contact Us</a>
                 </li>
                 @guest
                     @if(request()->routeIs('events.show'))
