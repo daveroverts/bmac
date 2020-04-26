@@ -8,9 +8,6 @@ use App\Http\Controllers\VatsimOAuthController;
 use App\Models\Booking;
 use App\Models\Event;
 use App\Models\User;
-use Bugsnag\BugsnagLaravel\Facades\Bugsnag;
-use Faker\Factory as Faker;
-use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
 
@@ -27,14 +24,6 @@ class LoginController extends Controller
     |
     */
 
-    use AuthenticatesUsers;
-
-    /**
-     * Where to redirect users after login.
-     *
-     * @var string
-     */
-    protected $redirectTo = '/booking';
     protected $provider;
 
     /**
