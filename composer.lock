@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "cfd0a1e7406d46b52473da8169e39f71",
+    "content-hash": "68d32efa503cb98ecbd6f4e5f027689a",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -128,39 +128,6 @@
                 "validation"
             ],
             "time": "2020-04-11T14:18:49+00:00"
-        },
-        {
-            "name": "bonroyage/oauth",
-            "version": "1.0.8",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/bonroyage/OAuth.git",
-                "reference": "2451a4d42f5c37060bc117c650553955955d10a7"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/bonroyage/OAuth/zipball/2451a4d42f5c37060bc117c650553955955d10a7",
-                "reference": "2451a4d42f5c37060bc117c650553955955d10a7",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.0"
-            },
-            "require-dev": {
-                "eher/phpunit": "1.6"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-0": {
-                    "Eher\\OAuth": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "description": "OAuth 1 PHP Library",
-            "time": "2014-06-25T21:04:29+00:00"
         },
         {
             "name": "box/spout",
@@ -6467,53 +6434,6 @@
             "description": "CssToInlineStyles is a class that enables you to convert HTML-pages/files into HTML-pages/files with inline styles. This is very useful when you're sending emails.",
             "homepage": "https://github.com/tijsverkoyen/CssToInlineStyles",
             "time": "2019-10-24T08:53:34+00:00"
-        },
-        {
-            "name": "vatsim/sso",
-            "version": "3.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/KHardern/VatsimSSO.git",
-                "reference": "157ca96d4a37be83165d72cec1428f64c6e37d5b"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/KHardern/VatsimSSO/zipball/157ca96d4a37be83165d72cec1428f64c6e37d5b",
-                "reference": "157ca96d4a37be83165d72cec1428f64c6e37d5b",
-                "shasum": ""
-            },
-            "require": {
-                "bonroyage/oauth": "1.*",
-                "php": ">=5.4.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Vatsim\\OAuth\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Kieran Hardern",
-                    "email": "kieran@hardern.net"
-                },
-                {
-                    "name": "Roy de Vos Burchart",
-                    "email": "dev@bonroyage.com",
-                    "homepage": "http://www.bonroyage.com"
-                }
-            ],
-            "description": "VATSIM OAuth",
-            "keywords": [
-                "SSO",
-                "oauth",
-                "vatsim"
-            ],
-            "time": "2017-02-22T13:24:17+00:00"
         },
         {
             "name": "vlucas/phpdotenv",
