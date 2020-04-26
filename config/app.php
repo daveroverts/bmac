@@ -64,6 +64,8 @@ return [
     |
     */
 
+    'division' => env('SITE_DIVISION'),
+    'division_url' => env('SITE_DIVISION_URL'),
     'contact_mail' => env('SITE_CONTACT_MAIL'),
 
     /*
