@@ -9,6 +9,10 @@
 // Bootswatch Flatly
 @import '~bootswatch/dist/flatly/bootswatch';
 
+.navbar-brand{
+  font-weight: 800;
+}
+
 .navbar-laravel {
   background-color: #2C3E50;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);

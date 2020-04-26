@@ -1,7 +1,7 @@
 <nav class="navbar navbar-expand-md navbar-dark navbar-laravel">
     <div class="container">
-        <a class="navbar-brand" href="https://www.dutchvacc.nl/">
-            <img src="{{ asset('images/DV-Logo3-icon.png') }}" width="40">
+        <a class="navbar-brand" href="{{ URL::to('/') }}">
+            Event Booking
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
                 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
