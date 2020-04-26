@@ -69,6 +69,9 @@ return [
     'division_url' => env('SITE_DIVISION_URL', '#'),
     'contact_mail' => env('SITE_CONTACT_MAIL'),
 
+    'pilotbrief_url' => env('SITE_PILOTBRIEF_URL'),
+    'charts_url' => env('SITE_CHARTS_URL'),
+
     /*
     |--------------------------------------------------------------------------
     | Application Timezone

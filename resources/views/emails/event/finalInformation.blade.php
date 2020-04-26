@@ -38,8 +38,8 @@ The initial climb altitude for all departures is FL060. Do NOT climb further wit
 After departure, when passing 2000ft, you switch from TOWER to APPROACH [EHAM_W_APP] yourself without contact instructions by ATC, unless TOWER specifically instructs you to: “remain this frequency”.
 
 Important information about your departure airport can be found at:
-- [Pilot Briefing](https://www.dutchvacc.nl/visiting-pilots/)
-- [Charts](https://www.dutchvacc.nl/charts/)
+- [Pilot Briefing]({{ config('app.pilotbrief_url') }})
+- [Charts]({{ config('app.charts_url') }})
 
 
 ---
