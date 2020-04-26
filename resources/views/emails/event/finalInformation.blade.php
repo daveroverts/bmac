@@ -95,7 +95,7 @@ NAT TMI: **{{ $booking->event->startEvent->dayOfYear }}**
 
 ---
 
-These details are now accessible on the booking details page within the pilot area on the [Dutch VACC website](https://booking.dutchvacc.nl/).
+These details are now accessible on the booking details page within the pilot area on the [{{ config('app.division') }} website]({{ config('app.division_url') }}).
 
 We would also like to encourage you to take screenshots, videos, recordings of communications, etc. throughout your journey. Tweet to our Twitter account [@DutchVACC](https://twitter.com/DutchVACC) to stay involved - we'll be manning it all day and retweeting your input!
 
