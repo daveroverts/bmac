@@ -1,7 +1,7 @@
 <nav class="navbar navbar-expand-md navbar-dark navbar-laravel">
     <div class="container">
-        <a class="navbar-brand" href="https://www.dutchvacc.nl/">
-            <img src="{{ asset('images/DV-Logo3-icon.png') }}" width="40">
+        <a class="navbar-brand" href="{{ URL::to('/') }}">
+            {{ config('app.title') }}
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
                 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -49,7 +49,7 @@
                 <li class="nav-item {{ request()->routeIs('faq') ? 'active' : '' }}">
                     <a class="nav-link" href="{{ route('faq') }}">FAQ</a></li>
                 <li class="nav-item">
-                    <a class="nav-link" href="mailto:events@dutchvacc.nl">Contact Us</a>
+                    <a class="nav-link" href="mailto:{{ config('app.contact_mail') }}">Contact Us</a>
                 </li>
                 @guest
                     @if(request()->routeIs('events.show'))
@@ -89,7 +89,7 @@
             <!-- Right Side Of Navbar -->
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a href="https://www.dutchvacc.nl/"><img src="{{ asset('images/DV-Logo3.png') }}" width="200"></a>
+                    <a href="{{ config('app.division_url') }}"><img src="{{ asset('images/division-horizontal.png') }}" height="45"></a>
                 </li>
             </ul>
 

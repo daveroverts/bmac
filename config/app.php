@@ -55,6 +55,26 @@ return [
     'url' => env('APP_URL', 'http://localhost'),
     'mix_url' => env('APP_URL', 'http://localhost'),
 
+     /*
+    |--------------------------------------------------------------------------
+    | Branding
+    |--------------------------------------------------------------------------
+    |
+    | Configuration used for branding purposes of this website.
+    |
+    */
+
+    'title' => env('SITE_TITLE', 'Booking'),
+    'division' => env('SITE_DIVISION', 'Unknown Division'),
+    'division_url' => env('SITE_DIVISION_URL', 'https://vaccdivision.org'),
+    'contact_mail' => env('SITE_CONTACT_MAIL', 'event@division.org'),
+
+    'pilotbrief_url' => env('SITE_PILOTBRIEF_URL', 'https://vaccdivision.org/brief'),
+    'charts_url' => env('SITE_CHARTS_URL', , 'https://vaccdivision.org/charts'),
+
+    'color_navbar' => env('SITE_COLOR_NAVBAR', '#2C3E50'),
+    'color_links' => env('SITE_COLOR_LINKS', '#18BC9C'),
+
     /*
     |--------------------------------------------------------------------------
     | Application Timezone
