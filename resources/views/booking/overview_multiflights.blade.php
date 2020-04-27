@@ -104,7 +104,7 @@
                                             <a href="{{ route('bookings.edit', $booking) }}" class="btn btn-success">BOOK
                                                 NOW</a>
                                         @else
-                                            <button class="btn btn-danger">You already have a booking</button>
+                                            <i class="text-danger">You already have a booking</i>
                                         @endif
                                     @else
                                         <button class="btn btn-danger">Not available</button>
