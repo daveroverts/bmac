@@ -36,6 +36,21 @@ $link-hover-color: darken($envColorSecondary, 25%);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
 }
 
+.event-title a{
+  font-weight: bold;
+  color: $envColorPrimary;
+
+  &:hover{
+    text-decoration: none;
+  }
+}
+
+.row{
+  &.event .btn{
+    margin-bottom: 10px;
+  }
+}
+
 h5 {
   color: $cyan;
   text-decoration: underline;
