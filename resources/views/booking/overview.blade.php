@@ -2,7 +2,8 @@
 
 @section('content')
     @if($event)
-        <h2>{{ $event->name }} | {{ $filter ? ucfirst($filter) : 'Slot Table' }}</h2>
+        <h3>{{ $event->name }} | {{ $filter ? ucfirst($filter) : 'Slot Table' }}</h3>
+        <hr>
         <p>
             @if($event->hasOrderButtons())
                 <a href="{{ route('bookings.event.index',$event) }}"
