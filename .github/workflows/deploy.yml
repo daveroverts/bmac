@@ -1,0 +1,34 @@
+name: CI-CD
+
+on: [push, pull_request]
+
+jobs:
+  build-js:
+    name: Build Js/Css
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: NPM Build
+        run: |
+          npm ci
+          cat public/mix-manifest.json # See asset versions in log
+      - name: Upload build files
+        uses: actions/upload-artifact@v1
+        with:
+          name: assets
+          path: public
+  test-php:
+    name: Test/Lint PHP
+    runs-on: ubuntu-latest
+    needs: build-js
+    steps:
+      - uses: actions/checkout@v1
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v1
+        with:
+          php-version: 7.3 # Use your PHP version
+          extensions: mbstring, bcmath # Setup any required extensions for tests
+      - name: Composer install
+        run: composer install
+      - name: Run Tests
+        run: ./vendor/bin/phpunit
