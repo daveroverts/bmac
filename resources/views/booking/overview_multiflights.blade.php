@@ -47,7 +47,7 @@
         @include('layouts.alert')
         @if($event->startBooking <= now() || auth()->check() && auth()->user()->isAdmin)
             Flights available: {{ $total - $booked }} / {{ $total }}
-            <table class="table table-hover">
+            <table class="table table-hover table-responsive">
                 <thead>
                 <tr>
                     <th scope="row">Flight #1</th>
@@ -104,7 +104,7 @@
                                             <a href="{{ route('bookings.edit', $booking) }}" class="btn btn-success">BOOK
                                                 NOW</a>
                                         @else
-                                            <button class="btn btn-danger">You already have a booking</button>
+                                            <i class="text-danger">You already have a booking</i>
                                         @endif
                                     @else
                                         <button class="btn btn-danger">Not available</button>

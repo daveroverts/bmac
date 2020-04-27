@@ -4,7 +4,7 @@
 
     @foreach(nextEventsForFaq() as $event)
         @if($event->faqs->isNotEmpty())
-            <h4>FAQ for {{ $event->name }}</h4>
+            <h3>FAQ for {{ $event->name }}</h3>
             <hr>
             @foreach($event->faqs as $faq)
                 <p>
@@ -17,7 +17,8 @@
         @endif
     @endforeach
 
-    <h4>General FAQ</h4>
+    <h3>General FAQ</h3>
+    <hr>
     @forelse($faqs as $faq)
         <p>
             <strong>{{ $faq->question }}</strong>

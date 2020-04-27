@@ -2,7 +2,8 @@
 
 @section('content')
     @if($event)
-        <h2>{{ $event->name }} | {{ $filter ? ucfirst($filter) : 'Slot Table' }}</h2>
+        <h3>{{ $event->name }} | {{ $filter ? ucfirst($filter) : 'Slot Table' }}</h3>
+        <hr>
         <p>
             @if($event->hasOrderButtons())
                 <a href="{{ route('bookings.event.index',$event) }}"
@@ -47,7 +48,7 @@
         @include('layouts.alert')
         @if($event->startBooking <= now() || auth()->check() && auth()->user()->isAdmin)
             Flights available: {{ $total - $booked }} / {{ $total }}
-            <table class="table table-hover">
+            <table class="table table-hover table-responsive">
                 <thead>
                 <tr>
                     <th scope="row">From</th>
@@ -119,7 +120,7 @@
                                                 <a href="{{ route('bookings.edit', $booking) }}" class="btn btn-success">BOOK
                                                     NOW</a>
                                             @else
-                                                <button class="btn btn-danger">You already have a booking</button>
+                                                <i class="text-danger">You already have a booking</i>
                                             @endif
                                         @else
                                             <button class="btn btn-danger">Not available</button>

@@ -1,7 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
-    <h2>Airports Overview</h2>
+    <h3>Airports Overview</h3>
+    <hr>
     @include('layouts.alert')
     @push('scripts')
         <script>
