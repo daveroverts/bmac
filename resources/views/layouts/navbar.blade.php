@@ -48,22 +48,24 @@
                     <a class="nav-link" href="mailto:{{ config('app.contact_mail') }}">Contact Us</a>
                 </li>
 
-                @if(auth()->user()->isAdmin)
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Admin
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item {{ request()->routeIs('admin.events*') ? 'active' : '' }}"
-                                href="{{ route('admin.events.index') }}">Events</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item {{ request()->routeIs('admin.airports*') ? 'active' : '' }}"
-                                href="{{ route('admin.airports.index') }}">Airports</a>
-                            <a class="dropdown-item {{ request()->routeIs('admin.faq*') ? 'active' : '' }}"
-                                href="{{ route('admin.faq.index') }}">FAQ</a>  
-                    </div>
-                </li>
-                @endif
+                @auth
+                    @if(auth()->user()->isAdmin)
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Admin
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item {{ request()->routeIs('admin.events*') ? 'active' : '' }}"
+                                    href="{{ route('admin.events.index') }}">Events</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item {{ request()->routeIs('admin.airports*') ? 'active' : '' }}"
+                                    href="{{ route('admin.airports.index') }}">Airports</a>
+                                <a class="dropdown-item {{ request()->routeIs('admin.faq*') ? 'active' : '' }}"
+                                    href="{{ route('admin.faq.index') }}">FAQ</a>  
+                        </div>
+                    </li>
+                    @endif
+                @endauth
             </ul>
 
             <!-- Right Side Of Navbar -->
