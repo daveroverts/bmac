@@ -15,7 +15,7 @@ require('dotenv').config();
 
 mix.js('resources/js/app.js', 'public/js')
     .sass('resources/sass/app.scss', 'public/css', {
-        data: '$envColorNavbar: ' + process.env.SITE_COLOR_NAVBAR + '; $envColorNavbarLinks: ' + process.env.SITE_COLOR_NAVBAR_LINKS + ';'
+        prependData: '$envColorNavbar: ' + process.env.SITE_COLOR_NAVBAR + '; $envColorNavbarLinks: ' + process.env.SITE_COLOR_NAVBAR_LINKS + ';'
     })
     .copy('node_modules/tinymce/skins', 'public/js/skins');
 
