@@ -66,14 +66,14 @@ return [
 
     'title' => env('SITE_TITLE', 'Booking'),
     'division' => env('SITE_DIVISION', 'Unknown Division'),
-    'division_url' => env('SITE_DIVISION_URL', '#'),
-    'contact_mail' => env('SITE_CONTACT_MAIL'),
+    'division_url' => env('SITE_DIVISION_URL', 'https://vaccdivision.org'),
+    'contact_mail' => env('SITE_CONTACT_MAIL', 'event@division.org'),
 
-    'pilotbrief_url' => env('SITE_PILOTBRIEF_URL'),
-    'charts_url' => env('SITE_CHARTS_URL'),
+    'pilotbrief_url' => env('SITE_PILOTBRIEF_URL', 'https://vaccdivision.org/brief'),
+    'charts_url' => env('SITE_CHARTS_URL', , 'https://vaccdivision.org/charts'),
 
-    'color_navbar' => env('SITE_COLOR_NAVBAR'),
-    'color_links' => env('SITE_COLOR_LINKS'),
+    'color_navbar' => env('SITE_COLOR_NAVBAR', '#2C3E50'),
+    'color_links' => env('SITE_COLOR_LINKS', '#18BC9C'),
 
     /*
     |--------------------------------------------------------------------------
