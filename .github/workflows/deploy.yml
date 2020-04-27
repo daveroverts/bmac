@@ -11,6 +11,7 @@ jobs:
       - name: NPM Build
         run: |
           npm ci
+          npm run production --no-progress
           cat public/mix-manifest.json # See asset versions in log
       - name: Upload build files
         uses: actions/upload-artifact@v1
