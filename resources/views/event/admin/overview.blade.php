@@ -1,7 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
-    <h2>Events Overview</h2>
+    <h3>Events Overview</h3>
+    <hr>
     <p><a href="{{ route('admin.events.create') }}" class="btn btn-primary"><i class="fa fa-plus"></i> Add new Event</a>
     </p>
     @include('layouts.alert')
