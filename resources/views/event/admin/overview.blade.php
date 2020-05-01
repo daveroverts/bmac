@@ -13,7 +13,7 @@
                 Swal.fire({
                     title: 'Are you sure',
                     text: 'Are you sure you want to remove this event?',
-                    type: 'warning',
+                    icon: 'warning',
                     showCancelButton: true,
                 }).then((result) => {
                     if (result.value) {
