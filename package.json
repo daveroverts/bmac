@@ -19,7 +19,7 @@
         "bootstrap": "^4.4.1",
         "browser-sync": "^2.26.7",
         "browser-sync-webpack-plugin": "2.2.2",
-        "cross-env": "^5.2.1",
+        "cross-env": "^7.0.2",
         "jquery": "^3.5.0",
         "jquery-ui": "^1.12.1",
         "laravel-mix": "^5.0.4",
