@@ -4,15 +4,7 @@ on: [push, pull_request]
 jobs:
   laravel:
     name: Laravel (PHP ${{ matrix.php-versions }})
-    runs-on: ubuntu-latest
-    env:
-      DB_DATABASE: laravel
-      DB_USERNAME: root
-      DB_PASSWORD: password
-      BROADCAST_DRIVER: log
-      CACHE_DRIVER: redis
-      QUEUE_CONNECTION: redis
-      SESSION_DRIVER: redis    
+    runs-on: ubuntu-latest  
     services:
       mysql:
         image: mysql:5.7
@@ -58,8 +50,10 @@ jobs:
         run: composer install --no-progress --no-suggest --prefer-dist --optimize-autoloader
       - name: Prepare the application
         run: |
-          php -r "file_exists('.env') || copy('.env.example', '.env');"
+          php -r "file_exists('.env') || copy('.env.testing', '.env');"
           php artisan key:generate
+      - name: Set up Passport
+        run: php artisan passport:keys
       - name: Clear Config
         run: php artisan config:clear
       - name: Run Migration
@@ -72,3 +66,38 @@ jobs:
         env:
           DB_PORT: ${{ job.services.mysql.ports['3306'] }}
           REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
+
+
+  deploy-dev:
+    if: github.ref == 'refs/heads/dev'
+    needs: [laravel]
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Deploy
+      env:
+        DEPLOY_KEY: ${{ secrets.DEPLOY_KEY }}
+      run: |
+        eval "$(ssh-agent -s)"
+        ssh-add - <<< "${DEPLOY_KEY}"
+        mkdir ~/.ssh
+        echo -e "HostName example.com\n\tStrictHostKeyChecking no\n\t"User deploy >> ~/.ssh/config
+        composer install
+        php artisan deploy
+
+  deploy-master:
+    if: github.ref == 'refs/heads/master'
+    needs: [laravel]
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Deploy
+      env:
+        DEPLOY_KEY: ${{ secrets.DEPLOY_KEY }}
+      run: |
+        eval "$(ssh-agent -s)"
+        ssh-add - <<< "${DEPLOY_KEY}"
+        mkdir ~/.ssh
+        echo -e "HostName example.com\n\tStrictHostKeyChecking no\n\t"User deploy >> ~/.ssh/config
+        composer install
+        php artisan deploy
