@@ -69,7 +69,7 @@ jobs:
       - name: PHP_CodeSniffer
         run: phpcs --extensions=php app
       - name: Copy/Paste Detector
-        run: php phpcpd.phar app/ --min-lines=50
+        run: php phpcpd app/ --min-lines=50
       - name: Sensiolabs
         run: php vendor/sensiolabs/security-checker security:check composer.lock
       - name: Get node.js cache directory
