@@ -9,9 +9,8 @@ jobs:
       mysql:
         image: mysql:5.7
         env:
-          MYSQL_ALLOW_EMPTY_PASSWORD: false
-          MYSQL_ROOT_PASSWORD: password
-          MYSQL_DATABASE: laravel
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: homestead
         ports:
           - 3306/tcp
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
@@ -66,7 +65,16 @@ jobs:
         env:
           DB_PORT: ${{ job.services.mysql.ports['3306'] }}
           REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
-
+      - name: NPM Build
+        run: |
+          npm ci
+          npm run production --no-progress
+          cat public/mix-manifest.json # See asset versions in log
+      - name: Upload build files
+        uses: actions/upload-artifact@v1
+        with:
+          name: assets
+          path: public
 
   deploy-dev:
     if: github.ref == 'refs/heads/dev'
