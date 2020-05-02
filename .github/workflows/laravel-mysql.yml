@@ -32,6 +32,7 @@ jobs:
           php-version: ${{ matrix.php-versions }}
           extensions: mbstring, dom, fileinfo, mysql
           coverage: xdebug #optional
+          tools: phpcs, phpcpd
       - name: Start mysql service
         run: sudo /etc/init.d/mysql start
       - name: Get composer cache directory
@@ -65,6 +66,12 @@ jobs:
         env:
           DB_PORT: ${{ job.services.mysql.ports['3306'] }}
           REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
+      - name: PHP_CodeSniffer
+        run: phpcs --extensions=php app
+      - name: Copy/Paste Detector
+        run: php phpcpd.phar app/ --min-lines=50
+      - name: Sensiolabs
+        run: php vendor/sensiolabs/security-checker security:check composer.lock
       - name: Get node.js cache directory
         id: node-cache-dir
         run: echo "::set-output name=dir::$(npm config get cache)" # Use $(yarn cache dir) for yarn
