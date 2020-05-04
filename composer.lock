@@ -4560,16 +4560,16 @@
         },
         {
             "name": "renatomarinho/laravel-page-speed",
-            "version": "1.8.12",
+            "version": "1.18.13",
             "source": {
                 "type": "git",
                 "url": "https://github.com/renatomarinho/laravel-page-speed.git",
-                "reference": "c09b69f9e95025885c2905e53b97c38414501678"
+                "reference": "c8a634c94f9b2f2a386377904eba703ad60e2552"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/renatomarinho/laravel-page-speed/zipball/c09b69f9e95025885c2905e53b97c38414501678",
-                "reference": "c09b69f9e95025885c2905e53b97c38414501678",
+                "url": "https://api.github.com/repos/renatomarinho/laravel-page-speed/zipball/c8a634c94f9b2f2a386377904eba703ad60e2552",
+                "reference": "c8a634c94f9b2f2a386377904eba703ad60e2552",
                 "shasum": ""
             },
             "require": {
@@ -4610,10 +4610,10 @@
                 "html",
                 "laravel",
                 "minify",
-                "optmize",
+                "optimize",
                 "page speed"
             ],
-            "time": "2020-03-07T19:18:19+00:00"
+            "time": "2020-05-02T13:12:06+00:00"
         },
         {
             "name": "scrivo/highlight.php",
