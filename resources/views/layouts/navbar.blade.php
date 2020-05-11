@@ -22,23 +22,31 @@
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <a class="dropdown-item" href="{{ url('/') }}">Overview</a>
-                        <div class="dropdown-divider"></div>
-                        @foreach(nextEvents() as $event)
-                            <a class="dropdown-item {{ request()->fullUrlIs(route('bookings.event.index', $event)) ? 'active' : '' }}"
-                                href="{{ route('bookings.event.index', $event) }}">{{ $event->name }}
-                                – {{ $event->startEvent->toFormattedDateString() }}</a>
-                            @auth
-                                @foreach($bookings = auth()->user()->bookings->where('event_id', $event->id) as $booking)
-                                    <a class="dropdown-item {{ request()->fullUrlIs(route('bookings.show', $booking)) ? 'active' : '' }}"
-                                        href="{{ route('bookings.show', $booking) }}">
-                                        <i class="fas fa-chevron-right"></i>&nbsp;{{ $bookings->count() > 1 ? $booking->callsign : 'My booking' }}
-                                    </a>
-                                @endforeach
-                            @endauth
-                            @if(!$loop->last)
-                                <div class="dropdown-divider"></div>
-                            @endif
-                        @endforeach
+
+                        @php
+                            $events = nextEvents();
+                        @endphp
+
+                        @if ($events->isNotEmpty())
+                            <div class="dropdown-divider"></div>
+                            @foreach($events as $event)
+                                <a class="dropdown-item {{ request()->fullUrlIs(route('bookings.event.index', $event)) ? 'active' : '' }}"
+                                    href="{{ route('bookings.event.index', $event) }}">{{ $event->name }}
+                                    – {{ $event->startEvent->toFormattedDateString() }}</a>
+                                @auth
+                                    @foreach($bookings = auth()->user()->bookings->where('event_id', $event->id) as $booking)
+                                        <a class="dropdown-item {{ request()->fullUrlIs(route('bookings.show', $booking)) ? 'active' : '' }}"
+                                            href="{{ route('bookings.show', $booking) }}">
+                                            <i class="fas fa-chevron-right"></i>&nbsp;{{ $bookings->count() > 1 ? $booking->callsign : 'My booking' }}
+                                        </a>
+                                    @endforeach
+                                @endauth
+                                @if(!$loop->last)
+                                    <div class="dropdown-divider"></div>
+                                @endif
+                            @endforeach
+                        @endif
+
                     </div>
                 </li>
 
@@ -61,7 +69,7 @@
                                 <a class="dropdown-item {{ request()->routeIs('admin.airports*') ? 'active' : '' }}"
                                     href="{{ route('admin.airports.index') }}">Airports</a>
                                 <a class="dropdown-item {{ request()->routeIs('admin.faq*') ? 'active' : '' }}"
-                                    href="{{ route('admin.faq.index') }}">FAQ</a>  
+                                    href="{{ route('admin.faq.index') }}">FAQ</a>
                         </div>
                     </li>
                     @endif
@@ -90,10 +98,10 @@
                                 href="{{ route('logout') }}">Log out</a>
                         </div>
                     </li>
-                    
+
                 @endguest
 
-                
+
             </ul>
 
         </div>
