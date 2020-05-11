@@ -13,6 +13,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Removed unique index for ``icao`` in ``2018_06_06_172719_create_airports_table.php`` to fix a problem in the first migrations, Thanks to @blt950
 - Upgraded to Laravel 7
 
+### Removed
+- Laravel Passport, as it was not really used
+
 ## [v1.5.3](https://gitlab.com/daveroverts/Book-me-a-cookie/compare/v1.5.3...v1.5.2) - 2020-03-04
 
 ### Changed
@@ -273,7 +276,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
         - ``full_name`` and ``event_name`` have been added
 - Route binding for ``event`` now accepts ``id`` and ``slug``
 - ``holdOnWeGotABadAss()`` that replaces all RickRolls
-    
+
 ### Changed
 - ``AirportTest`` and ``EventTest``
 - ``.env.testing`` + ``MYSQL_DATABASE``
@@ -323,7 +326,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
    - UsersCollection / ``/users``
 - PHP CodeSniffer xml file, source: [https://medium.com/@nandosalles/the-ruleset-phpcs-for-my-laravel-projects-a54cb3c95b31](https://medium.com/@nandosalles/the-ruleset-phpcs-for-my-laravel-projects-a54cb3c95b31)
 - ``EventController@destroy()``
-- Relation ``Airport``->``Event`` ``eventDep`` + ``eventArr`` 
+- Relation ``Airport``->``Event`` ``eventDep`` + ``eventArr``
 - ``EventController@update()``
 - ``UpdateEvent`` Request
 - ``events.show`` now actually does something
@@ -459,7 +462,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 - Deployment procedure, due to [lorisleiva/laravel-deployer](https://github.com/lorisleiva/laravel-deployer) being added
-    
+
 ### Removed
 - ``AirportLinkController@show()``
 - [svenluijten/artisan-view](https://github.com/svenluijten/artisan-view) as dev dependency
@@ -554,7 +557,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
    - Replaces ``reservedBy_id`` and ``bookedBy_id`` with ``user_id`` and ``status``
 - Start of using GitLab CI
    - At the moment, only to run PHPUnit, later also to run Laravel Mix.
-   
+
 ### Changed
 - Some optimalisation on Eloquent models
 - Updates FontAwesome to 5.2.0
