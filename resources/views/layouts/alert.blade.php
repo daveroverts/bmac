@@ -4,7 +4,7 @@
             Swal.fire({
                 title: '{{ session('title') }}',
                 text: '{{ session('text') }}',
-                type: '{{ session('type') }}'
+                icon: '{{ session('type') }}'
             })
         </script>
     @endpush

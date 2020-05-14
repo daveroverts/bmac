@@ -6,8 +6,7 @@ Be sure to update your remotes ASAP. I've enabled mirroring, but chances are tha
 Book me a Cookie is a booking system created in Laravel. It's initial purpose was to be used for one event (The Holland - America Line), howerver, this system is already ready to be used for more events.
 
 # Features
-- Uses [Vatsim SSO](https://forums.vatsim.net/viewforum.php?f=134)
-   - At the moment, only VACC tokens are supported non-VACC tokens will be supported in a new version
+- Uses [Vatsim Connect](https://vatsimnetwork.github.io/documentation/connect)
 
 # Installing
 Before you begin, make sure you have a server to run everything on. For local development, I use [Laravel Homestead](https://laravel.com/docs/master/homestead).
@@ -42,3 +41,7 @@ Before you begin, make sure you have a server to run everything on. For local de
 4. Open the website, and login.
 5. Open the database, and make yourself admin by setting ``isAdmin`` to ``1``.
 6. To import airports, open route ``admin/airports/import``
+
+# Import bookings template file
+https://uploads.daveroverts.nl/import_template
+Note that the **bold** fields are always required

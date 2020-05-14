@@ -24,7 +24,7 @@
                             Swal.fire({
                                 title: 'Are you sure',
                                 text: 'Are you sure you want to remove this booking?',
-                                type: 'warning',
+                                icon: 'warning',
                                 showCancelButton: true,
                             }).then((result) => {
                                 if (result.value) {

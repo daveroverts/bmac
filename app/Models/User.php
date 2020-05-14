@@ -5,7 +5,6 @@ namespace App\Models;
 use App\Http\Controllers\VatsimOAuthController;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Laravel\Passport\HasApiTokens;
 use League\OAuth2\Client\Token\AccessToken;
 use Spatie\Activitylog\Traits\LogsActivity;
 
@@ -59,7 +58,6 @@ use Spatie\Activitylog\Traits\LogsActivity;
  */
 class User extends Authenticatable
 {
-    use HasApiTokens;
     use LogsActivity;
     use Notifiable;
 
@@ -121,8 +119,8 @@ class User extends Authenticatable
 
     /**
      * When doing $user->token, return a valid access token or null if none exists
-     * 
-     * @return \League\OAuth2\Client\Token\AccessToken 
+     *
+     * @return \League\OAuth2\Client\Token\AccessToken
      * @return null
      */
     public function getTokenAttribute()
