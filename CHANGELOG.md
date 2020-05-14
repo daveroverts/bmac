@@ -8,10 +8,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - Vatsim SSO replaced with Vatsim Connect
+- ``BookingAdminController@import()`` now supports Route
 
 ### Changed
 - Removed unique index for ``icao`` in ``2018_06_06_172719_create_airports_table.php`` to fix a problem in the first migrations, Thanks to @blt950
 - Upgraded to Laravel 7
+- ``BookingAdminController@import()`` now supports even more empty fields
 
 ### Removed
 - Laravel Passport, as it was not really used
