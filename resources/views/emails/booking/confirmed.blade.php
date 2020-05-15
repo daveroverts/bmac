@@ -30,7 +30,7 @@ For reference, your booking details are listed below.
 @endif
 | Aircraft: | **{{ $booking->acType }}** |
 @if($booking->event->uses_times)
-| CTOT: | **{{ $booking->flights()->first()->ctot }}** |
+| CTOT: | **{{ $booking->flights()->first()->formattedCtot }}** |
 @endif
 | Event Date: | **{{ $booking->event->startEvent->toFormattedDateString() }}** |
 @endif
