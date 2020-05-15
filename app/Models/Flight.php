@@ -61,6 +61,13 @@ class Flight extends Model
     protected static $logOnlyDirty = true;
 
     /**
+     * The attributes that should be mutated to dates.
+     *
+     * @var array
+     */
+    protected $dates = ['ctot', 'eta'];
+
+    /**
      * The relationships that should be touched on save.
      *
      * @var array
@@ -73,10 +80,10 @@ class Flight extends Model
      * @param $value
      * @return string
      */
-    public function getCtotAttribute($value)
+    public function getFormattedCtotAttribute()
     {
-        if (!empty($value)) {
-            return \Carbon\Carbon::parse($value)->format('Hi') . 'z';
+        if (!empty($this->ctot)) {
+            return $this->ctot->format('Hi') . 'z';
         }
         return '-';
     }
@@ -84,13 +91,12 @@ class Flight extends Model
     /**
      * Format for ETA
      *
-     * @param $value
      * @return string
      */
-    public function getEtaAttribute($value)
+    public function getFormattedEtaAttribute()
     {
-        if (!empty($value)) {
-            return \Carbon\Carbon::parse($value)->format('Hi') . 'z';
+        if (!empty($this->eta)) {
+            return $this->eta->format('Hi') . 'z';
         }
         return '-';
     }

@@ -79,10 +79,10 @@
                             </td>
                             @if($booking->event->uses_times)
                                 <td>
-                                    {{ $flight->ctot }}
+                                    {{ $flight->formattedCtot }}
                                 </td>
                                 <td>
-                                    {{ $flight->eta }}
+                                    {{ $flight->formattedEta }}
                                 </td>
                             @endif
                             <td class="{{ auth()->check() && auth()->user()->use_monospace_font ? 'text-monospace' : '' }}">{{ $booking->callsign }}</td>

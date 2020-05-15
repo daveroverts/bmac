@@ -35,7 +35,7 @@
                                         <label for="ctot" class="col-md-4 col-form-label text-md-right"> CTOT</label>
 
                                         <div class="col-md-6">
-                                            <div class="form-control-plaintext"><strong>{{ $flight->ctot }}</strong></div>
+                                            <div class="form-control-plaintext"><strong>{{ $flight->formattedCtot }}</strong></div>
 
                                         </div>
                                     </div>
@@ -47,7 +47,7 @@
                                         <label for="eta" class="col-md-4 col-form-label text-md-right"> ETA</label>
 
                                         <div class="col-md-6">
-                                            <div class="form-control-plaintext"><strong>{{ $flight->eta }}</strong></div>
+                                            <div class="form-control-plaintext"><strong>{{ $flight->formattedEta }}</strong></div>
 
                                         </div>
                                     </div>
