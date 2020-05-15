@@ -4,7 +4,7 @@ on: [push, pull_request]
 jobs:
   laravel:
     name: Laravel (PHP ${{ matrix.php-versions }})
-    runs-on: ubuntu-latest  
+    runs-on: ubuntu-latest
     services:
       mysql:
         image: mysql:5.7
@@ -92,37 +92,3 @@ jobs:
         with:
           name: assets
           path: public
-
-  deploy-dev:
-    if: github.ref == 'refs/heads/dev'
-    needs: [laravel]
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v2
-    - name: Deploy
-      env:
-        DEPLOY_KEY: ${{ secrets.DEPLOY_KEY }}
-      run: |
-        eval "$(ssh-agent -s)"
-        ssh-add - <<< "${DEPLOY_KEY}"
-        mkdir ~/.ssh
-        echo -e "HostName example.com\n\tStrictHostKeyChecking no\n\t"User deploy >> ~/.ssh/config
-        composer install
-        php artisan deploy
-
-  deploy-master:
-    if: github.ref == 'refs/heads/master'
-    needs: [laravel]
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v2
-    - name: Deploy
-      env:
-        DEPLOY_KEY: ${{ secrets.DEPLOY_KEY }}
-      run: |
-        eval "$(ssh-agent -s)"
-        ssh-add - <<< "${DEPLOY_KEY}"
-        mkdir ~/.ssh
-        echo -e "HostName example.com\n\tStrictHostKeyChecking no\n\t"User deploy >> ~/.ssh/config
-        composer install
-        php artisan deploy
