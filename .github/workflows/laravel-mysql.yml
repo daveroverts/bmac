@@ -52,8 +52,6 @@ jobs:
         run: |
           php -r "file_exists('.env') || copy('.env.testing', '.env');"
           php artisan key:generate
-      - name: Set up Passport
-        run: php artisan passport:keys
       - name: Clear Config
         run: php artisan config:clear
       - name: Run Migration
