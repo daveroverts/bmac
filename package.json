@@ -33,7 +33,7 @@
     },
     "dependencies": {
         "@bugsnag/js": "^7.0.1",
-        "bootswatch": "^4.4.1",
+        "bootswatch": "^4.5.0",
         "sweetalert2": "^9.10.12",
         "tinymce": "^5.2.2"
     },
