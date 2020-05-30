@@ -65,11 +65,16 @@
                         @endif
                         <a href="{{ route('admin.events.email.form',$event) }}" class="btn btn-primary"><i
                                 class="fa fa-envelope"></i> Send mail to all</a>&nbsp;
-                        <a href="{{ route('admin.bookings.export',$event) }}" class="btn btn-success"><i
-                                class="fa fa-file-export"></i> Export data</a>&nbsp;
+
+                        <button class="btn btn-success dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-file-export"></i> Export</button>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="{{ route('admin.bookings.export',$event) }}">Excluding emails</a>
+                            @if($event->event_type_id == \App\Enums\EventType::MULTIFLIGHTS)
+                                <a class="dropdown-item" href="{{ route('admin.bookings.export',[$event, 'vacc']) }}">Including emails</a>
+                            @endif
+                        </div>
+
                         @if($event->event_type_id == \App\Enums\EventType::MULTIFLIGHTS)
-                            <a href="{{ route('admin.bookings.export',[$event, 'vacc']) }}" class="btn btn-success"><i
-                                    class="fa fa-edit"></i> Export data + VACC data</a>&nbsp;
                             <a href="{{ route('admin.bookings.routeAssignForm', $event) }}" class="btn btn-primary"><i
                                     class="fa fa-edit"></i> Assign Routes</a>&nbsp;
                         @endif
