@@ -98,6 +98,7 @@ phpunit:
     - composer
   script:
     - php -v
+    - cp .env.gitlab.testing .env
     - vendor/bin/phpunit --coverage-text --colors=never --coverage-clover code-coverage --log-junit test-executions
   artifacts:
     paths:
