@@ -4082,16 +4082,16 @@
         },
         {
             "name": "spatie/laravel-activitylog",
-            "version": "3.14.1",
+            "version": "3.14.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/laravel-activitylog.git",
-                "reference": "08a128edbfc96493f45d785381ab0be4479cd763"
+                "reference": "f1261c461ee4a92fd1e72012b516147ba28a91bb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/laravel-activitylog/zipball/08a128edbfc96493f45d785381ab0be4479cd763",
-                "reference": "08a128edbfc96493f45d785381ab0be4479cd763",
+                "url": "https://api.github.com/repos/spatie/laravel-activitylog/zipball/f1261c461ee4a92fd1e72012b516147ba28a91bb",
+                "reference": "f1261c461ee4a92fd1e72012b516147ba28a91bb",
                 "shasum": ""
             },
             "require": {
@@ -4154,7 +4154,7 @@
                 "spatie",
                 "user"
             ],
-            "time": "2020-03-23T17:09:07+00:00"
+            "time": "2020-05-19T14:31:33+00:00"
         },
         {
             "name": "swiftmailer/swiftmailer",
