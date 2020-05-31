@@ -31,7 +31,7 @@ composer:
   script:
     - php -v
     - composer install --prefer-dist --no-ansi --no-interaction --no-progress --no-scripts
-    - cp .env.testing .env
+    - cp .env.gitlab.testing .env
     - php artisan key:generate
   artifacts:
     paths:
