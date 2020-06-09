@@ -82,7 +82,7 @@ class LoginController extends Controller
         if (
             ! isset($resourceOwner->data) ||
             ! isset($resourceOwner->data->cid) ||
-            ! isset($resourceOwner->data->personal)
+            ! isset($resourceOwner->data->personal->email)
         ) {
             flashMessage('error', 'Login failed', 'We need you to grant us all marked permissions');
             return redirect('/')->withError("We need you to grant us all marked permissions");
