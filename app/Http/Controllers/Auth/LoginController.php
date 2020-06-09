@@ -82,6 +82,8 @@ class LoginController extends Controller
         if (
             ! isset($resourceOwner->data) ||
             ! isset($resourceOwner->data->cid) ||
+            ! isset($resourceOwner->data->personal->name_first) ||
+            ! isset($resourceOwner->data->personal->name_last) ||
             ! isset($resourceOwner->data->personal->email)
         ) {
             flashMessage('error', 'Login failed', 'We need you to grant us all marked permissions');
