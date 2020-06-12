@@ -54,7 +54,7 @@
                             <div class="col-md-6">
                                 <input id="callsign" type="text"
                                        class="form-control{{ $errors->has('callsign') ? ' is-invalid' : '' }}"
-                                       name="callsign" value="{{ old('callsign',$booking->callsign) }}" autofocus
+                                       name="callsign" value="{{ old('callsign', $booking->getOriginal('callsign')) }}" autofocus
                                        max="7">
 
                                 @if ($errors->has('callsign'))
@@ -72,7 +72,7 @@
                             <div class="col-md-6">
                                 <input id="ctot" type="time"
                                        class="form-control{{ $errors->has('ctot') ? ' is-invalid' : '' }}" name="ctot"
-                                       value="{{ old('ctot', !empty($flight->getOriginal('ctot')) ? \Carbon\Carbon::parse($flight->getOriginal('ctot'))->format('H:i') : '') }}">
+                                       value="{{ old('ctot', !empty($flight->ctot) ? $flight->ctot->format('H:i') : '') }}">
 
                                 @if ($errors->has('ctot'))
                                     <span class="invalid-feedback">
@@ -89,7 +89,7 @@
                             <div class="col-md-6">
                                 <input id="eta" type="time"
                                        class="form-control{{ $errors->has('eta') ? ' is-invalid' : '' }}" name="eta"
-                                       value="{{ old('eta', !empty($flight->getOriginal('eta')) ? \Carbon\Carbon::parse($flight->getOriginal('eta'))->format('H:i') : '') }}">
+                                       value="{{ old('eta', !empty($flight->eta) ? $flight->eta->format('H:i') : '') }}">
 
                                 @if ($errors->has('eta'))
                                     <span class="invalid-feedback">

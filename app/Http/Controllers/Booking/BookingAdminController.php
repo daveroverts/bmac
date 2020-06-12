@@ -377,28 +377,55 @@ class BookingAdminController extends AdminController
                 ]);
             });
         } else {
-            (new FastExcel)->importSheets($file, function ($line) use ($event) {
+            $success = true;
+            (new FastExcel)->importSheets($file, function ($line) use ($success, $event) {
+                if (!$success) {
+                    return false;
+                }
+                $editable = true;
                 $dep = Airport::where('icao', $line['Origin'])->first();
+                if (!$dep) {
+                    flashMessage('danger', 'Airport ' . $line['Origin'] . ' does not exist', 'Add the airport, then try again');
+                    $success = false;
+                }
                 $arr = Airport::where('icao', $line['Destination'])->first();
+                if (!$arr) {
+                    flashMessage('danger', 'Airport ' . $line['Destination'] . ' does not exist', 'Add the airport, then try again');
+                    $success = false;
+                }
+
+                if (!$success) {
+                    return false;
+                }
 
                 $booking = new Booking();
+                if (!empty($line['Call Sign']) && !empty($line['Aircraft Type'])) {
+                    $editable = false;
+                    $booking->fill([
+                        'callsign' => $line['Call Sign'],
+                        'acType' => $line['Aircraft Type'],
+
+                    ]);
+                }
                 $booking->fill([
                     'event_id' => $event->id,
-                    'callsign' => $line['Call Sign'],
-                    'acType' => $line['Aircraft Type'],
-
+                    'is_editable' => $editable,
                 ])->save();
+
                 $flight = collect([
                     'dep' => $dep->id,
                     'arr' => $arr->id,
                 ]);
-                if (isset($line['ETA'])) {
+                if (!empty($line['ETA'])) {
                     $flight->put('eta', Carbon::createFromFormat('Y-m-d H:i',
                         $event->startEvent->toDateString().' '.$line['ETA']->format('H:i')));
                 }
-                if (isset($line['EOBT'])) {
+                if (!empty($line['EOBT'])) {
                     $flight->put('ctot', Carbon::createFromFormat('Y-m-d H:i',
                         $event->startEvent->toDateString().' '.$line['EOBT']->format('H:i')));
+                }
+                if (!empty($line['Route'])) {
+                    $flight->put('route', $line['Route']);
                 }
                 $booking->flights()->create($flight->toArray());
             });
