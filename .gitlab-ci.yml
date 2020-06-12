@@ -20,8 +20,11 @@ image: edbizarro/gitlab-ci-pipeline-php:7.4-alpine
 
 # Variables
 variables:
-  MYSQL_DATABASE: homestead
   MYSQL_ROOT_PASSWORD: root
+  MYSQL_USER: homestead
+  MYSQL_PASSWORD: secret
+  MYSQL_DATABASE: homestead
+  DB_HOST: mysql
 
 cache:
   key: "$CI_JOB_NAME-$CI_COMMIT_REF_SLUG"
