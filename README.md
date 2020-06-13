@@ -25,6 +25,7 @@ Before you begin, make sure you have a server to run everything on. For local de
     - MAIL_FROM_NAME: This will be used as the ``From`` name.
     - VATSIM_OAUTH_*: Fill in the required fields.
     - SITE_*: Feel free to edit these. They are used all over the place.
+    - When adding a new redirect url, point to /login.
     - BOOTSTRAP_COLOR*: By default, BMAC uses [Bootswatch Flatly](https://bootswatch.com/flatly/). If you wish to edit some colors, you can do so here.
 3. Run the following commands: 
     - Production:

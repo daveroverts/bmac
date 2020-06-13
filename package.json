@@ -36,8 +36,5 @@
         "bootswatch": "^4.5.0",
         "sweetalert2": "^9.14.4",
         "tinymce": "^5.3.2"
-    },
-    "engines": {
-        "yarn": "YARN NO LONGER USED - use npm instead."
     }
 }
