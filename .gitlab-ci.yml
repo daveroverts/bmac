@@ -20,8 +20,11 @@ image: edbizarro/gitlab-ci-pipeline-php:7.4-alpine
 
 # Variables
 variables:
+  MYSQL_ROOT_PASSWORD: root
+  MYSQL_USER: homestead
+  MYSQL_PASSWORD: secret
   MYSQL_DATABASE: homestead
-  MYSQL_ROOT_PASSWORD: secret
+  DB_HOST: mysql
 
 cache:
   key: "$CI_JOB_NAME-$CI_COMMIT_REF_SLUG"
@@ -31,7 +34,7 @@ composer:
   script:
     - php -v
     - composer install --prefer-dist --no-ansi --no-interaction --no-progress --no-scripts
-    - cp .env.testing .env
+    - cp .env.gitlab.testing .env
     - php artisan key:generate
   artifacts:
     paths:
@@ -98,6 +101,7 @@ phpunit:
     - composer
   script:
     - php -v
+    - cp .env.gitlab.testing .env
     - vendor/bin/phpunit --coverage-text --colors=never --coverage-clover code-coverage --log-junit test-executions
   artifacts:
     paths:

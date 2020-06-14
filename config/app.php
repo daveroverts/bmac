@@ -53,6 +53,24 @@ return [
     */
 
     'url' => env('APP_URL', 'http://localhost'),
+    'mix_url' => env('APP_URL', 'http://localhost'),
+
+     /*
+    |--------------------------------------------------------------------------
+    | Branding
+    |--------------------------------------------------------------------------
+    |
+    | Configuration used for branding purposes of this website.
+    |
+    */
+
+    'title' => env('SITE_TITLE', 'Booking'),
+    'division' => env('SITE_DIVISION', 'Unknown Division'),
+    'division_url' => env('SITE_DIVISION_URL', 'https://vaccdivision.org'),
+    'contact_mail' => env('SITE_CONTACT_MAIL', 'event@division.org'),
+
+    'pilotbrief_url' => env('SITE_PILOTBRIEF_URL', 'https://vaccdivision.org/brief'),
+    'charts_url' => env('SITE_CHARTS_URL', 'https://vaccdivision.org/charts'),
 
     /*
     |--------------------------------------------------------------------------
@@ -146,7 +164,6 @@ return [
         Illuminate\Translation\TranslationServiceProvider::class,
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
-        Vatsim\OAuthLaravel\OAuthServiceProvider::class,
 
         /*
          * Package Service Providers...
@@ -161,6 +178,7 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\TelescopeServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+        App\Providers\BreadcrumbsServiceProvider::class
     ],
 
     /*
@@ -210,7 +228,6 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
-        'VatsimSSO' => Vatsim\OAuthLaravel\SSOFacade::class,
         'Bugsnag' => Bugsnag\BugsnagLaravel\Facades\Bugsnag::class,
 
     ],
@@ -225,9 +242,8 @@ return [
             'MAIL_PASSWORD',
             'PUSHER_APP_KEY',
             'PUSHER_APP_SECRET',
-            'SSO_KEY',
-            'SSO_SECRET',
-            'SSO_CERT',
+            'VATSIM_OAUTH_CLIENT',
+            'VATSIM_OAUTH_SECRET',
         ],
         '_SERVER' => [
             'APP_KEY',
@@ -237,9 +253,8 @@ return [
             'MAIL_PASSWORD',
             'PUSHER_APP_KEY',
             'PUSHER_APP_SECRET',
-            'SSO_KEY',
-            'SSO_SECRET',
-            'SSO_CERT',
+            'VATSIM_OAUTH_CLIENT',
+            'VATSIM_OAUTH_SECRET',
         ],
         '_POST' => [
             'password',

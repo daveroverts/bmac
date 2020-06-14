@@ -201,9 +201,9 @@ class Booking extends Model
     {
         if ($flight = $this->flights->where('order_by', $orderBy)->first()) {
             if ($withAbbr) {
-                return "<abbr title='{$flight->airportDep->name} | [{$flight->airportDep->iata}]'>{$flight->airportDep->icao}</abbr> - <abbr title='{$flight->airportArr->name} | [{$flight->airportArr->iata}]'>{$flight->airportArr->icao}</abbr> {$flight->ctot}";
+                return "<abbr title='{$flight->airportDep->name} | [{$flight->airportDep->iata}]'>{$flight->airportDep->icao}</abbr> - <abbr title='{$flight->airportArr->name} | [{$flight->airportArr->iata}]'>{$flight->airportArr->icao}</abbr> {$flight->formattedCtot}";
             }
-            return "{$flight->airportDep->icao} - {$flight->airportArr->icao} {$flight->ctot}";
+            return "{$flight->airportDep->icao} - {$flight->airportArr->icao} {$flight->formattedCtot}";
         }
         return '-';
     }

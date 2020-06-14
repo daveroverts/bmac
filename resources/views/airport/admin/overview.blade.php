@@ -1,7 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
-    <h2>Airports Overview</h2>
+    <h3>Airports Overview</h3>
+    <hr>
     @include('layouts.alert')
     @push('scripts')
         <script>
@@ -10,7 +11,7 @@
                 Swal.fire({
                     title: 'Are you sure',
                     text: 'Are you sure you want to remove this airport?',
-                    type: 'warning',
+                    icon: 'warning',
                     showCancelButton: true,
                 }).then((result) => {
                     if (result.value) {

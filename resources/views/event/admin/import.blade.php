@@ -34,28 +34,31 @@
                                         <strong>{{ $errors->first('file') }}</strong>
                                     </span>
                                 @endif
+
                             </div>
                         </div>
 
                         <div class="form-group row">
 
-                            <label for="ctot" class="col-md-2 col-form-label text-md-right"> Format</label>
-                            <div class="col-md-10">
+                            <div class="col-md-4 text-md-right">
+                                <label for="ctot"> Headers in <strong>bold</strong> are mandatory</label>
+                                <a class="btn btn-secondary" href="{{ url('import_template.xlsx') }}">
+                                    <i class="fas fa-file-excel"></i> Download template
+                                </a>
+                            </div>
+
+                            <div class="col-md-8">
                                 <div class="form-control-plaintext">
                                     @if($event->event_type_id == \App\Enums\EventType::MULTIFLIGHTS)
-                                        <abbr title="[hh:mm]">CTOT 1</abbr> - <abbr title="[ICAO]">Airport 1</abbr> -
-                                        <abbr title="[hh:mm]">CTOT 2</abbr> - <abbr title="[ICAO]">Airport 2</abbr> -
-                                        <abbr title="[ICAO]">Airport 3</abbr>
+                                        <strong><abbr title="[hh:mm]">CTOT 1</abbr></strong> - <strong><abbr title="[ICAO]">Airport 1</abbr></strong> -
+                                        <strong><abbr title="[hh:mm]">CTOT 2</abbr></strong> - <strong><abbr title="[ICAO]">Airport 2</abbr></strong> -
+                                        <strong><abbr title="[ICAO]">Airport 3</abbr></strong>
                                     @else
-                                        <strong>Arrivals</strong> - Call Sign | <abbr title="[ICAO]">Origin</abbr> |
-                                        <abbr title="[ICAO]">Destination</abbr> | <abbr title="[hh:mm]">ETA</abbr> |
-                                        <abbr title="[ICAO]">Aircraft</abbr>
-                                        Type
-                                        <br>
-                                        <strong>Departures</strong> - Call Sign | <abbr title="[ICAO]">Origin</abbr> |
-                                        <abbr title="[ICAO]">Destination</abbr> |
-                                        <abbr title="[hh:mm]">EOBT</abbr> | <abbr title="[ICAO]">Aircraft</abbr>
-                                        Type
+                                        Call Sign | <strong><abbr title="[ICAO]">Origin</abbr></strong> |
+                                        <strong><abbr title="[ICAO]">Destination</abbr></strong> |
+                                        <abbr title="[hh:mm]">EOBT</abbr> | <abbr title="[hh:mm]">ETA</abbr> |
+                                        <abbr title="[ICAO]">Aircraft Type</abbr> | Route
+
                                     @endif
                                 </div>
                             </div>
@@ -64,7 +67,7 @@
                         {{--Import--}}
                         <div class="form-group row mb-0">
                             <div class="col-md-6 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
+                                <button type="submit" class="btn btn-success">
                                     <i class="fas fa-check"></i> Import
                                 </button>
                             </div>
