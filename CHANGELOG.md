@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Vatsim SSO replaced with Vatsim Connect
 - ``BookingAdminController@import()`` now supports Route
+- [davejamesmiller/laravel-breadcrumbs](https://github.com/davejamesmiller/laravel-breadcrumbs) replaced with [tabuna/breadcrumbs](https://github.com/tabuna/breadcrumbs)
 
 ### Changed
 - Removed unique index for ``icao`` in ``2018_06_06_172719_create_airports_table.php`` to fix a problem in the first migrations, Thanks to @blt950
