@@ -7,13 +7,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+
+### Changed
+
+### Removed
+
+## [v2.0.0](https://gitlab.com/daveroverts/Book-me-a-cookie/compare/v2.0.0...v1.5.3) - 2020-06-14
+
+### Added
 - Vatsim SSO replaced with Vatsim Connect
 - ``BookingAdminController@import()`` now supports Route
+- [davejamesmiller/laravel-breadcrumbs](https://github.com/davejamesmiller/laravel-breadcrumbs) replaced with [tabuna/breadcrumbs](https://github.com/tabuna/breadcrumbs)
+- Possiblity to change the default Bootswatch Flatly colors #23 + various site variables #16, thanks to @blt950
 
 ### Changed
 - Removed unique index for ``icao`` in ``2018_06_06_172719_create_airports_table.php`` to fix a problem in the first migrations, Thanks to @blt950
 - Upgraded to Laravel 7
 - ``BookingAdminController@import()`` now supports even more empty fields
+- Homepage / Upcoming Events page layout #23, thanks to @blt950
 
 ### Removed
 - Laravel Passport, as it was not really used

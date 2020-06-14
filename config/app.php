@@ -178,6 +178,7 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\TelescopeServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+        App\Providers\BreadcrumbsServiceProvider::class
     ],
 
     /*
@@ -241,9 +242,8 @@ return [
             'MAIL_PASSWORD',
             'PUSHER_APP_KEY',
             'PUSHER_APP_SECRET',
-            'SSO_KEY',
-            'SSO_SECRET',
-            'SSO_CERT',
+            'VATSIM_OAUTH_CLIENT',
+            'VATSIM_OAUTH_SECRET',
         ],
         '_SERVER' => [
             'APP_KEY',
@@ -253,9 +253,8 @@ return [
             'MAIL_PASSWORD',
             'PUSHER_APP_KEY',
             'PUSHER_APP_SECRET',
-            'SSO_KEY',
-            'SSO_SECRET',
-            'SSO_CERT',
+            'VATSIM_OAUTH_CLIENT',
+            'VATSIM_OAUTH_SECRET',
         ],
         '_POST' => [
             'password',
