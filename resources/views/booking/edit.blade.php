@@ -149,7 +149,7 @@
                                     <input id="aircraft" type="text"
                                            class="form-control{{ $errors->has('aircraft') ? ' is-invalid' : '' }}"
                                            name="aircraft"
-                                           value="{{ old('acType', $booking->getOriginal('acType')) }}" required
+                                           value="{{ old('aircraft', $booking->getOriginal('acType')) }}" required
                                            max="4">
                                 @endif
                             </div>
