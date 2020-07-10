@@ -3,21 +3,20 @@
 namespace App\Http\Controllers\Event;
 
 use App\Enums\BookingStatus;
+use App\Events\EventBulkEmail;
+use App\Events\EventFinalInformation;
 use App\Http\Controllers\AdminController;
 use App\Http\Requests\Event\Admin\SendEmail;
 use App\Http\Requests\Event\Admin\StoreEvent;
 use App\Http\Requests\Event\Admin\UpdateEvent;
 use App\Models\Airport;
-use App\Models\Booking;
 use App\Models\Event;
 use App\Models\EventType;
 use App\Models\User;
-use App\Notifications\EventBulkEmail;
-use App\Notifications\EventFinalInformation;
 use App\Policies\EventPolicy;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
-use Notification;
 
 class EventAdminController extends AdminController
 {
@@ -169,93 +168,53 @@ class EventAdminController extends AdminController
      *
      * @param  SendEmail  $request
      * @param  Event  $event
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
     public function sendEmail(SendEmail $request, Event $event)
     {
         if ($request->testmode) {
-            Notification::send(auth()->user(), new EventBulkEmail($event, $request->subject, $request->message));
-            activity()
-                ->by(auth()->user())
-                ->on($event)
-                ->withProperties(
-                    [
-                        'subject' => $request->subject,
-                        'message' => $request->message,
-                    ]
-                )
-                ->log('Bulk E-mail test performed');
+            event(new EventBulkEmail($event, $request->all(), null));
             return response()->json(['success' => 'Email has been sent to yourself']);
         } else {
-            $bookings = Booking::where('event_id', $event->id)
-                ->where('status', BookingStatus::BOOKED)
-                ->get();
-            $users = User::find($bookings->pluck('user_id'));
-            Notification::send($users, new EventBulkEmail($event, $request->subject, $request->message));
-            $count = $users->count();
-
-            flashMessage('success', 'Done', 'Bulk E-mail has been sent to '.$count.' people!');
-            activity()
-                ->by(auth()->user())
-                ->on($event)
-                ->withProperties(
-                    [
-                        'subject' => $request->subject,
-                        'message' => $request->message,
-                        'count' => $count,
-                    ]
-                )
-                ->log('Bulk E-mail');
+            /* @var User $users */
+            $users = User::whereHas('bookings', function (Builder $query) use ($event) {
+                $query->where('event_id', $event->id);
+                $query->where('status', BookingStatus::BOOKED);
+            })->get();
+            event(new EventBulkEmail($event, $request->all(), $users));
+            flashMessage('success', 'Done', 'Bulk E-mail has been sent to '.$users->count().' people!');
+            return redirect(route('admin.events.index'));
         }
-        return redirect(route('admin.events.index'));
     }
 
     /**
      * Sends E-mail to all users who booked a flight the final information.
      *
      * @param  Event  $event
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
     public function sendFinalInformationMail(Request $request, Event $event)
     {
-        $bookings = Booking::where('event_id', $event->id)
+        $bookings = $event->bookings()
+            ->with(['user', 'flights'])
             ->where('status', BookingStatus::BOOKED)
             ->get();
 
         if ($request->testmode) {
-            $booking = $bookings->random();
-            Notification::send(auth()->user(), new EventFinalInformation($booking));
-
-            activity()
-                ->by(auth()->user())
-                ->on($event)
-                ->withProperties(
-                    [
-                        'booking' => $booking,
-                    ]
-                )
-                ->log('Final Information E-mail test performed');
+            event(new EventFinalInformation($bookings->random()));
             return response()->json(['success' => 'Email has been sent to yourself']);
         } else {
             $count = $bookings->count();
             $countSkipped = 0;
-            $now = now();
             foreach ($bookings as $booking) {
-                $shouldSend = false;
                 if (!$booking->has_received_final_information_email || $request->forceSend) {
-                    $shouldSend = true;
-                }
-
-                // @TODO Maybe better in a Event/Listener?
-                if ($shouldSend) {
-                    $booking->user->notify(new EventFinalInformation($booking));
-                    $booking->update(['final_information_email_sent_at' => $now]);
+                    event(new EventFinalInformation($booking));
                 } else {
                     $count--;
                     $countSkipped++;
                 }
             }
-            $message = 'Final Information has been sent to '.$count.' people!';
+            $message = 'Final Information has been sent to ' . $count . ' people!';
             if ($countSkipped != 0) {
                 $message .= ' However, ' . $countSkipped . ' where skipped, because they already received one';
             }
