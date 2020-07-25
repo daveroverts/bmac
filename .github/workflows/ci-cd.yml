@@ -143,11 +143,11 @@ jobs:
       - name: Run Deployment [Staging]
         env:
           APP_DEPLOY_PATH: ${{ secrets.APP_DEPLOY_PATH }}
-        if: github.ref == 'refs/heads/feature/dev'
+        if: github.ref == 'refs/heads/dev'
         run: php artisan deploy 104.248.84.152 -s upload
 
       - name: Run Deployment [Production]
         env:
           APP_DEPLOY_PATH: ${{ secrets.APP_DEPLOY_PATH }}
-        if: github.ref == 'refs/heads/feature/master'
+        if: github.ref == 'refs/heads/master'
         run: php artisan deploy vps1.dutchvacc.nl -s upload
