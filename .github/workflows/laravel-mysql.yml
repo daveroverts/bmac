@@ -98,7 +98,7 @@ jobs:
           APP_DEPLOY_PATH: ${{ secrets.APP_DEPLOY_PATH }}
           APP_DEPLOY_USER: ${{ secrets.APP_DEPLOY_USER }}
           BUGSNAG_API_KEY: ${{ secrets.BUGSNAG_API_KEY }}
-        if: github.ref == 'refs/heads/develop'
+        if: github.ref == 'refs/heads/feature/action-deploy'
         run: php artisan deploy 104.248.84.152 -s upload
       - name: Run Deployment [Production]
         env:
