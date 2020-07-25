@@ -3,6 +3,8 @@ This repo is moving to a new home, which can be found here: https://github.com/d
 Be sure to update your remotes ASAP. I've enabled mirroring, but chances are that I'll archive the project in GitLab.
 
 # About this project
+![CI/CD](https://github.com/daveroverts/bmac/workflows/CI/CD/badge.svg)
+
 Book me a Cookie is a booking system created in Laravel. It's initial purpose was to be used for one event (The Holland - America Line), howerver, this system is already ready to be used for more events.
 
 # Features
