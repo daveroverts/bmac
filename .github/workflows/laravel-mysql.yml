@@ -11,6 +11,7 @@ jobs:
         env:
           MYSQL_ROOT_PASSWORD: root
           MYSQL_DATABASE: homestead
+          BUGSNAG_API_KEY: ${{ secrets.BUGSNAG_API_KEY }}
         ports:
           - 3306/tcp
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
@@ -22,7 +23,7 @@ jobs:
         with:
           php-version: 7.4
           extensions: mbstring, dom, fileinfo, mysql
-          coverage: xdebug #optional
+          coverage: pcov #optional
           tools: phpcs, phpcpd
 
       - name: Start mysql service
@@ -102,13 +103,11 @@ jobs:
       - name: Run Deployment [Staging]
         env:
           APP_DEPLOY_PATH: ${{ secrets.APP_DEPLOY_PATH }}
-          BUGSNAG_API_KEY: ${{ secrets.BUGSNAG_API_KEY }}
-        if: github.ref == 'refs/heads/dev'
+        if: github.ref == 'refs/heads/feature/action-deploy'
         run: php artisan deploy 104.248.84.152 -s upload
 
       - name: Run Deployment [Production]
         env:
           APP_DEPLOY_PATH: ${{ secrets.APP_DEPLOY_PATH }}
-          BUGSNAG_API_KEY: ${{ secrets.BUGSNAG_API_KEY }}
         if: github.ref == 'refs/heads/feature/master'
         run: php artisan deploy vps1.dutchvacc.nl -s upload
