@@ -19,8 +19,6 @@ jobs:
         ports:
           - 6379/tcp
         options: --health-cmd="redis-cli ping" --health-interval=10s --health-timeout=5s --health-retries=3
-    strategy:
-      fail-fast: false
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -31,11 +29,14 @@ jobs:
           extensions: mbstring, dom, fileinfo, mysql
           coverage: xdebug #optional
           tools: phpcs, phpcpd
+
       - name: Start mysql service
         run: sudo /etc/init.d/mysql start
+
       - name: Get composer cache directory
         id: composer-cache
         run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+
       - name: Cache composer dependencies
         uses: actions/cache@v1
         with:
@@ -44,30 +45,38 @@ jobs:
           # key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
           restore-keys: ${{ runner.os }}-composer-
+
       - name: Install Composer dependencies
         run: composer install --no-progress --no-suggest --prefer-dist --optimize-autoloader
       - name: Prepare the application
         run: |
           php -r "file_exists('.env') || copy('.env.testing', '.env');"
           php artisan key:generate
+
       - name: Clear Config
         run: php artisan config:clear
+
       - name: Run Migration
         run: php artisan migrate -v
         env:
           DB_PORT: ${{ job.services.mysql.ports['3306'] }}
           REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
+
       - name: Test with phpunit
         run: vendor/bin/phpunit --coverage-text
         env:
           DB_PORT: ${{ job.services.mysql.ports['3306'] }}
           REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
+
       - name: PHP_CodeSniffer
         run: phpcs --extensions=php app
+
       - name: Copy/Paste Detector
         run: phpcpd app/ --min-lines=50
+
       - name: Sensiolabs
         run: php vendor/sensiolabs/security-checker security:check composer.lock
+
       - name: Get node.js cache directory
         id: node-cache-dir
         run: echo "::set-output name=dir::$(npm config get cache)" # Use $(yarn cache dir) for yarn
@@ -78,27 +87,32 @@ jobs:
           path: ${{ steps.node-cache-dir.outputs.dir }}
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }} # Use '**/yarn.lock' for yarn
           restore-keys: ${{ runner.os }}-node-
-        run: npm ci
+
       - name: NPM Build
         run: |
+          npm ci
           npm run production --no-progress
           cat public/mix-manifest.json # See asset versions in log
+
       - name: Upload build files
         uses: actions/upload-artifact@v1
         with:
           name: assets
           path: public
+
       - name: Setup Deployer
         uses: atymic/deployer-php-action@master
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
           ssh-known-hosts: ${{ secrets.SSH_KNOWN_HOSTS }}
+
       - name: Run Deployment [Staging]
         env:
           APP_DEPLOY_PATH: ${{ secrets.APP_DEPLOY_PATH }}
           BUGSNAG_API_KEY: ${{ secrets.BUGSNAG_API_KEY }}
         if: github.ref == 'refs/heads/feature/action-deploy'
         run: php artisan deploy 104.248.84.152 -s upload
+
       - name: Run Deployment [Production]
         env:
           APP_DEPLOY_PATH: ${{ secrets.APP_DEPLOY_PATH }}
