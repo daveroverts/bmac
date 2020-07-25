@@ -1,9 +1,35 @@
 # GitHub Action for Laravel with MySQL
-name: Testing Laravel with MySQL
+name: CI/CD
 on: [push, pull_request]
 jobs:
-  laravel:
-    name: Laravel (PHP 7.4)
+  build-js:
+    name: Build JS / CSS
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get node.js cache directory
+        id: node-cache-dir
+        run: echo "::set-output name=dir::$(npm config get cache)" # Use $(yarn cache dir) for yarn
+
+      - name: Cache NPM dependencies
+        uses: actions/cache@v1
+        with:
+          path: ${{ steps.node-cache-dir.outputs.dir }}
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }} # Use '**/yarn.lock' for yarn
+          restore-keys: ${{ runner.os }}-node-
+
+      - name: NPM Build
+        run: |
+          npm ci
+          npm run production --no-progress
+          cat public/mix-manifest.json # See asset versions in log
+
+      - name: Upload build files
+        uses: actions/upload-artifact@v1
+        with:
+          name: assets
+          path: public
+  test-php:
+    name: Test PHP
     runs-on: ubuntu-latest
     services:
       mysql:
@@ -58,7 +84,7 @@ jobs:
           DB_PORT: ${{ job.services.mysql.ports['3306'] }}
 
       - name: Test with phpunit
-        run: vendor/bin/phpunit --coverage-text
+        run: vendor/bin/phpunit
         env:
           DB_PORT: ${{ job.services.mysql.ports['3306'] }}
 
@@ -70,30 +96,11 @@ jobs:
 
       - name: Sensiolabs
         run: php vendor/sensiolabs/security-checker security:check composer.lock
-
-      - name: Get node.js cache directory
-        id: node-cache-dir
-        run: echo "::set-output name=dir::$(npm config get cache)" # Use $(yarn cache dir) for yarn
-
-      - name: Cache NPM dependencies
-        uses: actions/cache@v1
-        with:
-          path: ${{ steps.node-cache-dir.outputs.dir }}
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }} # Use '**/yarn.lock' for yarn
-          restore-keys: ${{ runner.os }}-node-
-
-      - name: NPM Build
-        run: |
-          npm ci
-          npm run production --no-progress
-          cat public/mix-manifest.json # See asset versions in log
-
-      - name: Upload build files
-        uses: actions/upload-artifact@v1
-        with:
-          name: assets
-          path: public
-
+  deploy:
+    name: Run Deployment
+    runs-on: ubuntu-latest
+    needs: test-php
+    steps:
       - name: Setup Deployer
         uses: atymic/deployer-php-action@master
         with:
