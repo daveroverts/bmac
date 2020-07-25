@@ -57,14 +57,14 @@ jobs:
       - name: Start mysql service
         run: sudo /etc/init.d/mysql start
 
-      - name: Get composer cache directory
-        id: composer-cache
+      - name: Get composer dev cache directory
+        id: composer-dev-cache
         run: echo "::set-output name=dir::$(composer config cache-files-dir)"
 
       - name: Cache composer dependencies
         uses: actions/cache@v1
         with:
-          path: ${{ steps.composer-cache.outputs.dir }}
+          path: ${{ steps.composer-dev-cache.outputs.dir }}
           # Use composer.json for key, if composer.lock is not committed.
           # key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
@@ -101,7 +101,6 @@ jobs:
   deploy:
     name: Run Deployment
     runs-on: ubuntu-latest
-    needs: test-php
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -111,6 +110,19 @@ jobs:
         with:
           php-version: 7.4
           extensions: mbstring
+
+      - name: Get composer cache directory
+        id: composer-cache
+        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+
+      - name: Cache composer dependencies
+        uses: actions/cache@v1
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          # Use composer.json for key, if composer.lock is not committed.
+          # key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: ${{ runner.os }}-composer-
 
       - name: Install Composer dependencies
         run: composer install --no-progress --no-suggest --prefer-dist --optimize-autoloader --no-dev
