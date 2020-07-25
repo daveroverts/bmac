@@ -78,9 +78,9 @@ jobs:
           path: ${{ steps.node-cache-dir.outputs.dir }}
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }} # Use '**/yarn.lock' for yarn
           restore-keys: ${{ runner.os }}-node-
+        run: npm ci
       - name: NPM Build
         run: |
-          npm ci
           npm run production --no-progress
           cat public/mix-manifest.json # See asset versions in log
       - name: Upload build files
