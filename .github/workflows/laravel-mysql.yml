@@ -89,16 +89,21 @@ jobs:
           name: assets
           path: public
       - name: Setup Deployer
-      uses: atymic/deployer-php-action@master
-      with:
-        ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-        ssh-known-hosts: ${{ secrets.SSH_KNOWN_HOSTS }}
-    - name: Run Deployment
-      env:
-        APP_DEPLOY_PATH: ${{ secrets.APP_DEPLOY_PATH }}
-        APP_DEPLOY_USER: ${{ secrets.APP_DEPLOY_USER }}
-        BUGSNAG_API_KEY: ${{ secrets.BUGSNAG_API_KEY }}
-      if: github.ref == 'refs/heads/develop'
-      run: php artisan deploy 104.248.84.152 -s upload
-      if: github.ref == 'refs/heads/master'
-      run: php artisan deploy vps1.dutchvacc.nl -s upload
+        uses: atymic/deployer-php-action@master
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+          ssh-known-hosts: ${{ secrets.SSH_KNOWN_HOSTS }}
+      - name: Run Deployment [Staging]
+        env:
+          APP_DEPLOY_PATH: ${{ secrets.APP_DEPLOY_PATH }}
+          APP_DEPLOY_USER: ${{ secrets.APP_DEPLOY_USER }}
+          BUGSNAG_API_KEY: ${{ secrets.BUGSNAG_API_KEY }}
+        if: github.ref == 'refs/heads/develop'
+        run: php artisan deploy 104.248.84.152 -s upload
+      - name: Run Deployment [Production]
+        env:
+          APP_DEPLOY_PATH: ${{ secrets.APP_DEPLOY_PATH }}
+          APP_DEPLOY_USER: ${{ secrets.APP_DEPLOY_USER }}
+          BUGSNAG_API_KEY: ${{ secrets.BUGSNAG_API_KEY }}
+        if: github.ref == 'refs/heads/master'
+        run: php artisan deploy vps1.dutchvacc.nl -s upload
