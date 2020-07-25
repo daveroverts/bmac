@@ -176,7 +176,7 @@ production:
   script:
     - *init_ssh
     - *change_file_permissions
-    - php artisan deploy vps1.dutchvacc.nl -s upload -vvv
+    - php artisan deploy vps1.dutchvacc.nl -s upload
 
   environment:
     name: production
