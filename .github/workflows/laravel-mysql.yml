@@ -112,6 +112,9 @@ jobs:
           php-version: 7.4
           extensions: mbstring
 
+      - name: Install Composer dependencies
+        run: composer install --no-progress --no-suggest --prefer-dist --optimize-autoloader --no-dev
+
       - name: Setup Deployer
         uses: atymic/deployer-php-action@master
         with:
