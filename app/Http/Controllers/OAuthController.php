@@ -73,27 +73,6 @@ class OAuthController extends GenericProvider
         }
 
         return false;
-        
-        /*
-        $getVar = function($var, $previous = null){
-            if(isset($previous)){
-                if(!isset($previous->${$var})){
-                    return false;
-                }
-                return $previous->${$var};
-            } else {
-                if(!isset(${$var})){
-                    return false;
-                }
-                return ${$var};
-            }
-        };
-
-        $properties = explode('-', $map);
-        $result = null;
-        for($x = 0; $x <= count($properties); $x++) {
-            $result = $getVar($properties[$x], $result);
-        }*/
 
     }
 }
