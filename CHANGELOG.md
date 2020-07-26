@@ -7,8 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- Added Events and Listeners for the Notifications we already have.
 
 ### Changed
+- Deployment is now done using Github Actions instead of Gitlab CI.
 
 ### Removed
 

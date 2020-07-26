@@ -4,11 +4,11 @@ namespace App\Http\Controllers\Booking;
 
 use App\Enums\BookingStatus;
 use App\Enums\EventType;
+use App\Events\BookingCancelled;
+use App\Events\BookingConfirmed;
 use App\Http\Requests\Booking\UpdateBooking;
 use App\Models\Booking;
 use App\Models\Event;
-use App\Notifications\BookingCancelled;
-use App\Notifications\BookingConfirmed;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
@@ -266,11 +266,7 @@ class BookingController extends Controller
 
             $booking->status = BookingStatus::BOOKED;
             if ($booking->getOriginal('status') === BookingStatus::RESERVED) {
-                activity()
-                    ->by(auth()->user())
-                    ->on($booking)
-                    ->log('Flight booked');
-                $booking->user->notify(new BookingConfirmed($booking));
+                event(new BookingConfirmed($booking));
                 flashMessage('success', 'Booking created!',
                     'Booking has been created! An E-mail with details has also been sent');
             } else {
@@ -335,15 +331,10 @@ class BookingController extends Controller
                 ]);
             }
             $booking->status = BookingStatus::UNASSIGNED;
-            activity()
-                ->by(auth()->user())
-                ->on($booking)
-                ->log('Flight available');
             if ($booking->getOriginal('status') === BookingStatus::BOOKED) {
+                event(new BookingCancelled($booking));
                 $title = 'Booking removed!';
                 $message = 'Booking has been removed! A E-mail has also been sent';
-                $booking->user->notify(new BookingCancelled($booking->event));
-
             } else {
                 $title = 'Slot free';
                 $message = 'Slot is now free to use again';

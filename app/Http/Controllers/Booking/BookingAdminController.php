@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Booking;
 
 use App\Enums\BookingStatus;
 use App\Enums\EventType;
+use App\Events\BookingChanged;
+use App\Events\BookingDeleted;
 use App\Http\Controllers\AdminController;
 use App\Http\Requests\Booking\Admin\AutoAssign;
 use App\Http\Requests\Booking\Admin\ImportBookings;
@@ -14,8 +16,6 @@ use App\Models\Airport;
 use App\Models\Booking;
 use App\Models\Event;
 use App\Models\Flight;
-use App\Notifications\BookingChanged;
-use App\Notifications\BookingDeleted;
 use App\Policies\BookingPolicy;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -213,7 +213,7 @@ class BookingAdminController extends AdminController
         $flight->save();
         $message = 'Booking has been changed!';
         if ($shouldSendEmail) {
-            $booking->user->notify(new BookingChanged($booking, $changes));
+            event(new BookingChanged($booking, $changes));
             $message .= ' A E-mail has also been sent to the person that booked.';
         }
         flashMessage('success', 'Booking changed', $message);
@@ -230,12 +230,12 @@ class BookingAdminController extends AdminController
     public function destroy(Booking $booking)
     {
         if ($booking->event->endEvent >= now()) {
-            $booking->delete();
             $message = 'Booking has been deleted.';
             if (!empty($booking->user)) {
                 $message .= ' A E-mail has also been sent to the person that booked.';
-                $booking->user->notify(new BookingDeleted($booking->event));
+                event(new BookingDeleted($booking));
             }
+            $booking->delete();
             flashMessage('success', 'Booking deleted!', $message);
             return redirect(route('bookings.event.index', $booking->event));
         }

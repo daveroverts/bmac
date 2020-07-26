@@ -92,7 +92,7 @@ return [
 
     'options' => [
         'application' => env('APP_NAME', 'Laravel'),
-        'repository' => 'git@gitlab.com:daveroverts/Book-me-a-cookie.git',
+        'repository' => 'git@github.com:daveroverts/bmac.git',
         'bugsnag_api_key' => env('BUGSNAG_API_KEY'),
     ],
 
