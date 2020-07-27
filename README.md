@@ -9,6 +9,7 @@ Book me a Cookie is a booking system created in Laravel. It's initial purpose wa
 
 # Features
 - Uses [Vatsim Connect](https://vatsimnetwork.github.io/documentation/connect)
+- A option is available to use a different OAuth2 provider.
 
 # Installing
 Before you begin, make sure you have a server to run everything on. For local development, I use [Laravel Homestead](https://laravel.com/docs/master/homestead).
@@ -25,7 +26,7 @@ Before you begin, make sure you have a server to run everything on. For local de
     - MAIL_DRIVER: For testing, use something like [Mailtrap](https://mailtrap.io/) or [Mailhog](https://github.com/mailhog/MailHog) (included with [Laravel Homestead](https://laravel.com/docs/master/homestead))
     - MAIL_FROM_ADDRESS: For testing, this can be anything.
     - MAIL_FROM_NAME: This will be used as the ``From`` name.
-    - VATSIM_OAUTH_*: Fill in the required fields.
+    - OAUTH_*: Fill in the required fields.
     - SITE_*: Feel free to edit these. They are used all over the place.
     - When adding a new redirect url, point to /login.
     - BOOTSTRAP_COLOR*: By default, BMAC uses [Bootswatch Flatly](https://bootswatch.com/flatly/). If you wish to edit some colors, you can do so here.
