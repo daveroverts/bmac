@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Http\Controllers\VatsimOAuthController;
+use App\Http\Controllers\OAuthController;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use League\OAuth2\Client\Token\AccessToken;
@@ -134,7 +134,7 @@ class User extends Authenticatable
             ]);
 
             if ($token->hasExpired()) {
-                $token = VatsimOAuthController::updateToken($token);
+                $token = OAuthController::updateToken($token);
             }
 
             // Can't put it inside the "if token expired"; $this is null there

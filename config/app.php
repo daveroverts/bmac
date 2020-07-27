@@ -242,8 +242,8 @@ return [
             'MAIL_PASSWORD',
             'PUSHER_APP_KEY',
             'PUSHER_APP_SECRET',
-            'VATSIM_OAUTH_CLIENT',
-            'VATSIM_OAUTH_SECRET',
+            'OAUTH_CLIENT',
+            'OAUTH_SECRET',
         ],
         '_SERVER' => [
             'APP_KEY',
@@ -253,8 +253,8 @@ return [
             'MAIL_PASSWORD',
             'PUSHER_APP_KEY',
             'PUSHER_APP_SECRET',
-            'VATSIM_OAUTH_CLIENT',
-            'VATSIM_OAUTH_SECRET',
+            'OAUTH_CLIENT',
+            'OAUTH_SECRET',
         ],
         '_POST' => [
             'password',
