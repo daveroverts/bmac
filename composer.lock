@@ -6480,16 +6480,16 @@
         },
         {
             "name": "tabuna/breadcrumbs",
-            "version": "1.2.1",
+            "version": "1.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/tabuna/breadcrumbs.git",
-                "reference": "1ea60f7cfb4675410b88c1d3721e8b9dcc553ee2"
+                "reference": "36de6b27f480738d10e749d8c513ad31baa301f6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/tabuna/breadcrumbs/zipball/1ea60f7cfb4675410b88c1d3721e8b9dcc553ee2",
-                "reference": "1ea60f7cfb4675410b88c1d3721e8b9dcc553ee2",
+                "url": "https://api.github.com/repos/tabuna/breadcrumbs/zipball/36de6b27f480738d10e749d8c513ad31baa301f6",
+                "reference": "36de6b27f480738d10e749d8c513ad31baa301f6",
                 "shasum": ""
             },
             "require": {
@@ -6542,7 +6542,7 @@
                     "type": "custom"
                 }
             ],
-            "time": "2020-07-03T23:16:59+00:00"
+            "time": "2020-07-17T11:14:29+00:00"
         },
         {
             "name": "tijsverkoyen/css-to-inline-styles",
