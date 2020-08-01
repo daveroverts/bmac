@@ -34,7 +34,7 @@
     "dependencies": {
         "@bugsnag/js": "^7.1.1",
         "bootswatch": "^4.5.0",
-        "sweetalert2": "^9.15.2",
+        "sweetalert2": "^9.17.1",
         "tinymce": "^5.4.0"
     }
 }
