@@ -84,6 +84,7 @@ class BookingAdminController extends AdminController
                         'dep' => $request->dep,
                         'arr' => $request->arr,
                         'ctot' => $time,
+                        'notes' => $request->notes ?? null,
                     ]);
 
                     $count++;
@@ -103,6 +104,7 @@ class BookingAdminController extends AdminController
                 'arr' => $request->arr,
                 'route' => $request->route,
                 'oceanicFL' => $request->oceanicFL,
+                'notes' => $request->notes ?? null,
             ];
 
             if ($request->ctot) {
@@ -176,6 +178,7 @@ class BookingAdminController extends AdminController
             'route' => $request->route,
             'oceanicFL' => $request->oceanicFL,
             'oceanicTrack' => $request->oceanicTrack,
+            'notes' => $request->notes,
         ];
 
         if ($request->ctot) {
@@ -415,6 +418,7 @@ class BookingAdminController extends AdminController
                 $flight = collect([
                     'dep' => $dep->id,
                     'arr' => $arr->id,
+                    'notes' => $line['Notes'] ?? null,
                 ]);
                 if (!empty($line['ETA'])) {
                     $flight->put('eta', Carbon::createFromFormat('Y-m-d H:i',

@@ -28,6 +28,9 @@ For reference, your booking details are listed below.
 @if(!empty($booking->flights()->first()->route))
 | Route: | **{{ $booking->flights()->first()->route }}** |
 @endif
+@if(!empty($booking->flights()->first()->notes))
+| Notes: | **{{ $booking->flights()->first()->notes }}** |
+@endif
 | Aircraft: | **{{ $booking->acType }}** |
 @if($booking->event->uses_times)
 | CTOT: | **{{ $booking->flights()->first()->formattedCtot }}** |

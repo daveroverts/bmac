@@ -280,6 +280,22 @@
                             </div>
                         @endif
 
+                        {{--Notes--}}
+                        <div class="form-group row">
+                            <label for="Notes" class="col-md-4 col-form-label text-md-right">Notes</label>
+
+                            <div class="col-md-6">
+                                <textarea class="form-control" id="notes"
+                                          name="notes">{{ old('notes') }}</textarea>
+
+                                @if ($errors->has('notes'))
+                                    <span class="invalid-feedback">
+                                        <strong>{{ $errors->first('notes') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
                         {{--Add--}}
                         <div class="form-group row mb-0">
                             <div class="col-md-6 offset-md-4">

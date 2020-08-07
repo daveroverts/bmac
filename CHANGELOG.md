@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Added Events and Listeners for the Notifications we already have.
 - Added option to use different OAuth2 Provider if you don't want to use Vatsim-Connect #90, thanks to @blt950
+- ``notes`` now work for all event types
 
 ### Changed
 - Deployment is now done using Github Actions instead of Gitlab CI.
