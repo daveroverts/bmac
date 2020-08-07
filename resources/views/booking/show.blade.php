@@ -230,18 +230,19 @@
                             </div>
                         </div>
                     @endforeach
-                    {{--Edit Booking--}}
                     <div class="form-group row mb-0">
                         <div class="col-md-7 offset-md-3">
                             @if($booking->is_editable)
-                                <a href="{{ route('bookings.edit',$booking) }}" class="btn btn-primary">Edit Booking</a>
-                                &nbsp;
+                                {{--Edit Booking--}}
+                                <a href="{{ route('bookings.edit',$booking) }}" class="btn btn-primary mb-2">Edit Booking</a>
                             @endif
                             {{--Cancel Booking--}}
-                            <form method="post" action="{{ route('bookings.cancel', $booking) }}">
+                            <button class="btn btn-danger mb-2 cancel-booking" form="cancel">Cancel Booking</button>
+
+                            <form method="post" action="{{ route('bookings.cancel', $booking) }}" id="cancel">
                                 @csrf
                                 @method('PATCH')
-                                <button class="btn btn-danger cancel-booking">Cancel Booking</button>
+
                             </form>
                         </div>
                     </div>
