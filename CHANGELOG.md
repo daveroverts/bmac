@@ -497,6 +497,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     - ``is_oceanic_event``
 - Event details on homepage if active
 - ``image_url`` in ``events`` table
+- ``flights.notes`` can now be imported via import
 
 ### Changed
 - Homepage now checks if event is active, and fill the title, date, and description

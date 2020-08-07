@@ -415,6 +415,7 @@ class BookingAdminController extends AdminController
                 $flight = collect([
                     'dep' => $dep->id,
                     'arr' => $arr->id,
+                    'notes' => $line['Notes'] ?? null,
                 ]);
                 if (!empty($line['ETA'])) {
                     $flight->put('eta', Carbon::createFromFormat('Y-m-d H:i',
