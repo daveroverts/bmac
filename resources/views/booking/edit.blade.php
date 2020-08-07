@@ -113,6 +113,20 @@
                             </div>
                         </div>
 
+                        @if ($flight->getRawOriginal('notes'))
+                            {{--Notes--}}
+                            <div class="form-group row">
+                                <label for="notes" class="col-md-4 col-form-label text-md-right">Notes</label>
+
+                                <div class="col-md-6">
+                                    <div class="form-control-plaintext">
+                                        <strong>{{ $flight->notes ?: '-' }}</strong>
+                                    </div>
+
+                                </div>
+                            </div>
+                        @endif
+
                         @if($booking->event->is_oceanic_event)
                             {{--Track--}}
                             <div class="form-group row">
