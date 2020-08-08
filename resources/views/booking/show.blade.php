@@ -24,7 +24,7 @@
                     if (result.value) {
                         Swal.fire('Canceling booking...');
                         Swal.showLoading();
-                        $(this).closest('form').submit();
+                        $('#cancel-booking').submit();
                     }
                 });
             });
@@ -237,9 +237,9 @@
                                 <a href="{{ route('bookings.edit',$booking) }}" class="btn btn-primary mb-2">Edit Booking</a>
                             @endif
                             {{--Cancel Booking--}}
-                            <button class="btn btn-danger mb-2 cancel-booking" form="cancel">Cancel Booking</button>
+                            <button class="btn btn-danger mb-2 cancel-booking" form="cancel-booking">Cancel Booking</button>
 
-                            <form method="post" action="{{ route('bookings.cancel', $booking) }}" id="cancel">
+                            <form method="post" action="{{ route('bookings.cancel', $booking) }}" id="cancel-booking">
                                 @csrf
                                 @method('PATCH')
 
