@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f6c4b9eeec0b790258e7837c3ad6c04a",
+    "content-hash": "d95f8723bf8a4febcfe87d5406ef348e",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -60,30 +60,31 @@
         },
         {
             "name": "bensampo/laravel-enum",
-            "version": "v1.38.0",
+            "version": "v2.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/BenSampo/laravel-enum.git",
-                "reference": "e3b6120602e6e98584cdee938dca71a8c6b8fab0"
+                "reference": "640fbd20f275069806e9ad9b160fb180ddfa4673"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/BenSampo/laravel-enum/zipball/e3b6120602e6e98584cdee938dca71a8c6b8fab0",
-                "reference": "e3b6120602e6e98584cdee938dca71a8c6b8fab0",
+                "url": "https://api.github.com/repos/BenSampo/laravel-enum/zipball/640fbd20f275069806e9ad9b160fb180ddfa4673",
+                "reference": "640fbd20f275069806e9ad9b160fb180ddfa4673",
                 "shasum": ""
             },
             "require": {
                 "hanneskod/classtools": "~1.0",
-                "illuminate/support": "5.4.*|5.5.*|5.6.*|5.7.*|5.8.*|^6.0|^7.0",
+                "illuminate/contracts": "^7.5",
+                "illuminate/support": "^7.5",
                 "laminas/laminas-code": "^3.4",
-                "php": "~7.1"
+                "php": "^7.2.5"
             },
             "require-dev": {
                 "doctrine/dbal": "^2.9",
-                "laravel/framework": "5.6.*|5.7.*|5.8.*|^6.0|^7.0",
-                "orchestra/testbench": "3.6.*|3.7.*|3.8.*|3.9.*|^4.0|^5.0",
+                "laravel/framework": "^7.5",
+                "orchestra/testbench": "^5.0",
                 "phpstan/phpstan": "^0.12.9",
-                "phpunit/phpunit": "^7.5|^8.5",
+                "phpunit/phpunit": "^8.5",
                 "squizlabs/php_codesniffer": "^3.0"
             },
             "type": "library",
@@ -127,7 +128,7 @@
                 "package",
                 "validation"
             ],
-            "time": "2020-06-07T12:26:17+00:00"
+            "time": "2020-07-24T17:21:01+00:00"
         },
         {
             "name": "box/spout",
