@@ -32,8 +32,8 @@
         "vue-template-compiler": "^2.6.11"
     },
     "dependencies": {
-        "@bugsnag/js": "^7.2.1",
-        "bootswatch": "^4.5.1",
+        "@bugsnag/js": "^7.3.0",
+        "bootswatch": "^4.5.2",
         "sweetalert2": "^9.17.1",
         "tinymce": "^5.4.1"
     }
