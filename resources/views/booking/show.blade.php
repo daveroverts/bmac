@@ -24,7 +24,7 @@
                     if (result.value) {
                         Swal.fire('Canceling booking...');
                         Swal.showLoading();
-                        $(this).closest('form').submit();
+                        $('#cancel-booking').submit();
                     }
                 });
             });
@@ -157,6 +157,20 @@
                         </div>
                     @endif
 
+                    @if ($flight->getRawOriginal('notes'))
+                        {{--Notes--}}
+                        <div class="form-group row">
+                            <label for="notes" class="col-md-4 col-form-label text-md-right">Notes</label>
+
+                            <div class="col-md-6">
+                                <div class="form-control-plaintext">
+                                    <strong>{{ $flight->notes }}</strong>
+                                </div>
+
+                            </div>
+                        </div>
+                    @endif
+
                     {{--Aircraft--}}
                     <div class="form-group row">
                         <label for="aircraft" class="col-md-4 col-form-label text-md-right">Aircraft</label>
@@ -216,18 +230,19 @@
                             </div>
                         </div>
                     @endforeach
-                    {{--Edit Booking--}}
                     <div class="form-group row mb-0">
                         <div class="col-md-7 offset-md-3">
                             @if($booking->is_editable)
-                                <a href="{{ route('bookings.edit',$booking) }}" class="btn btn-primary">Edit Booking</a>
-                                &nbsp;
+                                {{--Edit Booking--}}
+                                <a href="{{ route('bookings.edit',$booking) }}" class="btn btn-primary mb-2">Edit Booking</a>
                             @endif
                             {{--Cancel Booking--}}
-                            <form method="post" action="{{ route('bookings.cancel', $booking) }}">
+                            <button class="btn btn-danger mb-2 cancel-booking" form="cancel-booking">Cancel Booking</button>
+
+                            <form method="post" action="{{ route('bookings.cancel', $booking) }}" id="cancel-booking">
                                 @csrf
                                 @method('PATCH')
-                                <button class="btn btn-danger cancel-booking">Cancel Booking</button>
+
                             </form>
                         </div>
                     </div>

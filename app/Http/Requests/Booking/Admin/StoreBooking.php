@@ -28,6 +28,7 @@ class StoreBooking extends Request
             'end' => 'sometimes|date_format:H:i',
             'separation' => 'sometimes|numeric|min:1',
             'oceanicFL' => 'sometimes|nullable|integer:3',
+            'notes' => 'nullable',
         ];
     }
 }

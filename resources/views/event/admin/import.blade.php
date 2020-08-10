@@ -40,11 +40,8 @@
 
                         <div class="form-group row">
 
-                            <div class="col-md-4 text-md-right">
-                                <label for="ctot"> Headers in <strong>bold</strong> are mandatory</label>
-                                <a class="btn btn-secondary" href="{{ url('import_template.xlsx') }}">
-                                    <i class="fas fa-file-excel"></i> Download template
-                                </a>
+                            <div class="col-md-4 form-control-plaintext text-md-right">
+                                Headers in <strong>bold</strong> are mandatory
                             </div>
 
                             <div class="col-md-8">
@@ -57,7 +54,7 @@
                                         Call Sign | <strong><abbr title="[ICAO]">Origin</abbr></strong> |
                                         <strong><abbr title="[ICAO]">Destination</abbr></strong> |
                                         <abbr title="[hh:mm]">EOBT</abbr> | <abbr title="[hh:mm]">ETA</abbr> |
-                                        <abbr title="[ICAO]">Aircraft Type</abbr> | Route
+                                        <abbr title="[ICAO]">Aircraft Type</abbr> | Route | Notes
 
                                     @endif
                                 </div>
@@ -70,6 +67,9 @@
                                 <button type="submit" class="btn btn-success">
                                     <i class="fas fa-check"></i> Import
                                 </button>
+                                <a class="btn btn-secondary" href="{{ url('import_template.xlsx') }}">
+                                    <i class="fas fa-file-excel"></i> Download template
+                                </a>
                             </div>
                         </div>
                     </form>

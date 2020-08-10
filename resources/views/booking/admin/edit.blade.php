@@ -235,21 +235,39 @@
                         {{--</div>--}}
                         {{--</div>--}}
 
-                        {{--Message--}}
+                        {{--Notes--}}
                         <div class="form-group row">
-                            <label for="message" class="col-md-4 col-form-label text-md-right">Message</label>
+                            <label for="Notes" class="col-md-4 col-form-label text-md-right">Notes</label>
 
                             <div class="col-md-6">
-                                <textarea class="form-control" id="message"
-                                          name="message"></textarea>
+                                <textarea class="form-control" id="notes"
+                                          name="notes">{{ old('notes', $flight->getRawOriginal('notes')) }}</textarea>
 
-                                @if ($errors->has('route'))
+                                @if ($errors->has('notes'))
                                     <span class="invalid-feedback">
-                                        <strong>{{ $errors->first('message') }}</strong>
+                                        <strong>{{ $errors->first('notes') }}</strong>
                                     </span>
                                 @endif
                             </div>
                         </div>
+
+                        @if(!empty($booking->user_id))
+                            {{--Message--}}
+                            <div class="form-group row">
+                                <label for="message" class="col-md-4 col-form-label text-md-right">Message</label>
+
+                                <div class="col-md-6">
+                                    <textarea class="form-control" id="message"
+                                            name="message">{{ old('message') }}</textarea>
+
+                                    @if ($errors->has('route'))
+                                        <span class="invalid-feedback">
+                                            <strong>{{ $errors->first('message') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
+                            </div>
+                        @endif
 
                         {{--Update--}}
                         <div class="form-group row mb-0">
