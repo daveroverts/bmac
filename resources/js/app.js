@@ -41,8 +41,8 @@ tinymce.init({
     plugins: ['code', 'paste', 'link']
 });
 
-import Bugsnag from '@bugsnag/js'
-Bugsnag.start(process.env.MIX_BUGSNAG_API_KEY)
+// import Bugsnag from '@bugsnag/js'
+// Bugsnag.start(process.env.MIX_BUGSNAG_API_KEY)
 
 // window.Vue = require('vue');
 // import VueSweetalert2 from 'vue-sweetalert2';
