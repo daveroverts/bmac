@@ -51,7 +51,7 @@
                     var url = '{{ route('admin.events.email', $event) }}';
                     axios.post(url, {
                         'subject': $('#subject').val(),
-                        'message': tinymce.get('description').getContent(),
+                        'message': tinymce.get('tinymce').getContent(),
                         'testmode': 1,
                         '_method': 'PATCH',
                     })
@@ -133,8 +133,8 @@
                         </div>
 
                         {{-- Description --}}
-                        <div class="form-group row">
-                            <textarea id="description" name="message"
+                        <div>
+                            <textarea id="tinymce" name="message"
                                       rows="10">{!! old(html_entity_decode('message')) !!}</textarea>
                         </div>
 

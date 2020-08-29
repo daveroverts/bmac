@@ -30,14 +30,13 @@ dom.watch();
 
 // TinyMCE
 import tinymce from 'tinymce';
-import 'tinymce/themes/silver/theme';
 
 import 'tinymce/plugins/code'
 import 'tinymce/plugins/paste';
 import 'tinymce/plugins/link';
 
 tinymce.init({
-    selector: '#description',
+    selector: 'textarea#tinymce',
     plugins: ['code', 'paste', 'link']
 });
 
