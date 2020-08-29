@@ -88,8 +88,9 @@
                         {{--Answer--}}
                         <div class="form-group row">
                             <label for="answer" class="col-md-4 col-form-label text-md-right"> Answer</label>
-
-                            <textarea id="description" name="answer"
+                        </div>
+                        <div>
+                            <textarea id="tinymce" name="answer"
                                       rows="10">{!! html_entity_decode(old('answer', $faq->answer)) !!}</textarea>
 
                             @if ($errors->has('answer'))
@@ -98,11 +99,12 @@
                                     </span>
                             @endif
                         </div>
+                        <br>
 
                         {{--Add/Edit--}}
                         <div class="form-group row mb-0">
-                            <div class="col-md-6 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
+                            <div class="col">
+                                <button type="submit" class="btn btn-primary btn-block">
                                     @if($faq->id)
                                         <i class="fa fa-check"></i> Edit
                                     @else
