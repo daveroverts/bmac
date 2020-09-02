@@ -34,6 +34,6 @@
     "dependencies": {
         "bootswatch": "^4.5.2",
         "sweetalert2": "^9.17.1",
-        "tinymce": "^5.4.1"
+        "tinymce": "^5.4.2"
     }
 }
