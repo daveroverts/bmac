@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use Spatie\Activitylog\Traits\LogsActivity;
@@ -50,6 +51,7 @@ use Spatie\Activitylog\Traits\LogsActivity;
  */
 class Booking extends Model
 {
+    use HasFactory;
     use LogsActivity;
 
     /**

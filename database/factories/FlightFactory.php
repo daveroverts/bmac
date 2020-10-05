@@ -1,13 +1,33 @@
 <?php
 
-use Faker\Generator as Faker;
+namespace Database\Factories;
 
-$factory->define(App\Models\Flight::class, function (Faker $faker) {
-    $event = factory(App\Models\Event::class)->create();
-    $booking = factory(App\Models\Booking::class)->create();
-    return [
-        'booking_id' => $booking->id,
-        'dep' => $event->dep,
-        'arr' => $event->arr,
-    ];
-});
+use App\Models\Booking;
+use App\Models\Event;
+use App\Models\Flight;
+use Illuminate\Database\Eloquent\Factories\Factory;
+
+class FlightFactory extends Factory
+{
+    /**
+     * The name of the factory's corresponding model.
+     *
+     * @var string
+     */
+    protected $model = Flight::class;
+
+    /**
+     * Define the model's default state.
+     *
+     * @return array
+     */
+    public function definition()
+    {
+        $event = Event::factory()->make();
+        return [
+            'booking' => Booking::factory(),
+            'dep' => $event->dep,
+            'arr' => $event->arr,
+        ];
+    }
+}
