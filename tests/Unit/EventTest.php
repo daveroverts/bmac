@@ -19,9 +19,7 @@ class EventTest extends TestCase
      */
     public function testItCreatesNewEvent()
     {
-        $event = factory(\App\Models\Event::class)->make();
-
-        Event::create($event->toArray());
+        $event = Event::factory()->create();
 
         $this->assertDatabaseHas('events', $event->toArray());
     }

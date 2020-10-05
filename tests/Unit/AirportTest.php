@@ -18,9 +18,7 @@ class AirportTest extends TestCase
      */
     public function testItCreatesNewAirport()
     {
-        $airport = factory(\App\Models\Airport::class)->make();
-
-        Airport::create($airport->toArray());
+        $airport = Airport::factory()->create();
 
         $this->assertDatabaseHas('airports', $airport->toArray());
     }

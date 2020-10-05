@@ -19,26 +19,20 @@ class FaqTest extends TestCase
      */
     public function testItCreatesNewFaq()
     {
-        $faq = factory(Faq::class)->make();
-
-        Faq::create($faq->toArray());
+        $faq = Faq::factory()->create();
 
         $this->assertDatabaseHas('faqs', $faq->toArray());
     }
 
     public function testItLinksFaqToEvent()
     {
-        $faq = factory(Faq::class)->make();
-        $faqModel = Faq::create($faq->toArray());
-
-        $event = factory(Event::class)->make();
-        $eventModel = Event::create($event->toArray());
-
-        $faqModel->events()->attach($eventModel->id);
+        $event = Event::factory()
+        ->has(Faq::factory())
+        ->create();
 
         $this->assertDatabaseHas('event_faq', [
-            'event_id' => $eventModel->id,
-            'faq_id' => $faqModel->id
+            'event_id' => $event->id,
+            'faq_id' => $event->faqs->first()->id
         ]);
     }
 }

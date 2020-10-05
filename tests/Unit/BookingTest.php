@@ -18,9 +18,7 @@ class BookingTest extends TestCase
      */
     public function testItCreatesNewBooking()
     {
-        $flight = factory(\App\Models\Flight::class)->make();
-
-        Flight::create($flight->toArray());
+        $flight = Flight::factory()->create();
 
         $this->assertDatabaseHas('flights', $flight->toArray());
     }
