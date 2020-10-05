@@ -1,5 +1,17 @@
 <?php
 
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\Faq\FaqController;
+use App\Http\Controllers\User\UserController;
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Event\EventController;
+use App\Http\Controllers\Faq\FaqAdminController;
+use App\Http\Controllers\Booking\BookingController;
+use App\Http\Controllers\Event\EventAdminController;
+use App\Http\Controllers\Airport\AirportAdminController;
+use App\Http\Controllers\Booking\BookingAdminController;
+use App\Http\Controllers\AirportLink\AirportLinkAdminController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -11,65 +23,75 @@
 |
 */
 
-Route::get('/', 'HomeController')->name('home');
+Route::get('/', HomeController::class)->name('home');
 
-Route::get('/login', 'Auth\LoginController@login')->name('login');
-Route::get('/validate-login', 'Auth\LoginController@validateLogin');
-Route::get('/logout', 'Auth\LoginController@logout')->name('logout');
+Route::get('/login', [LoginController::class, 'login'])->name('login');
+Route::get('/validate-login', [LoginController::class, 'validateLogin']);
+Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 
 // Admin routes
 Route::group(['as' => 'admin.', 'prefix' => 'admin', 'middleware' => 'auth.isAdmin'], function () {
     // Airports
-    Route::get('airports/import', 'Airport\AirportAdminController@import')->name('admin.airports.import');
-    Route::resource('airports', 'Airport\AirportAdminController');
+    Route::get('airports/import', [AirportAdminController::class, 'import'])->name('admin.airports.import');
+    Route::resource('airports', AirportAdminController::class);
 
     // AirportLinks
-    Route::resource('airportLinks', 'AirportLink\AirportLinkAdminController')->except(['show']);
+    Route::resource('airportLinks', AirportLinkAdminController::class)->except(['show']);
 
     // Faq
-    Route::resource('faq', 'Faq\FaqAdminController')->except('show');
-    Route::patch('faq/{faq}/toggle-event/{event}', 'Faq\FaqAdminController@toggleEvent')->name('faq.toggleEvent');
+    Route::resource('faq', FaqAdminController::class)->except('show');
+    Route::patch('faq/{faq}/toggle-event/{event}', [FaqAdminController::class, 'toggleEvent'])->name('faq.toggleEvent');
 
     // Event
-    Route::resource('events', 'Event\EventAdminController');
-    Route::get('{event}/email', 'Event\EventAdminController@sendEmailForm')->name('events.email.form');
-    Route::patch('{event}/email', 'Event\EventAdminController@sendEmail')->name('events.email');
-    Route::patch('{event}/email_final',
-        'Event\EventAdminController@sendFinalInformationMail')->name('events.email.final');
+    Route::resource('events', EventAdminController::class);
+    Route::get('{event}/email', [EventAdminController::class, 'sendEmailForm'])->name('events.email.form');
+    Route::patch('{event}/email', [EventAdminController::class, 'sendEmail'])->name('events.email');
+    Route::patch(
+        '{event}/email_final',
+        [EventAdminController::class, 'sendFinalInformationMail']
+    )->name('events.email.final');
 
     // Booking
-    Route::resource('bookings', 'Booking\BookingAdminController')->except(['index', 'show']);
-    Route::get('{event}/bookings/export/{vacc?}', 'Booking\BookingAdminController@export')->name('bookings.export');
-    Route::get('{event}/bookings/create/{bulk?}', 'Booking\BookingAdminController@create')->name('bookings.create');
-    Route::get('{event}/bookings/import', 'Booking\BookingAdminController@importForm')->name('bookings.importForm');
-    Route::put('{event}/bookings/import', 'Booking\BookingAdminController@import')->name('bookings.import');
-    Route::get('{event}/bookings/auto-assign',
-        'Booking\BookingAdminController@adminAutoAssignForm')->name('bookings.autoAssignForm');
-    Route::patch('{event}/bookings/auto-assign',
-        'Booking\BookingAdminController@adminAutoAssign')->name('bookings.autoAssign');
-    Route::get('{event}/bookings/route-assign',
-        'Booking\BookingAdminController@routeAssignForm')->name('bookings.routeAssignForm');
-    Route::patch('{event}/bookings/route-assign',
-        'Booking\BookingAdminController@routeAssign')->name('bookings.routeAssign');
+    Route::resource('bookings', BookingAdminController::class)->except(['index', 'show']);
+    Route::get('{event}/bookings/export/{vacc?}', [BookingAdminController::class, 'export'])->name('bookings.export');
+    Route::get('{event}/bookings/create/{bulk?}', [BookingAdminController::class, 'create'])->name('bookings.create');
+    Route::get('{event}/bookings/import', [BookingAdminController::class, 'importForm'])->name('bookings.importForm');
+    Route::put('{event}/bookings/import', [BookingAdminController::class, 'import'])->name('bookings.import');
+    Route::get(
+        '{event}/bookings/auto-assign',
+        [BookingAdminController::class, 'adminAutoAssignForm']
+    )->name('bookings.autoAssignForm');
+    Route::patch(
+        '{event}/bookings/auto-assign',
+        [BookingAdminController::class, 'adminAutoAssign']
+    )->name('bookings.autoAssign');
+    Route::get(
+        '{event}/bookings/route-assign',
+        [BookingAdminController::class, 'routeAssignForm']
+    )->name('bookings.routeAssignForm');
+    Route::patch(
+        '{event}/bookings/route-assign',
+        [BookingAdminController::class, 'routeAssign']
+    )->name('bookings.routeAssign');
 });
 
-Route::resource('bookings', 'Booking\BookingController')->except(['create', 'edit', 'store', 'destroy']);
-Route::get('/{event}/bookings/{filter?}', 'Booking\BookingController@index')->name('bookings.event.index');
-Route::get('/bookings/{booking}/edit', 'Booking\BookingController@edit')
+Route::resource('bookings', BookingController::class)->except(['create', 'edit', 'store', 'destroy']);
+Route::get('/{event}/bookings/{filter?}', [BookingController::class, 'index'])->name('bookings.event.index');
+Route::get('/bookings/{booking}/edit', [BookingController::class, 'edit'])
     ->middleware('auth.isLoggedIn')->name('bookings.edit');
-Route::patch('/bookings/{booking}/cancel', 'Booking\BookingController@cancel')->name('bookings.cancel');
+Route::patch('/bookings/{booking}/cancel', [BookingController::class, 'cancel'])->name('bookings.cancel');
 
 // Keeping this here for a while to prevent some 404's should people access /booking directly
 Route::redirect('/booking', route('bookings.index'), 301);
 
-Route::get('faq', 'Faq\FaqController')->name('faq');
+Route::get('faq', FaqController::class)->name('faq');
 
-Route::get('{event}', 'Event\EventController')->name('events.show');
+Route::get('{event}', EventController::class)->name('events.show');
 
 Route::middleware('auth.isLoggedIn')->group(function () {
     Route::prefix('user')->name('user.')
         ->group(function () {
-            Route::get('settings', 'User\UserController@showSettingsForm')->name('settings');
-            Route::patch('settings', 'User\UserController@saveSettings')->name('saveSettings');
+            Route::get('settings', [UserController::class, 'showSettingsForm'])->name('settings');
+            Route::patch('settings', [UserController::class, 'saveSettings'])->name('saveSettings');
         });
 });
