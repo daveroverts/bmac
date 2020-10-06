@@ -26,7 +26,7 @@ Thanks for booking a slot for the {{ $booking->event->name }} event. Here you ca
 @endisset
 @if($booking->event->is_oceanic_event)
 @if($flight->getRawOriginal('oceanicFL') != null)
-| Oceanic Entry Level: | **FL{{ $flight->getOriginal('oceanicFL') }}** |
+| Oceanic Entry Level: | **FL{{ $flight->getRawOriginal('oceanicFL') }}** |
 @endif
 @if($flight->getRawOriginal('oceanicTrack') != null)
 | NAT Track: | **{{ $flight->oceanicTrack }}** |
@@ -34,7 +34,7 @@ Thanks for booking a slot for the {{ $booking->event->name }} event. Here you ca
 | NAT TMI: | **{{ $booking->event->startEvent->dayOfYear }}** |
 @else
 @if($flight->getRawOriginal('oceanicFL') != null)
-| Cruise FL: | **FL{{ $flight->getOriginal('oceanicFL') }}** |
+| Cruise FL: | **FL{{ $flight->getRawOriginal('oceanicFL') }}** |
 @endif
 @endif
 @endcomponent
