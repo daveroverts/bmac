@@ -140,7 +140,8 @@ class Booking extends Model
      * Determine if the FinalInformationEmail was already sent or not
      * @return bool
      * */
-    public function getHasReceivedFinalInformationEmailAttribute($value) {
+    public function getHasReceivedFinalInformationEmailAttribute($value)
+    {
         return !empty($this->final_information_email_sent_at);
     }
 
