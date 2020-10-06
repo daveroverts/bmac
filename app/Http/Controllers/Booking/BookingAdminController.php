@@ -214,12 +214,10 @@ class BookingAdminController extends AdminController
 
         $booking->save();
         $flight->save();
-        $message = 'Booking has been changed!';
         if ($shouldSendEmail) {
             event(new BookingChanged($booking, $changes));
-            $message .= ' A E-mail has also been sent to the person that booked.';
         }
-        flashMessage('success', 'Booking changed', $message);
+        flashMessage('success', 'Booking changed', 'Booking has been changed!');
         return redirect(route('bookings.event.index', $booking->event));
     }
 
@@ -233,13 +231,11 @@ class BookingAdminController extends AdminController
     public function destroy(Booking $booking)
     {
         if ($booking->event->endEvent >= now()) {
-            $message = 'Booking has been deleted.';
             if (!empty($booking->user)) {
-                $message .= ' A E-mail has also been sent to the person that booked.';
                 event(new BookingDeleted($booking));
             }
             $booking->delete();
-            flashMessage('success', 'Booking deleted!', $message);
+            flashMessage('success', 'Booking deleted!', 'Booking has been deleted.');
             return redirect(route('bookings.event.index', $booking->event));
         }
         flashMessage('danger', 'Nope!', 'You cannot delete a booking after the event ended');

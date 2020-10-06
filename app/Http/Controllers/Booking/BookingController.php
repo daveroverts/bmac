@@ -268,7 +268,7 @@ class BookingController extends Controller
             if ($booking->getOriginal('status') === BookingStatus::RESERVED) {
                 event(new BookingConfirmed($booking));
                 flashMessage('success', 'Booking created!',
-                    'Booking has been created! An E-mail with details has also been sent');
+                    'Booking has been created!');
             } else {
                 flashMessage('success', 'Booking edited!', 'Booking has been edited!');
             }
@@ -334,7 +334,7 @@ class BookingController extends Controller
             if ($booking->getOriginal('status') === BookingStatus::BOOKED) {
                 event(new BookingCancelled($booking));
                 $title = 'Booking removed!';
-                $message = 'Booking has been removed! A E-mail has also been sent';
+                $message = 'Booking has been removed!';
             } else {
                 $title = 'Slot free';
                 $message = 'Slot is now free to use again';
