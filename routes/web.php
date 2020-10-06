@@ -26,7 +26,6 @@ use App\Http\Controllers\AirportLink\AirportLinkAdminController;
 Route::get('/', HomeController::class)->name('home');
 
 Route::get('/login', [LoginController::class, 'login'])->name('login');
-Route::get('/validate-login', [LoginController::class, 'validateLogin']);
 Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 
 // Admin routes
