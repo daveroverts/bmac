@@ -192,7 +192,7 @@ class Booking extends Model
 
     public function user()
     {
-        return $this->hasOne(User::class)->withDefault();
+        return $this->belongsTo(User::class)->withDefault();
     }
 
     public function flights()
