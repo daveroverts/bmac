@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - Deployment is now done using Github Actions instead of Gitlab CI.
 - ``flights.route`` changed from ``varchar`` to ``text`` to allow longer routes.
+- Upgrade to Laravel 8
 
 ### Removed
 
