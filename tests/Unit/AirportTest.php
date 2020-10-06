@@ -5,7 +5,6 @@ namespace Tests\Unit;
 use App\Models\Airport;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
 
 class AirportTest extends TestCase
 {
@@ -18,9 +17,7 @@ class AirportTest extends TestCase
      */
     public function testItCreatesNewAirport()
     {
-        $airport = factory(\App\Models\Airport::class)->make();
-
-        Airport::create($airport->toArray());
+        $airport = Airport::factory()->create();
 
         $this->assertDatabaseHas('airports', $airport->toArray());
     }

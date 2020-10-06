@@ -4,7 +4,6 @@ namespace Tests\Unit;
 
 use App\Models\AirportLink;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class AirportLinkTest extends TestCase
@@ -13,9 +12,7 @@ class AirportLinkTest extends TestCase
 
     public function testItCreatesNewAirportLink()
     {
-        $airportLink = factory(\App\Models\AirportLink::class)->make();
-
-        AirportLink::create($airportLink->toArray());
+        $airportLink = AirportLink::factory()->create();
 
         $this->assertDatabaseHas('airport_links', $airportLink->toArray());
     }

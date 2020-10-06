@@ -5,17 +5,17 @@
     "license": "MIT",
     "type": "project",
     "require": {
-        "php": "^7.2",
-        "bensampo/laravel-enum": "^2.1",
+        "php": "^7.3",
+        "bensampo/laravel-enum": "^3.0",
         "bugsnag/bugsnag-laravel": "^2.17",
-        "cviebrock/eloquent-sluggable": "^7.0",
+        "cviebrock/eloquent-sluggable": "^8.0",
         "doctrine/dbal": "^2.9",
-        "facade/ignition": "^2.0",
+        "facade/ignition": "^2.3.6",
         "fideloper/proxy": "^4.0",
         "fruitcake/laravel-cors": "^2.0",
         "fzaninotto/faker": "^1.8",
-        "laravel/framework": "^7.0",
-        "laravel/telescope": "^3.2",
+        "laravel/framework": "^8.0",
+        "laravel/telescope": "^4.0",
         "laravel/tinker": "^2.0",
         "league/oauth2-client": "^2.4",
         "lorisleiva/laravel-deployer": "^0.3.2",
@@ -23,24 +23,22 @@
         "rap2hpoutre/fast-excel": "^2.0.0",
         "renatomarinho/laravel-page-speed": "^1.8",
         "spatie/laravel-activitylog": "^3.8",
-        "tabuna/breadcrumbs": "^1.0"
+        "tabuna/breadcrumbs": "^2.0"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.2",
         "barryvdh/laravel-ide-helper": "^2.6",
         "beyondcode/laravel-query-detector": "^1.1",
         "mockery/mockery": "^1.0",
-        "nunomaduro/collision": "^4.1",
-        "phpunit/phpunit": "^9.2",
+        "nunomaduro/collision": "^5.0",
+        "phpunit/phpunit": "^9.0",
         "sensiolabs/security-checker": "^6.0"
     },
     "autoload": {
-        "classmap": [
-            "database/seeds",
-            "database/factories"
-        ],
         "psr-4": {
-            "App\\": "app/"
+            "App\\": "app/",
+            "Database\\Factories\\": "database/factories/",
+            "Database\\Seeders\\": "database/seeders/"
         },
         "files": ["app/Helper.php"]
     },
