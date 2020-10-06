@@ -5,7 +5,6 @@ namespace Tests\Unit;
 use App\Models\Event;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
 
 class EventTest extends TestCase
 {

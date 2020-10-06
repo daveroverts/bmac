@@ -23,11 +23,11 @@ class FlightFactory extends Factory
      */
     public function definition()
     {
-        $event = Event::factory()->make();
+        $booking = Booking::factory()->create();
         return [
-            'booking' => Booking::factory(),
-            'dep' => $event->dep,
-            'arr' => $event->arr,
+            'booking_id' => $booking->id,
+            'dep' => $booking->event->dep,
+            'arr' => $booking->event->arr,
         ];
     }
 }

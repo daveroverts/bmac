@@ -31,10 +31,10 @@ class EventFactory extends Factory
             'description' => $this->faker->text(),
             'dep' => Airport::factory(),
             'arr' => Airport::factory(),
-            'startEvent' => now()->addMonth()->toDateTimeString(),
-            'endEvent' => now()->addMonth()->addHours(3)->toDateTimeString(),
-            'startBooking' => now()->addWeek()->toDateTimeString(),
-            'endBooking' => now()->addMonth()->subHours(12)->toDateTimeString(),
+            'startEvent' => now()->addMonth(),
+            'endEvent' => now()->addMonth()->addHours(3),
+            'startBooking' => now()->addWeek(),
+            'endBooking' => now()->addMonth()->subHours(12),
         ];
     }
 }
