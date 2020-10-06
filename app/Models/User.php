@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Http\Controllers\OAuthController;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use League\OAuth2\Client\Token\AccessToken;
@@ -55,9 +56,17 @@ use Spatie\Activitylog\Traits\LogsActivity;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereUseMonospaceFont($value)
  * @mixin \Eloquent
+ * @property string|null $access_token
+ * @property string|null $refresh_token
+ * @property int|null $token_expires
+ * @property-read AccessToken $token
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereAccessToken($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereRefreshToken($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereTokenExpires($value)
  */
 class User extends Authenticatable
 {
+    use HasFactory;
     use LogsActivity;
     use Notifiable;
 
