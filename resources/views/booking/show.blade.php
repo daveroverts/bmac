@@ -70,6 +70,7 @@
                     @endif
 
                     {{--ADEP--}}
+                    @if($flight->dep)
                     <div class="form-group row">
                         <label for="adep" class="col-md-4 col-form-label text-md-right">ADEP</label>
 
@@ -82,8 +83,10 @@
 
                         </div>
                     </div>
+                    @endif
 
                     {{--ADES--}}
+                    @if($flight->arr)
                     <div class="form-group row">
                         <label for="ades" class="col-md-4 col-form-label text-md-right">ADES</label>
 
@@ -96,6 +99,7 @@
 
                         </div>
                     </div>
+                    @endif
 
                     {{--PIC--}}
                     <div class="form-group row">
