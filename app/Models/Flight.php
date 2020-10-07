@@ -162,11 +162,11 @@ class Flight extends Model
 
     public function airportDep()
     {
-        return $this->hasOne(Airport::class, 'id', 'dep');
+        return $this->hasOne(Airport::class, 'id', 'dep')->withDefault();
     }
 
     public function airportArr()
     {
-        return $this->hasOne(Airport::class, 'id', 'arr');
+        return $this->hasOne(Airport::class, 'id', 'arr')->withDefault();
     }
 }
