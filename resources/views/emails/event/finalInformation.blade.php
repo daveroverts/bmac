@@ -13,8 +13,12 @@ Thanks for booking a slot for the {{ $booking->event->name }} event. Here you ca
 @if($booking->getRawOriginal('selcal') != null)
 | SELCAL: | **{{ $booking->selcal }}** |
 @endif
+@if($flight->dep)
 | From: | **{{ $flight->airportDep->icao  }}** |
+@endif
+@if($flight->arr)
 | To: | **{{ $flight->airportArr->icao }}** |
+@endif
 @isset($flight->ctot)
 | CTOT: | **{{ $flight->formattedCtot }}** |
 @endisset

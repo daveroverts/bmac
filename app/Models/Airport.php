@@ -82,6 +82,9 @@ class Airport extends Model
 
     public function getFullNameAttribute()
     {
+        if (!$this->id) {
+            return '-';
+        }
         if (auth()->check() && auth()->user()->airport_view !== AirportView::NAME) {
             switch (auth()->user()->airport_view) {
                 case AirportView::ICAO:
