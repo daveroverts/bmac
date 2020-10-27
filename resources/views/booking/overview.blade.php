@@ -66,7 +66,9 @@
                 </tr>
                 </thead>
                 @foreach($bookings as $booking)
-                    @php($flight = $booking->flights->first())
+                    @php
+                    $flight = $booking->flights->first()
+                    @endphp
                     {{-- @TODO Temp fix for events using filter buttons--}}
                     @if($flight)
                         {{--Check if flight belongs to the logged in user--}}
