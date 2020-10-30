@@ -19,6 +19,7 @@ dom.watch();
 
 // TinyMCE
 import tinymce from 'tinymce';
+import 'tinymce/icons/default';
 import 'tinymce/themes/silver';
 import 'tinymce/plugins/code';
 import 'tinymce/plugins/paste';
