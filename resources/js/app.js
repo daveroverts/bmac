@@ -8,10 +8,10 @@ require('./bootstrap');
 
 import 'jquery-ui/ui/widgets/datepicker';
 // Importing Font Awesome
-import {dom, library} from '@fortawesome/fontawesome-svg-core'
-import {far} from '@fortawesome/free-regular-svg-icons'
-import {fas} from '@fortawesome/free-solid-svg-icons'
-import {fab} from '@fortawesome/free-brands-svg-icons'
+import { dom, library } from '@fortawesome/fontawesome-svg-core'
+import { far } from '@fortawesome/free-regular-svg-icons'
+import { fas } from '@fortawesome/free-solid-svg-icons'
+import { fab } from '@fortawesome/free-brands-svg-icons'
 
 library.add(far, fas, fab);
 
@@ -19,8 +19,8 @@ dom.watch();
 
 // TinyMCE
 import tinymce from 'tinymce';
-
-import 'tinymce/plugins/code'
+import 'tinymce/themes/silver';
+import 'tinymce/plugins/code';
 import 'tinymce/plugins/paste';
 import 'tinymce/plugins/link';
 
