@@ -6,23 +6,12 @@
 
 require('./bootstrap');
 
-import $ from 'jquery';
 import 'jquery-ui/ui/widgets/datepicker';
 // Importing Font Awesome
 import {dom, library} from '@fortawesome/fontawesome-svg-core'
 import {far} from '@fortawesome/free-regular-svg-icons'
 import {fas} from '@fortawesome/free-solid-svg-icons'
 import {fab} from '@fortawesome/free-brands-svg-icons'
-
-window.$ = window.jQuery = $;
-
-$('.datepicker').datepicker({
-    dateFormat: "dd-mm-yy",
-    minDate: 0,
-    showButtonPanel: true,
-    showOtherMonths: true,
-    selectOtherMonths: true
-});
 
 library.add(far, fas, fab);
 

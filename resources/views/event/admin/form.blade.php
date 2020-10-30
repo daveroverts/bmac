@@ -449,3 +449,15 @@
         </div>
     </div>
 @endsection
+
+@push('scripts')
+<script>
+    $('.datepicker').datepicker({
+    dateFormat: "dd-mm-yy",
+    minDate: 0,
+    showButtonPanel: true,
+    showOtherMonths: true,
+    selectOtherMonths: true
+});
+</script>
+@endpush
