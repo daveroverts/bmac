@@ -353,7 +353,7 @@
                                     class="far fa-clock"></i> Begin (UTC)</label>
 
                             <div class="col-md-6">
-                                <input id="timeBeginEvent" type="time"
+                                <input id="timeBeginBooking" type="time"
                                        class="form-control{{ $errors->has('timeBeginBooking') ? ' is-invalid' : '' }}"
                                        name="timeBeginBooking"
                                        value="{{ old('timeBeginBooking', $event->id ? $event->startBooking->format('H:i') : null) }}"
