@@ -682,6 +682,16 @@
             ],
             "description": "Deployment Tool",
             "homepage": "https://deployer.org",
+            "funding": [
+                {
+                    "url": "https://github.com/antonmedv",
+                    "type": "github"
+                },
+                {
+                    "url": "https://www.patreon.com/deployer",
+                    "type": "patreon"
+                }
+            ],
             "time": "2020-04-25T16:05:31+00:00"
         },
         {
@@ -4059,22 +4069,22 @@
         },
         {
             "name": "rap2hpoutre/fast-excel",
-            "version": "v2.1.0",
+            "version": "v2.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/rap2hpoutre/fast-excel.git",
-                "reference": "9ab558d30ceb10996663eff7cbfc81b4724c8378"
+                "reference": "126c50f9549430cee1ba50aefc224295349b4651"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/rap2hpoutre/fast-excel/zipball/9ab558d30ceb10996663eff7cbfc81b4724c8378",
-                "reference": "9ab558d30ceb10996663eff7cbfc81b4724c8378",
+                "url": "https://api.github.com/repos/rap2hpoutre/fast-excel/zipball/126c50f9549430cee1ba50aefc224295349b4651",
+                "reference": "126c50f9549430cee1ba50aefc224295349b4651",
                 "shasum": ""
             },
             "require": {
                 "box/spout": "^2.7",
                 "illuminate/support": "5.3.* || 5.4.* || 5.5.* || 5.6.* || 5.7.* || 5.8.* || ^6.0 || ^7.0 || ^8.0",
-                "php": "^7.0"
+                "php": "^7.1"
             },
             "require-dev": {
                 "illuminate/database": "5.3.* || 5.4.* || 5.5.* || 5.6.* || 5.7.* || 5.8.* || ^6.0 || ^7.0 || ^8.0",
@@ -4114,7 +4124,7 @@
                 "xls",
                 "xlsx"
             ],
-            "time": "2020-09-08T12:39:58+00:00"
+            "time": "2020-10-27T05:35:19+00:00"
         },
         {
             "name": "renatomarinho/laravel-page-speed",
@@ -4402,12 +4412,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/console.git",
-                "reference": "04c3a31fe8ea94b42c9e2d1acc93d19782133b00"
+                "reference": "ae789a8a2ad189ce7e8216942cdb9b77319f5eb8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/console/zipball/04c3a31fe8ea94b42c9e2d1acc93d19782133b00",
-                "reference": "04c3a31fe8ea94b42c9e2d1acc93d19782133b00",
+                "url": "https://api.github.com/repos/symfony/console/zipball/ae789a8a2ad189ce7e8216942cdb9b77319f5eb8",
+                "reference": "ae789a8a2ad189ce7e8216942cdb9b77319f5eb8",
                 "shasum": ""
             },
             "require": {
@@ -4487,7 +4497,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-09-18T14:27:32+00:00"
+            "time": "2020-10-07T15:23:00+00:00"
         },
         {
             "name": "symfony/css-selector",
