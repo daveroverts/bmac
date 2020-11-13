@@ -427,7 +427,7 @@
 
                         {{-- Description --}}
                         <div>
-                            <textarea id="tinymce" name="description"
+                            <textarea class="tinymce" name="description"
                                       rows="10">{!! html_entity_decode(old('description', $event->description)) !!}</textarea>
                         </div>
 

@@ -26,7 +26,7 @@ import 'tinymce/plugins/paste';
 import 'tinymce/plugins/link';
 
 tinymce.init({
-    selector: 'textarea#tinymce',
+    selector: 'textarea.tinymce',
     plugins: ['code', 'paste', 'link']
 });
 
