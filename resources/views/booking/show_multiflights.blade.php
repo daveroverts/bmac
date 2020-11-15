@@ -44,7 +44,7 @@
                         </div>
 
                         @if($booking->event->uses_times)
-                            @if($flight->getOriginal('ctot'))
+                            @if($flight->getRawOriginal('ctot'))
                                 {{--CTOT--}}
                                 <div class="form-group row">
                                     <label for="ctot" class="col-md-4 col-form-label text-md-right"> CTOT</label>
@@ -56,7 +56,7 @@
                                 </div>
                             @endif
 
-                            @if($flight->getOriginal('eta'))
+                            @if($flight->getRawOriginal('eta'))
                                 {{--ETA--}}
                                 <div class="form-group row">
                                     <label for="ctot" class="col-md-4 col-form-label text-md-right"> ETA</label>
@@ -109,7 +109,7 @@
                             </div>
                         </div>
 
-                        @if($flight->getOriginal('notes'))
+                        @if($flight->getRawOriginal('notes'))
                             {{--Notes--}}
                             <div class="form-group row">
                                 <label for="notes" class="col-md-4 col-form-label text-md-right">Notes</label>

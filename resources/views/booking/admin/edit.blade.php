@@ -54,7 +54,7 @@
                             <div class="col-md-6">
                                 <input id="callsign" type="text"
                                        class="form-control{{ $errors->has('callsign') ? ' is-invalid' : '' }}"
-                                       name="callsign" value="{{ old('callsign', $booking->getOriginal('callsign')) }}" autofocus
+                                       name="callsign" value="{{ old('callsign', $booking->getRawOriginal('callsign')) }}" autofocus
                                        max="7">
 
                                 @if ($errors->has('callsign'))
@@ -179,7 +179,7 @@
                                 <input id="oceanicTrack" type="text"
                                        class="form-control{{ $errors->has('oceanicTrack') ? ' is-invalid' : '' }}"
                                        name="oceanicTrack"
-                                       value="{{ old('oceanicTrack',$flight->getOriginal('oceanicTrack')) }}" max="2">
+                                       value="{{ old('oceanicTrack',$flight->getRawOriginal('oceanicTrack')) }}" max="2">
 
                                 @if ($errors->has('oceanicTrack'))
                                     <span class="invalid-feedback">
@@ -191,14 +191,13 @@
 
                         {{--Oceanic Entry FL--}}
                         <div class="form-group row">
-                            <label for="oceanicFL" class="col-md-4 col-form-label text-md-right">Oceanic Entry
-                                FL</label>
+                            <label for="oceanicFL" class="col-md-4 col-form-label text-md-right">Cruise FL</label>
 
                             <div class="col-md-6">
                                 <input id="oceanicFL" type="text"
                                        class="form-control{{ $errors->has('oceanicFL') ? ' is-invalid' : '' }}"
                                        name="oceanicFL"
-                                       value="{{ old('oceanicFL',$flight->getOriginal('oceanicFL')) }}" max="3">
+                                       value="{{ old('oceanicFL',$flight->getRawOriginal('oceanicFL')) }}" max="3">
 
                                 @if ($errors->has('oceanicFL'))
                                     <span class="invalid-feedback">
