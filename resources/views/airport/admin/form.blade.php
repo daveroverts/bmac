@@ -29,7 +29,7 @@
                             <div class="col-md-6">
                                 <input id="icao" type="text"
                                        class="form-control{{ $errors->has('icao') ? ' is-invalid' : '' }}" name="icao"
-                                       value="{{ old('icao', $airport->icao) }}" required autofocus>
+                                       value="{{ old('icao', $airport->getRawOriginal('icao')) }}" required autofocus>
 
                                 @if ($errors->has('icao'))
                                     <span class="invalid-feedback">
@@ -46,7 +46,7 @@
                             <div class="col-md-6">
                                 <input id="iata" type="text"
                                        class="form-control{{ $errors->has('iata') ? ' is-invalid' : '' }}" name="iata"
-                                       value="{{ old('iata', $airport->iata) }}" required>
+                                       value="{{ old('iata', $airport->getRawOriginal('iata')) }}" required>
 
                                 @if ($errors->has('name'))
                                     <span class="invalid-feedback">
@@ -63,7 +63,7 @@
                             <div class="col-md-6">
                                 <input id="name" type="text"
                                        class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" name="name"
-                                       value="{{ old('name', $airport->name) }}" required>
+                                       value="{{ old('name', $airport->getRawOriginal('name')) }}" required>
 
                                 @if ($errors->has('name'))
                                     <span class="invalid-feedback">
