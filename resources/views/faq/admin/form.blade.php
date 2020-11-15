@@ -90,7 +90,7 @@
                             <label for="answer" class="col-md-4 col-form-label text-md-right"> Answer</label>
                         </div>
                         <div>
-                            <textarea id="tinymce" name="answer"
+                            <textarea class="tinymce" name="answer"
                                       rows="10">{!! html_entity_decode(old('answer', $faq->answer)) !!}</textarea>
 
                             @if ($errors->has('answer'))
