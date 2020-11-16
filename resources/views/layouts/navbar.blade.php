@@ -23,13 +23,9 @@
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <a class="dropdown-item" href="{{ url('/') }}">Overview</a>
 
-                        @php
-                            $events = nextEvents();
-                        @endphp
-
-                        @if ($events->isNotEmpty())
+                        @if ($navbarEvents)
                             <div class="dropdown-divider"></div>
-                            @foreach($events as $event)
+                            @foreach($navbarEvents as $event)
                                 <a class="dropdown-item {{ request()->fullUrlIs(route('bookings.event.index', $event)) ? 'active' : '' }}"
                                     href="{{ route('bookings.event.index', $event) }}">{{ $event->name }}
                                     – {{ $event->startEvent->toFormattedDateString() }}</a>
