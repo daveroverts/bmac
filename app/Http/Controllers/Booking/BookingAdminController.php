@@ -12,6 +12,7 @@ use App\Http\Requests\Booking\Admin\ImportBookings;
 use App\Http\Requests\Booking\Admin\RouteAssign;
 use App\Http\Requests\Booking\Admin\StoreBooking;
 use App\Http\Requests\Booking\Admin\UpdateBooking;
+use App\Imports\BookingsImport;
 use App\Models\Airport;
 use App\Models\Booking;
 use App\Models\Event;
@@ -339,98 +340,9 @@ class BookingAdminController extends AdminController
             ->by(auth()->user())
             ->on($event)
             ->log('Import triggered');
-        $file = $request->file('file')->getRealPath();
-        if ($event->event_type_id == EventType::MULTIFLIGHTS) {
-            (new FastExcel)->importSheets($file, function ($line) use ($event) {
-               $airport1 = Airport::where('icao', $line['Airport 1'])->first();
-               $airport2 = Airport::where('icao', $line['Airport 2'])->first();
-               $airport3 = Airport::where('icao', $line['Airport 3'])->first();
-
-               if (isset($line['CTOT 1'])) {
-                   $ctot1 = Carbon::createFromFormat('Y-m-d H:i',
-                       $event->startEvent->toDateString().' '.$line['CTOT 1']->format('H:i'));
-               }
-                if (isset($line['CTOT 2'])) {
-                    $ctot2 = Carbon::createFromFormat('Y-m-d H:i',
-                       $event->startEvent->toDateString().' '.$line['CTOT 2']->format('H:i'));
-                }
-
-                $booking = Booking::create([
-                    'event_id' => $event->id,
-                    'is_editable' => true,
-                ]);
-
-                $booking->flights()->createMany([
-                    [
-                        'order_by' => 1,
-                        'dep' => $airport1->id,
-                        'arr' => $airport2->id,
-                        'ctot' => $ctot1,
-                    ],
-                    [
-                        'order_by' => 2,
-                        'dep' => $airport2->id,
-                        'arr' => $airport3->id,
-                        'ctot' => $ctot2,
-                    ],
-                ]);
-            });
-        } else {
-            $success = true;
-            (new FastExcel)->importSheets($file, function ($line) use ($success, $event) {
-                if (!$success) {
-                    return false;
-                }
-                $editable = true;
-                $dep = Airport::where('icao', $line['Origin'])->first();
-                if (!$dep) {
-                    flashMessage('danger', 'Airport ' . $line['Origin'] . ' does not exist', 'Add the airport, then try again');
-                    $success = false;
-                }
-                $arr = Airport::where('icao', $line['Destination'])->first();
-                if (!$arr) {
-                    flashMessage('danger', 'Airport ' . $line['Destination'] . ' does not exist', 'Add the airport, then try again');
-                    $success = false;
-                }
-
-                if (!$success) {
-                    return false;
-                }
-
-                $booking = new Booking();
-                if (!empty($line['Call Sign']) && !empty($line['Aircraft Type'])) {
-                    $editable = false;
-                    $booking->fill([
-                        'callsign' => $line['Call Sign'],
-                        'acType' => $line['Aircraft Type'],
-
-                    ]);
-                }
-                $booking->fill([
-                    'event_id' => $event->id,
-                    'is_editable' => $editable,
-                ])->save();
-
-                $flight = collect([
-                    'dep' => $dep->id,
-                    'arr' => $arr->id,
-                    'notes' => $line['Notes'] ?? null,
-                ]);
-                if (!empty($line['ETA'])) {
-                    $flight->put('eta', Carbon::createFromFormat('Y-m-d H:i',
-                        $event->startEvent->toDateString().' '.$line['ETA']->format('H:i')));
-                }
-                if (!empty($line['EOBT'])) {
-                    $flight->put('ctot', Carbon::createFromFormat('Y-m-d H:i',
-                        $event->startEvent->toDateString().' '.$line['EOBT']->format('H:i')));
-                }
-                if (!empty($line['Route'])) {
-                    $flight->put('route', $line['Route']);
-                }
-                $booking->flights()->create($flight->toArray());
-            });
-        }
-        Storage::delete($file);
+        $file = $request->file('file');
+        (new BookingsImport($event))->import($file);
+        Storage::delete($file->getRealPath());
         flashMessage('success', 'Flights imported', 'Flights have been imported');
         return redirect(route('bookings.event.index', $event));
     }

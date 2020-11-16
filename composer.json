@@ -19,6 +19,7 @@
         "laravel/tinker": "^2.0",
         "league/oauth2-client": "^2.4",
         "lorisleiva/laravel-deployer": "^0.3.2",
+        "maatwebsite/excel": "^3.1",
         "predis/predis": "^1.1",
         "rap2hpoutre/fast-excel": "^2.0.0",
         "renatomarinho/laravel-page-speed": "^1.8",
