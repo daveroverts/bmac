@@ -15,7 +15,7 @@
         "@fortawesome/free-brands-svg-icons": "^5.15.1",
         "@fortawesome/free-regular-svg-icons": "^5.15.1",
         "@fortawesome/free-solid-svg-icons": "^5.15.1",
-        "axios": "^0.20.0",
+        "axios": "^0.21.0",
         "bootstrap": "^4.5.3",
         "browser-sync": "^2.26.13",
         "browser-sync-webpack-plugin": "2.2.2",
@@ -33,7 +33,7 @@
     },
     "dependencies": {
         "bootswatch": "^4.5.3",
-        "sweetalert2": "^10.10.0",
+        "sweetalert2": "^10.10.1",
         "tinymce": "^5.5.1"
     }
 }
