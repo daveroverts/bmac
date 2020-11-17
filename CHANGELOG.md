@@ -21,6 +21,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Upgrade to Laravel 8
 - Flash messages no longer show that a e-mail was sent.
 - Booking airports are now optional, and won't show in views / emails if one hasn't been set.
+- Replaced ``rap2hpoutre/fast-excel`` with ``maatwebsite/excel``
 
 ### Removed
 

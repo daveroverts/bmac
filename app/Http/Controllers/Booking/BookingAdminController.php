@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Booking;
 
 use App\Enums\BookingStatus;
-use App\Enums\EventType;
 use App\Events\BookingChanged;
 use App\Events\BookingDeleted;
 use App\Exports\BookingsExport;
