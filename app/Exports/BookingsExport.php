@@ -27,16 +27,16 @@ class BookingsExport implements FromCollection, WithColumnFormatting, WithMappin
     }
 
     /**
-    * @return \Illuminate\Support\Collection
-    */
+     * @return \Illuminate\Support\Collection
+     */
     public function collection()
     {
         return $this->event->bookings()->with('flights')->whereStatus(BookingStatus::BOOKED)->get();
     }
 
     /**
-    * @var Booking $booking
-    */
+     * @var Booking $booking
+     */
     public function map($booking): array
     {
         if ($this->event->event_type_id == EventType::MULTIFLIGHTS) {

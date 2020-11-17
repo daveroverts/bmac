@@ -60,9 +60,11 @@ class BookingAdminController extends AdminController
     {
         $event = Event::whereKey($request->id)->first();
         if ($request->bulk) {
-            $event_start = Carbon::createFromFormat('Y-m-d H:i',
-                $event->startEvent->toDateString().' '.$request->start);
-            $event_end = Carbon::createFromFormat('Y-m-d H:i', $event->endEvent->toDateString().' '.$request->end);
+            $event_start = Carbon::createFromFormat(
+                'Y-m-d H:i',
+                $event->startEvent->toDateString() . ' ' . $request->start
+            );
+            $event_end = Carbon::createFromFormat('Y-m-d H:i', $event->endEvent->toDateString() . ' ' . $request->end);
             $separation = $request->separation * 60;
             $count = 0;
             for (; $event_start <= $event_end; $event_start->addSeconds($separation)) {
@@ -91,7 +93,7 @@ class BookingAdminController extends AdminController
                     $count++;
                 }
             }
-            flashMessage('success', 'Done', $count.' Slots have been created!');
+            flashMessage('success', 'Done', $count . ' Slots have been created!');
         } else {
             $booking = new Booking([
                 'is_editable' => $request->is_editable,
@@ -109,13 +111,17 @@ class BookingAdminController extends AdminController
             ];
 
             if ($request->ctot) {
-                $flightAttributes['ctot'] = Carbon::createFromFormat('Y-m-d H:i',
-                    $event->startEvent->toDateString().' '.$request->ctot);
+                $flightAttributes['ctot'] = Carbon::createFromFormat(
+                    'Y-m-d H:i',
+                    $event->startEvent->toDateString() . ' ' . $request->ctot
+                );
             }
 
             if ($request->eta) {
-                $flightAttributes['eta'] = Carbon::createFromFormat('Y-m-d H:i',
-                    $event->startEvent->toDateString().' '.$request->eta);
+                $flightAttributes['eta'] = Carbon::createFromFormat(
+                    'Y-m-d H:i',
+                    $event->startEvent->toDateString() . ' ' . $request->eta
+                );
             }
 
             $booking->flights()->create($flightAttributes);
@@ -183,13 +189,17 @@ class BookingAdminController extends AdminController
         ];
 
         if ($request->ctot) {
-            $flightAttributes['ctot'] = Carbon::createFromFormat('Y-m-d H:i',
-                $booking->event->startEvent->toDateString().' '.$request->ctot);
+            $flightAttributes['ctot'] = Carbon::createFromFormat(
+                'Y-m-d H:i',
+                $booking->event->startEvent->toDateString() . ' ' . $request->ctot
+            );
         }
 
         if ($request->eta) {
-            $flightAttributes['eta'] = Carbon::createFromFormat('Y-m-d H:i',
-                $booking->event->startEvent->toDateString().' '.$request->eta);
+            $flightAttributes['eta'] = Carbon::createFromFormat(
+                'Y-m-d H:i',
+                $booking->event->startEvent->toDateString() . ' ' . $request->eta
+            );
         }
 
         $flight->fill($flightAttributes);
@@ -301,9 +311,9 @@ class BookingAdminController extends AdminController
     {
         // @TODO Optimise this, for now it's a ugly fix
         $bookings = $event->bookings()
-        ->with(['flights' => function ($query) {
-            $query->orderBy('ctot');
-        }]);
+            ->with(['flights' => function ($query) {
+                $query->orderBy('ctot');
+            }]);
 
         if (!$request->checkAssignAllFlights) {
             $bookings = $bookings->where('status', BookingStatus::BOOKED);
@@ -337,9 +347,8 @@ class BookingAdminController extends AdminController
                 }
             }
             $flight->save();
-
         }
-        flashMessage('success', 'Bookings changed', $count.' Bookings have been Auto-Assigned a FL, and route');
+        flashMessage('success', 'Bookings changed', $count . ' Bookings have been Auto-Assigned a FL, and route');
         activity()
             ->by(auth()->user())
             ->on($event)
@@ -377,10 +386,9 @@ class BookingAdminController extends AdminController
             Flight::whereDep($from->id)
                 ->whereArr($to->id)
                 ->update([
-                'route' => $line['Route'],
-                'notes' => $notes
-            ]);
-
+                    'route' => $line['Route'],
+                    'notes' => $notes
+                ]);
         });
         Storage::delete($file);
         flashMessage('success', 'Routes assigned', 'Routes have been assigned to flights');

@@ -90,7 +90,7 @@ class BookingsImport implements ToModel, WithHeadingRow, WithBatchInserts, WithC
     {
         if ($this->event->event_type_id == EventType::MULTIFLIGHTS) {
             return [
-                'airport_1'      => 'exists:airports,icao',
+                'airport_1' => 'exists:airports,icao',
                 'airport_2' => 'exists:airports,icao',
                 'airport_3' => 'exists:airports,icao',
             ];
