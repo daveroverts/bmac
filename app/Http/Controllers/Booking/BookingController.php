@@ -10,7 +10,6 @@ use App\Http\Requests\Booking\UpdateBooking;
 use App\Models\Booking;
 use App\Models\Event;
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -35,100 +34,7 @@ class BookingController extends Controller
             }
         }
 
-        $bookings = collect();
-        $filter = null;
-
-        if ($event) {
-            // @TODO Check should actually be in a policy
-            if ($event->is_online || auth()->check() && auth()->user()->isAdmin) {
-                if ($event->hasOrderButtons()) {
-                    switch (strtolower($request->filter)) {
-                        case 'departures':
-                            $bookings = Booking::whereEventId($event->id)
-                                ->with([
-                                    'event',
-                                    'user',
-                                    'flights' => function ($query) use ($event) {
-                                        $query->where('dep', $event->dep);
-                                        $query->orderBy('ctot');
-                                    },
-                                    'flights.airportDep',
-                                    'flights.airportArr',
-                                ])
-                                ->withCount(['flights' => function (Builder $query) use ($event) {
-                                    $query->where('dep', $event->dep);
-                                },])
-                                ->get();
-                            $filter = $request->filter;
-                            break;
-                        case 'arrivals':
-                            $bookings = Booking::whereEventId($event->id)
-                                ->with([
-                                    'event',
-                                    'user',
-                                    'flights' => function ($query) use ($event) {
-                                        $query->where('arr', $event->arr);
-                                        $query->orderBy('eta');
-                                    },
-                                    'flights.airportDep',
-                                    'flights.airportArr',
-                                ])
-                                ->withCount(['flights' => function (Builder $query) use ($event) {
-                                    $query->where('arr', $event->arr);
-                                },])
-                                ->get();
-                            $filter = $request->filter;
-                            break;
-                        default:
-                            $bookings = Booking::whereEventId($event->id)
-                                ->with([
-                                    'event',
-                                    'user',
-                                    'flights' => function ($query) {
-                                        $query->orderBy('eta');
-                                        $query->orderBy('ctot');
-                                    },
-                                    'flights.airportDep',
-                                    'flights.airportArr',
-                                ])
-                                ->withCount('flights')
-                                ->get();
-                    }
-                } else {
-                    $bookings = Booking::whereEventId($event->id)
-                        ->with([
-                            'event',
-                            'user',
-                            'flights' => function ($query) {
-                                $query->orderBy('eta');
-                                $query->orderBy('ctot');
-                            },
-                            'flights.airportDep',
-                            'flights.airportArr',
-                        ])
-                        ->withCount('flights')
-                        ->get();
-                }
-            } else {
-                abort_unless(auth()->check() && auth()->user()->isAdmin, 404);
-            }
-        }
-
-        $booked = $bookings->where('status', BookingStatus::BOOKED)
-            ->filter(function ($booking) {
-                /* @var Booking $booking */
-                return $booking->flights_count;
-            })->count();
-
-        if ($event->event_type_id == EventType::MULTIFLIGHTS) {
-            $total = $bookings->count();
-            return view('booking.overview_multiflights', compact('event', 'bookings', 'filter', 'total', 'booked'));
-        }
-        $total = $bookings->sum(function ($booking) {
-            /* @var Booking $booking */
-            return $booking->flights_count;
-        });
-        return view('booking.overview', compact('event', 'bookings', 'filter', 'total', 'booked'));
+        return view('booking.overview', compact('event'));
     }
 
     public function removeOverdueReservations()
