@@ -31,6 +31,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `BookingAdminController@import()` now supports Route
 - [davejamesmiller/laravel-breadcrumbs](https://github.com/davejamesmiller/laravel-breadcrumbs) replaced with [tabuna/breadcrumbs](https://github.com/tabuna/breadcrumbs)
 - Possiblity to change the default Bootswatch Flatly colors #23 + various site variables #16, thanks to @blt950
+- Laravel Livewire, replaces current ``bookings.overview``
 
 ### Changed
 
