@@ -4,6 +4,7 @@ namespace App\Http\Livewire;
 
 use App\Models\Event;
 use Livewire\Component;
+use App\Enums\EventType;
 use App\Enums\BookingStatus;
 use Illuminate\Database\Eloquent\Builder;
 
@@ -50,8 +51,8 @@ class Bookings extends Component
                                 'event',
                                 'user',
                                 'flights' => function ($query) {
-                                $query->where('arr', $this->event->arr);
-                                $query->orderBy('eta');
+                                    $query->where('arr', $this->event->arr);
+                                    $query->orderBy('eta');
                                 },
                                 'flights.airportDep',
                                 'flights.airportArr',
@@ -67,8 +68,8 @@ class Bookings extends Component
                                 'event',
                                 'user',
                                 'flights' => function ($query) {
-                                $query->orderBy('eta');
-                                $query->orderBy('ctot');
+                                    $query->orderBy('eta');
+                                    $query->orderBy('ctot');
                                 },
                                 'flights.airportDep',
                                 'flights.airportArr',
@@ -101,10 +102,14 @@ class Bookings extends Component
                 return $booking->flights_count;
             })->count();
 
-        $this->total = $this->bookings->sum(function ($booking) {
-            /** @var Booking $booking */
-            return $booking->flights_count;
-        });
+        if ($this->event->event_type_id == EventType::MULTIFLIGHTS) {
+            $this->total = $this->bookings->count();
+        } else {
+            $this->total = $this->bookings->sum(function ($booking) {
+                /** @var Booking $booking */
+                return $booking->flights_count;
+            });
+        }
 
         return view('livewire.bookings');
     }
