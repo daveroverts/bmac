@@ -1,4 +1,4 @@
-<div>
+<div {{ $refreshInSeconds ? "wire:poll.{$refreshInSeconds}s" : '' }}>
     <h3>{{ $event->name }} | {{ $filter ? ucfirst($filter) : 'Slot Table' }}</h3>
     <hr>
     <p>

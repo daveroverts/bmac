@@ -3,18 +3,29 @@
 namespace App\Http\Livewire;
 
 use App\Models\Event;
+use App\Models\Booking;
 use Livewire\Component;
 use App\Enums\EventType;
 use App\Enums\BookingStatus;
-use Illuminate\Database\Eloquent\Builder;
 
 class Bookings extends Component
 {
-
+    /** @var Event */
     public Event $event;
+
+    /** @var int */
+    public $refreshInSeconds = 0;
+
+    /** @var Booking */
     public $bookings;
+
+    /** @var string|null */
     public $filter = null;
+
+    /** @var int */
     public $total = 0;
+
+    /** @var int */
     public $booked = 0;
 
     public function filter($filter)
@@ -22,76 +33,43 @@ class Bookings extends Component
         $this->filter = strtolower($filter);
     }
 
+    public function mount()
+    {
+        // Only enable polling if event is 'active'
+        if (now()->between($this->event->startBooking, $this->event->endEvent)) {
+            $this->refreshInSeconds = 15;
+        }
+    }
+
     public function render()
     {
+        $filter = $this->filter;
         // @TODO Check should actually be in a policy
         if ($this->event->is_online || auth()->check() && auth()->user()->isAdmin) {
-            if ($this->event->hasOrderButtons()) {
-                switch (strtolower($this->filter)) {
-                    case 'departures':
-                        $this->bookings = $this->event->bookings()
-                            ->with([
-                                'event',
-                                'user',
-                                'flights' => function ($query) {
-                                    $query->where('dep', $this->event->dep);
-                                    $query->orderBy('ctot');
-                                },
-                                'flights.airportDep',
-                                'flights.airportArr',
-                            ])
-                            ->withCount(['flights' => function (Builder $query) {
-                                $query->where('dep', $this->event->dep);
-                            },])
-                            ->get();
-                        break;
-                    case 'arrivals':
-                        $this->bookings = $this->event->bookings()
-                            ->with([
-                                'event',
-                                'user',
-                                'flights' => function ($query) {
-                                    $query->where('arr', $this->event->arr);
-                                    $query->orderBy('eta');
-                                },
-                                'flights.airportDep',
-                                'flights.airportArr',
-                            ])
-                            ->withCount(['flights' => function (Builder $query) {
-                                $query->where('arr', $this->event->arr);
-                            },])
-                            ->get();
-                        break;
-                    default:
-                        $this->bookings = $this->event->bookings()
-                            ->with([
-                                'event',
-                                'user',
-                                'flights' => function ($query) {
-                                    $query->orderBy('eta');
-                                    $query->orderBy('ctot');
-                                },
-                                'flights.airportDep',
-                                'flights.airportArr',
-                            ])
-                            ->withCount('flights')
-                            ->get();
-                }
-            } else {
-                $this->bookings = $this->event->bookings()
-                    ->with([
-                        'event',
-                        'user',
-                        'flights' => function ($query) {
-                            $query->orderBy('eta');
-                            $query->orderBy('ctot');
-                        },
-                        'flights.airportDep',
-                        'flights.airportArr',
-                    ])
-                    ->withCount('flights')
-                    ->get();
-            }
+            $this->bookings = $this->event->bookings()
+                ->with([
+                    'event',
+                    'user',
+                    'flights' => function ($query) use ($filter) {
+                        switch ($filter) {
+                            case 'departures':
+                                $query->where('dep', $this->event->dep)
+                                    ->orderBy('ctot');
+                                break;
+                            case 'arrivals':
+                                $query->where('arr', $this->event->arr)
+                                    ->orderBy('eta');
+                                break;
+                            default:
+                                $query->orderBy('eta')
+                                    ->orderBy('ctot');
+                        }
+                    },
+                    'flights.airportDep',
+                    'flights.airportArr',
+                ])
+                ->withCount('flights')
+                ->get();
         } else {
             abort_unless(auth()->check() && auth()->user()->isAdmin, 404);
         }
