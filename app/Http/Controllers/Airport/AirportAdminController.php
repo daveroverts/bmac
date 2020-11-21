@@ -13,7 +13,6 @@ use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Support\Facades\Storage;
 use InvalidArgumentException;
 use Maatwebsite\Excel\Exceptions\NoFilePathGivenException;
-use Rap2hpoutre\FastExcel\FastExcel;
 
 class AirportAdminController extends AdminController
 {

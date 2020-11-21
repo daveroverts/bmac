@@ -13,6 +13,7 @@ use App\Http\Requests\Booking\Admin\RouteAssign;
 use App\Http\Requests\Booking\Admin\StoreBooking;
 use App\Http\Requests\Booking\Admin\UpdateBooking;
 use App\Imports\BookingsImport;
+use App\Imports\FlightRouteAssign;
 use App\Models\Airport;
 use App\Models\Booking;
 use App\Models\Event;
@@ -21,7 +22,6 @@ use App\Policies\BookingPolicy;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
-use Rap2hpoutre\FastExcel\FastExcel;
 
 class BookingAdminController extends AdminController
 {
@@ -377,19 +377,8 @@ class BookingAdminController extends AdminController
             ->by(auth()->user())
             ->on($event)
             ->log('Route assign triggered');
-        $file = $request->file('file')->getRealPath();
-        //From,To,Route,Notes
-        (new FastExcel)->importSheets($file, function ($line) use ($event) {
-            $from = Airport::where('icao', $line['From'])->first();
-            $to = Airport::where('icao', $line['To'])->first();
-            $notes = $line['Notes'] ?? null;
-            Flight::whereDep($from->id)
-                ->whereArr($to->id)
-                ->update([
-                    'route' => $line['Route'],
-                    'notes' => $notes
-                ]);
-        });
+        $file = $request->file('file');
+        (new FlightRouteAssign)->import($file);
         Storage::delete($file);
         flashMessage('success', 'Routes assigned', 'Routes have been assigned to flights');
         return redirect(route('bookings.event.index', $event));
