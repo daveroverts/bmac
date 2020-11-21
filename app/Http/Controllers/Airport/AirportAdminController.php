@@ -5,9 +5,14 @@ namespace App\Http\Controllers\Airport;
 use App\Http\Controllers\AdminController;
 use App\Http\Requests\Airport\Admin\StoreAirport;
 use App\Http\Requests\Airport\Admin\UpdateAirport;
+use App\Imports\AirportsImport;
 use App\Models\Airport;
 use App\Policies\AirportPolicy;
+use Exception;
+use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Support\Facades\Storage;
+use InvalidArgumentException;
+use Maatwebsite\Excel\Exceptions\NoFilePathGivenException;
 use Rap2hpoutre\FastExcel\FastExcel;
 
 class AirportAdminController extends AdminController
@@ -55,7 +60,7 @@ class AirportAdminController extends AdminController
     public function store(StoreAirport $request)
     {
         $airport = Airport::create($request->validated());
-        flashMessage('success', 'Done', $airport->name.' ['.$airport->icao.' | '.$airport->iata.'] has been added!');
+        flashMessage('success', 'Done', $airport->name . ' [' . $airport->icao . ' | ' . $airport->iata . '] has been added!');
         return redirect(route('admin.airports.index'));
     }
 
@@ -91,7 +96,7 @@ class AirportAdminController extends AdminController
     public function update(UpdateAirport $request, Airport $airport)
     {
         $airport->update($request->validated());
-        flashMessage('success', 'Done', $airport->name.' ['.$airport->icao.' | '.$airport->iata.'] has been updated!');
+        flashMessage('success', 'Done', $airport->name . ' [' . $airport->icao . ' | ' . $airport->iata . '] has been updated!');
         return redirect(route('admin.airports.index'));
     }
 
@@ -106,12 +111,18 @@ class AirportAdminController extends AdminController
     {
         if ($airport->flightsDep->isEmpty() && $airport->flightsArr->isEmpty()) {
             $airport->delete();
-            flashMessage('success', 'Done',
-                $airport->name.' ['.$airport->icao.' | '.$airport->iata.'] has been deleted!');
+            flashMessage(
+                'success',
+                'Done',
+                $airport->name . ' [' . $airport->icao . ' | ' . $airport->iata . '] has been deleted!'
+            );
             return redirect()->back();
         } else {
-            flashMessage('danger', 'Warning',
-                $airport->name.' ['.$airport->icao.' | '.$airport->iata.'] could not be deleted! It\'s linked to another event');
+            flashMessage(
+                'danger',
+                'Warning',
+                $airport->name . ' [' . $airport->icao . ' | ' . $airport->iata . '] could not be deleted! It\'s linked to another event'
+            );
             return redirect()->back();
         }
     }
@@ -119,29 +130,22 @@ class AirportAdminController extends AdminController
     /**
      * Script to import airports from a .dat file
      *
-     * @return \Symfony\Component\HttpFoundation\StreamedResponse
+     * @return \Illuminate\Http\Response
+     * @throws InvalidArgumentException
+     * @throws Exception
+     * @throws NoFilePathGivenException
+     * @throws BindingResolutionException
      */
     public function import()
     {
-        return response()->stream(function () {
-            $file = 'import.csv';
-            Storage::disk('local')->put($file,
-                "airportId,name,city,country,iata,icao,latitude,longitude,altitude,timezone,dst,tzDatabaseTimeZone,type,source\n".file_get_contents('https://raw.githubusercontent.com/jpatokal/openflights/master/data/airports.dat'));
-            $collection = (new FastExcel)->configureCsv(',')->import(Storage::path($file), function ($line) {
-                // Check if airport already exists
-                if (!Airport::where('icao', $line['icao'])->exists()) {
-                    // Check if ICAO and IATA are filled in
-                    if (strlen($line['icao']) == 4 && strlen($line['iata']) == 3) {
-                        Airport::create([
-                            'icao' => $line['icao'],
-                            'iata' => $line['iata'],
-                            'name' => $line['name'],
-                        ]);
-                    }
-                }
-            });
-            Storage::delete($file);
-            flashMessage('succes', 'Done', 'Airports have been added');
-        });
+        $file = 'import.csv';
+        Storage::disk('local')->put(
+            $file,
+            "airportId,name,city,country,iata,icao,latitude,longitude,altitude,timezone,dst,tzDatabaseTimeZone,type,source\n" . file_get_contents('https://raw.githubusercontent.com/jpatokal/openflights/master/data/airports.dat')
+        );
+        (new AirportsImport)->import($file);
+        Storage::delete($file);
+        flashMessage('success', 'Done', 'Airports have been added');
+        return redirect(route('admin.airports.index'));
     }
 }
