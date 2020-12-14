@@ -23,6 +23,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Booking airports are now optional, and won't show in views / emails if one hasn't been set.
 - Replaced ``rap2hpoutre/fast-excel`` with ``maatwebsite/excel``
 - ``booking.overview`` now uses polling depending if it's needed
+- User e-mail no longer unique
 
 ### Removed
 
