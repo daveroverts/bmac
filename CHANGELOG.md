@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v2.1.0](https://github.com/daveroverts/bmac/compare/v2.0.0...v2.1.0) - 2020-12-14
+
 ### Added
 
 - Added Events and Listeners for the Notifications we already have.
