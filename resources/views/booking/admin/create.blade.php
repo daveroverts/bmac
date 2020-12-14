@@ -77,12 +77,12 @@
                                 <div class="col-md-6">
                                     <input id="callsign" type="text"
                                            class="form-control{{ $errors->has('callsign') ? ' is-invalid' : '' }}"
-                                           name="callsign" value="{{ old('callsign') }}" required max="7">
+                                           name="callsign" value="{{ old('callsign') }}" max="7">
 
                                     @if ($errors->has('callsign'))
                                         <span class="invalid-feedback">
                                         <strong>{{ $errors->first('callsign') }}</strong>
-                                    </span>
+                                </span>
                                     @endif
                                 </div>
                             </div>
@@ -95,7 +95,7 @@
                                 <div class="col-md-6">
                                     <input id="aircraft" type="text"
                                            class="form-control{{ $errors->has('aircraft') ? ' is-invalid' : '' }}"
-                                           name="aircraft" value="{{ old('aircraft') }}" required min="3" max="4">
+                                           name="aircraft" value="{{ old('aircraft') }}" min="3" max="4">
 
                                     @if ($errors->has('aircraft'))
                                         <span class="invalid-feedback">
@@ -113,7 +113,7 @@
                             <div class="col-md-6">
                                 <select class="custom-select form-control{{ $errors->has('dep') ? ' is-invalid' : '' }}"
                                         name="dep">
-                                    <option value="">Choose an airport...</option>
+                                    <option value=""></option>
                                     @foreach($airports as $airport)
                                         <option
                                             value="{{ $airport->id }}" {{ old('dep', $event->dep) == $airport->id ? 'selected' : '' }}>{{ $airport->icao }}
@@ -138,7 +138,7 @@
                                 <select
                                     class="custom-select form-control{{ $errors->has('arr') ? ' is-invalid' : '' }}"
                                     name="arr">
-                                    <option value="">Choose an airport...</option>
+                                    <option value=""></option>
                                     @foreach($airports as $airport)
                                         <option
                                             value="{{ $airport->id }}" {{ old('arr', $event->arr) == $airport->id ? 'selected' : '' }}>{{ $airport->icao }}
@@ -279,6 +279,22 @@
                                 </div>
                             </div>
                         @endif
+
+                        {{--Notes--}}
+                        <div class="form-group row">
+                            <label for="Notes" class="col-md-4 col-form-label text-md-right">Notes</label>
+
+                            <div class="col-md-6">
+                                <textarea class="form-control" id="notes"
+                                          name="notes">{{ old('notes') }}</textarea>
+
+                                @if ($errors->has('notes'))
+                                    <span class="invalid-feedback">
+                                        <strong>{{ $errors->first('notes') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
 
                         {{--Add--}}
                         <div class="form-group row mb-0">

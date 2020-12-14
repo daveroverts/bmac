@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
 
@@ -45,9 +46,12 @@ use Spatie\Activitylog\Traits\LogsActivity;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Flight whereRoute($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Flight whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property-read string $formatted_ctot
+ * @property-read string $formatted_eta
  */
 class Flight extends Model
 {
+    use HasFactory;
     use LogsActivity;
 
     /**
@@ -158,11 +162,11 @@ class Flight extends Model
 
     public function airportDep()
     {
-        return $this->hasOne(Airport::class, 'id', 'dep');
+        return $this->hasOne(Airport::class, 'id', 'dep')->withDefault();
     }
 
     public function airportArr()
     {
-        return $this->hasOne(Airport::class, 'id', 'arr');
+        return $this->hasOne(Airport::class, 'id', 'arr')->withDefault();
     }
 }

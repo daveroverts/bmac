@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use Spatie\Activitylog\Traits\LogsActivity;
@@ -50,6 +51,7 @@ use Spatie\Activitylog\Traits\LogsActivity;
  */
 class Booking extends Model
 {
+    use HasFactory;
     use LogsActivity;
 
     /**
@@ -138,7 +140,8 @@ class Booking extends Model
      * Determine if the FinalInformationEmail was already sent or not
      * @return bool
      * */
-    public function getHasReceivedFinalInformationEmailAttribute($value) {
+    public function getHasReceivedFinalInformationEmailAttribute($value)
+    {
         return !empty($this->final_information_email_sent_at);
     }
 

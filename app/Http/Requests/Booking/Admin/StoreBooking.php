@@ -17,17 +17,18 @@ class StoreBooking extends Request
             'id' => 'exists:events,id|required',
             'bulk' => 'required|boolean',
             'is_editable' => 'required|boolean',
-            'callsign' => 'sometimes|alpha_num|between:4,7',
-            'aircraft' => 'sometimes|alpha_num|between:3,4',
+            'callsign' => 'nullable|alpha_num|between:4,7',
+            'aircraft' => 'nullable|alpha_num|between:3,4',
             'ctot' => 'sometimes|nullable',
             'eta' => 'sometimes|nullable',
             'route' => 'sometimes|nullable',
-            'dep' => 'exists:airports,id|different:arr|required',
-            'arr' => 'exists:airports,id|required',
+            'dep' => 'nullable|exists:airports,id',
+            'arr' => 'nullable|exists:airports,id',
             'start' => 'sometimes|date_format:H:i',
             'end' => 'sometimes|date_format:H:i',
             'separation' => 'sometimes|numeric|min:1',
             'oceanicFL' => 'sometimes|nullable|integer:3',
+            'notes' => 'nullable',
         ];
     }
 }

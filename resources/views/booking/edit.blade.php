@@ -34,14 +34,14 @@
                                     <input id="callsign" type="text"
                                            class="form-control{{ $errors->has('callsign') ? ' is-invalid' : '' }}"
                                            name="callsign"
-                                           value="{{ old('callsign', $booking->getOriginal('callsign')) }}" required
+                                           value="{{ old('callsign', $booking->getRawOriginal('callsign')) }}" required
                                            autofocus max="7">
                                 @endif
                             </div>
                         </div>
 
                         @if($booking->event->uses_times)
-                            @if($booking->getOriginal('ctot'))
+                            @if($booking->getRawOriginal('ctot'))
                                 {{--CTOT--}}
                                 <div class="form-group row">
                                     <label for="ctot" class="col-md-4 col-form-label text-md-right"> CTOT</label>
@@ -53,7 +53,7 @@
                                 </div>
                             @endif
 
-                            @if($booking->getOriginal('eta'))
+                            @if($booking->getRawOriginal('eta'))
                                 {{--ETA--}}
                                 <div class="form-group row">
                                     <label for="eta" class="col-md-4 col-form-label text-md-right"> ETA</label>
@@ -67,6 +67,7 @@
                         @endif
 
                         {{--ADEP--}}
+                        @if($flight->dep)
                         <div class="form-group row">
                             <label for="adep" class="col-md-4 col-form-label text-md-right">ADEP</label>
 
@@ -77,8 +78,10 @@
 
                             </div>
                         </div>
+                        @endif
 
                         {{--ADES--}}
+                        @if($booking->arr)
                         <div class="form-group row">
                             <label for="ades" class="col-md-4 col-form-label text-md-right">ADES</label>
 
@@ -89,6 +92,7 @@
 
                             </div>
                         </div>
+                        @endif
 
                         {{--PIC--}}
                         <div class="form-group row">
@@ -112,6 +116,20 @@
 
                             </div>
                         </div>
+
+                        @if ($flight->getRawOriginal('notes'))
+                            {{--Notes--}}
+                            <div class="form-group row">
+                                <label for="notes" class="col-md-4 col-form-label text-md-right">Notes</label>
+
+                                <div class="col-md-6">
+                                    <div class="form-control-plaintext">
+                                        <strong>{{ $flight->notes ?: '-' }}</strong>
+                                    </div>
+
+                                </div>
+                            </div>
+                        @endif
 
                         @if($booking->event->is_oceanic_event)
                             {{--Track--}}
@@ -149,7 +167,7 @@
                                     <input id="aircraft" type="text"
                                            class="form-control{{ $errors->has('aircraft') ? ' is-invalid' : '' }}"
                                            name="aircraft"
-                                           value="{{ old('acType', $booking->getOriginal('acType')) }}" required
+                                           value="{{ old('aircraft', $booking->getRawOriginal('acType')) }}" required
                                            max="4">
                                 @endif
                             </div>
@@ -163,14 +181,14 @@
                                     <label class="sr-only" for="selcal1"></label>
                                     <input type="text" class="form-control" id="selcal1" name="selcal1" placeholder="AB"
                                            min="2" max="2"
-                                           value="{{ old('selcal1',substr($booking->getOriginal('selcal'),0,2)) }}">
+                                           value="{{ old('selcal1',substr($booking->getRawOriginal('selcal'),0,2)) }}">
                                 </div>
                                 -
                                 <div class="col-sm-3 my-1">
                                     <label class="sr-only" for="selcal2"></label>
                                     <input type="text" class="form-control" id="selcal2" name="selcal2" placeholder="CD"
                                            min="2" max="2"
-                                           value="{{ old('selcal2',substr($booking->getOriginal('selcal'),3,5)) }}">
+                                           value="{{ old('selcal2',substr($booking->getRawOriginal('selcal'),3,5)) }}">
                                 </div>
                             </div>
                         @endif

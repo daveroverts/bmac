@@ -4,13 +4,12 @@ namespace App\Http\Controllers\Booking;
 
 use App\Enums\BookingStatus;
 use App\Enums\EventType;
+use App\Events\BookingCancelled;
+use App\Events\BookingConfirmed;
 use App\Http\Requests\Booking\UpdateBooking;
 use App\Models\Booking;
 use App\Models\Event;
-use App\Notifications\BookingCancelled;
-use App\Notifications\BookingConfirmed;
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -35,100 +34,7 @@ class BookingController extends Controller
             }
         }
 
-        $bookings = collect();
-        $filter = null;
-
-        if ($event) {
-            // @TODO Check should actually be in a policy
-            if ($event->is_online || auth()->check() && auth()->user()->isAdmin) {
-                if ($event->hasOrderButtons()) {
-                    switch (strtolower($request->filter)) {
-                        case 'departures':
-                            $bookings = Booking::whereEventId($event->id)
-                                ->with([
-                                    'event',
-                                    'user',
-                                    'flights' => function ($query) use ($event) {
-                                        $query->where('dep', $event->dep);
-                                        $query->orderBy('ctot');
-                                    },
-                                    'flights.airportDep',
-                                    'flights.airportArr',
-                                ])
-                                ->withCount(['flights' => function (Builder $query) use ($event) {
-                                    $query->where('dep', $event->dep);
-                                },])
-                                ->get();
-                            $filter = $request->filter;
-                            break;
-                        case 'arrivals':
-                            $bookings = Booking::whereEventId($event->id)
-                                ->with([
-                                    'event',
-                                    'user',
-                                    'flights' => function ($query) use ($event) {
-                                    $query->where('arr', $event->arr);
-                                    $query->orderBy('eta');
-                                    },
-                                    'flights.airportDep',
-                                    'flights.airportArr',
-                                ])
-                                ->withCount(['flights' => function (Builder $query) use ($event) {
-                                    $query->where('arr', $event->arr);
-                                },])
-                                ->get();
-                            $filter = $request->filter;
-                            break;
-                        default:
-                            $bookings = Booking::whereEventId($event->id)
-                                ->with([
-                                    'event',
-                                    'user',
-                                    'flights' => function ($query) {
-                                    $query->orderBy('eta');
-                                    $query->orderBy('ctot');
-                                    },
-                                    'flights.airportDep',
-                                    'flights.airportArr',
-                                ])
-                                ->withCount('flights')
-                                ->get();
-                    }
-                } else {
-                    $bookings = Booking::whereEventId($event->id)
-                        ->with([
-                            'event',
-                            'user',
-                            'flights' => function ($query) {
-                                $query->orderBy('eta');
-                                $query->orderBy('ctot');
-                            },
-                            'flights.airportDep',
-                            'flights.airportArr',
-                        ])
-                        ->withCount('flights')
-                        ->get();
-                }
-            } else {
-                abort_unless(auth()->check() && auth()->user()->isAdmin, 404);
-            }
-        }
-
-        $booked = $bookings->where('status', BookingStatus::BOOKED)
-            ->filter(function ($booking) {
-            /* @var Booking $booking */
-            return $booking->flights_count;
-        })->count();
-
-        if ($event->event_type_id == EventType::MULTIFLIGHTS) {
-            $total = $bookings->count();
-            return view('booking.overview_multiflights', compact('event', 'bookings', 'filter', 'total', 'booked'));
-        }
-        $total = $bookings->sum(function ($booking) {
-            /* @var Booking $booking */
-            return $booking->flights_count;
-        });
-        return view('booking.overview', compact('event', 'bookings', 'filter', 'total', 'booked'));
+        return view('booking.overview', compact('event'));
     }
 
     public function removeOverdueReservations()
@@ -182,31 +88,40 @@ class BookingController extends Controller
             } else {
                 // Check if the booking has already been reserved
                 if ($booking->status === BookingStatus::RESERVED) {
-                    flashMessage('danger', 'Warning',
-                        'Whoops! Somebody else reserved that slot just before you! Please choose another one. The slot will become available if it isn\'t confirmed within 10 minutes.');
+                    flashMessage(
+                        'danger',
+                        'Warning',
+                        'Whoops! Somebody else reserved that slot just before you! Please choose another one. The slot will become available if it isn\'t confirmed within 10 minutes.'
+                    );
                     return redirect(route('bookings.event.index', $booking->event));
-
                 } // In case the booking has already been booked
                 else {
-                    flashMessage('danger', 'Warning',
-                        'Whoops! Somebody else booked that slot just before you! Please choose another one.');
+                    flashMessage(
+                        'danger',
+                        'Warning',
+                        'Whoops! Somebody else booked that slot just before you! Please choose another one.'
+                    );
                     return redirect(route('bookings.event.index', $booking->event));
                 }
             }
         } // If the booking hasn't been taken by anybody else, check if user doesn't already have a booking
         else {
             // If user already has another booking, but event only allows for 1
-            if (!$booking->event->multiple_bookings_allowed && auth()->user()->bookings->where('event_id',
-                    $booking->event_id)
-                    ->where('status', BookingStatus::BOOKED)
-                    ->first()) {
+            if (!$booking->event->multiple_bookings_allowed && auth()->user()->bookings->where(
+                'event_id',
+                $booking->event_id
+            )
+                ->where('status', BookingStatus::BOOKED)
+                ->first()
+            ) {
                 flashMessage('danger!', 'Nope!', 'You already have a booking!');
                 return redirect(route('bookings.event.index', $booking->event));
             }
             // If user already has another reservation open
             if (auth()->user()->bookings->where('event_id', $booking->event_id)
                 ->where('status', BookingStatus::RESERVED)
-                ->first()) {
+                ->first()
+            ) {
                 flashMessage('danger', 'Nope!', 'You already have a reservation! Please cancel or book that flight first.');
                 return redirect(route('bookings.event.index', $booking->event));
             } // Reserve booking, and redirect to booking.edit
@@ -220,21 +135,30 @@ class BookingController extends Controller
                             ->log('Flight reserved');
                         $booking->status = BookingStatus::RESERVED;
                         $booking->user()->associate(auth()->user())->save();
-                        flashMessage('info', 'Slot reserved',
-                            'Will remain reserved until '.$booking->updated_at->addMinutes(10)->format('Hi').'z');
+                        flashMessage(
+                            'info',
+                            'Slot reserved',
+                            'Will remain reserved until ' . $booking->updated_at->addMinutes(10)->format('Hi') . 'z'
+                        );
                         if ($booking->event->event_type_id == EventType::MULTIFLIGHTS) {
                             return view('booking.edit_multiflights', compact('booking'));
                         }
                         $flight = $booking->flights->first();
                         return view('booking.edit', compact('booking', 'flight'));
                     } else {
-                        flashMessage('danger', 'Nope!',
-                            'Bookings have been closed at '.$booking->event->endBooking->format('d-m-Y Hi').'z');
+                        flashMessage(
+                            'danger',
+                            'Nope!',
+                            'Bookings have been closed at ' . $booking->event->endBooking->format('d-m-Y Hi') . 'z'
+                        );
                         return redirect(route('bookings.event.index', $booking->event));
                     }
                 } else {
-                    flashMessage('danger', 'Nope!',
-                        'Bookings aren\'t open yet. They will open at '.$booking->event->startBooking->format('d-m-Y Hi').'z');
+                    flashMessage(
+                        'danger',
+                        'Nope!',
+                        'Bookings aren\'t open yet. They will open at ' . $booking->event->startBooking->format('d-m-Y Hi') . 'z'
+                    );
                     return redirect(route('bookings.event.index', $booking->event));
                 }
             }
@@ -260,23 +184,25 @@ class BookingController extends Controller
             }
 
             if ($booking->event->is_oceanic_event) {
-                $booking->selcal = $this->validateSELCAL(strtoupper($request->selcal1.'-'.$request->selcal2),
-                    $booking->event_id);
+                $booking->selcal = $this->validateSELCAL(
+                    strtoupper($request->selcal1 . '-' . $request->selcal2),
+                    $booking->event_id
+                );
             }
 
             $booking->status = BookingStatus::BOOKED;
             if ($booking->getOriginal('status') === BookingStatus::RESERVED) {
-                activity()
-                    ->by(auth()->user())
-                    ->on($booking)
-                    ->log('Flight booked');
-                $booking->user->notify(new BookingConfirmed($booking));
-                flashMessage('success', 'Booking created!',
-                    'Booking has been created! An E-mail with details has also been sent');
+                $booking->save();
+                event(new BookingConfirmed($booking));
+                flashMessage(
+                    'success',
+                    'Booking created!',
+                    'Booking has been created!'
+                );
             } else {
+                $booking->save();
                 flashMessage('success', 'Booking edited!', 'Booking has been edited!');
             }
-            $booking->save();
             return redirect(route('bookings.event.index', $booking->event));
         } else {
             abort(403);
@@ -297,8 +223,10 @@ class BookingController extends Controller
         }
 
         // Check if each character is unique
-        if (substr_count($selcal, $char1) > 1 || substr_count($selcal, $char2) > 1 || substr_count($selcal,
-                $char3) > 1 || substr_count($selcal, $char4) > 1) {
+        if (substr_count($selcal, $char1) > 1 || substr_count($selcal, $char2) > 1 || substr_count(
+            $selcal,
+            $char3
+        ) > 1 || substr_count($selcal, $char4) > 1) {
             return null;
         }
 
@@ -310,7 +238,8 @@ class BookingController extends Controller
         // Check for duplicates within the same event
         if (Booking::where('event_id', $eventId)
             ->where('selcal', '=', $selcal)
-            ->get()->first()) {
+            ->get()->first()
+        ) {
             return null;
         }
         return $selcal;
@@ -335,15 +264,10 @@ class BookingController extends Controller
                 ]);
             }
             $booking->status = BookingStatus::UNASSIGNED;
-            activity()
-                ->by(auth()->user())
-                ->on($booking)
-                ->log('Flight available');
             if ($booking->getOriginal('status') === BookingStatus::BOOKED) {
+                event(new BookingCancelled($booking));
                 $title = 'Booking removed!';
-                $message = 'Booking has been removed! A E-mail has also been sent';
-                $booking->user->notify(new BookingCancelled($booking->event));
-
+                $message = 'Booking has been removed!';
             } else {
                 $title = 'Slot free';
                 $message = 'Slot is now free to use again';
@@ -352,8 +276,11 @@ class BookingController extends Controller
             $booking->user()->dissociate()->save();
             return redirect(route('bookings.event.index', $booking->event));
         }
-        flashMessage('danger', 'Nope!',
-            'Bookings have been locked at '.$booking->event->endBooking->format('d-m-Y Hi').'z');
+        flashMessage(
+            'danger',
+            'Nope!',
+            'Bookings have been locked at ' . $booking->event->endBooking->format('d-m-Y Hi') . 'z'
+        );
         return redirect(route('bookings.event.index', $booking->event));
     }
 }

@@ -353,7 +353,7 @@
                                     class="far fa-clock"></i> Begin (UTC)</label>
 
                             <div class="col-md-6">
-                                <input id="timeBeginEvent" type="time"
+                                <input id="timeBeginBooking" type="time"
                                        class="form-control{{ $errors->has('timeBeginBooking') ? ' is-invalid' : '' }}"
                                        name="timeBeginBooking"
                                        value="{{ old('timeBeginBooking', $event->id ? $event->startBooking->format('H:i') : null) }}"
@@ -426,8 +426,8 @@
                         </div>
 
                         {{-- Description --}}
-                        <div class="form-group row">
-                            <textarea id="description" name="description"
+                        <div>
+                            <textarea class="tinymce" name="description"
                                       rows="10">{!! html_entity_decode(old('description', $event->description)) !!}</textarea>
                         </div>
 
@@ -449,3 +449,15 @@
         </div>
     </div>
 @endsection
+
+@push('scripts')
+<script>
+    $('.datepicker').datepicker({
+    dateFormat: "dd-mm-yy",
+    minDate: 0,
+    showButtonPanel: true,
+    showOtherMonths: true,
+    selectOtherMonths: true
+});
+</script>
+@endpush

@@ -18,12 +18,13 @@ class UpdateBooking extends Request
             'callsign' => 'nullable|alpha_num|max:7',
             'ctot' => 'present|nullable|date_format:H:i',
             'eta' => 'present|nullable|date_format:H:i',
-            'dep' => 'exists:airports,id|different:arr|required',
-            'arr' => 'exists:airports,id|required',
+            'dep' => 'nullable|exists:airports,id',
+            'arr' => 'nullable|exists:airports,id',
             'route' => 'nullable',
             'oceanicFL' => 'nullable|int:3',
             'oceanicTrack' => 'nullable|alpha|min:1|max:2',
             'aircraft' => 'nullable|alpha_num|between:3,4',
+            'notes' => 'nullable',
             'message' => 'nullable',
             'notify_user' => 'nullable'
         ];

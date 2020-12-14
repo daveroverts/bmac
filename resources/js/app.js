@@ -6,23 +6,12 @@
 
 require('./bootstrap');
 
-import $ from 'jquery';
 import 'jquery-ui/ui/widgets/datepicker';
 // Importing Font Awesome
-import {dom, library} from '@fortawesome/fontawesome-svg-core'
-import {far} from '@fortawesome/free-regular-svg-icons'
-import {fas} from '@fortawesome/free-solid-svg-icons'
-import {fab} from '@fortawesome/free-brands-svg-icons'
-
-window.$ = window.jQuery = $;
-
-$('.datepicker').datepicker({
-    dateFormat: "dd-mm-yy",
-    minDate: 0,
-    showButtonPanel: true,
-    showOtherMonths: true,
-    selectOtherMonths: true
-});
+import { dom, library } from '@fortawesome/fontawesome-svg-core'
+import { far } from '@fortawesome/free-regular-svg-icons'
+import { fas } from '@fortawesome/free-solid-svg-icons'
+import { fab } from '@fortawesome/free-brands-svg-icons'
 
 library.add(far, fas, fab);
 
@@ -30,19 +19,16 @@ dom.watch();
 
 // TinyMCE
 import tinymce from 'tinymce';
-import 'tinymce/themes/silver/theme';
-
-import 'tinymce/plugins/code'
+import 'tinymce/icons/default';
+import 'tinymce/themes/silver';
+import 'tinymce/plugins/code';
 import 'tinymce/plugins/paste';
 import 'tinymce/plugins/link';
 
 tinymce.init({
-    selector: '#description',
+    selector: 'textarea.tinymce',
     plugins: ['code', 'paste', 'link']
 });
-
-import Bugsnag from '@bugsnag/js'
-Bugsnag.start(process.env.MIX_BUGSNAG_API_KEY)
 
 // window.Vue = require('vue');
 // import VueSweetalert2 from 'vue-sweetalert2';

@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Enums\BookingStatus;
 use App\Http\Controllers\Controller;
-use App\Http\Controllers\VatsimOAuthController;
+use App\Http\Controllers\OAuthController;
 use App\Models\Booking;
 use App\Models\Event;
 use App\Models\User;
@@ -34,7 +34,7 @@ class LoginController extends Controller
     public function __construct()
     {
         $this->middleware('guest')->except('logout');
-        $this->provider = new VatsimOAuthController;
+        $this->provider = new OAuthController;
     }
 
     public function login(Request $request)
@@ -54,10 +54,10 @@ class LoginController extends Controller
             }
         }
             $authorizationUrl = $this->provider->getAuthorizationUrl(); // Generates state
-            $request->session()->put('vatsimauthstate', $this->provider->getState());
+            $request->session()->put('oauthstate', $this->provider->getState());
 	    	return redirect()->away($authorizationUrl);
         }
-        else if ($request->input('state') !== session()->pull('vatsimauthstate')) { // State mismatch, error
+        else if ($request->input('state') !== session()->pull('oauthstate')) { // State mismatch, error
             flashMessage('error', 'Login failed', 'Something went wrong, please try again');
             return redirect('/')->withError("Something went wrong, please try again.");
         }
@@ -77,20 +77,26 @@ class LoginController extends Controller
             return redirect('/')->withError("Something went wrong, please try again later.");
         }
         $resourceOwner = json_decode(json_encode($this->provider->getResourceOwner($accessToken)->toArray()));
+        
+        $data = [
+            'cid' => OAuthController::getOAuthProperty(config('oauth.mapping_cid'), $resourceOwner),
+            'first_name' => OAuthController::getOAuthProperty(config('oauth.mapping_first_name'), $resourceOwner),
+            'last_name' => OAuthController::getOAuthProperty(config('oauth.mapping_last_name'), $resourceOwner),
+            'email' => OAuthController::getOAuthProperty(config('oauth.mapping_mail'), $resourceOwner),
+        ];
 
 		// Check if user has granted us the data we need
         if (
-            ! isset($resourceOwner->data) ||
-            ! isset($resourceOwner->data->cid) ||
-            ! isset($resourceOwner->data->personal->name_first) ||
-            ! isset($resourceOwner->data->personal->name_last) ||
-            ! isset($resourceOwner->data->personal->email)
+            !$data['cid'] ||
+            !$data['first_name'] ||
+            !$data['last_name'] ||
+            !$data['email']
         ) {
             flashMessage('error', 'Login failed', 'We need you to grant us all marked permissions');
             return redirect('/')->withError("We need you to grant us all marked permissions");
         }
 
-        $this->completeLogin($resourceOwner, $accessToken);
+        $this->completeLogin($data, $accessToken);
         if (session('booking')) {
             $booking = Booking::whereUuid(session('booking'))->first();
             session()->forget('booking');
@@ -110,18 +116,17 @@ class LoginController extends Controller
         return redirect()->intended('/')->withSuccess('Login Successful');
     }
 
-    protected function completeLogin($resourceOwner, $token)
+    protected function completeLogin($data, $token)
     {
-        $account = User::firstOrNew(['id' => $resourceOwner->data->cid]);
-        $account->id = $resourceOwner->data->cid;
-        $account->name_first = $resourceOwner->data->personal->name_first;
-        $account->name_last = $resourceOwner->data->personal->name_last;
-        $account->email = $resourceOwner->data->personal->email;
-        if ($resourceOwner->data->oauth->token_valid === "true") { // User has given us permanent access to data
-            $account->access_token = $token->getToken();
-            $account->refresh_token = $token->getRefreshToken();
-            $account->token_expires = $token->getExpires();
-        }
+        $account = User::firstOrNew(['id' => $data['cid']]);
+        $account->id = $data['cid'];
+        $account->name_first = $data['first_name'];
+        $account->name_last = $data['last_name'];
+        $account->email = $data['email'];
+
+        if($token->getToken() !== null) $account->access_token = $token->getToken();
+        if($token->getRefreshToken() !== null) $account->refresh_token = $token->getRefreshToken();
+        if($token->getExpires() !== null) $account->token_expires = $token->getExpires();
 
         $account->save();
         auth()->login($account, true);

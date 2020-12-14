@@ -5,7 +5,6 @@ namespace Tests\Unit;
 use App\Models\Event;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
 
 class EventTest extends TestCase
 {
@@ -19,9 +18,7 @@ class EventTest extends TestCase
      */
     public function testItCreatesNewEvent()
     {
-        $event = factory(\App\Models\Event::class)->make();
-
-        Event::create($event->toArray());
+        $event = Event::factory()->create();
 
         $this->assertDatabaseHas('events', $event->toArray());
     }

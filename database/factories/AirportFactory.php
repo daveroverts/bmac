@@ -1,12 +1,31 @@
 <?php
 
-use Faker\Generator as Faker;
-use Illuminate\Support\Str;
+namespace Database\Factories;
 
-$factory->define(App\Models\Airport::class, function (Faker $faker) {
-    return [
-        'icao' => strtoupper(Str::random(4)),
-        'iata' => strtoupper(Str::random(3)),
-        'name' => $faker->name . ' Airport',
-    ];
-});
+use App\Models\Airport;
+use Illuminate\Support\Str;
+use Illuminate\Database\Eloquent\Factories\Factory;
+
+class AirportFactory extends Factory
+{
+    /**
+     * The name of the factory's corresponding model.
+     *
+     * @var string
+     */
+    protected $model = Airport::class;
+
+    /**
+     * Define the model's default state.
+     *
+     * @return array
+     */
+    public function definition()
+    {
+        return [
+            'icao' => strtoupper(Str::random(4)),
+            'iata' => strtoupper(Str::random(3)),
+            'name' => $this->faker->name . ' Airport',
+        ];
+    }
+}

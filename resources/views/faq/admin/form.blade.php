@@ -50,12 +50,12 @@
                             <div class="col-md-6">
                                 <div class="custom-control custom-control-inline custom-radio">
                                     <input type="radio" value="0" id="is_online0" name="is_online"
-                                           class="custom-control-input" {{ old('is_online', $faq->is_online) == 0 ? 'checked' : '' }}>
+                                           class="custom-control-input" {{ old('is_online', $faq->getRawOriginal('is_online')) == 0 ? 'checked' : '' }}>
                                     <label class="custom-control-label" for="is_online0">No</label>
                                 </div>
                                 <div class="custom-control custom-control-inline custom-radio">
                                     <input type="radio" value="1" id="is_online1" name="is_online"
-                                           class="custom-control-input" {{ old('is_online', $faq->is_online) == 1 ? 'checked' : '' }}>
+                                           class="custom-control-input" {{ old('is_online', $faq->getRawOriginal('is_online')) == 1 ? 'checked' : '' }}>
                                     <label class="custom-control-label" for="is_online1">Yes</label>
                                 </div>
 
@@ -75,7 +75,7 @@
                                 <input id="question" type="text"
                                        class="form-control{{ $errors->has('question') ? ' is-invalid' : '' }}"
                                        name="question"
-                                       value="{{ old('question', $faq->question) }}" required>
+                                       value="{{ old('question', $faq->getRawOriginal('question')) }}" required>
 
                                 @if ($errors->has('question'))
                                     <span class="invalid-feedback">
@@ -88,8 +88,9 @@
                         {{--Answer--}}
                         <div class="form-group row">
                             <label for="answer" class="col-md-4 col-form-label text-md-right"> Answer</label>
-
-                            <textarea id="description" name="answer"
+                        </div>
+                        <div>
+                            <textarea class="tinymce" name="answer"
                                       rows="10">{!! html_entity_decode(old('answer', $faq->answer)) !!}</textarea>
 
                             @if ($errors->has('answer'))
@@ -98,11 +99,12 @@
                                     </span>
                             @endif
                         </div>
+                        <br>
 
                         {{--Add/Edit--}}
                         <div class="form-group row mb-0">
-                            <div class="col-md-6 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
+                            <div class="col">
+                                <button type="submit" class="btn btn-primary btn-block">
                                     @if($faq->id)
                                         <i class="fa fa-check"></i> Edit
                                     @else
