@@ -39,8 +39,8 @@ class BookingsImport implements ToModel, WithHeadingRow, WithBatchInserts, WithC
         $booking = Booking::create([
             'event_id' => $this->event->id,
             'editable' => $editable,
-            'callsign' => $row['call_sign'],
-            'acType' => $row['aircraft_type'],
+            'callsign' => $row['call_sign'] ?? null,
+            'acType' => $row['aircraft_type'] ?? null,
         ]);
 
         if ($this->event->event_type_id == EventType::MULTIFLIGHTS) {

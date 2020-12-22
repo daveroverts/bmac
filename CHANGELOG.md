@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v2.1.0.a](https://github.com/daveroverts/bmac/compare/v2.1.0...v2.1.0.a) - 2020-12-22
+
+### Changed
+
+- Fixed issue where empty callsigns in import return HTTP 500.
+- Renamed 'EOBT' to 'CTOT' in example label.
+
 ## [v2.1.0](https://github.com/daveroverts/bmac/compare/v2.0.0...v2.1.0) - 2020-12-14
 
 ### Added
