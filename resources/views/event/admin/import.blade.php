@@ -53,7 +53,7 @@
                                     @else
                                         Call Sign | <strong><abbr title="[ICAO]">Origin</abbr></strong> |
                                         <strong><abbr title="[ICAO]">Destination</abbr></strong> |
-                                        <abbr title="[hh:mm]">EOBT</abbr> | <abbr title="[hh:mm]">ETA</abbr> |
+                                        <abbr title="[hh:mm]">CTOT</abbr> | <abbr title="[hh:mm]">ETA</abbr> |
                                         <abbr title="[ICAO]">Aircraft Type</abbr> | Route | Notes
 
                                     @endif
