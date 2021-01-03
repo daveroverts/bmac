@@ -73,6 +73,7 @@ class BookingsImport implements ToModel, WithHeadingRow, WithBatchInserts, WithC
                 'eta'          => $this->getTime($row['eta'] ?? null),
                 'oceanicTrack' => $row['track'] ?? null,
                 'oceanicFL'    => $row['fl'] ?? null,
+                'route'        => $row['route'] ?? null,
             ]);
             $booking->flights()->create($flight->toArray());
         }

@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+
+## [v2.1.0.c](https://github.com/daveroverts/bmac/compare/v2.1.0.b...v2.1.0.c) - 2021-01-03
+
+### Added
+
+- Re-Added 'route' as extra optional import field.
+
 ## [v2.1.0.b](https://github.com/daveroverts/bmac/compare/v2.1.0.a...v2.1.0.b) - 2021-01-03
 
 ### Added
