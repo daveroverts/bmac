@@ -139,7 +139,7 @@ class Event extends Model
         return $this->belongsToMany(Faq::class);
     }
 
-    public function sluggable()
+    public function sluggable(): array
     {
         return [
             'slug' => [

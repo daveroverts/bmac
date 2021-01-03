@@ -11,11 +11,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- Added 'oceanicTrack' as extra optional import field
+- Added 'oceanicTrack' as extra optional import field.
+- Added 'fl' as extra optional import field.
 
 ### Changed
 
 - Fixed issue where empty notes in import return HTTP 500.
+- PHP 8 support.
 
 ## [v2.1.0.a](https://github.com/daveroverts/bmac/compare/v2.1.0...v2.1.0.a) - 2020-12-22
 

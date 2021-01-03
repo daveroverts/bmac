@@ -72,6 +72,7 @@ class BookingsImport implements ToModel, WithHeadingRow, WithBatchInserts, WithC
                 'ctot'         => $this->getTime($row['ctot'] ?? null),
                 'eta'          => $this->getTime($row['eta'] ?? null),
                 'oceanicTrack' => $row['track'] ?? null,
+                'oceanicFL'    => $row['fl'] ?? null,
             ]);
             $booking->flights()->create($flight->toArray());
         }
@@ -99,7 +100,8 @@ class BookingsImport implements ToModel, WithHeadingRow, WithBatchInserts, WithC
         return [
             'origin'      => 'exists:airports,icao',
             'destination' => 'exists:airports,icao',
-            'track'       => 'sometimes|max:2',
+            'track'       => 'sometimes|nullable',
+            'oceanicFL'   => 'sometimes|nullable|integer:3',
         ];
     }
 
