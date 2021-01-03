@@ -54,7 +54,7 @@
                                         Call Sign | <strong><abbr title="[ICAO]">Origin</abbr></strong> |
                                         <strong><abbr title="[ICAO]">Destination</abbr></strong> |
                                         <abbr title="[hh:mm]">CTOT</abbr> | <abbr title="[hh:mm]">ETA</abbr> |
-                                        <abbr title="[ICAO]">Aircraft Type</abbr> | Route | Notes
+                                        <abbr title="[ICAO]">Aircraft Type</abbr> | Route | Notes | <abbr title="Max 2 characters. Examples: A | RR">Track</abbr> | <abbr title="Max 3 numbers. Examples: 370">FL</abbr>
 
                                     @endif
                                 </div>
