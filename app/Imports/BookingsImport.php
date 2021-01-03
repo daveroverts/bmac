@@ -40,7 +40,7 @@ class BookingsImport implements ToModel, WithHeadingRow, WithBatchInserts, WithC
             'event_id' => $this->event->id,
             'editable' => $editable,
             'callsign' => $row['call_sign'] ?? null,
-            'acType' => $row['aircraft_type'] ?? null,
+            'acType'   => $row['aircraft_type'] ?? null,
         ]);
 
         if ($this->event->event_type_id == EventType::MULTIFLIGHTS) {
@@ -66,11 +66,12 @@ class BookingsImport implements ToModel, WithHeadingRow, WithBatchInserts, WithC
             ]);
         } else {
             $flight = collect([
-                'dep'   => $this->getAirport($row['origin']),
-                'arr'   => $this->getAirport($row['destination']),
-                'notes' => $row['notes'],
-                'ctot'  => $this->getTime($row['ctot'] ?? null),
-                'eta'  => $this->getTime($row['eta'] ?? null),
+                'dep'          => $this->getAirport($row['origin']),
+                'arr'          => $this->getAirport($row['destination']),
+                'notes'        => $row['notes'] ?? null,
+                'ctot'         => $this->getTime($row['ctot'] ?? null),
+                'eta'          => $this->getTime($row['eta'] ?? null),
+                'oceanicTrack' => $row['track'] ?? null,
             ]);
             $booking->flights()->create($flight->toArray());
         }
@@ -98,6 +99,7 @@ class BookingsImport implements ToModel, WithHeadingRow, WithBatchInserts, WithC
         return [
             'origin'      => 'exists:airports,icao',
             'destination' => 'exists:airports,icao',
+            'track'       => 'sometimes|max:2',
         ];
     }
 
