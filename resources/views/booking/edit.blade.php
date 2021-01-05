@@ -41,19 +41,19 @@
                         </div>
 
                         @if($booking->event->uses_times)
-                            @if($booking->getRawOriginal('ctot'))
+                            @if($flight->getRawOriginal('ctot'))
                                 {{--CTOT--}}
                                 <div class="form-group row">
                                     <label for="ctot" class="col-md-4 col-form-label text-md-right"> CTOT</label>
 
                                     <div class="col-md-6">
-                                        <div class="form-control-plaintext"><strong>{{ $flight->FormattedCtot }}</strong></div>
+                                        <div class="form-control-plaintext"><strong>{{ $flight->formattedCtot }}</strong></div>
 
                                     </div>
                                 </div>
                             @endif
 
-                            @if($booking->getRawOriginal('eta'))
+                            @if($flight->getRawOriginal('eta'))
                                 {{--ETA--}}
                                 <div class="form-group row">
                                     <label for="eta" class="col-md-4 col-form-label text-md-right"> ETA</label>
