@@ -81,7 +81,7 @@
                         @endif
 
                         {{--ADES--}}
-                        @if($booking->arr)
+                        @if($flight->arr)
                         <div class="form-group row">
                             <label for="ades" class="col-md-4 col-form-label text-md-right">ADES</label>
 

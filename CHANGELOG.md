@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v2.1.0.c](https://github.com/daveroverts/bmac/compare/v2.1.0.b...v2.1.0.c) - 2021-01-05
+
+### Added
+- Added '/ddev' to .gitignore.
+- Validation for aircraft_type in import.
+
+### Changed
+
+- Fix for is_editable always being ignored in import.
+- Fix for destination not showing in 'views.booking.edit' view.
 
 ## [v2.1.0.c](https://github.com/daveroverts/bmac/compare/v2.1.0.b...v2.1.0.c) - 2021-01-03
 
