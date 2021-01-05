@@ -7,7 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [v2.1.0.c](https://github.com/daveroverts/bmac/compare/v2.1.0.b...v2.1.0.c) - 2021-01-05
+## [v2.1.0.e](https://github.com/daveroverts/bmac/compare/v2.1.0.d...v2.1.0.e) - 2021-01-05
+
+### Changed
+
+- Fix for times not showing in 'views.booking.edit' view.
+
+## [v2.1.0.d](https://github.com/daveroverts/bmac/compare/v2.1.0.c...v2.1.0.d) - 2021-01-05
 
 ### Added
 - Added '/ddev' to .gitignore.
