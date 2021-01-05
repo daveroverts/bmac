@@ -33,12 +33,12 @@ class BookingsImport implements ToModel, WithHeadingRow, WithBatchInserts, WithC
     public function model(array $row)
     {
         $editable = true;
-        if (!empty($line['call_sign']) && !empty($line['aircraft_type'])) {
+        if (!empty($row['call_sign']) && !empty($row['aircraft_type'])) {
             $editable = false;
         }
         $booking = Booking::create([
             'event_id' => $this->event->id,
-            'editable' => $editable,
+            'is_editable' => $editable,
             'callsign' => $row['call_sign'] ?? null,
             'acType'   => $row['aircraft_type'] ?? null,
         ]);
@@ -99,10 +99,11 @@ class BookingsImport implements ToModel, WithHeadingRow, WithBatchInserts, WithC
             ];
         }
         return [
-            'origin'      => 'exists:airports,icao',
-            'destination' => 'exists:airports,icao',
-            'track'       => 'sometimes|nullable',
-            'oceanicFL'   => 'sometimes|nullable|integer:3',
+            'origin'        => 'exists:airports,icao',
+            'destination'   => 'exists:airports,icao',
+            'track'         => 'sometimes|nullable',
+            'oceanicFL'     => 'sometimes|nullable|integer:3',
+            'aircraft_type' => 'sometimes|nullable|max:4',
         ];
     }
 
