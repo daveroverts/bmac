@@ -11,6 +11,7 @@ use App\Http\Controllers\Event\EventAdminController;
 use App\Http\Controllers\Airport\AirportAdminController;
 use App\Http\Controllers\Booking\BookingAdminController;
 use App\Http\Controllers\AirportLink\AirportLinkAdminController;
+use App\Http\Controllers\EventLink\EventLinkAdminController;
 
 /*
 |--------------------------------------------------------------------------
@@ -36,6 +37,9 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin', 'middleware' => 'auth.isAdm
 
     // AirportLinks
     Route::resource('airportLinks', AirportLinkAdminController::class)->except(['show']);
+
+    // EventLinks
+    Route::resource('eventLinks', EventLinkAdminController::class)->except(['show']);
 
     // Faq
     Route::resource('faq', FaqAdminController::class)->except('show');

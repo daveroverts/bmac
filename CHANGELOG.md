@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v2.2.0](https://github.com/daveroverts/bmac/compare/v2.1.0.e...v2.2.0) - 2021-01-29
+
+### Added
+- Added `EventLink`, a copy of `AirportLink`
+
+### Removed
+- Removed old static oceanic briefing, use the new `EventLink` for that.
+
 ## [v2.1.0.e](https://github.com/daveroverts/bmac/compare/v2.1.0.d...v2.1.0.e) - 2021-01-05
 
 ### Changed

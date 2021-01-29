@@ -54,6 +54,7 @@ class AirportLink extends Model
         return $this->hasOne(Airport::class, 'id', 'airport_id');
     }
 
+    // TODO Or do we want to create a LinkType model / collection?
     public function type()
     {
         return $this->hasOne(AirportLinkType::class, 'id', 'airportLinkType_id');
