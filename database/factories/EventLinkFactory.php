@@ -2,7 +2,7 @@
 
 namespace Database\Factories;
 
-use App\Models\Airport;
+use App\Models\Event;
 use App\Models\EventLink;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -23,7 +23,7 @@ class EventLinkFactory extends Factory
     public function definition()
     {
         return [
-            'event_id' => Airport::factory(),
+            'event_id' => Event::factory(),
             'event_link_type_id' => 4,
             'url' => $this->faker->url,
         ];
