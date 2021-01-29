@@ -155,6 +155,19 @@
                         </div>
                     </div>
 
+                    @foreach($booking->event->links as $link)
+                        <div class="form-group row">
+                            <label for="{{ $link->type->name . '-' . $loop->index }}"
+                                   class="col-md-4 col-form-label text-md-right">{{ $link->name ?? $link->type->name}}</label>
+
+                            <div class="col-md-6">
+                                <div class="form-control-plaintext"><a
+                                        href="{{ $link->url }}"
+                                        target="_blank">Link</a></div>
+                            </div>
+                        </div>
+                    @endforeach
+
                     @foreach($booking->uniqueAirports() as $airport)
                         @foreach($airport->links as $link)
                             <div class="form-group row">

@@ -208,19 +208,18 @@
                         </div>
                     @endforeach
 
-                    @if($booking->event->is_oceanic_event)
-                        {{--Oceanic sheet--}}
+                    @foreach($booking->event->links as $link)
                         <div class="form-group row">
-                            <label for="oceanicSheet" class="col-md-4 col-form-label text-md-right">Oceanic
-                                procedures</label>
+                            <label for="{{ $link->type->name . '-' . $loop->index }}"
+                                   class="col-md-4 col-form-label text-md-right">{{ $link->name ?? $link->type->name}}</label>
 
                             <div class="col-md-6">
                                 <div class="form-control-plaintext"><a
-                                        href="https://www.virtualnorwegian.net/oceanic/"
+                                        href="{{ $link->url }}"
                                         target="_blank">Link</a></div>
                             </div>
                         </div>
-                    @endif
+                    @endforeach
 
                     @foreach($flight->airportArr->links as $link)
                         <div class="form-group row">

@@ -58,7 +58,7 @@ class EventLinkAdminController extends AdminController
      */
     public function store(StoreEventLink $request)
     {
-        $$eventLink = EventLink::create($request->validated());
+        $eventLink = EventLink::create($request->validated());
         flashMessage(
             'success',
             'Done',
