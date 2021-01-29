@@ -53,6 +53,24 @@ Breadcrumbs::for('admin.airportLinks.edit', function ($trail, $airportLink) {
     $trail->push('Edit Airport Link', route('admin.airportLinks.edit', $airportLink));
 });
 
+// Home > Admin > Event Links
+Breadcrumbs::for('admin.eventLinks.index', function ($trail) {
+    $trail->parent('admin');
+    $trail->push('Event Links', route('admin.eventLinks.index'));
+});
+
+// Home > Admin > Event Links > New
+Breadcrumbs::for('admin.eventLinks.create', function ($trail) {
+    $trail->parent('admin.eventLinks.index');
+    $trail->push('New', route('admin.eventLinks.create'));
+});
+
+// Home > Admin > Events > [Event] > [Event Link] >  Edit Event Link
+Breadcrumbs::for('admin.eventLinks.edit', function ($trail, $eventLink) {
+    $trail->parent('admin.events.show', $eventLink->event);
+    $trail->push('Edit Airport Link', route('admin.eventLinks.edit', $eventLink));
+});
+
 // Home > Admin > Events
 Breadcrumbs::for('admin.events.index', function ($trail) {
     $trail->parent('admin');
