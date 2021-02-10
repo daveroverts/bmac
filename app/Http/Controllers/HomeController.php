@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Enums\EventType;
-
 class HomeController extends Controller
 {
 

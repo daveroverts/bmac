@@ -2,16 +2,17 @@
 
 namespace App\Http\Controllers\Booking;
 
-use App\Enums\BookingStatus;
+use Carbon\Carbon;
+use App\Models\Event;
+use App\Models\Booking;
 use App\Enums\EventType;
+use Illuminate\Support\Str;
+use App\Enums\BookingStatus;
+use Illuminate\Http\Request;
 use App\Events\BookingCancelled;
 use App\Events\BookingConfirmed;
-use App\Http\Requests\Booking\UpdateBooking;
-use App\Models\Booking;
-use App\Models\Event;
-use Carbon\Carbon;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Booking\UpdateBooking;
 
 class BookingController extends Controller
 {
@@ -107,10 +108,11 @@ class BookingController extends Controller
         } // If the booking hasn't been taken by anybody else, check if user doesn't already have a booking
         else {
             // If user already has another booking, but event only allows for 1
-            if (!$booking->event->multiple_bookings_allowed && auth()->user()->bookings->where(
-                'event_id',
-                $booking->event_id
-            )
+            if (
+                !$booking->event->multiple_bookings_allowed && auth()->user()->bookings->where(
+                    'event_id',
+                    $booking->event_id
+                )
                 ->where('status', BookingStatus::BOOKED)
                 ->first()
             ) {
@@ -194,10 +196,15 @@ class BookingController extends Controller
             if ($booking->getOriginal('status') === BookingStatus::RESERVED) {
                 $booking->save();
                 event(new BookingConfirmed($booking));
+                $message = 'Your booking has been confirmed.';
+
+                if (!Str::contains(config('mail.default'), ['log', 'array'])) {
+                    $message .= ' You should shortly receive an email with your booking details. Be sure to also check your spam folder.';
+                }
                 flashMessage(
                     'success',
-                    'Booking created!',
-                    'Booking has been created!'
+                    'Booking confirmed!',
+                    $message
                 );
             } else {
                 $booking->save();
@@ -266,8 +273,8 @@ class BookingController extends Controller
             $booking->status = BookingStatus::UNASSIGNED;
             if ($booking->getOriginal('status') === BookingStatus::BOOKED) {
                 event(new BookingCancelled($booking));
-                $title = 'Booking removed!';
-                $message = 'Booking has been removed!';
+                $title = 'Booking cancelled!';
+                $message = 'Booking has been cancelled!';
             } else {
                 $title = 'Slot free';
                 $message = 'Slot is now free to use again';
