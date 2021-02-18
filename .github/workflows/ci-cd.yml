@@ -35,7 +35,7 @@ jobs:
     runs-on: ubuntu-latest
     services:
       mysql:
-        image: mysql:5.7
+        image: mysql:8.0
         env:
           MYSQL_ROOT_PASSWORD: root
           MYSQL_DATABASE: homestead
@@ -96,8 +96,8 @@ jobs:
       - name: Copy/Paste Detector
         run: phpcpd app/ --min-lines=50
 
-      - name: Sensiolabs
-        run: php vendor/sensiolabs/security-checker security:check composer.lock
+      - name: Enlightn Security Checker
+        run: php vendor/enlightn/security-checker/security-checker security:check composer.lock
   deploy:
     name: Run Deployment
     if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/dev'
