@@ -51,5 +51,5 @@ Before you begin, make sure you have a server to run everything on. For local de
 
 ## Import bookings template file
 
-<https://uploads.daveroverts.nl/import_template>
+<https://uploads.daveroverts.nl/import_template.xlsx>
 Note that the **bold** fields are always required
