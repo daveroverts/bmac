@@ -22,7 +22,7 @@
         "lorisleiva/laravel-deployer": "^0.3.2",
         "maatwebsite/excel": "^3.1",
         "predis/predis": "^1.1",
-        "renatomarinho/laravel-page-speed": "^1.8",
+        "renatomarinho/laravel-page-speed": "^2.0",
         "spatie/laravel-activitylog": "^3.8",
         "tabuna/breadcrumbs": "^2.0"
     },
