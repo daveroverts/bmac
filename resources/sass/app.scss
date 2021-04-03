@@ -1,7 +1,7 @@
 //jQuery UI
-@import "~jquery-ui/themes/base/all.css";
+@import "jquery-ui/themes/base/all.css";
 // Bootswatch Flatly variables
-@import '~bootswatch/dist/flatly/variables';
+@import 'bootswatch/dist/flatly/variables';
 
 // Bootstrap color overrides
 $theme-colors: (
@@ -20,9 +20,9 @@ $link-color: $envColorSecondary;
 $link-hover-color: darken($envColorSecondary, 25%);
 
 // Import boostrap
-@import '~bootstrap/scss/bootstrap';
+@import 'bootstrap/scss/bootstrap';
 // Bootswatch Flatly
-@import '~bootswatch/dist/flatly/bootswatch';
+@import 'bootswatch/dist/flatly/bootswatch';
 
 .navbar-brand{
   font-weight: 800;
