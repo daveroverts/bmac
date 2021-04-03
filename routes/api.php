@@ -25,9 +25,9 @@ use App\Models\Event;
 |
 */
 
-Route::get('/users/{user}', function (User $user) {
-    return new UserResource($user);
-});
+// Route::get('/users/{user}', function (User $user) {
+//     return new UserResource($user);
+// });
 
 Route::get('/users', function () {
     return new UsersCollection(User::all());

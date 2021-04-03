@@ -35,7 +35,7 @@ class BookingResource extends JsonResource
             'created_at' => (string) $this->created_at,
             'updated_at' => (string) $this->updated_at,
             'links' => [
-                'user' => url('/api/users/' . $this->user->id),
+                // 'user' => url('/api/users/' . $this->user->id),
                 'dep' => url('/api/airports/' . $flight->airportDep->icao),
                 'arr' => url('/api/airports/' . $flight->airportArr->icao),
             ],
