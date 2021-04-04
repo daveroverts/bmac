@@ -1,4 +1,5 @@
-let mix = require('laravel-mix');
+const mix = require('laravel-mix');
+const path = require('path');
 
 /*
  |--------------------------------------------------------------------------
@@ -14,13 +15,22 @@ let mix = require('laravel-mix');
 require('dotenv').config();
 
 mix.js('resources/js/app.js', 'public/js')
+    .react()
     .sass('resources/sass/app.scss', 'public/css', {
         additionalData: '$envColorPrimary: ' + (process.env.BOOTSTRAP_COLOR_PRIMARY || '#2C3E50') + '; $envColorSecondary: ' + (process.env.BOOTSTRAP_COLOR_SECONDARY || '#95a5a6') + '; $envColorTertiary: ' + (process.env.BOOTSTRAP_COLOR_TERTIARY || '#18BC9C') + '; $envColorSuccess: ' + (process.env.BOOTSTRAP_COLOR_SUCCESS || '#18BC9C') + '; $envColorWarning: ' + (process.env.BOOTSTRAP_COLOR_WARNING || '#F39C12') + '; $envColorDanger: ' + (process.env.BOOTSTRAP_COLOR_DANGER || '#E74C3C') + ';'
     })
     .copyDirectory('node_modules/tinymce/icons', 'public/js/icons')
     .copyDirectory('node_modules/tinymce/themes', 'public/js/themes')
     .copyDirectory('node_modules/tinymce/skins', 'public/js/skins')
-    .extract();
+    .extract()
+    .webpackConfig({
+        output: { chunkFilename: 'js/[name].js?id=[chunkhash]' },
+        resolve: {
+          alias: {
+            '@': path.resolve('resources/js')
+          }
+        },
+      })
 
 if (mix.inProduction()) {
     mix.version();
