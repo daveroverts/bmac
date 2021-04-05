@@ -27,7 +27,9 @@ use App\Http\Controllers\EventLink\EventLinkAdminController;
 Route::get('/', HomeController::class)->name('home');
 
 Route::get('/inertia-test', function () {
-    return inertia('Home/Index');
+    return inertia('Home/Index', [
+        'events' => nextEvents(false, false, true)
+    ]);
 });
 
 Route::get('/login', [LoginController::class, 'login'])->name('login');

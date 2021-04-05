@@ -2,6 +2,8 @@
 
 namespace App\Http\Middleware;
 
+use App\Http\Resources\UserResource;
+use App\Models\Event;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 
@@ -38,15 +40,30 @@ class HandleInertiaRequests extends Middleware
     {
         return array_merge(parent::share($request), [
             'app' => [
-                'name' => config('app.name'),
+                'name' => config('app.title'),
                 'division' => config('app.division'),
                 'division_url' => config('app.division_url'),
                 'contact_mail' => config('app.contact_mail'),
                 'pilotbrief_url' => config('app.charts_url'),
             ],
-            'auth.user' => fn () => $request->user()
-            ? $request->user()->only('full_name')
-            : null,
+            'auth' => function () {
+                return [
+                    'user' => auth()->check() ? new UserResource(auth()->user()) : null
+                ];
+            },
+            'navbar.events' => Event::select(['name', 'slug', 'startEvent'])->where('endEvent', '>', now())
+                ->orderBy('startEvent')
+                ->where('is_online', true)
+                ->where(function ($query) {
+                    /** @var Builder $query */
+                    $query->where('show_on_homepage', true)
+                        ->when(auth()->id(), function ($query, $userId) {
+                            return $query->orWhereHas('bookings', function ($query) use ($userId) {
+                                /** @var Builder $query */
+                                $query->where('user_id', $userId);
+                            });
+                        });
+                })->get()
         ]);
     }
 }
