@@ -2,6 +2,8 @@ import React from "react";
 import Layout from "../../Shared/Layout";
 import { InertiaLink, usePage } from "@inertiajs/inertia-react";
 import { format } from "date-fns";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCalendar, faClock } from "@fortawesome/free-solid-svg-icons";
 function Home() {
     const { events } = usePage().props;
     return (
@@ -19,7 +21,8 @@ function Home() {
                 }) => (
                     <div key={slug}>
                         <div className="row event">
-                            <h4 className="event-title text-primary">
+                        <div className="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                        <h4 className="event-title text-primary">
                                 <InertiaLink
                                     href={route("bookings.event.index", slug)}
                                 >
@@ -27,10 +30,11 @@ function Home() {
                                 </InertiaLink>
                             </h4>
                             <p>
-                                <i className="fas fa-calendar text-primary"></i>
+                                <FontAwesomeIcon icon={faCalendar} />
+                                {"  "}
                                 {format(new Date(startEvent), "PP")}
                                 <br />
-                                <i className="fas fa-clock text-primary"></i>
+                                <FontAwesomeIcon icon={faClock} />
                                 {"  "}
                                 {format(new Date(startEvent), "H:mm")}z -{" "}
                                 {format(new Date(endEvent), "H:mm")}z
@@ -55,6 +59,7 @@ function Home() {
                                     </InertiaLink>
                                 )}
                             </div>
+                        </div>
                         </div>
                         <hr />
                     </div>

@@ -45,7 +45,7 @@ const Navbar = () => {
                                 <DropdownItem>Overview</DropdownItem>
                                 {navbar.events.map(
                                     ({ name, slug, startEvent }) => (
-                                        <div>
+                                        <div key={slug}>
                                             <DropdownItem divider />
                                             <InertiaLink href={route('bookings.event.index', slug)} className="dropdown-item">
                                                 {name} - {format(new Date(startEvent), "PP")}
