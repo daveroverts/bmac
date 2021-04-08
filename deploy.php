@@ -28,4 +28,6 @@ task('build', function () {
     run('npm run build');
 });
 
+after('deploy:update_code', 'artisan:migrate');
+
 after('deploy:failed', 'deploy:unlock');
