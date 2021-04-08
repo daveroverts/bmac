@@ -100,7 +100,7 @@ jobs:
         run: php vendor/enlightn/security-checker/security-checker security:check composer.lock
   deploy:
     name: Run Deployment
-    if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/dev'
+    if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/dev' || github.ref == 'refs/heads/feature/deployer'
     runs-on: ubuntu-latest
     needs: build-js
     steps:
@@ -146,6 +146,7 @@ jobs:
         run: dep deploy 104.248.84.152
 
       - name: Run Deployment test
+        if: github.ref == 'refs/heads/feature/deployer'
         run: dep deploy 104.248.84.152
 
       - name: Run Deployment [Production]
