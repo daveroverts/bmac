@@ -147,7 +147,7 @@ jobs:
 
       - name: Run Deployment test
         if: github.ref == 'refs/heads/feature/deployer'
-        run: dep deploy 104.248.84.152 -v
+        run: dep deploy 104.248.84.152 -vvv
 
       - name: Run Deployment [Production]
         if: github.ref == 'refs/heads/master'
