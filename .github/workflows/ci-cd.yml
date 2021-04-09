@@ -119,12 +119,6 @@ jobs:
           php-version: 8.0
           extensions: mbstring
 
-      - name: Setup Deployer
-        uses: atymic/deployer-php-action@master
-        with:
-          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-          ssh-known-hosts: ${{ secrets.SSH_KNOWN_HOSTS }}
-
       - name: Get composer cache directory
         id: composer-cache
         run: echo "::set-output name=dir::$(composer config cache-files-dir)"
@@ -141,13 +135,19 @@ jobs:
       - name: Install Composer dependencies
         run: composer install --no-progress --prefer-dist --optimize-autoloader --no-dev
 
+      - name: Setup Deployer
+        uses: atymic/deployer-php-action@master
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+          ssh-known-hosts: ${{ secrets.SSH_KNOWN_HOSTS }}
+
       - name: Run Deployment [Staging]
         if: github.ref == 'refs/heads/dev'
         run: dep deploy 104.248.84.152
 
       - name: Run Deployment test
         if: github.ref == 'refs/heads/feature/deployer'
-        run: dep deploy 104.248.84.152
+        run: dep deploy 104.248.84.152 -v
 
       - name: Run Deployment [Production]
         if: github.ref == 'refs/heads/master'
