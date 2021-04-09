@@ -140,14 +140,11 @@ jobs:
         with:
           private-key: ${{ secrets.SSH_PRIVATE_KEY }}
           known-hosts: ${{ secrets.SSH_KNOWN_HOSTS }}
+          dep: deploy 104.248.84.152 -v
 
       - name: Run Deployment [Staging]
         if: github.ref == 'refs/heads/dev'
         run: dep deploy 104.248.84.152
-
-      - name: Run Deployment test
-        if: github.ref == 'refs/heads/feature/deployer'
-        run: dep deploy 104.248.84.152 -vvv
 
       - name: Run Deployment [Production]
         if: github.ref == 'refs/heads/master'
