@@ -136,10 +136,10 @@ jobs:
         run: composer install --no-progress --prefer-dist --optimize-autoloader --no-dev
 
       - name: Setup Deployer
-        uses: atymic/deployer-php-action@master
+        uses: deployphp/action@master
         with:
-          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-          ssh-known-hosts: ${{ secrets.SSH_KNOWN_HOSTS }}
+          private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+          known-hosts: ${{ secrets.SSH_KNOWN_HOSTS }}
 
       - name: Run Deployment [Staging]
         if: github.ref == 'refs/heads/dev'
