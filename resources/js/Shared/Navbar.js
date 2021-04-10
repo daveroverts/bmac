@@ -23,10 +23,6 @@ const Navbar = () => {
     const { app, auth, navbar } = usePage().props;
     const toggle = () => setIsOpen(!isOpen);
 
-    function getArrayCount(array) {
-        return array.lenght
-    }
-
     return (
         <BaseNavbar dark expand="md" className="navbar-laravel">
             <Container>
@@ -58,7 +54,11 @@ const Navbar = () => {
                                                 ({ uuid, callsign }) => (
                                                     <div key={uuid}>
                                                     <InertiaLink href={route('bookings.show', uuid)} className="dropdown-item">
-                                                    <FontAwesomeIcon icon={faChevronRight} /> {callsign}
+                                                    {bookings.length > 1 ?
+                                                    (<>
+                                                        <FontAwesomeIcon icon={faChevronRight}/> {callsign}
+                                                    </>) : 'My booking'
+                                                    }
                                                     </InertiaLink>
                                                     </div>
                                                 )
