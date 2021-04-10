@@ -5,7 +5,6 @@ import {
     Collapse,
     Navbar as BaseNavbar,
     NavbarToggler,
-    NavbarBrand,
     Nav,
     NavItem,
     NavLink,
@@ -13,15 +12,20 @@ import {
     DropdownToggle,
     DropdownMenu,
     DropdownItem,
-    NavbarText,
     Container,
 } from "reactstrap";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faChevronRight } from "@fortawesome/free-solid-svg-icons";
 
 const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);
 
     const { app, auth, navbar } = usePage().props;
     const toggle = () => setIsOpen(!isOpen);
+
+    function getArrayCount(array) {
+        return array.lenght
+    }
 
     return (
         <BaseNavbar dark expand="md" className="navbar-laravel">
@@ -44,12 +48,21 @@ const Navbar = () => {
                             <DropdownMenu>
                                 <DropdownItem>Overview</DropdownItem>
                                 {navbar.events.map(
-                                    ({ name, slug, startEvent }) => (
+                                    ({ name, slug, startEvent, bookings }) => (
                                         <div key={slug}>
                                             <DropdownItem divider />
                                             <InertiaLink href={route('bookings.event.index', slug)} className="dropdown-item">
                                                 {name} - {format(new Date(startEvent), "PP")}
                                             </InertiaLink>
+                                            {bookings.map(
+                                                ({ uuid, callsign }) => (
+                                                    <div key={uuid}>
+                                                    <InertiaLink href={route('bookings.show', uuid)} className="dropdown-item">
+                                                    <FontAwesomeIcon icon={faChevronRight} /> {callsign}
+                                                    </InertiaLink>
+                                                    </div>
+                                                )
+                                            )}
                                         </div>
                                     )
                                 )}

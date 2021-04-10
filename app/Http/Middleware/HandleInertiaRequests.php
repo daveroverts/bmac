@@ -38,6 +38,26 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request)
     {
+        $events = Event::select(['id', 'name', 'slug', 'startEvent'])->where('endEvent', '>', now())
+        ->orderBy('startEvent')
+        ->where('is_online', true)
+        ->where(function ($query) {
+            /** @var Builder $query */
+            $query->where('show_on_homepage', true)
+            ->when(auth()->id(), function ($query, $userId) {
+                return $query->orWhereHas('bookings', function ($query) use ($userId) {
+                    /** @var Builder $query */
+                    $query->where('user_id', $userId);
+                });
+            });
+        })
+        ->when(auth()->id(), function ($query, $userId) {
+          $query->with(['bookings' => function ($query) use ($userId) {
+              $query->select(['id', 'uuid', 'event_id', 'user_id', 'callsign'])->where('user_id', $userId);
+          }]);
+        })
+        ->get();
+
         return array_merge(parent::share($request), [
             'app' => [
                 'name' => config('app.title'),
@@ -51,19 +71,7 @@ class HandleInertiaRequests extends Middleware
                     'user' => auth()->check() ? new UserResource(auth()->user()) : null
                 ];
             },
-            'navbar.events' => Event::select(['name', 'slug', 'startEvent'])->where('endEvent', '>', now())
-                ->orderBy('startEvent')
-                ->where('is_online', true)
-                ->where(function ($query) {
-                    /** @var Builder $query */
-                    $query->where('show_on_homepage', true)
-                        ->when(auth()->id(), function ($query, $userId) {
-                            return $query->orWhereHas('bookings', function ($query) use ($userId) {
-                                /** @var Builder $query */
-                                $query->where('user_id', $userId);
-                            });
-                        });
-                })->get()
+            'navbar.events' => $events
         ]);
     }
 }
