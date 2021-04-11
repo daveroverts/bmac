@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Event;
+
 class HomeController extends Controller
 {
 
@@ -12,7 +14,11 @@ class HomeController extends Controller
      */
     public function __invoke()
     {
-        $events = nextEvents(false, false, true);
-        return view('home', compact('events'));
+        return inertia('Home/Index', [
+            'events' => Event::upcoming()
+                ->whereIsOnline(true)
+                ->whereShowOnHomepage(true)
+                ->get(['id', 'slug', 'startEvent', 'endEvent', 'description', 'image_url'])
+        ]);
     }
 }

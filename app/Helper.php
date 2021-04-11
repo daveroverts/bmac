@@ -22,13 +22,11 @@ function flashMessage($type, $title, $text)
 /**
  * Alias for nextEvent(), limit to 1
  *
- * @param bool $homepage
- *
  * @return Event
  */
-function nextEvent($homepage = false)
+function nextEvent()
 {
-    return nextEvents(true, false, $homepage);
+    return nextEvents(true, false);
 }
 
 /**
@@ -36,40 +34,21 @@ function nextEvent($homepage = false)
  *
  * @param bool $one
  * @param bool $showAll
- * @param bool $homepage
- * @param string|array $withRelations
  *
  * @return Event|Model|null|object
  */
-function nextEvents($one = false, $showAll = false, $homepage = false, $withRelations = [])
+function nextEvents($one = false, $showAll = false)
 {
     $events = Event::upcoming();
     if (!$showAll) {
         $events = $events->where('is_online', true);
     }
-    if ($homepage) {
-        $events = $events->where('show_on_homepage', true);
-    }
-
-    if (!empty($withRelations)) {
-        $events = $events->with($withRelations);
-    }
-
     if ($one) {
         $events = $events->first();
     } else {
         $events = $events->get();
     }
-
     return $events;
-}
-
-/**
- * @return Event|Model|object|null
- */
-function nextEventsForFaq()
-{
-    return nextEvents(false, false, false, 'faqs');
 }
 
 /**
