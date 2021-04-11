@@ -13,11 +13,11 @@ use Spatie\Activitylog\Traits\LogsActivity;
  * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\Activitylog\Models\Activity[] $activities
  * @property-read int|null $activities_count
  * @property-read \App\Models\Event $events
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\EventType newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\EventType newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\EventType query()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\EventType whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\EventType whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|EventType newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|EventType newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|EventType query()
+ * @method static \Illuminate\Database\Eloquent\Builder|EventType whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|EventType whereName($value)
  * @mixin \Eloquent
  */
 class EventType extends Model

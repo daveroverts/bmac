@@ -43,8 +43,7 @@ function nextEvent($homepage = false)
  */
 function nextEvents($one = false, $showAll = false, $homepage = false, $withRelations = [])
 {
-    $events = Event::where('endEvent', '>', now())
-        ->orderBy('startEvent');
+    $events = Event::upcoming();
     if (!$showAll) {
         $events = $events->where('is_online', true);
     }

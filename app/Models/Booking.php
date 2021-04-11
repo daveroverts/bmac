@@ -24,29 +24,30 @@ use Spatie\Activitylog\Traits\LogsActivity;
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\Activitylog\Models\Activity[] $activities
  * @property-read int|null $activities_count
- * @property-read \App\Models\Airport $airportArr
- * @property-read \App\Models\Airport $airportDep
+ * @property-read \App\Models\Airport|null $airportArr
+ * @property-read \App\Models\Airport|null $airportDep
  * @property-read \App\Models\Event $event
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Flight[] $flights
  * @property-read int|null $flights_count
  * @property string $actype
  * @property-read mixed $has_received_final_information_email
  * @property-read \App\Models\User|null $user
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Booking newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Booking newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Booking query()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Booking whereAcType($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Booking whereCallsign($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Booking whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Booking whereEventId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Booking whereFinalInformationEmailSentAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Booking whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Booking whereIsEditable($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Booking whereSelcal($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Booking whereStatus($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Booking whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Booking whereUserId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Booking whereUuid($value)
+ * @method static \Database\Factories\BookingFactory factory(...$parameters)
+ * @method static \Illuminate\Database\Eloquent\Builder|Booking newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Booking newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Booking query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Booking whereAcType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Booking whereCallsign($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Booking whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Booking whereEventId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Booking whereFinalInformationEmailSentAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Booking whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Booking whereIsEditable($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Booking whereSelcal($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Booking whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Booking whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Booking whereUserId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Booking whereUuid($value)
  * @mixin \Eloquent
  */
 class Booking extends Model

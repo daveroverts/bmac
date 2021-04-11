@@ -29,15 +29,16 @@ use Spatie\Activitylog\Traits\LogsActivity;
  * @property-read mixed $full_name
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\AirportLink[] $links
  * @property-read int|null $links_count
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Airport newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Airport newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Airport query()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Airport whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Airport whereIata($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Airport whereIcao($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Airport whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Airport whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Airport whereUpdatedAt($value)
+ * @method static \Database\Factories\AirportFactory factory(...$parameters)
+ * @method static \Illuminate\Database\Eloquent\Builder|Airport newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Airport newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Airport query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Airport whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Airport whereIata($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Airport whereIcao($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Airport whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Airport whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Airport whereUpdatedAt($value)
  * @mixin \Eloquent
  */
 class Airport extends Model
