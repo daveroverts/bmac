@@ -2,34 +2,6 @@
 name: CI/CD
 on: [push, pull_request]
 jobs:
-  build-js:
-    name: Build JS / CSS
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-      - name: Get node.js cache directory
-        id: node-cache-dir
-        run: echo "::set-output name=dir::$(npm config get cache)" # Use $(yarn cache dir) for yarn
-
-      - name: Cache NPM dependencies
-        uses: actions/cache@v1
-        with:
-          path: ${{ steps.node-cache-dir.outputs.dir }}
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }} # Use '**/yarn.lock' for yarn
-          restore-keys: ${{ runner.os }}-node-
-
-      - name: NPM Build
-        run: |
-          npm ci
-          npm run production --no-progress
-          cat public/mix-manifest.json # See asset versions in log
-
-      - name: Upload build files
-        uses: actions/upload-artifact@v1
-        with:
-          name: assets
-          path: public
   test-php:
     name: Test PHP
     runs-on: ubuntu-latest
@@ -100,48 +72,10 @@ jobs:
         run: php vendor/enlightn/security-checker/security-checker security:check composer.lock
   deploy:
     name: Run Deployment
-    if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/dev' || github.ref == 'refs/heads/feature/deployer'
+    if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/dev'
     runs-on: ubuntu-latest
-    needs: build-js
+    needs: test-php
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-
-      - name: Download JS / CSS Artifact
-        uses: actions/download-artifact@v2
-        with:
-          name: assets
-          path: public
-
-      - name: Setup PHP, with composer
-        uses: shivammathur/setup-php@v2 #https://github.com/shivammathur/setup-php
-        with:
-          php-version: 8.0
-          extensions: mbstring
-
-      - name: Get composer cache directory
-        id: composer-cache
-        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
-
-      - name: Cache composer dependencies
-        uses: actions/cache@v1
-        with:
-          path: ${{ steps.composer-cache.outputs.dir }}
-          # Use composer.json for key, if composer.lock is not committed.
-          # key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
-          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
-          restore-keys: ${{ runner.os }}-composer-
-
-      - name: Install Composer dependencies
-        run: composer install --no-progress --prefer-dist --optimize-autoloader --no-dev
-
-      - name: Run Deployment [feature]
-        uses: deployphp/action@master
-        with:
-          private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-          known-hosts: ${{ secrets.SSH_KNOWN_HOSTS }}
-          dep: deploy 104.248.84.152 -vvv
-
       - name: Run Deployment [Staging]
         if: github.ref == 'refs/heads/dev'
         uses: deployphp/action@master
@@ -149,7 +83,6 @@ jobs:
           private-key: ${{ secrets.SSH_PRIVATE_KEY }}
           known-hosts: ${{ secrets.SSH_KNOWN_HOSTS }}
           dep: deploy 104.248.84.152 -v
-
 
       - name: Run Deployment [Production]
         if: github.ref == 'refs/heads/master'
