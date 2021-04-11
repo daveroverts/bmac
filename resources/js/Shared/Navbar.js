@@ -47,19 +47,41 @@ const Navbar = () => {
                                     ({ name, slug, startEvent, bookings }) => (
                                         <div key={slug}>
                                             <DropdownItem divider />
-                                            <InertiaLink href={route('bookings.event.index', slug)} className="dropdown-item">
-                                                {name} - {format(new Date(startEvent), "PP")}
+                                            <InertiaLink
+                                                href={route(
+                                                    "bookings.event.index",
+                                                    slug
+                                                )}
+                                                className="dropdown-item"
+                                            >
+                                                {name} -{" "}
+                                                {format(
+                                                    new Date(startEvent),
+                                                    "PP"
+                                                )}
                                             </InertiaLink>
                                             {bookings.map(
                                                 ({ uuid, callsign }) => (
                                                     <div key={uuid}>
-                                                    <InertiaLink href={route('bookings.show', uuid)} className="dropdown-item">
-                                                    {bookings.length > 1 ?
-                                                    (<>
-                                                        <FontAwesomeIcon icon={faChevronRight}/> {callsign}
-                                                    </>) : 'My booking'
-                                                    }
-                                                    </InertiaLink>
+                                                        <InertiaLink
+                                                            href={route(
+                                                                "bookings.show",
+                                                                uuid
+                                                            )}
+                                                            className="dropdown-item"
+                                                        >
+                                                            <FontAwesomeIcon
+                                                                icon={
+                                                                    faChevronRight
+                                                                }
+                                                            />{" "}
+                                                            {bookings.length >
+                                                            1 ? (
+                                                                <>{callsign}</>
+                                                            ) : (
+                                                                "My booking"
+                                                            )}
+                                                        </InertiaLink>
                                                     </div>
                                                 )
                                             )}
@@ -86,12 +108,18 @@ const Navbar = () => {
                                     {auth.user.name}
                                 </DropdownToggle>
                                 <DropdownMenu>
-                                        <InertiaLink href={route('user.settings')} className="dropdown-item">
-                                            My settings
-                                        </InertiaLink>
-                                        <InertiaLink href={route('logout')} className="dropdown-item">
-                                            Logout
-                                        </InertiaLink>
+                                    <InertiaLink
+                                        href={route("user.settings")}
+                                        className="dropdown-item"
+                                    >
+                                        My settings
+                                    </InertiaLink>
+                                    <InertiaLink
+                                        href={route("logout")}
+                                        className="dropdown-item"
+                                    >
+                                        Logout
+                                    </InertiaLink>
                                 </DropdownMenu>
                             </UncontrolledDropdown>
                         ) : (
