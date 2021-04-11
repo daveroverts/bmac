@@ -60,7 +60,7 @@ const Navbar = () => {
                                                     "PP"
                                                 )}
                                             </InertiaLink>
-                                            {bookings.map(
+                                            {bookings != undefined ? bookings.map(
                                                 ({ uuid, callsign }) => (
                                                     <div key={uuid}>
                                                         <InertiaLink
@@ -84,14 +84,17 @@ const Navbar = () => {
                                                         </InertiaLink>
                                                     </div>
                                                 )
-                                            )}
+                                            ) : null}
                                         </div>
                                     )
                                 )}
                             </DropdownMenu>
                         </UncontrolledDropdown>
                         <NavItem>
-                            <InertiaLink href="/faq" className="nav-link">
+                            <InertiaLink
+                                href={route("faq")}
+                                className="nav-link"
+                            >
                                 FAQ
                             </InertiaLink>
                         </NavItem>
@@ -100,6 +103,33 @@ const Navbar = () => {
                                 Contact Us
                             </NavLink>
                         </NavItem>
+                        {auth.user && auth.user.is_admin ? (
+                            <UncontrolledDropdown nav inNavbar>
+                                <DropdownToggle nav caret>
+                                    Admin
+                                </DropdownToggle>
+                                <DropdownMenu>
+                                    <InertiaLink
+                                        href={route("admin.events.index")}
+                                        className="dropdown-item"
+                                    >
+                                        Events
+                                    </InertiaLink>
+                                    <InertiaLink
+                                        href={route("admin.airports.index")}
+                                        className="dropdown-item"
+                                    >
+                                        Airports
+                                    </InertiaLink>
+                                    <InertiaLink
+                                        href={route("admin.faq.index")}
+                                        className="dropdown-item"
+                                    >
+                                        FAQ
+                                    </InertiaLink>
+                                </DropdownMenu>
+                            </UncontrolledDropdown>
+                        ) : null}
                     </Nav>
                     <Nav className="ml-auto" navbar>
                         {auth.user ? (
