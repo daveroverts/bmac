@@ -135,13 +135,6 @@ jobs:
       - name: Install Composer dependencies
         run: composer install --no-progress --prefer-dist --optimize-autoloader --no-dev
 
-      - name: Run Deployment [feature]
-        uses: deployphp/action@master
-        with:
-          private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-          known-hosts: ${{ secrets.SSH_KNOWN_HOSTS }}
-          dep: deploy 104.248.84.152 -v
-
       - name: Run Deployment [Staging]
         if: github.ref == 'refs/heads/dev'
         uses: deployphp/action@master
