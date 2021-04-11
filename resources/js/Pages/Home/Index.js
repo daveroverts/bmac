@@ -21,29 +21,37 @@ function Home() {
                 }) => (
                     <div key={slug}>
                         <div className="row event">
-                        <div className="col-xl-6 col-lg-6 col-md-12 col-sm-12">
-                        <h4 className="event-title text-primary">
+                            <div className="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                                <h4 className="event-title text-primary">
+                                    <InertiaLink
+                                        href={route(
+                                            "bookings.event.index",
+                                            slug
+                                        )}
+                                    >
+                                        {name}
+                                    </InertiaLink>
+                                </h4>
+                                <p>
+                                    <FontAwesomeIcon icon={faCalendar} />
+                                    {"  "}
+                                    {format(new Date(startEvent), "PP")}
+                                    <br />
+                                    <FontAwesomeIcon icon={faClock} />
+                                    {"  "}
+                                    {format(new Date(startEvent), "H:mm")}z -{" "}
+                                    {format(new Date(endEvent), "H:mm")}z
+                                </p>
+                                <div
+                                    dangerouslySetInnerHTML={{
+                                        __html: description,
+                                    }}
+                                />
                                 <InertiaLink
                                     href={route("bookings.event.index", slug)}
-                                >
-                                    {name}
-                                </InertiaLink>
-                            </h4>
-                            <p>
-                                <FontAwesomeIcon icon={faCalendar} />
-                                {"  "}
-                                {format(new Date(startEvent), "PP")}
-                                <br />
-                                <FontAwesomeIcon icon={faClock} />
-                                {"  "}
-                                {format(new Date(startEvent), "H:mm")}z -{" "}
-                                {format(new Date(endEvent), "H:mm")}z
-                            </p>
-                            <div
-                                dangerouslySetInnerHTML={{
-                                    __html: description,
-                                }}
-                            ></div>
+                                    className="btn btn-success"
+                                >See Available Slots</InertiaLink>
+                            </div>
                             <div className="col-xl-6 col-lg-6 col-md-12 col-sm-12">
                                 {image_url !== null && (
                                     <InertiaLink
@@ -53,13 +61,12 @@ function Home() {
                                         )}
                                     >
                                         <img
-                                            src="image_url"
+                                            src={image_url}
                                             className="img-fluid rounded"
                                         ></img>
                                     </InertiaLink>
                                 )}
                             </div>
-                        </div>
                         </div>
                         <hr />
                     </div>
