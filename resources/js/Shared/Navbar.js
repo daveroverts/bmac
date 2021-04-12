@@ -42,7 +42,12 @@ const Navbar = () => {
                                 Events
                             </DropdownToggle>
                             <DropdownMenu>
-                                <DropdownItem>Overview</DropdownItem>
+                                <InertiaLink
+                                    href={route("home")}
+                                    className={`dropdown-item ${route().current('home') ? 'active' : null}`}
+                                >
+                                    Overview
+                                </InertiaLink>
                                 {navbar.events.map(
                                     ({ name, slug, startEvent, bookings }) => (
                                         <div key={slug}>
@@ -60,31 +65,37 @@ const Navbar = () => {
                                                     "PP"
                                                 )}
                                             </InertiaLink>
-                                            {bookings != undefined ? bookings.map(
-                                                ({ uuid, callsign }) => (
-                                                    <div key={uuid}>
-                                                        <InertiaLink
-                                                            href={route(
-                                                                "bookings.show",
-                                                                uuid
-                                                            )}
-                                                            className="dropdown-item"
-                                                        >
-                                                            <FontAwesomeIcon
-                                                                icon={
-                                                                    faChevronRight
-                                                                }
-                                                            />{" "}
-                                                            {bookings.length >
-                                                            1 ? (
-                                                                <>{callsign}</>
-                                                            ) : (
-                                                                "My booking"
-                                                            )}
-                                                        </InertiaLink>
-                                                    </div>
-                                                )
-                                            ) : null}
+                                            {bookings != undefined
+                                                ? bookings.map(
+                                                      ({ uuid, callsign }) => (
+                                                          <div key={uuid}>
+                                                              <InertiaLink
+                                                                  href={route(
+                                                                      "bookings.show",
+                                                                      uuid
+                                                                  )}
+                                                                  className="dropdown-item"
+                                                              >
+                                                                  <FontAwesomeIcon
+                                                                      icon={
+                                                                          faChevronRight
+                                                                      }
+                                                                  />{" "}
+                                                                  {bookings.length >
+                                                                  1 ? (
+                                                                      <>
+                                                                          {
+                                                                              callsign
+                                                                          }
+                                                                      </>
+                                                                  ) : (
+                                                                      "My booking"
+                                                                  )}
+                                                              </InertiaLink>
+                                                          </div>
+                                                      )
+                                                  )
+                                                : null}
                                         </div>
                                     )
                                 )}
@@ -93,7 +104,7 @@ const Navbar = () => {
                         <NavItem>
                             <InertiaLink
                                 href={route("faq")}
-                                className="nav-link"
+                                className={`nav-link ${route().current('faq') ? 'active' : null}`}
                             >
                                 FAQ
                             </InertiaLink>
@@ -104,26 +115,26 @@ const Navbar = () => {
                             </NavLink>
                         </NavItem>
                         {auth.user && auth.user.is_admin ? (
-                            <UncontrolledDropdown nav inNavbar>
+                            <UncontrolledDropdown nav inNavbar active={route().current('admin.*')}>
                                 <DropdownToggle nav caret>
                                     Admin
                                 </DropdownToggle>
                                 <DropdownMenu>
                                     <InertiaLink
                                         href={route("admin.events.index")}
-                                        className="dropdown-item"
+                                        className={`dropdown-item ${route().current('admin.events.*') ? 'active' : null}`}
                                     >
                                         Events
                                     </InertiaLink>
                                     <InertiaLink
                                         href={route("admin.airports.index")}
-                                        className="dropdown-item"
+                                        className={`dropdown-item ${route().current('admin.airports.*') ? 'active' : null}`}
                                     >
                                         Airports
                                     </InertiaLink>
                                     <InertiaLink
                                         href={route("admin.faq.index")}
-                                        className="dropdown-item"
+                                        className={`dropdown-item ${route().current('admin.faq.*') ? 'active' : null}`}
                                     >
                                         FAQ
                                     </InertiaLink>
@@ -139,8 +150,8 @@ const Navbar = () => {
                                 </DropdownToggle>
                                 <DropdownMenu>
                                     <InertiaLink
-                                        href={route("user.settings")}
-                                        className="dropdown-item"
+                                        href={route("user.settings.edit")}
+                                        className={`dropdown-item ${route().current('user.settings.edit') ? 'active' : null}`}
                                     >
                                         My settings
                                     </InertiaLink>

@@ -9,8 +9,7 @@ function Faq() {
                 <div key={id}>
                     <h3>FAQ for {name}</h3>
                     {faqs.map(({ id, question, answer }) => (
-                        <div key={id}>
-                            <p>
+                        <p key={id}>
                                 <strong>{question}</strong>
                                 <br />
                                 <div
@@ -18,16 +17,14 @@ function Faq() {
                                         __html: answer,
                                     }}
                                 />
-                            </p>
-                        </div>
+                        </p>
                     ))}
                 </div>
             ))}
             <h3>General FAQ</h3>
             <hr />
             {faq.map(({ id, question, answer }) => (
-                <div key={id}>
-                    <p>
+                <p key={id}>
                         <strong>{question}</strong>
                         <br />
                         <div
@@ -35,8 +32,7 @@ function Faq() {
                                 __html: answer,
                             }}
                         />
-                    </p>
-                </div>
+                </p>
             ))}
             {faq.length === 0 && (
                 <p>No Questions / Answers are available at the moment</p>

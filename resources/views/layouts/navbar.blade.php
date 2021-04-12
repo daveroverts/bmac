@@ -88,9 +88,9 @@
                             {{ auth()->user()->fullName }}
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item {{ request()->routeIs('user.settings') ? 'active' : '' }}"
-                                href="{{ route('user.settings') }}">My settings</a>
-                            <a class="dropdown-item {{ request()->routeIs('user.settings') ? 'active' : '' }}"
+                            <a class="dropdown-item {{ request()->routeIs('user.settings.edit') ? 'active' : '' }}"
+                                href="{{ route('user.settings.edit') }}">My settings</a>
+                            <a class="dropdown-item"
                                 href="{{ route('logout') }}">Log out</a>
                         </div>
                     </li>

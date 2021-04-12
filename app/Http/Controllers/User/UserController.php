@@ -7,15 +7,14 @@ use App\Http\Requests\User\UpdateUserSettings;
 
 class UserController extends Controller
 {
-    public function showSettingsForm()
+    public function edit()
     {
         return view('user.settings', ['user' => auth()->user()]);
     }
 
-    public function saveSettings(UpdateUserSettings $request)
+    public function update(UpdateUserSettings $request)
     {
         auth()->user()->update($request->validated());
-        flashMessage('success', 'Done', 'Settings saved!');
-        return back();
+        return back()->with('sucess', 'Settings updated!');
     }
 }

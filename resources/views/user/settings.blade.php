@@ -18,7 +18,7 @@
                 <div class="card-header">My settings</div>
 
                 <div class="card-body">
-                    <form method="POST" action="{{ route('user.saveSettings') }}">
+                    <form method="POST" action="{{ route('user.settings.update') }}">
                         @csrf
                         @method('PATCH')
 

@@ -94,7 +94,7 @@ Route::get('{event}', EventController::class)->name('events.show');
 Route::middleware('auth.isLoggedIn')->group(function () {
     Route::prefix('user')->name('user.')
         ->group(function () {
-            Route::get('settings', [UserController::class, 'showSettingsForm'])->name('settings');
-            Route::patch('settings', [UserController::class, 'saveSettings'])->name('saveSettings');
+            Route::get('settings', [UserController::class, 'edit'])->name('settings.edit');
+            Route::patch('settings', [UserController::class, 'update'])->name('settings.update');
         });
 });
