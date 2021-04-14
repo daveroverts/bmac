@@ -1,4 +1,3 @@
-import React from "react";
 import { usePage } from "@inertiajs/inertia-react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCopyright } from "@fortawesome/free-solid-svg-icons";

@@ -1,4 +1,3 @@
-import React from 'react';
 import { render } from 'react-dom';
 import { InertiaApp } from '@inertiajs/inertia-react';
 import { InertiaProgress } from '@inertiajs/progress';

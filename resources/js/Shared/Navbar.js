@@ -1,5 +1,5 @@
+import { useState } from "react";
 import { InertiaLink, usePage } from "@inertiajs/inertia-react";
-import React, { useState } from "react";
 import { format } from "date-fns";
 import {
     Collapse,

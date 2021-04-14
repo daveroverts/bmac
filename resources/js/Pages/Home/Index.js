@@ -1,5 +1,4 @@
-import React from "react";
-import Layout from "../../Shared/Layout";
+import Layout from "@/Shared/Layout";
 import { InertiaLink, usePage } from "@inertiajs/inertia-react";
 import { format } from "date-fns";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";

@@ -1,5 +1,4 @@
-import React from "react";
-import Layout from "../../Shared/Layout";
+import Layout from "@/Shared/Layout";
 import { usePage } from "@inertiajs/inertia-react";
 function Faq() {
     const { faq, events } = usePage().props;
