@@ -27,7 +27,7 @@ const Navbar = () => {
         <BaseNavbar dark expand="md" className="navbar-laravel">
             <Container>
                 <InertiaLink href="/" className="navbar-brand">
-                    <img src="images/division-square.png" height={45}></img>
+                    <img src="@/../../images/division-square.png" height={45}></img>
                 </InertiaLink>
 
                 <InertiaLink href="/" className="navbar-brand">

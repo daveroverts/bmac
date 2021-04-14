@@ -95,6 +95,6 @@ Route::middleware('auth.isLoggedIn')->group(function () {
     Route::prefix('user')->name('user.')
         ->group(function () {
             Route::get('settings', [UserController::class, 'edit'])->name('settings.edit');
-            Route::patch('settings', [UserController::class, 'update'])->name('settings.update');
+            Route::put('settings', [UserController::class, 'update'])->name('settings.update');
         });
 });
