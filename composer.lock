@@ -1501,16 +1501,16 @@
         },
         {
             "name": "facade/flare-client-php",
-            "version": "1.6.1",
+            "version": "1.8.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/facade/flare-client-php.git",
-                "reference": "f2b0969f2d9594704be74dbeb25b201570a98098"
+                "reference": "69742118c037f34ee1ef86dc605be4a105d9e984"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/facade/flare-client-php/zipball/f2b0969f2d9594704be74dbeb25b201570a98098",
-                "reference": "f2b0969f2d9594704be74dbeb25b201570a98098",
+                "url": "https://api.github.com/repos/facade/flare-client-php/zipball/69742118c037f34ee1ef86dc605be4a105d9e984",
+                "reference": "69742118c037f34ee1ef86dc605be4a105d9e984",
                 "shasum": ""
             },
             "require": {
@@ -1554,7 +1554,7 @@
             ],
             "support": {
                 "issues": "https://github.com/facade/flare-client-php/issues",
-                "source": "https://github.com/facade/flare-client-php/tree/1.6.1"
+                "source": "https://github.com/facade/flare-client-php/tree/1.8.0"
             },
             "funding": [
                 {
@@ -1562,20 +1562,20 @@
                     "type": "github"
                 }
             ],
-            "time": "2021-04-08T08:50:01+00:00"
+            "time": "2021-04-30T11:11:50+00:00"
         },
         {
             "name": "facade/ignition",
-            "version": "2.8.2",
+            "version": "2.8.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/facade/ignition.git",
-                "reference": "cb7f790e6306caeb4a9ffe21e59942b7128cc630"
+                "reference": "87fb348dab0ae1a7c206c3e902a5a44ba541742f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/facade/ignition/zipball/cb7f790e6306caeb4a9ffe21e59942b7128cc630",
-                "reference": "cb7f790e6306caeb4a9ffe21e59942b7128cc630",
+                "url": "https://api.github.com/repos/facade/ignition/zipball/87fb348dab0ae1a7c206c3e902a5a44ba541742f",
+                "reference": "87fb348dab0ae1a7c206c3e902a5a44ba541742f",
                 "shasum": ""
             },
             "require": {
@@ -1639,7 +1639,7 @@
                 "issues": "https://github.com/facade/ignition/issues",
                 "source": "https://github.com/facade/ignition"
             },
-            "time": "2021-04-08T10:42:53+00:00"
+            "time": "2021-04-29T13:55:26+00:00"
         },
         {
             "name": "facade/ignition-contracts",
@@ -1819,16 +1819,16 @@
         },
         {
             "name": "filp/whoops",
-            "version": "2.12.0",
+            "version": "2.12.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/filp/whoops.git",
-                "reference": "d501fd2658d55491a2295ff600ae5978eaad7403"
+                "reference": "c13c0be93cff50f88bbd70827d993026821914dd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/filp/whoops/zipball/d501fd2658d55491a2295ff600ae5978eaad7403",
-                "reference": "d501fd2658d55491a2295ff600ae5978eaad7403",
+                "url": "https://api.github.com/repos/filp/whoops/zipball/c13c0be93cff50f88bbd70827d993026821914dd",
+                "reference": "c13c0be93cff50f88bbd70827d993026821914dd",
                 "shasum": ""
             },
             "require": {
@@ -1878,7 +1878,7 @@
             ],
             "support": {
                 "issues": "https://github.com/filp/whoops/issues",
-                "source": "https://github.com/filp/whoops/tree/2.12.0"
+                "source": "https://github.com/filp/whoops/tree/2.12.1"
             },
             "funding": [
                 {
@@ -1886,7 +1886,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2021-03-30T12:00:00+00:00"
+            "time": "2021-04-25T12:00:00+00:00"
         },
         {
             "name": "fruitcake/laravel-cors",
@@ -2511,16 +2511,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v8.36.2",
+            "version": "v8.40.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "0debd8ad6b5aa1f61ccc73910adf049af4ca0444"
+                "reference": "a654897ad7f97aea9d7ef292803939798c4a02a4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/0debd8ad6b5aa1f61ccc73910adf049af4ca0444",
-                "reference": "0debd8ad6b5aa1f61ccc73910adf049af4ca0444",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/a654897ad7f97aea9d7ef292803939798c4a02a4",
+                "reference": "a654897ad7f97aea9d7ef292803939798c4a02a4",
                 "shasum": ""
             },
             "require": {
@@ -2675,7 +2675,7 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2021-04-07T12:37:22+00:00"
+            "time": "2021-04-28T14:38:56+00:00"
         },
         {
             "name": "laravel/telescope",
@@ -3894,16 +3894,16 @@
         },
         {
             "name": "opis/closure",
-            "version": "3.6.1",
+            "version": "3.6.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/opis/closure.git",
-                "reference": "943b5d70cc5ae7483f6aff6ff43d7e34592ca0f5"
+                "reference": "06e2ebd25f2869e54a306dda991f7db58066f7f6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/opis/closure/zipball/943b5d70cc5ae7483f6aff6ff43d7e34592ca0f5",
-                "reference": "943b5d70cc5ae7483f6aff6ff43d7e34592ca0f5",
+                "url": "https://api.github.com/repos/opis/closure/zipball/06e2ebd25f2869e54a306dda991f7db58066f7f6",
+                "reference": "06e2ebd25f2869e54a306dda991f7db58066f7f6",
                 "shasum": ""
             },
             "require": {
@@ -3953,9 +3953,9 @@
             ],
             "support": {
                 "issues": "https://github.com/opis/closure/issues",
-                "source": "https://github.com/opis/closure/tree/3.6.1"
+                "source": "https://github.com/opis/closure/tree/3.6.2"
             },
-            "time": "2020-11-07T02:01:34+00:00"
+            "time": "2021-04-09T13:42:10+00:00"
         },
         {
             "name": "paragonie/random_compat",
