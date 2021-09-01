@@ -33,7 +33,7 @@
         "vue-template-compiler": "^2.6.12"
     },
     "dependencies": {
-        "bootswatch": "^4.6.0",
+        "bootswatch": "^5.1.0",
         "sweetalert2": "^10.16.6",
         "tinymce": "^5.7.1"
     }
