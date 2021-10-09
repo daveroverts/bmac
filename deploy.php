@@ -17,10 +17,6 @@ host('vps1.dutchvacc.nl')
     ->setPort(16793)
     ->setDeployPath('/home/webmaster/www/booking/home');
 
-host('104.248.84.152')
-    ->setRemoteUser('forge')
-    ->setDeployPath('/home/forge/bmac.daveroverts.nl');
-
 // Tasks
 
 task('build', function () {
