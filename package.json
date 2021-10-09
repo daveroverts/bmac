@@ -15,7 +15,7 @@
         "@fortawesome/free-brands-svg-icons": "^5.15.3",
         "@fortawesome/free-regular-svg-icons": "^5.15.3",
         "@fortawesome/free-solid-svg-icons": "^5.15.3",
-        "axios": "^0.21.1",
+        "axios": "^0.22.0",
         "bootstrap": "^4.6.0",
         "browser-sync": "^2.26.14",
         "browser-sync-webpack-plugin": "2.3.0",
