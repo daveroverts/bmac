@@ -48,8 +48,3 @@ Before you begin, make sure you have a server to run everything on. For local de
 4. Open the website, and login.
 5. Open the database, and make yourself admin by setting `isAdmin` to `1`.
 6. To import airports, open route `admin/airports/import`. Depending on your setup, this might take a little while, and you won't get a confirmation that import has been done. The script uses [this](https://github.com/jpatokal/openflights/blob/master/data/airports.dat) file as source.
-
-## Import bookings template file
-
-<https://uploads.daveroverts.nl/import_template.xlsx>
-Note that the **bold** fields are always required

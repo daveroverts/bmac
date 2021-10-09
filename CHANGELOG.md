@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v2.2.2](https://github.com/daveroverts/bmac/compare/v2.2.1...v2.2.2) - 2021-10-09
+
+### Changed
+
+- Deployment package changed from ``lorisleiva/laravel-deployer`` to ``deployphp/deployer``
+  - This is temporary for PHP 8 support, I'll move the deployment script somewhere else later on.
+- PHP 8 support
+- `import_template.xlsx` now uses correct header values.
+
 ## [v2.2.1](https://github.com/daveroverts/bmac/compare/v2.2.0...v2.2.1) - 2021-04-03
 
 ### Changed

@@ -134,7 +134,7 @@
 
                         {{-- Description --}}
                         <div>
-                            <textarea id="tinymce" name="message"
+                            <textarea class="tinymce" name="message"
                                       rows="10">{!! old(html_entity_decode('message')) !!}</textarea>
                         </div>
 
