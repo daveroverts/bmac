@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v2.2.2b](https://github.com/daveroverts/bmac/compare/v2.2.2...v2.2.2b) - 2021-10-24
+
 ### Added
 - Added [Laravel Sail](https://laravel.com/docs/master/sail) with `.devcontainer`
 
