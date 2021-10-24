@@ -1,50 +1,121 @@
-# About this project
+
+# Book me a Cookie [BMAC]
 
 ![CI/CD](https://github.com/daveroverts/bmac/workflows/CI/CD/badge.svg)
 
-Book me a Cookie is a booking system created in Laravel. It's initial purpose was to be used for one event (The Holland - America Line), howerver, this system is already ready to be used for more events.
+Book me a Cookie [BMAC] is a Vatsim booking system created in Laravel. It's initial purpose was to be used for one event (The Holland - America Line), however, this system is already ready to be used for more events.
 
 ## Features
 
-- Uses [Vatsim Connect](https://vatsimnetwork.github.io/documentation/connect)
-- A option is available to use a different OAuth2 provider.
+- Uses [Vatsim Connect](https://vatsimnetwork.github.io/documentation/connect) as default authentication provider
+- A different OAuth2 provider can also be used
+- Supports the following event types:
+  - One-way / Groupflight
+  - Citypair
+  - Fly-in
+  - Multiflights (limited to 2 flights per booking)
+- E-mail templates included
+- Bootstrap / Bootswatch colors are editable
+- Slots can be imported or added manually.
+- Airports and Events can have links for charts, briefing, scenery or something else. They are visible after pilots book a flight.
 
-## Installing
+## Tech Stack
 
-Before you begin, make sure you have a server to run everything on. For local development, I use [Laravel Homestead](https://laravel.com/docs/master/homestead).
+- Laravel
+- Bootstrap 4
+- Bootswatch 4 Flatly theme
 
-1. Clone the repository
-2. Copy `env-example` to `.env`. The following must be changed
-    - APP_ENV:
-        - `production` Vatsim SSO will be normally used, don't do this when testing.
-        - Anything else will use the demo server
-    - APP_URL: Be sure to set this, if you don't, SSO will redirect you incorrectly.
-    - BUGSNAG_API_KEY: If you don't use Bugsnag, fill in a random string here, or else you might get errors when running `npm run prod`
-    - DB\_\*: As required
-        - If your database does not support long indexes, add `DB_LOWER_STRING_LENGTH=true`
-    - QUEUE_DRIVER: I recommend either to use `database` or `redis`, but this depends on your setup.
-    - MAIL_DRIVER: For testing, use something like [Mailtrap](https://mailtrap.io/) or [Mailhog](https://github.com/mailhog/MailHog) (included with [Laravel Homestead](https://laravel.com/docs/master/homestead))
-    - MAIL_FROM_ADDRESS: For testing, this can be anything.
-    - MAIL_FROM_NAME: This will be used as the `From` name.
-    - OAUTH\_\*: Fill in the required fields.
-    - SITE\_\*: Feel free to edit these. They are used all over the place.
-    - When adding a new redirect url, point to /login.
-    - BOOTSTRAP_COLOR\*: By default, BMAC uses [Bootswatch Flatly](https://bootswatch.com/flatly/). If you wish to edit some colors, you can do so here.
-3. Run the following commands:
-    - Production:
-        - `composer install --optimize-autoloader --no-dev`
-        - `php artisan key:generate`
-        - `php artisan migrate`
-        - `php artisan storage:link`
-        - `npm install`
-        - `npm run prod`
-    - Development:
-        - `composer install`
-        - `php artisan key:generate`
-        - `php artisan migrate`
-        - `php artisan storage:link`
-        - `npm install`
-        - `npm run dev`
-4. Open the website, and login.
-5. Open the database, and make yourself admin by setting `isAdmin` to `1`.
-6. To import airports, open route `admin/airports/import`. Depending on your setup, this might take a little while, and you won't get a confirmation that import has been done. The script uses [this](https://github.com/jpatokal/openflights/blob/master/data/airports.dat) file as source.
+## Vatsim Connect
+
+In order to use Vatsim Connect as OAuth2 provider, you need to create a organization (or have somebody else do that for you). <https://auth.vatsim.net/>
+
+Once you have a Organization, Navigate to `OAUTH`, create `NEW SITE` and set the `Redirect URL` to the `APP_URL` + `/login`. For example: `https://example.org/login`.
+
+Save the `Client ID` and `Secret` somewhere, you will need this later.
+
+When testing or running this project locally, Vatsim wants your to use their Connect Development Environment. Details can be found here: <https://github.com/vatsimnetwork/developer-info/wiki/Connect-Development-Environment>
+
+## Installation
+
+Before you begin, make sure you have a server with PHP (at least 7.3, 8 recommended) to run everything on. For local development, I use [Laravel Valet](https://laravel.com/docs/8.x/valet), and before that I used [Laravel Homestead](https://laravel.com/docs/master/homestead).
+
+1. Clone the project
+
+```bash
+  git clone https://github.com/daveroverts/bmac.git
+```
+
+2. Go to the project directory
+
+```bash
+  cd bmac
+```
+
+3. Copy `.env.example` to `.env`
+
+```bash
+  cp .env.example .env
+```
+
+Open `.env`. The following must be changed:
+
+- `APP_ENV`
+  - Set this to `production` when running this in a production environment.
+  - Set this to `local` when running this project locally to test things out.
+- `APP_URL`
+  - Be sure to set this to the URL the project will be running. For example: ``APP_URL=https://example.org``
+  - If you forget, you will have issues with Vatsim Connect (or any OAuth 2 provider)
+- `BUGSNAG_API_KEY`:
+  - BMAC uses Bugsnag by default for error monitoring.
+  - If you have a key, you can put this here. There won't be problems if you leave it empty.
+- `DB_*`
+  - As required
+  - If you need to share a database with some other application, you can add in a prefix by setting `DB_TABLE_PREFIX=bmac_`
+  - If your database does not support long indexes, set `DB_LOWER_STRING_LENGTH=true`
+- `QUEUE_DRIVER`
+  - For local, you can use `sync` with no issues
+  - In a production environment, I recommend you use something else, like `database` or `redis`. More info can be found [here](https://laravel.com/docs/master/queues)
+    - When you use `database`, the `jobs` table is already migrated, no need to do that again.
+    - When you use `redis`, `predis` is already in the `composer.json` file, no need to require it again.
+- `MAIL_*`
+  - As required
+  - `MAIL_MAILER`: For testing, you can use something like [Mailtrap](https://mailtrap.io/) (online) or [Mailhog](https://github.com/mailhog/MailHog) (local, included with [Laravel Homestead](https://laravel.com/docs/master/homestead))
+  - `MAIL_FROM_ADDRESS`: This will be used as the `From` email. Don't forget to set this.
+  - `MAIL_FROM_NAME`: This will be used as the `From` name
+- `OAUTH_*`
+  - See [Vatsim Connect](#vatsim-connect) if you're not sure what to do at this point.
+- `SITE_*`
+  - Feel free to edit these. They are used all over the place.
+- `BOOTSTRAP_COLOR`:
+  - By default, BMAC uses [Bootswatch Flatly](https://bootswatch.com/flatly/). If you wish to edit some colors, you can do so here.
+
+4. Install dependencies
+
+Production:
+
+```bash
+  composer install --optimize-autoloader --no-dev
+  php artisan key:generate # Only needed for first deployment
+  php artisan migrate
+  php artisan storage:link # Only needed for first deployment
+  npm ci
+  npm run prod
+```
+
+Development:
+
+```bash
+  composer install
+  php artisan key:generate # Only needed for first deployment
+  php artisan migrate
+  php artisan storage:link # Only needed for first deployment
+  npm ci
+  npm run dev
+```
+
+5. Open the website, and login.
+
+6. Open the database, and make yourself admin by setting `isAdmin` to `1`.
+
+7. If you want to include all airports to the database, navigate to `admin/airports/import` (be sure you're logged in as admin). Depending on your setup, this might take a little while, and you won't get a confirmation that import has been done.
+The script uses [this](https://github.com/jpatokal/openflights/blob/master/data/airports.dat) file as source. Note that at the time of writing, the file was last edited 13 May 2019.
