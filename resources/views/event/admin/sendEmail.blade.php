@@ -51,7 +51,7 @@
                     var url = '{{ route('admin.events.email', $event) }}';
                     axios.post(url, {
                         'subject': $('#subject').val(),
-                        'message': tinymce.get('tinymce').getContent(),
+                        'message': tinymce.activeEditor.getContent(),
                         'testmode': 1,
                         '_method': 'PATCH',
                     })
