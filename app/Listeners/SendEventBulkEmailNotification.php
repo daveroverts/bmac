@@ -28,7 +28,7 @@ class SendEventBulkEmailNotification implements ShouldQueue
     public function handle(EventBulkEmail $event)
     {
         if (isset($event->request['testmode'])) {
-            auth()->user()->notify(new \App\Notifications\EventBulkEmail($event->event, $event->request['subject'], $event->request['message']));
+            Notification::send($event->users, new \App\Notifications\EventBulkEmail($event->event, $event->request['subject'], $event->request['message']));
             activity()
                 ->by(auth()->user())
                 ->on($event->event)
