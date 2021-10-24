@@ -51,20 +51,26 @@ Before you begin, make sure you have a server with PHP (at least 7.3, 8 recommen
   cd bmac
 ```
 
-3. Copy `env-example` to `.env`. The following must be changed:
+3. Copy `.env.example` to `.env`
+
+```bash
+  cp .env.example .env
+```
+
+Open `.env`. The following must be changed:
 
 - `APP_ENV`
   - Set this to `production` when running this in a production environment.
   - Set this to `local` when running this project locally to test things out.
 - `APP_URL`
-  - Be sure to set this to the URL the project will be running.
+  - Be sure to set this to the URL the project will be running. For example: ``APP_URL=https://example.org``
   - If you forget, you will have issues with Vatsim Connect (or any OAuth 2 provider)
 - `BUGSNAG_API_KEY`:
   - BMAC uses Bugsnag by default for error monitoring.
   - If you have a key, you can put this here. There won't be problems if you leave it empty.
 - `DB_*`
   - As required
-  - If you need to share a database with some other application, you can add in a prefix by setting `DB_TABLE_PREFIX=something_`
+  - If you need to share a database with some other application, you can add in a prefix by setting `DB_TABLE_PREFIX=bmac_`
   - If your database does not support long indexes, set `DB_LOWER_STRING_LENGTH=true`
 - `QUEUE_DRIVER`
   - For local, you can use `sync` with no issues
