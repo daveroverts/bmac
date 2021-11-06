@@ -32,6 +32,6 @@
     },
     "dependencies": {
         "bootswatch": "^4.6.1",
-        "sweetalert2": "^10.16.6"
+        "sweetalert2": "^11.1.9"
     }
 }
