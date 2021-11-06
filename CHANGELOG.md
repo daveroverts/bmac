@@ -7,7 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [v2.2.2b](https://github.com/daveroverts/bmac/compare/v2.2.2...v2.2.2b) - 2021-10-24
+## [v2.2.3](https://github.com/daveroverts/bmac/compare/v2.2.2b...v2.2.3) - 2021-11-06
+
+### Added
+
+- Added [AWS SDK for PHP](https://github.com/aws/aws-sdk-php) to support services like S3, SES and SQS
+
+## [v2.2.2b](https://github.com/daveroverts/bmac/compare/v2.2.2a...v2.2.2b) - 2021-10-24
 
 ### Added
 - Added [Laravel Sail](https://laravel.com/docs/master/sail) with `.devcontainer`
