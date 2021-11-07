@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Added [laravel-mix-purgecss](https://github.com/spatie/laravel-mix-purgecss) to minify css.
+
 ## [v2.2.3](https://github.com/daveroverts/bmac/compare/v2.2.2b...v2.2.3) - 2021-11-06
 
 ### Added
@@ -16,23 +20,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [v2.2.2b](https://github.com/daveroverts/bmac/compare/v2.2.2a...v2.2.2b) - 2021-10-24
 
 ### Added
+
 - Added [Laravel Sail](https://laravel.com/docs/master/sail) with `.devcontainer`
 
 ### Changed
+
 - Fix for send test email not working (again)
 
 ## [v2.2.2a](https://github.com/daveroverts/bmac/compare/v2.2.2...v2.2.2a) - 2021-10-24
 
 ### Changed
+
 - README.md rewritten
 - Fix for send test email not working
-
-### Changed
-
-- Deployment package changed from ``lorisleiva/laravel-deployer`` to ``deployphp/deployer``
-  - This is temporary for PHP 8 support, I'll move the deployment script somewhere else later on.
-- PHP 8 support
-- `import_template.xlsx` now uses correct header values.
 
 ## [v2.2.2](https://github.com/daveroverts/bmac/compare/v2.2.1...v2.2.2) - 2021-10-09
 
