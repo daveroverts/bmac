@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Added [laravel-mix-purgecss](https://github.com/spatie/laravel-mix-purgecss) to minify css.
+- Added [Laravel Horizon](https://laravel.com/docs/master/horizon).
 
 ## [v2.2.3](https://github.com/daveroverts/bmac/compare/v2.2.2b...v2.2.3) - 2021-11-06
 
