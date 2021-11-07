@@ -58,7 +58,9 @@ return [
         '_debugbar/*',
         '*/export',
         '*/airports/import',
-        'api/*'
+        'api/*',
+        'telescope/*',
+        'horizon/*',
     ],
 
 ];
