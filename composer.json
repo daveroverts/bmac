@@ -1,7 +1,10 @@
 {
     "name": "laravel/laravel",
     "description": "The Laravel Framework.",
-    "keywords": ["framework", "laravel"],
+    "keywords": [
+        "framework",
+        "laravel"
+    ],
     "license": "MIT",
     "type": "project",
     "require": {
@@ -16,7 +19,7 @@
         "fideloper/proxy": "^4.0",
         "fruitcake/laravel-cors": "^2.0",
         "laravel/framework": "^8.0",
-        "laravel/telescope": "^4.0",
+        "laravel/telescope": "^4.6",
         "laravel/tinker": "^2.0",
         "league/oauth2-client": "^2.4",
         "livewire/livewire": "^2.3",
@@ -43,7 +46,9 @@
             "Database\\Factories\\": "database/factories/",
             "Database\\Seeders\\": "database/seeders/"
         },
-        "files": ["app/Helper.php"]
+        "files": [
+            "app/Helper.php"
+        ]
     },
     "autoload-dev": {
         "psr-4": {
@@ -52,8 +57,7 @@
     },
     "extra": {
         "laravel": {
-            "dont-discover": [
-            ]
+            "dont-discover": []
         }
     },
     "scripts": {
@@ -70,7 +74,8 @@
         "post-update-cmd": [
             "Illuminate\\Foundation\\ComposerScripts::postUpdate",
             "php artisan ide-helper:generate",
-            "php artisan ide-helper:meta"
+            "php artisan ide-helper:meta",
+            "@php artisan telescope:publish --ansi"
         ]
     },
     "config": {

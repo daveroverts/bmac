@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0ce582b9b8da387c0a86fa5bc41ec344",
+    "content-hash": "34322082a24f1988fcdc077b8c3b1083",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -834,16 +834,16 @@
         },
         {
             "name": "deployer/deployer",
-            "version": "v7.0.0-beta.39",
+            "version": "v7.0.0-beta.40",
             "source": {
                 "type": "git",
                 "url": "https://github.com/deployphp/deployer.git",
-                "reference": "7ab211437f6f2975e5436bec9879d7e05227e03b"
+                "reference": "271d33d9a7236c5fac280f08a0452b75753fd4cb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/deployphp/deployer/zipball/7ab211437f6f2975e5436bec9879d7e05227e03b",
-                "reference": "7ab211437f6f2975e5436bec9879d7e05227e03b",
+                "url": "https://api.github.com/repos/deployphp/deployer/zipball/271d33d9a7236c5fac280f08a0452b75753fd4cb",
+                "reference": "271d33d9a7236c5fac280f08a0452b75753fd4cb",
                 "shasum": ""
             },
             "require": {
@@ -901,7 +901,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2021-11-05T15:39:24+00:00"
+            "time": "2021-11-06T20:59:00+00:00"
         },
         {
             "name": "dflydev/dot-access-data",
