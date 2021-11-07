@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v2.2.4](https://github.com/daveroverts/bmac/compare/v2.2.3...v2.2.4) - 2021-11-07
+
 ### Added
 
 - Added [laravel-mix-purgecss](https://github.com/spatie/laravel-mix-purgecss) to minify css.

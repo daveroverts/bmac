@@ -119,3 +119,8 @@ Before you begin, make sure you have a server with PHP (at least 7.3, 8 recommen
 
 7. If you want to include all airports to the database, navigate to `admin/airports/import` (be sure you're logged in as admin). Depending on your setup, this might take a little while, and you won't get a confirmation that import has been done.
 The script uses [this](https://github.com/jpatokal/openflights/blob/master/data/airports.dat) file as source. Note that at the time of writing, the file was last edited 13 May 2019.
+
+## Queue worker / Laravel Horizon
+If you're not using `sync` as `QUEUE_DRIVER`, you need to run a queue worker, or else things like emails aren't being sent. Check Laravel documentation on how to set one up using Supervisor <https://laravel.com/docs/master/queues#supervisor-configuration>
+
+When you're using `redis` as `QUEUE_DRIVER`, [Laravel Horizon](https://laravel.com/docs/master/horizon) is already installed and can be used to start a queue worker.
