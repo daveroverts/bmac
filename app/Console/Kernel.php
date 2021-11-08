@@ -29,6 +29,9 @@ class Kernel extends ConsoleKernel
             $schedule->command('telescope:prune')->daily();
         }
 
+        if (config('queue.default') == 'redis') {
+            $schedule->command('horizon:snapshot')->everyFiveMinutes();
+        }
     }
 
     /**

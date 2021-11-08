@@ -72,11 +72,11 @@ Before you begin, make sure you have a server with PHP (at least 7.3, 8 recommen
      - As required
      - If you need to share a database with some other application, you can add in a prefix by setting `DB_TABLE_PREFIX=bmac_`
      - If your database does not support long indexes, set `DB_LOWER_STRING_LENGTH=true`
-   - `QUEUE_DRIVER`
+   - `QUEUE_CONNECTION`
      - For local, you can use `sync` with no issues
      - In a production environment, I recommend you use something else, like `database` or `redis`. More info can be found [here](https://laravel.com/docs/master/queues)
        - When you use `database`, the `jobs` table is already migrated, no need to do that again.
-       - When you use `redis`, `predis` is already in the `composer.json` file, no need to require it again.
+       - When you use `redis`, and can't use `phpredis` PHP extension, `predis` is already in the `composer.json` file, no need to require it again. You do need to add `REDIS_CLIENT=predis`. See this link for more information about Redis and Laravel: <https://laravel.com/docs/master/redis#introduction>
    - `MAIL_*`
      - As required
      - `MAIL_MAILER`: For testing, you can use something like [Mailtrap](https://mailtrap.io/) (online) or [Mailhog](https://github.com/mailhog/MailHog) (local, included with [Laravel Homestead](https://laravel.com/docs/master/homestead))
@@ -121,6 +121,6 @@ Before you begin, make sure you have a server with PHP (at least 7.3, 8 recommen
 The script uses [this](https://github.com/jpatokal/openflights/blob/master/data/airports.dat) file as source. Note that at the time of writing, the file was last edited 13 May 2019.
 
 ## Queue worker / Laravel Horizon
-If you're not using `sync` as `QUEUE_DRIVER`, you need to run a queue worker, or else things like emails aren't being sent. Check Laravel documentation on how to set one up using Supervisor <https://laravel.com/docs/master/queues#supervisor-configuration>
+If you're not using `sync` as `QUEUE_CONNECTION`, you need to run a queue worker, or else things like emails aren't being sent. Check Laravel documentation on how to set one up using Supervisor <https://laravel.com/docs/master/queues#supervisor-configuration>
 
-When you're using `redis` as `QUEUE_DRIVER`, [Laravel Horizon](https://laravel.com/docs/master/horizon) is already installed and can be used to start a queue worker.
+When you're using `redis` as `QUEUE_CONNECTION`, [Laravel Horizon](https://laravel.com/docs/master/horizon) is already installed and can be used to start a queue worker.
