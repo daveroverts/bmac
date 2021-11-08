@@ -76,7 +76,7 @@ Before you begin, make sure you have a server with PHP (at least 7.3, 8 recommen
      - For local, you can use `sync` with no issues
      - In a production environment, I recommend you use something else, like `database` or `redis`. More info can be found [here](https://laravel.com/docs/master/queues)
        - When you use `database`, the `jobs` table is already migrated, no need to do that again.
-       - When you use `redis`, `predis` is already in the `composer.json` file, no need to require it again.
+       - When you use `redis`, and can't use `phpredis` PHP extension, `predis` is already in the `composer.json` file, no need to require it again. You do need to add `REDIS_CLIENT=predis`. See this link for more information about Redis and Laravel: <https://laravel.com/docs/master/redis#introduction>
    - `MAIL_*`
      - As required
      - `MAIL_MAILER`: For testing, you can use something like [Mailtrap](https://mailtrap.io/) (online) or [Mailhog](https://github.com/mailhog/MailHog) (local, included with [Laravel Homestead](https://laravel.com/docs/master/homestead))
