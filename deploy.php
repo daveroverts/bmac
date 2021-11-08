@@ -2,6 +2,7 @@
 
 namespace Deployer;
 
+require 'contrib/php-fpm.php';
 require 'recipe/laravel.php';
 
 // Config
