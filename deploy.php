@@ -2,7 +2,6 @@
 
 namespace Deployer;
 
-require 'contrib/php-fpm.php';
 require 'recipe/laravel.php';
 
 // Config
@@ -10,7 +9,6 @@ require 'recipe/laravel.php';
 set('application', 'bmac');
 set('deploy_path', '~/{{application}}');
 set('repository', 'git@github.com:daveroverts/bmac.git');
-set('php_fpm_version', '8.0');
 
 // Hosts
 
@@ -31,5 +29,3 @@ after('deploy:update_code', 'artisan:migrate');
 after('deploy:update_code', 'build');
 
 after('deploy:failed', 'deploy:unlock');
-
-after('deploy', 'php-fpm:reload');
