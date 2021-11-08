@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v2.2.4a](https://github.com/daveroverts/bmac/compare/v2.2.4...v2.2.4a) - 2021-11-08
+
+### Changed
+- Updated config files in `config` to match default Laravel 8 as much as possible.
+- Updated `.env.example` to match default Laravel 8 as much as possible.
+
 ## [v2.2.4](https://github.com/daveroverts/bmac/compare/v2.2.3...v2.2.4) - 2021-11-07
 
 ### Added
