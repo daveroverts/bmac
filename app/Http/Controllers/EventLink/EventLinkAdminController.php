@@ -61,7 +61,7 @@ class EventLinkAdminController extends AdminController
         $eventLink = EventLink::create($request->validated());
         flashMessage(
             'success',
-            'Done',
+            __('Done'),
             $eventLink->type->name . ' item has been added for ' . $eventLink->event->name
         );
         return redirect(route('admin.eventLinks.index'));
@@ -89,7 +89,7 @@ class EventLinkAdminController extends AdminController
     public function update(UpdateEventLink $request, EventLink $eventLink)
     {
         $eventLink->update($request->validated());
-        flashMessage('success', 'Done', 'Link has been updated');
+        flashMessage('success', __('Done'), 'Link has been updated');
         return redirect(route('admin.eventLinks.index'));
     }
 

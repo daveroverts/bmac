@@ -20,4 +20,19 @@ class StoreAirportLink extends Request
             'url' => 'required|url',
         ];
     }
+
+    /**
+     * Get custom attributes for validator errors.
+     *
+     * @return array
+     */
+    public function attributes()
+    {
+        return [
+            'airportLinkType_id' => __('Type'),
+            'airport_id' => __('Airport'),
+            'name' => __('Name'),
+            'url' => __('URL'),
+        ];
+    }
 }

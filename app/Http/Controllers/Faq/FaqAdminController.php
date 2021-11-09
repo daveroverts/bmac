@@ -53,7 +53,7 @@ class FaqAdminController extends AdminController
     public function store(StoreFaq $request)
     {
         $faq = Faq::create($request->validated());
-        flashMessage('success', 'Done', 'Question has been added!');
+        flashMessage('success', __('Done'), 'Question has been added!');
         return redirect(route('admin.faq.edit', $faq));
     }
 
@@ -82,7 +82,7 @@ class FaqAdminController extends AdminController
     public function update(UpdateFaq $request, Faq $faq)
     {
         $faq->update($request->validated());
-        flashMessage('success', 'Done', 'Question has been updated!');
+        flashMessage('success', __('Done'), 'Question has been updated!');
         return redirect(route('admin.faq.edit', $faq));
     }
 
@@ -96,7 +96,7 @@ class FaqAdminController extends AdminController
     public function destroy(Faq $faq)
     {
         $faq->delete();
-        flashMessage('success', 'Done', 'Question has been removed!');
+        flashMessage('success', __('Done'), 'Question has been removed!');
         return redirect(route('admin.faq.index'));
     }
 

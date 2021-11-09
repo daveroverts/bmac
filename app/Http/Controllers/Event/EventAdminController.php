@@ -79,7 +79,7 @@ class EventAdminController extends AdminController
                 $request->dateEndBooking.' '.$request->timeEndBooking),
         ])->save();
 
-        flashMessage('success', 'Done', 'Event has been created!');
+        flashMessage('success', __('Done'), 'Event has been created!');
         return redirect(route('admin.events.index'));
     }
 
@@ -129,7 +129,7 @@ class EventAdminController extends AdminController
             'endBooking' => Carbon::createFromFormat('d-m-Y H:i',
                 $request->dateEndBooking.' '.$request->timeEndBooking),
         ])->save();
-        flashMessage('success', 'Done', 'Event has been updated!');
+        flashMessage('success', __('Done'), 'Event has been updated!');
         return redirect(route('admin.events.index'));
     }
 
@@ -144,7 +144,7 @@ class EventAdminController extends AdminController
     {
         if ($event->startEvent > now()) {
             $event->delete();
-            flashMessage('success', 'Done', $event->name.' has been deleted!');
+            flashMessage('success', __('Done'), $event->name.' has been deleted!');
             return redirect()->back();
         } else {
             flashMessage('danger', 'Nope!', 'You cannot remove a event after it has begun!');
@@ -182,7 +182,7 @@ class EventAdminController extends AdminController
                 $query->where('status', BookingStatus::BOOKED);
             })->get();
             event(new EventBulkEmail($event, $request->all(), $users));
-            flashMessage('success', 'Done', 'Bulk E-mail has been sent to '.$users->count().' people!');
+            flashMessage('success', __('Done'), 'Bulk E-mail has been sent to '.$users->count().' people!');
             return redirect(route('admin.events.index'));
         }
     }
@@ -218,7 +218,7 @@ class EventAdminController extends AdminController
             if ($countSkipped != 0) {
                 $message .= ' However, ' . $countSkipped . ' where skipped, because they already received one';
             }
-            flashMessage('success', 'Done', $message);
+            flashMessage('success', __('Done'), $message);
             activity()
                 ->by(auth()->user())
                 ->on($event)

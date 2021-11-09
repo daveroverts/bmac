@@ -93,7 +93,7 @@ class BookingAdminController extends AdminController
                     $count++;
                 }
             }
-            flashMessage('success', 'Done', $count . ' Slots have been created!');
+            flashMessage('success', __('Done'), $count . ' Slots have been created!');
         } else {
             $booking = new Booking([
                 'is_editable' => $request->is_editable,
@@ -125,7 +125,7 @@ class BookingAdminController extends AdminController
             }
 
             $booking->flights()->create($flightAttributes);
-            flashMessage('success', 'Done', 'Slot created');
+            flashMessage('success', __('Done'), 'Slot created');
         }
         return redirect(route('bookings.event.index', $event));
     }

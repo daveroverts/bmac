@@ -43,8 +43,12 @@ class AirportLinkAdminController extends AdminController
     public function create()
     {
         $airportLink = new AirportLink();
-        $airportLinkTypes = AirportLinkType::all();
-        $airports = Airport::orderBy('icao')->get();
+        $airportLinkTypes = AirportLinkType::all(['id', 'name'])->pluck('name', 'id');
+        $airports = Airport::all(['id', 'icao', 'iata', 'name'])->keyBy('id')
+            ->map(function ($airport) {
+                /** @var Airport $airport */
+                return "$airport->icao [$airport->name ($airport->iata )]";
+            });
         return view('airportLink.admin.form', compact('airportLink', 'airportLinkTypes', 'airports'));
     }
 
@@ -57,8 +61,11 @@ class AirportLinkAdminController extends AdminController
     public function store(StoreAirportLink $request)
     {
         $airportLink = AirportLink::create($request->validated());
-        flashMessage('success', 'Done',
-            $airportLink->type->name.' item has been added for '.$airportLink->airport->name.' ['.$airportLink->airport->icao.' | '.$airportLink->airport->iata.']');
+        flashMessage(
+            'success',
+            __('Done'),
+            __(':Type item has been added for :airport', ['Type' => $airportLink->type->name, 'airport' => "{$airportLink->airport->name} [{$airportLink->airport->icao} | {$airportLink->airport->iata}]"])
+        );
         return redirect(route('admin.airports.index'));
     }
 
@@ -70,7 +77,8 @@ class AirportLinkAdminController extends AdminController
      */
     public function edit(AirportLink $airportLink)
     {
-        $airportLinkTypes = AirportLinkType::all();
+        $airportLinkTypes = AirportLinkType::all(['id', 'name'])->pluck('name', 'id');
+
         return view('airportLink.admin.form', compact('airportLink', 'airportLinkTypes'));
     }
 
@@ -84,7 +92,7 @@ class AirportLinkAdminController extends AdminController
     public function update(UpdateAirportLink $request, AirportLink $airportLink)
     {
         $airportLink->update($request->validated());
-        flashMessage('success', 'Done', 'Link has been updated');
+        flashMessage('success', __('Done'), __('Airport Link has been updated'));
         return redirect(route('admin.airportLinks.index'));
     }
 
@@ -98,7 +106,7 @@ class AirportLinkAdminController extends AdminController
     public function destroy(AirportLink $airportLink)
     {
         $airportLink->delete();
-        flashMessage('success', 'Airport link deleted', 'Airport link has been deleted');
+        flashMessage('success', __('Airport link deleted'), __('Airport link has been deleted'));
         return back();
     }
 }
