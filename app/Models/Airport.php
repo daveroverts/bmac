@@ -80,6 +80,16 @@ class Airport extends Model
         return $this->hasMany(AirportLink::class);
     }
 
+    public function setIcaoAttribute($value)
+    {
+        $this->attributes['icao'] = strtoupper($value);
+    }
+
+    public function setIataAttribute($value)
+    {
+        $this->attributes['iata'] = strtoupper($value);
+    }
+
     public function getFullNameAttribute()
     {
         if (!$this->id) {
