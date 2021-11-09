@@ -1,15 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    @if (count($errors) > 0)
-        <div class="alert alert-danger">
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
+    <x-forms.alert />
     @include('layouts.alert')
     <div class="row justify-content-center">
         <div class="col-md-8">
@@ -17,11 +9,12 @@
                 <div class="card-header">{{ $event->name }} | Route assign</div>
 
                 <div class="card-body">
-                    <form method="POST" action="{{ route('admin.bookings.routeAssign',$event) }}" enctype="multipart/form-data">
+                    <form method="POST" action="{{ route('admin.bookings.routeAssign', $event) }}"
+                        enctype="multipart/form-data">
                         @csrf
                         @method('PATCH')
 
-                        {{--File--}}
+                        {{-- File --}}
                         <div class="form-group row">
 
                             <div class="col-md-4 col-form-label text-md-right"></div>
@@ -36,7 +29,7 @@
                             </div>
                         </div>
 
-                        {{--Auto-Assign Route--}}
+                        {{-- Auto-Assign Route --}}
                         <div class="form-group row mb-0">
                             <div class="col-md-6 offset-md-4">
                                 <button type="submit" class="btn btn-primary">
