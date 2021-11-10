@@ -29,9 +29,9 @@
 
                         <x-form-submit>
                             @if ($airportLink->id)
-                                <i class="fa fa-check"></i> Edit
+                                <i class="fa fa-check"></i> {{ __('Edit') }}
                             @else
-                                <i class="fa fa-plus"></i> Add
+                                <i class="fa fa-plus"></i> {{ __('Add') }}
                             @endif
                         </x-form-submit>
                         @endbind

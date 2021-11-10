@@ -53,7 +53,7 @@ class FaqAdminController extends AdminController
     public function store(StoreFaq $request)
     {
         $faq = Faq::create($request->validated());
-        flashMessage('success', __('Done'), 'Question has been added!');
+        flashMessage('success', __('Done'), __('FAQ has been added!'));
         return redirect(route('admin.faq.edit', $faq));
     }
 
@@ -82,7 +82,7 @@ class FaqAdminController extends AdminController
     public function update(UpdateFaq $request, Faq $faq)
     {
         $faq->update($request->validated());
-        flashMessage('success', __('Done'), 'Question has been updated!');
+        flashMessage('success', __('Done'), __('FAQ has been updated!'));
         return redirect(route('admin.faq.edit', $faq));
     }
 
@@ -111,10 +111,10 @@ class FaqAdminController extends AdminController
     {
         if ($faq->events()->where('event_id', $event->id)->get()->isNotEmpty()) {
             $faq->events()->detach($event->id);
-            flashMessage('success', 'Event unlinked', 'Event has been unlinked to this FAQ');
+            flashMessage('success', __('Event unlinked'), __('Event has been unlinked to this FAQ'));
         } else {
             $faq->events()->attach($event->id);
-            flashMessage('success', 'Event linked', 'Event has been linked to this FAQ');
+            flashMessage('success', __('Event linked'), __('Event has been linked to this FAQ'));
         }
         return back();
     }
