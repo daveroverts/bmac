@@ -15,14 +15,14 @@
 
                         @bind($airportLink)
                         <x-form-select name="airportLinkType_id" :label="__('Type')" :options="$airportLinkTypes"
-                            :placeholder="__('Choose...')" />
+                            :placeholder="__('Choose...')" required />
                         @if ($airportLink->id)
                             <x-form-group :label="__('Airport')">
                                 {{ $airportLink->airport->icao . '[' . $airportLink->airport->name . ' (' . $airportLink->airport->iata . ')]' }}
                             </x-form-group>
                         @else
                             <x-form-select name="airport_id" :label="__('Airport')" :options="$airports"
-                                :placeholder="__('Choose...')" />
+                                :placeholder="__('Choose...')" required />
                         @endif
                         <x-form-input name="name" :label="__('Name')" />
                         <x-form-input name="url" :label="__('URL')" placeholder="https://example.org" required />

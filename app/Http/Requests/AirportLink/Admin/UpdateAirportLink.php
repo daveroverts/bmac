@@ -14,7 +14,7 @@ class UpdateAirportLink extends Request
     public function rules()
     {
         return [
-            'airportLinkType_id' => 'exists:airport_link_types,id',
+            'airportLinkType_id' => 'required|exists:airport_link_types,id',
             'name' => 'nullable|string',
             'url' => 'required|url',
         ];
