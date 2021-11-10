@@ -51,8 +51,12 @@ class EventAdminController extends AdminController
     public function create()
     {
         $event = new Event;
-        $airports = Airport::orderBy('icao')->get();
-        $eventTypes = EventType::all();
+        $airports = Airport::all(['id', 'icao', 'iata', 'name'])->keyBy('id')
+            ->map(function ($airport) {
+                /** @var Airport $airport */
+                return "$airport->icao [$airport->name ($airport->iata )]";
+            });
+        $eventTypes = EventType::all()->pluck('name', 'id');
         return view('event.admin.form', compact('event', 'airports', 'eventTypes'));
     }
 
@@ -65,18 +69,37 @@ class EventAdminController extends AdminController
     public function store(StoreEvent $request)
     {
         $event = new Event();
-        $event->fill($request->only('is_online', 'show_on_homepage', 'name', 'event_type_id', 'import_only',
+        $event->fill($request->only(
+            'is_online',
+            'show_on_homepage',
+            'name',
+            'event_type_id',
+            'import_only',
             'uses_times',
-            'multiple_bookings_allowed', 'is_oceanic_event', 'dep', 'arr', 'image_url', 'description'));
+            'multiple_bookings_allowed',
+            'is_oceanic_event',
+            'dep',
+            'arr',
+            'image_url',
+            'description'
+        ));
         $event->fill([
-            'startEvent' => Carbon::createFromFormat('d-m-Y H:i',
-                $request->dateEvent.' '.$request->timeBeginEvent),
-            'endEvent' => Carbon::createFromFormat('d-m-Y H:i',
-                $request->dateEvent.' '.$request->timeEndEvent),
-            'startBooking' => Carbon::createFromFormat('d-m-Y H:i',
-                $request->dateBeginBooking.' '.$request->timeBeginBooking),
-            'endBooking' => Carbon::createFromFormat('d-m-Y H:i',
-                $request->dateEndBooking.' '.$request->timeEndBooking),
+            'startEvent' => Carbon::createFromFormat(
+                'd-m-Y H:i',
+                $request->dateEvent . ' ' . $request->timeBeginEvent
+            ),
+            'endEvent' => Carbon::createFromFormat(
+                'd-m-Y H:i',
+                $request->dateEvent . ' ' . $request->timeEndEvent
+            ),
+            'startBooking' => Carbon::createFromFormat(
+                'd-m-Y H:i',
+                $request->dateBeginBooking . ' ' . $request->timeBeginBooking
+            ),
+            'endBooking' => Carbon::createFromFormat(
+                'd-m-Y H:i',
+                $request->dateEndBooking . ' ' . $request->timeEndBooking
+            ),
         ])->save();
 
         flashMessage('success', __('Done'), 'Event has been created!');
@@ -116,18 +139,37 @@ class EventAdminController extends AdminController
      */
     public function update(UpdateEvent $request, Event $event)
     {
-        $event->fill($request->only('is_online', 'show_on_homepage', 'name', 'event_type_id', 'import_only',
+        $event->fill($request->only(
+            'is_online',
+            'show_on_homepage',
+            'name',
+            'event_type_id',
+            'import_only',
             'uses_times',
-            'multiple_bookings_allowed', 'is_oceanic_event', 'dep', 'arr', 'image_url', 'description'));
+            'multiple_bookings_allowed',
+            'is_oceanic_event',
+            'dep',
+            'arr',
+            'image_url',
+            'description'
+        ));
         $event->fill([
-            'startEvent' => Carbon::createFromFormat('d-m-Y H:i',
-                $request->dateEvent.' '.$request->timeBeginEvent),
-            'endEvent' => Carbon::createFromFormat('d-m-Y H:i',
-                $request->dateEvent.' '.$request->timeEndEvent),
-            'startBooking' => Carbon::createFromFormat('d-m-Y H:i',
-                $request->dateBeginBooking.' '.$request->timeBeginBooking),
-            'endBooking' => Carbon::createFromFormat('d-m-Y H:i',
-                $request->dateEndBooking.' '.$request->timeEndBooking),
+            'startEvent' => Carbon::createFromFormat(
+                'd-m-Y H:i',
+                $request->dateEvent . ' ' . $request->timeBeginEvent
+            ),
+            'endEvent' => Carbon::createFromFormat(
+                'd-m-Y H:i',
+                $request->dateEvent . ' ' . $request->timeEndEvent
+            ),
+            'startBooking' => Carbon::createFromFormat(
+                'd-m-Y H:i',
+                $request->dateBeginBooking . ' ' . $request->timeBeginBooking
+            ),
+            'endBooking' => Carbon::createFromFormat(
+                'd-m-Y H:i',
+                $request->dateEndBooking . ' ' . $request->timeEndBooking
+            ),
         ])->save();
         flashMessage('success', __('Done'), 'Event has been updated!');
         return redirect(route('admin.events.index'));
@@ -144,7 +186,7 @@ class EventAdminController extends AdminController
     {
         if ($event->startEvent > now()) {
             $event->delete();
-            flashMessage('success', __('Done'), $event->name.' has been deleted!');
+            flashMessage('success', __('Done'), $event->name . ' has been deleted!');
             return redirect()->back();
         } else {
             flashMessage('danger', 'Nope!', 'You cannot remove a event after it has begun!');
@@ -182,7 +224,7 @@ class EventAdminController extends AdminController
                 $query->where('status', BookingStatus::BOOKED);
             })->get();
             event(new EventBulkEmail($event, $request->all(), $users));
-            flashMessage('success', __('Done'), 'Bulk E-mail has been sent to '.$users->count().' people!');
+            flashMessage('success', __('Done'), 'Bulk E-mail has been sent to ' . $users->count() . ' people!');
             return redirect(route('admin.events.index'));
         }
     }
