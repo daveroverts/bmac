@@ -1,16 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    @if (count($errors) > 0)
-        <div class="alert alert-dismissible alert-danger">
-            <button type="button" class="close" data-dismiss="alert">&times;</button>
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
+    <x-forms.alert />
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
