@@ -18,67 +18,27 @@
                 <div class="card-header">My settings</div>
 
                 <div class="card-body">
-                    <form method="POST" action="{{ route('user.saveSettings') }}">
-                        @csrf
-                        @method('PATCH')
+                    <x-form :action="route('user.saveSettings')" method="PATCH">
+                        @bind($user)
+                        <x-form-group name="airport_view" :label="__('Default airport view')">
+                            <x-form-radio name="airport_view" value="0"
+                                :label="__('Name') . ': Amsterdam Airport Schiphol - EHAM | [AMS]'" required />
+                            <x-form-radio name="airport_view" value="1"
+                                :label="__('ICAO') . ': EHAM - Amsterdam Airport Schiphol | [AMS]'" required />
+                            <x-form-radio name="airport_view" value="2"
+                                :label="__('IATA') . ': AMS - Amsterdam Airport Schiphol | [EHAM]'" required />
+                        </x-form-group>
 
-                        {{--Default Airport Name--}}
-                        <div class="form-group row">
-                            <label for="airport_view" class="col-md-4 col-form-label text-md-right"> <abbr
-                                    title="Let's you choose how you want to see airports on the booking pages. Left side shows what you see by default, and on the right (separated with a '-') if you mouse over it">Default
-                                    Airport View</abbr></label>
+                        <x-form-group name="use_monospace_font" :label="__('Use monospace font')" inline>
+                            <x-form-radio name="use_monospace_font" value="0" :label="__('No')" required />
+                            <x-form-radio name="use_monospace_font" value="1" :label="__('Yes')" required />
+                        </x-form-group>
 
-                            <div class="col-md-6">
-                                <div class="custom-control custom-control-inline custom-radio">
-                                    <input type="radio" value="0" id="airport_view0" name="airport_view"
-                                           class="custom-control-input" {{ old('airport_view', $user->airport_view) == 0 ? 'checked' : '' }}>
-                                    <label class="custom-control-label" for="airport_view0"><abbr
-                                            title="Amsterdam Airport Schiphol - EHAM | [AMS]">Name</abbr></label>
-                                </div>
-                                <div class="custom-control custom-control-inline custom-radio">
-                                    <input type="radio" value="1" id="airport_view1" name="airport_view"
-                                           class="custom-control-input" {{ old('airport_view', $user->airport_view) == 1 ? 'checked' : '' }}>
-                                    <label class="custom-control-label" for="airport_view1"><abbr
-                                            title="EHAM - Amsterdam Airport Schiphol | [AMS]">ICAO</abbr></label>
-                                </div>
-                                <div class="custom-control custom-control-inline custom-radio">
-                                    <input type="radio" value="2" id="airport_view2" name="airport_view"
-                                           class="custom-control-input" {{ old('airport_view', $user->airport_view) == 2 ? 'checked' : '' }}>
-                                    <label class="custom-control-label" for="airport_view2"><abbr
-                                            title="AMS - Amsterdam Airport Schiphol | [EHAM]">IATA</abbr></label>
-                                </div>
-                            </div>
-                        </div>
-
-                        {{--Use monspace font--}}
-                        <div class="form-group row">
-                            <label for="use_monospace_font" class="col-md-4 col-form-label text-md-right"> <abbr
-                                    title="This font will be used on the Callsign and Aircraft in the Slot table">Use
-                                    monospace font</abbr></label>
-
-                            <div class="col-md-6">
-                                <div class="custom-control custom-control-inline custom-radio">
-                                    <input type="radio" value="0" id="use_monospace_font0" name="use_monospace_font"
-                                           class="custom-control-input" {{ old('use_monospace_font', $user->use_monospace_font) == 0 ? 'checked' : '' }}>
-                                    <label class="custom-control-label" for="use_monospace_font0">No</label>
-                                </div>
-                                <div class="custom-control custom-control-inline custom-radio">
-                                    <input type="radio" value="1" id="use_monospace_font1" name="use_monospace_font"
-                                           class="custom-control-input" {{ old('use_monospace_font', $user->use_monospace_font) == 1 ? 'checked' : '' }}>
-                                    <label class="custom-control-label" for="use_monospace_font1">Yes</label>
-                                </div>
-                            </div>
-                        </div>
-
-                        {{--Save--}}
-                        <div class="form-group row mb-0">
-                            <div class="col-md-6 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
-                                    <i class="fas fa-save"></i> Save settings
-                                </button>
-                            </div>
-                        </div>
-                    </form>
+                        <x-form-submit>
+                            <i class="fas fa-save"></i> Save settings
+                        </x-form-submit>
+                        @endbind
+                    </x-form>
                 </div>
             </div>
         </div>
