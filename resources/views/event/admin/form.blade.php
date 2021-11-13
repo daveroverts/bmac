@@ -84,19 +84,26 @@
                             :placeholder="__('Choose...')" required />
 
                         <x-form-group :label="__('Event date time (UTC)')" inline>
-                            <x-form-input name="dateEvent" class="datepicker" :label="__('Date')" />
-                            <x-form-input name="timeBeginEvent" type="time" :label="__('Begin')" />
-                            <x-form-input name="timeEndEvent" type="time" :label="__('End')" />
+                            <x-form-input name="dateEvent" class="datepicker"
+                                :label="'<i class=\'fa fa-calendar\'></i> ' . __('Date')" />
+                            <x-form-input name="timeBeginEvent" type="time"
+                                :label="'<i class=\'fa fa-clock\'></i> ' . __('Begin')" />
+                            <x-form-input name="timeEndEvent" type="time"
+                                :label="'<i class=\'fa fa-clock\'></i> ' . __('End')" />
                         </x-form-group>
 
                         <x-form-group :label="__('Start Bookings (UTC)')" inline>
-                            <x-form-input name="dateBeginBooking" class="datepicker" :label="__('Date')" />
-                            <x-form-input name="timeBeginBooking" type="time" :label="__('Begin')" />
+                            <x-form-input name="dateBeginBooking" class="datepicker"
+                                :label="'<i class=\'fa fa-calendar\'></i> ' . __('Date')" />
+                            <x-form-input name="timeBeginBooking" type="time"
+                                :label="'<i class=\'fa fa-clock\'></i> ' . __('Begin')" />
                         </x-form-group>
 
                         <x-form-group :label="__('End Bookings (UTC)')" inline>
-                            <x-form-input name="dateEndBooking" class="datepicker" :label="__('Date')" />
-                            <x-form-input name="timeEndBooking" type="time" :label="__('End')" />
+                            <x-form-input name="dateEndBooking" class="datepicker"
+                                :label="'<i class=\'fa fa-calendar\'></i> ' . __('Date')" />
+                            <x-form-input name="timeEndBooking" type="time"
+                                :label="'<i class=\'fa fa-clock\'></i> ' . __('End')" />
                         </x-form-group>
 
                         <x-form-input name="image_url" :label="__('Image URL')" placeholder="https://example.org" />
