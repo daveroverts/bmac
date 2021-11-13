@@ -4,7 +4,7 @@
     <x-forms.alert />
     @push('scripts')
         <script>
-            $('.cancel-booking').on('click', function (e) {
+            $('.cancel-booking').on('click', function(e) {
                 e.preventDefault();
                 Swal.fire({
                     title: 'Are you sure',
@@ -28,39 +28,41 @@
                     My {{ $booking->status === \App\Enums\BookingStatus::BOOKED ? 'Booking' : 'Reservation' }}</div>
 
                 <div class="card-body">
-                    @foreach($booking->flights as $flight)
+                    @foreach ($booking->flights as $flight)
                         <div class="form-group row">
                             <label for="ctot" class="col-md-4 col-form-label text-md-right"> <strong>Leg
                                     #{{ $loop->iteration }}</strong></label>
                         </div>
 
-                        @if($booking->event->uses_times)
-                            @if($flight->getRawOriginal('ctot'))
-                                {{--CTOT--}}
+                        @if ($booking->event->uses_times)
+                            @if ($flight->getRawOriginal('ctot'))
+                                {{-- CTOT --}}
                                 <div class="form-group row">
                                     <label for="ctot" class="col-md-4 col-form-label text-md-right"> CTOT</label>
 
                                     <div class="col-md-6">
-                                        <div class="form-control-plaintext"><strong>{{ $flight->formattedCtot }}</strong></div>
+                                        <div class="form-control-plaintext"><strong>{{ $flight->formattedCtot }}</strong>
+                                        </div>
 
                                     </div>
                                 </div>
                             @endif
 
-                            @if($flight->getRawOriginal('eta'))
-                                {{--ETA--}}
+                            @if ($flight->getRawOriginal('eta'))
+                                {{-- ETA --}}
                                 <div class="form-group row">
                                     <label for="ctot" class="col-md-4 col-form-label text-md-right"> ETA</label>
 
                                     <div class="col-md-6">
-                                        <div class="form-control-plaintext"><strong>{{ $flight->formattedEta }}</strong></div>
+                                        <div class="form-control-plaintext"><strong>{{ $flight->formattedEta }}</strong>
+                                        </div>
 
                                     </div>
                                 </div>
                             @endif
                         @endif
 
-                        {{--ADEP--}}
+                        {{-- ADEP --}}
                         <div class="form-group row">
                             <label for="adep" class="col-md-4 col-form-label text-md-right">ADEP</label>
 
@@ -74,7 +76,7 @@
                             </div>
                         </div>
 
-                        {{--ADES--}}
+                        {{-- ADES --}}
                         <div class="form-group row">
                             <label for="ades" class="col-md-4 col-form-label text-md-right">ADES</label>
 
@@ -88,7 +90,7 @@
                             </div>
                         </div>
 
-                        {{--Route--}}
+                        {{-- Route --}}
                         <div class="form-group row">
                             <label for="route" class="col-md-4 col-form-label text-md-right">Route</label>
 
@@ -100,8 +102,8 @@
                             </div>
                         </div>
 
-                        @if($flight->getRawOriginal('notes'))
-                            {{--Notes--}}
+                        @if ($flight->getRawOriginal('notes'))
+                            {{-- Notes --}}
                             <div class="form-group row">
                                 <label for="notes" class="col-md-4 col-form-label text-md-right">Notes</label>
 
@@ -117,16 +119,16 @@
                     @endforeach
 
 
-                    {{--Callsign--}}
+                    {{-- Callsign --}}
                     <div class="form-group row">
                         <label for="callsign" class="col-md-4 col-form-label text-md-right">Callsign</label>
 
                         <div class="col-md-6">
-                            <div class="form-control-plaintext"><strong>{{ $booking->callsign }}</strong></div>
+                            <div class="form-control-plaintext"><strong>{{ $booking->formatted_callsign }}</strong></div>
                         </div>
                     </div>
 
-                    {{--PIC--}}
+                    {{-- PIC --}}
                     <div class="form-group row">
                         <label for="pic" class="col-md-4 col-form-label text-md-right">PIC</label>
 
@@ -137,51 +139,49 @@
                         </div>
                     </div>
 
-                    {{--Aircraft--}}
+                    {{-- Aircraft --}}
                     <div class="form-group row">
                         <label for="aircraft" class="col-md-4 col-form-label text-md-right">Aircraft</label>
 
                         <div class="col-md-6">
-                            <div class="form-control-plaintext"><strong>{{ $booking->acType }}</strong></div>
+                            <div class="form-control-plaintext"><strong>{{ $booking->formatted_actype }}</strong></div>
                         </div>
                     </div>
 
-                    @foreach($booking->event->links as $link)
+                    @foreach ($booking->event->links as $link)
                         <div class="form-group row">
                             <label for="{{ $link->type->name . '-' . $loop->index }}"
-                                   class="col-md-4 col-form-label text-md-right">{{ $link->name ?? $link->type->name}}</label>
+                                class="col-md-4 col-form-label text-md-right">{{ $link->name ?? $link->type->name }}</label>
 
                             <div class="col-md-6">
-                                <div class="form-control-plaintext"><a
-                                        href="{{ $link->url }}"
-                                        target="_blank">Link</a></div>
+                                <div class="form-control-plaintext"><a href="{{ $link->url }}" target="_blank">Link</a>
+                                </div>
                             </div>
                         </div>
                     @endforeach
 
-                    @foreach($booking->uniqueAirports() as $airport)
-                        @foreach($airport->links as $link)
+                    @foreach ($booking->uniqueAirports() as $airport)
+                        @foreach ($airport->links as $link)
                             <div class="form-group row">
                                 <label for="{{ $link->type->name . $link->airport->icao . '-' . $loop->index }}"
-                                       class="col-md-4 col-form-label text-md-right">{{ $link->name ?? $link->type->name . ' ' . $link->airport->icao }}</label>
+                                    class="col-md-4 col-form-label text-md-right">{{ $link->name ?? $link->type->name . ' ' . $link->airport->icao }}</label>
 
                                 <div class="col-md-6">
-                                    <div class="form-control-plaintext"><a
-                                            href="{{ $link->url }}"
+                                    <div class="form-control-plaintext"><a href="{{ $link->url }}"
                                             target="_blank">Link</a></div>
                                 </div>
                             </div>
                         @endforeach
                     @endforeach
 
-                    {{--Edit Booking--}}
+                    {{-- Edit Booking --}}
                     <div class="form-group row mb-0">
                         <div class="col-md-7 offset-md-3">
-                            @if($booking->is_editable)
-                                <a href="{{ route('bookings.edit',$booking) }}" class="btn btn-primary">Edit Booking</a>
+                            @if ($booking->is_editable)
+                                <a href="{{ route('bookings.edit', $booking) }}" class="btn btn-primary">Edit Booking</a>
                                 &nbsp;
                             @endif
-                            {{--Cancel Booking--}}
+                            {{-- Cancel Booking --}}
                             <form method="post" action="{{ route('bookings.cancel', $booking) }}">
                                 @csrf
                                 @method('PATCH')

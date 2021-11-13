@@ -25,14 +25,14 @@ For reference, your booking details are listed below.
 | Arrives: | **{{ $booking->flights()->first()->airportArr->icao }}** |
 @endif
 @if($booking->event->is_oceanic_event)
-| Cruising: | **{{ $booking->flights()->first()->oceanicFL }}** |
+| Cruising: | **{{ $booking->flights()->first()->formatted_oceanicfl }}** |
 | SELCAL: | **{{ $booking->selcal }}** |
 @endif
 @if(!empty($booking->flights()->first()->route))
 | Route: | **{{ $booking->flights()->first()->route }}** |
 @endif
 @if(!empty($booking->flights()->first()->notes))
-| Notes: | **{{ $booking->flights()->first()->notes }}** |
+| Notes: | **{{ $booking->flights()->first()->formatted_notes }}** |
 @endif
 | Aircraft: | **{{ $booking->acType }}** |
 @if($booking->event->uses_times)

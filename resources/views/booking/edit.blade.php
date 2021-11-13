@@ -10,82 +10,84 @@
                     My {{ $booking->status === \App\Enums\BookingStatus::BOOKED ? 'Booking' : 'Reservation' }}</div>
 
                 <div class="card-body">
-                    <form method="POST" action="{{ route('bookings.update',$booking) }}">
+                    <form method="POST" action="{{ route('bookings.update', $booking) }}">
                         @csrf
                         @method('PATCH')
 
-                        {{--Callsign--}}
+                        {{-- Callsign --}}
                         <div class="form-group row">
                             <label for="callsign" class="col-md-4 col-form-label text-md-right"> Callsign</label>
 
                             <div class="col-md-6">
-                                @if(!$booking->is_editable)
-                                    <div class="form-control-plaintext"><strong>{{ $booking->callsign }}</strong></div>
+                                @if (!$booking->is_editable)
+                                    <div class="form-control-plaintext"><strong>{{ $booking->formatted_callsign }}</strong>
+                                    </div>
                                 @else
                                     <input id="callsign" type="text"
-                                           class="form-control{{ $errors->has('callsign') ? ' is-invalid' : '' }}"
-                                           name="callsign"
-                                           value="{{ old('callsign', $booking->getRawOriginal('callsign')) }}" required
-                                           autofocus max="7">
+                                        class="form-control{{ $errors->has('callsign') ? ' is-invalid' : '' }}"
+                                        name="callsign" value="{{ old('callsign', $booking->callsign) }}" required
+                                        autofocus max="7">
                                 @endif
                             </div>
                         </div>
 
-                        @if($booking->event->uses_times)
-                            @if($flight->getRawOriginal('ctot'))
-                                {{--CTOT--}}
+                        @if ($booking->event->uses_times)
+                            @if ($flight->getRawOriginal('ctot'))
+                                {{-- CTOT --}}
                                 <div class="form-group row">
                                     <label for="ctot" class="col-md-4 col-form-label text-md-right"> CTOT</label>
 
                                     <div class="col-md-6">
-                                        <div class="form-control-plaintext"><strong>{{ $flight->formattedCtot }}</strong></div>
+                                        <div class="form-control-plaintext"><strong>{{ $flight->formattedCtot }}</strong>
+                                        </div>
 
                                     </div>
                                 </div>
                             @endif
 
-                            @if($flight->getRawOriginal('eta'))
-                                {{--ETA--}}
+                            @if ($flight->getRawOriginal('eta'))
+                                {{-- ETA --}}
                                 <div class="form-group row">
                                     <label for="eta" class="col-md-4 col-form-label text-md-right"> ETA</label>
 
                                     <div class="col-md-6">
-                                        <div class="form-control-plaintext"><strong>{{ $flight->formattedEta }}</strong></div>
+                                        <div class="form-control-plaintext"><strong>{{ $flight->formattedEta }}</strong>
+                                        </div>
 
                                     </div>
                                 </div>
                             @endif
                         @endif
 
-                        {{--ADEP--}}
-                        @if($flight->dep)
-                        <div class="form-group row">
-                            <label for="adep" class="col-md-4 col-form-label text-md-right">ADEP</label>
+                        {{-- ADEP --}}
+                        @if ($flight->dep)
+                            <div class="form-group row">
+                                <label for="adep" class="col-md-4 col-form-label text-md-right">ADEP</label>
 
-                            <div class="col-md-6">
-                                <div class="form-control-plaintext"><strong><abbr
-                                            title="{{ $flight->airportDep->name }}">{{ $flight->airportDep->icao }}</abbr></strong>
+                                <div class="col-md-6">
+                                    <div class="form-control-plaintext"><strong><abbr
+                                                title="{{ $flight->airportDep->name }}">{{ $flight->airportDep->icao }}</abbr></strong>
+                                    </div>
+
                                 </div>
-
                             </div>
-                        </div>
                         @endif
 
-                        {{--ADES--}}
-                        @if($flight->arr)
-                        <div class="form-group row">
-                            <label for="ades" class="col-md-4 col-form-label text-md-right">ADES</label>
+                        {{-- ADES --}}
+                        @if ($flight->arr)
+                            <div class="form-group row">
+                                <label for="ades" class="col-md-4 col-form-label text-md-right">ADES</label>
 
-                            <div class="col-md-6">
-                                <div class="form-control-plaintext"><strong><abbr
-                                            title="{{ $flight->airportArr->name }}">{{ $flight->airportArr->icao }}</abbr></strong>
+                                <div class="col-md-6">
+                                    <div class="form-control-plaintext"><strong><abbr
+                                                title="{{ $flight->airportArr->name }}">{{ $flight->airportArr->icao }}</abbr></strong>
+                                    </div>
+
                                 </div>
-
                             </div>
-                        </div>
                         @endif
 
-                        {{--PIC--}}
+                        {{-- PIC --}}
                         <div class="form-group row">
                             <label for="pic" class="col-md-4 col-form-label text-md-right">PIC</label>
 
@@ -96,7 +98,7 @@
                             </div>
                         </div>
 
-                        {{--Route--}}
+                        {{-- Route --}}
                         <div class="form-group row">
                             <label for="route" class="col-md-4 col-form-label text-md-right">Route</label>
 
@@ -109,7 +111,7 @@
                         </div>
 
                         @if ($flight->getRawOriginal('notes'))
-                            {{--Notes--}}
+                            {{-- Notes --}}
                             <div class="form-group row">
                                 <label for="notes" class="col-md-4 col-form-label text-md-right">Notes</label>
 
@@ -122,8 +124,8 @@
                             </div>
                         @endif
 
-                        @if($booking->event->is_oceanic_event)
-                            {{--Track--}}
+                        @if ($booking->event->is_oceanic_event)
+                            {{-- Track --}}
                             <div class="form-group row">
                                 <label for="track" class="col-md-4 col-form-label text-md-right">Track</label>
 
@@ -135,76 +137,76 @@
                                 </div>
                             </div>
 
-                            {{--Oceanic Entry FL--}}
+                            {{-- Oceanic Entry FL --}}
                             <div class="form-group row">
                                 <label for="track" class="col-md-4 col-form-label text-md-right">Oceanic Entry
                                     FL</label>
 
                                 <div class="col-md-6">
-                                    <div class="form-control-plaintext"><strong>{{ $flight->oceanicFL }}</strong></div>
+                                    <div class="form-control-plaintext">
+                                        <strong>{{ $flight->formatted_oceanicfl }}</strong></div>
 
                                 </div>
                             </div>
                         @endif
 
-                        {{--Aircraft--}}
+                        {{-- Aircraft --}}
                         <div class="form-group row">
                             <label for="aircraft" class="col-md-4 col-form-label text-md-right"> Aircraft code</label>
 
                             <div class="col-md-6">
-                                @if(!$booking->is_editable)
-                                    <div class="form-control-plaintext"><strong>{{ $booking->acType }}</strong></div>
+                                @if (!$booking->is_editable)
+                                    <div class="form-control-plaintext"><strong>{{ $booking->formatted_actype }}</strong>
+                                    </div>
                                 @else
                                     <input id="aircraft" type="text"
-                                           class="form-control{{ $errors->has('aircraft') ? ' is-invalid' : '' }}"
-                                           name="aircraft"
-                                           value="{{ old('aircraft', $booking->getRawOriginal('acType')) }}" required
-                                           max="4">
+                                        class="form-control{{ $errors->has('aircraft') ? ' is-invalid' : '' }}"
+                                        name="aircraft" value="{{ old('aircraft', $booking->acType) }}" required max="4">
                                 @endif
                             </div>
                         </div>
 
-                        @if($booking->event->is_oceanic_event)
-                            {{--SELCAL--}}
+                        @if ($booking->event->is_oceanic_event)
+                            {{-- SELCAL --}}
                             <div class="form-group form-row align-items-center">
                                 <label for="selcal" class="col-md-4 col-form-label text-md-right"> Selcal</label>
                                 <div class="col-sm-3 my-1">
                                     <label class="sr-only" for="selcal1"></label>
                                     <input type="text" class="form-control" id="selcal1" name="selcal1" placeholder="AB"
-                                           min="2" max="2"
-                                           value="{{ old('selcal1',substr($booking->getRawOriginal('selcal'),0,2)) }}">
+                                        min="2" max="2"
+                                        value="{{ old('selcal1', substr($booking->getRawOriginal('selcal'), 0, 2)) }}">
                                 </div>
                                 -
                                 <div class="col-sm-3 my-1">
                                     <label class="sr-only" for="selcal2"></label>
                                     <input type="text" class="form-control" id="selcal2" name="selcal2" placeholder="CD"
-                                           min="2" max="2"
-                                           value="{{ old('selcal2',substr($booking->getRawOriginal('selcal'),3,5)) }}">
+                                        min="2" max="2"
+                                        value="{{ old('selcal2', substr($booking->getRawOriginal('selcal'), 3, 5)) }}">
                                 </div>
                             </div>
                         @endif
 
-                        @if($booking->status === \App\Enums\BookingStatus::RESERVED)
-                            {{--Study--}}
+                        @if ($booking->status === \App\Enums\BookingStatus::RESERVED)
+                            {{-- Study --}}
                             <div class="form-group row">
                                 <div class="col-md-8 offset-md-3">
                                     <div class="custom-control custom-checkbox">
                                         <input type="hidden" name="checkStudy" value="0">
                                         <input class="custom-control-input" id="checkStudy" type="checkbox"
-                                               name="checkStudy" value="1">
+                                            name="checkStudy" value="1">
                                         <label class="custom-control-label" for="checkStudy">I agree to study the
                                             provided briefing material</label>
                                     </div>
                                 </div>
                             </div>
 
-                            {{--Charts--}}
+                            {{-- Charts --}}
                             <div class="form-group row">
                                 <div class="col-md-8 offset-md-3">
                                     <div class="custom-control custom-checkbox">
                                         <input type="hidden" name="checkCharts" value="0">
                                         <input class="custom-control-input" id="checkCharts" type="checkbox"
-                                               name="checkCharts" value="1">
+                                            name="checkCharts" value="1">
                                         <label class="custom-control-label" for="checkCharts">I agree to have the
                                             applicable charts at hand during the event</label>
                                     </div>
@@ -212,15 +214,15 @@
                             </div>
                         @endif
 
-                        {{--Add--}}
+                        {{-- Add --}}
                         <div class="form-group row mb-0">
                             <div class="col-md-6 offset-md-4">
                                 <button type="submit" class="btn btn-primary">
                                     <i class="fas fa-check"></i> {{ $booking->bookedBy ? 'Edit' : 'Confirm' }} Booking
                                 </button>&nbsp;
-                                @if($booking->status === \App\Enums\BookingStatus::RESERVED)
-                                    <a href="{{ route('bookings.cancel',$booking) }}" class="btn btn-danger"
-                                       onclick="event.preventDefault(); document.getElementById('cancel-form').submit();"><i
+                                @if ($booking->status === \App\Enums\BookingStatus::RESERVED)
+                                    <a href="{{ route('bookings.cancel', $booking) }}" class="btn btn-danger"
+                                        onclick="event.preventDefault(); document.getElementById('cancel-form').submit();"><i
                                             class="fa fa-times"></i> Cancel Reservation</a>
                                 @endif
                             </div>
@@ -228,7 +230,7 @@
                     </form>
 
                     <form id="cancel-form" action="{{ route('bookings.cancel', $booking) }}" method="post"
-                          style="display: none;">
+                        style="display: none;">
                         @csrf
                         @method('PATCH')
                     </form>

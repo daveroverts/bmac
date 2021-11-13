@@ -19,15 +19,16 @@ use Spatie\Activitylog\Traits\LogsActivity;
  * @property-read int|null $activities_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Event[] $events
  * @property-read int|null $events_count
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Faq newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Faq newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Faq query()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Faq whereAnswer($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Faq whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Faq whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Faq whereIsOnline($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Faq whereQuestion($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Faq whereUpdatedAt($value)
+ * @method static \Database\Factories\FaqFactory factory(...$parameters)
+ * @method static \Illuminate\Database\Eloquent\Builder|Faq newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Faq newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Faq query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Faq whereAnswer($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Faq whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Faq whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Faq whereIsOnline($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Faq whereQuestion($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Faq whereUpdatedAt($value)
  * @mixin \Eloquent
  */
 class Faq extends Model

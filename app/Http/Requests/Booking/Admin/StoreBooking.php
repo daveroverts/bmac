@@ -18,7 +18,7 @@ class StoreBooking extends Request
             'bulk' => 'required|boolean',
             'is_editable' => 'required|boolean',
             'callsign' => 'nullable|alpha_num|between:4,7',
-            'aircraft' => 'nullable|alpha_num|between:3,4',
+            'acType' => 'nullable|alpha_num|between:3,4',
             'ctot' => 'sometimes|nullable',
             'eta' => 'sometimes|nullable',
             'route' => 'sometimes|nullable',
@@ -29,6 +29,32 @@ class StoreBooking extends Request
             'separation' => 'sometimes|numeric|min:1',
             'oceanicFL' => 'sometimes|nullable|integer:3',
             'notes' => 'nullable',
+        ];
+    }
+
+    /**
+     * Get custom attributes for validator errors.
+     *
+     * @return array
+     */
+    public function attributes()
+    {
+        return [
+            'id' => __('Event id'),
+            'bulk' => __('Bulk'),
+            'is_editable' => __('Editable?'),
+            'callsign' => __('Callsign'),
+            'acType' => __('Aircraft code'),
+            'ctot' => __('CTOT'),
+            'eta' => __('ETA'),
+            'route' => __('Route'),
+            'dep' => __('Departure airport'),
+            'arr' => __('Arrival airport'),
+            'start' => __('Start'),
+            'end' => __('End'),
+            'separation' => __('Separation (in minutes)'),
+            'oceanicFL' => __('Oceanic Entry Level') . ' / ' . __('Cruise FL'),
+            'notes' => __('Notes'),
         ];
     }
 }

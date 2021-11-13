@@ -8,10 +8,10 @@ Thanks for booking a slot for the {{ $booking->event->name }} event. Here you ca
 @component('mail::table')
 |  |  |
 |-----------|---------------------------|
-| Callsign: | **{{ $booking->callsign }}** |
-| Aircraft: | **{{ $booking->acType }}** |
+| Callsign: | **{{ $booking->formatted_callsign }}** |
+| Aircraft: | **{{ $booking->formatted_actype }}** |
 @if($booking->getRawOriginal('selcal') != null)
-| SELCAL: | **{{ $booking->selcal }}** |
+| SELCAL: | **{{ $booking->formatted_selcal }}** |
 @endif
 @if($flight->dep)
 | From: | **{{ $flight->airportDep->icao  }}** |
@@ -30,7 +30,7 @@ Thanks for booking a slot for the {{ $booking->event->name }} event. Here you ca
 @endisset
 @if($booking->event->is_oceanic_event)
 @if($flight->getRawOriginal('oceanicFL') != null)
-| Oceanic Entry Level: | **FL{{ $flight->getRawOriginal('oceanicFL') }}** |
+| Oceanic Entry Level: | **{{ $flight->formatted_oceanicfl }}** |
 @endif
 @if($flight->getRawOriginal('oceanicTrack') != null)
 | NAT Track: | **{{ $flight->oceanicTrack }}** |
@@ -38,7 +38,7 @@ Thanks for booking a slot for the {{ $booking->event->name }} event. Here you ca
 | NAT TMI: | **{{ $booking->event->startEvent->dayOfYear }}** |
 @else
 @if($flight->getRawOriginal('oceanicFL') != null)
-| Cruise FL: | **FL{{ $flight->getRawOriginal('oceanicFL') }}** |
+| Cruise FL: | **{{ $flight->formatted_oceanicfl }}** |
 @endif
 @endif
 @endcomponent

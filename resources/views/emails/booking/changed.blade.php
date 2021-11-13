@@ -32,7 +32,7 @@ Your booking for the **{{ $booking->event->name }}** event has been amended, ple
 | Track: | **{{ $change['new'] }}** | (was {{ $change['old'] }}) |
 @break
 @case('oceanicFL')
-| Oceanic Entry FL: | **FL{{ $change['new'] }}** | (was FL{{ $change['old'] }}) |
+| {{ $booking->event->is_oceanic_event ? __('Oceanic Entry FL') : __('Cruise FL') }}: | **FL{{ $change['new'] }}** | (was FL{{ $change['old'] }}) |
 @break
 @case('acType')
 | Aircraft code: | **{{ $change['new'] }}** | (was {{ $change['old'] }}) |
