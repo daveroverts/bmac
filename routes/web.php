@@ -64,7 +64,7 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin', 'middleware' => 'auth.isAdm
         '{event}/bookings/auto-assign',
         [BookingAdminController::class, 'adminAutoAssignForm']
     )->name('bookings.autoAssignForm');
-    Route::patch(
+    Route::post(
         '{event}/bookings/auto-assign',
         [BookingAdminController::class, 'adminAutoAssign']
     )->name('bookings.autoAssign');

@@ -356,7 +356,7 @@ class BookingAdminController extends AdminController
             }
             $flight->save();
         }
-        flashMessage('success', 'Bookings changed', __(':count bookings have been Auto-Assigned a FL, and route', ['count' => $count]));
+        flashMessage('success', __('Bookings changed'), __(':count bookings have been Auto-Assigned a FL, and route', ['count' => $count]));
         activity()
             ->by(auth()->user())
             ->on($event)
@@ -388,7 +388,7 @@ class BookingAdminController extends AdminController
         $file = $request->file('file');
         (new FlightRouteAssign)->import($file);
         Storage::delete($file);
-        flashMessage('success', 'Routes assigned', __('Routes have been assigned to flights'));
+        flashMessage('success', __('Routes assigned'), __('Routes have been assigned to flights'));
         return redirect(route('bookings.event.index', $event));
     }
 }
