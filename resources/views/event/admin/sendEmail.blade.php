@@ -5,17 +5,17 @@
     @include('layouts.alert')
     @push('scripts')
         <script>
-            $('.send-final-email').on('click', function (e) {
+            $('.send-final-email').on('click', function(e) {
                 e.preventDefault();
                 if ($('#testmode1').prop('checked')) {
                     Swal.fire('Sending test Email...');
                     Swal.showLoading();
                     var url = '{{ route('admin.events.email.final', $event) }}';
                     axios.post(url, {
-                        'testmode': 1,
-                        '_method': 'PATCH',
-                    })
-                        .then(function (response) {
+                            'testmode': 1,
+                            '_method': 'PATCH',
+                        })
+                        .then(function(response) {
                             Swal.fire(response.data.success);
                         });
                 } else {
@@ -34,19 +34,19 @@
                 }
             });
 
-            $('.send-email').on('click', function (e) {
+            $('.send-email').on('click', function(e) {
                 e.preventDefault();
                 if ($('#testmode2').prop('checked')) {
                     Swal.fire('Sending test Email...');
                     Swal.showLoading();
                     var url = '{{ route('admin.events.email', $event) }}';
                     axios.post(url, {
-                        'subject': $('#subject').val(),
-                        'message': tinymce.activeEditor.getContent(),
-                        'testmode': 1,
-                        '_method': 'PATCH',
-                    })
-                        .then(function (response) {
+                            'subject': $('#subject').val(),
+                            'message': tinymce.activeEditor.getContent(),
+                            'testmode': 1,
+                            '_method': 'PATCH',
+                        })
+                        .then(function(response) {
                             console.log(response);
                             Swal.fire(response.data.success);
                         });
@@ -71,79 +71,59 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">{{ $event->name }} | Send Bulk E-mail</div>
+                <div class="card-header">{{ $event->name }} | {{ __('Send Bulk E-mail') }}</div>
 
                 <div class="card-body">
 
-                    <form method="POST" action="{{ route('admin.events.email.final', $event) }}">
-                        @csrf
-                        @method('PATCH')
-                        {{--Send Final Information E-mail--}}
-                        <div class="form-group row">
-                            <label class="col-md-4 col-form-label text-md-right"></label>
-
-                            <div class="col-md-6">
-                                <button class="btn btn-primary send-final-email">
-                                    <i class="fa fa-envelope"></i> Send <strong>Final Information</strong> E-mail
-                                </button>
-                                <div class="custom-control custom-checkbox">
-                                    <input type="checkbox" class="custom-control-input" id="testmode1">
-                                    <label class="custom-control-label" for="testmode1">Test mode</label>
-                                </div>
-                                <div class="custom-control custom-checkbox">
-                                    <input type="checkbox" class="custom-control-input" id="force-send" name="forceSend">
-                                    <label class="custom-control-label" for="force-send"><abbr
-                                            title="Send to all particpants, even though they already received it (and no edit was made)">Send to everybody</abbr></label>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
+                    <x-form :action="route('admin.events.email.final', $event)" method="PATCH">
+                        <x-form-group inline>
+                            <x-form-checkbox name="testmode1" id="testmode1" :label="__('Test mode')">
+                                @slot('help')
+                                    <small class="form-text text-muted">
+                                        {{ __('Send a random Final Information E-mail to yourself') }}
+                                    </small>
+                                @endslot
+                            </x-form-checkbox>
+                            <x-form-checkbox name="forceSend" :label="__('Send to everybody')">
+                                @slot('help')
+                                    <small class="form-text text-muted">
+                                        {{ __('Send to all particpants, even though they already received it (and no edit was made)') }}
+                                    </small>
+                                @endslot
+                            </x-form-checkbox>
+                        </x-form-group>
+                        <x-form-submit class="send-final-email">
+                            <i class="fa fa-envelope"></i> {!! __('Send <strong>Final Information</strong> E-mail') !!}
+                        </x-form-submit>
+                    </x-form>
 
                     <hr>
 
-                    <form method="POST" action="{{ route('admin.events.email', $event) }}">
-                        @csrf
-                        @method('PATCH')
+                    <x-form :action="route('admin.events.email', $event)" method="PATCH">
+                        <x-form-input name="subject" id="subject" :label="__('Subject')" required />
+                        <x-form-textarea name="message" :label="__('Message')" class="tinymce">
+                            @slot('help')
+                                <small class="form-text text-muted">
+                                    {{ __('Salutation and closing are already included') }}
+                                </small>
+                            @endslot
+                        </x-form-textarea>
 
-                        {{--Subject--}}
-                        <div class="form-group row">
-                            <label for="subject" class="col-md-4 col-form-label text-md-right"> Subject</label>
+                        <x-form-group>
+                            <x-form-checkbox name="testmode" id="testmode2" :label="__('Test mode')">
+                                @slot('help')
+                                    <small class="form-text text-muted">
+                                        {{ __('Send a E-mail to yourself') }}
+                                    </small>
+                                @endslot
+                            </x-form-checkbox>
+                        </x-form-group>
 
-                            <div class="col-md-6">
-                                <input id="subject" type="text"
-                                       class="form-control{{ $errors->has('subject') ? ' is-invalid' : '' }}"
-                                       name="subject"
-                                       value="{{ old('subject') }}" required autofocus>
+                        <x-form-submit class="send-email">
+                            <i class="fa fa-envelope"></i> {{ __('Send E-mail') }}
+                        </x-form-submit>
+                    </x-form>
 
-                                @if ($errors->has('subject'))
-                                    <span class="invalid-feedback">
-                                        <strong>{{ $errors->first('subject') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-
-                        {{-- Description --}}
-                        <div>
-                            <textarea class="tinymce" name="message"
-                                      rows="10">{!! old(html_entity_decode('message')) !!}</textarea>
-                        </div>
-
-                        {{--Send--}}
-                        <div class="form-group row mb-0">
-                            <div class="col-md-6 offset-md-4">
-                                <button type="submit" class="btn btn-primary send-email">
-                                    <i class="fas fa-envelope"></i> Send E-mail
-                                </button>
-                            </div>
-                            <div class="col-md-6 offset-md-4">
-                                <div class="custom-control custom-checkbox">
-                                    <input type="checkbox" class="custom-control-input" id="testmode2">
-                                    <label class="custom-control-label" for="testmode2">Test mode</label>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
                 </div>
             </div>
         </div>
