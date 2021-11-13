@@ -102,7 +102,7 @@ class EventAdminController extends AdminController
             ),
         ])->save();
 
-        flashMessage('success', __('Done'), 'Event has been created!');
+        flashMessage('success', __('Done'), __('Event has been created!'));
         return redirect(route('admin.events.index'));
     }
 
@@ -125,8 +125,12 @@ class EventAdminController extends AdminController
      */
     public function edit(Event $event)
     {
-        $airports = Airport::orderBy('icao')->get();
-        $eventTypes = EventType::all();
+        $airports = Airport::all(['id', 'icao', 'iata', 'name'])->keyBy('id')
+            ->map(function ($airport) {
+                /** @var Airport $airport */
+                return "$airport->icao [$airport->name ($airport->iata )]";
+            });
+        $eventTypes = EventType::all()->pluck('name', 'id');
         return view('event.admin.form', compact('event', 'airports', 'eventTypes'));
     }
 
@@ -171,7 +175,7 @@ class EventAdminController extends AdminController
                 $request->dateEndBooking . ' ' . $request->timeEndBooking
             ),
         ])->save();
-        flashMessage('success', __('Done'), 'Event has been updated!');
+        flashMessage('success', __('Done'), __('Event has been updated!'));
         return redirect(route('admin.events.index'));
     }
 
@@ -186,10 +190,10 @@ class EventAdminController extends AdminController
     {
         if ($event->startEvent > now()) {
             $event->delete();
-            flashMessage('success', __('Done'), $event->name . ' has been deleted!');
+            flashMessage('success', __('Done'), __(':event has been deleted!', ['event' => $event->name]));
             return redirect()->back();
         } else {
-            flashMessage('danger', 'Nope!', 'You cannot remove a event after it has begun!');
+            flashMessage('danger', 'Nope!', __('Event can no longer be deleted!'));
             return redirect()->back();
         }
     }

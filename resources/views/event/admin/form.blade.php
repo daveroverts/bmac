@@ -12,9 +12,9 @@
                         :method="$event->id ? 'PATCH' : 'POST'">
                         @bind($event)
 
-                        <x-form-group name="show_online" :label="__('Show online')" inline>
-                            <x-form-radio name="show_online" value="0" :label="__('No')" required />
-                            <x-form-radio name="show_online" value="1" :label="__('Yes')" required />
+                        <x-form-group name="is_online" :label="__('Show online?')" inline>
+                            <x-form-radio name="is_online" value="0" :label="__('No')" required />
+                            <x-form-radio name="is_online" value="1" :label="__('Yes')" required />
                             @slot('help')
                                 <small class="form-text text-muted">
                                     {{ __("Choose here if you want the event to be reachable by it's generated url") }}
@@ -34,7 +34,7 @@
 
                         <x-form-input name="name" :label="__('Name')" required />
 
-                        <x-form-select name="event_type" :label="__('Type')" :options="$eventTypes"
+                        <x-form-select name="event_type_id" :label="__('Event type')" :options="$eventTypes"
                             :placeholder="__('Choose...')" required />
 
                         <x-form-group name="import_only" :label="__('Only import?')" inline>
@@ -77,33 +77,40 @@
                             @endslot
                         </x-form-group>
 
-                        <x-form-select name="dep" :label="__('Departure Airport')" :options="$airports"
+                        <x-form-select name="dep" :label="__('Departure airport')" :options="$airports"
                             :placeholder="__('Choose...')" required />
 
-                        <x-form-select name="arr" :label="__('Arrival Airport')" :options="$airports"
+                        <x-form-select name="arr" :label="__('Arrival airport')" :options="$airports"
                             :placeholder="__('Choose...')" required />
 
                         <x-form-group :label="__('Event date time (UTC)')" inline>
                             <x-form-input name="dateEvent" class="datepicker"
+                                :value="old('dateEvent', $event->id ? $event->startEvent->format('d-m-Y') : null)"
                                 :label="'<i class=\'fa fa-calendar\'></i> ' . __('Date')" />
                             <x-form-input name="timeBeginEvent" type="time"
-                                :label="'<i class=\'fa fa-clock\'></i> ' . __('Begin')" />
+                                :label="'<i class=\'fa fa-clock\'></i> ' . __('Begin')"
+                                :value="old('timeBeginEvent', $event->id ? $event->startEvent->format('H:i') : null)" />
                             <x-form-input name="timeEndEvent" type="time"
-                                :label="'<i class=\'fa fa-clock\'></i> ' . __('End')" />
+                                :label="'<i class=\'fa fa-clock\'></i> ' . __('End')"
+                                :value="old('timeBeginEvent', $event->id ? $event->endEvent->format('H:i') : null)" />
                         </x-form-group>
 
                         <x-form-group :label="__('Start Bookings (UTC)')" inline>
                             <x-form-input name="dateBeginBooking" class="datepicker"
-                                :label="'<i class=\'fa fa-calendar\'></i> ' . __('Date')" />
+                                :label="'<i class=\'fa fa-calendar\'></i> ' . __('Date')"
+                                :value="old('dateBeginBooking', $event->id ? $event->startBooking->format('d-m-Y') : null)" />
                             <x-form-input name="timeBeginBooking" type="time"
-                                :label="'<i class=\'fa fa-clock\'></i> ' . __('Begin')" />
+                                :label="'<i class=\'fa fa-clock\'></i> ' . __('Begin')"
+                                :value="old('dateBeginBooking', $event->id ? $event->startBooking->format('H:i') : null)" />
                         </x-form-group>
 
                         <x-form-group :label="__('End Bookings (UTC)')" inline>
                             <x-form-input name="dateEndBooking" class="datepicker"
-                                :label="'<i class=\'fa fa-calendar\'></i> ' . __('Date')" />
+                                :label="'<i class=\'fa fa-calendar\'></i> ' . __('Date')"
+                                :value="old('dateEndBooking', $event->id ? $event->endBooking->format('d-m-Y') : null)" />
                             <x-form-input name="timeEndBooking" type="time"
-                                :label="'<i class=\'fa fa-clock\'></i> ' . __('End')" />
+                                :label="'<i class=\'fa fa-clock\'></i> ' . __('End')"
+                                :value="old('dateEndBooking', $event->id ? $event->endBooking->format('H:i') : null)" />
                         </x-form-group>
 
                         <x-form-input name="image_url" :label="__('Image URL')" placeholder="https://example.org" />
