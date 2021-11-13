@@ -59,7 +59,7 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin', 'middleware' => 'auth.isAdm
     Route::get('{event}/bookings/export/{vacc?}', [BookingAdminController::class, 'export'])->name('bookings.export');
     Route::get('{event}/bookings/create/{bulk?}', [BookingAdminController::class, 'create'])->name('bookings.create');
     Route::get('{event}/bookings/import', [BookingAdminController::class, 'importForm'])->name('bookings.importForm');
-    Route::put('{event}/bookings/import', [BookingAdminController::class, 'import'])->name('bookings.import');
+    Route::post('{event}/bookings/import', [BookingAdminController::class, 'import'])->name('bookings.import');
     Route::get(
         '{event}/bookings/auto-assign',
         [BookingAdminController::class, 'adminAutoAssignForm']

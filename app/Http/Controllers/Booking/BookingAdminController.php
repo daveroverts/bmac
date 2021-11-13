@@ -295,7 +295,7 @@ class BookingAdminController extends AdminController
         $file = $request->file('file');
         (new BookingsImport($event))->import($file);
         Storage::delete($file->getRealPath());
-        flashMessage('success', 'Flights imported', __('Flights have been imported'));
+        flashMessage('success', __('Flights imported'), __('Flights have been imported'));
         return redirect(route('bookings.event.index', $event));
     }
 
