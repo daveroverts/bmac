@@ -220,7 +220,7 @@ class EventAdminController extends AdminController
     {
         if ($request->testmode) {
             event(new EventBulkEmail($event, $request->all(), auth()->user()));
-            return response()->json(['success' => 'Email has been sent to yourself']);
+            return response()->json(['success' => __('Email has been sent to yourself')]);
         } else {
             /* @var User $users */
             $users = User::whereHas('bookings', function (Builder $query) use ($event) {
@@ -228,7 +228,7 @@ class EventAdminController extends AdminController
                 $query->where('status', BookingStatus::BOOKED);
             })->get();
             event(new EventBulkEmail($event, $request->all(), $users));
-            flashMessage('success', __('Done'), 'Bulk E-mail has been sent to ' . $users->count() . ' people!');
+            flashMessage('success', __('Done'), __('Bulk E-mail has been sent to :count people!', ['count' => $users->count()]));
             return redirect(route('admin.events.index'));
         }
     }
@@ -248,7 +248,7 @@ class EventAdminController extends AdminController
 
         if ($request->testmode) {
             event(new EventFinalInformation($bookings->random()));
-            return response()->json(['success' => 'Email has been sent to yourself']);
+            return response()->json(['success' => __('Email has been sent to yourself')]);
         } else {
             $count = $bookings->count();
             $countSkipped = 0;
@@ -260,9 +260,9 @@ class EventAdminController extends AdminController
                     $countSkipped++;
                 }
             }
-            $message = 'Final Information has been sent to ' . $count . ' people!';
+            $message = __('Final Information has been sent to :count people!', ['count' => $count]);
             if ($countSkipped != 0) {
-                $message .= ' However, ' . $countSkipped . ' where skipped, because they already received one';
+                $message .= ' ' . __('However, :count where skipped, because they already received one', ['count' => $count]);
             }
             flashMessage('success', __('Done'), $message);
             activity()
