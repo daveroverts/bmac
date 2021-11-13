@@ -6,7 +6,7 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">{{ $event->name }} | Import</div>
+                <div class="card-header">{{ $event->name }} | {{ __('Import') }}</div>
 
                 <div class="card-body">
                     <x-form :action="route('admin.bookings.import', $event)" method="POST" enctype="multipart/form-data">

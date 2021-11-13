@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- Added [protonemedia/laravel-form-components](https://github.com/protonemedia/laravel-form-components) for all admin forms
+
 ## [v2.2.4a](https://github.com/daveroverts/bmac/compare/v2.2.4...v2.2.4a) - 2021-11-08
 
 ### Changed
