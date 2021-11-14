@@ -92,13 +92,12 @@
                             <x-form-group>
                                 <x-form-checkbox name="checkStudy" required
                                     :label="__('I agree to study the provided briefing material')" value="1" />
-                            </x-form-group>
 
-                            <x-form-group>
                                 <x-form-checkbox name="checkCharts" required
                                     :label="__('I agree to have the applicable charts at hand during the event')"
                                     value="1" />
                             </x-form-group>
+
                         @endif
 
                         <x-form-group inline>
