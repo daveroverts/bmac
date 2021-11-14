@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v2.2.5](https://github.com/daveroverts/bmac/compare/v2.2.4a...v2.2.5) - 2021-11-14
+
+### Changed
+- `master` branch renamed to `main`
+- Laravel Horizon and Laravel Telescope use dark theme by default.
+- Fix for Laravel Horizon and Laravel Telescope gates failing in non-local environments
+- Fix for Bootstrap pagination + jQuery UI (for datepicker) missing CSS.
+- The very first `users` table migration now does not include unique index. #357
+
 ## [v2.2.4a](https://github.com/daveroverts/bmac/compare/v2.2.4...v2.2.4a) - 2021-11-08
 
 ### Changed
