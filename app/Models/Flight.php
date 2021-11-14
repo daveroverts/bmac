@@ -110,31 +110,25 @@ class Flight extends Model
     /**
      * Format for oceanicFL
      *
-     * @param $value
      * @return string
      */
-    public function getFormattedOceanicflAttribute($value)
+    public function getFormattedOceanicflAttribute()
     {
-        if (!empty($value)) {
-            return 'FL' . $value;
+        if ($this->oceanicFL) {
+            return 'FL' . $this->oceanicFL;
         }
 
-        return 'T.B.D.';
+        return '-';
     }
 
     /**
      * Format for notes
      *
-     * @param $value
      * @return string
      */
-    public function getFormattedNotesAttribute($value)
+    public function getFormattedNotesAttribute()
     {
-        if (!empty($value)) {
-            return $value;
-        }
-
-        return '-';
+        return $this->notes ?: '-';
     }
 
     /**
