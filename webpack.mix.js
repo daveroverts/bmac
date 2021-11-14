@@ -22,6 +22,9 @@ mix.js('resources/js/app.js', 'public/js')
     .purgeCss({
         extend: {
             content: [path.join(__dirname, 'vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*bootstrap-4.blade.php')],
+            safelist: {
+                deep: [/\bui-\S*$/]
+            }
         },
     })
     .copyDirectory('node_modules/tinymce/icons', 'public/js/icons')
