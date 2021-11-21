@@ -193,7 +193,7 @@ class EventAdminController extends AdminController
             flashMessage('success', __('Done'), __(':event has been deleted!', ['event' => $event->name]));
             return redirect()->back();
         } else {
-            flashMessage('danger', __('Danger'),, __('Event can no longer be deleted!'));
+            flashMessage('danger', __('Danger'), __('Event can no longer be deleted!'));
             return redirect()->back();
         }
     }
