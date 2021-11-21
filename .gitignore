@@ -29,3 +29,4 @@ htdocs
 .lando.yml
 
 .ddev/
+.env.example
