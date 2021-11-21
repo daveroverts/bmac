@@ -5,7 +5,7 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">{{ $event->name }} | Add {{ $bulk ? 'Timeslots' : 'Slot' }}</div>
+                <div class="card-header">{{ $event->name }} | {{ $bulk ? __('Add Timeslots') : __('Add Slot') }}</div>
 
                 <div class="card-body">
                     <x-form :action="route('admin.bookings.store',$event)" method="POST">

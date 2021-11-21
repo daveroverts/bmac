@@ -6,7 +6,7 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">{{ $booking->event->name }} | Edit Booking</div>
+                <div class="card-header">{{ $booking->event->name }} | {{ __('Edit Booking') }}</div>
 
                 <div class="card-body">
                     <x-form :action="route('admin.bookings.update', $booking)" method="PATCH">
