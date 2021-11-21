@@ -33,7 +33,8 @@
                                 <i class="fas fa-check"></i> Import
                             </x-form-submit>
 
-                            <a class="btn btn-secondary" href="{{ url('import_template.xlsx') }}">
+                            <a class="btn btn-secondary"
+                                href="{{ $event->event_type_id == \App\Enums\EventType::MULTIFLIGHTS ? url('import_multi_flights_template.xlsx') : url('import_template.xlsx') }}">
                                 <i class="fas fa-file-excel"></i> Download template
                             </a>
                         </x-form-group>
