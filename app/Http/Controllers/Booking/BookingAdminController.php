@@ -161,7 +161,7 @@ class BookingAdminController extends AdminController
             $flight = $booking->flights()->first();
             return view('booking.admin.edit', compact('booking', 'airports', 'flight'));
         }
-        flashMessage('danger', 'Nope!', __('Booking can no longer be edited'));
+        flashMessage('danger', __('Danger'),, __('Booking can no longer be edited'));
         return back();
     }
 
@@ -257,7 +257,7 @@ class BookingAdminController extends AdminController
             flashMessage('success', 'Booking deleted!', __('Booking has been deleted.'));
             return redirect(route('bookings.event.index', $booking->event));
         }
-        flashMessage('danger', 'Nope!', __('Booking can no longer be deleted'));
+        flashMessage('danger', __('Danger'),, __('Booking can no longer be deleted'));
         return back();
     }
 
