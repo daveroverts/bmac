@@ -20,7 +20,7 @@
             id="{{ $id() }}"
         @endif
 
-        {!! $attributes->merge(['class' => 'form-control ' . ($hasError($name) ? 'is-invalid' : '')]) !!}>
+        {!! $attributes->merge(['class' => 'custom-select ' . ($hasError($name) ? 'is-invalid' : '')]) !!}>
 
         @if($placeholder)
             <option value="" disabled @if($nothingSelected()) selected="selected" @endif>
