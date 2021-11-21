@@ -18,6 +18,7 @@ For reference, your booking details are listed below.
 @else
 |-----------|---------------------------|
 | Callsign: | **{{ $booking->callsign }}** |
+| Aircraft: | **{{ $booking->acType }}** |
 @if($booking->flights()->first()->dep)
 | Departs: | **{{ $booking->flights()->first()->airportDep->icao  }}** |
 @endif
@@ -26,7 +27,7 @@ For reference, your booking details are listed below.
 @endif
 @if($booking->event->is_oceanic_event)
 | Cruising: | **{{ $booking->flights()->first()->formatted_oceanicfl }}** |
-| SELCAL: | **{{ $booking->selcal }}** |
+| SELCAL: | **{{ $booking->formatted_selcal }}** |
 @endif
 @if(!empty($booking->flights()->first()->route))
 | Route: | **{{ $booking->flights()->first()->route }}** |
@@ -34,7 +35,6 @@ For reference, your booking details are listed below.
 @if(!empty($booking->flights()->first()->notes))
 | Notes: | **{{ $booking->flights()->first()->formatted_notes }}** |
 @endif
-| Aircraft: | **{{ $booking->acType }}** |
 @if($booking->event->uses_times)
 | CTOT: | **{{ $booking->flights()->first()->formattedCtot }}** |
 @endif

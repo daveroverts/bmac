@@ -13,6 +13,9 @@ Your booking for the **{{ $booking->event->name }}** event has been amended, ple
 @case('callsign')
 | Callsign: | **{{ $change['new'] }}** | (was {{ $change['old'] }}) |
 @break
+@case('acType')
+| Aircraft code: | **{{ $change['new'] }}** | (was {{ $change['old'] }}) |
+@break
 @case('dep')
 | ADEP: | **{{ \App\Models\Airport::find($change['new'])->icao }}** | (was {{ \App\Models\Airport::find($change['old'])->first()->icao }}) |
 @break
@@ -33,9 +36,6 @@ Your booking for the **{{ $booking->event->name }}** event has been amended, ple
 @break
 @case('oceanicFL')
 | {{ $booking->event->is_oceanic_event ? __('Oceanic Entry FL') : __('Cruise FL') }}: | **FL{{ $change['new'] }}** | (was FL{{ $change['old'] }}) |
-@break
-@case('acType')
-| Aircraft code: | **{{ $change['new'] }}** | (was {{ $change['old'] }}) |
 @break
 @case('notes')
 | Notes: | **{{ $change['new'] }}** | (was {{ $change['old'] }}) |

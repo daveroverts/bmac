@@ -91,9 +91,11 @@
 
                         @if ($booking->status === \App\Enums\BookingStatus::RESERVED)
                             <x-form-group>
+                                <input type="hidden" name="checkStudy" value="0">
                                 <x-form-checkbox name="checkStudy" required
                                     :label="__('I agree to study the provided briefing material')" value="1" />
 
+                                <input type="hidden" name="checkCharts" value="0">
                                 <x-form-checkbox name="checkCharts" required
                                     :label="__('I agree to have the applicable charts at hand during the event')"
                                     value="1" />

@@ -181,7 +181,7 @@ class BookingController extends Controller
             if ($booking->is_editable) {
                 $booking->fill([
                     'callsign' => $request->callsign,
-                    'acType' => $request->aircraft
+                    'acType' => $request->acType
                 ]);
             }
 
