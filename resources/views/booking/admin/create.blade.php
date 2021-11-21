@@ -42,18 +42,32 @@
                         @if ($bulk)
                             <x-form-group inline>
                                 <x-form-input name="start" type="time"
-                                    :label="'<i class=\'fa fa-clock\'></i> ' . __('Start')" />
-                                <x-form-input name="end" type="time"
-                                    :label="'<i class=\'fa fa-clock\'></i> ' . __('End')" />
+                                    :label="'<i class=\'fa fa-clock\'></i> ' . __('Start')">
+                                    @slot('append')
+                                        z
+                                    @endslot
+                                </x-form-input>
+                                <x-form-input name="end" type="time" :label="'<i class=\'fa fa-clock\'></i> ' . __('End')">
+                                    @slot('append')
+                                        z
+                                    @endslot
+                                </x-form-input>
 
                                 <x-form-input name="separation" type="number" :label="__('Separation (in minutes)')" />
                             </x-form-group>
                         @else
                             <x-form-group inline>
                                 <x-form-input name="ctot" type="time"
-                                    :label="'<i class=\'fa fa-clock\'></i> ' . __('CTOT')" />
-                                <x-form-input name="eta" type="time"
-                                    :label="'<i class=\'fa fa-clock\'></i> ' . __('ETA')" />
+                                    :label="'<i class=\'fa fa-clock\'></i> ' . __('CTOT')">
+                                    @slot('append')
+                                        z
+                                    @endslot
+                                </x-form-input>
+                                <x-form-input name="eta" type="time" :label="'<i class=\'fa fa-clock\'></i> ' . __('ETA')">
+                                    @slot('append')
+                                        z
+                                    @endslot
+                                </x-form-input>
 
                             </x-form-group>
 
@@ -61,7 +75,11 @@
 
 
                             <x-form-input name="oceanicFL"
-                                :label="$event->is_oceanic_event ? __('Oceanic Entry Level') : __('Cruise FL')" />
+                                :label="$event->is_oceanic_event ? __('Oceanic Entry Level') : __('Cruise FL')">
+                                @slot('prepend')
+                                    FL
+                                @endslot
+                            </x-form-input>
 
                         @endif
 

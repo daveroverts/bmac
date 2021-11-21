@@ -89,10 +89,18 @@
                                 :label="'<i class=\'fa fa-calendar\'></i> ' . __('Date')" />
                             <x-form-input name="timeBeginEvent" type="time"
                                 :label="'<i class=\'fa fa-clock\'></i> ' . __('Begin')"
-                                :value="old('timeBeginEvent', $event->id ? $event->startEvent->format('H:i') : null)" />
+                                :value="old('timeBeginEvent', $event->id ? $event->startEvent->format('H:i') : null)">
+                                @slot('append')
+                                    z
+                                @endslot
+                            </x-form-input>
                             <x-form-input name="timeEndEvent" type="time"
                                 :label="'<i class=\'fa fa-clock\'></i> ' . __('End')"
-                                :value="old('timeBeginEvent', $event->id ? $event->endEvent->format('H:i') : null)" />
+                                :value="old('timeBeginEvent', $event->id ? $event->endEvent->format('H:i') : null)">
+                                @slot('append')
+                                    z
+                                @endslot
+                            </x-form-input>
                         </x-form-group>
 
                         <x-form-group :label="__('Start Bookings (UTC)')" inline>
@@ -101,7 +109,11 @@
                                 :value="old('dateBeginBooking', $event->id ? $event->startBooking->format('d-m-Y') : null)" />
                             <x-form-input name="timeBeginBooking" type="time"
                                 :label="'<i class=\'fa fa-clock\'></i> ' . __('Begin')"
-                                :value="old('dateBeginBooking', $event->id ? $event->startBooking->format('H:i') : null)" />
+                                :value="old('dateBeginBooking', $event->id ? $event->startBooking->format('H:i') : null)">
+                                @slot('append')
+                                    z
+                                @endslot
+                            </x-form-input>
                         </x-form-group>
 
                         <x-form-group :label="__('End Bookings (UTC)')" inline>
@@ -110,7 +122,11 @@
                                 :value="old('dateEndBooking', $event->id ? $event->endBooking->format('d-m-Y') : null)" />
                             <x-form-input name="timeEndBooking" type="time"
                                 :label="'<i class=\'fa fa-clock\'></i> ' . __('End')"
-                                :value="old('dateEndBooking', $event->id ? $event->endBooking->format('H:i') : null)" />
+                                :value="old('dateEndBooking', $event->id ? $event->endBooking->format('H:i') : null)">
+                                @slot('append')
+                                    z
+                                @endslot
+                            </x-form-input>
                         </x-form-group>
 
                         <x-form-input name="image_url" :label="__('Image URL')" placeholder="https://example.org" />

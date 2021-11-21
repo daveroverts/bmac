@@ -20,10 +20,18 @@
 
                         <x-form-group inline>
                             <x-form-input name="minFL" :label="__('Minimum Oceanic Entry FL')" default="320" required
-                                minlength="3" maxlength="3" />
+                                minlength="3" maxlength="3">
+                                @slot('prepend')
+                                    FL
+                                @endslot
+                            </x-form-input>
 
                             <x-form-input name="maxFL" :label="__('Maximum Oceanic Entry FL')" default="380" required
-                                minlength="3" maxlength="3" />
+                                minlength="3" maxlength="3">
+                                @slot('prepend')
+                                    FL
+                                @endslot
+                            </x-form-input>
                         </x-form-group>
 
                         <x-form-group>
