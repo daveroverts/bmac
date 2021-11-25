@@ -14,6 +14,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - Changed some flash messages.
 
+### Removed
+- Removed (renatomarinho/laravel-page-speed)[https://github.com/renatomarinho/laravel-page-speed] as it gave to too many headaches, and I always just disabled it because of that.
+
 ## [v2.2.5](https://github.com/daveroverts/bmac/compare/v2.2.4a...v2.2.5) - 2021-11-14
 
 ### Changed
