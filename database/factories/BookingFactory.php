@@ -24,7 +24,6 @@ class BookingFactory extends Factory
     {
         return [
             'event_id' => Event::factory()->create(),
-            // 'user_id' => User::factory()->make(),
         ];
     }
 

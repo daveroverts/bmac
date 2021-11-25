@@ -34,6 +34,7 @@
         "barryvdh/laravel-debugbar": "^3.6",
         "barryvdh/laravel-ide-helper": "^2.10",
         "beyondcode/laravel-query-detector": "^1.5",
+        "brianium/paratest": "^6.3",
         "enlightn/security-checker": "^1.9",
         "fakerphp/faker": "^1.16",
         "laravel/sail": "^1.12",

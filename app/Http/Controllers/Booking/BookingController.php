@@ -25,8 +25,6 @@ class BookingController extends Controller
      */
     public function index(Request $request, Event $event = null)
     {
-        $this->removeOverdueReservations();
-
         // Check if specific event is requested, else fall back to current ongoing event
         if (!$event) {
             $event = nextEvent();
@@ -36,18 +34,6 @@ class BookingController extends Controller
         }
 
         return view('booking.overview', compact('event'));
-    }
-
-    public function removeOverdueReservations()
-    {
-        // Get all reservations that have been reserved
-        Booking::whereStatus(BookingStatus::RESERVED)->each(function ($booking) {
-            // If a reservation has been reserved for more then 10 minutes, remove user_id, and make booking available
-            if (now() > Carbon::createFromFormat('Y-m-d H:i:s', $booking->updated_at)->addMinutes(10)) {
-                $booking->status = BookingStatus::UNASSIGNED;
-                $booking->user()->dissociate()->save();
-            }
-        });
     }
 
     /**

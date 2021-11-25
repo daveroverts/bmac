@@ -24,8 +24,4 @@ _ide_helper*\.php
 
 \.phpstorm\.meta\.php
 
-htdocs
-
-.lando.yml
-
-.ddev/
+.phpunit.result.cache
