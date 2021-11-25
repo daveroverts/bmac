@@ -14,6 +14,11 @@ class AirportLinkTest extends TestCase
     {
         $airportLink = AirportLink::factory()->create();
 
-        $this->assertDatabaseHas('airport_links', $airportLink->toArray());
+        $this->assertDatabaseHas('airport_links', [
+            'id' => $airportLink->id,
+            'airport_id' => $airportLink->airport_id,
+            'airportLinkType_id' => $airportLink->airportLinkType_id,
+            'url' => $airportLink->url,
+        ]);
     }
 }

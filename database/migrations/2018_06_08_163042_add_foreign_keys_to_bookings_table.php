@@ -15,11 +15,9 @@ class AddForeignKeysToBookingsTable extends Migration
     {
         Schema::table('bookings', function (Blueprint $table) {
             $table->foreign('event_id')->references('id')->on('events')->onDelete('cascade');
-            $table->foreign('reservedBy_id')->references('id')->on('users');
-            $table->foreign('bookedBy_id')->references('id')->on('users');
-            $table->foreign('dep')->references('icao')->on('airports');
-            $table->foreign('arr')->references('icao')->on('airports');
-
+            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('dep')->references('id')->on('airports');
+            $table->foreign('arr')->references('id')->on('airports');
         });
     }
 

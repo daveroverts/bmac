@@ -13,14 +13,14 @@ class MakeAirportsNullableInFlightsTable extends Migration
      */
     public function up()
     {
-        Schema::table('flights', function (Blueprint $table) {
-            $table->unsignedInteger('dep')->nullable()->change();
-            $table->unsignedInteger('arr')->nullable()->change();
-            $table->dropForeign(['dep']);
-            $table->dropForeign(['arr']);
-            $table->foreign('dep')->references('id')->on('airports')->nullOnDelete();
-            $table->foreign('arr')->references('id')->on('airports')->nullOnDelete();
-        });
+        // Schema::table('flights', function (Blueprint $table) {
+        //     $table->unsignedInteger('dep')->nullable()->change();
+        //     $table->unsignedInteger('arr')->nullable()->change();
+        //     $table->dropForeign(['dep']);
+        //     $table->dropForeign(['arr']);
+        //     $table->foreign('dep')->references('id')->on('airports')->nullOnDelete();
+        //     $table->foreign('arr')->references('id')->on('airports')->nullOnDelete();
+        // });
     }
 
     /**
@@ -30,13 +30,13 @@ class MakeAirportsNullableInFlightsTable extends Migration
      */
     public function down()
     {
-        Schema::table('flights', function (Blueprint $table) {
-            $table->unsignedInteger('dep')->change();
-            $table->unsignedInteger('arr')->change();
-            $table->dropForeign(['dep']);
-            $table->dropForeign(['arr']);
-            $table->foreign('dep')->references('id')->on('airports');
-            $table->foreign('arr')->references('id')->on('airports');
-        });
+        // Schema::table('flights', function (Blueprint $table) {
+        //     $table->unsignedInteger('dep')->change();
+        //     $table->unsignedInteger('arr')->change();
+        //     $table->dropForeign(['dep']);
+        //     $table->dropForeign(['arr']);
+        //     $table->foreign('dep')->references('id')->on('airports');
+        //     $table->foreign('arr')->references('id')->on('airports');
+        // });
     }
 }

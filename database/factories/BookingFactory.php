@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Enums\BookingStatus;
 use App\Models\Booking;
 use App\Models\Event;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -36,7 +37,7 @@ class BookingFactory extends Factory
     {
         return $this->state(function () {
             return [
-                'status' => 'unassigned',
+                'status' => BookingStatus::UNASSIGNED,
             ];
         });
     }
@@ -50,7 +51,7 @@ class BookingFactory extends Factory
     {
         return $this->state(function () {
             return [
-                'status' => 'reserved',
+                'status' => BookingStatus::RESERVED,
             ];
         });
     }
@@ -64,7 +65,7 @@ class BookingFactory extends Factory
     {
         return $this->state(function () {
             return [
-                'status' => 'booked',
+                'status' => BookingStatus::BOOKED,
             ];
         });
     }
