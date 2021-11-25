@@ -48,7 +48,7 @@ class BookingAdminController extends AdminController
         $airports = Airport::all(['id', 'icao', 'iata', 'name'])->keyBy('id')
             ->map(function ($airport) {
                 /** @var Airport $airport */
-                return "$airport->icao [$airport->name ($airport->iata )]";
+                return "$airport->icao | $airport->name | $airport->iata";;
             });
 
         return view('booking.admin.create', compact('event', 'airports', 'bulk'));
@@ -156,7 +156,7 @@ class BookingAdminController extends AdminController
             $airports = Airport::all(['id', 'icao', 'iata', 'name'])->keyBy('id')
                 ->map(function ($airport) {
                     /** @var Airport $airport */
-                    return "$airport->icao [$airport->name ($airport->iata )]";
+                    return "$airport->icao | $airport->name | $airport->iata";;
                 });
             $flight = $booking->flights()->first();
             return view('booking.admin.edit', compact('booking', 'airports', 'flight'));

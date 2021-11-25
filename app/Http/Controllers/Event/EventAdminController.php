@@ -54,7 +54,7 @@ class EventAdminController extends AdminController
         $airports = Airport::all(['id', 'icao', 'iata', 'name'])->keyBy('id')
             ->map(function ($airport) {
                 /** @var Airport $airport */
-                return "$airport->icao [$airport->name ($airport->iata )]";
+                return "$airport->icao | $airport->name | $airport->iata";;
             });
         $eventTypes = EventType::all()->pluck('name', 'id');
         return view('event.admin.form', compact('event', 'airports', 'eventTypes'));
@@ -128,7 +128,7 @@ class EventAdminController extends AdminController
         $airports = Airport::all(['id', 'icao', 'iata', 'name'])->keyBy('id')
             ->map(function ($airport) {
                 /** @var Airport $airport */
-                return "$airport->icao [$airport->name ($airport->iata )]";
+                return "$airport->icao | $airport->name | $airport->iata";;
             });
         $eventTypes = EventType::all()->pluck('name', 'id');
         return view('event.admin.form', compact('event', 'airports', 'eventTypes'));
