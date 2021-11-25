@@ -16,53 +16,42 @@ use Spatie\Activitylog\Traits\LogsActivity;
  * @property string $name_first
  * @property string $name_last
  * @property string $email
- * @property string $country
- * @property string $region
- * @property string|null $division
- * @property string|null $subdivision
  * @property bool $isAdmin
  * @property int $airport_view
  * @property bool $use_monospace_font
  * @property string|null $remember_token
+ * @property string|null $access_token
+ * @property string|null $refresh_token
+ * @property int|null $token_expires
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\Activitylog\Models\Activity[] $activities
  * @property-read int|null $activities_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Booking[] $bookings
  * @property-read int|null $bookings_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\Laravel\Passport\Client[] $clients
- * @property-read int|null $clients_count
  * @property-read string $full_name
  * @property-read string $pic
+ * @property-read AccessToken $token
  * @property-read \Illuminate\Notifications\DatabaseNotificationCollection|\Illuminate\Notifications\DatabaseNotification[] $notifications
  * @property-read int|null $notifications_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\Laravel\Passport\Token[] $tokens
- * @property-read int|null $tokens_count
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User query()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereAirportView($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereCountry($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereDivision($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereEmail($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereIsAdmin($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereNameFirst($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereNameLast($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereRegion($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereRememberToken($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereSubdivision($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereUseMonospaceFont($value)
- * @mixin \Eloquent
- * @property string|null $access_token
- * @property string|null $refresh_token
- * @property int|null $token_expires
- * @property-read AccessToken $token
+ * @method static \Database\Factories\UserFactory factory(...$parameters)
+ * @method static \Illuminate\Database\Eloquent\Builder|User newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|User newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|User query()
  * @method static \Illuminate\Database\Eloquent\Builder|User whereAccessToken($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereAirportView($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereEmail($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereIsAdmin($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereNameFirst($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereNameLast($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereRefreshToken($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereRememberToken($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereTokenExpires($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereUseMonospaceFont($value)
+ * @mixin \Eloquent
  */
 class User extends Authenticatable
 {
@@ -157,5 +146,4 @@ class User extends Authenticatable
             return $token;
         }
     }
-
 }

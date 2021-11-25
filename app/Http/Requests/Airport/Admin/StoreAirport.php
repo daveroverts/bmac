@@ -14,9 +14,23 @@ class StoreAirport extends Request
     public function rules()
     {
         return [
-            'icao' => 'required:string|unique:airports|between:4,4',
-            'iata' => 'required:string|unique:airports,iata|between:3,3',
+            'icao' => 'required:string|unique:airports|size:4',
+            'iata' => 'required:string|unique:airports,iata|size:3',
             'name' => 'required:string',
+        ];
+    }
+
+    /**
+     * Get custom attributes for validator errors.
+     *
+     * @return array
+     */
+    public function attributes()
+    {
+        return [
+            'icao' => __('ICAO'),
+            'iata' => __('IATA'),
+            'name' => __('Name'),
         ];
     }
 }

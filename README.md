@@ -42,7 +42,7 @@ Before you begin, make sure you have a server with PHP (at least 7.3, 8 recommen
 1. Clone the project
 
    ```bash
-     git clone https://github.com/daveroverts/bmac.git
+     git clone -b main https://github.com/daveroverts/bmac.git
    ```
 
 2. Go to the project directory

@@ -1,50 +1,35 @@
 @extends('layouts.app')
 
 @section('content')
-    @if (count($errors) > 0)
-        <div class="alert alert-danger">
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
+    <x-forms.alert />
     @include('layouts.alert')
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">{{ $event->name }} | Route assign</div>
+                <div class="card-header">{{ $event->name }} | {{ __('Import') }}</div>
 
                 <div class="card-body">
-                    <form method="POST" action="{{ route('admin.bookings.routeAssign',$event) }}" enctype="multipart/form-data">
-                        @csrf
-                        @method('PATCH')
+                    <x-form :action="route('admin.bookings.routeAssign', $event)" method="POST"
+                        enctype="multipart/form-data">
+                        <x-form-input name="file" type="file" :label="__('File')" />
 
-                        {{--File--}}
-                        <div class="form-group row">
+                        <x-form-group :label="__('Headers in <strong>bold</strong> are mandatory')">
+                            <strong><abbr title="[ICAO]">From</abbr></strong> |
+                            <strong><abbr title="[ICAO]">To</abbr></strong> |
+                            <strong>Route</strong> |
+                            Notes
+                        </x-form-group>
 
-                            <div class="col-md-4 col-form-label text-md-right"></div>
-                            <div class="col-md-6">
-                                <input type="file" class="form-control-file" id="file" name="file">
-
-                                @if ($errors->has('file'))
-                                    <span class="invalid-feedback">
-                                        <strong>{{ $errors->first('file') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-
-                        {{--Auto-Assign Route--}}
-                        <div class="form-group row mb-0">
-                            <div class="col-md-6 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
-                                    <i class="fas fa-check"></i> Auto-Assign Routes
-                                </button>
-                            </div>
-                        </div>
-                    </form>
+                        <form-group inline>
+                            <x-form-submit>
+                                <i class="fas fa-check"></i> Auto-Assign Routes
+                            </x-form-submit>
+                            <a class="btn btn-secondary"
+                                href="{{ url('import_multi_flights_assign_routes_template.xlsx') }}">
+                                <i class="fas fa-file-excel"></i> Download template
+                            </a>
+                        </form-group>
+                    </x-form>
                 </div>
             </div>
         </div>

@@ -45,7 +45,11 @@ class BookingAdminController extends AdminController
     public function create(Event $event, Request $request)
     {
         $bulk = $request->bulk;
-        $airports = Airport::orderBy('icao')->get();
+        $airports = Airport::all(['id', 'icao', 'iata', 'name'])->keyBy('id')
+            ->map(function ($airport) {
+                /** @var Airport $airport */
+                return "$airport->icao [$airport->name ($airport->iata )]";
+            });
 
         return view('booking.admin.create', compact('event', 'airports', 'bulk'));
     }
@@ -93,12 +97,12 @@ class BookingAdminController extends AdminController
                     $count++;
                 }
             }
-            flashMessage('success', 'Done', $count . ' Slots have been created!');
+            flashMessage('success', __('Done'), __(':count slots have been created!' . ['count' => $count]));
         } else {
             $booking = new Booking([
                 'is_editable' => $request->is_editable,
                 'callsign' => $request->callsign,
-                'acType' => $request->aircraft,
+                'acType' => $request->acType,
             ]);
 
             $booking->event()->associate($request->id)->save();
@@ -125,7 +129,7 @@ class BookingAdminController extends AdminController
             }
 
             $booking->flights()->create($flightAttributes);
-            flashMessage('success', 'Done', 'Slot created');
+            flashMessage('success', __('Done'), __('Slot created'));
         }
         return redirect(route('bookings.event.index', $event));
     }
@@ -149,11 +153,15 @@ class BookingAdminController extends AdminController
     public function edit(Booking $booking)
     {
         if ($booking->event->endEvent >= now()) {
-            $airports = Airport::orderBy('icao')->get();
+            $airports = Airport::all(['id', 'icao', 'iata', 'name'])->keyBy('id')
+                ->map(function ($airport) {
+                    /** @var Airport $airport */
+                    return "$airport->icao [$airport->name ($airport->iata )]";
+                });
             $flight = $booking->flights()->first();
             return view('booking.admin.edit', compact('booking', 'airports', 'flight'));
         }
-        flashMessage('danger', 'Nope!', 'You cannot edit a booking after the event ended');
+        flashMessage('danger', __('Danger'), __('Booking can no longer be edited'));
         return back();
     }
 
@@ -175,7 +183,7 @@ class BookingAdminController extends AdminController
         $booking->fill([
             'is_editable' => $request->is_editable,
             'callsign' => $request->callsign,
-            'acType' => $request->aircraft,
+            'acType' => $request->acType,
             'final_information_email_sent_at' => null
         ]);
 
@@ -228,7 +236,7 @@ class BookingAdminController extends AdminController
         if ($shouldSendEmail) {
             event(new BookingChanged($booking, $changes));
         }
-        flashMessage('success', 'Booking changed', 'Booking has been changed!');
+        flashMessage('success', 'Booking changed', __('Booking has been changed!'));
         return redirect(route('bookings.event.index', $booking->event));
     }
 
@@ -246,10 +254,10 @@ class BookingAdminController extends AdminController
                 event(new BookingDeleted($booking));
             }
             $booking->delete();
-            flashMessage('success', 'Booking deleted!', 'Booking has been deleted.');
+            flashMessage('success', 'Booking deleted!', __('Booking has been deleted.'));
             return redirect(route('bookings.event.index', $booking->event));
         }
-        flashMessage('danger', 'Nope!', 'You cannot delete a booking after the event ended');
+        flashMessage('danger', __('Danger'), __('Booking can no longer be deleted'));
         return back();
     }
 
@@ -287,7 +295,7 @@ class BookingAdminController extends AdminController
         $file = $request->file('file');
         (new BookingsImport($event))->import($file);
         Storage::delete($file->getRealPath());
-        flashMessage('success', 'Flights imported', 'Flights have been imported');
+        flashMessage('success', __('Flights imported'), __('Flights have been imported'));
         return redirect(route('bookings.event.index', $event));
     }
 
@@ -348,7 +356,7 @@ class BookingAdminController extends AdminController
             }
             $flight->save();
         }
-        flashMessage('success', 'Bookings changed', $count . ' Bookings have been Auto-Assigned a FL, and route');
+        flashMessage('success', __('Bookings changed'), __(':count bookings have been Auto-Assigned a FL, and route', ['count' => $count]));
         activity()
             ->by(auth()->user())
             ->on($event)
@@ -380,7 +388,7 @@ class BookingAdminController extends AdminController
         $file = $request->file('file');
         (new FlightRouteAssign)->import($file);
         Storage::delete($file);
-        flashMessage('success', 'Routes assigned', 'Routes have been assigned to flights');
+        flashMessage('success', __('Routes assigned'), __('Routes have been assigned to flights'));
         return redirect(route('bookings.event.index', $event));
     }
 }

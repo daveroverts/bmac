@@ -3,9 +3,10 @@
 namespace App\Models;
 
 use App\Enums\AirportView;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
 use Spatie\Activitylog\Traits\LogsActivity;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
  * App\Models\Airport
@@ -29,15 +30,16 @@ use Spatie\Activitylog\Traits\LogsActivity;
  * @property-read mixed $full_name
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\AirportLink[] $links
  * @property-read int|null $links_count
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Airport newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Airport newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Airport query()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Airport whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Airport whereIata($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Airport whereIcao($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Airport whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Airport whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Airport whereUpdatedAt($value)
+ * @method static \Database\Factories\AirportFactory factory(...$parameters)
+ * @method static Builder|Airport newModelQuery()
+ * @method static Builder|Airport newQuery()
+ * @method static Builder|Airport query()
+ * @method static Builder|Airport whereCreatedAt($value)
+ * @method static Builder|Airport whereIata($value)
+ * @method static Builder|Airport whereIcao($value)
+ * @method static Builder|Airport whereId($value)
+ * @method static Builder|Airport whereName($value)
+ * @method static Builder|Airport whereUpdatedAt($value)
  * @mixin \Eloquent
  */
 class Airport extends Model
@@ -54,6 +56,18 @@ class Airport extends Model
 
     protected static $logAttributes = ['*'];
     protected static $logOnlyDirty = true;
+
+    /**
+     * The "booted" method of the model.
+     *
+     * @return void
+     */
+    protected static function booted()
+    {
+        static::addGlobalScope('order', function (Builder $builder) {
+            $builder->orderBy('icao');
+        });
+    }
 
     public function flightsDep()
     {
@@ -78,6 +92,16 @@ class Airport extends Model
     public function links()
     {
         return $this->hasMany(AirportLink::class);
+    }
+
+    public function setIcaoAttribute($value)
+    {
+        $this->attributes['icao'] = strtoupper($value);
+    }
+
+    public function setIataAttribute($value)
+    {
+        $this->attributes['iata'] = strtoupper($value);
     }
 
     public function getFullNameAttribute()

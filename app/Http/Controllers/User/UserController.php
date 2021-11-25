@@ -15,7 +15,7 @@ class UserController extends Controller
     public function saveSettings(UpdateUserSettings $request)
     {
         auth()->user()->update($request->validated());
-        flashMessage('success', 'Done', 'Settings saved!');
+        flashMessage('success', __('Done'), 'Settings saved!');
         return back();
     }
 }
