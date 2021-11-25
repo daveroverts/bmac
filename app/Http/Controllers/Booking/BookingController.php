@@ -271,15 +271,17 @@ class BookingController extends Controller
                     'selcal' => null,
                 ]);
             }
-            $booking->status = BookingStatus::UNASSIGNED;
-            if ($booking->getOriginal('status') === BookingStatus::BOOKED) {
-                event(new BookingCancelled($booking));
+
+            if ($booking->status === BookingStatus::BOOKED) {
+                event(new BookingCancelled($booking, auth()->user()));
                 $title = __('Booking cancelled!');
                 $message = __('Booking has been cancelled!');
             } else {
                 $title = __('Slot free');
                 $message = __('Slot is now free to use again');
             }
+
+            $booking->status = BookingStatus::UNASSIGNED;
             flashMessage('info', $title, $message);
             $booking->user()->dissociate()->save();
             return redirect(route('bookings.event.index', $booking->event));
