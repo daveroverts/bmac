@@ -31,7 +31,7 @@ jobs:
           name: assets
           path: public
   test-php-mysql:
-    name: Test PHP
+    name: Test PHP with MySQL
     runs-on: ubuntu-latest
     services:
       mysql:
@@ -99,15 +99,21 @@ jobs:
       - name: Enlightn Security Checker
         run: php vendor/enlightn/security-checker/security-checker security:check composer.lock
   test-php-postgresql:
-    name: Test PHP
+    name: Test PHP with PostgreSQL
     runs-on: ubuntu-latest
+    env:
+      DB_CONNECTION: pgsql
+      DB_HOST: localhost
+      DB_PASSWORD: secret
+      DB_USERNAME: root
+      DB_DATABASE: homestead
     services:
       mysql:
-        image: postgres:14.1
+        image: postgres:10.8
         env:
           POSTGRES_USER: root
+          POSTGRES_PASSWORD: secret
           POSTGRES_DB: homestead
-          BUGSNAG_API_KEY: ${{ secrets.BUGSNAG_API_KEY }}
         ports:
           - 5432/tcp
         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 3
