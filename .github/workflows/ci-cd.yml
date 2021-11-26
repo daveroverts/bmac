@@ -114,7 +114,7 @@ jobs:
       DB_DATABASE: homestead
       DB_PORT: 5432
     services:
-      mysql:
+      postgres:
         image: postgres:10.8
         env:
           POSTGRES_USER: root
