@@ -42,7 +42,7 @@ jobs:
       mysql:
         image: mysql:8.0
         env:
-          MYSQL_ROOT_PASSWORD: root
+          MYSQL_ROOT_PASSWORD: secret
           MYSQL_DATABASE: homestead
           BUGSNAG_API_KEY: ${{ secrets.BUGSNAG_API_KEY }}
         ports:
@@ -109,7 +109,6 @@ jobs:
     env:
       BROADCAST_DRIVER: log
       DB_CONNECTION: pgsql
-      DB_HOST: localhost
       DB_PASSWORD: secret
       DB_USERNAME: root
       DB_DATABASE: homestead
