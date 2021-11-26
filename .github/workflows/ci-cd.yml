@@ -154,12 +154,12 @@ jobs:
       - name: Run Migration
         run: php artisan migrate -v
         env:
-          DB_PORT: ${{ job.services.postgres.ports['5432'] }}
+          DB_PORT: ${{ job.services.postgres.ports[5432] }}
 
       - name: Test with phpunit
         run: vendor/bin/phpunit
         env:
-          DB_PORT: ${{ job.services.postgres.ports['5432'] }}
+          DB_PORT: ${{ job.services.postgres.ports[5432] }}
 
       - name: PHP_CodeSniffer
         run: phpcs --extensions=php app
