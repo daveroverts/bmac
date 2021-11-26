@@ -69,7 +69,7 @@ jobs:
         with:
           php-version: ${{ matrix.php-versions }}
           extensions: mbstring, dom, fileinfo, mysql
-          coverage: xdebug #optional
+          coverage: xdebug, phpcs, phpcpd #optional
       - name: Start mysql service
         run: sudo /etc/init.d/mysql start
 
@@ -156,7 +156,7 @@ jobs:
         with:
           php-version: ${{ matrix.php-versions }}
           extensions: mbstring, dom, fileinfo, pgsql
-          coverage: xdebug #optional
+          coverage: xdebug, phpcs, phpcpd #optional
 
       - name: Get composer cache directory
         id: composer-cache
