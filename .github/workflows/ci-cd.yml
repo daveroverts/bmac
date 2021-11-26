@@ -33,6 +33,11 @@ jobs:
   test-php-mysql:
     name: Test PHP with MySQL
     runs-on: ubuntu-latest
+    env:
+      DB_DATABASE: homestead
+      DB_USERNAME: root
+      DB_PASSWORD: secret
+      BROADCAST_DRIVER: log
     services:
       mysql:
         image: mysql:8.0
@@ -102,6 +107,7 @@ jobs:
     name: Test PHP with PostgreSQL
     runs-on: ubuntu-latest
     env:
+      BROADCAST_DRIVER: log
       DB_CONNECTION: pgsql
       DB_HOST: localhost
       DB_PASSWORD: secret
