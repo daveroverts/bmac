@@ -112,6 +112,7 @@ jobs:
       DB_PASSWORD: secret
       DB_USERNAME: root
       DB_DATABASE: homestead
+      DB_PORT: 5432
     services:
       mysql:
         image: postgres:10.8
@@ -160,11 +161,13 @@ jobs:
         run: php artisan migrate -v
         env:
           DB_PORT: ${{ job.services.postgres.ports[5432] }}
+          DB_CONNECTION: pgsql
 
       - name: Test with phpunit
         run: vendor/bin/phpunit
         env:
           DB_PORT: ${{ job.services.postgres.ports[5432] }}
+          DB_CONNECTION: pgsql
 
       - name: PHP_CodeSniffer
         run: phpcs --extensions=php app
