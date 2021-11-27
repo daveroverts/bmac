@@ -13,9 +13,7 @@ class AddEtaToBookingsTable extends Migration
      */
     public function up()
     {
-        Schema::table('bookings', function (Blueprint $table) {
-            $table->dateTime('eta')->nullable()->after('ctot');
-        });
+        return;
     }
 
     /**
@@ -25,8 +23,6 @@ class AddEtaToBookingsTable extends Migration
      */
     public function down()
     {
-        Schema::table('bookings', function (Blueprint $table) {
-            $table->dropColumn('eta');
-        });
+        return;
     }
 }

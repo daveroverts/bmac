@@ -97,7 +97,7 @@ class BookingAdminController extends AdminController
                     $count++;
                 }
             }
-            flashMessage('success', __('Done'), __(':count slots have been created!' . ['count' => $count]));
+            flashMessage('success', __('Done'), __(':count slots have been created!', ['count' => $count]));
         } else {
             $booking = new Booking([
                 'is_editable' => $request->is_editable,

@@ -37,7 +37,7 @@ When testing or running this project locally, Vatsim wants your to use their Con
 
 ## Installation
 
-Before you begin, make sure you have a server with PHP (at least 7.3, 8 recommended) to run everything on. For local development, I use [Laravel Valet](https://laravel.com/docs/8.x/valet), and before that I used [Laravel Homestead](https://laravel.com/docs/master/homestead).
+Before you begin, make sure you have a server with PHP 8 to run everything on. For local development, I use [Laravel Valet](https://laravel.com/docs/8.x/valet), and before that I used [Laravel Homestead](https://laravel.com/docs/master/homestead).
 
 1. Clone the project
 
