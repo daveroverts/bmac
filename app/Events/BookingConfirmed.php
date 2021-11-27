@@ -15,18 +15,9 @@ class BookingConfirmed
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $booking;
-
-    /**
-     * Create a new event instance.
-     *
-     * @param Booking $booking
-     *
-     * @return void
-     */
-    public function __construct(Booking $booking)
+    public function __construct(public Booking $booking)
     {
-        $this->booking = $booking;
+        //
     }
 
     /**

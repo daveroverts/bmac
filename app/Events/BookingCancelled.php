@@ -16,20 +16,9 @@ class BookingCancelled
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $booking;
-    public $user;
-
-    /**
-     * Create a new event instance.
-     *
-     * @param Booking $booking
-     *
-     * @return void
-     */
-    public function __construct(Booking $booking, User $user)
+    public function __construct(public Booking $booking, public User $user)
     {
-        $this->booking = $booking;
-        $this->user = $user;
+        //
     }
 
     /**
