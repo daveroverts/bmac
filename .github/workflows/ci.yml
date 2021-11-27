@@ -131,7 +131,7 @@ jobs:
       DB_DATABASE: postgres
     services:
       postgres:
-        image: postgres:10.8
+        image: postgres:14.1
         env:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
