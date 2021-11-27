@@ -219,7 +219,7 @@ class EventAdminController extends AdminController
     public function sendEmail(SendEmail $request, Event $event)
     {
         if ($request->testmode) {
-            event(new EventBulkEmail($event, $request->all(), collect(auth()->user())));
+            event(new EventBulkEmail($event, $request->all(), collect([auth()->user()])));
             return response()->json(['success' => __('Email has been sent to yourself')]);
         } else {
             /* @var User $users */

@@ -14,28 +14,13 @@ class BookingChanged extends Notification implements ShouldQueue
     use Queueable;
 
     /**
-     * The booking instance.
-     *
-     * @var Booking
-     */
-    public $booking;
-
-    /**
-     * All changes
-     *
-     * @var Booking
-     */
-    public $changes;
-
-    /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct(Booking $booking, Collection $changes)
+    public function __construct(public Booking $booking, public Collection $changes)
     {
-        $this->booking = $booking;
-        $this->changes = $changes;
+        //
     }
 
     /**

@@ -13,20 +13,13 @@ class BookingDeleted extends Notification implements ShouldQueue
     use Queueable;
 
     /**
-     * The event instance.
-     *
-     * @var Event
-     */
-    public $event;
-
-    /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct(Event $event)
+    public function __construct(public Event $event)
     {
-        $this->event = $event;
+        //
     }
 
     /**

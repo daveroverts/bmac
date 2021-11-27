@@ -28,30 +28,21 @@ class SendEventBulkEmailNotification implements ShouldQueue
     public function handle(EventBulkEmail $event)
     {
         if (isset($event->request['testmode'])) {
-            Notification::send($event->users, new \App\Notifications\EventBulkEmail($event->event, $event->request['subject'], $event->request['message']));
-            activity()
-                ->by(auth()->user())
-                ->on($event->event)
-                ->withProperties(
-                    [
-                        'subject' => $event->request['subject'],
-                        'message' => $event->request['message'],
-                    ]
-                )
-                ->log('Bulk E-mail test performed');
+            $log = 'Bulk E-mail test performed';
         } else {
-            Notification::send($event->users, new \App\Notifications\EventBulkEmail($event->event, $event->request['subject'], $event->request['message']));
-            activity()
-                ->by(auth()->user())
-                ->on($event->event)
-                ->withProperties(
-                    [
-                        'subject' => $event->request['subject'],
-                        'message' => $event->request['message'],
-                        'count' => $event->users->count(),
-                    ]
-                )
-                ->log('Bulk E-mail');
+            $log = 'Bulk E-mail';
         }
+        activity()
+            ->by(auth()->user())
+            ->on($event->event)
+            ->withProperties(
+                [
+                    'subject' => $event->request['subject'],
+                    'message' => $event->request['message'],
+                ]
+            )
+            ->log($log);
+
+        Notification::send($event->users, new \App\Notifications\EventBulkEmail($event->event, $event->request['subject'], $event->request['message']));
     }
 }

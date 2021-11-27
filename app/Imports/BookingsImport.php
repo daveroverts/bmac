@@ -18,11 +18,9 @@ class BookingsImport implements ToModel, WithHeadingRow, WithBatchInserts, WithC
 {
     use Importable;
 
-    public $event;
-
-    public function __construct(Event $event)
+    public function __construct(public Event $event)
     {
-        $this->event = $event;
+        //
     }
 
     /**
