@@ -72,13 +72,3 @@ function nextEventsForFaq()
 {
     return nextEvents(false, false, false, 'faqs');
 }
-
-/**
- * @return RedirectResponse|Redirector
- */
-function holdOnWeGotABadAss()
-{
-    auth()->logout();
-    flashMessage('error', 'Error', 'Something went wrong');
-    return redirect('/');
-}
