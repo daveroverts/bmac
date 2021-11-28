@@ -20,7 +20,7 @@
                     if (result.value) {
                         Swal.fire('Deleting bookings...');
                         Swal.showLoading();
-                        $(this).closest('form').submit();
+                        $(`#${$(this).attr('form')}`).submit();
                     }
                 });
             });
@@ -35,7 +35,7 @@
                     if (result.value) {
                         Swal.fire('Deleting event...');
                         Swal.showLoading();
-                        $(this).closest('form').submit();
+                        $(`#${$(this).attr('form')}`).submit();
                     }
                 });
             });
@@ -99,10 +99,10 @@
                                 class="fa fa-edit"></i> {{ __('Assign Routes') }}</a>&nbsp;
                     @endif
                     @if ($event->startEvent > now())
-                        <button class="btn btn-danger delete-bookings m-1">
+                        <button class="btn btn-danger delete-bookings m-1" form="delete-bookings-{{ $event->id }}">
                             {{ __('Delete bookings') }}
                         </button>
-                        <button class="btn btn-danger delete-event m-1">
+                        <button class="btn btn-danger delete-event m-1" form="delete-event-{{ $event->id }}">
                             {{ __('Delete event') }}
                         </button>
                     @endif
@@ -110,9 +110,9 @@
             </td>
             </tr>
 
-            <x-form :action="route('admin.events.delete-bookings', $event)" id="delete-bookings" method="DELETE"
-                style="display: none;"></x-form>
-            <x-form :action="route('admin.events.destroy', $event)" id="delete-event" method="DELETE"
+            <x-form :action="route('admin.events.delete-bookings', $event)" id="delete-bookings-{{ $event->id }}"
+                method="DELETE" style="display: none;"></x-form>
+            <x-form :action="route('admin.events.destroy', $event)" id="delete-event-{{ $event->id }}" method="DELETE"
                 style="display: none;"></x-form>
         @empty
             @php
