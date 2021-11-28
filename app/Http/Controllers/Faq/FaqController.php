@@ -2,19 +2,14 @@
 
 namespace App\Http\Controllers\Faq;
 
-use App\Http\Controllers\Controller;
 use App\Models\Faq;
+use Illuminate\View\View;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class FaqController extends Controller
 {
-    /**
-     * Handle the incoming request.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function __invoke(Request $request)
+    public function __invoke(Request $request): View
     {
         $faqs = Faq::doesntHave('events')
             ->whereIsOnline(true)
