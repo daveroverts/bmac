@@ -1,28 +1,14 @@
 @extends('layouts.app')
 
 @section('content')
-    <h3>Events Overview</h3>
+    <h3>{{ __('Events Overview') }}</h3>
     <hr>
-    <p><a href="{{ route('admin.events.create') }}" class="btn btn-primary"><i class="fa fa-plus"></i> Add new Event</a>
+    <p><a href="{{ route('admin.events.create') }}" class="btn btn-primary"><i class="fa fa-plus"></i>
+            {{ __('Add new Event') }}</a>
     </p>
     @include('layouts.alert')
     @push('scripts')
         <script>
-            $('.delete-event').on('click', function(e) {
-                e.preventDefault();
-                Swal.fire({
-                    title: 'Are you sure',
-                    text: 'Are you sure you want to remove this event?',
-                    icon: 'warning',
-                    showCancelButton: true,
-                }).then((result) => {
-                    if (result.value) {
-                        Swal.fire('Deleting event...');
-                        Swal.showLoading();
-                        $(this).closest('form').submit();
-                    }
-                });
-            });
             $('.delete-bookings').on('click', function(e) {
                 e.preventDefault();
                 Swal.fire({
@@ -33,6 +19,21 @@
                 }).then((result) => {
                     if (result.value) {
                         Swal.fire('Deleting bookings...');
+                        Swal.showLoading();
+                        $(this).closest('form').submit();
+                    }
+                });
+            });
+            $('.delete-event').on('click', function(e) {
+                e.preventDefault();
+                Swal.fire({
+                    title: 'Are you sure',
+                    text: 'Are you sure you want to remove this event?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                }).then((result) => {
+                    if (result.value) {
+                        Swal.fire('Deleting event...');
                         Swal.showLoading();
                         $(this).closest('form').submit();
                     }
@@ -66,50 +67,53 @@
             <td>{{ $event->startEvent->format('Hi') }}z</td>
             <td>{{ $event->endEvent->format('Hi') }}z</td>
             <td>
-                <a href="{{ route('admin.events.edit', $event) }}" role="button" class="btn btn-primary"><i
-                        class="fa fa-edit"></i> Edit</a>&nbsp;
-                @if ($event->endEvent > now())
-                    <a href="{{ route('admin.bookings.importForm', $event) }}" class="btn btn-success"><i
-                            class="fa fa-file-import"></i> Import data</a>&nbsp;
-                    <a href="{{ route('admin.bookings.create', $event) }}/bulk" class="btn btn-primary"><i
-                            class="fa fa-plus"></i> Add Timeslots</a>&nbsp;
-                    @if ($event->is_oceanic_event)
-                        <a href="{{ route('admin.bookings.autoAssignForm', $event) }}" class="btn btn-primary">
-                            Auto Assign FL / Route</a>&nbsp;
+                <div class="d-flex flex-row flex-wrap justify-content-center justify-content-md-start">
+                    <a href="{{ route('admin.events.edit', $event) }}" role="button" class="btn btn-primary m-1"><i
+                            class="fa fa-edit"></i> {{ __('Edit') }}</a>&nbsp;
+                    @if ($event->endEvent > now())
+                        <a href="{{ route('admin.bookings.importForm', $event) }}" class="btn btn-success m-1"><i
+                                class="fa fa-file-import"></i> {{ __('Import data') }}</a>&nbsp;
+                        <a href="{{ route('admin.bookings.create', $event) }}/bulk" class="btn btn-primary m-1"><i
+                                class="fa fa-plus"></i> {{ __('Add Timeslots') }}</a>&nbsp;
+                        @if ($event->is_oceanic_event)
+                            <a href="{{ route('admin.bookings.autoAssignForm', $event) }}" class="btn btn-primary m-1">
+                                {{ __('Auto Assign FL / Route') }}</a>&nbsp;
+                        @endif
                     @endif
-                @endif
-                <a href="{{ route('admin.events.email.form', $event) }}" class="btn btn-primary"><i
-                        class="fa fa-envelope"></i> Send mail to all</a>&nbsp;
+                    <a href="{{ route('admin.events.email.form', $event) }}" class="btn btn-primary m-1"><i
+                            class="fa fa-envelope"></i> {{ __('Send mail to all') }}</a>&nbsp;
 
-                <button class="btn btn-success dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true"
-                    aria-expanded="false"><i class="fa fa-file-export"></i> Export</button>
-                <div class="dropdown-menu">
-                    <a class="dropdown-item" href="{{ route('admin.bookings.export', $event) }}">Excluding emails</a>
+                    <button class="btn btn-success dropdown-toggle m-1" type="button" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false"><i class="fa fa-file-export"></i> Export</button>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item"
+                            href="{{ route('admin.bookings.export', $event) }}">{{ __('Excluding emails') }}</a>
+                        @if ($event->event_type_id == \App\Enums\EventType::MULTIFLIGHTS)
+                            <a class="dropdown-item" href="{{ route('admin.bookings.export', [$event, 'vacc']) }}">
+                                {{ __('Including emails') }}</a>
+                        @endif
+                    </div>
+
                     @if ($event->event_type_id == \App\Enums\EventType::MULTIFLIGHTS)
-                        <a class="dropdown-item" href="{{ route('admin.bookings.export', [$event, 'vacc']) }}">Including
-                            emails</a>
+                        <a href="{{ route('admin.bookings.routeAssignForm', $event) }}" class="btn btn-primary m-1"><i
+                                class="fa fa-edit"></i> {{ __('Assign Routes') }}</a>&nbsp;
+                    @endif
+                    @if ($event->startEvent > now())
+                        <button class="btn btn-danger delete-bookings m-1">
+                            {{ __('Delete bookings') }}
+                        </button>
+                        <button class="btn btn-danger delete-event m-1">
+                            {{ __('Delete event') }}
+                        </button>
                     @endif
                 </div>
-
-                @if ($event->event_type_id == \App\Enums\EventType::MULTIFLIGHTS)
-                    <a href="{{ route('admin.bookings.routeAssignForm', $event) }}" class="btn btn-primary"><i
-                            class="fa fa-edit"></i> Assign Routes</a>&nbsp;
-                @endif
-                @if ($event->startEvent > now())
-                    <form action="{{ route('admin.events.delete-bookings', $event) }}" method="post"
-                        style="margin-top: 10px;">
-                        @csrf
-                        @method('DELETE')
-                        <button class="btn btn-danger delete-bookings">Delete Bookings</button>
-                    </form>
-                    <form action="{{ route('admin.events.destroy', $event) }}" method="post" style="margin-top: 10px;">
-                        @csrf
-                        @method('DELETE')
-                        <button class="btn btn-danger delete-event">Delete Event</button>
-                    </form>
-                @endif
             </td>
             </tr>
+
+            <x-form :action="route('admin.events.delete-bookings', $event)" id="delete-bookings" method="DELETE"
+                style="display: none;"></x-form>
+            <x-form :action="route('admin.events.destroy', $event)" id="delete-event" method="DELETE"
+                style="display: none;"></x-form>
         @empty
             @php
                 flashMessage('info', 'No events found', 'No events are in the system, consider adding one, using the button above');
