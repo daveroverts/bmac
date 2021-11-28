@@ -273,4 +273,21 @@ class EventAdminController extends AdminController
         }
         return redirect(route('admin.events.index'));
     }
+
+    public function deleteAllBookings(Request $request, Event $event)
+    {
+        activity()
+            ->by(auth()->user())
+            ->on($event)
+            ->log('Delete all bookings');
+
+        if ($event->endEvent <= now()) {
+            flashMessage('danger', __('Danger'), __('Booking can no longer be deleted'));
+            return back();
+        }
+
+        $event->bookings()->delete();
+        flashMessage('success', __('Bookings deleted'), __('All bookings have been deleted'));
+        return redirect(route('admin.events.index'));
+    }
 }

@@ -46,6 +46,7 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin', 'middleware' => 'auth.isAdm
     Route::patch('faq/{faq}/toggle-event/{event}', [FaqAdminController::class, 'toggleEvent'])->name('faq.toggleEvent');
 
     // Event
+    Route::delete('events/{event}/delete-bookings', [EventAdminController::class, 'deleteAllBookings'])->name('events.delete-bookings');
     Route::resource('events', EventAdminController::class);
     Route::get('{event}/email', [EventAdminController::class, 'sendEmailForm'])->name('events.email.form');
     Route::patch('{event}/email', [EventAdminController::class, 'sendEmail'])->name('events.email');
