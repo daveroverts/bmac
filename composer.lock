@@ -114,16 +114,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.204.6",
+            "version": "3.207.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "59d4d6a58ed7da541aa0ed75cc1944f8d6ca2d1c"
+                "reference": "c5252787784bf41b678b03cb3292d413fe281319"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/59d4d6a58ed7da541aa0ed75cc1944f8d6ca2d1c",
-                "reference": "59d4d6a58ed7da541aa0ed75cc1944f8d6ca2d1c",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/c5252787784bf41b678b03cb3292d413fe281319",
+                "reference": "c5252787784bf41b678b03cb3292d413fe281319",
                 "shasum": ""
             },
             "require": {
@@ -199,9 +199,9 @@
             "support": {
                 "forum": "https://forums.aws.amazon.com/forum.jspa?forumID=80",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.204.6"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.207.0"
             },
-            "time": "2021-11-26T19:18:52+00:00"
+            "time": "2021-11-30T23:44:55+00:00"
         },
         {
             "name": "bensampo/laravel-enum",
