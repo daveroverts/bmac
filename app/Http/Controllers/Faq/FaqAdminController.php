@@ -62,7 +62,7 @@ class FaqAdminController extends AdminController
 
     public function toggleEvent(Faq $faq, Event $event): RedirectResponse
     {
-        if ($faq->events()->where('event_id', $event->id)->get()->isNotEmpty()) {
+        if ($faq->events()->where('event_id', $event->id)->first()) {
             $faq->events()->detach($event->id);
             flashMessage('success', __('Event unlinked'), __('Event has been unlinked to this FAQ'));
         } else {
