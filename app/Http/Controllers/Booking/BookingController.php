@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Booking;
 
-use Carbon\Carbon;
 use App\Models\Event;
 use App\Models\Booking;
 use App\Enums\EventType;
@@ -209,7 +208,7 @@ class BookingController extends Controller
         // Check for duplicates within the same event
         if (Booking::where('event_id', $eventId)
             ->where('selcal', '=', $selcal)
-            ->get()->first()
+            ->first()
         ) {
             return null;
         }

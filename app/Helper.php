@@ -1,47 +1,21 @@
 <?php
 
 use App\Models\Event;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Routing\Redirector;
+use Illuminate\Support\Collection;
 
-/**
- * Flash a message that can be used in layouts.alert
- *
- * @param string $type
- * @param string $title
- * @param string $text
- */
-function flashMessage($type, $title, $text)
+function flashMessage($type, $title, $text): void
 {
     session()->flash('type', $type);
     session()->flash('title', $title);
     session()->flash('text', $text);
 }
 
-/**
- * Alias for nextEvent(), limit to 1
- *
- * @param bool $homepage
- *
- * @return Event
- */
-function nextEvent($homepage = false)
+function nextEvent($homepage = false): Event
 {
     return nextEvents(true, false, $homepage);
 }
 
-/**
- * Function to get upcoming event(s)
- *
- * @param bool $one
- * @param bool $showAll
- * @param bool $homepage
- * @param string|array $withRelations
- *
- * @return Event|Model|null|object
- */
-function nextEvents($one = false, $showAll = false, $homepage = false, $withRelations = [])
+function nextEvents($one = false, $showAll = false, $homepage = false, $withRelations = []): Event|Collection
 {
     $events = Event::where('endEvent', '>', now())
         ->orderBy('startEvent');
@@ -65,10 +39,7 @@ function nextEvents($one = false, $showAll = false, $homepage = false, $withRela
     return $events;
 }
 
-/**
- * @return Event|Model|object|null
- */
-function nextEventsForFaq()
+function nextEventsForFaq(): Collection
 {
     return nextEvents(false, false, false, 'faqs');
 }

@@ -2,9 +2,10 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 /**
  * App\Models\Faq
@@ -38,11 +39,6 @@ class Faq extends Model
 
     protected $guarded = ['id'];
 
-    /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
-     */
     protected $casts = [
         'is_online' => 'boolean',
     ];
@@ -50,7 +46,7 @@ class Faq extends Model
     protected static $logAttributes = ['*'];
     protected static $logOnlyDirty = true;
 
-    public function events()
+    public function events(): BelongsToMany
     {
         return $this->belongsToMany(Event::class);
     }
