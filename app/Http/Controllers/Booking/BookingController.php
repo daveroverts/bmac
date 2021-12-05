@@ -17,16 +17,8 @@ use Illuminate\View\View;
 
 class BookingController extends Controller
 {
-    public function index(Request $request, Event $event = null): View|RedirectResponse
+    public function index(Request $request, Event $event): View|RedirectResponse
     {
-        // Check if specific event is requested, else fall back to current ongoing event
-        if (!$event) {
-            $event = nextEvent();
-            if (!empty($event)) {
-                return redirect(route('bookings.event.index', $event));
-            }
-        }
-
         return view('booking.overview', compact('event'));
     }
 

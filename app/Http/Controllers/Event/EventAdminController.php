@@ -176,7 +176,7 @@ class EventAdminController extends AdminController
         }
     }
 
-    public function sendFinalInformationMail(Request $request, Event $event): RedirectResponse
+    public function sendFinalInformationMail(Request $request, Event $event): RedirectResponse|JsonResponse
     {
         $bookings = $event->bookings()
             ->with(['user', 'flights'])
