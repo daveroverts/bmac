@@ -34,10 +34,10 @@
                         @endif
 
                         <x-form-select name="dep" :label="__('Departure airport')" :options="$airports"
-                            :placeholder="__('Choose...')" required />
+                            :placeholder="__('Choose...')" required :default="$event->dep" />
 
                         <x-form-select name="arr" :label="__('Arrival airport')" :options="$airports"
-                            :placeholder="__('Choose...')" required />
+                            :placeholder="__('Choose...')" required :default="$event->dep" />
 
                         @if ($bulk)
                             <x-form-group inline>
