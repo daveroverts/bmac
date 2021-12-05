@@ -36,11 +36,6 @@ class EventAdminController extends AdminController
         return view('event.admin.overview', compact('events'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create(): View
     {
         $event = new Event;

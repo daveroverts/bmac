@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\User;
 
+use Illuminate\View\View;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\User\UpdateUserSettings;
 use Illuminate\Http\RedirectResponse;
-use View;
+use App\Http\Requests\User\UpdateUserSettings;
 
 class UserController extends Controller
 {
