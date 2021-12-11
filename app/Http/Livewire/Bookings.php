@@ -10,23 +10,12 @@ use App\Enums\BookingStatus;
 
 class Bookings extends Component
 {
-    /** @var Event */
     public Event $event;
-
-    /** @var int */
-    public $refreshInSeconds = 0;
-
-    /** @var Booking */
+    public int $refreshInSeconds = 0;
     public $bookings;
-
-    /** @var string|null */
-    public $filter = null;
-
-    /** @var int */
-    public $total = 0;
-
-    /** @var int */
-    public $booked = 0;
+    public ?string $filter = null;
+    public int $total = 0;
+    public int $booked = 0;
 
     public function filter($filter)
     {
