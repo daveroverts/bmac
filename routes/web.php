@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\VotingController;
 use App\Http\Controllers\Faq\FaqController;
 use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\Auth\LoginController;
@@ -76,6 +77,13 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin', 'middleware' => 'auth.isAdm
         '{event}/bookings/route-assign',
         [BookingAdminController::class, 'routeAssign']
     )->name('bookings.routeAssign');
+
+    //Voting ones
+    Route::get('voting',[VotingController::class, 'showAdminPage'])->name("voting");
+    Route::get('voting/addnew',[VotingController::class, 'showAddPage'])->name("voting.addnew");
+    Route::post('voting/addpoll',[VotingController::class, 'addNewPoll'])->name('voting.addpoll');
+    Route::get('voting/viewpoll/{poll_id}',[VotingController::class, 'viewPoll'])->name('voting.viewpoll');
+    Route::post('voting/editpoll',[VotingController::class, 'editPoll'])->name('voting.editpoll');
 });
 
 Route::resource('bookings', BookingController::class)->except(['create', 'edit', 'store', 'destroy']);
@@ -88,6 +96,8 @@ Route::patch('/bookings/{booking}/cancel', [BookingController::class, 'cancel'])
 Route::redirect('/booking', route('bookings.index'), 301);
 
 Route::get('faq', FaqController::class)->name('faq');
+Route::get('voting',[VotingController::class, 'pubVotingPage'])->middleware('auth.isLoggedIn')->name('voting.main');
+Route::post('voting/cast_vote',[VotingController::class,'pubVote'])->middleware('auth.isLoggedIn')->name('voting.vote');
 
 Route::get('{event}', EventController::class)->name('events.show');
 
@@ -97,4 +107,5 @@ Route::middleware('auth.isLoggedIn')->group(function () {
             Route::get('settings', [UserController::class, 'showSettingsForm'])->name('settings');
             Route::patch('settings', [UserController::class, 'saveSettings'])->name('saveSettings');
         });
+
 });
