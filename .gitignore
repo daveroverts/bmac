@@ -25,3 +25,9 @@ _ide_helper*\.php
 \.phpstorm\.meta\.php
 
 .phpunit.result.cache
+htdocs
+
+.lando.yml
+
+.ddev/
+.env.example

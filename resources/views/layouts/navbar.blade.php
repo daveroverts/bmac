@@ -78,10 +78,20 @@
                                     href="{{ route('admin.airportLinks.index') }}">{{ __('Airport Links') }}</a>
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item {{ request()->routeIs('admin.faq*') ? 'active' : '' }}"
-                                    href="{{ route('admin.faq.index') }}">{{ __('FAQ') }}</a>
-                            </div>
-                        </li>
+                                    href="{{ route('admin.faq.index') }}">FAQ</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item {{ request()->routeIs('admin.voting') ? 'active' : '' }}"
+                               href="{{ route('admin.voting') }}">Voting</a>
+                        </div>
+                    </li>
                     @endif
+                    @if ($pollOpen)
+                        <li class="nav-item dropdown">
+                            <a class="nav-link" href="{{route('voting.main')}}" id="navbarDropdown" role="button">
+                                Airfield Voting
+                            </a>
+                        </li>
+                        @endif
                 @endauth
             </ul>
 
