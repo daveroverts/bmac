@@ -37,12 +37,12 @@ When testing or running this project locally, Vatsim wants your to use their Con
 
 ## Installation
 
-Before you begin, make sure you have a server with PHP (at least 7.3, 8 recommended) to run everything on. For local development, I use [Laravel Valet](https://laravel.com/docs/8.x/valet), and before that I used [Laravel Homestead](https://laravel.com/docs/master/homestead).
+Before you begin, make sure you have a server with PHP 8 to run everything on. For local development, I use [Laravel Valet](https://laravel.com/docs/8.x/valet), and before that I used [Laravel Homestead](https://laravel.com/docs/master/homestead).
 
 1. Clone the project
 
    ```bash
-     git clone https://github.com/daveroverts/bmac.git
+     git clone -b main https://github.com/daveroverts/bmac.git
    ```
 
 2. Go to the project directory
@@ -120,7 +120,18 @@ Before you begin, make sure you have a server with PHP (at least 7.3, 8 recommen
 7. If you want to include all airports to the database, navigate to `admin/airports/import` (be sure you're logged in as admin). Depending on your setup, this might take a little while, and you won't get a confirmation that import has been done.
 The script uses [this](https://github.com/jpatokal/openflights/blob/master/data/airports.dat) file as source. Note that at the time of writing, the file was last edited 13 May 2019.
 
+
 ## Queue worker / Laravel Horizon
 If you're not using `sync` as `QUEUE_CONNECTION`, you need to run a queue worker, or else things like emails aren't being sent. Check Laravel documentation on how to set one up using Supervisor <https://laravel.com/docs/master/queues#supervisor-configuration>
 
 When you're using `redis` as `QUEUE_CONNECTION`, [Laravel Horizon](https://laravel.com/docs/master/horizon) is already installed and can be used to start a queue worker.
+
+## Task scheduler
+
+You need to add a cron entry to run `php artisan schedule:run` every minute. Example can be found below.
+
+```bash
+* * * * * cd /bmac && php artisan schedule:run >> /dev/null 2>&1
+```
+
+More info can be found here: <https://laravel.com/docs/master/scheduling#running-the-scheduler>

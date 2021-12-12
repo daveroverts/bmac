@@ -15,18 +15,14 @@ class EventFinalInformation
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $booking;
-    public $testMode;
-
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct(Booking $booking, $testMode = false)
+    public function __construct(public Booking $booking, public $testMode = false)
     {
-        $this->booking = $booking;
-        $this->testMode = $testMode;
+        //
     }
 
     /**

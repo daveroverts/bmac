@@ -6,7 +6,7 @@
     @include('layouts.alert')
     @push('scripts')
         <script>
-            $('.delete-faq').on('click', function (e) {
+            $('.delete-faq').on('click', function(e) {
                 e.preventDefault();
                 Swal.fire({
                     title: 'Are you sure',
@@ -24,16 +24,17 @@
         </script>
     @endpush
     <p>
-        <a href="{{ route('admin.faq.create') }}" class="btn btn-primary"><i class="fa fa-plus"></i> Add new FAQ</a>
+        <a href="{{ route('admin.faq.create') }}" class="btn btn-primary"><i class="fa fa-plus"></i> {{ __('Add') }}
+            new FAQ</a>
     </p>
     <table class="table table-hover">
         <thead>
-        <tr>
-            <th scope="row">ID</th>
-            <th scope="row">Question</th>
-            <th scope="row">Linked?</th>
-            <th scope="row" colspan="2">Actions</th>
-        </tr>
+            <tr>
+                <th scope="row">ID</th>
+                <th scope="row">Question</th>
+                <th scope="row">Linked?</th>
+                <th scope="row" colspan="2">Actions</th>
+            </tr>
         </thead>
         @forelse($faqs as $faq)
             <tr>

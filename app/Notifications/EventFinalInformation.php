@@ -14,20 +14,13 @@ class EventFinalInformation extends Notification implements ShouldQueue
     use Queueable;
 
     /**
-     * The booking instance.
-     *
-     * @var Booking
-     */
-    public $booking;
-
-    /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct(Booking $booking)
+    public function __construct(public Booking $booking)
     {
-        $this->booking = $booking;
+        //
     }
 
     /**

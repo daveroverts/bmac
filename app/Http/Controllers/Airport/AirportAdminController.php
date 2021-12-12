@@ -34,8 +34,7 @@ class AirportAdminController extends AdminController
      */
     public function index()
     {
-        $airports = Airport::orderBy('icao')
-            ->with(['flightsDep', 'flightsArr', 'eventDep', 'eventArr'])
+        $airports = Airport::with(['flightsDep', 'flightsArr', 'eventDep', 'eventArr'])
             ->paginate(100);
         return view('airport.admin.overview', compact('airports'));
     }
@@ -59,7 +58,7 @@ class AirportAdminController extends AdminController
     public function store(StoreAirport $request)
     {
         $airport = Airport::create($request->validated());
-        flashMessage('success', 'Done', $airport->name . ' [' . $airport->icao . ' | ' . $airport->iata . '] has been added!');
+        flashMessage('success', __('Done'), __(':airport has been added!', ['airport' => "$airport->name [$airport->icao | $airport->iata]"]));
         return redirect(route('admin.airports.index'));
     }
 
@@ -95,7 +94,8 @@ class AirportAdminController extends AdminController
     public function update(UpdateAirport $request, Airport $airport)
     {
         $airport->update($request->validated());
-        flashMessage('success', 'Done', $airport->name . ' [' . $airport->icao . ' | ' . $airport->iata . '] has been updated!');
+        flashMessage('success', __('Done'), __(':airport has been updated!', ['airport' => "$airport->name [$airport->icao | $airport->iata]"]));
+
         return redirect(route('admin.airports.index'));
     }
 
@@ -110,17 +110,14 @@ class AirportAdminController extends AdminController
     {
         if ($airport->flightsDep->isEmpty() && $airport->flightsArr->isEmpty()) {
             $airport->delete();
-            flashMessage(
-                'success',
-                'Done',
-                $airport->name . ' [' . $airport->icao . ' | ' . $airport->iata . '] has been deleted!'
-            );
+            flashMessage('success', __('Done'), __(':airport has been deleted!', ['airport' => "$airport->name [$airport->icao | $airport->iata]"]));
+
             return redirect()->back();
         } else {
             flashMessage(
                 'danger',
-                'Warning',
-                $airport->name . ' [' . $airport->icao . ' | ' . $airport->iata . '] could not be deleted! It\'s linked to another event'
+                __('Warning'),
+                __(':airport could not be deleted! It\'s linked to another event', ['airport' => "$airport->name [$airport->icao | $airport->iata]"])
             );
             return redirect()->back();
         }
@@ -144,7 +141,7 @@ class AirportAdminController extends AdminController
         );
         (new AirportsImport)->import($file);
         Storage::delete($file);
-        flashMessage('success', 'Done', 'Airports have been added');
+        flashMessage('success', __('Done'), __('Airports have been added'));
         return redirect(route('admin.airports.index'));
     }
 }

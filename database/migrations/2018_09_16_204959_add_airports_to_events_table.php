@@ -14,14 +14,13 @@ class AddAirportsToEventsTable extends Migration
     public function up()
     {
         Schema::table('events', function (Blueprint $table) {
-            $table->string('arr')->after('description')->nullable();
-            $table->string('dep')->after('description')->nullable();
+            $table->unsignedInteger('arr')->after('description')->nullable();
+            $table->unsignedInteger('dep')->after('description')->nullable();
         });
 
         Schema::table('events', function (Blueprint $table) {
-            $table->foreign('dep')->references('icao')->on('airports');
-            $table->foreign('arr')->references('icao')->on('airports');
-
+            $table->foreign('dep')->references('id')->on('airports');
+            $table->foreign('arr')->references('id')->on('airports');
         });
     }
 

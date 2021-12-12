@@ -18,4 +18,17 @@ class UpdateUserSettings extends Request
             'use_monospace_font' => 'required|boolean'
         ];
     }
+
+    /**
+     * Get custom attributes for validator errors.
+     *
+     * @return array
+     */
+    public function attributes()
+    {
+        return [
+            'airport_view' => __('Default airport view'),
+            'use_monospace_font' => __('Use monospace font'),
+        ];
+    }
 }
