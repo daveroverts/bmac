@@ -51,8 +51,12 @@ class EventAdminController extends AdminController
     public function create()
     {
         $event = new Event;
-        $airports = Airport::orderBy('icao')->get();
-        $eventTypes = EventType::all();
+        $airports = Airport::all(['id', 'icao', 'iata', 'name'])->keyBy('id')
+            ->map(function ($airport) {
+                /** @var Airport $airport */
+                return "$airport->icao | $airport->name | $airport->iata";;
+            });
+        $eventTypes = EventType::all()->pluck('name', 'id');
         return view('event.admin.form', compact('event', 'airports', 'eventTypes'));
     }
 
@@ -65,21 +69,40 @@ class EventAdminController extends AdminController
     public function store(StoreEvent $request)
     {
         $event = new Event();
-        $event->fill($request->only('is_online', 'show_on_homepage', 'name', 'event_type_id', 'import_only',
+        $event->fill($request->only(
+            'is_online',
+            'show_on_homepage',
+            'name',
+            'event_type_id',
+            'import_only',
             'uses_times',
-            'multiple_bookings_allowed', 'is_oceanic_event', 'dep', 'arr', 'image_url', 'description'));
+            'multiple_bookings_allowed',
+            'is_oceanic_event',
+            'dep',
+            'arr',
+            'image_url',
+            'description'
+        ));
         $event->fill([
-            'startEvent' => Carbon::createFromFormat('d-m-Y H:i',
-                $request->dateEvent.' '.$request->timeBeginEvent),
-            'endEvent' => Carbon::createFromFormat('d-m-Y H:i',
-                $request->dateEvent.' '.$request->timeEndEvent),
-            'startBooking' => Carbon::createFromFormat('d-m-Y H:i',
-                $request->dateBeginBooking.' '.$request->timeBeginBooking),
-            'endBooking' => Carbon::createFromFormat('d-m-Y H:i',
-                $request->dateEndBooking.' '.$request->timeEndBooking),
+            'startEvent' => Carbon::createFromFormat(
+                'd-m-Y H:i',
+                $request->dateEvent . ' ' . $request->timeBeginEvent
+            ),
+            'endEvent' => Carbon::createFromFormat(
+                'd-m-Y H:i',
+                $request->dateEvent . ' ' . $request->timeEndEvent
+            ),
+            'startBooking' => Carbon::createFromFormat(
+                'd-m-Y H:i',
+                $request->dateBeginBooking . ' ' . $request->timeBeginBooking
+            ),
+            'endBooking' => Carbon::createFromFormat(
+                'd-m-Y H:i',
+                $request->dateEndBooking . ' ' . $request->timeEndBooking
+            ),
         ])->save();
 
-        flashMessage('success', 'Done', 'Event has been created!');
+        flashMessage('success', __('Done'), __('Event has been created!'));
         return redirect(route('admin.events.index'));
     }
 
@@ -102,8 +125,12 @@ class EventAdminController extends AdminController
      */
     public function edit(Event $event)
     {
-        $airports = Airport::orderBy('icao')->get();
-        $eventTypes = EventType::all();
+        $airports = Airport::all(['id', 'icao', 'iata', 'name'])->keyBy('id')
+            ->map(function ($airport) {
+                /** @var Airport $airport */
+                return "$airport->icao | $airport->name | $airport->iata";;
+            });
+        $eventTypes = EventType::all()->pluck('name', 'id');
         return view('event.admin.form', compact('event', 'airports', 'eventTypes'));
     }
 
@@ -116,20 +143,39 @@ class EventAdminController extends AdminController
      */
     public function update(UpdateEvent $request, Event $event)
     {
-        $event->fill($request->only('is_online', 'show_on_homepage', 'name', 'event_type_id', 'import_only',
+        $event->fill($request->only(
+            'is_online',
+            'show_on_homepage',
+            'name',
+            'event_type_id',
+            'import_only',
             'uses_times',
-            'multiple_bookings_allowed', 'is_oceanic_event', 'dep', 'arr', 'image_url', 'description'));
+            'multiple_bookings_allowed',
+            'is_oceanic_event',
+            'dep',
+            'arr',
+            'image_url',
+            'description'
+        ));
         $event->fill([
-            'startEvent' => Carbon::createFromFormat('d-m-Y H:i',
-                $request->dateEvent.' '.$request->timeBeginEvent),
-            'endEvent' => Carbon::createFromFormat('d-m-Y H:i',
-                $request->dateEvent.' '.$request->timeEndEvent),
-            'startBooking' => Carbon::createFromFormat('d-m-Y H:i',
-                $request->dateBeginBooking.' '.$request->timeBeginBooking),
-            'endBooking' => Carbon::createFromFormat('d-m-Y H:i',
-                $request->dateEndBooking.' '.$request->timeEndBooking),
+            'startEvent' => Carbon::createFromFormat(
+                'd-m-Y H:i',
+                $request->dateEvent . ' ' . $request->timeBeginEvent
+            ),
+            'endEvent' => Carbon::createFromFormat(
+                'd-m-Y H:i',
+                $request->dateEvent . ' ' . $request->timeEndEvent
+            ),
+            'startBooking' => Carbon::createFromFormat(
+                'd-m-Y H:i',
+                $request->dateBeginBooking . ' ' . $request->timeBeginBooking
+            ),
+            'endBooking' => Carbon::createFromFormat(
+                'd-m-Y H:i',
+                $request->dateEndBooking . ' ' . $request->timeEndBooking
+            ),
         ])->save();
-        flashMessage('success', 'Done', 'Event has been updated!');
+        flashMessage('success', __('Done'), __('Event has been updated!'));
         return redirect(route('admin.events.index'));
     }
 
@@ -144,10 +190,10 @@ class EventAdminController extends AdminController
     {
         if ($event->startEvent > now()) {
             $event->delete();
-            flashMessage('success', 'Done', $event->name.' has been deleted!');
+            flashMessage('success', __('Done'), __(':event has been deleted!', ['event' => $event->name]));
             return redirect()->back();
         } else {
-            flashMessage('danger', 'Nope!', 'You cannot remove a event after it has begun!');
+            flashMessage('danger', __('Danger'), __('Event can no longer be deleted!'));
             return redirect()->back();
         }
     }
@@ -173,8 +219,8 @@ class EventAdminController extends AdminController
     public function sendEmail(SendEmail $request, Event $event)
     {
         if ($request->testmode) {
-            event(new EventBulkEmail($event, $request->all(), auth()->user()));
-            return response()->json(['success' => 'Email has been sent to yourself']);
+            event(new EventBulkEmail($event, $request->all(), collect([auth()->user()])));
+            return response()->json(['success' => __('Email has been sent to yourself')]);
         } else {
             /* @var User $users */
             $users = User::whereHas('bookings', function (Builder $query) use ($event) {
@@ -182,7 +228,7 @@ class EventAdminController extends AdminController
                 $query->where('status', BookingStatus::BOOKED);
             })->get();
             event(new EventBulkEmail($event, $request->all(), $users));
-            flashMessage('success', 'Done', 'Bulk E-mail has been sent to '.$users->count().' people!');
+            flashMessage('success', __('Done'), __('Bulk E-mail has been sent to :count people!', ['count' => $users->count()]));
             return redirect(route('admin.events.index'));
         }
     }
@@ -202,7 +248,7 @@ class EventAdminController extends AdminController
 
         if ($request->testmode) {
             event(new EventFinalInformation($bookings->random()));
-            return response()->json(['success' => 'Email has been sent to yourself']);
+            return response()->json(['success' => __('Email has been sent to yourself')]);
         } else {
             $count = $bookings->count();
             $countSkipped = 0;
@@ -214,17 +260,34 @@ class EventAdminController extends AdminController
                     $countSkipped++;
                 }
             }
-            $message = 'Final Information has been sent to ' . $count . ' people!';
+            $message = __('Final Information has been sent to :count people!', ['count' => $count]);
             if ($countSkipped != 0) {
-                $message .= ' However, ' . $countSkipped . ' where skipped, because they already received one';
+                $message .= ' ' . __('However, :count where skipped, because they already received one', ['count' => $count]);
             }
-            flashMessage('success', 'Done', $message);
+            flashMessage('success', __('Done'), $message);
             activity()
                 ->by(auth()->user())
                 ->on($event)
                 ->withProperty('count', $count)
                 ->log('Final Information E-mail');
         }
+        return redirect(route('admin.events.index'));
+    }
+
+    public function deleteAllBookings(Request $request, Event $event)
+    {
+        activity()
+            ->by(auth()->user())
+            ->on($event)
+            ->log('Delete all bookings');
+
+        if ($event->endEvent <= now()) {
+            flashMessage('danger', __('Danger'), __('Booking can no longer be deleted'));
+            return back();
+        }
+
+        $event->bookings()->delete();
+        flashMessage('success', __('Bookings deleted'), __('All bookings have been deleted'));
         return redirect(route('admin.events.index'));
     }
 }

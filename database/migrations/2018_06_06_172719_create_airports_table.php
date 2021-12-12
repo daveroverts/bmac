@@ -14,10 +14,12 @@ class CreateAirportsTable extends Migration
     public function up()
     {
         Schema::create('airports', function (Blueprint $table) {
-            $table->string('icao')->primary();
-            $table->string('iata');
-            $table->unique('iata');
+            // Can't use id() because that uses bigIncrements since Laravel 6, which might break existing envs at one point.
+            $table->unsignedInteger('id')->autoIncrement();
+            $table->string('icao')->unique();
+            $table->string('iata')->unique();
             $table->string('name');
+            $table->timestamps();
         });
         DB::table('airports')->insert(['icao' => 'EHAM', 'iata' => 'AMS', 'name' => 'Amsterdam Airport Schiphol']);
     }

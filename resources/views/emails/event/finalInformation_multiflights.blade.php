@@ -5,7 +5,7 @@ Dear **{{ $booking->user->full_name }}**,
 
 Thanks for booking a slot for the {{ $booking->event->name }} event. Here you can find your slot information:
 
-Callsign: **{{ $booking->callsign }}**
+Callsign: **{{ $booking->formatted_callsign }}**
 
 @component('mail::table')
 | FROM | TO | CTOT | ROUTE |

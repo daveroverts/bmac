@@ -19,4 +19,18 @@ class SendEmail extends Request
             'testmode' => 'boolean'
         ];
     }
+
+    /**
+     * Get custom attributes for validator errors.
+     *
+     * @return array
+     */
+    public function attributes()
+    {
+        return [
+            'subject' => __('Subject'),
+            'message' => __('Message'),
+            'testmode' => __('Test mode'),
+        ];
+    }
 }

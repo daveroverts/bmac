@@ -25,8 +25,6 @@ class BookingController extends Controller
      */
     public function index(Request $request, Event $event = null)
     {
-        $this->removeOverdueReservations();
-
         // Check if specific event is requested, else fall back to current ongoing event
         if (!$event) {
             $event = nextEvent();
@@ -36,18 +34,6 @@ class BookingController extends Controller
         }
 
         return view('booking.overview', compact('event'));
-    }
-
-    public function removeOverdueReservations()
-    {
-        // Get all reservations that have been reserved
-        Booking::whereStatus(BookingStatus::RESERVED)->each(function ($booking) {
-            // If a reservation has been reserved for more then 10 minutes, remove user_id, and make booking available
-            if (now() > Carbon::createFromFormat('Y-m-d H:i:s', $booking->updated_at)->addMinutes(10)) {
-                $booking->status = BookingStatus::UNASSIGNED;
-                $booking->user()->dissociate()->save();
-            }
-        });
     }
 
     /**
@@ -78,7 +64,7 @@ class BookingController extends Controller
             // Check if current user has booked/reserved
             if ($booking->user_id == auth()->id()) {
                 if ($booking->status == BookingStatus::BOOKED && !$booking->is_editable) {
-                    flashMessage('info', 'Nope!', 'You cannot edit the booking!');
+                    flashMessage('info', __('Danger'), __('You cannot edit the booking!'));
                     return redirect(route('bookings.event.index', $booking->event));
                 }
                 if ($booking->event->event_type_id == EventType::MULTIFLIGHTS) {
@@ -91,16 +77,16 @@ class BookingController extends Controller
                 if ($booking->status === BookingStatus::RESERVED) {
                     flashMessage(
                         'danger',
-                        'Warning',
-                        'Whoops! Somebody else reserved that slot just before you! Please choose another one. The slot will become available if it isn\'t confirmed within 10 minutes.'
+                        __('Warning'),
+                        __('Whoops! Somebody else reserved that slot just before you! Please choose another one. The slot will become available if it isn\'t confirmed within 10 minutes.')
                     );
                     return redirect(route('bookings.event.index', $booking->event));
                 } // In case the booking has already been booked
                 else {
                     flashMessage(
                         'danger',
-                        'Warning',
-                        'Whoops! Somebody else booked that slot just before you! Please choose another one.'
+                        __('Warning'),
+                        __('Whoops! Somebody else booked that slot just before you! Please choose another one.')
                     );
                     return redirect(route('bookings.event.index', $booking->event));
                 }
@@ -116,7 +102,7 @@ class BookingController extends Controller
                 ->where('status', BookingStatus::BOOKED)
                 ->first()
             ) {
-                flashMessage('danger!', 'Nope!', 'You already have a booking!');
+                flashMessage('danger!', __('Warning'), __('You already have a booking!'));
                 return redirect(route('bookings.event.index', $booking->event));
             }
             // If user already has another reservation open
@@ -124,7 +110,7 @@ class BookingController extends Controller
                 ->where('status', BookingStatus::RESERVED)
                 ->first()
             ) {
-                flashMessage('danger', 'Nope!', 'You already have a reservation! Please cancel or book that flight first.');
+                flashMessage('danger', __('Warning'), __('You already have a reservation! Please cancel or book that flight first.'));
                 return redirect(route('bookings.event.index', $booking->event));
             } // Reserve booking, and redirect to booking.edit
             else {
@@ -139,8 +125,8 @@ class BookingController extends Controller
                         $booking->user()->associate(auth()->user())->save();
                         flashMessage(
                             'info',
-                            'Slot reserved',
-                            'Will remain reserved until ' . $booking->updated_at->addMinutes(10)->format('Hi') . 'z'
+                            __('Slot reserved'),
+                            __('Slot remains reserved until :time', ['time' => $booking->updated_at->addMinutes(10)->format('Hi') . 'z'])
                         );
                         if ($booking->event->event_type_id == EventType::MULTIFLIGHTS) {
                             return view('booking.edit_multiflights', compact('booking'));
@@ -150,16 +136,16 @@ class BookingController extends Controller
                     } else {
                         flashMessage(
                             'danger',
-                            'Nope!',
-                            'Bookings have been closed at ' . $booking->event->endBooking->format('d-m-Y Hi') . 'z'
+                            __('Danger'),
+                            __('Bookings have been closed at :time', ['time' => $booking->event->endBooking->format('d-m-Y Hi') . 'z'])
                         );
                         return redirect(route('bookings.event.index', $booking->event));
                     }
                 } else {
                     flashMessage(
                         'danger',
-                        'Nope!',
-                        'Bookings aren\'t open yet. They will open at ' . $booking->event->startBooking->format('d-m-Y Hi') . 'z'
+                        __('Danger'),
+                        __('Bookings aren\'t open yet. They will open at :time', ['time' => $booking->event->startBooking->format('d-m-Y Hi') . 'z'])
                     );
                     return redirect(route('bookings.event.index', $booking->event));
                 }
@@ -181,7 +167,7 @@ class BookingController extends Controller
             if ($booking->is_editable) {
                 $booking->fill([
                     'callsign' => $request->callsign,
-                    'acType' => $request->aircraft
+                    'acType' => $request->acType
                 ]);
             }
 
@@ -196,19 +182,20 @@ class BookingController extends Controller
             if ($booking->getOriginal('status') === BookingStatus::RESERVED) {
                 $booking->save();
                 event(new BookingConfirmed($booking));
-                $message = 'Your booking has been confirmed.';
-
                 if (!Str::contains(config('mail.default'), ['log', 'array'])) {
-                    $message .= ' You should shortly receive an email with your booking details. Be sure to also check your spam folder.';
+                    $message = __('Your booking has been confirmed. You should shortly receive an email with your booking details. Be sure to also check your spam folder.');
+                } else {
+                    $message = __('Your booking has been confirmed');
                 }
+
                 flashMessage(
                     'success',
-                    'Booking confirmed!',
+                    __('Booking confirmed!'),
                     $message
                 );
             } else {
                 $booking->save();
-                flashMessage('success', 'Booking edited!', 'Booking has been edited!');
+                flashMessage('success', __('Booking edited!'), __('Booking has been edited!'));
             }
             return redirect(route('bookings.event.index', $booking->event));
         } else {
@@ -270,23 +257,25 @@ class BookingController extends Controller
                     'selcal' => null,
                 ]);
             }
-            $booking->status = BookingStatus::UNASSIGNED;
-            if ($booking->getOriginal('status') === BookingStatus::BOOKED) {
-                event(new BookingCancelled($booking));
-                $title = 'Booking cancelled!';
-                $message = 'Booking has been cancelled!';
+
+            if ($booking->status === BookingStatus::BOOKED) {
+                event(new BookingCancelled($booking, auth()->user()));
+                $title = __('Booking cancelled!');
+                $message = __('Booking has been cancelled!');
             } else {
-                $title = 'Slot free';
-                $message = 'Slot is now free to use again';
+                $title = __('Slot free');
+                $message = __('Slot is now free to use again');
             }
+
+            $booking->status = BookingStatus::UNASSIGNED;
             flashMessage('info', $title, $message);
             $booking->user()->dissociate()->save();
             return redirect(route('bookings.event.index', $booking->event));
         }
         flashMessage(
             'danger',
-            'Nope!',
-            'Bookings have been locked at ' . $booking->event->endBooking->format('d-m-Y Hi') . 'z'
+            __('Danger'),
+            __('Bookings have been locked at :time', ['time' => $booking->event->endBooking->format('d-m-Y Hi') . 'z'])
         );
         return redirect(route('bookings.event.index', $booking->event));
     }

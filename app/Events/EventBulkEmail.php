@@ -10,30 +10,15 @@ use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Collection;
 
 class EventBulkEmail
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $event;
-    public $request;
-    /* @var \App\Models\User|null */
-    public $users;
-
-    /**
-     * Create a new event instance.
-     *
-     * @param Event $event
-     * @param array $request
-     * @param \App\Models\User|null $users
-     *
-     * @return void
-     */
-    public function __construct(Event $event, array $request, $users)
+    public function __construct(public Event $event, public array $request, public Collection $users)
     {
-        $this->event = $event;
-        $this->request = $request;
-        $this->users = $users;
+        //
     }
 
     /**

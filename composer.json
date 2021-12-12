@@ -8,7 +8,7 @@
     "license": "MIT",
     "type": "project",
     "require": {
-        "php": "^7.3|^8.0",
+        "php": "^8.0",
         "aws/aws-sdk-php": "^3.203",
         "bensampo/laravel-enum": "^3.0",
         "bugsnag/bugsnag-laravel": "^2.17",
@@ -26,7 +26,7 @@
         "livewire/livewire": "^2.3",
         "maatwebsite/excel": "^3.1",
         "predis/predis": "^1.1",
-        "renatomarinho/laravel-page-speed": "^2.0",
+        "protonemedia/laravel-form-components": "^3.2",
         "spatie/laravel-activitylog": "^3.8",
         "tabuna/breadcrumbs": "^2.0"
     },
@@ -34,6 +34,7 @@
         "barryvdh/laravel-debugbar": "^3.6",
         "barryvdh/laravel-ide-helper": "^2.10",
         "beyondcode/laravel-query-detector": "^1.5",
+        "brianium/paratest": "^6.3",
         "enlightn/security-checker": "^1.9",
         "fakerphp/faker": "^1.16",
         "laravel/sail": "^1.12",
