@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v2.2.6](https://github.com/daveroverts/bmac/compare/v2.2.5...v2.2.6) - 2021-12-13
+
 ### Added
 - Added [protonemedia/laravel-form-components](https://github.com/protonemedia/laravel-form-components) for all forms. Bootstrap 4 stuff have been published and changed to support custom forms (for Bootswatch Flatly) as much as possible. The only one I didn't change was input file.
 - All strings (the ones I looked at) while adding laravel-form-components are now translatable.
