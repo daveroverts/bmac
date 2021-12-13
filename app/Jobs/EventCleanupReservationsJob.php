@@ -16,18 +16,14 @@ class EventCleanupReservationsJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    // TODO: Maybe it's time to force PHP 8, I wanna use constructor promotion
-
-    public Event $event;
-
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct($event)
+    public function __construct(public Event $event)
     {
-        $this->event = $event;
+        //
     }
 
     /**
@@ -42,7 +38,8 @@ class EventCleanupReservationsJob implements ShouldQueue
             ->each(function (Booking $booking) {
                 if (now()->greaterThanOrEqualTo($booking->updated_at->addMinutes(10))) {
                     $booking->status = BookingStatus::UNASSIGNED;
-                    $booking->user()->dissociate()->save();
+                    $booking->user_id = null;
+                    $booking->save();
                 }
             });
     }

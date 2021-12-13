@@ -20,6 +20,6 @@ class IsAdmin
             return $next($request);
         }
         // We got a bad-ass over here, log that person out
-        return holdOnWeGotABadAss();
+        return redirect('/');
     }
 }

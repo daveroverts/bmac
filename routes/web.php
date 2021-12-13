@@ -79,7 +79,7 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin', 'middleware' => 'auth.isAdm
     )->name('bookings.routeAssign');
 });
 
-Route::resource('bookings', BookingController::class)->except(['create', 'edit', 'store', 'destroy']);
+Route::resource('bookings', BookingController::class)->only(['show', 'edit', 'update']);
 Route::get('/{event}/bookings/{filter?}', [BookingController::class, 'index'])->name('bookings.event.index');
 Route::get('/bookings/{booking}/edit', [BookingController::class, 'edit'])
     ->middleware('auth.isLoggedIn')->name('bookings.edit');

@@ -2,9 +2,11 @@
 
 namespace App\Http\Resources;
 
-use App\Models\Airport;
 use Illuminate\Http\Resources\Json\JsonResource;
 
+/**
+ * @mixin \App\Models\Event
+ */
 class EventResource extends JsonResource
 {
     /**
@@ -31,7 +33,7 @@ class EventResource extends JsonResource
             'import_only' => (bool) $this->import_only,
             'uses_times' => (bool) $this->uses_times,
             'multiple_bookings_allowed' => (bool) $this->multiple_bookings_allowed,
-            'is_oceanic_event' => (bool) $this->oceanic_event,
+            'is_oceanic_event' => (bool) $this->is_oceanic_event,
             'created_at' => (string) $this->created_at,
             'updated_at' => (string) $this->updated_at,
             'links' => [

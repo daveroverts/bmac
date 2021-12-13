@@ -2,47 +2,38 @@
 
 namespace App\Http\Controllers\Booking;
 
+use Carbon\Carbon;
+use App\Models\Event;
+use App\Models\Flight;
+use App\Models\Airport;
+use App\Models\Booking;
+use Illuminate\View\View;
 use App\Enums\BookingStatus;
+use Illuminate\Http\Request;
 use App\Events\BookingChanged;
 use App\Events\BookingDeleted;
 use App\Exports\BookingsExport;
+use App\Imports\BookingsImport;
+use App\Policies\BookingPolicy;
+use App\Imports\FlightRouteAssign;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\AdminController;
 use App\Http\Requests\Booking\Admin\AutoAssign;
-use App\Http\Requests\Booking\Admin\ImportBookings;
 use App\Http\Requests\Booking\Admin\RouteAssign;
 use App\Http\Requests\Booking\Admin\StoreBooking;
 use App\Http\Requests\Booking\Admin\UpdateBooking;
-use App\Imports\BookingsImport;
-use App\Imports\FlightRouteAssign;
-use App\Models\Airport;
-use App\Models\Booking;
-use App\Models\Event;
-use App\Models\Flight;
-use App\Policies\BookingPolicy;
-use Carbon\Carbon;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
+use App\Http\Requests\Booking\Admin\ImportBookings;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class BookingAdminController extends AdminController
 {
-    /**
-     * Instantiate a new controller instance.
-     *
-     * @return void
-     */
     public function __construct()
     {
         $this->authorizeResource(BookingPolicy::class, 'booking');
     }
 
-    /**
-     * Show the form for creating new timeslots
-     *
-     * @param  Event  $event
-     * @param  Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function create(Event $event, Request $request)
+    public function create(Event $event, Request $request): View
     {
         $bulk = $request->bulk;
         $airports = Airport::all(['id', 'icao', 'iata', 'name'])->keyBy('id')
@@ -54,13 +45,7 @@ class BookingAdminController extends AdminController
         return view('booking.admin.create', compact('event', 'airports', 'bulk'));
     }
 
-    /**
-     * Store new timeslots in storage.
-     *
-     * @param  StoreBooking  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(StoreBooking $request)
+    public function store(StoreBooking $request): RedirectResponse
     {
         $event = Event::whereKey($request->id)->first();
         if ($request->bulk) {
@@ -134,23 +119,12 @@ class BookingAdminController extends AdminController
         return redirect(route('bookings.event.index', $event));
     }
 
-    /**
-     * Display the specified booking.
-     *
-     * @param  Booking  $booking
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Booking $booking)
+    public function show(Booking $booking): View
     {
         return view('booking.show', compact('booking'));
     }
 
-    /**
-     * Show the form for editing the specified booking.
-     * @param  Booking  $booking
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     */
-    public function edit(Booking $booking)
+    public function edit(Booking $booking): View|RedirectResponse
     {
         if ($booking->event->endEvent >= now()) {
             $airports = Airport::all(['id', 'icao', 'iata', 'name'])->keyBy('id')
@@ -165,14 +139,7 @@ class BookingAdminController extends AdminController
         return back();
     }
 
-    /**
-     * Updates booking.
-     *
-     * @param  UpdateBooking  $request
-     * @param  Booking  $booking
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
-     */
-    public function update(UpdateBooking $request, Booking $booking)
+    public function update(UpdateBooking $request, Booking $booking): RedirectResponse
     {
         $shouldSendEmail = false;
         if (!empty($booking->user) && $request->notify_user) {
@@ -240,14 +207,7 @@ class BookingAdminController extends AdminController
         return redirect(route('bookings.event.index', $booking->event));
     }
 
-    /**
-     * Remove the specified booking from storage.
-     *
-     * @param  Booking  $booking
-     * @return \Illuminate\Http\Response
-     * @throws \Exception
-     */
-    public function destroy(Booking $booking)
+    public function destroy(Booking $booking): RedirectResponse
     {
         if ($booking->event->endEvent >= now()) {
             if (!empty($booking->user)) {
@@ -261,17 +221,7 @@ class BookingAdminController extends AdminController
         return back();
     }
 
-    /**
-     * Exports all active bookings to a .csv file
-     *
-     * @param  Event  $event
-     * @return string|\Symfony\Component\HttpFoundation\StreamedResponse
-     * @throws \Box\Spout\Common\Exception\IOException
-     * @throws \Box\Spout\Common\Exception\InvalidArgumentException
-     * @throws \Box\Spout\Common\Exception\UnsupportedTypeException
-     * @throws \Box\Spout\Writer\Exception\WriterNotOpenedException
-     */
-    public function export(Event $event, Request $request)
+    public function export(Event $event, Request $request): BinaryFileResponse
     {
         activity()
             ->by(auth()->user())
@@ -286,7 +236,7 @@ class BookingAdminController extends AdminController
         return view('event.admin.import', compact('event'));
     }
 
-    public function import(ImportBookings $request, Event $event)
+    public function import(ImportBookings $request, Event $event): RedirectResponse
     {
         activity()
             ->by(auth()->user())
@@ -299,23 +249,12 @@ class BookingAdminController extends AdminController
         return redirect(route('bookings.event.index', $event));
     }
 
-    /**
-     * Show the form for editing the specified booking.
-     *
-     * @param  Event  $event
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     */
-    public function adminAutoAssignForm(Event $event)
+    public function adminAutoAssignForm(Event $event): View
     {
         return view('event.admin.autoAssign', compact('event'));
     }
 
-    /**
-     * @param  AutoAssign  $request
-     * @param  Event  $event
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
-     */
-    public function adminAutoAssign(AutoAssign $request, Event $event)
+    public function adminAutoAssign(AutoAssign $request, Event $event): RedirectResponse
     {
         // @TODO Optimise this, for now it's a ugly fix
         $bookings = $event->bookings()
@@ -373,13 +312,13 @@ class BookingAdminController extends AdminController
         return redirect(route('admin.events.index'));
     }
 
-    public function routeAssignForm(Event $event)
+    public function routeAssignForm(Event $event): View
     {
         return view('event.admin.routeAssign', compact('event'));
     }
 
 
-    public function routeAssign(RouteAssign $request, Event $event)
+    public function routeAssign(RouteAssign $request, Event $event): RedirectResponse
     {
         activity()
             ->by(auth()->user())
