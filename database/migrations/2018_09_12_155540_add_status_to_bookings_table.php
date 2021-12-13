@@ -17,25 +17,6 @@ class AddStatusToBookingsTable extends Migration
     {
         Schema::table('bookings', function (Blueprint $table) {
             $table->tinyInteger('status')->unsigned()->after('event_id')->default(BookingStatus::UNASSIGNED);
-            $table->unsignedInteger('user_id')->after('event_id')->nullable();
-        });
-
-        Schema::table('bookings', function (Blueprint $table) {
-            $table->foreign('user_id')->references('id')->on('users');
-        });
-
-        foreach (Booking::all() as $booking) {
-            if ($booking->bookedBy_id) {
-                $booking->user_id = $booking->bookedBy_id;
-                $booking->status = BookingStatus::BOOKED;
-            }
-            $booking->save();
-        }
-
-        Schema::table('bookings', function (Blueprint $table) {
-            $table->dropForeign(['reservedBy_id']);
-            $table->dropForeign(['bookedBy_id']);
-            $table->dropColumn(['reservedBy_id', 'bookedBy_id']);
         });
     }
 
@@ -47,23 +28,7 @@ class AddStatusToBookingsTable extends Migration
     public function down()
     {
         Schema::table('bookings', function (Blueprint $table) {
-            $table->unsignedInteger('bookedBy_id')->nullable()->after('user_id');
-            $table->unsignedInteger('reservedBy_id')->nullable()->after('user_id');
-        });
-
-        Schema::table('bookings', function (Blueprint $table) {
-            $table->foreign('reservedBy_id')->references('id')->on('users');
-            $table->foreign('bookedBy_id')->references('id')->on('users');
-        });
-
-        foreach (Booking::whereNotNull('user_id')->get() as $booking) {
-            $booking->bookedBy_id = $booking->user_id;
-            $booking->save();
-        }
-
-        Schema::table('bookings', function (Blueprint $table) {
-            $table->dropForeign(['user_id']);
-            $table->dropColumn(['user_id', 'status']);
+            $table->dropColumn('status');
         });
     }
 }

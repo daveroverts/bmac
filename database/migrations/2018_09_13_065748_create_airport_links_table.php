@@ -15,7 +15,7 @@ class CreateAirportLinksTable extends Migration
     {
         Schema::create('airport_links', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('icao_airport');
+            $table->unsignedInteger('airport_id');
             $table->unsignedInteger('airportLinkType_id');
             $table->string('name')->nullable();
             $table->string('url');
@@ -24,7 +24,7 @@ class CreateAirportLinksTable extends Migration
         });
 
         Schema::table('airport_links', function (Blueprint $table) {
-            $table->foreign('icao_airport')->references('icao')->on('airports')->onDelete('cascade');
+            $table->foreign('airport_id')->references('id')->on('airports')->onDelete('cascade');
             $table->foreign('airportLinkType_id')->references('id')->on('airport_link_types')->onDelete('cascade');
         });
     }
@@ -37,7 +37,7 @@ class CreateAirportLinksTable extends Migration
     public function down()
     {
         Schema::table('airport_links', function (Blueprint $table) {
-            $table->dropForeign(['icao_airport']);
+            $table->dropForeign(['airport_id']);
             $table->dropForeign(['airportLinkType_id']);
         });
 

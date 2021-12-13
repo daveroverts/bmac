@@ -7,6 +7,28 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v2.2.6](https://github.com/daveroverts/bmac/compare/v2.2.5...v2.2.6) - 2021-12-13
+
+### Added
+- Added [protonemedia/laravel-form-components](https://github.com/protonemedia/laravel-form-components) for all forms. Bootstrap 4 stuff have been published and changed to support custom forms (for Bootswatch Flatly) as much as possible. The only one I didn't change was input file.
+- All strings (the ones I looked at) while adding laravel-form-components are now translatable.
+- Added `EventCleanupReservations` job + command
+- Added ability to delete bookings, in case you screwed up import, and want to do that again.
+- Added following to `EventResource`
+  - `url`: URL of the event for easier access
+  - `total_bookings_count`: Total bookings that are in the system for the event.
+  - `available_bookings_count`: Bookings that are still available to be booked.
+
+### Changed
+- Changed some flash messages.
+- Lots of old migrations that I screwed up back when I started this project in 2018
+
+### Removed
+- Removed (renatomarinho/laravel-page-speed)[https://github.com/renatomarinho/laravel-page-speed] as it gave to too many headaches, and I always just disabled it because of that.
+- Removed `BookingController removeOverdueReservations()`, replaced by `EventCleanupReservationsJob`
+- Dropped support for PHP 7.4
+- Removed route `/bookings` | `bookings.index`.
+
 ## [v2.2.5](https://github.com/daveroverts/bmac/compare/v2.2.4a...v2.2.5) - 2021-11-14
 
 ### Changed

@@ -2,8 +2,12 @@
 
 namespace App\Http\Resources;
 
+use App\Models\Flight;
 use Illuminate\Http\Resources\Json\JsonResource;
 
+/**
+ * @mixin \App\Models\Booking
+ */
 class BookingResource extends JsonResource
 {
     /**
@@ -14,6 +18,9 @@ class BookingResource extends JsonResource
      */
     public function toArray($request)
     {
+        /**
+         * @var Flight $flight
+         */
         $flight = $this->flights()->first();
         return [
             'uuid' => $this->uuid,

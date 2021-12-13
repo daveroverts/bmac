@@ -28,9 +28,9 @@ class SendBookingCancelledNotification implements ShouldQueue
     public function handle(BookingCancelled $event)
     {
         activity()
-            ->by(auth()->user())
+            ->by($event->user)
             ->on($event->booking)
             ->log('Flight available');
-        $event->booking->user->notify(new \App\Notifications\BookingCancelled($event->booking->event));
+        $event->user->notify(new \App\Notifications\BookingCancelled($event->booking->event));
     }
 }

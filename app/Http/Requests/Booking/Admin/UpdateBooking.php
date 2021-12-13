@@ -16,6 +16,7 @@ class UpdateBooking extends Request
         return [
             'is_editable' => 'required|boolean',
             'callsign' => 'nullable|alpha_num|max:7',
+            'acType' => 'nullable|alpha_num|between:3,4',
             'ctot' => 'present|nullable|date_format:H:i',
             'eta' => 'present|nullable|date_format:H:i',
             'dep' => 'nullable|exists:airports,id',
@@ -23,10 +24,32 @@ class UpdateBooking extends Request
             'route' => 'nullable',
             'oceanicFL' => 'nullable|int:3',
             'oceanicTrack' => 'nullable|alpha|min:1|max:2',
-            'aircraft' => 'nullable|alpha_num|between:3,4',
             'notes' => 'nullable',
             'message' => 'nullable',
             'notify_user' => 'nullable'
+        ];
+    }
+
+    /**
+     * Get custom attributes for validator errors.
+     *
+     * @return array
+     */
+    public function attributes()
+    {
+        return [
+            'is_editable' => __('Editable?'),
+            'callsign' => __('Callsign'),
+            'acType' => __('Aircraft code'),
+            'ctot' => __('CTOT'),
+            'eta' => __('ETA'),
+            'dep' => __('Departure airport'),
+            'arr' => __('Arrival airport'),
+            'route' => __('Route'),
+            'oceanicFL' => __('Oceanic Entry Level') . ' / ' . __('Cruise FL'),
+            'notes' => __('Notes'),
+            'message' => __('Message'),
+            'notify_user' => __('Notify user')
         ];
     }
 }

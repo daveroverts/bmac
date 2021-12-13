@@ -1,310 +1,99 @@
 @extends('layouts.app')
 
 @section('content')
-    @if (count($errors) > 0)
-        <div class="alert alert-dismissible alert-danger">
-            <button type="button" class="close" data-dismiss="alert">&times;</button>
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
+    <x-forms.alert />
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">{{ $event->name }} | Add {{ $bulk ? 'Timeslots' : 'Slot' }}</div>
+                <div class="card-header">{{ $event->name }} | {{ $bulk ? __('Add Timeslots') : __('Add Slot') }}</div>
 
                 <div class="card-body">
-                    <form method="POST" action="{{ route('admin.bookings.store',$event) }}">
-                        @csrf
+                    <x-form :action="route('admin.bookings.store',$event)" method="POST">
                         <input type="hidden" name="id" value="{{ $event->id }}">
                         <input type="hidden" name="bulk" value="{{ $bulk ? 1 : 0 }}">
-                        {{--Event--}}
-                        <div class="form-group row">
-                            <label for="event" class="col-md-4 col-form-label text-md-right">Event</label>
 
-                            <div class="col-md-6">
-                                <div class="form-control-plaintext">{{ $event->name }}</div>
+                        <x-form-group :label="__('Event')">
+                            {{ $event->name }} [{{ $event->startEvent->format('d-m-Y') }} |
+                            {{ $event->startEvent->format('Hi') }}z -
+                            {{ $event->endEvent->format('Hi') }}z]
+                        </x-form-group>
 
-                            </div>
-                        </div>
+                        <x-form-group name="is_editable" :label="__('Editable?')" inline>
+                            <x-form-radio name="is_editable" value="0" :label="__('No')" required />
+                            <x-form-radio name="is_editable" value="1" :label="__('Yes')" required />
+                            @slot('help')
+                                <small class="form-text text-muted">
+                                    {{ __('Choose if you want the booking to be editable (Callsign and Aircraft Code only) by users. This is useful when using \'import only\', but want to add extra slots') }}
+                                </small>
+                            @endslot
+                        </x-form-group>
 
-                        {{--When--}}
-                        <div class="form-group row">
-                            <label for="when" class="col-md-4 col-form-label text-md-right">When</label>
-
-                            <div class="col-md-6">
-                                <div class="form-control-plaintext">{{ $event->startEvent->format('d-m-Y') }}
-                                    | {{ $event->startEvent->format('Hi') }}z - {{ $event->endEvent->format('Hi') }}z
-                                </div>
-
-                            </div>
-                        </div>
-
-                        {{--Editable?--}}
-                        <div class="form-group row">
-                            <label for="is_editable" class="col-md-4 col-form-label text-md-right"> <abbr
-                                    title="Choose if you want the booking to be editable (Callsign and Aircraft Code only) by users. This is useful when using 'import only', but want to add extra slots">Editable?</abbr></label>
-                            <div class="col-md-6">
-                                <div class="custom-control custom-control-inline custom-radio">
-                                    <input type="radio" value="1" id="is_editable1"
-                                           name="is_editable"
-                                           class="custom-control-input" {{ old('is_editable') == 1 ? 'checked' : '' }}>
-                                    <label class="custom-control-label" for="is_editable1">Yes</label>
-                                </div>
-                                <div class="custom-control custom-control-inline custom-radio">
-                                    <input type="radio" value="0" id="is_editable0"
-                                           name="is_editable"
-                                           class="custom-control-input" {{ old('is_editable') == 0 ? 'checked' : '' }}>
-                                    <label class="custom-control-label" for="is_editable0">No</label>
-                                </div>
-
-                                @if ($errors->has('is_editable'))
-                                    <span class="invalid-feedback">
-                                        <strong>{{ $errors->first('is_editable') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-
-                        @if(!$bulk)
-                            {{--Callsign--}}
-                            <div class="form-group row">
-                                <label for="callsign" class="col-md-4 col-form-label text-md-right">Callsign</label>
-
-                                <div class="col-md-6">
-                                    <input id="callsign" type="text"
-                                           class="form-control{{ $errors->has('callsign') ? ' is-invalid' : '' }}"
-                                           name="callsign" value="{{ old('callsign') }}" max="7">
-
-                                    @if ($errors->has('callsign'))
-                                        <span class="invalid-feedback">
-                                        <strong>{{ $errors->first('callsign') }}</strong>
-                                </span>
-                                    @endif
-                                </div>
-                            </div>
-
-                            {{--Aircraft--}}
-                            <div class="form-group row">
-                                <label for="aircraft" class="col-md-4 col-form-label text-md-right"> Aircraft
-                                    code</label>
-
-                                <div class="col-md-6">
-                                    <input id="aircraft" type="text"
-                                           class="form-control{{ $errors->has('aircraft') ? ' is-invalid' : '' }}"
-                                           name="aircraft" value="{{ old('aircraft') }}" min="3" max="4">
-
-                                    @if ($errors->has('aircraft'))
-                                        <span class="invalid-feedback">
-                                        <strong>{{ $errors->first('aircraft') }}</strong>
-                                    </span>
-                                    @endif
-                                </div>
-                            </div>
+                        @if (!$bulk)
+                            <x-form-input name="callsign" :label="__('Callsign')" maxlength="7" />
+                            <x-form-input name="acType" :label="__('Aircraft code')" minlength="3" maxlength="4" />
                         @endif
 
-                        {{--ADEP--}}
-                        <div class="form-group row">
-                            <label for="end" class="col-md-4 col-form-label text-md-right"> ADEP</label>
+                        <x-form-select name="dep" :label="__('Departure airport')" :options="$airports"
+                            :placeholder="__('Choose...')" required :default="$event->dep" />
 
-                            <div class="col-md-6">
-                                <select class="custom-select form-control{{ $errors->has('dep') ? ' is-invalid' : '' }}"
-                                        name="dep">
-                                    <option value=""></option>
-                                    @foreach($airports as $airport)
-                                        <option
-                                            value="{{ $airport->id }}" {{ old('dep', $event->dep) == $airport->id ? 'selected' : '' }}>{{ $airport->icao }}
-                                            [{{ $airport->name }} ({{ $airport->iata }})]
-                                        </option>
-                                    @endforeach
-                                </select>
+                        <x-form-select name="arr" :label="__('Arrival airport')" :options="$airports"
+                            :placeholder="__('Choose...')" required :default="$event->dep" />
 
-                                @if ($errors->has('dep'))
-                                    <span class="invalid-feedback">
-                                        <strong>{{ $errors->first('dep') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
+                        @if ($bulk)
+                            <x-form-group inline>
+                                <x-form-input name="start" type="time"
+                                    :label="'<i class=\'fa fa-clock\'></i> ' . __('Start')">
+                                    @slot('append')
+                                        z
+                                    @endslot
+                                </x-form-input>
+                                <x-form-input name="end" type="time" :label="'<i class=\'fa fa-clock\'></i> ' . __('End')">
+                                    @slot('append')
+                                        z
+                                    @endslot
+                                </x-form-input>
 
-                        {{--ADES--}}
-                        <div class="form-group row">
-                            <label for="end" class="col-md-4 col-form-label text-md-right"> ADES</label>
-
-                            <div class="col-md-6">
-                                <select
-                                    class="custom-select form-control{{ $errors->has('arr') ? ' is-invalid' : '' }}"
-                                    name="arr">
-                                    <option value=""></option>
-                                    @foreach($airports as $airport)
-                                        <option
-                                            value="{{ $airport->id }}" {{ old('arr', $event->arr) == $airport->id ? 'selected' : '' }}>{{ $airport->icao }}
-                                            [{{ $airport->name }} ({{ $airport->iata }})]
-                                        </option>
-                                    @endforeach
-                                </select>
-
-                                @if ($errors->has('arr'))
-                                    <span class="invalid-feedback">
-                                        <strong>{{ $errors->first('arr') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-
-                        @if($bulk)
-                            {{--Start--}}
-                            <div class="form-group row">
-                                <label for="start" class="col-md-4 col-form-label text-md-right"> Start</label>
-
-                                <div class="col-md-6">
-                                    <input id="start" type="time"
-                                           class="form-control{{ $errors->has('start') ? ' is-invalid' : '' }}"
-                                           name="start"
-                                           value="{{ old('start',$event->startEvent->format('H:i')) }}" required
-                                           autofocus>
-
-                                    @if ($errors->has('start'))
-                                        <span class="invalid-feedback">
-                                        <strong>{{ $errors->first('start') }}</strong>
-                                    </span>
-                                    @endif
-                                </div>
-                            </div>
-
-                            {{--End--}}
-                            <div class="form-group row">
-                                <label for="end" class="col-md-4 col-form-label text-md-right"> End</label>
-
-                                <div class="col-md-6">
-                                    <input id="end" type="time"
-                                           class="form-control{{ $errors->has('end') ? ' is-invalid' : '' }}" name="end"
-                                           value="{{ old('end',$event->endEvent->format('H:i')) }}" required>
-
-                                    @if ($errors->has('end'))
-                                        <span class="invalid-feedback">
-                                        <strong>{{ $errors->first('end') }}</strong>
-                                    </span>
-                                    @endif
-                                </div>
-                            </div>
-
-                            {{--Separation--}}
-                            <div class="form-group row">
-                                <label for="separation" class="col-md-4 col-form-label text-md-right"> Separation (in
-                                    minutes)</label>
-
-                                <div class="col-md-6">
-                                    <input id="separation" type="number"
-                                           class="form-control{{ $errors->has('separation') ? ' is-invalid' : '' }}"
-                                           name="separation" value="{{ old('separation',2) }}" required step=".01">
-
-                                    @if ($errors->has('separation'))
-                                        <span class="invalid-feedback">
-                                        <strong>{{ $errors->first('separation') }}</strong>
-                                    </span>
-                                    @endif
-                                </div>
-                            </div>
+                                <x-form-input name="separation" type="number" :label="__('Separation (in minutes)')" />
+                            </x-form-group>
                         @else
-                            {{--CTOT--}}
-                            <div class="form-group row">
-                                <label for="ctot" class="col-md-4 col-form-label text-md-right">CTOT</label>
+                            <x-form-group inline>
+                                <x-form-input name="ctot" type="time"
+                                    :label="'<i class=\'fa fa-clock\'></i> ' . __('CTOT')">
+                                    @slot('append')
+                                        z
+                                    @endslot
+                                </x-form-input>
+                                <x-form-input name="eta" type="time" :label="'<i class=\'fa fa-clock\'></i> ' . __('ETA')">
+                                    @slot('append')
+                                        z
+                                    @endslot
+                                </x-form-input>
 
-                                <div class="col-md-6">
-                                    <input id="ctot" type="time"
-                                           class="form-control{{ $errors->has('ctot') ? ' is-invalid' : '' }}"
-                                           name="ctot"
-                                           value="{{ old('ctot') }}">
+                            </x-form-group>
 
-                                    @if ($errors->has('ctot'))
-                                        <span class="invalid-feedback">
-                                        <strong>{{ $errors->first('ctot') }}</strong>
-                                    </span>
-                                    @endif
-                                </div>
-                            </div>
+                            <x-form-textarea name="route" :label="__('Route')" />
 
-                            {{--ETA--}}
-                            <div class="form-group row">
-                                <label for="eta" class="col-md-4 col-form-label text-md-right">ETA</label>
 
-                                <div class="col-md-6">
-                                    <input id="eta" type="time"
-                                           class="form-control{{ $errors->has('eta') ? ' is-invalid' : '' }}" name="eta"
-                                           value="{{ old('eta') }}">
+                            <x-form-input name="oceanicFL"
+                                :label="$event->is_oceanic_event ? __('Oceanic Entry Level') : __('Cruise FL')">
+                                @slot('prepend')
+                                    FL
+                                @endslot
+                            </x-form-input>
 
-                                    @if ($errors->has('eta'))
-                                        <span class="invalid-feedback">
-                                        <strong>{{ $errors->first('eta') }}</strong>
-                                    </span>
-                                    @endif
-                                </div>
-                            </div>
-
-                            {{--Route--}}
-                            <div class="form-group row">
-                                <label for="route" class="col-md-4 col-form-label text-md-right">Route</label>
-
-                                <div class="col-md-6">
-                                <textarea class="form-control" id="route"
-                                          name="route">{{ old('route') }}</textarea>
-
-                                    @if ($errors->has('route'))
-                                        <span class="invalid-feedback">
-                                        <strong>{{ $errors->first('route') }}</strong>
-                                    </span>
-                                    @endif
-                                </div>
-                            </div>
-
-                            {{--Cruise FL--}}
-                            <div class="form-group row">
-                                <label for="cruiseFL" class="col-md-4 col-form-label text-md-right">Cruise FL</label>
-
-                                <div class="col-md-6">
-                                    <input id="oceanicFL" type="text"
-                                           class="form-control{{ $errors->has('oceanicFL') ? ' is-invalid' : '' }}"
-                                           name="oceanicFL"
-                                           value="{{ old('oceanicFL') }}" min="3" max="3">
-
-                                    @if ($errors->has('oceanicFL'))
-                                        <span class="invalid-feedback">
-                                        <strong>{{ $errors->first('oceanicFL') }}</strong>
-                                    </span>
-                                    @endif
-                                </div>
-                            </div>
                         @endif
 
-                        {{--Notes--}}
-                        <div class="form-group row">
-                            <label for="Notes" class="col-md-4 col-form-label text-md-right">Notes</label>
+                        <x-form-textarea name="notes" :label="__('Notes')" />
 
-                            <div class="col-md-6">
-                                <textarea class="form-control" id="notes"
-                                          name="notes">{{ old('notes') }}</textarea>
+                        <x-form-submit>
+                            @if ($bulk)
+                                <i class="fa fa-plus"></i> {{ __('Add timeslots') }}
+                            @else
+                                <i class="fa fa-plus"></i> {{ __('Add slot') }}
+                            @endif
+                        </x-form-submit>
+                    </x-form>
 
-                                @if ($errors->has('notes'))
-                                    <span class="invalid-feedback">
-                                        <strong>{{ $errors->first('notes') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-
-                        {{--Add--}}
-                        <div class="form-group row mb-0">
-                            <div class="col-md-6 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
-                                    <i class="fas fa-check"></i> Add {{ $bulk ? 'Timeslots' : 'Slot' }}
-                                </button>
-                            </div>
-                        </div>
-                    </form>
                 </div>
             </div>
         </div>

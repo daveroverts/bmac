@@ -6,7 +6,10 @@ use App\Models\EventLink;
 use Illuminate\Database\Eloquent\Model;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Spatie\Activitylog\Traits\LogsActivity;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 /**
  * App\Models\Event
@@ -33,37 +36,41 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\Activitylog\Models\Activity[] $activities
  * @property-read int|null $activities_count
- * @property-read \App\Models\Airport $airportArr
- * @property-read \App\Models\Airport $airportDep
+ * @property-read \App\Models\Airport|null $airportArr
+ * @property-read \App\Models\Airport|null $airportDep
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Booking[] $bookings
  * @property-read int|null $bookings_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Faq[] $faqs
  * @property-read int|null $faqs_count
- * @property-read \App\Models\EventType $type
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Event findSimilarSlugs($attribute, $config, $slug)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Event newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Event newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Event query()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Event whereArr($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Event whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Event whereDep($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Event whereDescription($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Event whereEndBooking($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Event whereEndEvent($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Event whereEventTypeId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Event whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Event whereImageUrl($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Event whereImportOnly($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Event whereIsOceanicEvent($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Event whereIsOnline($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Event whereMultipleBookingsAllowed($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Event whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Event whereShowOnHomepage($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Event whereSlug($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Event whereStartBooking($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Event whereStartEvent($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Event whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Event whereUsesTimes($value)
+ * @property-read \Illuminate\Database\Eloquent\Collection|EventLink[] $links
+ * @property-read int|null $links_count
+ * @property-read \App\Models\EventType|null $type
+ * @method static \Database\Factories\EventFactory factory(...$parameters)
+ * @method static \Illuminate\Database\Eloquent\Builder|Event findSimilarSlugs(string $attribute, array $config, string $slug)
+ * @method static \Illuminate\Database\Eloquent\Builder|Event newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Event newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Event query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Event whereArr($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Event whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Event whereDep($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Event whereDescription($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Event whereEndBooking($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Event whereEndEvent($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Event whereEventTypeId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Event whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Event whereImageUrl($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Event whereImportOnly($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Event whereIsOceanicEvent($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Event whereIsOnline($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Event whereMultipleBookingsAllowed($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Event whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Event whereShowOnHomepage($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Event whereSlug($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Event whereStartBooking($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Event whereStartEvent($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Event whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Event whereUsesTimes($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Event withUniqueSlugConstraints(\Illuminate\Database\Eloquent\Model $model, string $attribute, array $config, string $slug)
  * @mixin \Eloquent
  */
 class Event extends Model
@@ -72,11 +79,6 @@ class Event extends Model
     use LogsActivity;
     use Sluggable;
 
-    /**
-     * The attributes that aren't mass assignable.
-     *
-     * @var array
-     */
     protected $guarded = [
         'id', 'slug',
     ];
@@ -115,32 +117,32 @@ class Event extends Model
     protected static $logAttributes = ['*'];
     protected static $logOnlyDirty = true;
 
-    public function bookings()
+    public function bookings(): HasMany
     {
         return $this->hasMany(Booking::class);
     }
 
-    public function type()
+    public function type(): HasOne
     {
         return $this->hasOne(EventType::class, 'id', 'event_type_id');
     }
 
-    public function airportDep()
+    public function airportDep(): HasOne
     {
         return $this->hasOne(Airport::class, 'id', 'dep');
     }
 
-    public function airportArr()
+    public function airportArr(): HasOne
     {
         return $this->hasOne(Airport::class, 'id', 'arr');
     }
 
-    public function links()
+    public function links(): HasMany
     {
         return $this->hasMany(EventLink::class);
     }
 
-    public function faqs()
+    public function faqs(): BelongsToMany
     {
         return $this->belongsToMany(Faq::class);
     }
@@ -154,17 +156,12 @@ class Event extends Model
         ];
     }
 
-    /**
-     * Get the route key for the model.
-     *
-     * @return string
-     */
-    public function getRouteKeyName()
+    public function getRouteKeyName(): string
     {
         return 'slug';
     }
 
-    public function hasOrderButtons()
+    public function hasOrderButtons(): bool
     {
         return in_array($this->event_type_id, [
             \App\Enums\EventType::FLYIN,

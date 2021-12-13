@@ -2,31 +2,23 @@
 
 namespace App\Events;
 
+use App\Models\User;
 use App\Models\Booking;
 use Illuminate\Broadcasting\Channel;
-use Illuminate\Broadcasting\InteractsWithSockets;
-use Illuminate\Broadcasting\PresenceChannel;
-use Illuminate\Broadcasting\PrivateChannel;
-use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
-use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Broadcasting\PrivateChannel;
+use Illuminate\Broadcasting\PresenceChannel;
+use Illuminate\Foundation\Events\Dispatchable;
+use Illuminate\Broadcasting\InteractsWithSockets;
+use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
 class BookingCancelled
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $booking;
-
-    /**
-     * Create a new event instance.
-     *
-     * @param Booking $booking
-     *
-     * @return void
-     */
-    public function __construct(Booking $booking)
+    public function __construct(public Booking $booking, public User $user)
     {
-        $this->booking = $booking;
+        //
     }
 
     /**

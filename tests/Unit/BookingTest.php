@@ -19,7 +19,16 @@ class BookingTest extends TestCase
     {
         $flight = Flight::factory()->create();
 
-        $this->assertDatabaseHas('flights', $flight->attributesToArray());
-        $this->assertDatabaseHas('bookings', $flight->booking->getRawOriginal());
+        $this->assertDatabaseHas('flights', [
+            'id' => $flight->id,
+            'booking_id' => $flight->booking_id,
+            'dep' => $flight->dep,
+            'arr' => $flight->arr,
+        ]);
+
+        $this->assertDatabaseHas('bookings', [
+            'id' => $flight->booking->id,
+            'event_id' => $flight->booking->event_id,
+        ]);
     }
 }

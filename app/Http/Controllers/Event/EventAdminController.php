@@ -2,40 +2,33 @@
 
 namespace App\Http\Controllers\Event;
 
+use Carbon\Carbon;
+use App\Models\User;
+use App\Models\Event;
+use App\Models\Airport;
+use App\Models\EventType;
+use Illuminate\View\View;
 use App\Enums\BookingStatus;
+use Illuminate\Http\Request;
+use App\Policies\EventPolicy;
 use App\Events\EventBulkEmail;
+use Illuminate\Http\JsonResponse;
 use App\Events\EventFinalInformation;
+use Illuminate\Http\RedirectResponse;
 use App\Http\Controllers\AdminController;
+use Illuminate\Database\Eloquent\Builder;
 use App\Http\Requests\Event\Admin\SendEmail;
 use App\Http\Requests\Event\Admin\StoreEvent;
 use App\Http\Requests\Event\Admin\UpdateEvent;
-use App\Models\Airport;
-use App\Models\Event;
-use App\Models\EventType;
-use App\Models\User;
-use App\Policies\EventPolicy;
-use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Http\Request;
 
 class EventAdminController extends AdminController
 {
-    /**
-     * Instantiate a new controller instance.
-     *
-     * @return void
-     */
     public function __construct()
     {
         $this->authorizeResource(EventPolicy::class, 'event');
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    public function index(): View
     {
         $events = Event::orderByDesc('startEvent')
             ->with('type')
@@ -43,138 +36,134 @@ class EventAdminController extends AdminController
         return view('event.admin.overview', compact('events'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    public function create(): View
     {
         $event = new Event;
-        $airports = Airport::orderBy('icao')->get();
-        $eventTypes = EventType::all();
+        $airports = Airport::all(['id', 'icao', 'iata', 'name'])->keyBy('id')
+            ->map(function ($airport) {
+                /** @var Airport $airport */
+                return "$airport->icao | $airport->name | $airport->iata";;
+            });
+        $eventTypes = EventType::all()->pluck('name', 'id');
         return view('event.admin.form', compact('event', 'airports', 'eventTypes'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  StoreEvent  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(StoreEvent $request)
+    public function store(StoreEvent $request): RedirectResponse
     {
         $event = new Event();
-        $event->fill($request->only('is_online', 'show_on_homepage', 'name', 'event_type_id', 'import_only',
+        $event->fill($request->only(
+            'is_online',
+            'show_on_homepage',
+            'name',
+            'event_type_id',
+            'import_only',
             'uses_times',
-            'multiple_bookings_allowed', 'is_oceanic_event', 'dep', 'arr', 'image_url', 'description'));
+            'multiple_bookings_allowed',
+            'is_oceanic_event',
+            'dep',
+            'arr',
+            'image_url',
+            'description'
+        ));
         $event->fill([
-            'startEvent' => Carbon::createFromFormat('d-m-Y H:i',
-                $request->dateEvent.' '.$request->timeBeginEvent),
-            'endEvent' => Carbon::createFromFormat('d-m-Y H:i',
-                $request->dateEvent.' '.$request->timeEndEvent),
-            'startBooking' => Carbon::createFromFormat('d-m-Y H:i',
-                $request->dateBeginBooking.' '.$request->timeBeginBooking),
-            'endBooking' => Carbon::createFromFormat('d-m-Y H:i',
-                $request->dateEndBooking.' '.$request->timeEndBooking),
+            'startEvent' => Carbon::createFromFormat(
+                'd-m-Y H:i',
+                $request->dateEvent . ' ' . $request->timeBeginEvent
+            ),
+            'endEvent' => Carbon::createFromFormat(
+                'd-m-Y H:i',
+                $request->dateEvent . ' ' . $request->timeEndEvent
+            ),
+            'startBooking' => Carbon::createFromFormat(
+                'd-m-Y H:i',
+                $request->dateBeginBooking . ' ' . $request->timeBeginBooking
+            ),
+            'endBooking' => Carbon::createFromFormat(
+                'd-m-Y H:i',
+                $request->dateEndBooking . ' ' . $request->timeEndBooking
+            ),
         ])->save();
 
-        flashMessage('success', 'Done', 'Event has been created!');
+        flashMessage('success', __('Done'), __('Event has been created!'));
         return redirect(route('admin.events.index'));
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  Event  $event
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     */
-    public function show(Event $event)
+    public function show(Event $event): View
     {
         return view('event.admin.show', compact('event'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  Event  $event
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Event $event)
+    public function edit(Event $event): View
     {
-        $airports = Airport::orderBy('icao')->get();
-        $eventTypes = EventType::all();
+        $airports = Airport::all(['id', 'icao', 'iata', 'name'])->keyBy('id')
+            ->map(function ($airport) {
+                /** @var Airport $airport */
+                return "$airport->icao | $airport->name | $airport->iata";;
+            });
+        $eventTypes = EventType::all()->pluck('name', 'id');
         return view('event.admin.form', compact('event', 'airports', 'eventTypes'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  UpdateEvent  $request
-     * @param  Event  $event
-     * @return \Illuminate\Http\Response
-     */
-    public function update(UpdateEvent $request, Event $event)
+    public function update(UpdateEvent $request, Event $event): RedirectResponse
     {
-        $event->fill($request->only('is_online', 'show_on_homepage', 'name', 'event_type_id', 'import_only',
+        $event->fill($request->only(
+            'is_online',
+            'show_on_homepage',
+            'name',
+            'event_type_id',
+            'import_only',
             'uses_times',
-            'multiple_bookings_allowed', 'is_oceanic_event', 'dep', 'arr', 'image_url', 'description'));
+            'multiple_bookings_allowed',
+            'is_oceanic_event',
+            'dep',
+            'arr',
+            'image_url',
+            'description'
+        ));
         $event->fill([
-            'startEvent' => Carbon::createFromFormat('d-m-Y H:i',
-                $request->dateEvent.' '.$request->timeBeginEvent),
-            'endEvent' => Carbon::createFromFormat('d-m-Y H:i',
-                $request->dateEvent.' '.$request->timeEndEvent),
-            'startBooking' => Carbon::createFromFormat('d-m-Y H:i',
-                $request->dateBeginBooking.' '.$request->timeBeginBooking),
-            'endBooking' => Carbon::createFromFormat('d-m-Y H:i',
-                $request->dateEndBooking.' '.$request->timeEndBooking),
+            'startEvent' => Carbon::createFromFormat(
+                'd-m-Y H:i',
+                $request->dateEvent . ' ' . $request->timeBeginEvent
+            ),
+            'endEvent' => Carbon::createFromFormat(
+                'd-m-Y H:i',
+                $request->dateEvent . ' ' . $request->timeEndEvent
+            ),
+            'startBooking' => Carbon::createFromFormat(
+                'd-m-Y H:i',
+                $request->dateBeginBooking . ' ' . $request->timeBeginBooking
+            ),
+            'endBooking' => Carbon::createFromFormat(
+                'd-m-Y H:i',
+                $request->dateEndBooking . ' ' . $request->timeEndBooking
+            ),
         ])->save();
-        flashMessage('success', 'Done', 'Event has been updated!');
+        flashMessage('success', __('Done'), __('Event has been updated!'));
         return redirect(route('admin.events.index'));
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  Event  $event
-     * @return \Illuminate\Http\RedirectResponse
-     * @throws \Exception
-     */
-    public function destroy(Event $event)
+    public function destroy(Event $event): RedirectResponse
     {
         if ($event->startEvent > now()) {
             $event->delete();
-            flashMessage('success', 'Done', $event->name.' has been deleted!');
+            flashMessage('success', __('Done'), __(':event has been deleted!', ['event' => $event->name]));
             return redirect()->back();
         } else {
-            flashMessage('danger', 'Nope!', 'You cannot remove a event after it has begun!');
+            flashMessage('danger', __('Danger'), __('Event can no longer be deleted!'));
             return redirect()->back();
         }
     }
 
-    /**
-     * Opens form to either use sendEmail() or sendFinalInformationMail()
-     *
-     * @param  Event  $event
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     */
-    public function sendEmailForm(Event $event)
+    public function sendEmailForm(Event $event): View
     {
         return view('event.admin.sendEmail', compact('event'));
     }
 
-    /**
-     * Sends E-mail to all users who booked a flight as a notification by administrators.
-     *
-     * @param  SendEmail  $request
-     * @param  Event  $event
-     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
-     */
-    public function sendEmail(SendEmail $request, Event $event)
+    public function sendEmail(SendEmail $request, Event $event): JsonResponse|RedirectResponse
     {
         if ($request->testmode) {
-            event(new EventBulkEmail($event, $request->all(), auth()->user()));
-            return response()->json(['success' => 'Email has been sent to yourself']);
+            event(new EventBulkEmail($event, $request->all(), collect([auth()->user()])));
+            return response()->json(['success' => __('Email has been sent to yourself')]);
         } else {
             /* @var User $users */
             $users = User::whereHas('bookings', function (Builder $query) use ($event) {
@@ -182,18 +171,12 @@ class EventAdminController extends AdminController
                 $query->where('status', BookingStatus::BOOKED);
             })->get();
             event(new EventBulkEmail($event, $request->all(), $users));
-            flashMessage('success', 'Done', 'Bulk E-mail has been sent to '.$users->count().' people!');
+            flashMessage('success', __('Done'), __('Bulk E-mail has been sent to :count people!', ['count' => $users->count()]));
             return redirect(route('admin.events.index'));
         }
     }
 
-    /**
-     * Sends E-mail to all users who booked a flight the final information.
-     *
-     * @param  Event  $event
-     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
-     */
-    public function sendFinalInformationMail(Request $request, Event $event)
+    public function sendFinalInformationMail(Request $request, Event $event): RedirectResponse|JsonResponse
     {
         $bookings = $event->bookings()
             ->with(['user', 'flights'])
@@ -202,7 +185,7 @@ class EventAdminController extends AdminController
 
         if ($request->testmode) {
             event(new EventFinalInformation($bookings->random()));
-            return response()->json(['success' => 'Email has been sent to yourself']);
+            return response()->json(['success' => __('Email has been sent to yourself')]);
         } else {
             $count = $bookings->count();
             $countSkipped = 0;
@@ -214,17 +197,34 @@ class EventAdminController extends AdminController
                     $countSkipped++;
                 }
             }
-            $message = 'Final Information has been sent to ' . $count . ' people!';
+            $message = __('Final Information has been sent to :count people!', ['count' => $count]);
             if ($countSkipped != 0) {
-                $message .= ' However, ' . $countSkipped . ' where skipped, because they already received one';
+                $message .= ' ' . __('However, :count where skipped, because they already received one', ['count' => $count]);
             }
-            flashMessage('success', 'Done', $message);
+            flashMessage('success', __('Done'), $message);
             activity()
                 ->by(auth()->user())
                 ->on($event)
                 ->withProperty('count', $count)
                 ->log('Final Information E-mail');
         }
+        return redirect(route('admin.events.index'));
+    }
+
+    public function deleteAllBookings(Request $request, Event $event): RedirectResponse
+    {
+        activity()
+            ->by(auth()->user())
+            ->on($event)
+            ->log('Delete all bookings');
+
+        if ($event->endEvent <= now()) {
+            flashMessage('danger', __('Danger'), __('Booking can no longer be deleted'));
+            return back();
+        }
+
+        $event->bookings()->delete();
+        flashMessage('success', __('Bookings deleted'), __('All bookings have been deleted'));
         return redirect(route('admin.events.index'));
     }
 }

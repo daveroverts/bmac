@@ -23,4 +23,22 @@ class AutoAssign extends Request
             'checkAssignAllFlights' => 'sometimes',
         ];
     }
+
+    /**
+     * Get custom attributes for validator errors.
+     *
+     * @return array
+     */
+    public function attributes()
+    {
+        return [
+            'oceanicTrack1' => __('Track #:number', ['number' => 1]),
+            'oceanicTrack2' => __('Track #:number', ['number' => 2]),
+            'route1' => __('Route #:number', ['number' => 1]),
+            'route2' => __('Route #:number', ['number' => 2]),
+            'minFL' => __('Minimum Oceanic Entry FL'),
+            'maxFL' => __('Maximum Oceanic Entry FL'),
+            'checkAssignAllFlights' => __('Auto-assign all flights?'),
+        ];
+    }
 }

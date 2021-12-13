@@ -2,10 +2,14 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
+use Illuminate\Support\Collection;
+use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
  * App\Models\Booking
@@ -16,37 +20,41 @@ use Spatie\Activitylog\Traits\LogsActivity;
  * @property int|null $user_id
  * @property int $status
  * @property bool $is_editable
- * @property string $callsign
+ * @property string|null $callsign
  * @property string|null $acType
- * @property string $selcal
+ * @property string|null $selcal
  * @property \Illuminate\Support\Carbon|null $final_information_email_sent_at
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\Activitylog\Models\Activity[] $activities
  * @property-read int|null $activities_count
- * @property-read \App\Models\Airport $airportArr
- * @property-read \App\Models\Airport $airportDep
+ * @property-read \App\Models\Airport|null $airportArr
+ * @property-read \App\Models\Airport|null $airportDep
  * @property-read \App\Models\Event $event
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Flight[] $flights
  * @property-read int|null $flights_count
- * @property string $actype
- * @property-read mixed $has_received_final_information_email
+ * @property-read string $formatted_actype
+ * @property-read string $formatted_callsign
+ * @property-read string $formatted_selcal
+ * @property-read bool $has_received_final_information_email
+ * @property-write mixed $actype
  * @property-read \App\Models\User|null $user
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Booking newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Booking newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Booking query()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Booking whereAcType($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Booking whereCallsign($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Booking whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Booking whereEventId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Booking whereFinalInformationEmailSentAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Booking whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Booking whereIsEditable($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Booking whereSelcal($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Booking whereStatus($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Booking whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Booking whereUserId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Booking whereUuid($value)
+ * @method static \Database\Factories\BookingFactory factory(...$parameters)
+ * @method static \Illuminate\Database\Eloquent\Builder|Booking newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Booking newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Booking query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Booking whereAcType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Booking whereCallsign($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Booking whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Booking whereEventId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Booking whereFinalInformationEmailSentAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Booking whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Booking whereIsEditable($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Booking whereSelcal($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Booking whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Booking whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Booking whereUserId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Booking whereUuid($value)
  * @mixin \Eloquent
  */
 class Booking extends Model
@@ -54,11 +62,6 @@ class Booking extends Model
     use HasFactory;
     use LogsActivity;
 
-    /**
-     * The attributes that aren't mass assignable.
-     *
-     * @var array
-     */
     protected $guarded = [
         'id', 'uuid', 'status', 'selcal',
     ];
@@ -86,121 +89,72 @@ class Booking extends Model
         });
     }
 
-    /**
-     * The relations to eager load on every query.
-     *
-     * @var array
-     */
-//    protected $with = ['flights'];
-
-    /**
-     * Get the route key for the model.
-     *
-     * @return string
-     */
-    public function getRouteKeyName()
+    public function getRouteKeyName(): string
     {
         return 'uuid';
     }
 
-    /**
-     * Format for callsign
-     *
-     * @param $value
-     * @return string
-     */
-    public function getCallsignAttribute($value)
+    public function getFormattedCallsignAttribute(): string
     {
-        return $value ?? '-';
+        return $this->callsign ?: '-';
     }
 
-    /**
-     * Format for acType
-     *
-     * @param $value
-     * @return string
-     */
-    public function getActypeAttribute($value)
+    public function getFormattedActypeAttribute(): string
     {
-        return $value ?? '-';
+        return $this->acType ?: '-';
     }
 
-    /**
-     * Format for SELCAL
-     *
-     * @param $value
-     * @return string
-     */
-    public function getSelcalAttribute($value)
+    public function getFormattedSelcalAttribute(): string
     {
-        return $value ?? '-';
+        return $this->selcal ?: '-';
     }
 
-    /*
-     * Determine if the FinalInformationEmail was already sent or not
-     * @return bool
-     * */
-    public function getHasReceivedFinalInformationEmailAttribute($value)
+    public function getHasReceivedFinalInformationEmailAttribute(): bool
     {
         return !empty($this->final_information_email_sent_at);
     }
 
-    /**
-     * Capitalize Callsign
-     *
-     * @param $value
-     */
-    public function setCallsignAttribute($value)
+    public function setCallsignAttribute($value): void
     {
         $this->attributes['callsign'] = !empty($value) ? strtoupper($value) : null;
     }
 
-    /**
-     * Capitalize Aircraft
-     *
-     * @param $value
-     */
-    public function setActypeAttribute($value)
+    public function setActypeAttribute($value): void
     {
         $this->attributes['acType'] = !empty($value) ? strtoupper($value) : null;
     }
 
-    /**
-     * Capitalize SELCAL
-     *
-     * @param $value
-     */
-    public function setSelcalAttribute($value)
+    public function setSelcalAttribute($value): void
     {
         $this->attributes['selcal'] = !empty($value) ? strtoupper($value) : null;
     }
 
-    public function airportDep()
+    public function airportDep(): HasOne
     {
         return $this->hasOne(Airport::class, 'id', 'dep');
     }
 
-    public function airportArr()
+    public function airportArr(): HasOne
     {
         return $this->hasOne(Airport::class, 'id', 'arr');
     }
 
-    public function event()
+    public function event(): BelongsTo
     {
         return $this->belongsTo(Event::class);
     }
 
-    public function user()
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class)->withDefault();
     }
 
-    public function flights()
+    public function flights(): HasMany
     {
         return $this->hasMany(Flight::class)->orderBy('order_by');
     }
 
-    public function airportCtot($orderBy, $withAbbr = true)
+    public function airportCtot($orderBy, $withAbbr = true): string
     {
         if ($flight = $this->flights->where('order_by', $orderBy)->first()) {
             if ($withAbbr) {
@@ -211,7 +165,7 @@ class Booking extends Model
         return '-';
     }
 
-    public function uniqueAirports()
+    public function uniqueAirports(): Collection
     {
         $airports = collect();
         $this->flights()->each(function ($flight) use ($airports) {

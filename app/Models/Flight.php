@@ -2,9 +2,11 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
  * App\Models\Flight
@@ -12,12 +14,12 @@ use Spatie\Activitylog\Traits\LogsActivity;
  * @property int $id
  * @property int $booking_id
  * @property int $order_by
- * @property int $dep
- * @property int $arr
- * @property string $ctot
- * @property string $eta
+ * @property int|null $dep
+ * @property int|null $arr
+ * @property \Illuminate\Support\Carbon|null $ctot
+ * @property \Illuminate\Support\Carbon|null $eta
  * @property string|null $route
- * @property string $notes
+ * @property string|null $notes
  * @property string|null $oceanicFL
  * @property string|null $oceanicTrack
  * @property \Illuminate\Support\Carbon|null $created_at
@@ -27,38 +29,35 @@ use Spatie\Activitylog\Traits\LogsActivity;
  * @property-read \App\Models\Airport $airportArr
  * @property-read \App\Models\Airport $airportDep
  * @property-read \App\Models\Booking $booking
- * @property-read string $oceanicfl
- * @property-write mixed $oceanictrack
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Flight newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Flight newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Flight query()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Flight whereArr($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Flight whereBookingId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Flight whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Flight whereCtot($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Flight whereDep($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Flight whereEta($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Flight whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Flight whereNotes($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Flight whereOceanicFL($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Flight whereOceanicTrack($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Flight whereOrderBy($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Flight whereRoute($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Flight whereUpdatedAt($value)
- * @mixin \Eloquent
  * @property-read string $formatted_ctot
  * @property-read string $formatted_eta
+ * @property-read string $formatted_notes
+ * @property-read string $formatted_oceanicfl
+ * @property-write mixed $oceanictrack
+ * @method static \Database\Factories\FlightFactory factory(...$parameters)
+ * @method static \Illuminate\Database\Eloquent\Builder|Flight newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Flight newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Flight query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Flight whereArr($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Flight whereBookingId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Flight whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Flight whereCtot($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Flight whereDep($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Flight whereEta($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Flight whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Flight whereNotes($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Flight whereOceanicFL($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Flight whereOceanicTrack($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Flight whereOrderBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Flight whereRoute($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Flight whereUpdatedAt($value)
+ * @mixin \Eloquent
  */
 class Flight extends Model
 {
     use HasFactory;
     use LogsActivity;
 
-    /**
-     * The attributes that aren't mass assignable.
-     *
-     * @var array
-     */
     protected $guarded = ['id'];
 
     protected static $logAttributes = ['*'];
@@ -78,13 +77,7 @@ class Flight extends Model
      */
     protected $touches = ['booking'];
 
-    /**
-     * Format for CTOT
-     *
-     * @param $value
-     * @return string
-     */
-    public function getFormattedCtotAttribute()
+    public function getFormattedCtotAttribute(): string
     {
         if (!empty($this->ctot)) {
             return $this->ctot->format('Hi') . 'z';
@@ -92,12 +85,7 @@ class Flight extends Model
         return '-';
     }
 
-    /**
-     * Format for ETA
-     *
-     * @return string
-     */
-    public function getFormattedEtaAttribute()
+    public function getFormattedEtaAttribute(): string
     {
         if (!empty($this->eta)) {
             return $this->eta->format('Hi') . 'z';
@@ -105,67 +93,41 @@ class Flight extends Model
         return '-';
     }
 
-    /**
-     * Format for oceanicFL
-     *
-     * @param $value
-     * @return string
-     */
-    public function getOceanicflAttribute($value)
+    public function getFormattedOceanicflAttribute(): string
     {
-        if (!empty($value)) {
-            return 'FL' . $value . ' / Subject to change';
-        }
-
-        return 'T.B.D.';
-    }
-
-    /**
-     * Format for notes
-     *
-     * @param $value
-     * @return string
-     */
-    public function getNotesAttribute($value)
-    {
-        if (!empty($value)) {
-            return $value;
+        if ($this->oceanicFL) {
+            return 'FL' . $this->oceanicFL;
         }
 
         return '-';
     }
 
-    /**
-     * Capitalize Route
-     *
-     * @param $value
-     */
-    public function setRouteAttribute($value)
+    public function getFormattedNotesAttribute(): string
+    {
+        return $this->notes ?: '-';
+    }
+
+    public function setRouteAttribute($value): void
     {
         $this->attributes['route'] = !empty($value) ? strtoupper($value) : null;
     }
 
-    /**
-     * Capitalize Oceanic Track
-     *
-     * @param $value
-     */
-    public function setOceanictrackAttribute($value)
+    public function setOceanictrackAttribute($value): void
     {
         $this->attributes['oceanicTrack'] = !empty($value) ? strtoupper($value) : null;
     }
 
-    public function booking()
+    public function booking(): BelongsTo
     {
         return $this->belongsTo(Booking::class);
     }
 
-    public function airportDep()
+    public function airportDep(): HasOne
     {
         return $this->hasOne(Airport::class, 'id', 'dep')->withDefault();
     }
 
-    public function airportArr()
+    public function airportArr(): HasOne
     {
         return $this->hasOne(Airport::class, 'id', 'arr')->withDefault();
     }

@@ -19,6 +19,11 @@ class AirportTest extends TestCase
     {
         $airport = Airport::factory()->create();
 
-        $this->assertDatabaseHas('airports', $airport->toArray());
+        $this->assertDatabaseHas('airports', [
+            'id' => $airport->id,
+            'icao' => $airport->icao,
+            'iata' => $airport->iata,
+            'name' => $airport->name,
+        ]);
     }
 }
