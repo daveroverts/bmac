@@ -69,14 +69,7 @@ class Bookings extends Component
                 return $booking->flights_count;
             })->count();
 
-        if ($this->event->event_type_id == EventType::MULTIFLIGHTS) {
-            $this->total = $this->bookings->count();
-        } else {
-            $this->total = $this->bookings->sum(function ($booking) {
-                /** @var Booking $booking */
-                return $booking->flights_count;
-            });
-        }
+        $this->total = $this->bookings->count();
 
         return view('livewire.bookings');
     }
