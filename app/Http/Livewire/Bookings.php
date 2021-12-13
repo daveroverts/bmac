@@ -63,11 +63,7 @@ class Bookings extends Component
             abort_unless(auth()->check() && auth()->user()->isAdmin, 404);
         }
 
-        $this->booked = $this->bookings->where('status', BookingStatus::BOOKED)
-            ->filter(function ($booking) {
-                /** @var Booking $booking */
-                return $booking->flights_count;
-            })->count();
+        $this->booked = $this->bookings->where('status', BookingStatus::BOOKED)->count();
 
         $this->total = $this->bookings->count();
 

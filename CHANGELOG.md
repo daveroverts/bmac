@@ -12,6 +12,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - All strings (the ones I looked at) while adding laravel-form-components are now translatable.
 - Added `EventCleanupReservations` job + command
 - Added ability to delete bookings, in case you screwed up import, and want to do that again.
+- Added following to `EventResource`
+  - `url`: URL of the event for easier access
+  - `total_bookings_count`: Total bookings that are in the system for the event.
+  - `available_bookings_count`: Bookings that are still available to be booked.
 
 ### Changed
 - Changed some flash messages.
