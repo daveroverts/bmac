@@ -1,6 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
+
+
+
     @include('layouts.alert')
     <h3>Viewing Poll {{$poll->poll_name}}</h3>
     <form method="POST" action="{{route('admin.voting.editpoll')}}">
@@ -34,18 +37,41 @@
         </div>
         <div class="form-group">
             <p>Statistics:</p>
-            @if (!$votes->isEmpty())
-                <table class="table table-hover table-responsive">
-                    <tr><td>Vote ID</td><td>Vote Choice</td><td>Order</td><td>Vote Count</td></tr>
-            @foreach($votes as $vote)
-                    <tr>
-                        <td>{{$vote->id}}</td>
-                        <td>{{$vote->name}}</td>
-                        <td>{{$vote->priority == 0 ? "First Choice" : ($vote->priority == 1 ? "Second Choice": "Third Choice") }}</td>
-                        <td>{{$vote->votes}}</td>
-                    </tr>
-                @endforeach
-                </table>
+            @if (count($votes))
+                @push('scripts')
+                <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+                <script type="text/javascript">
+                    google.charts.load('current', {'packages':['bar']});
+                    google.charts.setOnLoadCallback(drawChart);
+
+                    function drawChart() {
+                        var data = google.visualization.arrayToDataTable([
+                            ['Airport', 'First', 'Second', 'Third'],
+                                @foreach($votes as $vote)
+                                @if(!$loop->last)
+                            ['{{$vote->name}}', {{$vote->first}}, {{$vote->second}}, {{$vote->third}}],
+                            @else
+                            ['{{$vote->name}}', {{$vote->first}}, {{$vote->second}}, {{$vote->third}}]
+                            @endif
+                            @endforeach
+                        ]);
+
+                        var options = {
+                            chart: {
+                                title: '{{$poll->poll_name}}',
+                                subtitle: 'First, Second, Third choices for each airport',
+                            }
+                        };
+
+                        var chart = new google.charts.Bar(document.getElementById('columnchart_material'));
+
+                        chart.draw(data, google.charts.Bar.convertOptions(options));
+                    }
+                </script>
+                @endpush
+
+                <div id="columnchart_material" style="width: 1000px; height: 500px;"></div>
+
             @else
                 Nothing to show for now :(
             @endif
