@@ -2,68 +2,42 @@
 
 namespace App\Http\Controllers\Faq;
 
+use App\Models\Faq;
+use App\Models\Event;
+use Illuminate\View\View;
+use App\Policies\FaqPolicy;
+use Illuminate\Http\RedirectResponse;
 use App\Http\Controllers\AdminController;
 use App\Http\Requests\Faq\Admin\StoreFaq;
 use App\Http\Requests\Faq\Admin\UpdateFaq;
-use App\Models\Event;
-use App\Models\Faq;
-use App\Policies\FaqPolicy;
 
 class FaqAdminController extends AdminController
 {
-
-    /**
-     * Instantiate a new controller instance.
-     *
-     * @return void
-     */
     public function __construct()
     {
         $this->authorizeResource(FaqPolicy::class, 'faq');
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    public function index(): View
     {
         $faqs = Faq::withCount('events')->paginate();
         return view('faq.admin.overview', compact('faqs'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    public function create(): View
     {
         $faq = new Faq();
         return view('faq.admin.form', compact('faq'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  StoreFaq  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(StoreFaq $request)
+    public function store(StoreFaq $request): RedirectResponse
     {
         $faq = Faq::create($request->validated());
         flashMessage('success', __('Done'), __('FAQ has been added!'));
         return redirect(route('admin.faq.edit', $faq));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  Faq  $faq
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Faq $faq)
+    public function edit(Faq $faq): View
     {
         $events = Event::where('endEvent', '>', now())
             ->orderBy('startEvent', 'desc')
@@ -72,44 +46,23 @@ class FaqAdminController extends AdminController
         return view('faq.admin.form', compact('faq', 'events'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  UpdateFaq  $request
-     * @param  Faq  $faq
-     * @return \Illuminate\Http\Response
-     */
-    public function update(UpdateFaq $request, Faq $faq)
+    public function update(UpdateFaq $request, Faq $faq): RedirectResponse
     {
         $faq->update($request->validated());
         flashMessage('success', __('Done'), __('FAQ has been updated!'));
         return redirect(route('admin.faq.edit', $faq));
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  Faq  $faq
-     * @return \Illuminate\Http\Response
-     * @throws \Exception
-     */
-    public function destroy(Faq $faq)
+    public function destroy(Faq $faq): RedirectResponse
     {
         $faq->delete();
         flashMessage('success', __('Done'), 'Question has been removed!');
         return redirect(route('admin.faq.index'));
     }
 
-    /**
-     * Link or unlink a event to a FAQ
-     *
-     * @param  Faq  $faq
-     * @param  Event  $event
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function toggleEvent(Faq $faq, Event $event)
+    public function toggleEvent(Faq $faq, Event $event): RedirectResponse
     {
-        if ($faq->events()->where('event_id', $event->id)->get()->isNotEmpty()) {
+        if ($faq->events()->where('event_id', $event->id)->first()) {
             $faq->events()->detach($event->id);
             flashMessage('success', __('Event unlinked'), __('Event has been unlinked to this FAQ'));
         } else {

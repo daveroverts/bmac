@@ -2,96 +2,53 @@
 
 namespace App\Http\Controllers\Airport;
 
+use App\Models\Airport;
+use Illuminate\View\View;
+use App\Imports\AirportsImport;
+use App\Policies\AirportPolicy;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\AdminController;
 use App\Http\Requests\Airport\Admin\StoreAirport;
 use App\Http\Requests\Airport\Admin\UpdateAirport;
-use App\Imports\AirportsImport;
-use App\Models\Airport;
-use App\Policies\AirportPolicy;
-use Exception;
-use Illuminate\Contracts\Container\BindingResolutionException;
-use Illuminate\Support\Facades\Storage;
-use InvalidArgumentException;
-use Maatwebsite\Excel\Exceptions\NoFilePathGivenException;
 
 class AirportAdminController extends AdminController
 {
-
-    /**
-     * Instantiate a new controller instance.
-     *
-     * @return void
-     */
     public function __construct()
     {
         $this->authorizeResource(AirportPolicy::class, 'airport');
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    public function index(): View
     {
         $airports = Airport::with(['flightsDep', 'flightsArr', 'eventDep', 'eventArr'])
             ->paginate(100);
         return view('airport.admin.overview', compact('airports'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    public function create(): View
     {
         return view('airport.admin.form', ['airport' => new Airport()]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  StoreAirport  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(StoreAirport $request)
+    public function store(StoreAirport $request): RedirectResponse
     {
         $airport = Airport::create($request->validated());
         flashMessage('success', __('Done'), __(':airport has been added!', ['airport' => "$airport->name [$airport->icao | $airport->iata]"]));
         return redirect(route('admin.airports.index'));
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  Airport  $airport
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Airport $airport)
+    public function show(Airport $airport): View
     {
         return view('airport.admin.show', compact('airport'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  Airport  $airport
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Airport $airport)
+    public function edit(Airport $airport): View
     {
         return view('airport.admin.form', compact('airport'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  UpdateAirport  $request
-     * @param  Airport  $airport
-     * @return \Illuminate\Http\Response
-     */
-    public function update(UpdateAirport $request, Airport $airport)
+    public function update(UpdateAirport $request, Airport $airport): RedirectResponse
     {
         $airport->update($request->validated());
         flashMessage('success', __('Done'), __(':airport has been updated!', ['airport' => "$airport->name [$airport->icao | $airport->iata]"]));
@@ -99,14 +56,7 @@ class AirportAdminController extends AdminController
         return redirect(route('admin.airports.index'));
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  Airport  $airport
-     * @return \Illuminate\Http\RedirectResponse
-     * @throws \Exception
-     */
-    public function destroy(Airport $airport)
+    public function destroy(Airport $airport): RedirectResponse
     {
         if ($airport->flightsDep->isEmpty() && $airport->flightsArr->isEmpty()) {
             $airport->delete();
@@ -123,16 +73,7 @@ class AirportAdminController extends AdminController
         }
     }
 
-    /**
-     * Script to import airports from a .dat file
-     *
-     * @return \Illuminate\Http\Response
-     * @throws InvalidArgumentException
-     * @throws Exception
-     * @throws NoFilePathGivenException
-     * @throws BindingResolutionException
-     */
-    public function import()
+    public function import(): RedirectResponse
     {
         $file = 'import.csv';
         Storage::disk('local')->put(

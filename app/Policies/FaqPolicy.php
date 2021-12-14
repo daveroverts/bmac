@@ -13,7 +13,6 @@ class FaqPolicy
     /**
      * Determine whether the user can view the faq.
      *
-     * @param  User  $user
      * @param  Faq  $faq
      * @return mixed
      */

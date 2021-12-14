@@ -2,10 +2,14 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
+use Illuminate\Support\Collection;
+use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
  * App\Models\Booking
@@ -58,11 +62,6 @@ class Booking extends Model
     use HasFactory;
     use LogsActivity;
 
-    /**
-     * The attributes that aren't mass assignable.
-     *
-     * @var array
-     */
     protected $guarded = [
         'id', 'uuid', 'status', 'selcal',
     ];
@@ -90,19 +89,7 @@ class Booking extends Model
         });
     }
 
-    /**
-     * The relations to eager load on every query.
-     *
-     * @var array
-     */
-    //    protected $with = ['flights'];
-
-    /**
-     * Get the route key for the model.
-     *
-     * @return string
-     */
-    public function getRouteKeyName()
+    public function getRouteKeyName(): string
     {
         return 'uuid';
     }
@@ -127,62 +114,47 @@ class Booking extends Model
         return !empty($this->final_information_email_sent_at);
     }
 
-    /**
-     * Capitalize Callsign
-     *
-     * @param $value
-     */
-    public function setCallsignAttribute($value)
+    public function setCallsignAttribute($value): void
     {
         $this->attributes['callsign'] = !empty($value) ? strtoupper($value) : null;
     }
 
-    /**
-     * Capitalize Aircraft
-     *
-     * @param $value
-     */
-    public function setActypeAttribute($value)
+    public function setActypeAttribute($value): void
     {
         $this->attributes['acType'] = !empty($value) ? strtoupper($value) : null;
     }
 
-    /**
-     * Capitalize SELCAL
-     *
-     * @param $value
-     */
-    public function setSelcalAttribute($value)
+    public function setSelcalAttribute($value): void
     {
         $this->attributes['selcal'] = !empty($value) ? strtoupper($value) : null;
     }
 
-    public function airportDep()
+    public function airportDep(): HasOne
     {
         return $this->hasOne(Airport::class, 'id', 'dep');
     }
 
-    public function airportArr()
+    public function airportArr(): HasOne
     {
         return $this->hasOne(Airport::class, 'id', 'arr');
     }
 
-    public function event()
+    public function event(): BelongsTo
     {
         return $this->belongsTo(Event::class);
     }
 
-    public function user()
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class)->withDefault();
     }
 
-    public function flights()
+    public function flights(): HasMany
     {
         return $this->hasMany(Flight::class)->orderBy('order_by');
     }
 
-    public function airportCtot($orderBy, $withAbbr = true)
+    public function airportCtot($orderBy, $withAbbr = true): string
     {
         if ($flight = $this->flights->where('order_by', $orderBy)->first()) {
             if ($withAbbr) {
@@ -193,7 +165,7 @@ class Booking extends Model
         return '-';
     }
 
-    public function uniqueAirports()
+    public function uniqueAirports(): Collection
     {
         $airports = collect();
         $this->flights()->each(function ($flight) use ($airports) {

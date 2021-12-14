@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Spatie\Activitylog\Traits\LogsActivity;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * App\Models\EventType
@@ -26,18 +27,9 @@ class EventType extends Model
     use LogsActivity;
 
     public $incrementing = false;
-    /**
-     * Indicates if the model should be timestamped.
-     *
-     * @var bool
-     */
+
     public $timestamps = false;
 
-    /**
-     * The attributes that aren't mass assignable.
-     *
-     * @var array
-     */
     protected $guarded = ['id'];
 
     protected static $logAttributes = ['*'];
@@ -55,7 +47,7 @@ class EventType extends Model
         });
     }
 
-    public function events()
+    public function events(): BelongsTo
     {
         return $this->belongsTo(Event::class, 'id');
     }

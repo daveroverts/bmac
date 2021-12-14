@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Booking;
 
-use Carbon\Carbon;
 use App\Models\Event;
 use App\Models\Booking;
 use App\Enums\EventType;
@@ -13,36 +12,17 @@ use App\Events\BookingCancelled;
 use App\Events\BookingConfirmed;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Booking\UpdateBooking;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\View\View;
 
 class BookingController extends Controller
 {
-    /**
-     * Display a listing of the bookings.
-     *
-     * @param  Request  $request
-     * @param  Event|null  $event
-     * @return \Illuminate\Http\Response
-     */
-    public function index(Request $request, Event $event = null)
+    public function index(Request $request, Event $event): View|RedirectResponse
     {
-        // Check if specific event is requested, else fall back to current ongoing event
-        if (!$event) {
-            $event = nextEvent();
-            if (!empty($event)) {
-                return redirect(route('bookings.event.index', $event));
-            }
-        }
-
         return view('booking.overview', compact('event'));
     }
 
-    /**
-     * Display the specified booking.
-     *
-     * @param  Booking  $booking
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Booking $booking)
+    public function show(Booking $booking): View
     {
         if ($booking->event->event_type_id == EventType::MULTIFLIGHTS) {
             return view('booking.show_multiflights', compact('booking'));
@@ -51,13 +31,8 @@ class BookingController extends Controller
         return view('booking.show', compact('booking', 'flight'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Booking  $booking
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Booking $booking)
+    // TODO: Split this in multiple functions/routes. This is just one big mess
+    public function edit(Booking $booking): View|RedirectResponse
     {
         // Check if the booking has already been booked or reserved
         if ($booking->status !== BookingStatus::UNASSIGNED) {
@@ -153,14 +128,7 @@ class BookingController extends Controller
         }
     }
 
-    /**
-     * Update the specified booking in storage.
-     *
-     * @param  UpdateBooking  $request
-     * @param  Booking  $booking
-     * @return \Illuminate\Http\Response
-     */
-    public function update(UpdateBooking $request, Booking $booking)
+    public function update(UpdateBooking $request, Booking $booking): RedirectResponse
     {
         // This check should actually be in the policy, but is now here as a quick fix
         if ($booking->user_id === $request->user()->id) {
@@ -203,7 +171,7 @@ class BookingController extends Controller
         }
     }
 
-    public function validateSELCAL($selcal, $eventId)
+    public function validateSELCAL($selcal, $eventId): ?string
     {
         // Separate characters
         $char1 = substr($selcal, 0, 1);
@@ -232,21 +200,14 @@ class BookingController extends Controller
         // Check for duplicates within the same event
         if (Booking::where('event_id', $eventId)
             ->where('selcal', '=', $selcal)
-            ->get()->first()
+            ->first()
         ) {
             return null;
         }
         return $selcal;
     }
 
-    /**
-     * Sets reservedBy and bookedBy to null.
-     *
-     * @param  Booking  $booking
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
-     * @throws \Illuminate\Auth\Access\AuthorizationException
-     */
-    public function cancel(Booking $booking)
+    public function cancel(Booking $booking): RedirectResponse
     {
         $this->authorize('cancel', $booking);
         if ($booking->event->endBooking > now()) {

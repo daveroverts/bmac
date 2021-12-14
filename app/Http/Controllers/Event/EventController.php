@@ -2,18 +2,13 @@
 
 namespace App\Http\Controllers\Event;
 
-use App\Http\Controllers\Controller;
 use App\Models\Event;
+use Illuminate\View\View;
+use App\Http\Controllers\Controller;
 
 class EventController extends Controller
 {
-    /**
-     * Handle the incoming request.
-     *
-     * @param  Event  $event
-     * @return \Illuminate\Http\Response
-     */
-    public function __invoke(Event $event)
+    public function __invoke(Event $event): View
     {
         return view('event.show', compact('event'));
     }
