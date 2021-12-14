@@ -1,4 +1,4 @@
-
+This version of bmac is maintained by me, Amos Ng, for use in VATMENA's/VATEUD's Cross The Land Event.
 # Book me a Cookie [BMAC]
 
 ![CI/CD](https://github.com/daveroverts/bmac/workflows/CI/CD/badge.svg)
