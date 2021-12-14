@@ -70,7 +70,7 @@
                 </script>
                 @endpush
 
-                <div id="columnchart_material" style="width: 1000px; height: 500px;"></div>
+                <div id="columnchart_material" style="width: 1200px; height: 500px;"></div>
 
             @else
                 Nothing to show for now :(
