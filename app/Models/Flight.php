@@ -2,9 +2,11 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
  * App\Models\Flight
@@ -56,11 +58,6 @@ class Flight extends Model
     use HasFactory;
     use LogsActivity;
 
-    /**
-     * The attributes that aren't mass assignable.
-     *
-     * @var array
-     */
     protected $guarded = ['id'];
 
     protected static $logAttributes = ['*'];
@@ -80,13 +77,7 @@ class Flight extends Model
      */
     protected $touches = ['booking'];
 
-    /**
-     * Format for CTOT
-     *
-     * @param $value
-     * @return string
-     */
-    public function getFormattedCtotAttribute()
+    public function getFormattedCtotAttribute(): string
     {
         if (!empty($this->ctot)) {
             return $this->ctot->format('Hi') . 'z';
@@ -94,12 +85,7 @@ class Flight extends Model
         return '-';
     }
 
-    /**
-     * Format for ETA
-     *
-     * @return string
-     */
-    public function getFormattedEtaAttribute()
+    public function getFormattedEtaAttribute(): string
     {
         if (!empty($this->eta)) {
             return $this->eta->format('Hi') . 'z';
@@ -107,12 +93,7 @@ class Flight extends Model
         return '-';
     }
 
-    /**
-     * Format for oceanicFL
-     *
-     * @return string
-     */
-    public function getFormattedOceanicflAttribute()
+    public function getFormattedOceanicflAttribute(): string
     {
         if ($this->oceanicFL) {
             return 'FL' . $this->oceanicFL;
@@ -121,47 +102,32 @@ class Flight extends Model
         return '-';
     }
 
-    /**
-     * Format for notes
-     *
-     * @return string
-     */
-    public function getFormattedNotesAttribute()
+    public function getFormattedNotesAttribute(): string
     {
         return $this->notes ?: '-';
     }
 
-    /**
-     * Capitalize Route
-     *
-     * @param $value
-     */
-    public function setRouteAttribute($value)
+    public function setRouteAttribute($value): void
     {
         $this->attributes['route'] = !empty($value) ? strtoupper($value) : null;
     }
 
-    /**
-     * Capitalize Oceanic Track
-     *
-     * @param $value
-     */
-    public function setOceanictrackAttribute($value)
+    public function setOceanictrackAttribute($value): void
     {
         $this->attributes['oceanicTrack'] = !empty($value) ? strtoupper($value) : null;
     }
 
-    public function booking()
+    public function booking(): BelongsTo
     {
         return $this->belongsTo(Booking::class);
     }
 
-    public function airportDep()
+    public function airportDep(): HasOne
     {
         return $this->hasOne(Airport::class, 'id', 'dep')->withDefault();
     }
 
-    public function airportArr()
+    public function airportArr(): HasOne
     {
         return $this->hasOne(Airport::class, 'id', 'arr')->withDefault();
     }

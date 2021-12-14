@@ -2,9 +2,10 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
  * App\Models\AirportLink
@@ -40,23 +41,17 @@ class AirportLink extends Model
     use HasFactory;
     use LogsActivity;
 
-    /**
-     * The attributes that aren't mass assignable.
-     *
-     * @var array
-     */
     protected $guarded = ['id'];
 
     protected static $logAttributes = ['*'];
     protected static $logOnlyDirty = true;
 
-    public function airport()
+    public function airport(): HasOne
     {
         return $this->hasOne(Airport::class, 'id', 'airport_id');
     }
 
-    // TODO Or do we want to create a LinkType model / collection?
-    public function type()
+    public function type(): HasOne
     {
         return $this->hasOne(AirportLinkType::class, 'id', 'airportLinkType_id');
     }

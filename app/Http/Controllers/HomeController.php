@@ -2,15 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\View\View;
+
 class HomeController extends Controller
 {
-
-    /**
-     * Show the homepage
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function __invoke()
+    public function __invoke(): View
     {
         $events = nextEvents(false, false, true);
         return view('home', compact('events'));

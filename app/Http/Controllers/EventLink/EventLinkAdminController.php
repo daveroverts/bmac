@@ -4,30 +4,22 @@ namespace App\Http\Controllers\EventLink;
 
 use App\Models\Event;
 use App\Models\EventLink;
+use Illuminate\View\View;
 use App\Models\AirportLinkType;
 use App\Policies\EventLinkPolicy;
+use Illuminate\Http\RedirectResponse;
 use App\Http\Controllers\AdminController;
 use App\Http\Requests\EventLink\Admin\StoreEventLink;
 use App\Http\Requests\EventLink\Admin\UpdateEventLink;
 
 class EventLinkAdminController extends AdminController
 {
-    /**
-     * Instantiate a new controller instance.
-     *
-     * @return void
-     */
     public function __construct()
     {
         $this->authorizeResource(EventLinkPolicy::class, 'eventLink');
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    public function index(): View
     {
         $eventLinks = EventLink::orderBy('event_id', 'asc')
             ->with(['event', 'type'])
@@ -35,12 +27,7 @@ class EventLinkAdminController extends AdminController
         return view('eventLink.admin.overview', compact('eventLinks'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create(Event $event)
+    public function create(Event $event): View
     {
         $eventLink = new EventLink();
         $eventLinkTypes = AirportLinkType::all(['id', 'name'])->pluck('name', 'id');
@@ -55,13 +42,7 @@ class EventLinkAdminController extends AdminController
         return view('eventLink.admin.form', compact('eventLink', 'eventLinkTypes', 'events'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  StoreEventLink  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(StoreEventLink $request)
+    public function store(StoreEventLink $request): RedirectResponse
     {
         $eventLink = EventLink::create($request->validated());
         flashMessage(
@@ -72,39 +53,20 @@ class EventLinkAdminController extends AdminController
         return redirect(route('admin.eventLinks.index'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\EventLink  $eventLink
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(EventLink $eventLink)
+    public function edit(EventLink $eventLink): View
     {
         $eventLinkTypes = AirportLinkType::all(['id', 'name'])->pluck('name', 'id');
         return view('eventLink.admin.form', compact('eventLink', 'eventLinkTypes'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  UpdateAirportLink  $request
-     * @param  \App\Models\EventLink  $eventLink
-     * @return \Illuminate\Http\Response
-     */
-    public function update(UpdateEventLink $request, EventLink $eventLink)
+    public function update(UpdateEventLink $request, EventLink $eventLink): RedirectResponse
     {
         $eventLink->update($request->validated());
         flashMessage('success', __('Done'), __('Link has been updated'));
         return redirect(route('admin.eventLinks.index'));
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\EventLink  $eventLink
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(EventLink $eventLink)
+    public function destroy(EventLink $eventLink): RedirectResponse
     {
         $eventLink->delete();
         flashMessage('success', __('Event link deleted'), __('Event link has been deleted'));
