@@ -49,9 +49,9 @@
                             ['Airport', 'First', 'Second', 'Third'],
                                 @foreach($votes as $vote)
                                 @if(!$loop->last)
-                            ['{{$vote->name}}', {{$vote->first}}, {{$vote->second}}, {{$vote->third}}],
+                            ['{{substr($vote->name,0,4)}}', {{$vote->first}}, {{$vote->second}}, {{$vote->third}}],
                             @else
-                            ['{{$vote->name}}', {{$vote->first}}, {{$vote->second}}, {{$vote->third}}]
+                            ['{{substr($vote->name,0,4)}}', {{$vote->first}}, {{$vote->second}}, {{$vote->third}}]
                             @endif
                             @endforeach
                         ]);
