@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Spatie\Activitylog\Traits\LogsActivity;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
@@ -33,11 +34,6 @@ class AirportLinkType extends Model
     use HasFactory;
     use LogsActivity;
 
-    /**
-     * The attributes that aren't mass assignable.
-     *
-     * @var array
-     */
     protected $guarded = ['id'];
 
     protected static $logAttributes = ['*'];
@@ -55,7 +51,7 @@ class AirportLinkType extends Model
         });
     }
 
-    public function links()
+    public function links(): BelongsTo
     {
         return $this->belongsTo(AirportLink::class, 'id');
     }

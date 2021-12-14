@@ -6,7 +6,10 @@ use App\Models\EventLink;
 use Illuminate\Database\Eloquent\Model;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Spatie\Activitylog\Traits\LogsActivity;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 /**
  * App\Models\Event
@@ -76,11 +79,6 @@ class Event extends Model
     use LogsActivity;
     use Sluggable;
 
-    /**
-     * The attributes that aren't mass assignable.
-     *
-     * @var array
-     */
     protected $guarded = [
         'id', 'slug',
     ];
@@ -119,32 +117,32 @@ class Event extends Model
     protected static $logAttributes = ['*'];
     protected static $logOnlyDirty = true;
 
-    public function bookings()
+    public function bookings(): HasMany
     {
         return $this->hasMany(Booking::class);
     }
 
-    public function type()
+    public function type(): HasOne
     {
         return $this->hasOne(EventType::class, 'id', 'event_type_id');
     }
 
-    public function airportDep()
+    public function airportDep(): HasOne
     {
         return $this->hasOne(Airport::class, 'id', 'dep');
     }
 
-    public function airportArr()
+    public function airportArr(): HasOne
     {
         return $this->hasOne(Airport::class, 'id', 'arr');
     }
 
-    public function links()
+    public function links(): HasMany
     {
         return $this->hasMany(EventLink::class);
     }
 
-    public function faqs()
+    public function faqs(): BelongsToMany
     {
         return $this->belongsToMany(Faq::class);
     }
@@ -158,17 +156,12 @@ class Event extends Model
         ];
     }
 
-    /**
-     * Get the route key for the model.
-     *
-     * @return string
-     */
-    public function getRouteKeyName()
+    public function getRouteKeyName(): string
     {
         return 'slug';
     }
 
-    public function hasOrderButtons()
+    public function hasOrderButtons(): bool
     {
         return in_array($this->event_type_id, [
             \App\Enums\EventType::FLYIN,

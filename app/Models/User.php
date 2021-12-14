@@ -2,12 +2,13 @@
 
 namespace App\Models;
 
-use App\Http\Controllers\OAuthController;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use App\Http\Controllers\OAuthController;
 use League\OAuth2\Client\Token\AccessToken;
 use Spatie\Activitylog\Traits\LogsActivity;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
 /**
  * App\Models\User
@@ -31,7 +32,7 @@ use Spatie\Activitylog\Traits\LogsActivity;
  * @property-read int|null $bookings_count
  * @property-read string $full_name
  * @property-read string $pic
- * @property-read AccessToken $token
+ * @property-read \League\OAuth2\Client\Token\AccessToken|null $token
  * @property-read \Illuminate\Notifications\DatabaseNotificationCollection|\Illuminate\Notifications\DatabaseNotification[] $notifications
  * @property-read int|null $notifications_count
  * @method static \Database\Factories\UserFactory factory(...$parameters)
@@ -61,11 +62,7 @@ class User extends Authenticatable
 
     protected static $logAttributes = ['*'];
     protected static $logOnlyDirty = true;
-    /**
-     * The attributes that aren't mass assignable.
-     *
-     * @var array
-     */
+
     protected $guarded = [
         'id', 'isAdmin'
     ];
@@ -87,27 +84,17 @@ class User extends Authenticatable
         'use_monospace_font' => 'boolean',
     ];
 
-    public function bookings()
+    public function bookings(): HasMany
     {
         return $this->hasMany(Booking::class);
     }
 
-    /**
-     * Get the user's full name.
-     *
-     * @return string
-     */
-    public function getFullNameAttribute()
+    public function getFullNameAttribute(): string
     {
         return ucfirst($this->name_first) . ' ' . ucfirst($this->name_last);
     }
 
-    /**
-     * Get the user's full name and Vatsim ID.
-     *
-     * @return string
-     */
-    public function getPicAttribute()
+    public function getPicAttribute(): string
     {
         if (!empty($this->full_name) && !empty($this->id)) {
             return "{$this->full_name} | {$this->id}";
@@ -115,35 +102,30 @@ class User extends Authenticatable
         return '-';
     }
 
-    /**
-     * When doing $user->token, return a valid access token or null if none exists
-     *
-     * @return \League\OAuth2\Client\Token\AccessToken
-     * @return null
-     */
-    public function getTokenAttribute()
+    public function getTokenAttribute(): ?AccessToken
     {
-        if ($this->access_token === null) return null;
-        else {
-            $token = new AccessToken([
-                'access_token' => $this->access_token,
-                'refresh_token' => $this->refresh_token,
-                'expires' => $this->token_expires,
-            ]);
-
-            if ($token->hasExpired()) {
-                $token = OAuthController::updateToken($token);
-            }
-
-            // Can't put it inside the "if token expired"; $this is null there
-            // but anyway Laravel will only update if any changes have been made.
-            $this->update([
-                'access_token' => ($token) ? $token->getToken() : null,
-                'refresh_token' => ($token) ? $token->getRefreshToken() : null,
-                'token_expires' => ($token) ? $token->getExpires() : null,
-            ]);
-
-            return $token;
+        if ($this->access_token === null) {
+            return null;
         }
+
+        $token = new AccessToken([
+            'access_token' => $this->access_token,
+            'refresh_token' => $this->refresh_token,
+            'expires' => $this->token_expires,
+        ]);
+
+        if ($token->hasExpired()) {
+            $token = OAuthController::updateToken($token);
+        }
+
+        // Can't put it inside the "if token expired"; $this is null there
+        // but anyway Laravel will only update if any changes have been made.
+        $this->update([
+            'access_token' => ($token) ? $token->getToken() : null,
+            'refresh_token' => ($token) ? $token->getRefreshToken() : null,
+            'token_expires' => ($token) ? $token->getExpires() : null,
+        ]);
+
+        return $token;
     }
 }

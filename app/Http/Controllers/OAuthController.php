@@ -7,6 +7,7 @@ use League\OAuth2\Client\Token;
 use Illuminate\Support\Facades\Auth;
 use League\OAuth2\Client\Provider\GenericProvider;
 use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
+use League\OAuth2\Client\Token\AccessToken;
 
 class OAuthController extends GenericProvider
 {
@@ -24,21 +25,15 @@ class OAuthController extends GenericProvider
             'clientId'                => config('oauth.id'),    // The client ID assigned to you by the provider
             'clientSecret'            => config('oauth.secret'),   // The client password assigned to you by the provider
             'redirectUri'             => route('login'),
-            'urlAuthorize'            => config('oauth.base').'/oauth/authorize',
-            'urlAccessToken'          => config('oauth.base').'/oauth/token',
-            'urlResourceOwnerDetails' => config('oauth.base').'/api/user',
+            'urlAuthorize'            => config('oauth.base') . '/oauth/authorize',
+            'urlAccessToken'          => config('oauth.base') . '/oauth/token',
+            'urlResourceOwnerDetails' => config('oauth.base') . '/api/user',
             'scopes'                  => config('oauth.scopes'),
             'scopeSeparator'          => ' '
         ]);
     }
 
-    /**
-     * Gets an (updated) user token
-     * @param Token $token
-     * @return Token
-     * @return null
-     */
-    public static function updateToken($token)
+    public static function updateToken($token): ?AccessToken
     {
         $controller = new OAuthController;
         try {
@@ -52,9 +47,9 @@ class OAuthController extends GenericProvider
 
     // Thanks to Moodle for this snippet
     // https://github.com/moodle/moodle/blob/48ad73619f870e4fd87240bd3c74202a300da6b2/lib/classes/oauth2/client.php#L255
-    public static function getOAuthProperty($property, $data){
-
-        $getfunc = function($obj, $prop) use (&$getfunc) {
+    public static function getOAuthProperty($property, $data)
+    {
+        $getfunc = function ($obj, $prop) use (&$getfunc) {
             $proplist = explode('-', $prop, 2);
             if (empty($proplist[0]) || empty($obj->{$proplist[0]})) {
                 return false;
@@ -73,6 +68,5 @@ class OAuthController extends GenericProvider
         }
 
         return false;
-
     }
 }
