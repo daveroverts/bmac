@@ -2,6 +2,9 @@
 
 namespace App\Models;
 
+use App\Models\Airport;
+use App\Models\AirportLinkType;
+use Spatie\Activitylog\LogOptions;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -20,8 +23,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @property string|null $deleted_at
  * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\Activitylog\Models\Activity[] $activities
  * @property-read int|null $activities_count
- * @property-read \App\Models\Airport|null $airport
- * @property-read \App\Models\AirportLinkType|null $type
+ * @property-read Airport|null $airport
+ * @property-read AirportLinkType|null $type
  * @method static \Database\Factories\AirportLinkFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|AirportLink newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|AirportLink newQuery()
@@ -43,8 +46,10 @@ class AirportLink extends Model
 
     protected $guarded = ['id'];
 
-    protected static $logAttributes = ['*'];
-    protected static $logOnlyDirty = true;
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()->logOnlyDirty();
+    }
 
     public function airport(): HasOne
     {
