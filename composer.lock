@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7e09a3801a9f986eda73b5a401267c91",
+    "content-hash": "2b614fc608fbd4c8c01226c5b23f0703",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -205,23 +205,23 @@
         },
         {
             "name": "bensampo/laravel-enum",
-            "version": "v3.4.2",
+            "version": "v4.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/BenSampo/laravel-enum.git",
-                "reference": "fba54d86b4865e63db3502c4e23bab192fb75314"
+                "reference": "27e5a82e1830495e6b88bab6d38389b730c05e39"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/BenSampo/laravel-enum/zipball/fba54d86b4865e63db3502c4e23bab192fb75314",
-                "reference": "fba54d86b4865e63db3502c4e23bab192fb75314",
+                "url": "https://api.github.com/repos/BenSampo/laravel-enum/zipball/27e5a82e1830495e6b88bab6d38389b730c05e39",
+                "reference": "27e5a82e1830495e6b88bab6d38389b730c05e39",
                 "shasum": ""
             },
             "require": {
                 "hanneskod/classtools": "^1.2",
                 "illuminate/contracts": "^8.0",
                 "illuminate/support": "^8.0",
-                "laminas/laminas-code": "^3.4",
+                "laminas/laminas-code": "^3.4|^4.0",
                 "nikic/php-parser": "^4.10",
                 "php": "^7.3|^8.0"
             },
@@ -276,7 +276,7 @@
             ],
             "support": {
                 "issues": "https://github.com/BenSampo/laravel-enum/issues",
-                "source": "https://github.com/BenSampo/laravel-enum/tree/v3.4.2"
+                "source": "https://github.com/BenSampo/laravel-enum/tree/v4.1.0"
             },
             "funding": [
                 {
@@ -284,7 +284,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2021-09-09T17:27:58+00:00"
+            "time": "2021-11-16T10:29:06+00:00"
         },
         {
             "name": "brick/math",
