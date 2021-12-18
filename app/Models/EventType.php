@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Models\Event;
+use Spatie\Activitylog\LogOptions;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Spatie\Activitylog\Traits\LogsActivity;
@@ -14,7 +16,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property string $name
  * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\Activitylog\Models\Activity[] $activities
  * @property-read int|null $activities_count
- * @property-read \App\Models\Event $events
+ * @property-read Event $events
  * @method static Builder|EventType newModelQuery()
  * @method static Builder|EventType newQuery()
  * @method static Builder|EventType query()
@@ -27,13 +29,8 @@ class EventType extends Model
     use LogsActivity;
 
     public $incrementing = false;
-
     public $timestamps = false;
-
     protected $guarded = ['id'];
-
-    protected static $logAttributes = ['*'];
-    protected static $logOnlyDirty = true;
 
     /**
      * The "booted" method of the model.
@@ -45,6 +42,11 @@ class EventType extends Model
         static::addGlobalScope('order', function (Builder $builder) {
             $builder->orderBy('name');
         });
+    }
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()->logOnlyDirty();
     }
 
     public function events(): BelongsTo

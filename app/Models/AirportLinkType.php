@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Models\AirportLink;
+use Spatie\Activitylog\LogOptions;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Spatie\Activitylog\Traits\LogsActivity;
@@ -18,7 +20,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\Activitylog\Models\Activity[] $activities
  * @property-read int|null $activities_count
- * @property-read \App\Models\AirportLink $links
+ * @property-read AirportLink $links
  * @method static Builder|AirportLinkType newModelQuery()
  * @method static Builder|AirportLinkType newQuery()
  * @method static Builder|AirportLinkType query()
@@ -36,9 +38,6 @@ class AirportLinkType extends Model
 
     protected $guarded = ['id'];
 
-    protected static $logAttributes = ['*'];
-    protected static $logOnlyDirty = true;
-
     /**
      * The "booted" method of the model.
      *
@@ -49,6 +48,11 @@ class AirportLinkType extends Model
         static::addGlobalScope('order', function (Builder $builder) {
             $builder->orderBy('name');
         });
+    }
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()->logOnlyDirty();
     }
 
     public function links(): BelongsTo
