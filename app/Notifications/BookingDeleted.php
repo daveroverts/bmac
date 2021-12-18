@@ -42,8 +42,10 @@ class BookingDeleted extends Notification implements ShouldQueue
     public function toMail($notifiable)
     {
         $event = $this->event;
+        $subject = $event->name . ': ' . __('Booking deleted');
 
         return (new MailMessage)
+            ->subject($subject)
             ->greeting('Booking deleted')
             ->line('Dear ' . $notifiable->full_name . ',')
             ->line('Your booking for ' . $event->name . ' event has been removed by an administrator.')
