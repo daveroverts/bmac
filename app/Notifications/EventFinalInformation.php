@@ -43,9 +43,12 @@ class EventFinalInformation extends Notification implements ShouldQueue
     public function toMail($notifiable)
     {
         $booking = $this->booking;
+        $subject = $booking->event->name . ': ' . __('Booking confirmed');
         $template = $booking->event->event_type_id == EventType::MULTIFLIGHTS ? 'emails.event.finalInformation_multiflights' : 'emails.event.finalInformation';
         $flight = $booking->flights->first() ?? null;
-        return (new MailMessage)->markdown($template, compact('booking', 'flight'));
+        return (new MailMessage)
+            ->subject($subject)
+            ->markdown($template, compact('booking', 'flight'));
     }
 
     /**
