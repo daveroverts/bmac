@@ -4,14 +4,14 @@ namespace App\Models;
 
 use App\Models\Airport;
 use App\Models\AirportLinkType;
-use Spatie\Activitylog\LogOptions;
-use Illuminate\Database\Eloquent\Model;
-use Spatie\Activitylog\Traits\LogsActivity;
-use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 /**
- * App\Models\AirportLink
+ * App\Models\AirportLink.
  *
  * @property int $id
  * @property int $airport_id
@@ -25,6 +25,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @property-read int|null $activities_count
  * @property-read Airport|null $airport
  * @property-read AirportLinkType|null $type
+ *
  * @method static \Database\Factories\AirportLinkFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|AirportLink newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|AirportLink newQuery()

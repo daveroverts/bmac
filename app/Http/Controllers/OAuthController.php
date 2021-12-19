@@ -3,10 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use League\OAuth2\Client\Token;
 use Illuminate\Support\Facades\Auth;
-use League\OAuth2\Client\Provider\GenericProvider;
 use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
+use League\OAuth2\Client\Provider\GenericProvider;
+use League\OAuth2\Client\Token;
 use League\OAuth2\Client\Token\AccessToken;
 
 class OAuthController extends GenericProvider
@@ -25,11 +25,11 @@ class OAuthController extends GenericProvider
             'clientId'                => config('oauth.id'),    // The client ID assigned to you by the provider
             'clientSecret'            => config('oauth.secret'),   // The client password assigned to you by the provider
             'redirectUri'             => route('login'),
-            'urlAuthorize'            => config('oauth.base') . '/oauth/authorize',
-            'urlAccessToken'          => config('oauth.base') . '/oauth/token',
-            'urlResourceOwnerDetails' => config('oauth.base') . '/api/user',
+            'urlAuthorize'            => config('oauth.base').'/oauth/authorize',
+            'urlAccessToken'          => config('oauth.base').'/oauth/token',
+            'urlResourceOwnerDetails' => config('oauth.base').'/api/user',
             'scopes'                  => config('oauth.scopes'),
-            'scopeSeparator'          => ' '
+            'scopeSeparator'          => ' ',
         ]);
     }
 
@@ -38,7 +38,7 @@ class OAuthController extends GenericProvider
         $controller = new OAuthController;
         try {
             return $controller->getAccessToken('refresh_token', [
-                'refresh_token' => $token->getRefreshToken()
+                'refresh_token' => $token->getRefreshToken(),
             ]);
         } catch (IdentityProviderException $e) {
             return null;
@@ -59,11 +59,12 @@ class OAuthController extends GenericProvider
             if (count($proplist) > 1) {
                 return $getfunc($obj, $proplist[1]);
             }
+
             return $obj;
         };
 
         $resolved = $getfunc($data, $property);
-        if (!empty($resolved)) {
+        if (! empty($resolved)) {
             return $resolved;
         }
 

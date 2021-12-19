@@ -11,8 +11,8 @@ use App\Http\Resources\UserResource;
 use App\Http\Resources\UsersCollection;
 use App\Models\Airport;
 use App\Models\Booking;
-use App\Models\User;
 use App\Models\Event;
+use App\Models\User;
 
 /*
 |--------------------------------------------------------------------------

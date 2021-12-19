@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers\Faq;
 
-use App\Models\Faq;
-use App\Models\Event;
-use Illuminate\View\View;
-use App\Policies\FaqPolicy;
-use Illuminate\Http\RedirectResponse;
 use App\Http\Controllers\AdminController;
 use App\Http\Requests\Faq\Admin\StoreFaq;
 use App\Http\Requests\Faq\Admin\UpdateFaq;
+use App\Models\Event;
+use App\Models\Faq;
+use App\Policies\FaqPolicy;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\View\View;
 
 class FaqAdminController extends AdminController
 {
@@ -21,12 +21,14 @@ class FaqAdminController extends AdminController
     public function index(): View
     {
         $faqs = Faq::withCount('events')->paginate();
+
         return view('faq.admin.overview', compact('faqs'));
     }
 
     public function create(): View
     {
         $faq = new Faq();
+
         return view('faq.admin.form', compact('faq'));
     }
 
@@ -34,6 +36,7 @@ class FaqAdminController extends AdminController
     {
         $faq = Faq::create($request->validated());
         flashMessage('success', __('Done'), __('FAQ has been added!'));
+
         return redirect(route('admin.faq.edit', $faq));
     }
 
@@ -50,6 +53,7 @@ class FaqAdminController extends AdminController
     {
         $faq->update($request->validated());
         flashMessage('success', __('Done'), __('FAQ has been updated!'));
+
         return redirect(route('admin.faq.edit', $faq));
     }
 
@@ -57,6 +61,7 @@ class FaqAdminController extends AdminController
     {
         $faq->delete();
         flashMessage('success', __('Done'), 'Question has been removed!');
+
         return redirect(route('admin.faq.index'));
     }
 
@@ -69,6 +74,7 @@ class FaqAdminController extends AdminController
             $faq->events()->attach($event->id);
             flashMessage('success', __('Event linked'), __('Event has been linked to this FAQ'));
         }
+
         return back();
     }
 }

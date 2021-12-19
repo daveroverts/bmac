@@ -2,24 +2,24 @@
 
 namespace App\Http\Controllers\Event;
 
-use Carbon\Carbon;
-use App\Models\User;
-use App\Models\Event;
-use App\Models\Airport;
-use App\Models\EventType;
-use Illuminate\View\View;
 use App\Enums\BookingStatus;
-use Illuminate\Http\Request;
-use App\Policies\EventPolicy;
 use App\Events\EventBulkEmail;
-use Illuminate\Http\JsonResponse;
 use App\Events\EventFinalInformation;
-use Illuminate\Http\RedirectResponse;
 use App\Http\Controllers\AdminController;
-use Illuminate\Database\Eloquent\Builder;
 use App\Http\Requests\Event\Admin\SendEmail;
 use App\Http\Requests\Event\Admin\StoreEvent;
 use App\Http\Requests\Event\Admin\UpdateEvent;
+use App\Models\Airport;
+use App\Models\Event;
+use App\Models\EventType;
+use App\Models\User;
+use App\Policies\EventPolicy;
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Illuminate\View\View;
 
 class EventAdminController extends AdminController
 {
@@ -33,6 +33,7 @@ class EventAdminController extends AdminController
         $events = Event::orderByDesc('startEvent')
             ->with('type')
             ->paginate();
+
         return view('event.admin.overview', compact('events'));
     }
 
@@ -42,9 +43,10 @@ class EventAdminController extends AdminController
         $airports = Airport::all(['id', 'icao', 'iata', 'name'])->keyBy('id')
             ->map(function ($airport) {
                 /** @var Airport $airport */
-                return "$airport->icao | $airport->name | $airport->iata";;
+                return "$airport->icao | $airport->name | $airport->iata";
             });
         $eventTypes = EventType::all()->pluck('name', 'id');
+
         return view('event.admin.form', compact('event', 'airports', 'eventTypes'));
     }
 
@@ -68,23 +70,24 @@ class EventAdminController extends AdminController
         $event->fill([
             'startEvent' => Carbon::createFromFormat(
                 'd-m-Y H:i',
-                $request->dateEvent . ' ' . $request->timeBeginEvent
+                $request->dateEvent.' '.$request->timeBeginEvent
             ),
             'endEvent' => Carbon::createFromFormat(
                 'd-m-Y H:i',
-                $request->dateEvent . ' ' . $request->timeEndEvent
+                $request->dateEvent.' '.$request->timeEndEvent
             ),
             'startBooking' => Carbon::createFromFormat(
                 'd-m-Y H:i',
-                $request->dateBeginBooking . ' ' . $request->timeBeginBooking
+                $request->dateBeginBooking.' '.$request->timeBeginBooking
             ),
             'endBooking' => Carbon::createFromFormat(
                 'd-m-Y H:i',
-                $request->dateEndBooking . ' ' . $request->timeEndBooking
+                $request->dateEndBooking.' '.$request->timeEndBooking
             ),
         ])->save();
 
         flashMessage('success', __('Done'), __('Event has been created!'));
+
         return redirect(route('admin.events.index'));
     }
 
@@ -98,9 +101,10 @@ class EventAdminController extends AdminController
         $airports = Airport::all(['id', 'icao', 'iata', 'name'])->keyBy('id')
             ->map(function ($airport) {
                 /** @var Airport $airport */
-                return "$airport->icao | $airport->name | $airport->iata";;
+                return "$airport->icao | $airport->name | $airport->iata";
             });
         $eventTypes = EventType::all()->pluck('name', 'id');
+
         return view('event.admin.form', compact('event', 'airports', 'eventTypes'));
     }
 
@@ -123,22 +127,23 @@ class EventAdminController extends AdminController
         $event->fill([
             'startEvent' => Carbon::createFromFormat(
                 'd-m-Y H:i',
-                $request->dateEvent . ' ' . $request->timeBeginEvent
+                $request->dateEvent.' '.$request->timeBeginEvent
             ),
             'endEvent' => Carbon::createFromFormat(
                 'd-m-Y H:i',
-                $request->dateEvent . ' ' . $request->timeEndEvent
+                $request->dateEvent.' '.$request->timeEndEvent
             ),
             'startBooking' => Carbon::createFromFormat(
                 'd-m-Y H:i',
-                $request->dateBeginBooking . ' ' . $request->timeBeginBooking
+                $request->dateBeginBooking.' '.$request->timeBeginBooking
             ),
             'endBooking' => Carbon::createFromFormat(
                 'd-m-Y H:i',
-                $request->dateEndBooking . ' ' . $request->timeEndBooking
+                $request->dateEndBooking.' '.$request->timeEndBooking
             ),
         ])->save();
         flashMessage('success', __('Done'), __('Event has been updated!'));
+
         return redirect(route('admin.events.index'));
     }
 
@@ -147,9 +152,11 @@ class EventAdminController extends AdminController
         if ($event->startEvent > now()) {
             $event->delete();
             flashMessage('success', __('Done'), __(':event has been deleted!', ['event' => $event->name]));
+
             return redirect()->back();
         } else {
             flashMessage('danger', __('Danger'), __('Event can no longer be deleted!'));
+
             return redirect()->back();
         }
     }
@@ -163,6 +170,7 @@ class EventAdminController extends AdminController
     {
         if ($request->testmode) {
             event(new EventBulkEmail($event, $request->all(), collect([auth()->user()])));
+
             return response()->json(['success' => __('Email has been sent to yourself')]);
         } else {
             /* @var User $users */
@@ -172,6 +180,7 @@ class EventAdminController extends AdminController
             })->get();
             event(new EventBulkEmail($event, $request->all(), $users));
             flashMessage('success', __('Done'), __('Bulk E-mail has been sent to :count people!', ['count' => $users->count()]));
+
             return redirect(route('admin.events.index'));
         }
     }
@@ -185,12 +194,13 @@ class EventAdminController extends AdminController
 
         if ($request->testmode) {
             event(new EventFinalInformation($bookings->random()));
+
             return response()->json(['success' => __('Email has been sent to yourself')]);
         } else {
             $count = $bookings->count();
             $countSkipped = 0;
             foreach ($bookings as $booking) {
-                if (!$booking->has_received_final_information_email || $request->forceSend) {
+                if (! $booking->has_received_final_information_email || $request->forceSend) {
                     event(new EventFinalInformation($booking));
                 } else {
                     $count--;
@@ -199,7 +209,7 @@ class EventAdminController extends AdminController
             }
             $message = __('Final Information has been sent to :count people!', ['count' => $count]);
             if ($countSkipped != 0) {
-                $message .= ' ' . __('However, :count where skipped, because they already received one', ['count' => $count]);
+                $message .= ' '.__('However, :count where skipped, because they already received one', ['count' => $count]);
             }
             flashMessage('success', __('Done'), $message);
             activity()
@@ -208,6 +218,7 @@ class EventAdminController extends AdminController
                 ->withProperty('count', $count)
                 ->log('Final Information E-mail');
         }
+
         return redirect(route('admin.events.index'));
     }
 
@@ -220,11 +231,13 @@ class EventAdminController extends AdminController
 
         if ($event->endEvent <= now()) {
             flashMessage('danger', __('Danger'), __('Booking can no longer be deleted'));
+
             return back();
         }
 
         $event->bookings()->delete();
         flashMessage('success', __('Bookings deleted'), __('All bookings have been deleted'));
+
         return redirect(route('admin.events.index'));
     }
 }

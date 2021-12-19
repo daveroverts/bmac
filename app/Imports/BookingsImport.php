@@ -3,16 +3,16 @@
 namespace App\Imports;
 
 use App\Enums\EventType;
-use App\Models\Event;
 use App\Models\Airport;
 use App\Models\Booking;
-use Maatwebsite\Excel\Concerns\ToModel;
-use PhpOffice\PhpSpreadsheet\Shared\Date;
+use App\Models\Event;
 use Maatwebsite\Excel\Concerns\Importable;
-use Maatwebsite\Excel\Concerns\WithHeadingRow;
-use Maatwebsite\Excel\Concerns\WithValidation;
+use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithBatchInserts;
 use Maatwebsite\Excel\Concerns\WithChunkReading;
+use Maatwebsite\Excel\Concerns\WithHeadingRow;
+use Maatwebsite\Excel\Concerns\WithValidation;
+use PhpOffice\PhpSpreadsheet\Shared\Date;
 
 class BookingsImport implements ToModel, WithHeadingRow, WithBatchInserts, WithChunkReading, WithValidation
 {
@@ -24,14 +24,13 @@ class BookingsImport implements ToModel, WithHeadingRow, WithBatchInserts, WithC
     }
 
     /**
-     * @param array $row
-     *
+     * @param  array  $row
      * @return \Illuminate\Database\Eloquent\Model|null
      */
     public function model(array $row)
     {
         $editable = true;
-        if (!empty($row['call_sign']) && !empty($row['aircraft_type'])) {
+        if (! empty($row['call_sign']) && ! empty($row['aircraft_type'])) {
             $editable = false;
         }
         $booking = Booking::create([
@@ -96,6 +95,7 @@ class BookingsImport implements ToModel, WithHeadingRow, WithBatchInserts, WithC
                 'airport_3' => 'exists:airports,icao',
             ];
         }
+
         return [
             'origin'        => 'exists:airports,icao',
             'destination'   => 'exists:airports,icao',
@@ -112,15 +112,17 @@ class BookingsImport implements ToModel, WithHeadingRow, WithBatchInserts, WithC
 
     private function getTime($time)
     {
-        if (!empty($time)) {
+        if (! empty($time)) {
             $time = Date::excelToDateTimeObject($time);
             $time->setDate(
                 $this->event->startEvent->year,
                 $this->event->startEvent->month,
                 $this->event->startEvent->day,
             );
+
             return $time;
         }
+
         return null;
     }
 }

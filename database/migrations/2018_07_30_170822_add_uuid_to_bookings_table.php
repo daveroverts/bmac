@@ -1,9 +1,9 @@
 <?php
 
 use App\Models\Booking;
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class AddUuidToBookingsTable extends Migration
 {
@@ -19,7 +19,7 @@ class AddUuidToBookingsTable extends Migration
             $table->index('uuid');
         });
         foreach (Booking::all() as $booking) {
-            $booking->uuid = (string)Uuid::generate(4);
+            $booking->uuid = (string) Uuid::generate(4);
             $booking->save();
         }
     }

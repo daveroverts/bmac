@@ -26,7 +26,7 @@ class UpdateBooking extends Request
             'oceanicTrack' => 'nullable|alpha|min:1|max:2',
             'notes' => 'nullable',
             'message' => 'nullable',
-            'notify_user' => 'nullable'
+            'notify_user' => 'nullable',
         ];
     }
 
@@ -46,10 +46,10 @@ class UpdateBooking extends Request
             'dep' => __('Departure airport'),
             'arr' => __('Arrival airport'),
             'route' => __('Route'),
-            'oceanicFL' => __('Oceanic Entry Level') . ' / ' . __('Cruise FL'),
+            'oceanicFL' => __('Oceanic Entry Level').' / '.__('Cruise FL'),
             'notes' => __('Notes'),
             'message' => __('Message'),
-            'notify_user' => __('Notify user')
+            'notify_user' => __('Notify user'),
         ];
     }
 }

@@ -4,8 +4,8 @@ namespace Tests\Unit;
 
 use App\Models\Event;
 use App\Models\Faq;
-use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
 
 class FaqTest extends TestCase
 {
@@ -30,7 +30,7 @@ class FaqTest extends TestCase
 
         $this->assertDatabaseHas('event_faq', [
             'event_id' => $event->id,
-            'faq_id' => $event->faqs()->first()->id
+            'faq_id' => $event->faqs()->first()->id,
         ]);
     }
 }

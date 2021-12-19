@@ -30,9 +30,9 @@ return [
     'secret' => env('OAUTH_SECRET'),
 
     /**
-     * The scopes the user will be requested
+     * The scopes the user will be requested.
      */
-    'scopes' => explode(',', "full_name,email"),
+    'scopes' => explode(',', 'full_name,email'),
 
     /*
      * OAuth variable mapping

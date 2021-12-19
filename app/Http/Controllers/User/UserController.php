@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\User;
 
-use Illuminate\View\View;
 use App\Http\Controllers\Controller;
-use Illuminate\Http\RedirectResponse;
 use App\Http\Requests\User\UpdateUserSettings;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\View\View;
 
 class UserController extends Controller
 {
@@ -18,6 +18,7 @@ class UserController extends Controller
     {
         auth()->user()->update($request->validated());
         flashMessage('success', __('Done'), 'Settings saved!');
+
         return back();
     }
 }

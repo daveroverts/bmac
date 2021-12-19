@@ -2,18 +2,18 @@
 
 namespace App\Models;
 
-use App\Models\Booking;
-use Spatie\Activitylog\LogOptions;
-use Illuminate\Notifications\Notifiable;
 use App\Http\Controllers\OAuthController;
-use League\OAuth2\Client\Token\AccessToken;
-use Spatie\Activitylog\Traits\LogsActivity;
-use Illuminate\Database\Eloquent\Relations\HasMany;
+use App\Models\Booking;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+use League\OAuth2\Client\Token\AccessToken;
+use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 /**
- * App\Models\User
+ * App\Models\User.
  *
  * @property int $id
  * @property string $name_first
@@ -37,6 +37,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  * @property-read \League\OAuth2\Client\Token\AccessToken|null $token
  * @property-read \Illuminate\Notifications\DatabaseNotificationCollection|\Illuminate\Notifications\DatabaseNotification[] $notifications
  * @property-read int|null $notifications_count
+ *
  * @method static \Database\Factories\UserFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|User newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|User newQuery()
@@ -63,7 +64,7 @@ class User extends Authenticatable
     use Notifiable;
 
     protected $guarded = [
-        'id', 'isAdmin'
+        'id', 'isAdmin',
     ];
     /**
      * The attributes that should be hidden for arrays.
@@ -95,14 +96,15 @@ class User extends Authenticatable
 
     public function getFullNameAttribute(): string
     {
-        return ucfirst($this->name_first) . ' ' . ucfirst($this->name_last);
+        return ucfirst($this->name_first).' '.ucfirst($this->name_last);
     }
 
     public function getPicAttribute(): string
     {
-        if (!empty($this->full_name) && !empty($this->id)) {
+        if (! empty($this->full_name) && ! empty($this->id)) {
             return "{$this->full_name} | {$this->id}";
         }
+
         return '-';
     }
 

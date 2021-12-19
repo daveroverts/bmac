@@ -3,15 +3,15 @@
 namespace App\Models;
 
 use App\Enums\AirportView;
-use Spatie\Activitylog\LogOptions;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
-use Spatie\Activitylog\Traits\LogsActivity;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 /**
- * App\Models\Airport
+ * App\Models\Airport.
  *
  * @property int $id
  * @property string $icao
@@ -32,6 +32,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @property-read string $full_name
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\AirportLink[] $links
  * @property-read int|null $links_count
+ *
  * @method static \Database\Factories\AirportFactory factory(...$parameters)
  * @method static Builder|Airport newModelQuery()
  * @method static Builder|Airport newQuery()
@@ -105,18 +106,19 @@ class Airport extends Model
 
     public function getFullNameAttribute(): string
     {
-        if (!$this->id) {
+        if (! $this->id) {
             return '-';
         }
         if (auth()->check() && auth()->user()->airport_view !== AirportView::NAME) {
             switch (auth()->user()->airport_view) {
                 case AirportView::ICAO:
-                    return '<abbr title="' . $this->name . ' | [' . $this->iata . ']">' . $this->icao . '</abbr>';
+                    return '<abbr title="'.$this->name.' | ['.$this->iata.']">'.$this->icao.'</abbr>';
                 case AirportView::IATA:
-                    return '<abbr title="' . $this->name . ' | [' . $this->icao . ']">' . $this->iata . '</abbr>';
+                    return '<abbr title="'.$this->name.' | ['.$this->icao.']">'.$this->iata.'</abbr>';
             }
         }
-        return '<abbr title="' . $this->icao . ' | [' . $this->iata . ']">' . $this->name . '</abbr>';
+
+        return '<abbr title="'.$this->icao.' | ['.$this->iata.']">'.$this->name.'</abbr>';
     }
 
     public function getRouteKeyName(): string

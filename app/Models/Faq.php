@@ -3,14 +3,14 @@
 namespace App\Models;
 
 use App\Models\Event;
-use Spatie\Activitylog\LogOptions;
-use Illuminate\Database\Eloquent\Model;
-use Spatie\Activitylog\Traits\LogsActivity;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 /**
- * App\Models\Faq
+ * App\Models\Faq.
  *
  * @property int $id
  * @property bool $is_online
@@ -22,6 +22,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  * @property-read int|null $activities_count
  * @property-read \Illuminate\Database\Eloquent\Collection|Event[] $events
  * @property-read int|null $events_count
+ *
  * @method static \Database\Factories\FaqFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|Faq newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Faq newQuery()

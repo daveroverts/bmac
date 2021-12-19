@@ -52,5 +52,5 @@ return [
     'output' => [
         \BeyondCode\QueryDetector\Outputs\Log::class,
         \BeyondCode\QueryDetector\Outputs\Debugbar::class,
-    ]
+    ],
 ];

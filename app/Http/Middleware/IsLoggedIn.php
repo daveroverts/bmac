@@ -20,6 +20,7 @@ class IsLoggedIn
             return $next($request);
         }
         flashMessage('danger', 'Nope', 'You need to be logged in before you can do that');
+
         return redirect()->back();
     }
 }

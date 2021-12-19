@@ -5,9 +5,9 @@ namespace App\Notifications;
 use App\Enums\EventType;
 use App\Models\Booking;
 use Illuminate\Bus\Queueable;
-use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Notifications\Notification;
 
 class EventFinalInformation extends Notification implements ShouldQueue
 {
@@ -43,9 +43,10 @@ class EventFinalInformation extends Notification implements ShouldQueue
     public function toMail($notifiable)
     {
         $booking = $this->booking;
-        $subject = $booking->event->name . ': ' . __('Booking confirmed');
+        $subject = $booking->event->name.': '.__('Booking confirmed');
         $template = $booking->event->event_type_id == EventType::MULTIFLIGHTS ? 'emails.event.finalInformation_multiflights' : 'emails.event.finalInformation';
         $flight = $booking->flights->first() ?? null;
+
         return (new MailMessage)
             ->subject($subject)
             ->markdown($template, compact('booking', 'flight'));
@@ -60,7 +61,7 @@ class EventFinalInformation extends Notification implements ShouldQueue
     public function toArray($notifiable)
     {
         return [
-            $this->booking
+            $this->booking,
         ];
     }
 }

@@ -2,14 +2,14 @@
 
 namespace App\Exports;
 
-use App\Models\Event;
-use App\Models\Booking;
 use App\Enums\BookingStatus;
 use App\Enums\EventType;
+use App\Models\Booking;
+use App\Models\Event;
 use Maatwebsite\Excel\Concerns\Exportable;
-use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithColumnFormatting;
+use Maatwebsite\Excel\Concerns\WithMapping;
 use PhpOffice\PhpSpreadsheet\Shared\Date;
 use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
 
@@ -47,6 +47,7 @@ class BookingsExport implements FromCollection, WithColumnFormatting, WithMappin
                     $flight2->airportArr->icao,
                 ];
             }
+
             return [
                 $booking->user->full_name,
                 $booking->user_id,
@@ -59,6 +60,7 @@ class BookingsExport implements FromCollection, WithColumnFormatting, WithMappin
             ];
         }
         $flight = $booking->flights->first();
+
         return [
             $booking->user->full_name,
             $booking->user_id,
@@ -75,12 +77,13 @@ class BookingsExport implements FromCollection, WithColumnFormatting, WithMappin
 
     public function columnFormats(): array
     {
-        if ($this->event->event_type_id == EventType::MULTIFLIGHTS && !$this->vacc) {
+        if ($this->event->event_type_id == EventType::MULTIFLIGHTS && ! $this->vacc) {
             return [
                 'E' => NumberFormat::FORMAT_DATE_TIME4,
                 'G' => NumberFormat::FORMAT_DATE_TIME4,
             ];
         }
+
         return [
             'H' => NumberFormat::FORMAT_DATE_TIME4,
             'I' => NumberFormat::FORMAT_DATE_TIME4,

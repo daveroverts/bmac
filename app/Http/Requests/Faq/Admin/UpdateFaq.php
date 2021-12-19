@@ -16,7 +16,7 @@ class UpdateFaq extends Request
         return [
             'is_online' => 'required:boolean',
             'question' => 'required:string',
-            'answer' => 'required:string'
+            'answer' => 'required:string',
         ];
     }
 

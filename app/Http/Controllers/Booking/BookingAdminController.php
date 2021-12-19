@@ -2,28 +2,28 @@
 
 namespace App\Http\Controllers\Booking;
 
-use Carbon\Carbon;
-use App\Models\Event;
-use App\Models\Flight;
-use App\Models\Airport;
-use App\Models\Booking;
-use Illuminate\View\View;
 use App\Enums\BookingStatus;
-use Illuminate\Http\Request;
 use App\Events\BookingChanged;
 use App\Events\BookingDeleted;
 use App\Exports\BookingsExport;
-use App\Imports\BookingsImport;
-use App\Policies\BookingPolicy;
-use App\Imports\FlightRouteAssign;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\AdminController;
 use App\Http\Requests\Booking\Admin\AutoAssign;
+use App\Http\Requests\Booking\Admin\ImportBookings;
 use App\Http\Requests\Booking\Admin\RouteAssign;
 use App\Http\Requests\Booking\Admin\StoreBooking;
 use App\Http\Requests\Booking\Admin\UpdateBooking;
-use App\Http\Requests\Booking\Admin\ImportBookings;
+use App\Imports\BookingsImport;
+use App\Imports\FlightRouteAssign;
+use App\Models\Airport;
+use App\Models\Booking;
+use App\Models\Event;
+use App\Models\Flight;
+use App\Policies\BookingPolicy;
+use Carbon\Carbon;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\View\View;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class BookingAdminController extends AdminController
@@ -39,7 +39,7 @@ class BookingAdminController extends AdminController
         $airports = Airport::all(['id', 'icao', 'iata', 'name'])->keyBy('id')
             ->map(function ($airport) {
                 /** @var Airport $airport */
-                return "$airport->icao | $airport->name | $airport->iata";;
+                return "$airport->icao | $airport->name | $airport->iata";
             });
 
         return view('booking.admin.create', compact('event', 'airports', 'bulk'));
@@ -51,9 +51,9 @@ class BookingAdminController extends AdminController
         if ($request->bulk) {
             $event_start = Carbon::createFromFormat(
                 'Y-m-d H:i',
-                $event->startEvent->toDateString() . ' ' . $request->start
+                $event->startEvent->toDateString().' '.$request->start
             );
-            $event_end = Carbon::createFromFormat('Y-m-d H:i', $event->endEvent->toDateString() . ' ' . $request->end);
+            $event_end = Carbon::createFromFormat('Y-m-d H:i', $event->endEvent->toDateString().' '.$request->end);
             $separation = $request->separation * 60;
             $count = 0;
             for (; $event_start <= $event_end; $event_start->addSeconds($separation)) {
@@ -63,7 +63,7 @@ class BookingAdminController extends AdminController
                 }
                 $time->second = 0;
 
-                if (!Flight::whereHas('booking', function ($query) use ($request) {
+                if (! Flight::whereHas('booking', function ($query) use ($request) {
                     $query->where('event_id', $request->id);
                 })->where([
                     'ctot' => $time,
@@ -102,20 +102,21 @@ class BookingAdminController extends AdminController
             if ($request->ctot) {
                 $flightAttributes['ctot'] = Carbon::createFromFormat(
                     'Y-m-d H:i',
-                    $event->startEvent->toDateString() . ' ' . $request->ctot
+                    $event->startEvent->toDateString().' '.$request->ctot
                 );
             }
 
             if ($request->eta) {
                 $flightAttributes['eta'] = Carbon::createFromFormat(
                     'Y-m-d H:i',
-                    $event->startEvent->toDateString() . ' ' . $request->eta
+                    $event->startEvent->toDateString().' '.$request->eta
                 );
             }
 
             $booking->flights()->create($flightAttributes);
             flashMessage('success', __('Done'), __('Slot created'));
         }
+
         return redirect(route('bookings.event.index', $event));
     }
 
@@ -130,19 +131,21 @@ class BookingAdminController extends AdminController
             $airports = Airport::all(['id', 'icao', 'iata', 'name'])->keyBy('id')
                 ->map(function ($airport) {
                     /** @var Airport $airport */
-                    return "$airport->icao | $airport->name | $airport->iata";;
+                    return "$airport->icao | $airport->name | $airport->iata";
                 });
             $flight = $booking->flights()->first();
+
             return view('booking.admin.edit', compact('booking', 'airports', 'flight'));
         }
         flashMessage('danger', __('Danger'), __('Booking can no longer be edited'));
+
         return back();
     }
 
     public function update(UpdateBooking $request, Booking $booking): RedirectResponse
     {
         $shouldSendEmail = false;
-        if (!empty($booking->user) && $request->notify_user) {
+        if (! empty($booking->user) && $request->notify_user) {
             $shouldSendEmail = true;
         }
         /* @var Flight $flight */
@@ -151,7 +154,7 @@ class BookingAdminController extends AdminController
             'is_editable' => $request->is_editable,
             'callsign' => $request->callsign,
             'acType' => $request->acType,
-            'final_information_email_sent_at' => null
+            'final_information_email_sent_at' => null,
         ]);
 
         $flightAttributes = [
@@ -166,14 +169,14 @@ class BookingAdminController extends AdminController
         if ($request->ctot) {
             $flightAttributes['ctot'] = Carbon::createFromFormat(
                 'Y-m-d H:i',
-                $booking->event->startEvent->toDateString() . ' ' . $request->ctot
+                $booking->event->startEvent->toDateString().' '.$request->ctot
             );
         }
 
         if ($request->eta) {
             $flightAttributes['eta'] = Carbon::createFromFormat(
                 'Y-m-d H:i',
-                $booking->event->startEvent->toDateString() . ' ' . $request->eta
+                $booking->event->startEvent->toDateString().' '.$request->eta
             );
         }
 
@@ -191,7 +194,7 @@ class BookingAdminController extends AdminController
                     ['name' => $key, 'old' => $flight->getOriginal($key), 'new' => $value]
                 );
             }
-            if (!empty($request->message)) {
+            if (! empty($request->message)) {
                 $changes->push(
                     ['name' => 'message', 'new' => $request->message]
                 );
@@ -204,20 +207,23 @@ class BookingAdminController extends AdminController
             event(new BookingChanged($booking, $changes));
         }
         flashMessage('success', 'Booking changed', __('Booking has been changed!'));
+
         return redirect(route('bookings.event.index', $booking->event));
     }
 
     public function destroy(Booking $booking): RedirectResponse
     {
         if ($booking->event->endEvent >= now()) {
-            if (!empty($booking->user)) {
+            if (! empty($booking->user)) {
                 event(new BookingDeleted($booking->event, $booking->user));
             }
             $booking->delete();
             flashMessage('success', 'Booking deleted!', __('Booking has been deleted.'));
+
             return redirect(route('bookings.event.index', $booking->event));
         }
         flashMessage('danger', __('Danger'), __('Booking can no longer be deleted'));
+
         return back();
     }
 
@@ -246,6 +252,7 @@ class BookingAdminController extends AdminController
         (new BookingsImport($event))->import($file);
         Storage::delete($file->getRealPath());
         flashMessage('success', __('Flights imported'), __('Flights have been imported'));
+
         return redirect(route('bookings.event.index', $event));
     }
 
@@ -262,7 +269,7 @@ class BookingAdminController extends AdminController
                 $query->orderBy('ctot');
             }]);
 
-        if (!$request->checkAssignAllFlights) {
+        if (! $request->checkAssignAllFlights) {
             $bookings = $bookings->where('status', BookingStatus::BOOKED);
         }
         $bookings = $bookings->get();
@@ -309,6 +316,7 @@ class BookingAdminController extends AdminController
                 ]
             )
             ->log('Flights auto-assigned');
+
         return redirect(route('admin.events.index'));
     }
 
@@ -316,7 +324,6 @@ class BookingAdminController extends AdminController
     {
         return view('event.admin.routeAssign', compact('event'));
     }
-
 
     public function routeAssign(RouteAssign $request, Event $event): RedirectResponse
     {
@@ -328,6 +335,7 @@ class BookingAdminController extends AdminController
         (new FlightRouteAssign)->import($file);
         Storage::delete($file);
         flashMessage('success', __('Routes assigned'), __('Routes have been assigned to flights'));
+
         return redirect(route('bookings.event.index', $event));
     }
 }

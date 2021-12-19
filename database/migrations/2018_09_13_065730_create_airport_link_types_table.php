@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateAirportLinkTypesTable extends Migration
 {
@@ -20,10 +20,10 @@ class CreateAirportLinkTypesTable extends Migration
             $table->timestamps();
         });
         $types = [
-            ['name' =>  'Briefing',],
-            ['name' =>  'Charts',],
+            ['name' =>  'Briefing'],
+            ['name' =>  'Charts'],
             ['name' =>  'Scenery'],
-            ['name' =>  'Miscellaneous',],
+            ['name' =>  'Miscellaneous'],
         ];
         DB::table('airport_link_types')->insert($types);
     }

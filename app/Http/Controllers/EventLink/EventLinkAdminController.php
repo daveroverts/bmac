@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers\EventLink;
 
-use App\Models\Event;
-use App\Models\EventLink;
-use Illuminate\View\View;
-use App\Models\AirportLinkType;
-use App\Policies\EventLinkPolicy;
-use Illuminate\Http\RedirectResponse;
 use App\Http\Controllers\AdminController;
 use App\Http\Requests\EventLink\Admin\StoreEventLink;
 use App\Http\Requests\EventLink\Admin\UpdateEventLink;
+use App\Models\AirportLinkType;
+use App\Models\Event;
+use App\Models\EventLink;
+use App\Policies\EventLinkPolicy;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\View\View;
 
 class EventLinkAdminController extends AdminController
 {
@@ -24,6 +24,7 @@ class EventLinkAdminController extends AdminController
         $eventLinks = EventLink::orderBy('event_id', 'asc')
             ->with(['event', 'type'])
             ->paginate();
+
         return view('eventLink.admin.overview', compact('eventLinks'));
     }
 
@@ -39,6 +40,7 @@ class EventLinkAdminController extends AdminController
                 /** @var Event $event */
                 return "$event->name [{$event->startEvent->format('d-m-Y')}]";
             });
+
         return view('eventLink.admin.form', compact('eventLink', 'eventLinkTypes', 'events'));
     }
 
@@ -50,12 +52,14 @@ class EventLinkAdminController extends AdminController
             __('Done'),
             __(':Type item has been added for :event', ['Type' => $eventLink->type->name, 'event' => $eventLink->event->name])
         );
+
         return redirect(route('admin.eventLinks.index'));
     }
 
     public function edit(EventLink $eventLink): View
     {
         $eventLinkTypes = AirportLinkType::all(['id', 'name'])->pluck('name', 'id');
+
         return view('eventLink.admin.form', compact('eventLink', 'eventLinkTypes'));
     }
 
@@ -63,6 +67,7 @@ class EventLinkAdminController extends AdminController
     {
         $eventLink->update($request->validated());
         flashMessage('success', __('Done'), __('Link has been updated'));
+
         return redirect(route('admin.eventLinks.index'));
     }
 
@@ -70,6 +75,7 @@ class EventLinkAdminController extends AdminController
     {
         $eventLink->delete();
         flashMessage('success', __('Event link deleted'), __('Event link has been deleted'));
+
         return back();
     }
 }

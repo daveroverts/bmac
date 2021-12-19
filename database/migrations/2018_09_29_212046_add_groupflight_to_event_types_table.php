@@ -12,7 +12,7 @@ class AddGroupflightToEventTypesTable extends Migration
     public function up()
     {
         DB::table('event_types')->insert([
-            'id' => 4, 'name' => 'Groupflight'
+            'id' => 4, 'name' => 'Groupflight',
         ]);
     }
 

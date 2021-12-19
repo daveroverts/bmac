@@ -8,11 +8,10 @@ use Tests\TestCase;
 
 class EventTest extends TestCase
 {
-
     use RefreshDatabase;
 
     /**
-     * Test if a event can be added
+     * Test if a event can be added.
      *
      * @return void
      */

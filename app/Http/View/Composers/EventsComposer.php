@@ -3,9 +3,9 @@
 namespace App\Http\View\Composers;
 
 use App\Models\Event;
-use Illuminate\View\View;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
+use Illuminate\View\View;
 
 class EventsComposer
 {

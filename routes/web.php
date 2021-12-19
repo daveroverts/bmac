@@ -1,17 +1,17 @@
 <?php
 
-use App\Http\Controllers\HomeController;
-use App\Http\Controllers\Faq\FaqController;
-use App\Http\Controllers\User\UserController;
+use App\Http\Controllers\Airport\AirportAdminController;
+use App\Http\Controllers\AirportLink\AirportLinkAdminController;
 use App\Http\Controllers\Auth\LoginController;
-use App\Http\Controllers\Event\EventController;
-use App\Http\Controllers\Faq\FaqAdminController;
+use App\Http\Controllers\Booking\BookingAdminController;
 use App\Http\Controllers\Booking\BookingController;
 use App\Http\Controllers\Event\EventAdminController;
-use App\Http\Controllers\Airport\AirportAdminController;
-use App\Http\Controllers\Booking\BookingAdminController;
-use App\Http\Controllers\AirportLink\AirportLinkAdminController;
+use App\Http\Controllers\Event\EventController;
 use App\Http\Controllers\EventLink\EventLinkAdminController;
+use App\Http\Controllers\Faq\FaqAdminController;
+use App\Http\Controllers\Faq\FaqController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\User\UserController;
 
 /*
 |--------------------------------------------------------------------------

@@ -2,11 +2,11 @@
 
 namespace App\Http\Livewire;
 
-use App\Models\Event;
-use App\Models\Booking;
-use Livewire\Component;
-use App\Enums\EventType;
 use App\Enums\BookingStatus;
+use App\Enums\EventType;
+use App\Models\Booking;
+use App\Models\Event;
+use Livewire\Component;
 
 class Bookings extends Component
 {

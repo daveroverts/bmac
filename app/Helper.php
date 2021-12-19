@@ -19,14 +19,14 @@ function nextEvents($one = false, $showAll = false, $homepage = false, $withRela
 {
     $events = Event::where('endEvent', '>', now())
         ->orderBy('startEvent');
-    if (!$showAll) {
+    if (! $showAll) {
         $events = $events->where('is_online', true);
     }
     if ($homepage) {
         $events = $events->where('show_on_homepage', true);
     }
 
-    if (!empty($withRelations)) {
+    if (! empty($withRelations)) {
         $events = $events->with($withRelations);
     }
 

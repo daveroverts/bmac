@@ -20,6 +20,7 @@ class EventResource extends JsonResource
     {
         $total = $this->bookings->count();
         $booked = $total - $this->bookings->where('status', BookingStatus::BOOKED)->count();
+
         return [
             'id' => $this->id,
             'event_type' => $this->type->name,
@@ -43,10 +44,10 @@ class EventResource extends JsonResource
             'total_bookings_count' => $total,
             'available_bookings_count' => $booked,
             'links' => [
-                'bookings' => url('/api/events/' . $this->slug . '/bookings'),
-                'dep' => url('/api/airports/' . $this->airportDep->icao),
-                'arr' => url('/api/airports/' . $this->airportArr->icao),
-            ]
+                'bookings' => url('/api/events/'.$this->slug.'/bookings'),
+                'dep' => url('/api/airports/'.$this->airportDep->icao),
+                'arr' => url('/api/airports/'.$this->airportArr->icao),
+            ],
         ];
     }
 }

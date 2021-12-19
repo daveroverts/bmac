@@ -3,8 +3,8 @@
 namespace Database\Factories;
 
 use App\Models\Airport;
-use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 
 class AirportFactory extends Factory
 {
@@ -25,7 +25,7 @@ class AirportFactory extends Factory
         return [
             'icao' => strtoupper(Str::random(4)),
             'iata' => strtoupper(Str::random(3)),
-            'name' => $this->faker->name . ' Airport',
+            'name' => $this->faker->name.' Airport',
         ];
     }
 }

@@ -42,8 +42,9 @@ class EventCleanupReservationsCommand extends Command
         $eventId = $this->argument('eventId');
         if ($eventId) {
             $event = Event::find($eventId);
-            if (!$event) {
+            if (! $event) {
                 $this->error("Could not find event with id {$eventId}");
+
                 return Command::FAILURE;
             }
             EventCleanupReservationsJob::dispatch($event);
@@ -52,6 +53,7 @@ class EventCleanupReservationsCommand extends Command
                 EventCleanupReservationsJob::dispatch($event);
             });
         }
+
         return Command::SUCCESS;
     }
 }

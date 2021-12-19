@@ -2,16 +2,16 @@
 
 namespace App\Models;
 
-use App\Models\Event;
 use App\Models\AirportLinkType;
-use Spatie\Activitylog\LogOptions;
-use Illuminate\Database\Eloquent\Model;
-use Spatie\Activitylog\Traits\LogsActivity;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use App\Models\Event;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 /**
- * App\Models\EventLink
+ * App\Models\EventLink.
  *
  * @property int $id
  * @property int $event_id
@@ -24,6 +24,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @property-read int|null $activities_count
  * @property-read Event $event
  * @property-read AirportLinkType $type
+ *
  * @method static \Database\Factories\EventLinkFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|EventLink newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|EventLink newQuery()

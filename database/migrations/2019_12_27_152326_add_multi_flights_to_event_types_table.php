@@ -12,7 +12,7 @@ class AddMultiFlightsToEventTypesTable extends Migration
     public function up()
     {
         DB::table('event_types')->insert([
-            'id' => 5, 'name' => 'Multi flights'
+            'id' => 5, 'name' => 'Multi flights',
         ]);
     }
 

@@ -12,8 +12,8 @@ use App\Policies\AirportPolicy;
 use App\Policies\BookingPolicy;
 use App\Policies\EventPolicy;
 use App\Policies\FaqPolicy;
-use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
+use Illuminate\Support\Facades\Gate;
 
 class AuthServiceProvider extends ServiceProvider
 {

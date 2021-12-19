@@ -2,15 +2,15 @@
 
 namespace App\Jobs;
 
-use App\Models\Event;
-use App\Models\Booking;
 use App\Enums\BookingStatus;
+use App\Models\Booking;
+use App\Models\Event;
 use Illuminate\Bus\Queueable;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
-use Illuminate\Contracts\Queue\ShouldBeUnique;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
 
 class EventCleanupReservationsJob implements ShouldQueue
 {

@@ -4,15 +4,15 @@ namespace App\Models;
 
 use App\Models\Airport;
 use App\Models\Booking;
-use Spatie\Activitylog\LogOptions;
-use Illuminate\Database\Eloquent\Model;
-use Spatie\Activitylog\Traits\LogsActivity;
-use Illuminate\Database\Eloquent\Relations\HasOne;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 /**
- * App\Models\Flight
+ * App\Models\Flight.
  *
  * @property int $id
  * @property int $booking_id
@@ -37,6 +37,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @property-read string $formatted_notes
  * @property-read string $formatted_oceanicfl
  * @property-write mixed $oceanictrack
+ *
  * @method static \Database\Factories\FlightFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|Flight newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Flight newQuery()
@@ -84,24 +85,26 @@ class Flight extends Model
 
     public function getFormattedCtotAttribute(): string
     {
-        if (!empty($this->ctot)) {
-            return $this->ctot->format('Hi') . 'z';
+        if (! empty($this->ctot)) {
+            return $this->ctot->format('Hi').'z';
         }
+
         return '-';
     }
 
     public function getFormattedEtaAttribute(): string
     {
-        if (!empty($this->eta)) {
-            return $this->eta->format('Hi') . 'z';
+        if (! empty($this->eta)) {
+            return $this->eta->format('Hi').'z';
         }
+
         return '-';
     }
 
     public function getFormattedOceanicflAttribute(): string
     {
         if ($this->oceanicFL) {
-            return 'FL' . $this->oceanicFL;
+            return 'FL'.$this->oceanicFL;
         }
 
         return '-';
@@ -114,12 +117,12 @@ class Flight extends Model
 
     public function setRouteAttribute($value): void
     {
-        $this->attributes['route'] = !empty($value) ? strtoupper($value) : null;
+        $this->attributes['route'] = ! empty($value) ? strtoupper($value) : null;
     }
 
     public function setOceanictrackAttribute($value): void
     {
-        $this->attributes['oceanicTrack'] = !empty($value) ? strtoupper($value) : null;
+        $this->attributes['oceanicTrack'] = ! empty($value) ? strtoupper($value) : null;
     }
 
     public function booking(): BelongsTo

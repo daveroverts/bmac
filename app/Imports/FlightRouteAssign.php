@@ -2,8 +2,8 @@
 
 namespace App\Imports;
 
-use App\Models\Flight;
 use App\Models\Airport;
+use App\Models\Flight;
 use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\Importable;
 use Maatwebsite\Excel\Concerns\ToCollection;
@@ -18,12 +18,12 @@ class FlightRouteAssign implements ToCollection, WithHeadingRow, WithValidation
     {
         foreach ($rows as $row) {
             $from = $this->getAirport($row['from']);
-            $to =  $this->getAirport($row['to']);
+            $to = $this->getAirport($row['to']);
             Flight::whereDep($from)
                 ->whereArr($to)
                 ->update([
                     'route' => $row['route'],
-                    'notes' => $row['notes'] ?? null
+                    'notes' => $row['notes'] ?? null,
                 ]);
         }
     }

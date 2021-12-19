@@ -3,20 +3,21 @@
 namespace App\Models;
 
 use App\Models\Event;
-use Spatie\Activitylog\LogOptions;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
-use Spatie\Activitylog\Traits\LogsActivity;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 /**
- * App\Models\EventType
+ * App\Models\EventType.
  *
  * @property int $id
  * @property string $name
  * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\Activitylog\Models\Activity[] $activities
  * @property-read int|null $activities_count
  * @property-read Event $events
+ *
  * @method static Builder|EventType newModelQuery()
  * @method static Builder|EventType newQuery()
  * @method static Builder|EventType query()

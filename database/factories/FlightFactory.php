@@ -24,6 +24,7 @@ class FlightFactory extends Factory
     public function definition()
     {
         $booking = Booking::factory()->create();
+
         return [
             'booking_id' => $booking->id,
             'dep' => $booking->event->dep,

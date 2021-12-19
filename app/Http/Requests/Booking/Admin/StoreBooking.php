@@ -53,7 +53,7 @@ class StoreBooking extends Request
             'start' => __('Start'),
             'end' => __('End'),
             'separation' => __('Separation (in minutes)'),
-            'oceanicFL' => __('Oceanic Entry Level') . ' / ' . __('Cruise FL'),
+            'oceanicFL' => __('Oceanic Entry Level').' / '.__('Cruise FL'),
             'notes' => __('Notes'),
         ];
     }

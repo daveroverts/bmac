@@ -3,17 +3,17 @@
 namespace App\Models;
 
 use App\Models\EventLink;
-use Spatie\Activitylog\LogOptions;
-use Illuminate\Database\Eloquent\Model;
 use Cviebrock\EloquentSluggable\Sluggable;
-use Spatie\Activitylog\Traits\LogsActivity;
-use Illuminate\Database\Eloquent\Relations\HasOne;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 /**
- * App\Models\Event
+ * App\Models\Event.
  *
  * @property int $id
  * @property int $event_type_id
@@ -46,6 +46,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  * @property-read \Illuminate\Database\Eloquent\Collection|EventLink[] $links
  * @property-read int|null $links_count
  * @property-read \App\Models\EventType|null $type
+ *
  * @method static \Database\Factories\EventFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|Event findSimilarSlugs(string $attribute, array $config, string $slug)
  * @method static \Illuminate\Database\Eloquent\Builder|Event newModelQuery()
@@ -154,7 +155,7 @@ class Event extends Model
     {
         return [
             'slug' => [
-                'source' => 'name'
+                'source' => 'name',
             ],
         ];
     }
@@ -168,7 +169,7 @@ class Event extends Model
     {
         return in_array($this->event_type_id, [
             \App\Enums\EventType::FLYIN,
-            \App\Enums\EventType::GROUPFLIGHT
+            \App\Enums\EventType::GROUPFLIGHT,
         ]);
     }
 }

@@ -21,8 +21,7 @@ class SendBookingCancelledNotification implements ShouldQueue
     /**
      * Handle the event.
      *
-     * @param  BookingCancelled $event
-     *
+     * @param  BookingCancelled  $event
      * @return void
      */
     public function handle(BookingCancelled $event)

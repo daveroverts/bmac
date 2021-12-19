@@ -3,15 +3,15 @@
 namespace Tests\Unit;
 
 use App\Models\Flight;
-use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
 
 class BookingTest extends TestCase
 {
     use RefreshDatabase;
 
     /**
-     * Test if a booking can be added
+     * Test if a booking can be added.
      *
      * @return void
      */

@@ -8,12 +8,10 @@ use Tests\TestCase;
 
 class AirportTest extends TestCase
 {
-
     use RefreshDatabase;
 
     /**
-     * Test if a airport can be added
-     *
+     * Test if a airport can be added.
      */
     public function testItCreatesNewAirport()
     {

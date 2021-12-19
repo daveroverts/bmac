@@ -2,22 +2,22 @@
 
 namespace App\Models;
 
-use App\Models\User;
+use App\Models\Airport;
 use App\Models\Event;
 use App\Models\Flight;
-use App\Models\Airport;
-use Illuminate\Support\Str;
-use Illuminate\Support\Collection;
-use Spatie\Activitylog\LogOptions;
-use Illuminate\Database\Eloquent\Model;
-use Spatie\Activitylog\Traits\LogsActivity;
-use Illuminate\Database\Eloquent\Relations\HasOne;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Str;
+use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 /**
- * App\Models\Booking
+ * App\Models\Booking.
  *
  * @property int $id
  * @property string|null $uuid
@@ -44,6 +44,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @property-read bool $has_received_final_information_email
  * @property-write mixed $actype
  * @property-read User|null $user
+ *
  * @method static \Database\Factories\BookingFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|Booking newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Booking newQuery()
@@ -81,13 +82,13 @@ class Booking extends Model
     ];
 
     /**
-     *  Setup model event hooks
+     *  Setup model event hooks.
      */
     public static function boot()
     {
         parent::boot();
         self::creating(function ($model) {
-            $model->uuid = (string)Str::uuid();
+            $model->uuid = (string) Str::uuid();
         });
     }
 
@@ -118,22 +119,22 @@ class Booking extends Model
 
     public function getHasReceivedFinalInformationEmailAttribute(): bool
     {
-        return !empty($this->final_information_email_sent_at);
+        return ! empty($this->final_information_email_sent_at);
     }
 
     public function setCallsignAttribute($value): void
     {
-        $this->attributes['callsign'] = !empty($value) ? strtoupper($value) : null;
+        $this->attributes['callsign'] = ! empty($value) ? strtoupper($value) : null;
     }
 
     public function setActypeAttribute($value): void
     {
-        $this->attributes['acType'] = !empty($value) ? strtoupper($value) : null;
+        $this->attributes['acType'] = ! empty($value) ? strtoupper($value) : null;
     }
 
     public function setSelcalAttribute($value): void
     {
-        $this->attributes['selcal'] = !empty($value) ? strtoupper($value) : null;
+        $this->attributes['selcal'] = ! empty($value) ? strtoupper($value) : null;
     }
 
     public function airportDep(): HasOne
@@ -167,8 +168,10 @@ class Booking extends Model
             if ($withAbbr) {
                 return "<abbr title='{$flight->airportDep->name} | [{$flight->airportDep->iata}]'>{$flight->airportDep->icao}</abbr> - <abbr title='{$flight->airportArr->name} | [{$flight->airportArr->iata}]'>{$flight->airportArr->icao}</abbr> {$flight->formattedCtot}";
             }
+
             return "{$flight->airportDep->icao} - {$flight->airportArr->icao} {$flight->formattedCtot}";
         }
+
         return '-';
     }
 

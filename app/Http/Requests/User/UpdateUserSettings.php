@@ -15,7 +15,7 @@ class UpdateUserSettings extends Request
     {
         return [
             'airport_view' => 'required|int:1',
-            'use_monospace_font' => 'required|boolean'
+            'use_monospace_font' => 'required|boolean',
         ];
     }
 

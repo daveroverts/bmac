@@ -4,9 +4,9 @@ namespace App\Notifications;
 
 use App\Models\Booking;
 use Illuminate\Bus\Queueable;
-use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Notifications\Notification;
 
 class BookingConfirmed extends Notification implements ShouldQueue
 {
@@ -42,7 +42,7 @@ class BookingConfirmed extends Notification implements ShouldQueue
     public function toMail($notifiable)
     {
         $booking = $this->booking;
-        $subject = $booking->event->name . ': ' . __('Booking confirmed');
+        $subject = $booking->event->name.': '.__('Booking confirmed');
 
         return (new MailMessage)
             ->subject($subject)

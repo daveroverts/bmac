@@ -3,15 +3,15 @@
 namespace App\Models;
 
 use App\Models\AirportLink;
-use Spatie\Activitylog\LogOptions;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
-use Spatie\Activitylog\Traits\LogsActivity;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 /**
- * App\Models\AirportLinkType
+ * App\Models\AirportLinkType.
  *
  * @property int $id
  * @property string $name
@@ -21,6 +21,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\Activitylog\Models\Activity[] $activities
  * @property-read int|null $activities_count
  * @property-read AirportLink $links
+ *
  * @method static Builder|AirportLinkType newModelQuery()
  * @method static Builder|AirportLinkType newQuery()
  * @method static Builder|AirportLinkType query()

@@ -26,7 +26,7 @@ Breadcrumbs::for('admin.airports.create', function ($trail) {
 // Home > Admin > Airports > [Airport]
 Breadcrumbs::for('admin.airports.show', function ($trail, $airport) {
     $trail->parent('admin.airports.index');
-    $trail->push($airport->name . ' [' . $airport->icao . ' | ' . $airport->iata . ']', route('admin.airports.show', $airport));
+    $trail->push($airport->name.' ['.$airport->icao.' | '.$airport->iata.']', route('admin.airports.show', $airport));
 });
 
 // Home > Admin > Airports > [Airport] > Edit Airport
@@ -92,7 +92,7 @@ Breadcrumbs::for('admin.events.create', function ($trail) {
 // Home > Admin > Events > [Event]
 Breadcrumbs::for('admin.events.show', function ($trail, $event) {
     $trail->parent('admin.events.index');
-    $trail->push($event->name . ' [' . $event->startEvent->toFormattedDateString() . ']', route('admin.events.show', $event));
+    $trail->push($event->name.' ['.$event->startEvent->toFormattedDateString().']', route('admin.events.show', $event));
 });
 
 // Home > Admin > Events > [Event] > Send E-mail
@@ -109,7 +109,7 @@ Breadcrumbs::for('bookings.index', function ($trail) {
 // Home > [Event]
 Breadcrumbs::for('events.show', function ($trail, $event) {
     $trail->parent('home');
-    $trail->push($event->name . ' [' . $event->startEvent->toFormattedDateString() . ']', route('events.show', $event));
+    $trail->push($event->name.' ['.$event->startEvent->toFormattedDateString().']', route('events.show', $event));
 });
 
 // Home > [Event] > Bookings
@@ -181,7 +181,7 @@ Breadcrumbs::for('admin.faq.create', function ($trail) {
 // Home > Admin > FAQ > [FAQ]
 Breadcrumbs::for('admin.faq.show', function ($trail, $faq) {
     $trail->parent('admin.faq.index');
-    $trail->push('[' . $faq->id . '] ' . $faq->question);
+    $trail->push('['.$faq->id.'] '.$faq->question);
 });
 
 // Home > Admin > FAQ > [FAQ] > Edit FAQ

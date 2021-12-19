@@ -25,6 +25,7 @@ class EventFactory extends Factory
     {
         $name = $this->faker->sentence;
         $slug = SlugService::createSlug($this->model, 'slug', $name);
+
         return [
             'name' => $name,
             'slug' => $slug,

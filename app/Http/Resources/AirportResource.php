@@ -21,7 +21,7 @@ class AirportResource extends JsonResource
             'icao' => $this->icao,
             'iata' => $this->iata,
             'name' => $this->name,
-            'links' => new AirportLinksCollection($this->links)
+            'links' => new AirportLinksCollection($this->links),
         ];
     }
 }

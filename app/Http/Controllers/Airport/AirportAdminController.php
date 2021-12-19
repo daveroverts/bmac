@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers\Airport;
 
-use App\Models\Airport;
-use Illuminate\View\View;
-use App\Imports\AirportsImport;
-use App\Policies\AirportPolicy;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\AdminController;
 use App\Http\Requests\Airport\Admin\StoreAirport;
 use App\Http\Requests\Airport\Admin\UpdateAirport;
+use App\Imports\AirportsImport;
+use App\Models\Airport;
+use App\Policies\AirportPolicy;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\View\View;
 
 class AirportAdminController extends AdminController
 {
@@ -23,6 +23,7 @@ class AirportAdminController extends AdminController
     {
         $airports = Airport::with(['flightsDep', 'flightsArr', 'eventDep', 'eventArr'])
             ->paginate(100);
+
         return view('airport.admin.overview', compact('airports'));
     }
 
@@ -35,6 +36,7 @@ class AirportAdminController extends AdminController
     {
         $airport = Airport::create($request->validated());
         flashMessage('success', __('Done'), __(':airport has been added!', ['airport' => "$airport->name [$airport->icao | $airport->iata]"]));
+
         return redirect(route('admin.airports.index'));
     }
 
@@ -69,6 +71,7 @@ class AirportAdminController extends AdminController
                 __('Warning'),
                 __(':airport could not be deleted! It\'s linked to another event', ['airport' => "$airport->name [$airport->icao | $airport->iata]"])
             );
+
             return redirect()->back();
         }
     }
@@ -78,11 +81,12 @@ class AirportAdminController extends AdminController
         $file = 'import.csv';
         Storage::disk('local')->put(
             $file,
-            "airportId,name,city,country,iata,icao,latitude,longitude,altitude,timezone,dst,tzDatabaseTimeZone,type,source\n" . file_get_contents('https://raw.githubusercontent.com/jpatokal/openflights/master/data/airports.dat')
+            "airportId,name,city,country,iata,icao,latitude,longitude,altitude,timezone,dst,tzDatabaseTimeZone,type,source\n".file_get_contents('https://raw.githubusercontent.com/jpatokal/openflights/master/data/airports.dat')
         );
         (new AirportsImport)->import($file);
         Storage::delete($file);
         flashMessage('success', __('Done'), __('Airports have been added'));
+
         return redirect(route('admin.airports.index'));
     }
 }
