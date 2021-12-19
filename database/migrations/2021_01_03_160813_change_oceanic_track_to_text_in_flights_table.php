@@ -26,7 +26,7 @@ class ChangeOceanicTrackToTextInFlightsTable extends Migration
     public function down()
     {
         Schema::table('flights', function (Blueprint $table) {
-            $table->string('oceanicTrack',2)->nullable()->change();
+            $table->string('oceanicTrack', 2)->nullable()->change();
         });
     }
 }

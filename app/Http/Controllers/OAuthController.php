@@ -35,7 +35,7 @@ class OAuthController extends GenericProvider
 
     public static function updateToken($token): ?AccessToken
     {
-        $controller = new OAuthController;
+        $controller = new OAuthController();
         try {
             return $controller->getAccessToken('refresh_token', [
                 'refresh_token' => $token->getRefreshToken()

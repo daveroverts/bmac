@@ -43,7 +43,7 @@ class EventBulkEmail extends Notification implements ShouldQueue
     {
         $subject = $this->event->name . ': ' . $this->subject;
         $content = $this->content;
-        return (new MailMessage)
+        return (new MailMessage())
             ->subject($subject)
             ->markdown('emails.event.bulkEmail', [
                 'full_name' => $notifiable->full_name,

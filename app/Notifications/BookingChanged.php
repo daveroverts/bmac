@@ -46,7 +46,7 @@ class BookingChanged extends Notification implements ShouldQueue
         $subject = $booking->event->name . ': ' . __('Booking changed');
         $changes = $this->changes;
 
-        return (new MailMessage)
+        return (new MailMessage())
             ->subject($subject)
             ->markdown('emails.booking.changed', ['booking' => $booking, 'changes' => $changes]);
     }

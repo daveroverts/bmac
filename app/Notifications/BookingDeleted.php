@@ -44,7 +44,7 @@ class BookingDeleted extends Notification implements ShouldQueue
         $event = $this->event;
         $subject = $event->name . ': ' . __('Booking deleted');
 
-        return (new MailMessage)
+        return (new MailMessage())
             ->subject($subject)
             ->greeting('Booking deleted')
             ->line('Dear ' . $notifiable->full_name . ',')
