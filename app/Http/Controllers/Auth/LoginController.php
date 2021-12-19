@@ -34,7 +34,7 @@ class LoginController extends Controller
     public function __construct()
     {
         $this->middleware('guest')->except('logout');
-        $this->provider = new OAuthController;
+        $this->provider = new OAuthController();
     }
 
     public function login(Request $request)
@@ -56,7 +56,7 @@ class LoginController extends Controller
             $authorizationUrl = $this->provider->getAuthorizationUrl(); // Generates state
             $request->session()->put('oauthstate', $this->provider->getState());
             return redirect()->away($authorizationUrl);
-        } else if ($request->input('state') !== session()->pull('oauthstate')) { // State mismatch, error
+        } elseif ($request->input('state') !== session()->pull('oauthstate')) { // State mismatch, error
             flashMessage('error', 'Login failed', 'Something went wrong, please try again');
             return redirect('/')->withError("Something went wrong, please try again.");
         } else { // Callback (user has just logged in Connect)
@@ -122,9 +122,15 @@ class LoginController extends Controller
         $account->name_last = $data['last_name'];
         $account->email = $data['email'];
 
-        if ($token->getToken() !== null) $account->access_token = $token->getToken();
-        if ($token->getRefreshToken() !== null) $account->refresh_token = $token->getRefreshToken();
-        if ($token->getExpires() !== null) $account->token_expires = $token->getExpires();
+        if ($token->getToken() !== null) {
+            $account->access_token = $token->getToken();
+        }
+        if ($token->getRefreshToken() !== null) {
+            $account->refresh_token = $token->getRefreshToken();
+        }
+        if ($token->getExpires() !== null) {
+            $account->token_expires = $token->getExpires();
+        }
 
         $account->save();
         auth()->login($account, true);

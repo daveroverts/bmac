@@ -14,7 +14,9 @@ use Illuminate\Support\Collection;
 
 class BookingChanged
 {
-    use Dispatchable, InteractsWithSockets, SerializesModels;
+    use Dispatchable;
+    use InteractsWithSockets;
+    use SerializesModels;
 
     public function __construct(public Booking $booking, public Collection $changes)
     {

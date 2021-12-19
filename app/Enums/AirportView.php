@@ -6,7 +6,7 @@ use BenSampo\Enum\Enum;
 
 final class AirportView extends Enum
 {
-    const NAME = 0;
-    const ICAO = 1;
-    const IATA = 2;
+    public const NAME = 0;
+    public const ICAO = 1;
+    public const IATA = 2;
 }

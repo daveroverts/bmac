@@ -14,7 +14,9 @@ use Illuminate\Support\Collection;
 
 class EventBulkEmail
 {
-    use Dispatchable, InteractsWithSockets, SerializesModels;
+    use Dispatchable;
+    use InteractsWithSockets;
+    use SerializesModels;
 
     public function __construct(public Event $event, public array $request, public Collection $users)
     {

@@ -15,7 +15,6 @@ class FinalInformationEmailSentAtToBookingsTable extends Migration
     {
         Schema::table('bookings', function (Blueprint $table) {
             $table->dateTime('final_information_email_sent_at')->nullable()->after('selcal');
-
         });
     }
 
