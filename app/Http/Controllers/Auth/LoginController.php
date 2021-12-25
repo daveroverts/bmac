@@ -134,7 +134,7 @@ class LoginController extends Controller
 
         $account->save();
         auth()->login($account, true);
-        activity()->causedBy($account->id)->log('Login');
+        activity()->causedBy(auth()->user())->log('Login');
         return $account;
     }
 
