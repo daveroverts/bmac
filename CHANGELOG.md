@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v2.2.7](https://github.com/daveroverts/bmac/compare/v2.2.6...v2.2.7) - 2021-12-25
+
 ### Added
 - Added PHP 8.1 support
 - All e-mails now include the event name as part of subject.
