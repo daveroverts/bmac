@@ -3,11 +3,14 @@
 
 ![CI/CD](https://github.com/daveroverts/bmac/workflows/CI/CD/badge.svg)
 
-Book me a Cookie [BMAC] is a Vatsim booking system created in Laravel. It's initial purpose was to be used for one event (The Holland - America Line), however, this system is already ready to be used for more events.
+Book me a Cookie [BMAC] is a Vatsim booking system created in Laravel.
+It's initial purpose was to be used for one event (The Holland - America Line),
+however, this system is already ready to be used for more events.
 
 ## Features
 
-- Uses [Vatsim Connect](https://vatsimnetwork.github.io/documentation/connect) as default authentication provider
+- Uses [Vatsim Connect](https://vatsimnetwork.github.io/documentation/connect) as
+  default authentication provider
 - A different OAuth2 provider can also be used
 - Supports the following event types:
   - One-way / Groupflight
@@ -17,7 +20,8 @@ Book me a Cookie [BMAC] is a Vatsim booking system created in Laravel. It's init
 - E-mail templates included
 - Bootstrap / Bootswatch colors are editable
 - Slots can be imported or added manually.
-- Airports and Events can have links for charts, briefing, scenery or something else. They are visible after pilots book a flight.
+- Airports and Events can have links for charts, briefing, scenery or something else.
+  They are visible after pilots book a flight.
 
 ## Tech Stack
 
@@ -27,17 +31,24 @@ Book me a Cookie [BMAC] is a Vatsim booking system created in Laravel. It's init
 
 ## Vatsim Connect
 
-In order to use Vatsim Connect as OAuth2 provider, you need to create a organization (or have somebody else do that for you). <https://auth.vatsim.net/>
+In order to use Vatsim Connect as OAuth2 provider, you need to create a
+organization (or have somebody else do that for you). <https://auth.vatsim.net/>
 
-Once you have a Organization, Navigate to `OAUTH`, create `NEW SITE` and set the `Redirect URL` to the `APP_URL` + `/login`. For example: `https://example.org/login`.
+Once you have a Organization, Navigate to `OAUTH`,
+create `NEW SITE` and set the `Redirect URL` to the `APP_URL` + `/login`.
+For example: `https://example.org/login`.
 
 Save the `Client ID` and `Secret` somewhere, you will need this later.
 
-When testing or running this project locally, Vatsim wants your to use their Connect Development Environment. Details can be found here: <https://github.com/vatsimnetwork/developer-info/wiki/Connect-Development-Environment>
+When testing or running this project locally, Vatsim wants your to use their
+Connect Development Environment. Details can be found here: <https://github.com/vatsimnetwork/developer-info/wiki/Connect-Development-Environment>
 
 ## Installation
 
-Before you begin, make sure you have a server with PHP 8 to run everything on. For local development, I use [Laravel Valet](https://laravel.com/docs/8.x/valet), and before that I used [Laravel Homestead](https://laravel.com/docs/master/homestead).
+Before you begin, make sure you have a server with PHP 8.1 (recommended) or
+PHP 8.0 to run everything on. For local development,
+I use [Laravel Valet](https://laravel.com/docs/8.x/valet),
+and before that I used [Laravel Homestead](https://laravel.com/docs/8.x/homestead).
 
 1. Clone the project
 
@@ -67,27 +78,40 @@ Before you begin, make sure you have a server with PHP 8 to run everything on. F
      - If you forget, you will have issues with Vatsim Connect (or any OAuth 2 provider)
    - `BUGSNAG_API_KEY`:
      - BMAC uses Bugsnag by default for error monitoring.
-     - If you have a key, you can put this here. There won't be problems if you leave it empty.
+     - If you have a key, you can put this here.
+     There won't be problems if you leave it empty.
    - `DB_*`
      - As required
-     - If you need to share a database with some other application, you can add in a prefix by setting `DB_TABLE_PREFIX=bmac_`
+     - If you need to share a database with some other application,
+     you can add in a prefix by setting `DB_TABLE_PREFIX=bmac_`
      - If your database does not support long indexes, set `DB_LOWER_STRING_LENGTH=true`
    - `QUEUE_CONNECTION`
      - For local, you can use `sync` with no issues
-     - In a production environment, I recommend you use something else, like `database` or `redis`. More info can be found [here](https://laravel.com/docs/master/queues)
-       - When you use `database`, the `jobs` table is already migrated, no need to do that again.
-       - When you use `redis`, and can't use `phpredis` PHP extension, `predis` is already in the `composer.json` file, no need to require it again. You do need to add `REDIS_CLIENT=predis`. See this link for more information about Redis and Laravel: <https://laravel.com/docs/master/redis#introduction>
+     - In a production environment, I recommend you use something else,
+     like `database` or `redis`. More info can be found [here](https://laravel.com/docs/8.x/queues)
+       - When you use `database`, the `jobs` table is already migrated,
+       no need to do that again.
+       - When you use `redis`, and can't use `phpredis` PHP extension,
+       `predis` is already in the `composer.json` file,
+       no need to require it again. You do need to add `REDIS_CLIENT=predis`.
+       See this link for more information about Redis and Laravel: <https://laravel.com/docs/8.x/redis#introduction>
    - `MAIL_*`
      - As required
-     - `MAIL_MAILER`: For testing, you can use something like [Mailtrap](https://mailtrap.io/) (online) or [Mailhog](https://github.com/mailhog/MailHog) (local, included with [Laravel Homestead](https://laravel.com/docs/master/homestead))
-     - `MAIL_FROM_ADDRESS`: This will be used as the `From` email. Don't forget to set this.
+     - `MAIL_MAILER`: For testing, you can use something like
+     [Mailtrap](https://mailtrap.io/) (online) or
+     [Mailhog](https://github.com/mailhog/MailHog)
+     (local, included with [Laravel Homestead](https://laravel.com/docs/8.x/homestead))
+     - `MAIL_FROM_ADDRESS`: This will be used as the `From` email.
+     Don't forget to set this.
      - `MAIL_FROM_NAME`: This will be used as the `From` name
    - `OAUTH_*`
-     - See [Vatsim Connect](#vatsim-connect) if you're not sure what to do at this point.
+     - See [Vatsim Connect](#vatsim-connect) if you're not sure what to do
+     at this point.
    - `SITE_*`
      - Feel free to edit these. They are used all over the place.
    - `BOOTSTRAP_COLOR`:
-     - By default, BMAC uses [Bootswatch Flatly](https://bootswatch.com/flatly/). If you wish to edit some colors, you can do so here.
+     - By default, BMAC uses [Bootswatch Flatly](https://bootswatch.com/flatly/).
+     If you wish to edit some colors, you can do so here.
 
 4. Install dependencies
 
@@ -117,21 +141,34 @@ Before you begin, make sure you have a server with PHP 8 to run everything on. F
 
 6. Open the database, and make yourself admin by setting `isAdmin` to `1`.
 
-7. If you want to include all airports to the database, navigate to `admin/airports/import` (be sure you're logged in as admin). Depending on your setup, this might take a little while, and you won't get a confirmation that import has been done.
-The script uses [this](https://github.com/jpatokal/openflights/blob/master/data/airports.dat) file as source. Note that at the time of writing, the file was last edited 13 May 2019.
-
+7. (Optional) If you want to include all airports in the database,
+navigate to `admin/airports/import` (be sure you're logged in as admin).
+The script uses [this](https://github.com/jpatokal/openflights/blob/master/data/airports.dat)
+file as source.
+Note that at the time of writing, the file was last edited 13 May 2019.
+If you choose to not include all airports,
+you're responsible to add the ones you need.
+If you're planning on importing flights later on,
+add the airports in first before starting a import.
 
 ## Queue worker / Laravel Horizon
-If you're not using `sync` as `QUEUE_CONNECTION`, you need to run a queue worker, or else things like emails aren't being sent. Check Laravel documentation on how to set one up using Supervisor <https://laravel.com/docs/master/queues#supervisor-configuration>
 
-When you're using `redis` as `QUEUE_CONNECTION`, [Laravel Horizon](https://laravel.com/docs/master/horizon) is already installed and can be used to start a queue worker.
+If you're not using `sync` as `QUEUE_CONNECTION`, you need to run a queue worker,
+or else things like emails aren't being sent.
+Check Laravel documentation on how to set one up using Supervisor <https://laravel.com/docs/8.x/queues#supervisor-configuration>
+
+When you're using `redis` as `QUEUE_CONNECTION`, [Laravel Horizon](https://laravel.com/docs/8.x/horizon)
+is already installed and can be used to start a queue worker.
 
 ## Task scheduler
 
-You need to add a cron entry to run `php artisan schedule:run` every minute. Example can be found below.
+You need to add a cron entry to run `php artisan schedule:run` every minute.
+Example can be found below:
 
 ```bash
 * * * * * cd /bmac && php artisan schedule:run >> /dev/null 2>&1
 ```
 
-More info can be found here: <https://laravel.com/docs/master/scheduling#running-the-scheduler>
+For local development, you can run `php artisan schedule:work` in a separate terminal.
+
+More info can be found here: <https://laravel.com/docs/8.x/scheduling#running-the-scheduler>
