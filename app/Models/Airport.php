@@ -3,11 +3,12 @@
 namespace App\Models;
 
 use App\Enums\AirportView;
+use Spatie\Activitylog\LogOptions;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Spatie\Activitylog\Traits\LogsActivity;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
  * App\Models\Airport
@@ -50,9 +51,6 @@ class Airport extends Model
 
     protected $guarded = [];
 
-    protected static $logAttributes = ['*'];
-    protected static $logOnlyDirty = true;
-
     /**
      * The "booted" method of the model.
      *
@@ -63,6 +61,11 @@ class Airport extends Model
         static::addGlobalScope('order', function (Builder $builder) {
             $builder->orderBy('icao');
         });
+    }
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()->logOnlyDirty();
     }
 
     public function flightsDep(): HasMany

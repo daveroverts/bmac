@@ -8,7 +8,6 @@ use Tests\TestCase;
 
 class AirportTest extends TestCase
 {
-
     use RefreshDatabase;
 
     /**
