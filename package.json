@@ -17,6 +17,9 @@
         "semantic-release": "semantic-release"
     },
     "devDependencies": {
+        "@commitlint/cli": "^16.0.1",
+        "@commitlint/config-conventional": "^16.0.0",
+        "@commitlint/cz-commitlint": "^16.0.0",
         "@fortawesome/fontawesome-free": "^5.15.4",
         "@fortawesome/fontawesome-svg-core": "^1.2.36",
         "@fortawesome/free-brands-svg-icons": "^5.15.4",
@@ -28,6 +31,7 @@
         "bootstrap": "^4.6.1",
         "browser-sync": "^2.27.7",
         "browser-sync-webpack-plugin": "^2.3.0",
+        "commitizen": "^4.2.4",
         "cross-env": "^7.0.3",
         "jquery": "^3.6.0",
         "jquery-ui": "^1.13.0",
@@ -83,5 +87,10 @@
             ],
             "@semantic-release/github"
         ]
+    },
+    "config": {
+        "commitizen": {
+            "path": "./node_modules/@commitlint/cz-commitlint"
+        }
     }
 }
