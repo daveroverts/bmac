@@ -1,5 +1,11 @@
 {
+    "name": "bmac",
     "private": true,
+    "author": {
+        "name": "Dave Roverts",
+        "email": "me@daveroverts.nl",
+        "url": "https://www.daveroverts.nl"
+    },
     "scripts": {
         "dev": "npm run development",
         "development": "mix",
@@ -7,18 +13,25 @@
         "watch-poll": "mix watch -- --watch-options-poll=1000",
         "hot": "cross-env NODE_ENV=development node_modules/webpack-dev-server/bin/webpack-dev-server.js --inline --hot --config=node_modules/laravel-mix/setup/webpack.config.js",
         "prod": "npm run production",
-        "production": "mix --production"
+        "production": "mix --production",
+        "semantic-release": "semantic-release"
     },
     "devDependencies": {
+        "@commitlint/cli": "^16.0.1",
+        "@commitlint/config-conventional": "^16.0.0",
+        "@commitlint/cz-commitlint": "^16.0.0",
         "@fortawesome/fontawesome-free": "^5.15.4",
         "@fortawesome/fontawesome-svg-core": "^1.2.36",
         "@fortawesome/free-brands-svg-icons": "^5.15.4",
         "@fortawesome/free-regular-svg-icons": "^5.15.4",
         "@fortawesome/free-solid-svg-icons": "^5.15.4",
+        "@semantic-release/changelog": "^6.0.1",
+        "@semantic-release/git": "^10.0.1",
         "axios": "^0.24.0",
         "bootstrap": "^4.6.1",
         "browser-sync": "^2.27.7",
         "browser-sync-webpack-plugin": "^2.3.0",
+        "commitizen": "^4.2.4",
         "cross-env": "^7.0.3",
         "jquery": "^3.6.0",
         "jquery-ui": "^1.13.0",
@@ -29,10 +42,55 @@
         "resolve-url-loader": "^4.0.0",
         "sass": "^1.43.4",
         "sass-loader": "^12.3.0",
+        "semantic-release": "^18.0.1",
         "tinymce": "^5.10.2"
     },
     "dependencies": {
         "bootswatch": "^4.6.1",
         "sweetalert2": "^11.1.9"
+    },
+    "version": "2.3.0",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/daveroverts/bmac.git"
+    },
+    "release": {
+        "branches": [
+            "'+([0-9])?(.{+([0-9]),x}).x'",
+            "main",
+            "next",
+            "next-major",
+            {
+                "name": "beta",
+                "prerelease": true
+            },
+            {
+                "name": "alpha",
+                "prerelease": true
+            }
+        ],
+        "plugins": [
+            "@semantic-release/commit-analyzer",
+            "@semantic-release/release-notes-generator",
+            "@semantic-release/npm",
+            "@semantic-release/changelog",
+            [
+                "@semantic-release/git",
+                {
+                    "assets": [
+                        "CHANGELOG.md",
+                        "package.json",
+                        "package-lock.json",
+                        "LICENSE.md"
+                    ]
+                }
+            ],
+            "@semantic-release/github"
+        ]
+    },
+    "config": {
+        "commitizen": {
+            "path": "./node_modules/@commitlint/cz-commitlint"
+        }
     }
 }
