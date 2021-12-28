@@ -1,3 +1,11 @@
+# [2.3.0](https://github.com/daveroverts/bmac/compare/v2.2.7...v2.3.0) (2021-12-28)
+
+
+### Features
+
+* Add commitizen with cz-commitlint adapter ([476f56a](https://github.com/daveroverts/bmac/commit/476f56ad4e24285adaf1c9531d7e8a64eecbb216))
+* Add semantic-release ([856d3b0](https://github.com/daveroverts/bmac/commit/856d3b05e2e6f64dcf20e80c848933fb34f8ba68))
+
 ## [v2.2.7](https://github.com/daveroverts/bmac/compare/v2.2.6...v2.2.7) - 2021-12-25
 
 ### Added
