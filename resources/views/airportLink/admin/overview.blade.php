@@ -5,7 +5,7 @@
     @include('layouts.alert')
     @push('scripts')
         <script>
-            $('.delete-airportlink').on('click', function (e) {
+            $('.delete-airportlink').on('click', function(e) {
                 e.preventDefault();
                 Swal.fire({
                     title: 'Are you sure',
@@ -29,17 +29,18 @@
     </p>
     <table class="table table-hover">
         <thead>
-        <tr>
-            <th scope="row">Airport</th>
-            <th scope="row">Type / Name</th>
-            <th scope="row" colspan="2">Actions</th>
-        </tr>
+            <tr>
+                <th scope="row">Airport</th>
+                <th scope="row">Type / Name</th>
+                <th scope="row" colspan="2">Actions</th>
+            </tr>
         </thead>
-        @forelse($airportLinks as $airportLink)
+        @foreach ($airportLinks as $airportLink)
             <tr>
                 <td>
                     <a href="{{ route('admin.airports.show', $airportLink->airport) }}">{{ $airportLink->airport->name }}
-                        [{{ $airportLink->airport->icao }} | {{ $airportLink->airport->iata }}]</a></td>
+                        [{{ $airportLink->airport->icao }} | {{ $airportLink->airport->iata }}]</a>
+                </td>
                 <td><a href="{{ $airportLink->url }}">{{ $airportLink->name ?? $airportLink->type->name }}</a></td>
                 <td>
                     <a href="{{ route('admin.airportLinks.edit', $airportLink) }}">
@@ -58,12 +59,7 @@
                     </form>
                 </td>
             </tr>
-        @empty
-            @php
-                flashMessage('warning', 'No airport links found', 'No airport links are in the system, consider adding one, using the button above');
-            @endphp
-            @include('layouts.alert')
-        @endforelse
+        @endforeach
         {{ $airportLinks->links() }}
     </table>
     {{ $airportLinks->links() }}

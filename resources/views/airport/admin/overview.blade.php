@@ -57,7 +57,7 @@
                 <th scope="row" colspan="2">Actions</th>
             </tr>
         </thead>
-        @forelse($airports as $airport)
+        @foreach ($airports as $airport)
             <tr>
                 <td><a href="{{ route('admin.airports.show', $airport) }}">{{ $airport->icao }}</a></td>
                 <td><a href="{{ route('admin.airports.show', $airport) }}">{{ $airport->iata }}</a></td>
@@ -83,12 +83,7 @@
                     @endif
                 </td>
             </tr>
-        @empty
-            @php
-                flashMessage('warning', 'No airports found', 'No airports are in the system, consider adding one, using the button above');
-            @endphp
-            @include('layouts.alert')
-        @endforelse
+        @endforeach
         {{ $airports->links() }}
     </table>
     {{ $airports->links() }}

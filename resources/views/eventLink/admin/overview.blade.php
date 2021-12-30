@@ -5,7 +5,7 @@
     @include('layouts.alert')
     @push('scripts')
         <script>
-            $('.delete-eventlink').on('click', function (e) {
+            $('.delete-eventlink').on('click', function(e) {
                 e.preventDefault();
                 Swal.fire({
                     title: 'Are you sure',
@@ -29,16 +29,17 @@
     </p>
     <table class="table table-hover">
         <thead>
-        <tr>
-            <th scope="row">Event</th>
-            <th scope="row">Type / Name</th>
-            <th scope="row" colspan="2">Actions</th>
-        </tr>
+            <tr>
+                <th scope="row">Event</th>
+                <th scope="row">Type / Name</th>
+                <th scope="row" colspan="2">Actions</th>
+            </tr>
         </thead>
-        @forelse($eventLinks as $eventLink)
+        @foreach ($eventLinks as $eventLink)
             <tr>
                 <td>
-                    <a href="{{ route('admin.events.show', $eventLink->event) }}">{{ $eventLink->event->name }}</a></td>
+                    <a href="{{ route('admin.events.show', $eventLink->event) }}">{{ $eventLink->event->name }}</a>
+                </td>
                 <td><a href="{{ $eventLink->url }}">{{ $eventLink->name ?? $eventLink->type->name }}</a></td>
                 <td>
                     <a href="{{ route('admin.eventLinks.edit', $eventLink) }}">
@@ -57,12 +58,7 @@
                     </form>
                 </td>
             </tr>
-        @empty
-            @php
-                flashMessage('warning', 'No event links found', 'No event links are in the system, consider adding one, using the button above');
-            @endphp
-            @include('layouts.alert')
-        @endforelse
+        @endforeach
         {{ $eventLinks->links() }}
     </table>
     {{ $eventLinks->links() }}
