@@ -6,7 +6,7 @@
     @include('layouts.alert')
     @push('scripts')
         <script>
-            $('.delete-airport').on('click', function (e) {
+            $('.delete-airport').on('click', function(e) {
                 e.preventDefault();
                 Swal.fire({
                     title: 'Are you sure',
@@ -21,23 +21,40 @@
                     }
                 });
             });
+            $('.delete-unused-airports').on('click', function(e) {
+                e.preventDefault();
+                Swal.fire({
+                    title: 'Are you sure',
+                    text: 'Are you sure you want to delete all unused airports?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                }).then((result) => {
+                    if (result.value) {
+                        Swal.fire('Deleting unused airports...');
+                        Swal.showLoading();
+                        $(`#${$(this).attr('form')}`).submit();
+                    }
+                });
+            });
         </script>
     @endpush
     <p>
         <a href="{{ route('admin.airports.create') }}" class="btn btn-primary"><i class="fa fa-plus"></i> Add new
             Airport</a>&nbsp;
-        <a href=" {{ route('admin.airportLinks.create') }}" class="btn btn-primary"><i class="fa fa-plus"></i> Add new
+        <a href="{{ route('admin.airportLinks.create') }}" class="btn btn-primary"><i class="fa fa-plus"></i> Add new
             Airport
             Link</a>
+        <button class="btn btn-danger delete-unused-airports" form="delete-unused-airports"><i class="fa fa-trash"></i>
+            Delete unused airports</button>
     </p>
     <table class="table table-hover">
         <thead>
-        <tr>
-            <th scope="row">ICAO</th>
-            <th scope="row">IATA</th>
-            <th scope="row">Name</th>
-            <th scope="row" colspan="2">Actions</th>
-        </tr>
+            <tr>
+                <th scope="row">ICAO</th>
+                <th scope="row">IATA</th>
+                <th scope="row">Name</th>
+                <th scope="row" colspan="2">Actions</th>
+            </tr>
         </thead>
         @forelse($airports as $airport)
             <tr>
@@ -52,7 +69,7 @@
                     </a>
                 </td>
                 <td>
-                    @if($airport->flightsDep->isEmpty() && $airport->flightsArr->isEmpty() && $airport->eventDep->isEmpty() && $airport->eventArr->isEmpty())
+                    @if ($airport->flightsDep->isEmpty() && $airport->flightsArr->isEmpty() && $airport->eventDep->isEmpty() && $airport->eventArr->isEmpty())
                         <form action="{{ route('admin.airports.destroy', $airport) }}" method="post">
                             @method('DELETE')
                             <button class="btn btn-danger delete-airport"><i class="fa fa-trash"></i> Remove Airport
@@ -74,4 +91,6 @@
         {{ $airports->links() }}
     </table>
     {{ $airports->links() }}
+    <x-form :action="route('admin.airports.destroyUnused')" id="delete-unused-airports" method="POST"
+        style="display: none;"></x-form>
 @endsection

@@ -85,4 +85,18 @@ class AirportAdminController extends AdminController
         flashMessage('success', __('Done'), __('Airports have been added'));
         return redirect(route('admin.airports.index'));
     }
+
+    public function destroyUnused()
+    {
+        $this->authorize('destroy', Airport::class);
+        Airport::whereDoesntHave('flightsDep')
+            ->whereDoesntHave('flightsArr')
+            ->whereDoesntHave('eventDep')
+            ->whereDoesntHave('eventArr')
+            ->delete();
+
+        flashMessage('success', __('Done'), __('Unused airport have been deleted!'));
+
+        return redirect(route('admin.airports.index'));
+    }
 }
