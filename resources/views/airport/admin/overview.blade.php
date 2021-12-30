@@ -38,15 +38,16 @@
             });
         </script>
     @endpush
-    <p>
-        <a href="{{ route('admin.airports.create') }}" class="btn btn-primary"><i class="fa fa-plus"></i> Add new
-            Airport</a>&nbsp;
-        <a href="{{ route('admin.airportLinks.create') }}" class="btn btn-primary"><i class="fa fa-plus"></i> Add new
+    <div class="d-flex flex-row flex-wrap">
+        <a href="{{ route('admin.airports.create') }}" class="btn btn-primary m-1"><i class="fa fa-plus"></i> Add new
+            Airport</a>
+        <a href="{{ route('admin.airportLinks.create') }}" class="btn btn-primary m-1"><i class="fa fa-plus"></i> Add
+            new
             Airport
             Link</a>
-        <button class="btn btn-danger delete-unused-airports" form="delete-unused-airports"><i class="fa fa-trash"></i>
+        <button class="btn btn-danger m-1 delete-unused-airports" form="delete-unused-airports"><i class="fa fa-trash"></i>
             Delete unused airports</button>
-    </p>
+    </div>
     <table class="table table-hover">
         <thead>
             <tr>
