@@ -1,3 +1,15 @@
+# [2.4.0](https://github.com/daveroverts/bmac/compare/v2.3.0...v2.4.0) (2021-12-30)
+
+
+### Bug Fixes
+
+* airports.import route could not be called by name ([90b265b](https://github.com/daveroverts/bmac/commit/90b265b653ffaa06c44af253d5c076895ff7d184))
+
+
+### Features
+
+* Add ability to delete unused airports ([46b3d2f](https://github.com/daveroverts/bmac/commit/46b3d2f31f93463ad2321eb689aeda4a9dfde562)), closes [#399](https://github.com/daveroverts/bmac/issues/399)
+
 # [2.3.0](https://github.com/daveroverts/bmac/compare/v2.2.7...v2.3.0) (2021-12-28)
 
 
