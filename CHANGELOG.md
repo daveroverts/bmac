@@ -1,3 +1,13 @@
+# [2.5.0](https://github.com/daveroverts/bmac/compare/v2.4.0...v2.5.0) (2022-01-01)
+
+
+### Features
+
+* Add alpine.js ([ac036e2](https://github.com/daveroverts/bmac/commit/ac036e2fc64fd067f62bcc363fa0e0946e66919f))
+* add blade-ui-kit package ([d52915c](https://github.com/daveroverts/bmac/commit/d52915ca1dff9744dc1f659c2039632b890ad366))
+* **admin:** replace jquery-ui datepicker with flatpickr ([9d91ff1](https://github.com/daveroverts/bmac/commit/9d91ff1fe49e465dc2e3775a83d8c9a3ee94bb25)), closes [#122](https://github.com/daveroverts/bmac/issues/122)
+* move tinymce to separate js file ([ac732d8](https://github.com/daveroverts/bmac/commit/ac732d8ddd38af46ec75241d4abc58321916ee72))
+
 # [2.4.0](https://github.com/daveroverts/bmac/compare/v2.3.0...v2.4.0) (2021-12-30)
 
 
