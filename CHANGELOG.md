@@ -1,3 +1,10 @@
+## [2.5.1](https://github.com/daveroverts/bmac/compare/v2.5.0...v2.5.1) (2022-01-01)
+
+
+### Bug Fixes
+
+* fix missing styling for flatpickr ([5a2e01b](https://github.com/daveroverts/bmac/commit/5a2e01b1cb8beb2aadc4b0223ba2231626e4b066))
+
 # [2.5.0](https://github.com/daveroverts/bmac/compare/v2.4.0...v2.5.0) (2022-01-01)
 
 
