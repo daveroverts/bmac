@@ -1,5 +1,6 @@
 <?php
 
+use App\View\Components\FlatPickr;
 use BladeUIKit\Components;
 
 return [
@@ -27,7 +28,7 @@ return [
         // 'easy-mde' => Components\Editors\EasyMDE::class,
         // 'email' => Components\Forms\Inputs\Email::class,
         // 'error' => Components\Forms\Error::class,
-        // 'flat-pickr' => Components\Forms\Inputs\FlatPickr::class,
+        'flat-pickr' => FlatPickr::class,
         // 'form' => Components\Forms\Form::class,
         // 'form-button' => Components\Buttons\FormButton::class,
         // 'html' => Components\Layouts\Html::class,

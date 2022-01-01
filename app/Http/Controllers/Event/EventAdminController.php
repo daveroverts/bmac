@@ -66,22 +66,10 @@ class EventAdminController extends AdminController
             'description'
         ));
         $event->fill([
-            'startEvent' => Carbon::createFromFormat(
-                'd-m-Y H:i',
-                $request->dateEvent . ' ' . $request->timeBeginEvent
-            ),
-            'endEvent' => Carbon::createFromFormat(
-                'd-m-Y H:i',
-                $request->dateEvent . ' ' . $request->timeEndEvent
-            ),
-            'startBooking' => Carbon::createFromFormat(
-                'd-m-Y H:i',
-                $request->dateBeginBooking . ' ' . $request->timeBeginBooking
-            ),
-            'endBooking' => Carbon::createFromFormat(
-                'd-m-Y H:i',
-                $request->dateEndBooking . ' ' . $request->timeEndBooking
-            ),
+            'startEvent' => $request->date('startEvent'),
+            'endEvent' => $request->date('endEvent'),
+            'startBooking' => $request->date('startBooking'),
+            'endBooking' => $request->date('endBooking'),
         ])->save();
 
         flashMessage('success', __('Done'), __('Event has been created!'));
@@ -121,22 +109,10 @@ class EventAdminController extends AdminController
             'description'
         ));
         $event->fill([
-            'startEvent' => Carbon::createFromFormat(
-                'd-m-Y H:i',
-                $request->dateEvent . ' ' . $request->timeBeginEvent
-            ),
-            'endEvent' => Carbon::createFromFormat(
-                'd-m-Y H:i',
-                $request->dateEvent . ' ' . $request->timeEndEvent
-            ),
-            'startBooking' => Carbon::createFromFormat(
-                'd-m-Y H:i',
-                $request->dateBeginBooking . ' ' . $request->timeBeginBooking
-            ),
-            'endBooking' => Carbon::createFromFormat(
-                'd-m-Y H:i',
-                $request->dateEndBooking . ' ' . $request->timeEndBooking
-            ),
+            'startEvent' => $request->date('startEvent'),
+            'endEvent' => $request->date('endEvent'),
+            'startBooking' => $request->date('startBooking'),
+            'endBooking' => $request->date('endBooking'),
         ])->save();
         flashMessage('success', __('Done'), __('Event has been updated!'));
         return redirect(route('admin.events.index'));

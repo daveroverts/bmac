@@ -6,7 +6,6 @@
 
 require('./bootstrap');
 
-import 'jquery-ui/ui/widgets/datepicker';
 // Importing Font Awesome
 import { dom, library } from '@fortawesome/fontawesome-svg-core'
 import { far } from '@fortawesome/free-regular-svg-icons'
