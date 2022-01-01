@@ -1,3 +1,10 @@
+## [2.5.2](https://github.com/daveroverts/bmac/compare/v2.5.1...v2.5.2) (2022-01-01)
+
+
+### Bug Fixes
+
+* fix missing time in flatpickr ([036bf0b](https://github.com/daveroverts/bmac/commit/036bf0b38571cc6e2fd51c06667987dc6950e23a))
+
 ## [2.5.1](https://github.com/daveroverts/bmac/compare/v2.5.0...v2.5.1) (2022-01-01)
 
 
