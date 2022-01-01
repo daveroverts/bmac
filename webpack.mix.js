@@ -25,6 +25,7 @@ mix.js('resources/js/app.js', 'public/js')
         extend: {
             content: [path.join(__dirname, 'vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*bootstrap-4.blade.php')],
             safelist: {
+                standard: [/\bflatpickr-\S*$/],
                 deep: [/\bui-\S*$/]
             }
         },
