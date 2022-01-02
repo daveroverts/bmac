@@ -42,8 +42,8 @@ class AirportsImport implements ShouldQueue, ToModel, WithBatchInserts, WithChun
             'icao' => ['required', 'string', Rule::unique('airports', 'icao')],
             'iata' => ['required', 'string', Rule::unique('airports', 'iata')],
             'name' => ['required', 'string'],
-            'lat' => ['required', 'regex:/^(\+|-)?(?:90(?:(?:\.0{1,6})?)|(?:[0-9]|[1-8][0-9])(?:(?:\.[0-9]{1,6})?))$/'],
-            'lon' => ['required', 'regex:/^(\+|-)?(?:180(?:(?:\.0{1,6})?)|(?:[0-9]|[1-9][0-9]|1[0-7][0-9])(?:(?:\.[0-9]{1,6})?))$/'],
+            'lat' => ['required', 'regex:/^[-]?((([0-8]?[0-9])(\.(\d{1,10}))?)|(90(\.0+)?))$/'],
+            'lon' => ['required', 'regex:/^[-]?((((1[0-7][0-9])|([0-9]?[0-9]))(\.(\d{1,10}))?)|180(\.0+)?)/'],
         ];
     }
 
