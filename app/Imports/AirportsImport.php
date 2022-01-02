@@ -30,6 +30,8 @@ class AirportsImport implements ToModel, WithBatchInserts, WithChunkReading, Wit
             'icao' => $row['icao'],
             'iata' => $row['iata'],
             'name' => $row['name'],
+            'latitude' => $row['lat'],
+            'longitude' => $row['lon'],
         ]);
     }
 
@@ -39,6 +41,8 @@ class AirportsImport implements ToModel, WithBatchInserts, WithChunkReading, Wit
             'icao' => ['required', 'string', Rule::unique('airports', 'icao')],
             'iata' => ['required', 'string', Rule::unique('airports', 'iata')],
             'name' => ['required', 'string'],
+            'lat' => ['required', 'regex:/^(\+|-)?(?:90(?:(?:\.0{1,6})?)|(?:[0-9]|[1-8][0-9])(?:(?:\.[0-9]{1,6})?))$/'],
+            'lon' => ['required', 'regex:/^(\+|-)?(?:180(?:(?:\.0{1,6})?)|(?:[0-9]|[1-9][0-9]|1[0-7][0-9])(?:(?:\.[0-9]{1,6})?))$/'],
         ];
     }
 

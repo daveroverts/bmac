@@ -26,6 +26,8 @@ class AirportFactory extends Factory
             'icao' => $this->faker->unique()->regexify('[A-Z]{4}'),
             'iata' => $this->faker->unique()->regexify('[A-Z]{3}'),
             'name' => $this->faker->name . ' Airport',
+            'latitude' => $this->faker->latitude(),
+            'longitude' => $this->faker->longitude(),
         ];
     }
 }
