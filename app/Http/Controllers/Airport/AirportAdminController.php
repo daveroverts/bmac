@@ -72,13 +72,6 @@ class AirportAdminController extends AdminController
         }
     }
 
-    public function import(): RedirectResponse
-    {
-        ImportAirportsJob::dispatch();
-        flashMessage('success', __('Done'), __('Import has been started.'));
-        return redirect(route('admin.airports.index'));
-    }
-
     public function destroyUnused()
     {
         $this->authorize('destroy', Airport::class);

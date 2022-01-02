@@ -142,13 +142,18 @@ and before that I used [Laravel Homestead](https://laravel.com/docs/8.x/homestea
 6. Open the database, and make yourself admin by setting `isAdmin` to `1`.
 
 7. (Optional) If you want to include all airports in the database,
-navigate to `admin/airports/import` (be sure you're logged in as admin).
-The script uses [this](https://raw.githubusercontent.com/mborsetti/airportsdata/main/airportsdata/airports.csv)
-file as source.
-If you choose to not include all airports,
-you're responsible to add the ones you need.
-If you're planning on importing flights later on,
-add the airports in first before starting a import.
+run the following command:
+
+   ```bash
+     php artisan import:airports
+   ```
+
+    The script uses [this](https://raw.githubusercontent.com/mborsetti/airportsdata/main/airportsdata/airports.csv)
+    file as source.
+    If you choose to not include all airports,
+    you're responsible to add the ones you need.
+    If you're planning on importing flights later on,
+    add the airports in first before starting a import.
 
 ## Queue worker / Laravel Horizon
 
