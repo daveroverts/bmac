@@ -3,6 +3,7 @@
 namespace App\Imports;
 
 use App\Models\Airport;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Validation\Rule;
 use Maatwebsite\Excel\Concerns\Importable;
 use Maatwebsite\Excel\Concerns\SkipsFailures;
@@ -14,7 +15,7 @@ use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Maatwebsite\Excel\Concerns\WithUpserts;
 use Maatwebsite\Excel\Concerns\WithValidation;
 
-class AirportsImport implements ToModel, WithBatchInserts, WithChunkReading, WithHeadingRow, WithUpserts, WithValidation, SkipsOnFailure
+class AirportsImport implements ShouldQueue, ToModel, WithBatchInserts, WithChunkReading, WithHeadingRow, WithUpserts, WithValidation, SkipsOnFailure
 {
     use Importable;
     use SkipsFailures;

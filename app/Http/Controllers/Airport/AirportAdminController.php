@@ -4,13 +4,12 @@ namespace App\Http\Controllers\Airport;
 
 use App\Models\Airport;
 use Illuminate\View\View;
-use App\Imports\AirportsImport;
 use App\Policies\AirportPolicy;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\AdminController;
 use App\Http\Requests\Airport\Admin\StoreAirport;
 use App\Http\Requests\Airport\Admin\UpdateAirport;
+use App\Jobs\ImportAirportsJob;
 
 class AirportAdminController extends AdminController
 {
@@ -75,14 +74,8 @@ class AirportAdminController extends AdminController
 
     public function import(): RedirectResponse
     {
-        $file = 'import.csv';
-        Storage::disk('local')->put(
-            $file,
-            file_get_contents('https://raw.githubusercontent.com/mborsetti/airportsdata/main/airportsdata/airports.csv')
-        );
-        (new AirportsImport())->import($file);
-        Storage::delete($file);
-        flashMessage('success', __('Done'), __('Airports have been added'));
+        ImportAirportsJob::dispatch();
+        flashMessage('success', __('Done'), __('Import has been started.'));
         return redirect(route('admin.airports.index'));
     }
 
