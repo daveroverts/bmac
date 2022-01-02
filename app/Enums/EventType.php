@@ -4,6 +4,13 @@ namespace App\Enums;
 
 use BenSampo\Enum\Enum;
 
+/**
+ * @method static static ONEWAY()
+ * @method static static CITYPAIR()
+ * @method static static FLYIN()
+ * @method static static GROUPFLIGHT()
+ * @method static static MULTIFLIGHTS()
+ */
 final class EventType extends Enum
 {
     public const ONEWAY = 1;
