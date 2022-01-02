@@ -1,3 +1,23 @@
+# [2.6.0](https://github.com/daveroverts/bmac/compare/v2.5.2...v2.6.0) (2022-01-02)
+
+
+### Bug Fixes
+
+* **AirportImport:** fix majority of airports not importing ([492cfec](https://github.com/daveroverts/bmac/commit/492cfec0041bfa2f6246e7123270e29594bc871a))
+
+
+### Features
+
+* add coordinates to airport model ([fb88e9f](https://github.com/daveroverts/bmac/commit/fb88e9f0689190a55f9433e8bf9405e749f44903)), closes [#194](https://github.com/daveroverts/bmac/issues/194)
+* **AirportImport:** replace route with command ([6e2f000](https://github.com/daveroverts/bmac/commit/6e2f00015ee9617ce5302a053f2599aa33b6ed85))
+* **AirportsImport:** add better validation to airport import ([6b1ae83](https://github.com/daveroverts/bmac/commit/6b1ae83959c82d22eabd7cfd60ed8263e2c7330d))
+* **AirportsImport:** change airport import file source ([bb0859f](https://github.com/daveroverts/bmac/commit/bb0859f042e5be75343cea31851b49497f0c5c45))
+
+
+### Performance Improvements
+
+* **AirportImport:** AirportImport now runs on queue ([f7170fe](https://github.com/daveroverts/bmac/commit/f7170fe33b408a9eb4ab9f65938a576015dbbeee))
+
 ## [2.5.2](https://github.com/daveroverts/bmac/compare/v2.5.1...v2.5.2) (2022-01-01)
 
 
