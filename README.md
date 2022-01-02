@@ -143,9 +143,8 @@ and before that I used [Laravel Homestead](https://laravel.com/docs/8.x/homestea
 
 7. (Optional) If you want to include all airports in the database,
 navigate to `admin/airports/import` (be sure you're logged in as admin).
-The script uses [this](https://github.com/jpatokal/openflights/blob/master/data/airports.dat)
+The script uses [this](https://raw.githubusercontent.com/mborsetti/airportsdata/main/airportsdata/airports.csv)
 file as source.
-Note that at the time of writing, the file was last edited 13 May 2019.
 If you choose to not include all airports,
 you're responsible to add the ones you need.
 If you're planning on importing flights later on,

@@ -78,7 +78,7 @@ class AirportAdminController extends AdminController
         $file = 'import.csv';
         Storage::disk('local')->put(
             $file,
-            "airportId,name,city,country,iata,icao,latitude,longitude,altitude,timezone,dst,tzDatabaseTimeZone,type,source\n" . file_get_contents('https://raw.githubusercontent.com/jpatokal/openflights/master/data/airports.dat')
+            file_get_contents('https://raw.githubusercontent.com/mborsetti/airportsdata/main/airportsdata/airports.csv')
         );
         (new AirportsImport())->import($file);
         Storage::delete($file);
