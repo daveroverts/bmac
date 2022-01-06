@@ -160,7 +160,8 @@ class EventAdminController extends AdminController
             ->get();
 
         if ($request->testmode) {
-            event(new EventFinalInformation($bookings->random()));
+            event(new EventFinalInformation($bookings->random(), $request->user()));
+
             return response()->json(['success' => __('Email has been sent to yourself')]);
         } else {
             $count = $bookings->count();
@@ -184,6 +185,7 @@ class EventAdminController extends AdminController
                 ->withProperty('count', $count)
                 ->log('Final Information E-mail');
         }
+
         return redirect(route('admin.events.index'));
     }
 

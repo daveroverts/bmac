@@ -26,7 +26,7 @@ class SendEventFinalInformationNotification implements ShouldQueue
      */
     public function handle(EventFinalInformation $event)
     {
-        if ($event->testMode) {
+        if ($event->testUser) {
             activity()
                 ->by(auth()->user())
                 ->on($event->booking)
@@ -36,9 +36,12 @@ class SendEventFinalInformationNotification implements ShouldQueue
                     ]
                 )
                 ->log('Final Information E-mail test performed');
-        } else {
-            $event->booking->update(['final_information_email_sent_at' => now()]);
+
+            $event->testUser->notify(new \App\Notifications\EventFinalInformation($event->booking));
+            return;
         }
+
+        $event->booking->update(['final_information_email_sent_at' => now()]);
         $event->booking->user->notify(new \App\Notifications\EventFinalInformation($event->booking));
     }
 }
