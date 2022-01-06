@@ -21,9 +21,10 @@ class AppServiceProvider extends ServiceProvider
         }
 
         Paginator::useBootstrap();
-        $query = DB::table('poll')->where('hidden','0');
-        $result = $query->first();
-        view()->share('pollOpen',$result);
+       /* $query = DB::table('poll')->where('hidden','0');
+        $result = $query->first(); */
+       // view()->share('pollOpen',$result);
+        view()->share('pollOpen',false);
     }
 
     /**
