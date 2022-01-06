@@ -1,3 +1,10 @@
+## [2.6.1](https://github.com/daveroverts/bmac/compare/v2.6.0...v2.6.1) (2022-01-06)
+
+
+### Bug Fixes
+
+* SendEventFinalInformationNotification sending email to booked user ([5bf1831](https://github.com/daveroverts/bmac/commit/5bf1831d7471d2ebba76fcc0160896e4be855384)), closes [#405](https://github.com/daveroverts/bmac/issues/405)
+
 # [2.6.0](https://github.com/daveroverts/bmac/compare/v2.5.2...v2.6.0) (2022-01-02)
 
 

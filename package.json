@@ -50,7 +50,7 @@
         "flatpickr": "^4.6.9",
         "sweetalert2": "^11.1.9"
     },
-    "version": "2.6.0",
+    "version": "2.6.1",
     "repository": {
         "type": "git",
         "url": "https://github.com/daveroverts/bmac.git"
