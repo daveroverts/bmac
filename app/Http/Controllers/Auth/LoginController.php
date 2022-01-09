@@ -34,34 +34,32 @@ class LoginController extends Controller
     public function __construct()
     {
         $this->middleware('guest')->except('logout');
-        $this->provider = new OAuthController;
+        $this->provider = new OAuthController();
     }
 
     public function login(Request $request)
     {
-        if (! $request->has('code') || ! $request->has('state')) { // User has clicked "login", redirect to Connect
+        if (!$request->has('code') || !$request->has('state')) { // User has clicked "login", redirect to Connect
             if ($request->get('booking')) {
-            // Check if the booking exists, just to prevent a 404 later on
-            $booking = Booking::whereUuid($request->booking)->first();
-            if (!empty($booking)) {
-                session()->put('booking', $booking->uuid);
+                // Check if the booking exists, just to prevent a 404 later on
+                $booking = Booking::whereUuid($request->booking)->first();
+                if (!empty($booking)) {
+                    session()->put('booking', $booking->uuid);
+                }
+            } elseif ($request->get('event')) {
+                // Check if the event exists, just to prevent a 404 later on
+                $event = Event::whereSlug($request->event)->first();
+                if (!empty($event)) {
+                    session()->put('event', $event->slug);
+                }
             }
-        } elseif ($request->get('event')) {
-            // Check if the event exists, just to prevent a 404 later on
-            $event = Event::whereSlug($request->event)->first();
-            if (!empty($event)) {
-                session()->put('event', $event->slug);
-            }
-        }
             $authorizationUrl = $this->provider->getAuthorizationUrl(); // Generates state
             $request->session()->put('oauthstate', $this->provider->getState());
-	    	return redirect()->away($authorizationUrl);
-        }
-        else if ($request->input('state') !== session()->pull('oauthstate')) { // State mismatch, error
+            return redirect()->away($authorizationUrl);
+        } elseif ($request->input('state') !== session()->pull('oauthstate')) { // State mismatch, error
             flashMessage('error', 'Login failed', 'Something went wrong, please try again');
             return redirect('/')->withError("Something went wrong, please try again.");
-        }
-		else { // Callback (user has just logged in Connect)
+        } else { // Callback (user has just logged in Connect)
             return $this->verifyLogin($request);
         }
     }
@@ -77,7 +75,7 @@ class LoginController extends Controller
             return redirect('/')->withError("Something went wrong, please try again later.");
         }
         $resourceOwner = json_decode(json_encode($this->provider->getResourceOwner($accessToken)->toArray()));
-        
+
         $data = [
             'cid' => OAuthController::getOAuthProperty(config('oauth.mapping_cid'), $resourceOwner),
             'first_name' => OAuthController::getOAuthProperty(config('oauth.mapping_first_name'), $resourceOwner),
@@ -85,7 +83,7 @@ class LoginController extends Controller
             'email' => OAuthController::getOAuthProperty(config('oauth.mapping_mail'), $resourceOwner),
         ];
 
-		// Check if user has granted us the data we need
+        // Check if user has granted us the data we need
         if (
             !$data['cid'] ||
             !$data['first_name'] ||
@@ -124,19 +122,25 @@ class LoginController extends Controller
         $account->name_last = $data['last_name'];
         $account->email = $data['email'];
 
-        if($token->getToken() !== null) $account->access_token = $token->getToken();
-        if($token->getRefreshToken() !== null) $account->refresh_token = $token->getRefreshToken();
-        if($token->getExpires() !== null) $account->token_expires = $token->getExpires();
+        if ($token->getToken() !== null) {
+            $account->access_token = $token->getToken();
+        }
+        if ($token->getRefreshToken() !== null) {
+            $account->refresh_token = $token->getRefreshToken();
+        }
+        if ($token->getExpires() !== null) {
+            $account->token_expires = $token->getExpires();
+        }
 
         $account->save();
         auth()->login($account, true);
-		activity()->log('Login');
+        activity()->causedBy(auth()->user())->log('Login');
         return $account;
     }
 
     public function logout()
     {
-        activity()->log('Logout');
+        activity()->causedBy(auth()->id())->log('Logout');
         auth()->logout();
         return redirect('/');
     }

@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Models\Event;
+use Spatie\Activitylog\LogOptions;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -18,7 +20,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\Activitylog\Models\Activity[] $activities
  * @property-read int|null $activities_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Event[] $events
+ * @property-read \Illuminate\Database\Eloquent\Collection|Event[] $events
  * @property-read int|null $events_count
  * @method static \Database\Factories\FaqFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|Faq newModelQuery()
@@ -43,8 +45,10 @@ class Faq extends Model
         'is_online' => 'boolean',
     ];
 
-    protected static $logAttributes = ['*'];
-    protected static $logOnlyDirty = true;
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()->logOnlyDirty();
+    }
 
     public function events(): BelongsToMany
     {

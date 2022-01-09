@@ -2,8 +2,13 @@
 
 namespace App\Models;
 
+use App\Models\User;
+use App\Models\Event;
+use App\Models\Flight;
+use App\Models\Airport;
 use Illuminate\Support\Str;
 use Illuminate\Support\Collection;
+use Spatie\Activitylog\LogOptions;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -17,9 +22,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @property int $id
  * @property string|null $uuid
  * @property int $event_id
- * @property int|null $user_id
  * @property int $status
  * @property bool $is_editable
+ * @property int|null $user_id
  * @property string|null $callsign
  * @property string|null $acType
  * @property string|null $selcal
@@ -28,17 +33,17 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\Activitylog\Models\Activity[] $activities
  * @property-read int|null $activities_count
- * @property-read \App\Models\Airport|null $airportArr
- * @property-read \App\Models\Airport|null $airportDep
- * @property-read \App\Models\Event $event
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Flight[] $flights
+ * @property-read Airport|null $airportArr
+ * @property-read Airport|null $airportDep
+ * @property-read Event $event
+ * @property-read \Illuminate\Database\Eloquent\Collection|Flight[] $flights
  * @property-read int|null $flights_count
  * @property-read string $formatted_actype
  * @property-read string $formatted_callsign
  * @property-read string $formatted_selcal
  * @property-read bool $has_received_final_information_email
  * @property-write mixed $actype
- * @property-read \App\Models\User|null $user
+ * @property-read User|null $user
  * @method static \Database\Factories\BookingFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|Booking newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Booking newQuery()
@@ -75,9 +80,6 @@ class Booking extends Model
         'final_information_email_sent_at',
     ];
 
-    protected static $logAttributes = ['*'];
-    protected static $logOnlyDirty = true;
-
     /**
      *  Setup model event hooks
      */
@@ -87,6 +89,11 @@ class Booking extends Model
         self::creating(function ($model) {
             $model->uuid = (string)Str::uuid();
         });
+    }
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()->logOnlyDirty();
     }
 
     public function getRouteKeyName(): string

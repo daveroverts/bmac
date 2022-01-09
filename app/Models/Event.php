@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\EventLink;
+use Spatie\Activitylog\LogOptions;
 use Illuminate\Database\Eloquent\Model;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Spatie\Activitylog\Traits\LogsActivity;
@@ -22,8 +23,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  * @property string $slug
  * @property string|null $image_url
  * @property string $description
- * @property string $dep
- * @property string $arr
+ * @property string|null $dep
+ * @property string|null $arr
  * @property \Illuminate\Support\Carbon $startEvent
  * @property \Illuminate\Support\Carbon $endEvent
  * @property \Illuminate\Support\Carbon $startBooking
@@ -114,8 +115,10 @@ class Event extends Model
         'is_oceanic_event' => 'boolean',
     ];
 
-    protected static $logAttributes = ['*'];
-    protected static $logOnlyDirty = true;
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()->logOnlyDirty();
+    }
 
     public function bookings(): HasMany
     {

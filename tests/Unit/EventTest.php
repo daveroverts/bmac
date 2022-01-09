@@ -8,7 +8,6 @@ use Tests\TestCase;
 
 class EventTest extends TestCase
 {
-
     use RefreshDatabase;
 
     /**

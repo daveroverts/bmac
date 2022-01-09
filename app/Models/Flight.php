@@ -2,6 +2,9 @@
 
 namespace App\Models;
 
+use App\Models\Airport;
+use App\Models\Booking;
+use Spatie\Activitylog\LogOptions;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -26,9 +29,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\Activitylog\Models\Activity[] $activities
  * @property-read int|null $activities_count
- * @property-read \App\Models\Airport $airportArr
- * @property-read \App\Models\Airport $airportDep
- * @property-read \App\Models\Booking $booking
+ * @property-read Airport $airportArr
+ * @property-read Airport $airportDep
+ * @property-read Booking $booking
  * @property-read string $formatted_ctot
  * @property-read string $formatted_eta
  * @property-read string $formatted_notes
@@ -60,9 +63,6 @@ class Flight extends Model
 
     protected $guarded = ['id'];
 
-    protected static $logAttributes = ['*'];
-    protected static $logOnlyDirty = true;
-
     /**
      * The attributes that should be mutated to dates.
      *
@@ -76,6 +76,11 @@ class Flight extends Model
      * @var array
      */
     protected $touches = ['booking'];
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()->logOnlyDirty();
+    }
 
     public function getFormattedCtotAttribute(): string
     {

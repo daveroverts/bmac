@@ -42,8 +42,11 @@ class BookingConfirmed extends Notification implements ShouldQueue
     public function toMail($notifiable)
     {
         $booking = $this->booking;
+        $subject = $booking->event->name . ': ' . __('Booking confirmed');
 
-        return (new MailMessage)->markdown('emails.booking.confirmed', ['booking' => $booking]);
+        return (new MailMessage())
+            ->subject($subject)
+            ->markdown('emails.booking.confirmed', ['booking' => $booking]);
     }
 
     /**
