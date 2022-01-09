@@ -80,7 +80,7 @@ class AirportAdminController extends AdminController
             $file,
             "airportId,name,city,country,iata,icao,latitude,longitude,altitude,timezone,dst,tzDatabaseTimeZone,type,source\n" . file_get_contents('https://raw.githubusercontent.com/jpatokal/openflights/master/data/airports.dat')
         );
-        (new AirportsImport)->import($file);
+        (new AirportsImport())->import($file);
         Storage::delete($file);
         flashMessage('success', __('Done'), __('Airports have been added'));
         return redirect(route('admin.airports.index'));

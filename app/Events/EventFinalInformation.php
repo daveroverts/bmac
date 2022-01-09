@@ -13,7 +13,9 @@ use Illuminate\Queue\SerializesModels;
 
 class EventFinalInformation
 {
-    use Dispatchable, InteractsWithSockets, SerializesModels;
+    use Dispatchable;
+    use InteractsWithSockets;
+    use SerializesModels;
 
     /**
      * Create a new event instance.

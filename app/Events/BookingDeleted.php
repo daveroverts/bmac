@@ -14,7 +14,9 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
 class BookingDeleted
 {
-    use Dispatchable, InteractsWithSockets, SerializesModels;
+    use Dispatchable;
+    use InteractsWithSockets;
+    use SerializesModels;
 
     public function __construct(public Event $event, public User $user)
     {

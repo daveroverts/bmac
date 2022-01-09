@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Models\Booking;
+use Spatie\Activitylog\LogOptions;
 use Illuminate\Notifications\Notifiable;
 use App\Http\Controllers\OAuthController;
 use League\OAuth2\Client\Token\AccessToken;
@@ -28,7 +30,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\Activitylog\Models\Activity[] $activities
  * @property-read int|null $activities_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Booking[] $bookings
+ * @property-read \Illuminate\Database\Eloquent\Collection|Booking[] $bookings
  * @property-read int|null $bookings_count
  * @property-read string $full_name
  * @property-read string $pic
@@ -60,9 +62,6 @@ class User extends Authenticatable
     use LogsActivity;
     use Notifiable;
 
-    protected static $logAttributes = ['*'];
-    protected static $logOnlyDirty = true;
-
     protected $guarded = [
         'id', 'isAdmin'
     ];
@@ -83,6 +82,11 @@ class User extends Authenticatable
         'isAdmin' => 'boolean',
         'use_monospace_font' => 'boolean',
     ];
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()->logOnlyDirty();
+    }
 
     public function bookings(): HasMany
     {

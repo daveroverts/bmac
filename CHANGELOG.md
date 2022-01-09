@@ -1,11 +1,16 @@
-# Changelog
+# [2.3.0](https://github.com/daveroverts/bmac/compare/v2.2.7...v2.3.0) (2021-12-28)
 
-All notable changes to this project will be documented in this file.
 
-The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
-and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+### Features
 
-## [Unreleased]
+* Add commitizen with cz-commitlint adapter ([476f56a](https://github.com/daveroverts/bmac/commit/476f56ad4e24285adaf1c9531d7e8a64eecbb216))
+* Add semantic-release ([856d3b0](https://github.com/daveroverts/bmac/commit/856d3b05e2e6f64dcf20e80c848933fb34f8ba68))
+
+## [v2.2.7](https://github.com/daveroverts/bmac/compare/v2.2.6...v2.2.7) - 2021-12-25
+
+### Added
+- Added PHP 8.1 support
+- All e-mails now include the event name as part of subject.
 
 ## [v2.2.6](https://github.com/daveroverts/bmac/compare/v2.2.5...v2.2.6) - 2021-12-13
 

@@ -14,7 +14,6 @@ use App\Http\Requests\AirportLink\Admin\UpdateAirportLink;
 
 class AirportLinkAdminController extends AdminController
 {
-
     public function __construct()
     {
         $this->authorizeResource(AirportLinkPolicy::class, 'airportLink');
@@ -35,7 +34,8 @@ class AirportLinkAdminController extends AdminController
         $airports = Airport::all(['id', 'icao', 'iata', 'name'])->keyBy('id')
             ->map(function ($airport) {
                 /** @var Airport $airport */
-                return "$airport->icao | $airport->name | $airport->iata";;
+                return "$airport->icao | $airport->name | $airport->iata";
+                ;
             });
         return view('airportLink.admin.form', compact('airportLink', 'airportLinkTypes', 'airports'));
     }

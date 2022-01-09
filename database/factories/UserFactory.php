@@ -23,7 +23,7 @@ class UserFactory extends Factory
     public function definition()
     {
         return [
-            'id' => $this->faker->numberBetween(860000, 1999999),
+            'id' => $this->faker->unique()->numberBetween(860000, 1999999),
             'name_first' => $this->faker->firstName,
             'name_last' => $this->faker->lastName,
             'email' => $this->faker->unique()->safeEmail,

@@ -14,7 +14,9 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
 class BookingCancelled
 {
-    use Dispatchable, InteractsWithSockets, SerializesModels;
+    use Dispatchable;
+    use InteractsWithSockets;
+    use SerializesModels;
 
     public function __construct(public Booking $booking, public User $user)
     {
