@@ -100,6 +100,30 @@
                         </x-form-group>
                     @endif
 
+                    @foreach ($flight->airportDep->links as $link)
+                        <x-form-group :label="$link->name ?: $link->type->name . ' ' . $link->airport->icao">
+                            <strong>
+                                <a href="{{ $link->url }}" rel="noreferrer noopener" target="_blank">Link</a>
+                            </strong>
+                        </x-form-group>
+                    @endforeach
+
+                    @foreach ($booking->event->links as $link)
+                        <x-form-group :label="$link->name ?: $link->type->name">
+                            <strong>
+                                <a href="{{ $link->url }}" rel="noreferrer noopener" target="_blank">Link</a>
+                            </strong>
+                        </x-form-group>
+                    @endforeach
+
+                    @foreach ($flight->airportArr->links as $link)
+                        <x-form-group :label="$link->name ?: $link->type->name . ' ' . $link->airport->icao">
+                            <strong>
+                                <a href="{{ $link->url }}" rel="noreferrer noopener" target="_blank">Link</a>
+                            </strong>
+                        </x-form-group>
+                    @endforeach
+
                     <x-form-group inline>
                         @if ($booking->is_editable)
                             <a href="{{ route('bookings.edit', $booking) }}" class="btn btn-primary">
