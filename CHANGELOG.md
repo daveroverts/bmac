@@ -1,3 +1,10 @@
+## [2.6.2](https://github.com/daveroverts/bmac/compare/v2.6.1...v2.6.2) (2022-01-11)
+
+
+### Bug Fixes
+
+* re-add event / airport links to booking views ([96c639a](https://github.com/daveroverts/bmac/commit/96c639aefd56f916ef481ee7c4da1ba8704837c9))
+
 ## [2.6.1](https://github.com/daveroverts/bmac/compare/v2.6.0...v2.6.1) (2022-01-06)
 
 
