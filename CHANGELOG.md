@@ -1,3 +1,11 @@
+## [2.6.3](https://github.com/daveroverts/bmac/compare/v2.6.2...v2.6.3) (2022-01-12)
+
+
+### Bug Fixes
+
+* Remove active class from logout ([9e11108](https://github.com/daveroverts/bmac/commit/9e11108fea912af15cc036b73df5ad886e58434d)), closes [#409](https://github.com/daveroverts/bmac/issues/409)
+* Remove events divider if there's no event ([7f7f0db](https://github.com/daveroverts/bmac/commit/7f7f0db64fd75193d60d8a56ae771473e820be78)), closes [#410](https://github.com/daveroverts/bmac/issues/410)
+
 ## [2.6.2](https://github.com/daveroverts/bmac/compare/v2.6.1...v2.6.2) (2022-01-11)
 
 
