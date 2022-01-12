@@ -1,6 +1,11 @@
 {
     "name": "bmac",
     "private": true,
+    "version": "2.6.2",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/daveroverts/bmac.git"
+    },
     "author": {
         "name": "Dave Roverts",
         "email": "me@daveroverts.nl",
@@ -49,11 +54,6 @@
         "bootswatch": "^4.6.1",
         "flatpickr": "^4.6.9",
         "sweetalert2": "^11.1.9"
-    },
-    "version": "2.6.2",
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/daveroverts/bmac.git"
     },
     "release": {
         "branches": [
