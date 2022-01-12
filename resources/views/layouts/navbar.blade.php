@@ -25,7 +25,7 @@
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <a class="dropdown-item" href="{{ url('/') }}">{{ __('Overview') }}</a>
 
-                        @if ($navbarEvents)
+                        @if ($navbarEvents->isNotEmpty())
                             <div class="dropdown-divider"></div>
                             @foreach ($navbarEvents as $event)
                                 <a class="dropdown-item {{ request()->fullUrlIs(route('bookings.event.index', $event)) ? 'active' : '' }}"
