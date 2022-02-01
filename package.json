@@ -50,7 +50,7 @@
         "tinymce": "^5.10.2"
     },
     "dependencies": {
-        "alpinejs": "^3.7.1",
+        "alpinejs": "^3.8.1",
         "bootswatch": "^4.6.1",
         "flatpickr": "^4.6.9",
         "sweetalert2": "^11.1.9"
