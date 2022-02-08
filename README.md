@@ -141,7 +141,19 @@ and before that I used [Laravel Homestead](https://laravel.com/docs/8.x/homestea
 
 6. Open the database, and make yourself admin by setting `isAdmin` to `1`.
 
-7. (Optional) If you want to include all airports in the database,
+7. Setup Task schedule. You need to add a cronjob to run
+   `php artisan schedule:run` every minute. Example can be found below:
+
+    ```bash
+      * * * * * cd /bmac && php artisan schedule:run >> /dev/null 2>&1
+    ```
+
+    For local development,
+    you can run `php artisan schedule:work` in a separate terminal.
+
+    More info can be found here: <https://laravel.com/docs/8.x/scheduling#running-the-scheduler>
+
+8. (Optional) If you want to include all airports in the database,
 run the following command:
 
    ```bash
@@ -163,16 +175,3 @@ Check Laravel documentation on how to set one up using Supervisor <https://larav
 
 When you're using `redis` as `QUEUE_CONNECTION`, [Laravel Horizon](https://laravel.com/docs/8.x/horizon)
 is already installed and can be used to start a queue worker.
-
-## Task scheduler
-
-You need to add a cron entry to run `php artisan schedule:run` every minute.
-Example can be found below:
-
-```bash
-* * * * * cd /bmac && php artisan schedule:run >> /dev/null 2>&1
-```
-
-For local development, you can run `php artisan schedule:work` in a separate terminal.
-
-More info can be found here: <https://laravel.com/docs/8.x/scheduling#running-the-scheduler>
