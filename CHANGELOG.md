@@ -1,3 +1,10 @@
+## [2.6.4](https://github.com/daveroverts/bmac/compare/v2.6.3...v2.6.4) (2022-02-12)
+
+
+### Bug Fixes
+
+* upgrade to laravel 9 ([f582f33](https://github.com/daveroverts/bmac/commit/f582f337eeb903a0827a467f93bf29924c6962e0))
+
 ## [2.6.3](https://github.com/daveroverts/bmac/compare/v2.6.2...v2.6.3) (2022-01-12)
 
 
