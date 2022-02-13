@@ -1,3 +1,11 @@
+## [2.6.5](https://github.com/daveroverts/bmac/compare/v2.6.4...v2.6.5) (2022-02-13)
+
+
+### Bug Fixes
+
+* fix first login not logging in ([d0eda66](https://github.com/daveroverts/bmac/commit/d0eda6606e635664a535e01bf47f42724db64561)), closes [#408](https://github.com/daveroverts/bmac/issues/408)
+* **Helper.php:** fix for redeclare messages ([85711c8](https://github.com/daveroverts/bmac/commit/85711c810d58f081b363bb0a3c1db5f093aabeb9))
+
 ## [2.6.4](https://github.com/daveroverts/bmac/compare/v2.6.3...v2.6.4) (2022-02-12)
 
 
