@@ -58,7 +58,7 @@ class LoginController extends Controller
             return redirect()->away($authorizationUrl);
         } elseif ($request->input('state') !== session()->pull('oauthstate')) { // State mismatch, error
             flashMessage('error', 'Login failed', 'Something went wrong, please try again');
-            return redirect('/')->withError("Something went wrong, please try again.");
+            return redirect(route('home'));
         } else { // Callback (user has just logged in Connect)
             return $this->verifyLogin($request);
         }
@@ -72,7 +72,7 @@ class LoginController extends Controller
             ]);
         } catch (IdentityProviderException $e) {
             flashMessage('error', 'Login failed', 'Something went wrong, please try again');
-            return redirect('/')->withError("Something went wrong, please try again later.");
+            return redirect(route('home'));
         }
         $resourceOwner = json_decode(json_encode($this->provider->getResourceOwner($accessToken)->toArray()));
 
@@ -91,36 +91,40 @@ class LoginController extends Controller
             !$data['email']
         ) {
             flashMessage('error', 'Login failed', 'We need you to grant us all marked permissions');
-            return redirect('/')->withError("We need you to grant us all marked permissions");
+            return redirect(route('home'));
         }
 
         $this->completeLogin($data, $accessToken);
+
         if (session('booking')) {
             $booking = Booking::whereUuid(session('booking'))->first();
             session()->forget('booking');
             if (!empty($booking)) {
                 if ($booking->status !== BookingStatus::BOOKED) {
-                    return redirect()->intended(route('bookings.edit', $booking))->withSuccess('Login Successful');
+                    return redirect(route('bookings.edit', $booking));
                 }
-                return redirect()->intended(route('bookings.show', $booking))->withSuccess('Login Successful');
+                return redirect(route('bookings.show', $booking));
             }
         } elseif (session('event')) {
             $event = Event::whereSlug(session('event'))->first();
             session()->forget('event');
             if (!empty($event)) {
-                return redirect()->intended(route('events.show', $event))->withSuccess('Login Successful');
+                return redirect(route('events.show', $event));
             }
         }
-        return redirect()->intended('/')->withSuccess('Login Successful');
+        return redirect(route('home'));
     }
 
-    protected function completeLogin($data, $token)
+    protected function completeLogin($data, $token): User
     {
-        $account = User::firstOrNew(['id' => $data['cid']]);
-        $account->id = $data['cid'];
-        $account->name_first = $data['first_name'];
-        $account->name_last = $data['last_name'];
-        $account->email = $data['email'];
+        $account = User::updateOrCreate(
+            ['id' => $data['cid']],
+            [
+                'name_first' => $data['first_name'],
+                'name_last' => $data['last_name'],
+                'email' => $data['email'],
+            ]
+        );
 
         if ($token->getToken() !== null) {
             $account->access_token = $token->getToken();
@@ -133,15 +137,16 @@ class LoginController extends Controller
         }
 
         $account->save();
-        auth()->login($account, true);
-        activity()->causedBy(auth()->user())->log('Login');
+        auth()->loginUsingId($data['cid'], true);
+        activity()->log('Login');
+
         return $account;
     }
 
     public function logout()
     {
-        activity()->causedBy(auth()->id())->log('Logout');
+        activity()->log('Logout');
         auth()->logout();
-        return redirect('/');
+        return redirect(route('home'));
     }
 }

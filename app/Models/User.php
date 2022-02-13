@@ -63,7 +63,7 @@ class User extends Authenticatable
     use Notifiable;
 
     protected $guarded = [
-        'id', 'isAdmin'
+        'isAdmin'
     ];
     /**
      * The attributes that should be hidden for arrays.
