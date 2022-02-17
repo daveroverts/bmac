@@ -50,7 +50,7 @@ class EventLinkAdminController extends AdminController
             __('Done'),
             __(':Type item has been added for :event', ['Type' => $eventLink->type->name, 'event' => $eventLink->event->name])
         );
-        return redirect(route('admin.eventLinks.index'));
+        return to_route('admin.eventLinks.index');
     }
 
     public function edit(EventLink $eventLink): View
@@ -63,7 +63,7 @@ class EventLinkAdminController extends AdminController
     {
         $eventLink->update($request->validated());
         flashMessage('success', __('Done'), __('Link has been updated'));
-        return redirect(route('admin.eventLinks.index'));
+        return to_route('admin.eventLinks.index');
     }
 
     public function destroy(EventLink $eventLink): RedirectResponse

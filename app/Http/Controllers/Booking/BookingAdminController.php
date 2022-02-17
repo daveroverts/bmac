@@ -39,8 +39,7 @@ class BookingAdminController extends AdminController
         $airports = Airport::all(['id', 'icao', 'iata', 'name'])->keyBy('id')
             ->map(function ($airport) {
                 /** @var Airport $airport */
-                return "$airport->icao | $airport->name | $airport->iata";
-                ;
+                return "$airport->icao | $airport->name | $airport->iata";;
             });
 
         return view('booking.admin.create', compact('event', 'airports', 'bulk'));
@@ -117,7 +116,7 @@ class BookingAdminController extends AdminController
             $booking->flights()->create($flightAttributes);
             flashMessage('success', __('Done'), __('Slot created'));
         }
-        return redirect(route('bookings.event.index', $event));
+        return to_route('bookings.event.index', $event);
     }
 
     public function show(Booking $booking): View
@@ -131,8 +130,7 @@ class BookingAdminController extends AdminController
             $airports = Airport::all(['id', 'icao', 'iata', 'name'])->keyBy('id')
                 ->map(function ($airport) {
                     /** @var Airport $airport */
-                    return "$airport->icao | $airport->name | $airport->iata";
-                    ;
+                    return "$airport->icao | $airport->name | $airport->iata";;
                 });
             $flight = $booking->flights()->first();
             return view('booking.admin.edit', compact('booking', 'airports', 'flight'));
@@ -206,7 +204,7 @@ class BookingAdminController extends AdminController
             event(new BookingChanged($booking, $changes));
         }
         flashMessage('success', 'Booking changed', __('Booking has been changed!'));
-        return redirect(route('bookings.event.index', $booking->event));
+        return to_route('bookings.event.index', $booking->event);
     }
 
     public function destroy(Booking $booking): RedirectResponse
@@ -217,7 +215,7 @@ class BookingAdminController extends AdminController
             }
             $booking->delete();
             flashMessage('success', 'Booking deleted!', __('Booking has been deleted.'));
-            return redirect(route('bookings.event.index', $booking->event));
+            return to_route('bookings.event.index', $booking->event);
         }
         flashMessage('danger', __('Danger'), __('Booking can no longer be deleted'));
         return back();
@@ -248,7 +246,7 @@ class BookingAdminController extends AdminController
         (new BookingsImport($event))->import($file);
         Storage::delete($file->getRealPath());
         flashMessage('success', __('Flights imported'), __('Flights have been imported'));
-        return redirect(route('bookings.event.index', $event));
+        return to_route('bookings.event.index', $event);
     }
 
     public function adminAutoAssignForm(Event $event): View
@@ -311,7 +309,7 @@ class BookingAdminController extends AdminController
                 ]
             )
             ->log('Flights auto-assigned');
-        return redirect(route('admin.events.index'));
+        return to_route('admin.events.index');
     }
 
     public function routeAssignForm(Event $event): View
@@ -330,6 +328,6 @@ class BookingAdminController extends AdminController
         (new FlightRouteAssign())->import($file);
         Storage::delete($file);
         flashMessage('success', __('Routes assigned'), __('Routes have been assigned to flights'));
-        return redirect(route('bookings.event.index', $event));
+        return to_route('bookings.event.index', $event);
     }
 }

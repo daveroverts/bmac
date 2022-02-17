@@ -73,7 +73,7 @@ class EventAdminController extends AdminController
         ])->save();
 
         flashMessage('success', __('Done'), __('Event has been created!'));
-        return redirect(route('admin.events.index'));
+        return to_route('admin.events.index');
     }
 
     public function show(Event $event): View
@@ -115,7 +115,7 @@ class EventAdminController extends AdminController
             'endBooking' => $request->date('endBooking'),
         ])->save();
         flashMessage('success', __('Done'), __('Event has been updated!'));
-        return redirect(route('admin.events.index'));
+        return to_route('admin.events.index');
     }
 
     public function destroy(Event $event): RedirectResponse
@@ -148,7 +148,7 @@ class EventAdminController extends AdminController
             })->get();
             event(new EventBulkEmail($event, $request->all(), $users));
             flashMessage('success', __('Done'), __('Bulk E-mail has been sent to :count people!', ['count' => $users->count()]));
-            return redirect(route('admin.events.index'));
+            return to_route('admin.events.index');
         }
     }
 
@@ -186,7 +186,7 @@ class EventAdminController extends AdminController
                 ->log('Final Information E-mail');
         }
 
-        return redirect(route('admin.events.index'));
+        return to_route('admin.events.index');
     }
 
     public function deleteAllBookings(Request $request, Event $event): RedirectResponse
@@ -203,6 +203,6 @@ class EventAdminController extends AdminController
 
         $event->bookings()->delete();
         flashMessage('success', __('Bookings deleted'), __('All bookings have been deleted'));
-        return redirect(route('admin.events.index'));
+        return to_route('admin.events.index');
     }
 }

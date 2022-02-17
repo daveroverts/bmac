@@ -58,7 +58,7 @@ class LoginController extends Controller
             return redirect()->away($authorizationUrl);
         } elseif ($request->input('state') !== session()->pull('oauthstate')) { // State mismatch, error
             flashMessage('error', 'Login failed', 'Something went wrong, please try again');
-            return redirect(route('home'));
+            return to_route('home');
         } else { // Callback (user has just logged in Connect)
             return $this->verifyLogin($request);
         }
@@ -72,7 +72,7 @@ class LoginController extends Controller
             ]);
         } catch (IdentityProviderException $e) {
             flashMessage('error', 'Login failed', 'Something went wrong, please try again');
-            return redirect(route('home'));
+            return to_route('home');
         }
         $resourceOwner = json_decode(json_encode($this->provider->getResourceOwner($accessToken)->toArray()));
 
@@ -91,7 +91,7 @@ class LoginController extends Controller
             !$data['email']
         ) {
             flashMessage('error', 'Login failed', 'We need you to grant us all marked permissions');
-            return redirect(route('home'));
+            return to_route('home');
         }
 
         $this->completeLogin($data, $accessToken);
@@ -101,18 +101,18 @@ class LoginController extends Controller
             session()->forget('booking');
             if (!empty($booking)) {
                 if ($booking->status !== BookingStatus::BOOKED) {
-                    return redirect(route('bookings.edit', $booking));
+                    return to_route('bookings.edit', $booking);
                 }
-                return redirect(route('bookings.show', $booking));
+                return to_route('bookings.show', $booking);
             }
         } elseif (session('event')) {
             $event = Event::whereSlug(session('event'))->first();
             session()->forget('event');
             if (!empty($event)) {
-                return redirect(route('events.show', $event));
+                return to_route('events.show', $event);
             }
         }
-        return redirect(route('home'));
+        return to_route('home');
     }
 
     protected function completeLogin($data, $token): User
@@ -147,6 +147,6 @@ class LoginController extends Controller
     {
         activity()->log('Logout');
         auth()->logout();
-        return redirect(route('home'));
+        return to_route('home');
     }
 }

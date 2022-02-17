@@ -34,7 +34,7 @@ class AirportAdminController extends AdminController
     {
         $airport = Airport::create($request->validated());
         flashMessage('success', __('Done'), __(':airport has been added!', ['airport' => "$airport->name [$airport->icao | $airport->iata]"]));
-        return redirect(route('admin.airports.index'));
+        return to_route('admin.airports.index');
     }
 
     public function show(Airport $airport): View
@@ -52,7 +52,7 @@ class AirportAdminController extends AdminController
         $airport->update($request->validated());
         flashMessage('success', __('Done'), __(':airport has been updated!', ['airport' => "$airport->name [$airport->icao | $airport->iata]"]));
 
-        return redirect(route('admin.airports.index'));
+        return to_route('admin.airports.index');
     }
 
     public function destroy(Airport $airport): RedirectResponse
@@ -83,6 +83,6 @@ class AirportAdminController extends AdminController
 
         flashMessage('success', __('Done'), __('Unused airport have been deleted!'));
 
-        return redirect(route('admin.airports.index'));
+        return to_route('admin.airports.index');
     }
 }

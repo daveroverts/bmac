@@ -35,7 +35,6 @@ class AirportLinkAdminController extends AdminController
             ->map(function ($airport) {
                 /** @var Airport $airport */
                 return "$airport->icao | $airport->name | $airport->iata";
-                ;
             });
         return view('airportLink.admin.form', compact('airportLink', 'airportLinkTypes', 'airports'));
     }
@@ -48,7 +47,7 @@ class AirportLinkAdminController extends AdminController
             __('Done'),
             __(':Type item has been added for :airport', ['Type' => $airportLink->type->name, 'airport' => "{$airportLink->airport->name} [{$airportLink->airport->icao} | {$airportLink->airport->iata}]"])
         );
-        return redirect(route('admin.airports.index'));
+        return to_route('admin.airports.index');
     }
 
     public function edit(AirportLink $airportLink): View
@@ -62,7 +61,7 @@ class AirportLinkAdminController extends AdminController
     {
         $airportLink->update($request->validated());
         flashMessage('success', __('Done'), __('Airport Link has been updated'));
-        return redirect(route('admin.airportLinks.index'));
+        return to_route('admin.airportLinks.index');
     }
 
     public function destroy(AirportLink $airportLink): RedirectResponse
