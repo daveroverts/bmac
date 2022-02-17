@@ -12,6 +12,7 @@ use App\Http\Controllers\Airport\AirportAdminController;
 use App\Http\Controllers\Booking\BookingAdminController;
 use App\Http\Controllers\AirportLink\AirportLinkAdminController;
 use App\Http\Controllers\EventLink\EventLinkAdminController;
+use App\Http\Requests\Request;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,8 +30,14 @@ Route::get('/', HomeController::class)->name('home');
 Route::get('/login', [LoginController::class, 'login'])->name('login');
 Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 
+Route::get('admin/login', function () {
+    // Just redirect to login, we don't work with passwords
+    return to_route('login');
+})->name('filament.auth.login');
+
 // Admin routes
 Route::group(['as' => 'admin.', 'prefix' => 'admin', 'middleware' => 'auth.isAdmin'], function () {
+
     // Airports
     Route::post('airports/destroy-unused', [AirportAdminController::class, 'destroyUnused'])->name('airports.destroyUnused');
     Route::resource('airports', AirportAdminController::class);

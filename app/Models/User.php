@@ -6,6 +6,8 @@ use App\Models\Booking;
 use Spatie\Activitylog\LogOptions;
 use Illuminate\Notifications\Notifiable;
 use App\Http\Controllers\OAuthController;
+use Filament\Models\Contracts\FilamentUser;
+use Filament\Models\Contracts\HasName;
 use League\OAuth2\Client\Token\AccessToken;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -56,7 +58,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  * @method static \Illuminate\Database\Eloquent\Builder|User whereUseMonospaceFont($value)
  * @mixin \Eloquent
  */
-class User extends Authenticatable
+class User extends Authenticatable implements FilamentUser, HasName
 {
     use HasFactory;
     use LogsActivity;
@@ -82,6 +84,16 @@ class User extends Authenticatable
         'isAdmin' => 'boolean',
         'use_monospace_font' => 'boolean',
     ];
+
+    public function canAccessFilament(): bool
+    {
+        return $this->isAdmin;
+    }
+
+    public function getFilamentName(): string
+    {
+        return $this->full_name;
+    }
 
     public function getActivitylogOptions(): LogOptions
     {

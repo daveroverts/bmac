@@ -15,6 +15,7 @@
         "bugsnag/bugsnag-laravel": "^2.22",
         "cviebrock/eloquent-sluggable": "^9.0",
         "doctrine/dbal": "^3.3",
+        "filament/filament": "^2.0",
         "fruitcake/laravel-cors": "^2.0",
         "laravel/framework": "^9.0",
         "laravel/horizon": "^5.8",
@@ -77,7 +78,8 @@
             "php artisan ide-helper:generate",
             "php artisan ide-helper:meta",
             "@php artisan telescope:publish --ansi",
-            "@php artisan horizon:publish --ansi"
+            "@php artisan horizon:publish --ansi",
+            "@php artisan filament:upgrade"
         ]
     },
     "config": {
