@@ -3,6 +3,9 @@ on:
   push:
     branches:
       - main
+      - next
+      - next-major
+      - "*.x"
 jobs:
   release:
     name: Release
