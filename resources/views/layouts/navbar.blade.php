@@ -72,8 +72,6 @@
                                 <a class="dropdown-item {{ request()->routeIs('admin.eventLinks*') ? 'active' : '' }}"
                                     href="{{ route('admin.eventLinks.index') }}">{{ __('Event Links') }}</a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item {{ request()->routeIs('admin.airports*') ? 'active' : '' }}"
-                                    href="{{ route('admin.airports.index') }}">{{ __('Airports') }}</a>
                                 <a class="dropdown-item {{ request()->routeIs('admin.airportLinks*') ? 'active' : '' }}"
                                     href="{{ route('admin.airportLinks.index') }}">{{ __('Airport Links') }}</a>
                                 <div class="dropdown-divider"></div>

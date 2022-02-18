@@ -38,10 +38,6 @@ Route::get('admin/login', function () {
 // Admin routes
 Route::group(['as' => 'admin.', 'prefix' => 'admin', 'middleware' => 'auth.isAdmin'], function () {
 
-    // Airports
-    Route::post('airports/destroy-unused', [AirportAdminController::class, 'destroyUnused'])->name('airports.destroyUnused');
-    Route::resource('airports', AirportAdminController::class);
-
     // AirportLinks
     Route::resource('airportLinks', AirportLinkAdminController::class)->except(['show']);
 
