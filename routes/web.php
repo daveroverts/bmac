@@ -37,10 +37,6 @@ Route::get('admin/login', function () {
 
 // Admin routes
 Route::group(['as' => 'admin.', 'prefix' => 'admin', 'middleware' => 'auth.isAdmin'], function () {
-
-    // AirportLinks
-    Route::resource('airportLinks', AirportLinkAdminController::class)->except(['show']);
-
     // EventLinks
     Route::resource('eventLinks', EventLinkAdminController::class)->except(['show']);
 
