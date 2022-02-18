@@ -67,11 +67,6 @@
                                 {{ __('Admin') }}
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item {{ request()->routeIs('admin.events*') ? 'active' : '' }}"
-                                    href="{{ route('admin.events.index') }}">{{ __('Events') }}</a>
-                                <a class="dropdown-item {{ request()->routeIs('admin.eventLinks*') ? 'active' : '' }}"
-                                    href="{{ route('admin.eventLinks.index') }}">{{ __('Event Links') }}</a>
-                                <div class="dropdown-divider"></div>
                                 <a class="dropdown-item {{ request()->routeIs('admin.faq*') ? 'active' : '' }}"
                                     href="{{ route('admin.faq.index') }}">{{ __('FAQ') }}</a>
                             </div>
