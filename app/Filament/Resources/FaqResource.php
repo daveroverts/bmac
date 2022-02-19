@@ -40,7 +40,7 @@ class FaqResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('question'),
                 Tables\Columns\BooleanColumn::make('is_online')->label('Show online?'),
-                Tables\Columns\BooleanColumn::make('events_count')->label('Linked?')->counts('events'),
+                Tables\Columns\BooleanColumn::make('events_count')->label('Linked to event(s)?')->counts('events'),
             ])
             ->filters([
                 //

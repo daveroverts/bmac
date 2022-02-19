@@ -10,6 +10,7 @@ use Filament\Resources\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
 use Filament\Tables;
+use Illuminate\Database\Eloquent\Model;
 
 class AirportResource extends Resource
 {
@@ -17,11 +18,19 @@ class AirportResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-paper-airplane';
 
-    public static ?string $recordTitleAttribute = 'full_name_admin';
+    public static ?string $recordTitleAttribute = 'name';
 
     public static function getGloballySearchableAttributes(): array
     {
         return ['icao', 'iata', 'name'];
+    }
+
+    public static function getGlobalSearchResultDetails(Model $record): array
+    {
+        return [
+            'ICAO' => $record->icao,
+            'IATA' => $record->iata,
+        ];
     }
 
     public static function form(Form $form): Form

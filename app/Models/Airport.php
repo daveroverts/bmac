@@ -103,11 +103,6 @@ class Airport extends Model
         $this->attributes['iata'] = strtoupper($value);
     }
 
-    public function getFullNameAdminAttribute(): string
-    {
-        return "{$this->name} [{$this->icao} | {$this->iata}]";
-    }
-
     public function getFullNameAttribute(): string
     {
         if (!$this->id) {

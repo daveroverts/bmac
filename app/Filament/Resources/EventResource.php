@@ -13,7 +13,8 @@ use Filament\Resources\Resource;
 use Filament\Resources\Table;
 use Filament\Tables;
 use Filament\Tables\Filters\Filter;
-use Illuminate\Contracts\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 
 class EventResource extends Resource
 {
@@ -21,7 +22,26 @@ class EventResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-collection';
 
-    public static ?string $recordTitleAttribute = 'name';
+    protected static ?string $recordTitleAttribute = 'name';
+
+    public static function getGlobalSearchResultDetails(Model $record): array
+    {
+        return [
+            'Type' => $record->type->name,
+        ];
+    }
+
+    protected static function getGlobalSearchEloquentQuery(): Builder
+    {
+        return parent::getGlobalSearchEloquentQuery()
+            ->orderBy('startEvent')
+            ->with(['type']);
+    }
+
+    public static function getGlobalSearchResultTitle(Model $record): string
+    {
+        return "{$record->name} [{$record->startEvent->format('M j, Y')}]";
+    }
 
     public static function form(Form $form): Form
     {
