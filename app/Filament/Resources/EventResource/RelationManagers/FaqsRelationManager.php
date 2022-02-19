@@ -1,21 +1,18 @@
 <?php
 
-namespace App\Filament\Resources;
+namespace App\Filament\Resources\EventResource\RelationManagers;
 
-use App\Filament\Resources\FaqResource\Pages;
-use App\Filament\Resources\FaqResource\RelationManagers;
-use App\Models\Faq;
 use Filament\Forms;
 use Filament\Resources\Form;
-use Filament\Resources\Resource;
+use Filament\Resources\RelationManagers\BelongsToManyRelationManager;
 use Filament\Resources\Table;
 use Filament\Tables;
 
-class FaqResource extends Resource
+class FaqsRelationManager extends BelongsToManyRelationManager
 {
-    protected static ?string $model = Faq::class;
+    protected static string $relationship = 'faqs';
 
-    protected static ?string $navigationIcon = 'heroicon-o-question-mark-circle';
+    protected static ?string $recordTitleAttribute = 'id';
 
     public static function form(Form $form): Form
     {
@@ -40,26 +37,9 @@ class FaqResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('question'),
                 Tables\Columns\BooleanColumn::make('is_online')->label('Show online?'),
-                Tables\Columns\BooleanColumn::make('events_count')->label('Linked?')->counts('events'),
             ])
             ->filters([
                 //
             ]);
-    }
-
-    public static function getRelations(): array
-    {
-        return [
-            RelationManagers\EventsRelationManager::class,
-        ];
-    }
-
-    public static function getPages(): array
-    {
-        return [
-            'index' => Pages\ListFaqs::route('/'),
-            'create' => Pages\CreateFaq::route('/create'),
-            'edit' => Pages\EditFaq::route('/{record}/edit'),
-        ];
     }
 }

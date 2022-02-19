@@ -5,14 +5,9 @@ use App\Http\Controllers\Faq\FaqController;
 use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Event\EventController;
-use App\Http\Controllers\Faq\FaqAdminController;
 use App\Http\Controllers\Booking\BookingController;
 use App\Http\Controllers\Event\EventAdminController;
-use App\Http\Controllers\Airport\AirportAdminController;
 use App\Http\Controllers\Booking\BookingAdminController;
-use App\Http\Controllers\AirportLink\AirportLinkAdminController;
-use App\Http\Controllers\EventLink\EventLinkAdminController;
-use App\Http\Requests\Request;
 
 /*
 |--------------------------------------------------------------------------
@@ -37,12 +32,6 @@ Route::get('admin/login', function () {
 
 // Admin routes
 Route::group(['as' => 'admin.', 'prefix' => 'admin', 'middleware' => 'auth.isAdmin'], function () {
-    // EventLinks
-    Route::resource('eventLinks', EventLinkAdminController::class)->except(['show']);
-
-    // Faq
-    Route::resource('faq', FaqAdminController::class)->except('show');
-    Route::patch('faq/{faq}/toggle-event/{event}', [FaqAdminController::class, 'toggleEvent'])->name('faq.toggleEvent');
 
     // Event
     Route::delete('events/{event}/delete-bookings', [EventAdminController::class, 'deleteAllBookings'])->name('events.delete-bookings');

@@ -1,27 +1,20 @@
 <?php
 
-namespace App\Filament\Resources;
+namespace App\Filament\Resources\FaqResource\RelationManagers;
 
-use App\Filament\Resources\EventResource\Pages;
-use App\Filament\Resources\EventResource\RelationManagers;
-use App\Models\Airport;
-use App\Models\Event;
-use App\Models\EventType;
 use Filament\Forms;
-use Filament\Resources\Form;
-use Filament\Resources\Resource;
-use Filament\Resources\Table;
 use Filament\Tables;
-use Filament\Tables\Filters\Filter;
-use Illuminate\Contracts\Database\Eloquent\Builder;
+use App\Models\Airport;
+use App\Models\EventType;
+use Filament\Resources\Form;
+use Filament\Resources\Table;
+use Filament\Resources\RelationManagers\BelongsToManyRelationManager;
 
-class EventResource extends Resource
+class EventsRelationManager extends BelongsToManyRelationManager
 {
-    protected static ?string $model = Event::class;
+    protected static string $relationship = 'events';
 
-    protected static ?string $navigationIcon = 'heroicon-o-collection';
-
-    public static ?string $recordTitleAttribute = 'name';
+    protected static ?string $recordTitleAttribute = 'id';
 
     public static function form(Form $form): Form
     {
@@ -118,31 +111,10 @@ class EventResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name'),
-                Tables\Columns\TextColumn::make('type.name'),
-                Tables\Columns\TextColumn::make('startEvent')
-                    ->dateTime('M j, Y H:i')->sortable(),
-            ])->defaultSort('startEvent')
+                Tables\Columns\TextColumn::make('nameDate')->label('Name')
+            ])
             ->filters([
-                Filter::make('active')->query(fn (Builder $query): Builder => $query->where('endEvent', '>', now()))->default(),
-                Filter::make('expired')->query(fn (Builder $query): Builder => $query->where('endEvent', '<', now())),
+                //
             ]);
-    }
-
-    public static function getRelations(): array
-    {
-        return [
-            RelationManagers\LinksRelationManager::class,
-            RelationManagers\FaqsRelationManager::class,
-        ];
-    }
-
-    public static function getPages(): array
-    {
-        return [
-            'index' => Pages\ListEvents::route('/'),
-            'create' => Pages\CreateEvent::route('/create'),
-            'edit' => Pages\EditEvent::route('/{record}/edit'),
-        ];
     }
 }

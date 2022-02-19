@@ -6,6 +6,7 @@ use App\Models\EventLink;
 use Spatie\Activitylog\LogOptions;
 use Illuminate\Database\Eloquent\Model;
 use Cviebrock\EloquentSluggable\Sluggable;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -170,5 +171,12 @@ class Event extends Model
             \App\Enums\EventType::FLYIN,
             \App\Enums\EventType::GROUPFLIGHT
         ]);
+    }
+
+    protected function nameDate(): Attribute
+    {
+        return new Attribute(
+            get: fn () => "{$this->name} [{$this->startEvent->format('M j, Y')}]",
+        );
     }
 }
