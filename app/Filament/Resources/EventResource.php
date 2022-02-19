@@ -9,6 +9,7 @@ use App\Models\Event;
 use App\Models\EventType;
 use Filament\Forms;
 use Filament\Resources\Form;
+use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
 use Filament\Tables;
@@ -123,7 +124,7 @@ class EventResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            RelationManagers\LinksRelationManager::class,
         ];
     }
 

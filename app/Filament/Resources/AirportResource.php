@@ -15,7 +15,7 @@ class AirportResource extends Resource
 {
     protected static ?string $model = Airport::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-collection';
+    protected static ?string $navigationIcon = 'heroicon-o-paper-airplane';
 
     public static ?string $recordTitleAttribute = 'full_name_admin';
 
