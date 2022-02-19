@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 
 /**
  * App\Models\Booking
@@ -136,16 +137,6 @@ class Booking extends Model
         $this->attributes['selcal'] = !empty($value) ? strtoupper($value) : null;
     }
 
-    public function airportDep(): HasOne
-    {
-        return $this->hasOne(Airport::class, 'id', 'dep');
-    }
-
-    public function airportArr(): HasOne
-    {
-        return $this->hasOne(Airport::class, 'id', 'arr');
-    }
-
     public function event(): BelongsTo
     {
         return $this->belongsTo(Event::class);
@@ -159,6 +150,16 @@ class Booking extends Model
     public function flights(): HasMany
     {
         return $this->hasMany(Flight::class)->orderBy('order_by');
+    }
+
+    public function firstFlight(): HasOne
+    {
+        return $this->hasOne(Flight::class)->ofMany('order_by', 'min');
+    }
+
+    public function lastFlight(): HasOne
+    {
+        return $this->hasOne(Flight::class)->ofMany('order_by', 'max');
     }
 
     public function airportCtot($orderBy, $withAbbr = true): string
