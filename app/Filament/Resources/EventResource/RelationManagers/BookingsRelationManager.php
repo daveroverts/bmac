@@ -4,14 +4,15 @@ namespace App\Filament\Resources\EventResource\RelationManagers;
 
 use Filament\Forms;
 use Filament\Tables;
+use App\Models\Airport;
 use App\Enums\BookingStatus;
 use Filament\Resources\Form;
 use Filament\Resources\Table;
 use Filament\Tables\Filters\Filter;
-use Illuminate\Database\Eloquent\Builder;
-use Filament\Resources\RelationManagers\HasManyRelationManager;
-use Filament\Resources\RelationManagers\RelationManager;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
+use Filament\Resources\RelationManagers\RelationManager;
+use Filament\Resources\RelationManagers\HasManyRelationManager;
 
 class BookingsRelationManager extends HasManyRelationManager
 {
@@ -23,7 +24,48 @@ class BookingsRelationManager extends HasManyRelationManager
     {
         return $form
             ->schema([
-                // Forms\Components\TextInput::make('callsign')->required()
+                Forms\Components\Toggle::make('is_editable')
+                    ->columnSpan('full')
+                    ->label('Editable?')
+                    ->helperText("Choose if you want the booking to be editable (Callsign and Aircraft Code only) by users. This is useful when using 'import only', but want to add extra slots")
+                    ->required(),
+                Forms\Components\TextInput::make('callsign')
+                    ->maxLength(7),
+                Forms\Components\TextInput::make('acType')
+                    ->label('Aircraft code')
+                    ->maxLength(4),
+                Forms\Components\Select::make('dep')
+                    ->label('Departure airport')
+                    ->required()
+                    ->searchable()
+                    ->getSearchResultsUsing(fn (string $query) => Airport::where('icao', 'like', "%{$query}%")
+                        ->orWhere('iata', 'like', "%{$query}%")->orWhere('name', 'like', "%{$query}%")
+                        ->limit(50)->get()->mapWithKeys(fn (Airport $airport) => [$airport->id => "$airport->icao | $airport->iata | $airport->name"]))
+                    ->getOptionLabelUsing(function (?string $value) {
+                        $airport = Airport::find($value);
+                        return $airport ? "{$airport?->icao} | {$airport?->iata} | {$airport?->name}" : '';
+                    }),
+                Forms\Components\Select::make('arr')
+                    ->label('Arrival airport')
+                    ->required()
+                    ->searchable()
+                    ->getSearchResultsUsing(fn (string $query) => Airport::where('icao', 'like', "%{$query}%")
+                        ->orWhere('iata', 'like', "%{$query}%")->orWhere('name', 'like', "%{$query}%")
+                        ->limit(50)->get()->mapWithKeys(fn (Airport $airport) => [$airport->id => "$airport->icao | $airport->iata | $airport->name"]))
+                    ->getOptionLabelUsing(function (?string $value) {
+                        $airport = Airport::find($value);
+                        return $airport ? "{$airport?->icao} | {$airport?->iata} | {$airport?->name}" : '';
+                    }),
+                Forms\Components\TimePicker::make('ctot')->label('CTOT (UTC)')->withoutSeconds(),
+                Forms\Components\TimePicker::make('eta')->label('ETA (UTC)')->withoutSeconds(),
+                Forms\Components\TextInput::make('oceanicTrack')
+                    ->label('Cruise FL')
+                    ->prefix('FL')
+                    ->numeric()
+                    ->step(10)
+                    ->maxLength(3),
+                Forms\Components\Textarea::make('route')->columnSpan('full'),
+                Forms\Components\Textarea::make('notes')->columnSpan('full'),
             ]);
     }
 
