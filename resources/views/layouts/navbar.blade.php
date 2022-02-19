@@ -60,16 +60,9 @@
 
                 @auth
                     @if (auth()->user()->isAdmin)
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle {{ request()->routeIs('admin*') ? 'active' : '' }}"
-                                href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
-                                aria-expanded="false">
-                                {{ __('Admin') }}
-                            </a>
-                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item {{ request()->routeIs('admin.faq*') ? 'active' : '' }}"
-                                    href="{{ route('admin.faq.index') }}">{{ __('FAQ') }}</a>
-                            </div>
+                        <li class="nav-item">
+                            <a class="nav-link"
+                                href="{{ route('filament.pages.dashboard') }}">{{ __('Admin') }}</a>
                         </li>
                     @endif
                 @endauth
