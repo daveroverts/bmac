@@ -9,10 +9,11 @@ use App\Models\Event;
 use App\Models\EventType;
 use Filament\Forms;
 use Filament\Resources\Form;
-use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
 use Filament\Tables;
+use Filament\Tables\Filters\Filter;
+use Illuminate\Contracts\Database\Eloquent\Builder;
 
 class EventResource extends Resource
 {
@@ -117,7 +118,8 @@ class EventResource extends Resource
                     ->dateTime('M j, Y H:i')->sortable(),
             ])->defaultSort('startEvent')
             ->filters([
-                //
+                Filter::make('active')->query(fn (Builder $query): Builder => $query->where('endEvent', '>', now()))->default(),
+                Filter::make('expired')->query(fn (Builder $query): Builder => $query->where('endEvent', '<', now())),
             ]);
     }
 
