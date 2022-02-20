@@ -34,7 +34,6 @@ Route::get('admin/login', function () {
 Route::group(['as' => 'admin.', 'prefix' => 'admin', 'middleware' => 'auth.isAdmin'], function () {
 
     // Event
-    Route::delete('events/{event}/delete-bookings', [EventAdminController::class, 'deleteAllBookings'])->name('events.delete-bookings');
     Route::get('{event}/email', [EventAdminController::class, 'sendEmailForm'])->name('events.email.form');
     Route::patch('{event}/email', [EventAdminController::class, 'sendEmail'])->name('events.email');
     Route::patch(

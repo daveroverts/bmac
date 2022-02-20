@@ -24,6 +24,7 @@ class LinksRelationManager extends HasManyRelationManager
                     ->required()
                     ->options(AirportLinkType::all(['id', 'name'])->pluck('name', 'id')),
                 Forms\Components\TextInput::make('name')
+                    ->helperText('If left empty, type will be used as name')
                     ->minLength(5)
                     ->maxLength(255),
                 Forms\Components\TextInput::make('url')
