@@ -79,7 +79,8 @@ and before that I used [Laravel Homestead](https://laravel.com/docs/9.x/homestea
    - `BUGSNAG_API_KEY`:
      - BMAC uses Bugsnag by default for error monitoring.
      - If you have a key, you can put this here.
-     There won't be problems if you leave it empty.
+   - `SENTRY_LARAVEL_DSN`:
+     - If you prefer to use Sentry, you can fill in the DSN here.
    - `DB_*`
      - As required
      - If you need to share a database with some other application,
