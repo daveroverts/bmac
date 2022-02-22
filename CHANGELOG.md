@@ -1,3 +1,10 @@
+# [2.7.0](https://github.com/daveroverts/bmac/compare/v2.6.5...v2.7.0) (2022-02-22)
+
+
+### Features
+
+* add sentry as extra logging service ([1e793ab](https://github.com/daveroverts/bmac/commit/1e793ab8e7b464c78d4ab1179fccaccc03b8eb03))
+
 ## [2.6.5](https://github.com/daveroverts/bmac/compare/v2.6.4...v2.6.5) (2022-02-13)
 
 
