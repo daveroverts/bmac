@@ -20,6 +20,7 @@
         "laravel/horizon": "^5.8",
         "laravel/telescope": "^4.7",
         "laravel/tinker": "^2.7",
+        "league/flysystem-aws-s3-v3": "^3.0",
         "league/oauth2-client": "^2.6",
         "livewire/livewire": "^2.10",
         "maatwebsite/excel": "^3.1",
