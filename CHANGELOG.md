@@ -1,3 +1,10 @@
+## [2.7.1](https://github.com/daveroverts/bmac/compare/v2.7.0...v2.7.1) (2022-02-23)
+
+
+### Bug Fixes
+
+* **AirportsImport:** fix validation errors ([2b82f6f](https://github.com/daveroverts/bmac/commit/2b82f6fd75411b7b33c644abe75473f301274710))
+
 # [2.7.0](https://github.com/daveroverts/bmac/compare/v2.6.5...v2.7.0) (2022-02-22)
 
 
