@@ -2,15 +2,17 @@
 
 namespace App\Filament\Resources;
 
+use Filament\Forms;
+use Filament\Tables;
+use App\Models\Airport;
+use Filament\Resources\Form;
+use Filament\Resources\Table;
+use Filament\Resources\Resource;
+use Filament\Tables\Actions\Action;
+use Illuminate\Database\Eloquent\Model;
 use App\Filament\Resources\AirportResource\Pages;
 use App\Filament\Resources\AirportResource\RelationManagers;
-use App\Models\Airport;
-use Filament\Forms;
-use Filament\Resources\Form;
-use Filament\Resources\Resource;
-use Filament\Resources\Table;
-use Filament\Tables;
-use Illuminate\Database\Eloquent\Model;
+use Filament\Tables\Actions\ButtonAction;
 
 class AirportResource extends Resource
 {
@@ -64,6 +66,19 @@ class AirportResource extends Resource
             ->defaultSort('icao')
             ->filters([
                 //
+            ])
+            ->pushHeaderActions([
+                ButtonAction::make('delete-unused-airports')
+                    ->action(function () {
+                        Airport::whereDoesntHave('flightsDep')
+                            ->whereDoesntHave('flightsArr')
+                            ->whereDoesntHave('eventDep')
+                            ->whereDoesntHave('eventArr')
+                            ->delete();
+                    })
+                    ->requiresConfirmation()
+                    ->color('danger')
+                    ->icon('heroicon-o-trash')
             ]);
     }
 
