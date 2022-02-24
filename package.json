@@ -46,13 +46,11 @@
         "resolve-url-loader": "^5.0.0",
         "sass": "^1.49.7",
         "sass-loader": "^12.4.0",
-        "semantic-release": "^19.0.2",
-        "tinymce": "^5.10.3"
+        "semantic-release": "^19.0.2"
     },
     "dependencies": {
         "alpinejs": "^3.9.0",
         "bootswatch": "^4.6.1",
-        "flatpickr": "^4.6.9",
         "sweetalert2": "^11.4.0"
     },
     "release": {
