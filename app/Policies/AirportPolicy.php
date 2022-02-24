@@ -10,6 +10,13 @@ class AirportPolicy
 {
     use HandlesAuthorization;
 
+    public function before(User $user, $ability)
+    {
+        if ($user->isAdmin && $ability != 'delete') {
+            return true;
+        }
+    }
+
     /**
      * Determine whether the user can view the airport.
      *
@@ -54,7 +61,7 @@ class AirportPolicy
      */
     public function delete(User $user, Airport $airport)
     {
-        return false;
+        return $user->isAdmin && $airport->flightsDep->isEmpty() && $airport->flightsArr->isEmpty();
     }
 
     /**

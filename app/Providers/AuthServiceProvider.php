@@ -12,7 +12,6 @@ use App\Policies\AirportPolicy;
 use App\Policies\BookingPolicy;
 use App\Policies\EventPolicy;
 use App\Policies\FaqPolicy;
-use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
 class AuthServiceProvider extends ServiceProvider
@@ -38,11 +37,5 @@ class AuthServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->registerPolicies();
-
-        Gate::before(function ($user, $ability) {
-            if ($user->isAdmin) {
-                return true;
-            }
-        });
     }
 }

@@ -42,10 +42,12 @@ class AirportResource extends Resource
                 Forms\Components\TextInput::make('icao')
                     ->label('ICAO')
                     ->required()
+                    ->unique()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('iata')
                     ->label('IATA')
                     ->required()
+                    ->unique()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('name')
                     ->required()
