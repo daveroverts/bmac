@@ -12,9 +12,9 @@ class EventPolicy
 
     public function before(User $user, $ability)
     {
-        if ($user->isAdmin) {
-            return true;
-        }
+        // if ($user->isAdmin && $ability != 'delete') {
+        //     return true;
+        // }
     }
 
     /**
@@ -26,7 +26,7 @@ class EventPolicy
      */
     public function view(?User $user, Event $event)
     {
-        return true;
+        return $user->isAdmin || $event->is_online;
     }
 
     /**
@@ -49,7 +49,7 @@ class EventPolicy
      */
     public function update(User $user, Event $event)
     {
-        return false;
+        return $user->isAdmin && $event->startEvent->gt(now());
     }
 
     /**
@@ -61,7 +61,7 @@ class EventPolicy
      */
     public function delete(User $user, Event $event)
     {
-        return false;
+        return $user->isAdmin && $event->startEvent->gt(now());
     }
 
     /**
