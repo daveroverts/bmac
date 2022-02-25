@@ -9,6 +9,7 @@ use App\Models\Event;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
 use Filament\Tables;
+use Filament\Tables\Actions\ButtonAction;
 use Filament\Tables\Filters\Filter;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -50,6 +51,12 @@ class EventResource extends Resource
             ->filters([
                 Filter::make('active')->query(fn (Builder $query): Builder => $query->where('endEvent', '>', now()))->default(),
                 Filter::make('expired')->query(fn (Builder $query): Builder => $query->where('endEvent', '<', now())),
+            ])
+            ->prependActions([
+                ButtonAction::make('import-bookings')
+                    ->url(fn (Event $record): string => route('filament.resources.events.import-bookings', $record))
+                    ->icon('heroicon-o-plus')
+                    ->visible(fn (Event $record): bool => auth()->user()->can('update', $record))
             ]);
     }
 
@@ -69,6 +76,7 @@ class EventResource extends Resource
             'create' => Pages\CreateEvent::route('/create'),
             'view' => Pages\ViewEvent::route('/{record}'),
             'edit' => Pages\EditEvent::route('/{record}/edit'),
+            'import-bookings' => Pages\ImportBookings::route('{record}/import-bookings'),
         ];
     }
 }
