@@ -27,6 +27,7 @@ class EventResource extends Resource
     {
         return [
             'Type' => $record->type->name,
+            'Date' => $record->startEvent->format('M j, Y')
         ];
     }
 
@@ -35,11 +36,6 @@ class EventResource extends Resource
         return parent::getGlobalSearchEloquentQuery()
             ->orderBy('startEvent')
             ->with(['type']);
-    }
-
-    public static function getGlobalSearchResultTitle(Model $record): string
-    {
-        return "{$record->name} [{$record->startEvent->format('M j, Y')}]";
     }
 
     public static function table(Table $table): Table
