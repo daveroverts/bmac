@@ -16,6 +16,7 @@ return new class () extends Migration {
             $table->id();
             $table->morphs('fileable');
             $table->string('path');
+            $table->string('disk');
             $table->string('type');
             $table->timestamps();
         });

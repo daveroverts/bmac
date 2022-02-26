@@ -35,13 +35,6 @@ class ImportBookings implements ShouldQueue
         }
 
         (new BookingsImport($event->file->fileable))
-            ->import($event->file->path)
-            ->chain([
-                function () use ($event) {
-                    Storage::disk(config('filament.default_filesystem_disk'))
-                        ->delete($event->file->path);
-                    $event->file->delete();
-                }
-            ]);
+            ->queue($event->file->path, $event->file->disk);
     }
 }

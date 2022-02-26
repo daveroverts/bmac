@@ -23,7 +23,6 @@ use App\Http\Requests\Booking\Admin\AutoAssign;
 use App\Http\Requests\Booking\Admin\RouteAssign;
 use App\Http\Requests\Booking\Admin\StoreBooking;
 use App\Http\Requests\Booking\Admin\UpdateBooking;
-use App\Http\Requests\Booking\Admin\ImportBookings;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class BookingAdminController extends AdminController
@@ -229,24 +228,6 @@ class BookingAdminController extends AdminController
             ->log('Export triggered');
 
         return (new BookingsExport($event, $request->vacc))->download('bookings.csv');
-    }
-
-    public function importForm(Event $event)
-    {
-        return view('event.admin.import', compact('event'));
-    }
-
-    public function import(ImportBookings $request, Event $event): RedirectResponse
-    {
-        activity()
-            ->by(auth()->user())
-            ->on($event)
-            ->log('Import triggered');
-        $file = $request->file('file');
-        (new BookingsImport($event))->import($file);
-        Storage::delete($file->getRealPath());
-        flashMessage('success', __('Flights imported'), __('Flights have been imported'));
-        return to_route('bookings.event.index', $event);
     }
 
     public function adminAutoAssignForm(Event $event): View

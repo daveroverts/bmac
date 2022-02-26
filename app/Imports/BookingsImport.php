@@ -10,12 +10,13 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Maatwebsite\Excel\Concerns\ToModel;
 use PhpOffice\PhpSpreadsheet\Shared\Date;
 use Maatwebsite\Excel\Concerns\Importable;
+use Maatwebsite\Excel\Concerns\SkipsEmptyRows;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Maatwebsite\Excel\Concerns\WithValidation;
 use Maatwebsite\Excel\Concerns\WithBatchInserts;
 use Maatwebsite\Excel\Concerns\WithChunkReading;
 
-class BookingsImport implements ToModel, WithHeadingRow, WithBatchInserts, WithChunkReading, WithValidation, ShouldQueue
+class BookingsImport implements ToModel, WithHeadingRow, WithBatchInserts, WithChunkReading, WithValidation, ShouldQueue, SkipsEmptyRows
 {
     use Importable;
 
@@ -98,17 +99,17 @@ class BookingsImport implements ToModel, WithHeadingRow, WithBatchInserts, WithC
             ];
         }
         return [
-            'origin'        => 'exists:airports,icao',
-            'destination'   => 'exists:airports,icao',
-            'track'         => 'sometimes|nullable',
-            'oceanicFL'     => 'sometimes|nullable|integer:3',
-            'aircraft_type' => 'sometimes|nullable|max:4',
+            'origin'        => ['exists:airports,icao'],
+            'destination'   => ['exists:airports,icao'],
+            'track'         => ['sometimes', 'nullable'],
+            'oceanicFL'     => ['sometimes', 'nullable', 'integer:3'],
+            'aircraft_type' => ['sometimes', 'nullable', 'max:4'],
         ];
     }
 
     private function getAirport($icao): int
     {
-        return Airport::whereIcao($icao)->first()->id;
+        return Airport::whereIcao(strtoupper($icao))->first()->id;
     }
 
     private function getTime($time)

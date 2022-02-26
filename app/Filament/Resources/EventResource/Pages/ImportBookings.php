@@ -63,6 +63,7 @@ class ImportBookings extends Page implements HasForms
 
         $this->event->files()->create([
             'path' => $this->form->getState()['file'],
+            'disk' => config('filament.default_filesystem_disk'),
             'type' => BookingsImport::class,
         ]);
 

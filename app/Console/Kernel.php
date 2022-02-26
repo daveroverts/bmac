@@ -29,6 +29,8 @@ class Kernel extends ConsoleKernel
 
         $schedule->command('activitylog:clean')->daily();
 
+        $schedule->command('model:prune');
+
         if (config('telescope.enabled')) {
             $schedule->command('telescope:prune')->daily();
         }
