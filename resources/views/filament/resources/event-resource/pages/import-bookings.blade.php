@@ -1,4 +1,4 @@
-<x-filament::page class="filament-resources-create-record-page">
+<x-filament::page>
     <x-filament::form wire:submit.prevent="submit">
         {{ $this->form }}
 

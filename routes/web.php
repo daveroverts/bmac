@@ -6,7 +6,6 @@ use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Event\EventController;
 use App\Http\Controllers\Booking\BookingController;
-use App\Http\Controllers\Event\EventAdminController;
 use App\Http\Controllers\Booking\BookingAdminController;
 
 /*
@@ -32,15 +31,6 @@ Route::get('admin/login', function () {
 
 // Admin routes
 Route::group(['as' => 'admin.', 'prefix' => 'admin', 'middleware' => 'auth.isAdmin'], function () {
-
-    // Event
-    Route::get('{event}/email', [EventAdminController::class, 'sendEmailForm'])->name('events.email.form');
-    Route::patch('{event}/email', [EventAdminController::class, 'sendEmail'])->name('events.email');
-    Route::patch(
-        '{event}/email_final',
-        [EventAdminController::class, 'sendFinalInformationMail']
-    )->name('events.email.final');
-
     // Booking
     Route::resource('bookings', BookingAdminController::class)->except(['index', 'create', 'show']);
     Route::get('{event}/bookings/export/{vacc?}', [BookingAdminController::class, 'export'])->name('bookings.export');

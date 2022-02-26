@@ -46,7 +46,7 @@ class EventResource extends Resource
                 Tables\Columns\TextColumn::make('name'),
                 Tables\Columns\TextColumn::make('type.name'),
                 Tables\Columns\TextColumn::make('startEvent')
-                    ->dateTime('M j, Y H:i')->sortable(),
+                    ->dateTime('M j, Y Hi\z')->sortable(),
             ])->defaultSort('startEvent')
             ->filters([
                 Filter::make('active')->query(fn (Builder $query): Builder => $query->where('endEvent', '>', now()))->default(),
@@ -56,7 +56,10 @@ class EventResource extends Resource
                 ButtonAction::make('import-bookings')
                     ->url(fn (Event $record): string => route('filament.resources.events.import-bookings', $record))
                     ->icon('heroicon-o-upload')
-                    ->visible(fn (Event $record): bool => auth()->user()->can('update', $record))
+                    ->visible(fn (Event $record): bool => auth()->user()->can('update', $record)),
+                ButtonAction::make('send-email')
+                    ->url(fn (Event $record): string => route('filament.resources.events.send-email', $record))
+                    ->icon('heroicon-o-mail')
             ]);
     }
 
@@ -77,6 +80,7 @@ class EventResource extends Resource
             'view' => Pages\ViewEvent::route('/{record}'),
             'edit' => Pages\EditEvent::route('/{record}/edit'),
             'import-bookings' => Pages\ImportBookings::route('{record}/import-bookings'),
+            'send-email' => Pages\SendEmail::route('{record}/send-email')
         ];
     }
 }
