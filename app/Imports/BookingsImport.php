@@ -6,6 +6,7 @@ use App\Enums\EventType;
 use App\Models\Event;
 use App\Models\Airport;
 use App\Models\Booking;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Maatwebsite\Excel\Concerns\ToModel;
 use PhpOffice\PhpSpreadsheet\Shared\Date;
 use Maatwebsite\Excel\Concerns\Importable;
@@ -14,7 +15,7 @@ use Maatwebsite\Excel\Concerns\WithValidation;
 use Maatwebsite\Excel\Concerns\WithBatchInserts;
 use Maatwebsite\Excel\Concerns\WithChunkReading;
 
-class BookingsImport implements ToModel, WithHeadingRow, WithBatchInserts, WithChunkReading, WithValidation
+class BookingsImport implements ToModel, WithHeadingRow, WithBatchInserts, WithChunkReading, WithValidation, ShouldQueue
 {
     use Importable;
 

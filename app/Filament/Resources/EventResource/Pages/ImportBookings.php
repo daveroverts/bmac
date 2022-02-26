@@ -9,6 +9,7 @@ use Filament\Resources\Pages\Page;
 use Filament\Forms\Contracts\HasForms;
 use Illuminate\Support\Facades\Storage;
 use App\Filament\Resources\EventResource;
+use App\Models\File;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Illuminate\Database\Eloquent\Model;
@@ -22,7 +23,6 @@ class ImportBookings extends Page implements HasForms
     protected static string $view = 'filament.resources.event-resource.pages.import-bookings';
 
     public Event $event;
-    public $file;
 
     public function mount(Event $record): void
     {
@@ -45,8 +45,7 @@ class ImportBookings extends Page implements HasForms
                 ->helperText($helperText)
                 ->required()
                 ->directory('imports')
-                ->visibility('private')
-                ->preserveFilenames(),
+                ->visibility('private'),
         ];
     }
 
@@ -57,24 +56,17 @@ class ImportBookings extends Page implements HasForms
 
     public function submit(): void
     {
-        $state = $this->form->getState();
+        activity()
+            ->by(auth()->user())
+            ->on($this->event)
+            ->log('Import triggered');
 
-        $file = $state['file'];
+        $this->event->files()->create([
+            'path' => $this->form->getState()['file'],
+            'type' => BookingsImport::class,
+        ]);
 
-        // activity()
-        //     ->by(auth()->user())
-        //     ->on($this->event)
-        //     ->log('Import triggered');
-
-        $newFile = Storage::get($file);
-
-        dd($file, $newFile);
-
-        (new BookingsImport($this->event))->import($file);
-        Storage::delete($file->getRealPath());
-
-        $this->notify('succes', 'Import triggered', true);
+        $this->notify('success', 'Import triggered', true);
         $this->redirectRoute('filament.resources.events.index');
-        return;
     }
 }

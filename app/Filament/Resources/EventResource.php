@@ -55,7 +55,7 @@ class EventResource extends Resource
             ->prependActions([
                 ButtonAction::make('import-bookings')
                     ->url(fn (Event $record): string => route('filament.resources.events.import-bookings', $record))
-                    ->icon('heroicon-o-plus')
+                    ->icon('heroicon-o-upload')
                     ->visible(fn (Event $record): bool => auth()->user()->can('update', $record))
             ]);
     }
