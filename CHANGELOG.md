@@ -1,3 +1,10 @@
+## [2.7.2](https://github.com/daveroverts/bmac/compare/v2.7.1...v2.7.2) (2022-02-27)
+
+
+### Bug Fixes
+
+* fix multi-flight route assign template ([dc0a639](https://github.com/daveroverts/bmac/commit/dc0a6398a6738962b7804084554960afc7424d0b))
+
 ## [2.7.1](https://github.com/daveroverts/bmac/compare/v2.7.0...v2.7.1) (2022-02-23)
 
 
