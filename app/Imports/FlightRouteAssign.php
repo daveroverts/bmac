@@ -6,11 +6,15 @@ use App\Models\Flight;
 use App\Models\Airport;
 use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\Importable;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Maatwebsite\Excel\Concerns\ToCollection;
+use Maatwebsite\Excel\Concerns\SkipsEmptyRows;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Maatwebsite\Excel\Concerns\WithValidation;
+use Maatwebsite\Excel\Concerns\WithBatchInserts;
+use Maatwebsite\Excel\Concerns\WithChunkReading;
 
-class FlightRouteAssign implements ToCollection, WithHeadingRow, WithValidation
+class FlightRouteAssign implements ToCollection, WithHeadingRow, WithBatchInserts, WithChunkReading, WithValidation, ShouldQueue, SkipsEmptyRows
 {
     use Importable;
 
@@ -26,6 +30,16 @@ class FlightRouteAssign implements ToCollection, WithHeadingRow, WithValidation
                     'notes' => $row['notes'] ?? null
                 ]);
         }
+    }
+
+    public function batchSize(): int
+    {
+        return 250;
+    }
+
+    public function chunkSize(): int
+    {
+        return 250;
     }
 
     public function rules(): array

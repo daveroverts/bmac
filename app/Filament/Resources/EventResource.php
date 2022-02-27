@@ -61,6 +61,10 @@ class EventResource extends Resource
                     ->url(fn (Event $record): string => route('filament.resources.events.import-bookings', $record))
                     ->icon('heroicon-o-upload')
                     ->visible(fn (Event $record): bool => auth()->user()->can('update', $record)),
+                ButtonAction::make('assign-routes')
+                    ->url(fn (Event $record): string => route('filament.resources.events.assign-routes', $record))
+                    ->icon('heroicon-o-upload')
+                    ->visible(fn (Event $record): bool => auth()->user()->can('update', $record) && $record->event_type_id == EventType::MULTIFLIGHTS()->value),
                 ButtonAction::make('send-email')
                     ->url(fn (Event $record): string => route('filament.resources.events.send-email', $record))
                     ->icon('heroicon-o-mail'),
@@ -114,6 +118,7 @@ class EventResource extends Resource
             'view' => Pages\ViewEvent::route('/{record}'),
             'edit' => Pages\EditEvent::route('/{record}/edit'),
             'import-bookings' => Pages\ImportBookings::route('{record}/import-bookings'),
+            'assign-routes' => Pages\AssignRoutes::route('{record}/assign-routes'),
             'send-email' => Pages\SendEmail::route('{record}/send-email')
         ];
     }
