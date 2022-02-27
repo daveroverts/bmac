@@ -220,16 +220,6 @@ class BookingAdminController extends AdminController
         return back();
     }
 
-    public function export(Event $event, Request $request): BinaryFileResponse
-    {
-        activity()
-            ->by(auth()->user())
-            ->on($event)
-            ->log('Export triggered');
-
-        return (new BookingsExport($event, $request->vacc))->download('bookings.csv');
-    }
-
     public function adminAutoAssignForm(Event $event): View
     {
         return view('event.admin.autoAssign', compact('event'));

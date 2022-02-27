@@ -6,18 +6,13 @@ use App\Enums\EventType;
 use App\Models\Event;
 use App\Imports\BookingsImport;
 use Filament\Resources\Pages\Page;
-use Filament\Forms\Contracts\HasForms;
-use Illuminate\Support\Facades\Storage;
 use App\Filament\Resources\EventResource;
 use App\Models\File;
 use Filament\Forms\Components\FileUpload;
-use Filament\Forms\Concerns\InteractsWithForms;
 use Illuminate\Database\Eloquent\Model;
 
-class ImportBookings extends Page implements HasForms
+class ImportBookings extends Page
 {
-    use InteractsWithForms;
-
     protected static string $resource = EventResource::class;
 
     protected static string $view = 'filament.resources.event-resource.pages.import-bookings';

@@ -33,7 +33,6 @@ Route::get('admin/login', function () {
 Route::group(['as' => 'admin.', 'prefix' => 'admin', 'middleware' => 'auth.isAdmin'], function () {
     // Booking
     Route::resource('bookings', BookingAdminController::class)->except(['index', 'create', 'show']);
-    Route::get('{event}/bookings/export/{vacc?}', [BookingAdminController::class, 'export'])->name('bookings.export');
     Route::get('{event}/bookings/create/{bulk?}', [BookingAdminController::class, 'create'])->name('bookings.create');
     Route::get('{event}/bookings/import', [BookingAdminController::class, 'importForm'])->name('bookings.importForm');
     Route::post('{event}/bookings/import', [BookingAdminController::class, 'import'])->name('bookings.import');

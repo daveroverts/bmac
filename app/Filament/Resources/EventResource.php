@@ -2,10 +2,13 @@
 
 namespace App\Filament\Resources;
 
+use App\Enums\EventType;
+use App\Exports\BookingsExport;
 use App\Filament\Resources\EventResource\Pages;
 use App\Filament\Resources\EventResource\RelationManagers;
 use App\Filament\Resources\EventResource\Traits\EventForm;
 use App\Models\Event;
+use Filament\Forms\Components\Toggle;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
 use Filament\Tables;
@@ -13,6 +16,7 @@ use Filament\Tables\Actions\ButtonAction;
 use Filament\Tables\Filters\Filter;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class EventResource extends Resource
 {
@@ -59,7 +63,37 @@ class EventResource extends Resource
                     ->visible(fn (Event $record): bool => auth()->user()->can('update', $record)),
                 ButtonAction::make('send-email')
                     ->url(fn (Event $record): string => route('filament.resources.events.send-email', $record))
-                    ->icon('heroicon-o-mail')
+                    ->icon('heroicon-o-mail'),
+                ButtonAction::make('export')
+                    ->action(function (Event $record): BinaryFileResponse {
+                        activity()
+                            ->by(auth()->user())
+                            ->on($record)
+                            ->log('Export triggered');
+
+                        return (new BookingsExport($record, false))->download('bookings.csv');
+                    })
+                    ->icon('heroicon-o-download')
+                    ->modalButton('Start export')
+                    ->requiresConfirmation()
+                    ->hidden(fn (Event $record): bool => $record->event_type_id == EventType::MULTIFLIGHTS()->value),
+                ButtonAction::make('export_multiflights')
+                    ->label('Export')
+                    ->action(function (Event $record, array $data): BinaryFileResponse {
+                        activity()
+                            ->by(auth()->user())
+                            ->on($record)
+                            ->log('Export triggered');
+
+                        return (new BookingsExport($record, $data['with_emails']))->download('bookings.csv');
+                    })
+                    ->icon('heroicon-o-download')
+                    ->modalButton('Start export')
+                    ->form([
+                        Toggle::make('with_emails')
+                            ->default(false)
+                    ])
+                    ->visible(fn (Event $record): bool => $record->event_type_id == EventType::MULTIFLIGHTS()->value),
             ]);
     }
 

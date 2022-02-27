@@ -9,17 +9,13 @@ use App\Events\EventBulkEmail;
 use Filament\Resources\Pages\Page;
 use App\Events\EventFinalInformation;
 use Filament\Forms\Components\Toggle;
-use Filament\Forms\Contracts\HasForms;
 use Filament\Forms\Components\TextInput;
 use App\Filament\Resources\EventResource;
 use Filament\Forms\Components\RichEditor;
-use Filament\Forms\Concerns\InteractsWithForms;
 use Illuminate\Contracts\Database\Eloquent\Builder;
 
-class SendEmail extends Page implements HasForms
+class SendEmail extends Page
 {
-    use InteractsWithForms;
-
     protected static string $resource = EventResource::class;
 
     protected static string $view = 'filament.resources.event-resource.pages.send-email';
