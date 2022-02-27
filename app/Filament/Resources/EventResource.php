@@ -8,12 +8,14 @@ use App\Filament\Resources\EventResource\Pages;
 use App\Filament\Resources\EventResource\RelationManagers;
 use App\Filament\Resources\EventResource\Traits\EventForm;
 use App\Models\Event;
+use App\Models\EventType as ModelsEventType;
 use Filament\Forms\Components\Toggle;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
 use Filament\Tables;
 use Filament\Tables\Actions\ButtonAction;
 use Filament\Tables\Filters\Filter;
+use Filament\Tables\Filters\SelectFilter;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
@@ -55,6 +57,9 @@ class EventResource extends Resource
             ->filters([
                 Filter::make('active')->query(fn (Builder $query): Builder => $query->where('endEvent', '>', now()))->default(),
                 Filter::make('expired')->query(fn (Builder $query): Builder => $query->where('endEvent', '<', now())),
+                SelectFilter::make('event_type_id')
+                    ->label('Type')
+                    ->options(ModelsEventType::all(['id', 'name'])->pluck('name', 'id')),
             ])
             ->prependActions([
                 ButtonAction::make('import-bookings')
