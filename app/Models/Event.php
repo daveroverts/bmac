@@ -45,6 +45,8 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
  * @property-read int|null $bookings_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Faq[] $faqs
  * @property-read int|null $faqs_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\File[] $files
+ * @property-read int|null $files_count
  * @property-read \Illuminate\Database\Eloquent\Collection|EventLink[] $links
  * @property-read int|null $links_count
  * @property-read \App\Models\EventType|null $type

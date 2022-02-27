@@ -20,7 +20,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\Activitylog\Models\Activity[] $activities
  * @property-read int|null $activities_count
- * @property-read AirportLink $links
+ * @property-read AirportLink|null $links
  * @method static Builder|AirportLinkType newModelQuery()
  * @method static Builder|AirportLinkType newQuery()
  * @method static Builder|AirportLinkType query()

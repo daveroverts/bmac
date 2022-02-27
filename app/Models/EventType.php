@@ -16,7 +16,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property string $name
  * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\Activitylog\Models\Activity[] $activities
  * @property-read int|null $activities_count
- * @property-read Event $events
+ * @property-read Event|null $events
  * @method static Builder|EventType newModelQuery()
  * @method static Builder|EventType newQuery()
  * @method static Builder|EventType query()

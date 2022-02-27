@@ -34,15 +34,15 @@ use Illuminate\Database\Eloquent\Relations\HasOneThrough;
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\Activitylog\Models\Activity[] $activities
  * @property-read int|null $activities_count
- * @property-read Airport|null $airportArr
- * @property-read Airport|null $airportDep
  * @property-read Event $event
+ * @property-read Flight|null $firstFlight
  * @property-read \Illuminate\Database\Eloquent\Collection|Flight[] $flights
  * @property-read int|null $flights_count
  * @property-read string $formatted_actype
  * @property-read string $formatted_callsign
  * @property-read string $formatted_selcal
  * @property-read bool $has_received_final_information_email
+ * @property-read Flight|null $lastFlight
  * @property-write mixed $actype
  * @property-read User|null $user
  * @method static \Database\Factories\BookingFactory factory(...$parameters)

@@ -17,6 +17,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @property string $icao
  * @property string $iata
  * @property string $name
+ * @property float|null $latitude
+ * @property float|null $longitude
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\Activitylog\Models\Activity[] $activities
@@ -40,6 +42,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @method static Builder|Airport whereIata($value)
  * @method static Builder|Airport whereIcao($value)
  * @method static Builder|Airport whereId($value)
+ * @method static Builder|Airport whereLatitude($value)
+ * @method static Builder|Airport whereLongitude($value)
  * @method static Builder|Airport whereName($value)
  * @method static Builder|Airport whereUpdatedAt($value)
  * @mixin \Eloquent
