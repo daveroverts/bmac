@@ -37,7 +37,7 @@ class EventPolicy
      */
     public function create(User $user)
     {
-        return false;
+        return $user->isAdmin;
     }
 
     /**
