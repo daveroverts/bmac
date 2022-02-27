@@ -7,7 +7,7 @@
                 Submit
             </x-filament::button>
             <x-filament::button tag="a" icon="heroicon-o-document-download" color="secondary"
-                href="{{ $event->event_type_id == \App\Enums\EventType::MULTIFLIGHTS? url('import_multi_flights_template.xlsx'): url('import_template.xlsx') }}">
+                href="{{ $event->event_type_id == \App\Enums\EventType::MULTIFLIGHTS()->value? url('import_multi_flights_template.xlsx'): url('import_template.xlsx') }}">
                 Download template
             </x-filament::button>
         </div>

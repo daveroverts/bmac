@@ -7,12 +7,15 @@ use App\Models\Event;
 use App\Imports\BookingsImport;
 use Filament\Resources\Pages\Page;
 use App\Filament\Resources\EventResource;
-use App\Models\File;
 use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Concerns\InteractsWithForms;
+use Filament\Forms\Contracts\HasForms;
 use Illuminate\Database\Eloquent\Model;
 
-class ImportBookings extends Page
+class ImportBookings extends Page implements HasForms
 {
+    use InteractsWithForms;
+
     protected static string $resource = EventResource::class;
 
     protected static string $view = 'filament.resources.event-resource.pages.import-bookings';
@@ -28,8 +31,8 @@ class ImportBookings extends Page
     protected function getFormSchema(): array
     {
         $helperText = 'Headers in **bold** are mandatory<br />';
-        switch ($this->event->type) {
-            case EventType::MULTIFLIGHTS():
+        switch ($this->event->event_type_id) {
+            case EventType::MULTIFLIGHTS()->value:
                 $helperText .= '**<abbr title="[hh:mm]">CTOT 1</abbr>** - **<abbr title="[ICAO]">Airport 1</abbr>** - **<abbr title="[hh:mm]">CTOT 2</abbr>** - **<abbr title="[ICAO]">Airport 2</abbr>** - **<abbr title="[ICAO]">Airport 3</abbr>**';
                 break;
             default:
