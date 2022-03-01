@@ -46,7 +46,7 @@
         "postcss": "^8.4.6",
         "resolve-url-loader": "^5.0.0",
         "sass": "^1.49.7",
-        "sass-loader": "^12.4.0",
+        "sass-loader": "^12.6.0",
         "semantic-release": "^19.0.2",
         "tinymce": "^5.10.3"
     },
