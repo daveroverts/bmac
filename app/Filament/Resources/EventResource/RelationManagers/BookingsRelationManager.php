@@ -20,6 +20,11 @@ class BookingsRelationManager extends HasManyRelationManager
 
     protected static ?string $recordTitleAttribute = 'id';
 
+    protected function canCreate(): bool
+    {
+        return false;
+    }
+
     public static function form(Form $form): Form
     {
         return $form
@@ -58,7 +63,7 @@ class BookingsRelationManager extends HasManyRelationManager
                     }),
                 Forms\Components\TimePicker::make('ctot')->label('CTOT (UTC)')->withoutSeconds(),
                 Forms\Components\TimePicker::make('eta')->label('ETA (UTC)')->withoutSeconds(),
-                Forms\Components\TextInput::make('oceanicTrack')
+                Forms\Components\TextInput::make('oceanicFL')
                     ->label('Cruise FL')
                     ->prefix('FL')
                     ->numeric()
