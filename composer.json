@@ -39,7 +39,7 @@
         "laravel/sail": "^1.13",
         "mockery/mockery": "^1.5",
         "nunomaduro/collision": "^6.1",
-        "nunomaduro/larastan": "^1.0",
+        "nunomaduro/larastan": "^2.1",
         "phpunit/phpunit": "^9.5"
     },
     "autoload": {
