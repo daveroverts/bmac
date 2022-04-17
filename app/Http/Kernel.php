@@ -61,7 +61,6 @@ class Kernel extends HttpKernel
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
         'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
-        'cors' => \Fruitcake\Cors\HandleCors::class,
         'auth.isAdmin' => \App\Http\Middleware\IsAdmin::class,
         'auth.isLoggedIn' => \App\Http\Middleware\IsLoggedIn::class,
     ];
