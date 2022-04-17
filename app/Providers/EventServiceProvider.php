@@ -30,7 +30,10 @@ class EventServiceProvider extends ServiceProvider
         ],
         'App\Events\EventFinalInformation' => [
             'App\Listeners\SendEventFinalInformationNotification',
-        ]
+        ],
+        \SocialiteProviders\Manager\SocialiteWasCalled::class => [
+            'SocialiteProviders\VatsimConnect\VatsimConnectExtendSocialite@handle',
+        ],
     ];
 
     /**

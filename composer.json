@@ -17,6 +17,7 @@
         "doctrine/dbal": "^3.3",
         "laravel/framework": "^9.0",
         "laravel/horizon": "^5.8",
+        "laravel/socialite": "^5.5",
         "laravel/telescope": "^4.7",
         "laravel/tinker": "^2.7",
         "league/flysystem-aws-s3-v3": "^3.0",
@@ -26,6 +27,8 @@
         "predis/predis": "^1.1",
         "protonemedia/laravel-form-components": "^3.5",
         "sentry/sentry-laravel": "^2.11",
+        "socialiteproviders/generators": "^4.6",
+        "socialiteproviders/manager": "^4.1",
         "spatie/laravel-activitylog": "^4.4",
         "spatie/laravel-ignition": "^1.0",
         "tabuna/breadcrumbs": "^3.0"
@@ -46,7 +49,8 @@
         "psr-4": {
             "App\\": "app/",
             "Database\\Factories\\": "database/factories/",
-            "Database\\Seeders\\": "database/seeders/"
+            "Database\\Seeders\\": "database/seeders/",
+            "SocialiteProviders\\VatsimConnect\\": "SocialiteProviders/src/VatsimConnect/"
         },
         "files": [
             "app/Helper.php"
