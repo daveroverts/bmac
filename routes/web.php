@@ -29,6 +29,16 @@ Route::get('/', HomeController::class)->name('home');
 Route::get('/login', [LoginController::class, 'login'])->name('login');
 Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 
+Route::get('/auth/redirect', function () {
+    dd(Socialite::driver('vatsimconnect'));
+    return Socialite::driver('vatsimconnect')->redirect();
+});
+
+Route::get('/auth/callback', function () {
+    $user = Socialite::driver('vatsimconnect')->user();
+    dd($user);
+});
+
 // Admin routes
 Route::group(['as' => 'admin.', 'prefix' => 'admin', 'middleware' => 'auth.isAdmin'], function () {
     // Airports

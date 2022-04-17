@@ -195,6 +195,7 @@ return [
         App\Providers\RouteServiceProvider::class,
         App\Providers\BreadcrumbsServiceProvider::class,
         App\Providers\ViewServiceProvider::class,
+        \SocialiteProviders\Manager\ServiceProvider::class,
     ],
 
     /*
