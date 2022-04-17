@@ -30,6 +30,7 @@ mix.js('resources/js/app.js', 'public/js')
         },
     })
     .copyDirectory('node_modules/tinymce/icons', 'public/js/icons')
+    .copyDirectory('node_modules/tinymce/models', 'public/js/models')
     .copyDirectory('node_modules/tinymce/themes', 'public/js/themes')
     .copyDirectory('node_modules/tinymce/skins', 'public/js/skins')
     .extract();
