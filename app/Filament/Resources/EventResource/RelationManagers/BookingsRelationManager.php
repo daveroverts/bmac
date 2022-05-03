@@ -22,7 +22,11 @@ class BookingsRelationManager extends HasManyRelationManager
 
     protected function canCreate(): bool
     {
-        return false;
+        if ($this->ownerRecord->event_type_id == EventType::MULTIFLIGHTS) {
+            return false;
+        }
+
+        return parent::canCreate();
     }
 
     public static function form(Form $form): Form
@@ -39,38 +43,49 @@ class BookingsRelationManager extends HasManyRelationManager
                 Forms\Components\TextInput::make('acType')
                     ->label('Aircraft code')
                     ->maxLength(4),
-                Forms\Components\Select::make('dep')
-                    ->label('Departure airport')
-                    ->required()
-                    ->searchable()
-                    ->getSearchResultsUsing(fn (string $query) => Airport::where('icao', 'like', "%{$query}%")
-                        ->orWhere('iata', 'like', "%{$query}%")->orWhere('name', 'like', "%{$query}%")
-                        ->limit(50)->get()->mapWithKeys(fn (Airport $airport) => [$airport->id => "$airport->icao | $airport->iata | $airport->name"]))
-                    ->getOptionLabelUsing(function (?string $value) {
-                        $airport = Airport::find($value);
-                        return $airport ? "{$airport?->icao} | {$airport?->iata} | {$airport?->name}" : '';
-                    }),
-                Forms\Components\Select::make('arr')
-                    ->label('Arrival airport')
-                    ->required()
-                    ->searchable()
-                    ->getSearchResultsUsing(fn (string $query) => Airport::where('icao', 'like', "%{$query}%")
-                        ->orWhere('iata', 'like', "%{$query}%")->orWhere('name', 'like', "%{$query}%")
-                        ->limit(50)->get()->mapWithKeys(fn (Airport $airport) => [$airport->id => "$airport->icao | $airport->iata | $airport->name"]))
-                    ->getOptionLabelUsing(function (?string $value) {
-                        $airport = Airport::find($value);
-                        return $airport ? "{$airport?->icao} | {$airport?->iata} | {$airport?->name}" : '';
-                    }),
-                Forms\Components\TimePicker::make('ctot')->label('CTOT (UTC)')->withoutSeconds(),
-                Forms\Components\TimePicker::make('eta')->label('ETA (UTC)')->withoutSeconds(),
-                Forms\Components\TextInput::make('oceanicFL')
-                    ->label('Cruise FL')
-                    ->prefix('FL')
-                    ->numeric()
-                    ->step(10)
-                    ->maxLength(3),
-                Forms\Components\Textarea::make('route')->columnSpan('full'),
-                Forms\Components\Textarea::make('notes')->columnSpan('full'),
+                Forms\Components\HasManyRepeater::make('flights')
+                    ->relationship('flights')
+                    ->label(__('Flight'))
+                    ->columnSpan('full')
+                    ->columns(2)
+                    ->disableItemCreation()
+                    ->disableItemDeletion()
+                    ->disableItemMovement()
+                    ->schema([
+                        Forms\Components\Select::make('dep')
+                            ->label('Departure airport')
+                            ->required()
+                            ->searchable()
+                            ->getSearchResultsUsing(fn (string $query) => Airport::where('icao', 'like', "%{$query}%")
+                                ->orWhere('iata', 'like', "%{$query}%")->orWhere('name', 'like', "%{$query}%")
+                                ->limit(50)->get()->mapWithKeys(fn (Airport $airport) => [$airport->id => "$airport->icao | $airport->iata | $airport->name"]))
+                            ->getOptionLabelUsing(function (?string $value) {
+                                $airport = Airport::find($value);
+                                return $airport ? "{$airport?->icao} | {$airport?->iata} | {$airport?->name}" : '';
+                            }),
+                        Forms\Components\Select::make('arr')
+                            ->label('Arrival airport')
+                            ->required()
+                            ->searchable()
+                            ->getSearchResultsUsing(fn (string $query) => Airport::where('icao', 'like', "%{$query}%")
+                                ->orWhere('iata', 'like', "%{$query}%")->orWhere('name', 'like', "%{$query}%")
+                                ->limit(50)->get()->mapWithKeys(fn (Airport $airport) => [$airport->id => "$airport->icao | $airport->iata | $airport->name"]))
+                            ->getOptionLabelUsing(function (?string $value) {
+                                $airport = Airport::find($value);
+                                return $airport ? "{$airport?->icao} | {$airport?->iata} | {$airport?->name}" : '';
+                            }),
+                        Forms\Components\TimePicker::make('ctot')->label('CTOT (UTC)')->withoutSeconds(),
+                        Forms\Components\TimePicker::make('eta')->label('ETA (UTC)')->withoutSeconds(),
+                        Forms\Components\TextInput::make('oceanicFL')
+                            ->label('Cruise FL')
+                            ->prefix('FL')
+                            ->numeric()
+                            ->step(10)
+                            ->minLength(0)
+                            ->maxLength(660),
+                        Forms\Components\Textarea::make('route')->columnSpan('full'),
+                        Forms\Components\Textarea::make('notes')->columnSpan('full'),
+                    ])
             ]);
     }
 
