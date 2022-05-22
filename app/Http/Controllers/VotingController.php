@@ -20,9 +20,10 @@ class VotingController extends Controller
         //$poll_id = $request->input('poll_id');
         $poll = DB::table('poll')->where('id',$poll_id)->first();
         $poll_choices = DB::table('poll_choices')->where('poll_id',$poll_id)->get();
-        $votes = DB::table('votes')->selectRaw('votes.vote_id as id, poll_choices.option_name as name, votes.order as priority, count(*) as votes')
+        /*$votes = DB::table('votes')->selectRaw('votes.vote_id as id, poll_choices.option_name as name, votes.order as priority, count(*) as votes')
             ->join('poll_choices','votes.vote_id','=','poll_choices.id')
-            ->where('votes.poll_id',$poll_id)->groupBy('votes.vote_id','votes.order')->get();
+            ->where('votes.poll_id',$poll_id)->groupBy('votes.vote_id','votes.order')->get();*/
+        $votes = DB::select('call pull_pollresults (?)',array($poll_id));
         return view('voting.viewmore',compact('poll','poll_choices','votes'));
     }
     public function editPoll(Request $request){
