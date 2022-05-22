@@ -66,26 +66,14 @@ class EventAdminController extends AdminController
             'description'
         ));
         $event->fill([
-            'startEvent' => Carbon::createFromFormat(
-                'd-m-Y H:i',
-                $request->dateEvent . ' ' . $request->timeBeginEvent
-            ),
-            'endEvent' => Carbon::createFromFormat(
-                'd-m-Y H:i',
-                $request->dateEvent . ' ' . $request->timeEndEvent
-            ),
-            'startBooking' => Carbon::createFromFormat(
-                'd-m-Y H:i',
-                $request->dateBeginBooking . ' ' . $request->timeBeginBooking
-            ),
-            'endBooking' => Carbon::createFromFormat(
-                'd-m-Y H:i',
-                $request->dateEndBooking . ' ' . $request->timeEndBooking
-            ),
+            'startEvent' => $request->date('startEvent'),
+            'endEvent' => $request->date('endEvent'),
+            'startBooking' => $request->date('startBooking'),
+            'endBooking' => $request->date('endBooking'),
         ])->save();
 
         flashMessage('success', __('Done'), __('Event has been created!'));
-        return redirect(route('admin.events.index'));
+        return to_route('admin.events.index');
     }
 
     public function show(Event $event): View
@@ -121,25 +109,13 @@ class EventAdminController extends AdminController
             'description'
         ));
         $event->fill([
-            'startEvent' => Carbon::createFromFormat(
-                'd-m-Y H:i',
-                $request->dateEvent . ' ' . $request->timeBeginEvent
-            ),
-            'endEvent' => Carbon::createFromFormat(
-                'd-m-Y H:i',
-                $request->dateEvent . ' ' . $request->timeEndEvent
-            ),
-            'startBooking' => Carbon::createFromFormat(
-                'd-m-Y H:i',
-                $request->dateBeginBooking . ' ' . $request->timeBeginBooking
-            ),
-            'endBooking' => Carbon::createFromFormat(
-                'd-m-Y H:i',
-                $request->dateEndBooking . ' ' . $request->timeEndBooking
-            ),
+            'startEvent' => $request->date('startEvent'),
+            'endEvent' => $request->date('endEvent'),
+            'startBooking' => $request->date('startBooking'),
+            'endBooking' => $request->date('endBooking'),
         ])->save();
         flashMessage('success', __('Done'), __('Event has been updated!'));
-        return redirect(route('admin.events.index'));
+        return to_route('admin.events.index');
     }
 
     public function destroy(Event $event): RedirectResponse
@@ -172,7 +148,7 @@ class EventAdminController extends AdminController
             })->get();
             event(new EventBulkEmail($event, $request->all(), $users));
             flashMessage('success', __('Done'), __('Bulk E-mail has been sent to :count people!', ['count' => $users->count()]));
-            return redirect(route('admin.events.index'));
+            return to_route('admin.events.index');
         }
     }
 
@@ -184,7 +160,8 @@ class EventAdminController extends AdminController
             ->get();
 
         if ($request->testmode) {
-            event(new EventFinalInformation($bookings->random()));
+            event(new EventFinalInformation($bookings->random(), $request->user()));
+
             return response()->json(['success' => __('Email has been sent to yourself')]);
         } else {
             $count = $bookings->count();
@@ -208,7 +185,8 @@ class EventAdminController extends AdminController
                 ->withProperty('count', $count)
                 ->log('Final Information E-mail');
         }
-        return redirect(route('admin.events.index'));
+
+        return to_route('admin.events.index');
     }
 
     public function deleteAllBookings(Request $request, Event $event): RedirectResponse
@@ -225,6 +203,6 @@ class EventAdminController extends AdminController
 
         $event->bookings()->delete();
         flashMessage('success', __('Bookings deleted'), __('All bookings have been deleted'));
-        return redirect(route('admin.events.index'));
+        return to_route('admin.events.index');
     }
 }

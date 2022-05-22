@@ -1,7 +1,7 @@
 
 # Book me a Cookie [BMAC]
 
-![CI/CD](https://github.com/daveroverts/bmac/workflows/CI/CD/badge.svg)
+![CI](https://github.com/daveroverts/bmac/workflows/CI/badge.svg)
 
 Book me a Cookie [BMAC] is a Vatsim booking system created in Laravel.
 It's initial purpose was to be used for one event (The Holland - America Line),
@@ -47,8 +47,8 @@ Connect Development Environment. Details can be found here: <https://github.com/
 
 Before you begin, make sure you have a server with PHP 8.1 (recommended) or
 PHP 8.0 to run everything on. For local development,
-I use [Laravel Valet](https://laravel.com/docs/8.x/valet),
-and before that I used [Laravel Homestead](https://laravel.com/docs/8.x/homestead).
+I use [Laravel Valet](https://laravel.com/docs/9.x/valet),
+and before that I used [Laravel Homestead](https://laravel.com/docs/9.x/homestead).
 
 1. Clone the project
 
@@ -79,7 +79,8 @@ and before that I used [Laravel Homestead](https://laravel.com/docs/8.x/homestea
    - `BUGSNAG_API_KEY`:
      - BMAC uses Bugsnag by default for error monitoring.
      - If you have a key, you can put this here.
-     There won't be problems if you leave it empty.
+   - `SENTRY_LARAVEL_DSN`:
+     - If you prefer to use Sentry, you can fill in the DSN here.
    - `DB_*`
      - As required
      - If you need to share a database with some other application,
@@ -88,19 +89,19 @@ and before that I used [Laravel Homestead](https://laravel.com/docs/8.x/homestea
    - `QUEUE_CONNECTION`
      - For local, you can use `sync` with no issues
      - In a production environment, I recommend you use something else,
-     like `database` or `redis`. More info can be found [here](https://laravel.com/docs/8.x/queues)
+     like `database` or `redis`. More info can be found [here](https://laravel.com/docs/9.x/queues)
        - When you use `database`, the `jobs` table is already migrated,
        no need to do that again.
        - When you use `redis`, and can't use `phpredis` PHP extension,
        `predis` is already in the `composer.json` file,
        no need to require it again. You do need to add `REDIS_CLIENT=predis`.
-       See this link for more information about Redis and Laravel: <https://laravel.com/docs/8.x/redis#introduction>
+       See this link for more information about Redis and Laravel: <https://laravel.com/docs/9.x/redis#introduction>
    - `MAIL_*`
      - As required
      - `MAIL_MAILER`: For testing, you can use something like
      [Mailtrap](https://mailtrap.io/) (online) or
      [Mailhog](https://github.com/mailhog/MailHog)
-     (local, included with [Laravel Homestead](https://laravel.com/docs/8.x/homestead))
+     (local, included with [Laravel Homestead](https://laravel.com/docs/9.x/homestead))
      - `MAIL_FROM_ADDRESS`: This will be used as the `From` email.
      Don't forget to set this.
      - `MAIL_FROM_NAME`: This will be used as the `From` name
@@ -141,34 +142,37 @@ and before that I used [Laravel Homestead](https://laravel.com/docs/8.x/homestea
 
 6. Open the database, and make yourself admin by setting `isAdmin` to `1`.
 
-7. (Optional) If you want to include all airports in the database,
-navigate to `admin/airports/import` (be sure you're logged in as admin).
-The script uses [this](https://github.com/jpatokal/openflights/blob/master/data/airports.dat)
-file as source.
-Note that at the time of writing, the file was last edited 13 May 2019.
-If you choose to not include all airports,
-you're responsible to add the ones you need.
-If you're planning on importing flights later on,
-add the airports in first before starting a import.
+7. Setup Task schedule. You need to add a cronjob to run
+   `php artisan schedule:run` every minute. Example can be found below:
+
+    ```bash
+      * * * * * cd /bmac && php artisan schedule:run >> /dev/null 2>&1
+    ```
+
+    For local development,
+    you can run `php artisan schedule:work` in a separate terminal.
+
+    More info can be found here: <https://laravel.com/docs/9.x/scheduling#running-the-scheduler>
+
+8. (Optional) If you want to include all airports in the database,
+run the following command:
+
+   ```bash
+     php artisan import:airports
+   ```
+
+    The script uses [this](https://raw.githubusercontent.com/mborsetti/airportsdata/main/airportsdata/airports.csv)
+    file as source.
+    If you choose to not include all airports,
+    you're responsible to add the ones you need.
+    If you're planning on importing flights later on,
+    add the airports in first before starting a import.
 
 ## Queue worker / Laravel Horizon
 
 If you're not using `sync` as `QUEUE_CONNECTION`, you need to run a queue worker,
 or else things like emails aren't being sent.
-Check Laravel documentation on how to set one up using Supervisor <https://laravel.com/docs/8.x/queues#supervisor-configuration>
+Check Laravel documentation on how to set one up using Supervisor <https://laravel.com/docs/9.x/queues#supervisor-configuration>
 
-When you're using `redis` as `QUEUE_CONNECTION`, [Laravel Horizon](https://laravel.com/docs/8.x/horizon)
+When you're using `redis` as `QUEUE_CONNECTION`, [Laravel Horizon](https://laravel.com/docs/9.x/horizon)
 is already installed and can be used to start a queue worker.
-
-## Task scheduler
-
-You need to add a cron entry to run `php artisan schedule:run` every minute.
-Example can be found below:
-
-```bash
-* * * * * cd /bmac && php artisan schedule:run >> /dev/null 2>&1
-```
-
-For local development, you can run `php artisan schedule:work` in a separate terminal.
-
-More info can be found here: <https://laravel.com/docs/8.x/scheduling#running-the-scheduler>

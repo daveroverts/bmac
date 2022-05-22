@@ -34,7 +34,7 @@ class FaqAdminController extends AdminController
     {
         $faq = Faq::create($request->validated());
         flashMessage('success', __('Done'), __('FAQ has been added!'));
-        return redirect(route('admin.faq.edit', $faq));
+        return to_route('admin.faq.edit', $faq);
     }
 
     public function edit(Faq $faq): View
@@ -50,14 +50,14 @@ class FaqAdminController extends AdminController
     {
         $faq->update($request->validated());
         flashMessage('success', __('Done'), __('FAQ has been updated!'));
-        return redirect(route('admin.faq.edit', $faq));
+        return to_route('admin.faq.edit', $faq);
     }
 
     public function destroy(Faq $faq): RedirectResponse
     {
         $faq->delete();
         flashMessage('success', __('Done'), 'Question has been removed!');
-        return redirect(route('admin.faq.index'));
+        return to_route(route('admin.faq.index'));
     }
 
     public function toggleEvent(Faq $faq, Event $event): RedirectResponse

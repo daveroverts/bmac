@@ -33,7 +33,7 @@ Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 // Admin routes
 Route::group(['as' => 'admin.', 'prefix' => 'admin', 'middleware' => 'auth.isAdmin'], function () {
     // Airports
-    Route::get('airports/import', [AirportAdminController::class, 'import'])->name('admin.airports.import');
+    Route::post('airports/destroy-unused', [AirportAdminController::class, 'destroyUnused'])->name('airports.destroyUnused');
     Route::resource('airports', AirportAdminController::class);
 
     // AirportLinks

@@ -21,5 +21,5 @@ We look forward to seeing you in the virtual skies, and wish you best of luck wi
 
 @lang('Regards'),
 
-**VATEUD**
+**{{ config('mail.from.name', config('app.name')) }}**
 @endcomponent

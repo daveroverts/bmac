@@ -36,7 +36,7 @@
                 <th scope="row" colspan="2">Actions</th>
             </tr>
         </thead>
-        @forelse($faqs as $faq)
+        @foreach ($faqs as $faq)
             <tr>
                 <td>{{ $faq->id }}</td>
                 <td>{{ $faq->question }}</td>
@@ -56,12 +56,7 @@
                     </form>
                 </td>
             </tr>
-        @empty
-            @php
-                flashMessage('warning', 'No faq\'s found', 'No faq\'s are in the system, consider adding one, using the button above');
-            @endphp
-            @include('layouts.alert')
-        @endforelse
+        @endforeach
         {{ $faqs->links() }}
     </table>
     {{ $faqs->links() }}

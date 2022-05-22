@@ -89,6 +89,30 @@
                             </x-form-group>
                         @endif
 
+                        @foreach ($flight->airportDep->links as $link)
+                            <x-form-group :label="$link->name ?: $link->type->name . ' ' . $link->airport->icao">
+                                <strong>
+                                    <a href="{{ $link->url }}" rel="noreferrer noopener" target="_blank">Link</a>
+                                </strong>
+                            </x-form-group>
+                        @endforeach
+
+                        @foreach ($booking->event->links as $link)
+                            <x-form-group :label="$link->name ?: $link->type->name">
+                                <strong>
+                                    <a href="{{ $link->url }}" rel="noreferrer noopener" target="_blank">Link</a>
+                                </strong>
+                            </x-form-group>
+                        @endforeach
+
+                        @foreach ($flight->airportArr->links as $link)
+                            <x-form-group :label="$link->name ?: $link->type->name . ' ' . $link->airport->icao">
+                                <strong>
+                                    <a href="{{ $link->url }}" rel="noreferrer noopener" target="_blank">Link</a>
+                                </strong>
+                            </x-form-group>
+                        @endforeach
+
                         @if ($booking->status === \App\Enums\BookingStatus::RESERVED)
                             <x-form-group>
                                 <input type="hidden" name="checkStudy" value="0">

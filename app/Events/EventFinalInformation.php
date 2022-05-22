@@ -3,6 +3,7 @@
 namespace App\Events;
 
 use App\Models\Booking;
+use App\Models\User;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;
@@ -22,7 +23,7 @@ class EventFinalInformation
      *
      * @return void
      */
-    public function __construct(public Booking $booking, public $testMode = false)
+    public function __construct(public Booking $booking, public ?User $testUser = null)
     {
         //
     }
