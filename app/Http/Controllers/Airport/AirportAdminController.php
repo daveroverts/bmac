@@ -4,13 +4,12 @@ namespace App\Http\Controllers\Airport;
 
 use App\Models\Airport;
 use Illuminate\View\View;
-use App\Imports\AirportsImport;
 use App\Policies\AirportPolicy;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\AdminController;
 use App\Http\Requests\Airport\Admin\StoreAirport;
 use App\Http\Requests\Airport\Admin\UpdateAirport;
+use App\Jobs\ImportAirportsJob;
 
 class AirportAdminController extends AdminController
 {
@@ -35,7 +34,7 @@ class AirportAdminController extends AdminController
     {
         $airport = Airport::create($request->validated());
         flashMessage('success', __('Done'), __(':airport has been added!', ['airport' => "$airport->name [$airport->icao | $airport->iata]"]));
-        return redirect(route('admin.airports.index'));
+        return to_route('admin.airports.index');
     }
 
     public function show(Airport $airport): View
@@ -53,7 +52,7 @@ class AirportAdminController extends AdminController
         $airport->update($request->validated());
         flashMessage('success', __('Done'), __(':airport has been updated!', ['airport' => "$airport->name [$airport->icao | $airport->iata]"]));
 
-        return redirect(route('admin.airports.index'));
+        return to_route('admin.airports.index');
     }
 
     public function destroy(Airport $airport): RedirectResponse
@@ -73,16 +72,17 @@ class AirportAdminController extends AdminController
         }
     }
 
-    public function import(): RedirectResponse
+    public function destroyUnused()
     {
-        $file = 'import.csv';
-        Storage::disk('local')->put(
-            $file,
-            "airportId,name,city,country,iata,icao,latitude,longitude,altitude,timezone,dst,tzDatabaseTimeZone,type,source\n" . file_get_contents('https://raw.githubusercontent.com/jpatokal/openflights/master/data/airports.dat')
-        );
-        (new AirportsImport())->import($file);
-        Storage::delete($file);
-        flashMessage('success', __('Done'), __('Airports have been added'));
-        return redirect(route('admin.airports.index'));
+        $this->authorize('destroy', Airport::class);
+        Airport::whereDoesntHave('flightsDep')
+            ->whereDoesntHave('flightsArr')
+            ->whereDoesntHave('eventDep')
+            ->whereDoesntHave('eventArr')
+            ->delete();
+
+        flashMessage('success', __('Done'), __('Unused airport have been deleted!'));
+
+        return to_route('admin.airports.index');
     }
 }

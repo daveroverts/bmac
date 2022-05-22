@@ -1,6 +1,11 @@
 {
     "name": "bmac",
     "private": true,
+    "version": "2.7.2",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/daveroverts/bmac.git"
+    },
     "author": {
         "name": "Dave Roverts",
         "email": "me@daveroverts.nl",
@@ -17,46 +22,43 @@
         "semantic-release": "semantic-release"
     },
     "devDependencies": {
-        "@commitlint/cli": "^16.0.1",
-        "@commitlint/config-conventional": "^16.0.0",
-        "@commitlint/cz-commitlint": "^16.0.0",
-        "@fortawesome/fontawesome-free": "^5.15.4",
-        "@fortawesome/fontawesome-svg-core": "^1.2.36",
-        "@fortawesome/free-brands-svg-icons": "^5.15.4",
-        "@fortawesome/free-regular-svg-icons": "^5.15.4",
-        "@fortawesome/free-solid-svg-icons": "^5.15.4",
+        "@commitlint/cli": "^16.2.4",
+        "@commitlint/config-conventional": "^16.2.4",
+        "@commitlint/cz-commitlint": "^16.2.4",
+        "@eclass/semantic-release-sentry-releases": "^3.0.0",
+        "@fortawesome/fontawesome-free": "^6.1.1",
+        "@fortawesome/fontawesome-svg-core": "^6.1.1",
+        "@fortawesome/free-brands-svg-icons": "^6.1.1",
+        "@fortawesome/free-regular-svg-icons": "^6.1.1",
+        "@fortawesome/free-solid-svg-icons": "^6.1.1",
         "@semantic-release/changelog": "^6.0.1",
         "@semantic-release/git": "^10.0.1",
-        "axios": "^0.24.0",
+        "axios": "^0.27.2",
         "bootstrap": "^4.6.1",
-        "browser-sync": "^2.27.7",
+        "browser-sync": "^2.27.9",
         "browser-sync-webpack-plugin": "^2.3.0",
         "commitizen": "^4.2.4",
         "cross-env": "^7.0.3",
         "jquery": "^3.6.0",
-        "jquery-ui": "^1.13.0",
-        "laravel-mix": "^6.0.39",
+        "laravel-mix": "^6.0.43",
         "laravel-mix-purgecss": "^6.0.0",
         "popper.js": "^1.16.1",
-        "postcss": "^8.3.11",
-        "resolve-url-loader": "^4.0.0",
-        "sass": "^1.43.4",
-        "sass-loader": "^12.3.0",
-        "semantic-release": "^18.0.1",
-        "tinymce": "^5.10.2"
+        "postcss": "^8.4.13",
+        "resolve-url-loader": "^5.0.0",
+        "sass": "^1.51.0",
+        "sass-loader": "^12.6.0",
+        "semantic-release": "^19.0.2",
+        "tinymce": "^6.0.2"
     },
     "dependencies": {
+        "alpinejs": "^3.10.2",
         "bootswatch": "^4.6.1",
-        "sweetalert2": "^11.1.9"
-    },
-    "version": "2.3.0",
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/daveroverts/bmac.git"
+        "flatpickr": "^4.6.13",
+        "sweetalert2": "^11.4.10"
     },
     "release": {
         "branches": [
-            "'+([0-9])?(.{+([0-9]),x}).x'",
+            "+([0-9])?(.{+([0-9]),x}).x",
             "main",
             "next",
             "next-major",
@@ -74,17 +76,7 @@
             "@semantic-release/release-notes-generator",
             "@semantic-release/npm",
             "@semantic-release/changelog",
-            [
-                "@semantic-release/git",
-                {
-                    "assets": [
-                        "CHANGELOG.md",
-                        "package.json",
-                        "package-lock.json",
-                        "LICENSE.md"
-                    ]
-                }
-            ],
+            "@semantic-release/git",
             "@semantic-release/github"
         ]
     },

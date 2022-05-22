@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -18,20 +19,26 @@
     <!-- Styles -->
     <link href="{{ mix('css/app.css') }}" rel="stylesheet">
 
+    @livewireStyles
+
     <!-- Robots -->
-    <meta name="robots" content="noindex"/>
+    <meta name="robots" content="noindex" />
 
     <!-- Scripts -->
     <script src="{{ mix('js/manifest.js') }}"></script>
     <script src="{{ mix('js/vendor.js') }}"></script>
     <script src="{{ mix('js/app.js') }}"></script>
-    @livewireStyles
+    @if (request()->routeIs('admin*'))
+        <script src="{{ mix('js/alpine.js') }}" defer></script>
+        <script src="{{ mix('js/tinymce.js') }}" defer></script>
+    @endif
 </head>
+
 <body>
-<div id="app">
-    @include('layouts.navbar')
-    <main class="py-4">
-        <div class="container">
+    <div id="app">
+        @include('layouts.navbar')
+        <main class="py-4">
+            <div class="container">
 
                 <ol class="breadcrumb">
                     @foreach (Breadcrumbs::current() as $crumbs)
@@ -47,13 +54,14 @@
                     @endforeach
                 </ol>
 
-            @yield('content')
-            @include('layouts.footer')
-        </div>
-    </main>
-</div>
-<!-- Scripts -->
-@stack('scripts')
-@livewireScripts
+                @yield('content')
+                @include('layouts.footer')
+            </div>
+        </main>
+    </div>
+    <!-- Scripts -->
+    @stack('scripts')
+    @livewireScripts
 </body>
+
 </html>

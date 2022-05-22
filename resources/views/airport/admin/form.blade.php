@@ -16,6 +16,8 @@
                         <x-form-input name="icao" :label="__('ICAO')" required maxlength="4" />
                         <x-form-input name="iata" :label="__('IATA')" required maxlength="3" />
                         <x-form-input name="name" :label="__('Name')" required />
+                        <x-form-input name="latitude" :label="__('Latitude')" />
+                        <x-form-input name="longitude" :label="__('Longitude')" />
 
                         <x-form-submit>
                             @if ($airport->id)

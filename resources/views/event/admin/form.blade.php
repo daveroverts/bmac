@@ -83,50 +83,20 @@
                         <x-form-select name="arr" :label="__('Arrival airport')" :options="$airports"
                             :placeholder="__('Choose...')" required />
 
-                        <x-form-group :label="__('Event date time (UTC)')" inline>
-                            <x-form-input name="dateEvent" class="datepicker"
-                                :value="old('dateEvent', $event->id ? $event->startEvent->format('d-m-Y') : null)"
-                                :label="'<i class=\'fa fa-calendar\'></i> ' . __('Date')" />
-                            <x-form-input name="timeBeginEvent" type="time"
-                                :label="'<i class=\'fa fa-clock\'></i> ' . __('Begin')"
-                                :value="old('timeBeginEvent', $event->id ? $event->startEvent->format('H:i') : null)">
-                                @slot('append')
-                                    z
-                                @endslot
-                            </x-form-input>
-                            <x-form-input name="timeEndEvent" type="time"
-                                :label="'<i class=\'fa fa-clock\'></i> ' . __('End')"
-                                :value="old('timeBeginEvent', $event->id ? $event->endEvent->format('H:i') : null)">
-                                @slot('append')
-                                    z
-                                @endslot
-                            </x-form-input>
+                        <x-form-group :label="__('Start event (UTC)')">
+                            <x-flat-pickr name="startEvent" value="{{ old('startEvent', $event->startEvent) }}" />
                         </x-form-group>
 
-                        <x-form-group :label="__('Start Bookings (UTC)')" inline>
-                            <x-form-input name="dateBeginBooking" class="datepicker"
-                                :label="'<i class=\'fa fa-calendar\'></i> ' . __('Date')"
-                                :value="old('dateBeginBooking', $event->id ? $event->startBooking->format('d-m-Y') : null)" />
-                            <x-form-input name="timeBeginBooking" type="time"
-                                :label="'<i class=\'fa fa-clock\'></i> ' . __('Begin')"
-                                :value="old('dateBeginBooking', $event->id ? $event->startBooking->format('H:i') : null)">
-                                @slot('append')
-                                    z
-                                @endslot
-                            </x-form-input>
+                        <x-form-group :label="__('End event (UTC)')">
+                            <x-flat-pickr name="endEvent" value="{{ old('endEvent', $event->endEvent) }}" />
                         </x-form-group>
 
-                        <x-form-group :label="__('End Bookings (UTC)')" inline>
-                            <x-form-input name="dateEndBooking" class="datepicker"
-                                :label="'<i class=\'fa fa-calendar\'></i> ' . __('Date')"
-                                :value="old('dateEndBooking', $event->id ? $event->endBooking->format('d-m-Y') : null)" />
-                            <x-form-input name="timeEndBooking" type="time"
-                                :label="'<i class=\'fa fa-clock\'></i> ' . __('End')"
-                                :value="old('dateEndBooking', $event->id ? $event->endBooking->format('H:i') : null)">
-                                @slot('append')
-                                    z
-                                @endslot
-                            </x-form-input>
+                        <x-form-group :label="__('Start booking (UTC)')">
+                            <x-flat-pickr name="startBooking" value="{{ old('startBooking', $event->startBooking) }}" />
+                        </x-form-group>
+
+                        <x-form-group :label="__('End booking (UTC)')">
+                            <x-flat-pickr name="endBooking" value="{{ old('endBooking', $event->endBooking) }}" />
                         </x-form-group>
 
                         <x-form-input name="image_url" :label="__('Image URL')" placeholder="https://example.org" />
@@ -148,15 +118,3 @@
         </div>
     </div>
 @endsection
-
-@push('scripts')
-    <script>
-        $('.datepicker').datepicker({
-            dateFormat: "dd-mm-yy",
-            minDate: 0,
-            showButtonPanel: true,
-            showOtherMonths: true,
-            selectOtherMonths: true
-        });
-    </script>
-@endpush
