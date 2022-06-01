@@ -40,7 +40,7 @@
         "commitizen": "^4.2.4",
         "cross-env": "^7.0.3",
         "jquery": "^3.6.0",
-        "laravel-mix": "^6.0.43",
+        "laravel-mix": "^6.0.44",
         "laravel-mix-purgecss": "^6.0.0",
         "popper.js": "^1.16.1",
         "postcss": "^8.4.13",
