@@ -22,7 +22,7 @@
         "semantic-release": "semantic-release"
     },
     "devDependencies": {
-        "@commitlint/cli": "^16.2.4",
+        "@commitlint/cli": "^17.0.2",
         "@commitlint/config-conventional": "^16.2.4",
         "@commitlint/cz-commitlint": "^16.2.4",
         "@eclass/semantic-release-sentry-releases": "^3.0.0",
