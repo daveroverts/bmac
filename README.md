@@ -45,8 +45,8 @@ Connect Development Environment. Details can be found here: <https://github.com/
 
 ## Installation
 
-Before you begin, make sure you have a server with PHP 8.1 (recommended) or
-PHP 8.0 to run everything on. For local development,
+Before you begin, make sure you have a server with PHP 8.1 to run everything on.
+For local development,
 I use [Laravel Valet](https://laravel.com/docs/9.x/valet),
 and before that I used [Laravel Homestead](https://laravel.com/docs/9.x/homestead).
 

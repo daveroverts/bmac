@@ -8,7 +8,7 @@
     "license": "MIT",
     "type": "project",
     "require": {
-        "php": "^8.0",
+        "php": "^8.1",
         "aws/aws-sdk-php": "^3.209",
         "bensampo/laravel-enum": "^5.0",
         "blade-ui-kit/blade-ui-kit": "^0.3.3",
