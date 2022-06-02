@@ -1,3 +1,10 @@
+# [2.8.0](https://github.com/daveroverts/bmac/compare/v2.7.2...v2.8.0) (2022-06-02)
+
+
+### Features
+
+* drop php 8.0 support ([ac77241](https://github.com/daveroverts/bmac/commit/ac772415f81f035508b6403118d9f6c01d7d3b4e))
+
 ## [2.7.2](https://github.com/daveroverts/bmac/compare/v2.7.1...v2.7.2) (2022-02-27)
 
 
