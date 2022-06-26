@@ -22,9 +22,9 @@
         "semantic-release": "semantic-release"
     },
     "devDependencies": {
-        "@commitlint/cli": "^17.0.2",
-        "@commitlint/config-conventional": "^17.0.2",
-        "@commitlint/cz-commitlint": "^17.0.0",
+        "@commitlint/cli": "^17.0.3",
+        "@commitlint/config-conventional": "^17.0.3",
+        "@commitlint/cz-commitlint": "^17.0.3",
         "@eclass/semantic-release-sentry-releases": "^3.0.0",
         "@fortawesome/fontawesome-free": "^6.1.1",
         "@fortawesome/fontawesome-svg-core": "^6.1.1",
@@ -40,13 +40,13 @@
         "commitizen": "^4.2.4",
         "cross-env": "^7.0.3",
         "jquery": "^3.6.0",
-        "laravel-mix": "^6.0.44",
+        "laravel-mix": "^6.0.49",
         "laravel-mix-purgecss": "^6.0.0",
         "popper.js": "^1.16.1",
         "postcss": "^8.4.14",
         "resolve-url-loader": "^5.0.0",
-        "sass": "^1.52.1",
-        "sass-loader": "^13.0.0",
+        "sass": "^1.53.0",
+        "sass-loader": "^13.0.1",
         "semantic-release": "^19.0.3",
         "tinymce": "^6.0.3"
     },
@@ -54,7 +54,7 @@
         "alpinejs": "^3.10.2",
         "bootswatch": "^4.6.1",
         "flatpickr": "^4.6.13",
-        "sweetalert2": "^11.4.17"
+        "sweetalert2": "^11.4.18"
     },
     "release": {
         "branches": [
