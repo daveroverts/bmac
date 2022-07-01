@@ -5,6 +5,8 @@ on:
       - main
       - next
       - next-major
+      - beta
+      - alpha
       - "*.x"
 jobs:
   release:
