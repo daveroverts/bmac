@@ -5,6 +5,7 @@ namespace App\Filament\Resources\EventResource\RelationManagers;
 use Filament\Forms;
 use Filament\Tables;
 use App\Models\Airport;
+use App\Enums\EventType;
 use App\Enums\BookingStatus;
 use Filament\Resources\Form;
 use Filament\Resources\Table;
