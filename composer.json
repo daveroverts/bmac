@@ -23,7 +23,7 @@
         "league/oauth2-client": "^2.6",
         "livewire/livewire": "^2.10",
         "maatwebsite/excel": "^3.1",
-        "predis/predis": "^1.1",
+        "predis/predis": "^2.0",
         "protonemedia/laravel-form-components": "^3.5",
         "sentry/sentry-laravel": "^2.11",
         "spatie/laravel-activitylog": "^4.4",
