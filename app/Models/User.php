@@ -70,7 +70,7 @@ class User extends Authenticatable implements FilamentUser, HasName
     /**
      * The attributes that should be hidden for arrays.
      *
-     * @var array
+     * @var array<int, string>
      */
     protected $hidden = [
         'remember_token',
@@ -78,7 +78,7 @@ class User extends Authenticatable implements FilamentUser, HasName
     /**
      * The attributes that should be cast to native types.
      *
-     * @var array
+     * @var array<string, string>
      */
     protected $casts = [
         'isAdmin' => 'boolean',
