@@ -38,4 +38,40 @@ class UserFactory extends Factory
             ];
         });
     }
+
+    public function airportViewName()
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'airport_view' => AirportView::NAME,
+            ];
+        });
+    }
+
+    public function airportViewIcao()
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'airport_view' => AirportView::ICAO,
+            ];
+        });
+    }
+
+    public function airportViewIata()
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'airport_view' => AirportView::IATA,
+            ];
+        });
+    }
+
+    public function monospaceFont()
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'monospace_font' => true,
+            ];
+        });
+    }
 }
