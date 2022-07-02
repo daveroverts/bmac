@@ -5,32 +5,30 @@ namespace Tests\Unit;
 use App\Models\Event;
 use App\Models\Faq;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
-class FaqTest extends TestCase
-{
-    use RefreshDatabase;
+it('creates new FAQ', function () {
+    /** @var TestCase $this */
 
-    public function testItCreatesNewFaq()
-    {
-        $faq = Faq::factory()->create();
+    /** @var Faq $faq */
+    $faq = Faq::factory()->create();
 
-        $this->assertDatabaseHas('faqs', [
-            'id' => $faq->id,
-            'question' => $faq->question,
-            'answer' => $faq->answer,
-        ]);
-    }
+    $this->assertDatabaseHas('faqs', [
+        'id' => $faq->id,
+        'question' => $faq->question,
+        'answer' => $faq->answer,
+    ]);
+});
 
-    public function testItLinksFaqToEvent()
-    {
-        $event = Event::factory()
-            ->has(Faq::factory())
-            ->create();
+it('links faq to event', function () {
+    /** @var TestCase $this */
 
-        $this->assertDatabaseHas('event_faq', [
-            'event_id' => $event->id,
-            'faq_id' => $event->faqs()->first()->id
-        ]);
-    }
-}
+    /** @var Event $event */
+    $event = Event::factory()
+        ->has(Faq::factory())
+        ->create();
+
+    $this->assertDatabaseHas('event_faq', [
+        'event_id' => $event->id,
+        'faq_id' => $event->faqs()->first()->id
+    ]);
+});

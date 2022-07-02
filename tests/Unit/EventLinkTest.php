@@ -4,21 +4,17 @@ namespace Tests\Unit;
 
 use App\Models\EventLink;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
-class EventLinkTest extends TestCase
-{
-    use RefreshDatabase;
+it('creates new event link', function () {
+    /** @var TestCase $this */
 
-    public function testItCreatesNewEventLink()
-    {
-        $eventLink = EventLink::factory()->create();
+    /** @var EventLink $eventLink */
+    $eventLink = EventLink::factory()->create();
 
-        $this->assertDatabaseHas('event_links', [
-            'id' => $eventLink->id,
-            'event_id' => $eventLink->event_id,
-            'event_link_type_id' => $eventLink->event_link_type_id,
-            'url' => $eventLink->url,
-        ]);
-    }
-}
+    $this->assertDatabaseHas('event_links', [
+        'id' => $eventLink->id,
+        'event_id' => $eventLink->event_id,
+        'event_link_type_id' => $eventLink->event_link_type_id,
+        'url' => $eventLink->url,
+    ]);
+});
