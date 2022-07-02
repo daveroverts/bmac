@@ -26,4 +26,13 @@ class FaqFactory extends Factory
             'answer' => $this->faker->sentence(),
         ];
     }
+
+    public function offline()
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'is_online' => false,
+            ];
+        });
+    }
 }
