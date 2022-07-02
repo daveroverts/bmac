@@ -1,30 +1,15 @@
 <?php
 
-namespace Tests\Feature\Console\Commands;
-
-use App\Console\Commands\ImportAirportsCommand;
-use App\Jobs\ImportAirportsJob;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Support\Facades\Queue;
 use Tests\TestCase;
+use App\Jobs\ImportAirportsJob;
+use Illuminate\Support\Facades\Queue;
+use App\Console\Commands\ImportAirportsCommand;
 
-class ImportAirportsCommandTest extends TestCase
-{
-    use RefreshDatabase;
+it('can start airports import', function () {
+    /** @var TestCase $this  */
+    Queue::fake();
 
-    /**
-     * A basic feature test example.
-     *
-     * @return void
-     */
-    public function test_command()
-    {
-        Queue::fake();
-
-        Queue::assertNothingPushed();
-
-        $this->artisan(ImportAirportsCommand::class)->assertSuccessful();
-        Queue::assertPushed(ImportAirportsJob::class);
-    }
-}
+    Queue::assertNothingPushed();
+    $this->artisan(ImportAirportsCommand::class)->assertSuccessful();
+    Queue::assertPushed(ImportAirportsJob::class);
+});

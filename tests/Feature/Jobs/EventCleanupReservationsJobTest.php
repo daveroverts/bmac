@@ -6,42 +6,36 @@ use App\Enums\BookingStatus;
 use App\Jobs\EventCleanupReservationsJob;
 use App\Models\Booking;
 use App\Models\Event;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
-class EventCleanupReservationsJobTest extends TestCase
-{
-    use RefreshDatabase;
+it('cleans up reserverd bookings', function () {
+    /** @var TestCase $this  */
 
-    public function test_it_cleans_up_reserved_bookings()
-    {
-        /** @var Event $event */
-        $event = Event::factory()->has(Booking::factory()->count(10))->create();
+    /** @var Event $event */
+    $event = Event::factory()->has(Booking::factory()->count(10))->create();
 
-        $this->assertCount(10, $event->bookings()->get());
+    $this->assertCount(10, $event->bookings()->get());
 
-        $booking = $event->bookings()->inRandomOrder()->first();
+    $booking = $event->bookings()->inRandomOrder()->first();
 
-        $booking->status = BookingStatus::RESERVED;
-        $booking->save();
+    $booking->status = BookingStatus::RESERVED;
+    $booking->save();
 
-        $this->assertCount(1, $event->bookings()->whereStatus(BookingStatus::RESERVED)->get());
+    $this->assertCount(1, $event->bookings()->whereStatus(BookingStatus::RESERVED)->get());
 
-        EventCleanupReservationsJob::dispatch($event);
+    EventCleanupReservationsJob::dispatch($event);
 
-        $this->assertCount(1, $event->bookings()->whereStatus(BookingStatus::RESERVED)->get());
+    $this->assertCount(1, $event->bookings()->whereStatus(BookingStatus::RESERVED)->get());
 
-        $this->travel(9)->minutes();
+    $this->travel(9)->minutes();
 
-        EventCleanupReservationsJob::dispatch($event);
+    EventCleanupReservationsJob::dispatch($event);
 
-        $this->assertCount(1, $event->bookings()->whereStatus(BookingStatus::RESERVED)->get());
+    $this->assertCount(1, $event->bookings()->whereStatus(BookingStatus::RESERVED)->get());
 
-        $this->travel(1)->minutes();
+    $this->travel(1)->minutes();
 
-        EventCleanupReservationsJob::dispatch($event);
+    EventCleanupReservationsJob::dispatch($event);
 
-        $this->assertCount(0, $event->bookings()->whereStatus(BookingStatus::RESERVED)->get());
-    }
-}
+    $this->assertCount(0, $event->bookings()->whereStatus(BookingStatus::RESERVED)->get());
+});
