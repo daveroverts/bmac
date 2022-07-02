@@ -25,7 +25,7 @@ class EventLinkFactory extends Factory
         return [
             'event_id' => Event::factory(),
             'event_link_type_id' => 4,
-            'url' => $this->faker->url,
+            'url' => $this->faker->url(),
         ];
     }
 }

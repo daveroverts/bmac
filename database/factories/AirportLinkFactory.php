@@ -25,7 +25,7 @@ class AirportLinkFactory extends Factory
         return [
             'airport_id' => Airport::factory(),
             'airportLinkType_id' => 4,
-            'url' => $this->faker->url,
+            'url' => $this->faker->url(),
         ];
     }
 }
