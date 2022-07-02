@@ -29,4 +29,13 @@ class UserFactory extends Factory
             'email' => $this->faker->unique()->safeEmail,
         ];
     }
+
+    public function admin()
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'isAdmin' => true,
+            ];
+        });
+    }
 }
