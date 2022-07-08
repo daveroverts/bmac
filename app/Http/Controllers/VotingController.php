@@ -23,7 +23,18 @@ class VotingController extends Controller
         /*$votes = DB::table('votes')->selectRaw('votes.vote_id as id, poll_choices.option_name as name, votes.order as priority, count(*) as votes')
             ->join('poll_choices','votes.vote_id','=','poll_choices.id')
             ->where('votes.poll_id',$poll_id)->groupBy('votes.vote_id','votes.order')->get();*/
-        $votes = DB::select('call pull_pollresults (?)',array($poll_id));
+        //This was using a mysql stored procedure.. that i forgot to save
+        //$votes = DB::select('call pull_pollresults (?)',array($poll_id));
+        //POSTGRES compatbility
+        $votes = DB::select('
+        select poll_choices.option_name, count(1) filter (where votes.order=0) as first,count(1) filter (where votes.order=1) as second,count(1) filter (where votes.order=2) as third
+from poll_choices, votes
+where
+CAST(poll_choices.poll_id AS INTEGER) = ? and
+poll_choices.id = CAST(votes.vote_id AS INTEGER)
+GROUP BY
+poll_choices.option_name
+        ',array($poll_id));
         return view('voting.viewmore',compact('poll','poll_choices','votes'));
     }
     public function editPoll(Request $request){
