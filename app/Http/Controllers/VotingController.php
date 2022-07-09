@@ -27,7 +27,7 @@ class VotingController extends Controller
         //$votes = DB::select('call pull_pollresults (?)',array($poll_id));
         //POSTGRES compatbility
         $votes = DB::select('
-        select poll_choices.option_name, count(1) filter (where votes.order=0) as first,count(1) filter (where votes.order=1) as second,count(1) filter (where votes.order=2) as third
+        select poll_choices.option_name as name, count(1) filter (where votes.order=0) as first,count(1) filter (where votes.order=1) as second,count(1) filter (where votes.order=2) as third
 from poll_choices, votes
 where
 CAST(poll_choices.poll_id AS INTEGER) = ? and
