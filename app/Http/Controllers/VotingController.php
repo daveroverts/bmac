@@ -90,7 +90,7 @@ poll_choices.option_name
             $poll_name = $poll->poll_name;
             $poll_description = $poll->poll_description;
             $votes = DB::table('votes')->where(["votes.user_id"=>Auth::id(),"votes.poll_id"=>$poll_id])->selectRaw('poll_choices.option_name as `name`, votes.order as `order`')
-                ->join('poll_choices','poll_choices.id','=','votes.vote_id')->orderBy('votes.order')->get();
+                ->join('poll_choices','poll_choices.id','=',DB::raw('CAST(votes.vote_id AS INTEGER)'))->orderBy('votes.order')->get();
 
             //fetch poll options...
             $temp2 = [];
