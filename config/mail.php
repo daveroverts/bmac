@@ -65,11 +65,15 @@ return [
             'transport' => 'log',
             'channel' => env('MAIL_LOG_CHANNEL'),
         ],
-
+        
         'array' => [
             'transport' => 'array',
         ],
-
+        
+        'sendinblue' => [
+            'transport' => 'sendinblue',
+        ],
+        
         'failover' => [
             'transport' => 'failover',
             'mailers' => [
