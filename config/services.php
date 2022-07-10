@@ -29,5 +29,11 @@ return [
         'secret' => env('AWS_SECRET_ACCESS_KEY'),
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
+    
+     'sendinblue' => [
+        // api-key or partner-key
+        'key_identifier' => env('SENDINBLUE_KEY_IDENTIFIER', 'api-key'),
+        'key' => env('SENDINBLUE_KEY'),
+    ],
 
 ];
