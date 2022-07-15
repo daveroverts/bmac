@@ -82,7 +82,7 @@ poll_choices.option_name
         //Fetch polls first
 
 
-        $polls = DB::table('poll')->where('hidden','0')->get();
+        $polls = DB::table('poll')->where('hidden','0')->orderBy('id')->get();
         $data = [];
         foreach ($polls as $poll){
 
