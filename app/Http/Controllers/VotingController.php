@@ -13,7 +13,7 @@ class VotingController extends Controller
     //Views
     public function showAdminPage(){
         //Fetch existing polls
-        $polls = DB::table('poll')->get();
+        $polls = DB::table('poll')->orderBy('id')->get();
         return view('voting.admin',compact('polls'));
     }
     public function viewPoll(Request $request,$poll_id){
