@@ -121,28 +121,34 @@ poll_choices.option_name
         } else {
             //if they don't
             //Insert insert
-            $result1 = DB::table('votes')->insertTs(
+            $result1 = DB::table('votes')->insert(
                 [
                     'user_id'=>Auth::id(),
                     'poll_id'=>$poll_id,
                     'vote_id'=>$first,
-                    'order'=>0
+                    'order'=>0,
+                    'created_at'        => Carbon::now(),
+                    'updated_at'        => Carbon::now()
                 ]
             );
-            $result2 = DB::table('votes')->insertTs(
+            $result2 = DB::table('votes')->insert(
                 [
                     'user_id'=>Auth::id(),
                     'poll_id'=>$poll_id,
                     'vote_id'=>$second,
-                    'order'=>1
+                    'order'=>1,
+                    'created_at'        => Carbon::now(),
+                    'updated_at'        => Carbon::now()
                 ]
             );
-            $result3 = DB::table('votes')->insertTs(
+            $result3 = DB::table('votes')->insert(
                 [
                     'user_id'=>Auth::id(),
                     'poll_id'=>$poll_id,
                     'vote_id'=>$third,
-                    'order'=>2
+                    'order'=>2,
+                    'created_at'        => Carbon::now(),
+                    'updated_at'        => Carbon::now()
                 ]
             );
             if($result1 && $result2 && $result3){
