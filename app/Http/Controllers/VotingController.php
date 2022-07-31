@@ -121,7 +121,7 @@ poll_choices.option_name
         } else {
             //if they don't
             //Insert insert
-            $result1 = DB::table('votes')->insert(
+            $result1 = DB::table('votes')->insertTs(
                 [
                     'user_id'=>Auth::id(),
                     'poll_id'=>$poll_id,
@@ -129,7 +129,7 @@ poll_choices.option_name
                     'order'=>0
                 ]
             );
-            $result2 = DB::table('votes')->insert(
+            $result2 = DB::table('votes')->insertTs(
                 [
                     'user_id'=>Auth::id(),
                     'poll_id'=>$poll_id,
@@ -137,7 +137,7 @@ poll_choices.option_name
                     'order'=>1
                 ]
             );
-            $result3 = DB::table('votes')->insert(
+            $result3 = DB::table('votes')->insertTs(
                 [
                     'user_id'=>Auth::id(),
                     'poll_id'=>$poll_id,
