@@ -15,9 +15,9 @@
         "bugsnag/bugsnag-laravel": "^2.22",
         "cviebrock/eloquent-sluggable": "^9.0",
         "doctrine/dbal": "^3.3",
-        "laravel/framework": "^9.0",
-        "laravel/horizon": "^5.8",
-        "laravel/telescope": "^4.7",
+        "laravel/framework": "^9.23",
+        "laravel/horizon": "^5.9",
+        "laravel/telescope": "^4.9",
         "laravel/tinker": "^2.7",
         "league/flysystem-aws-s3-v3": "^3.0",
         "league/oauth2-client": "^2.6",
@@ -88,7 +88,10 @@
     "config": {
         "preferred-install": "dist",
         "sort-packages": true,
-        "optimize-autoloader": true
+        "optimize-autoloader": true,
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        }
     },
     "minimum-stability": "dev",
     "prefer-stable": true
