@@ -52,7 +52,7 @@
     },
     "dependencies": {
         "alpinejs": "^3.10.3",
-        "bootswatch": "^4.6.1",
+        "bootswatch": "^4.6.2",
         "flatpickr": "^4.6.13",
         "sweetalert2": "^11.4.24"
     },
