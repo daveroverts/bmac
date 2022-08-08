@@ -77,7 +77,7 @@ class Booking extends Model
     ];
 
     protected $dates = [
-        'final_information_email_sent_at',
+        'final_information_email_sent_at','confirmed_at',
     ];
 
     /**

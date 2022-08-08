@@ -113,6 +113,8 @@ class EventAdminController extends AdminController
             'endEvent' => $request->date('endEvent'),
             'startBooking' => $request->date('startBooking'),
             'endBooking' => $request->date('endBooking'),
+            'startConfirm' => $request->date('startConfirm'),
+            'endConfirm' => $request->date('endConfirm'),
         ])->save();
         flashMessage('success', __('Done'), __('Event has been updated!'));
         return to_route('admin.events.index');

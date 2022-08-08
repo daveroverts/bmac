@@ -31,6 +31,21 @@
                             }
                         });
                     });
+                    $('.unconfirmremove').on('click', function (e) {
+                        e.preventDefault();
+                        Swal.fire({
+                            title: 'Inshallah',
+                            text: 'Inshallah brother, are you sure we are releasing all unconfirmed slots?',
+                            icon: 'warning',
+                            showCancelButton: true,
+                        }).then((result) => {
+                            if (result.value) {
+                                Swal.fire('Inshallah Brother...');
+                                Swal.showLoading();
+                                $("#unconfirmremove").submit();
+                            }
+                        });
+                    });
                 </script>
             @endpush
             <a href="{{ route('admin.bookings.create',$event) }}" class="btn btn-primary"><i class="fa fa-plus"></i>
@@ -40,6 +55,10 @@
                     class="fa fa-plus"></i>
                 Add
                 Timeslots</a>&nbsp;
+                <button class="btn btn-danger unconfirmremove" form="unconfirmremove">
+                Inshallah Release</button>&nbsp;
+                <x-form :action="route('admin.bookings.inshallah', $event)" id="unconfirmremove" method="POST"
+                        style="display: none;"></x-form>
         @endif
     </p>
     @include('layouts.alert')

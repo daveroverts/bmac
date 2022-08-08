@@ -28,6 +28,7 @@
         "sentry/sentry-laravel": "^2.11",
         "spatie/laravel-activitylog": "^4.4",
         "spatie/laravel-ignition": "^1.0",
+        "symfony/sendinblue-mailer": "^6.1",
         "tabuna/breadcrumbs": "^3.0"
     },
     "require-dev": {

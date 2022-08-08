@@ -17,5 +17,16 @@ class BroadcastServiceProvider extends ServiceProvider
         Broadcast::routes();
 
         require base_path('routes/channels.php');
+        
+        Mail::extend('sendinblue',function(){
+            return (new SendinblueTransportFactory)->create(
+                new Dsn(
+                    'sendinblue+api',
+                    'default',
+                    config('services.sendinblue.key')
+                )
+
+                );
+        });
     }
 }

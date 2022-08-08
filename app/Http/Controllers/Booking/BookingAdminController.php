@@ -44,7 +44,20 @@ class BookingAdminController extends AdminController
 
         return view('booking.admin.create', compact('event', 'airports', 'bulk'));
     }
-
+    public function unConfirmRemove(Event $event)
+    {
+        $bookings = $event->bookings->where('confirmed_at',NULL)->where('status',2);
+        foreach($bookings as $booking){
+        $booking->fill([
+        'callsign' => null,
+        'acType' => null,
+        'selcal' => null,
+        'confirmed_at' => null,])->save();
+        $booking->status = BookingStatus::UNASSIGNED;
+        $booking->user()->dissociate()->save();
+        }
+        return to_route('bookings.event.index', $event);
+    }
     public function store(StoreBooking $request): RedirectResponse
     {
         $event = Event::whereKey($request->id)->first();

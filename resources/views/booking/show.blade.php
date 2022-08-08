@@ -124,6 +124,24 @@
                         </x-form-group>
                     @endforeach
 
+                    @if ($startConfirm)
+                    @if (now()>$startConfirm && now()<$endConfirm)
+                    <x-form-group>
+                        Slot Confirmation:
+                        @if ($confirmed)
+                            Slot was confirmed at {{$confirmed}}
+                        @else
+
+                            <button class="btn btn-success confirm-booking" form="confirm-booking">
+                            {{ __('Confirm Booking') }}
+                        </button>
+                        @endif
+
+                    </x-form-group>
+                    <x-form :action="route('bookings.confirm', $booking)" id="confirm-booking" method="POST"
+                        style="display: none;"></x-form>
+                    @endif
+                    @endif
                     <x-form-group inline>
                         @if ($booking->is_editable)
                             <a href="{{ route('bookings.edit', $booking) }}" class="btn btn-primary">
@@ -135,6 +153,8 @@
                             {{ __('Cancel Booking') }}
                         </button>
                     </x-form-group>
+
+
 
                     <x-form :action="route('bookings.cancel', $booking)" id="cancel-booking" method="PATCH"
                         style="display: none;"></x-form>

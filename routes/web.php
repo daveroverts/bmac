@@ -80,6 +80,7 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin', 'middleware' => 'auth.isAdm
         '{event}/bookings/route-assign',
         [BookingAdminController::class, 'routeAssign']
     )->name('bookings.routeAssign');
+    Route::post("{event}/bookings/unconfirmremove",[BookingAdminController::class, 'unConfirmRemove'])->name('bookings.inshallah');
 
     //Voting ones
     Route::get('voting',[VotingController::class, 'showAdminPage'])->name("voting");
@@ -93,6 +94,10 @@ Route::resource('bookings', BookingController::class)->only(['show', 'edit', 'up
 Route::get('/{event}/bookings/{filter?}', [BookingController::class, 'index'])->name('bookings.event.index');
 Route::get('/bookings/{booking}/edit', [BookingController::class, 'edit'])
     ->middleware('auth.isLoggedIn')->name('bookings.edit');
+
+Route::post('/bookings/{booking}/confirm', [BookingController::class, 'confirm'])->middleware('auth.isLoggedIn')->name('bookings.confirm');
+
+
 Route::patch('/bookings/{booking}/cancel', [BookingController::class, 'cancel'])->name('bookings.cancel');
 
 Route::get('faq', FaqController::class)->name('faq');

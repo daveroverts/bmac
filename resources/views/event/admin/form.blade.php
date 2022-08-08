@@ -99,6 +99,14 @@
                             <x-flat-pickr name="endBooking" value="{{ old('endBooking', $event->endBooking) }}" />
                         </x-form-group>
 
+                        <x-form-group :label="__('Start Confirming (UTC)')">
+                            <x-flat-pickr name="startConfirm" value="{{ old('startConfirm', $event->startConfirm) }}" />
+                        </x-form-group>
+
+                        <x-form-group :label="__('End Confirming (UTC)')">
+                            <x-flat-pickr name="endConfirm" value="{{ old('endConfirm', $event->endConfirm) }}" />
+                        </x-form-group>
+
                         <x-form-input name="image_url" :label="__('Image URL')" placeholder="https://example.org" />
 
                         <x-form-textarea name="description" :label="__('Description')" class="tinymce" />

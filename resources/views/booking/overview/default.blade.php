@@ -10,6 +10,7 @@
         <th scope="row">Aircraft</th>
         <th scope="row">Book | Available until {{ $event->endBooking->format('d-m-Y H:i') }}z</th>
         @if (auth()->check() && auth()->user()->isAdmin && $event->endEvent >= now())
+        <th scope="row">Time booking confirmed</th>
             <th colspan="3" scope="row">Admin actions</th>
         @endif
     </tr>
@@ -88,6 +89,7 @@
                 @endif
             </td>
             @if (auth()->check() && auth()->user()->isAdmin && $event->endEvent >= now())
+            <td>{{$booking->confirmed_at}}</td>
                 <td><a href="{{ route('admin.bookings.edit', $booking) }}" class="btn btn-info"><i
                             class="fa fa-edit"></i> Edit</a>
                 </td>

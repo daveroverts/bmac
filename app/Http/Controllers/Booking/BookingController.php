@@ -14,6 +14,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Booking\UpdateBooking;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
+use Carbon\Carbon;
 
 class BookingController extends Controller
 {
@@ -28,7 +29,19 @@ class BookingController extends Controller
             return view('booking.show_multiflights', compact('booking'));
         }
         $flight = $booking->flights->first();
-        return view('booking.show', compact('booking', 'flight'));
+        $confirmed = $booking->confirmed_at;
+        $startConfirm = $booking->event->startConfirm;
+        $endConfirm = $booking->event->endConfirm;
+        return view('booking.show', compact('booking', 'flight','confirmed','startConfirm','endConfirm'));
+    }
+
+    public function confirm(Booking $booking): RedirectResponse
+    {
+        $booking->confirmed_at = Carbon::now();
+        $booking->save();
+
+        flashMessage('success', __('Done'), __('Event has been updated!'));
+        return to_route('bookings.show',$booking);
     }
 
     // TODO: Split this in multiple functions/routes. This is just one big mess
@@ -216,6 +229,7 @@ class BookingController extends Controller
                     'callsign' => null,
                     'acType' => null,
                     'selcal' => null,
+                    'confirmed_at' => null,
                 ]);
             }
 
