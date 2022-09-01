@@ -47,7 +47,7 @@
         "resolve-url-loader": "^5.0.0",
         "sass": "^1.54.0",
         "sass-loader": "^13.0.2",
-        "semantic-release": "^19.0.3",
+        "semantic-release": "^19.0.5",
         "tinymce": "^6.1.2"
     },
     "dependencies": {
