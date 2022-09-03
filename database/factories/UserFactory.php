@@ -3,8 +3,8 @@
 namespace Database\Factories;
 
 use App\Models\User;
+use App\Enums\AirportView;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Str;
 
 class UserFactory extends Factory
 {
@@ -24,9 +24,9 @@ class UserFactory extends Factory
     {
         return [
             'id' => $this->faker->unique()->numberBetween(860000, 1999999),
-            'name_first' => $this->faker->firstName,
-            'name_last' => $this->faker->lastName,
-            'email' => $this->faker->unique()->safeEmail,
+            'name_first' => $this->faker->firstName(),
+            'name_last' => $this->faker->lastName(),
+            'email' => $this->faker->unique()->safeEmail(),
         ];
     }
 
@@ -35,6 +35,42 @@ class UserFactory extends Factory
         return $this->state(function (array $attributes) {
             return [
                 'isAdmin' => true,
+            ];
+        });
+    }
+
+    public function airportViewName()
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'airport_view' => AirportView::NAME,
+            ];
+        });
+    }
+
+    public function airportViewIcao()
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'airport_view' => AirportView::ICAO,
+            ];
+        });
+    }
+
+    public function airportViewIata()
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'airport_view' => AirportView::IATA,
+            ];
+        });
+    }
+
+    public function monospaceFont()
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'monospace_font' => true,
             ];
         });
     }

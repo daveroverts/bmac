@@ -2,34 +2,6 @@
 name: CI
 on: [push, pull_request]
 jobs:
-  build-js:
-    name: Build JS / CSS
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-      - name: Get node.js cache directory
-        id: node-cache-dir
-        run: echo "::set-output name=dir::$(npm config get cache)" # Use $(yarn cache dir) for yarn
-
-      - name: Cache NPM dependencies
-        uses: actions/cache@v1
-        with:
-          path: ${{ steps.node-cache-dir.outputs.dir }}
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }} # Use '**/yarn.lock' for yarn
-          restore-keys: ${{ runner.os }}-node-
-
-      - name: NPM Build
-        run: |
-          npm ci
-          npm run production --no-progress
-          cat public/mix-manifest.json # See asset versions in log
-
-      - name: Upload build files
-        uses: actions/upload-artifact@v1
-        with:
-          name: assets
-          path: public
   test-php-mysql:
     name: Test PHP with MySQL
     runs-on: ubuntu-latest
@@ -62,7 +34,7 @@ jobs:
         php-versions: ["8.1"]
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Setup PHP, with composer and extensions
         uses: shivammathur/setup-php@v2 #https://github.com/shivammathur/setup-php
@@ -96,6 +68,17 @@ jobs:
       - name: Clear Config
         run: php artisan config:clear
 
+      - name: Setup NPM
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          cache: "npm"
+
+      - name: Build assets
+        run: |
+          npm ci
+          npm run production --no-progress
+
       - name: Run Migration
         run: php artisan migrate -v
         env:
@@ -103,7 +86,7 @@ jobs:
           # REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
 
       - name: Run tests
-        run: php artisan test
+        run: php artisan test --coverage
         env:
           DB_PORT: ${{ job.services.mysql.ports['3306'] }}
           # REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
@@ -150,7 +133,7 @@ jobs:
         php-versions: ["8.1"]
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Setup PHP, with composer and extensions
         uses: shivammathur/setup-php@v2 #https://github.com/shivammathur/setup-php
@@ -181,6 +164,17 @@ jobs:
           php -r "file_exists('.env') || copy('.env.example', '.env');"
           php artisan key:generate
 
+      - name: Setup NPM
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          cache: "npm"
+
+      - name: Build assets
+        run: |
+          npm ci
+          npm run production --no-progress
+
       - name: Clear Config
         run: php artisan config:clear
 
@@ -191,7 +185,7 @@ jobs:
           # REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
 
       - name: Run tests
-        run: php artisan test
+        run: php artisan test --coverage
         env:
           DB_PORT: ${{ job.services.postgres.ports[5432] }}
           # REDIS_PORT: ${{ job.services.redis.ports['6379'] }}

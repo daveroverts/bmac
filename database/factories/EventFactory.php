@@ -23,7 +23,7 @@ class EventFactory extends Factory
      */
     public function definition()
     {
-        $name = $this->faker->sentence;
+        $name = $this->faker->sentence();
         $slug = SlugService::createSlug($this->model, 'slug', $name);
         return [
             'name' => $name,
@@ -36,5 +36,35 @@ class EventFactory extends Factory
             'startBooking' => now()->addWeek(),
             'endBooking' => now()->addMonth()->subHours(12),
         ];
+    }
+
+    public function expired()
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'startEvent' => now()->subMonth(),
+                'endEvent' => now()->subMonth()->addHours(3),
+                'startBooking' => now()->subWeek(),
+                'endBooking' => now()->subMonth()->subHours(12),
+            ];
+        });
+    }
+
+    public function onHomePage()
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'show_on_homepage' => true,
+            ];
+        });
+    }
+
+    public function notOnHomePage()
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'show_on_homepage' => false,
+            ];
+        });
     }
 }

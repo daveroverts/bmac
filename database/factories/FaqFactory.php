@@ -22,8 +22,17 @@ class FaqFactory extends Factory
     public function definition()
     {
         return [
-            'question' => $this->faker->sentence . '?',
+            'question' => $this->faker->sentence() . '?',
             'answer' => $this->faker->sentence(),
         ];
+    }
+
+    public function offline()
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'is_online' => false,
+            ];
+        });
     }
 }

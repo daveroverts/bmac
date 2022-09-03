@@ -23,9 +23,9 @@ class AirportFactory extends Factory
     public function definition()
     {
         return [
-            'icao' => $this->faker->unique()->regexify('[A-Z]{4}'),
-            'iata' => $this->faker->unique()->regexify('[A-Z]{3}'),
-            'name' => $this->faker->name . ' Airport',
+            'icao' => $this->faker->unique()->lexify(),
+            'iata' => $this->faker->unique()->lexify('???'),
+            'name' => $this->faker->name() . ' Airport',
             'latitude' => $this->faker->latitude(),
             'longitude' => $this->faker->longitude(),
         ];
