@@ -22,15 +22,15 @@
         "semantic-release": "semantic-release"
     },
     "devDependencies": {
-        "@commitlint/cli": "^17.0.3",
-        "@commitlint/config-conventional": "^17.0.3",
-        "@commitlint/cz-commitlint": "^17.0.3",
+        "@commitlint/cli": "^17.1.2",
+        "@commitlint/config-conventional": "^17.1.0",
+        "@commitlint/cz-commitlint": "^17.1.2",
         "@eclass/semantic-release-sentry-releases": "^3.0.0",
-        "@fortawesome/fontawesome-free": "^6.1.2",
-        "@fortawesome/fontawesome-svg-core": "^6.1.2",
-        "@fortawesome/free-brands-svg-icons": "^6.1.2",
-        "@fortawesome/free-regular-svg-icons": "^6.1.2",
-        "@fortawesome/free-solid-svg-icons": "^6.1.2",
+        "@fortawesome/fontawesome-free": "^6.2.0",
+        "@fortawesome/fontawesome-svg-core": "^6.2.0",
+        "@fortawesome/free-brands-svg-icons": "^6.2.0",
+        "@fortawesome/free-regular-svg-icons": "^6.2.0",
+        "@fortawesome/free-solid-svg-icons": "^6.2.0",
         "@semantic-release/changelog": "^6.0.1",
         "@semantic-release/git": "^10.0.1",
         "axios": "^0.27.2",
@@ -39,22 +39,22 @@
         "browser-sync-webpack-plugin": "^2.3.0",
         "commitizen": "^4.2.5",
         "cross-env": "^7.0.3",
-        "jquery": "^3.6.0",
+        "jquery": "^3.6.1",
         "laravel-mix": "^6.0.49",
         "laravel-mix-purgecss": "^6.0.0",
         "popper.js": "^1.16.1",
-        "postcss": "^8.4.14",
+        "postcss": "^8.4.16",
         "resolve-url-loader": "^5.0.0",
-        "sass": "^1.54.0",
+        "sass": "^1.54.8",
         "sass-loader": "^13.0.2",
-        "semantic-release": "^19.0.3",
+        "semantic-release": "^19.0.5",
         "tinymce": "^6.1.2"
     },
     "dependencies": {
         "alpinejs": "^3.10.3",
         "bootswatch": "^4.6.2",
         "flatpickr": "^4.6.13",
-        "sweetalert2": "^11.4.24"
+        "sweetalert2": "^11.4.29"
     },
     "release": {
         "branches": [
