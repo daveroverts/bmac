@@ -3,7 +3,7 @@ name: CI
 on: [push, pull_request]
 jobs:
   test-php-mysql:
-    name: Test PHP with MySQL
+    name: Test PHP ${{ matrix.php-versions }} + Node ${{ matrix.node }} with MySQL
     runs-on: ubuntu-latest
     env:
       DB_DATABASE: laravel
@@ -101,7 +101,7 @@ jobs:
       # - name: Enlightn Security Checker
       #   run: php vendor/enlightn/security-checker/security-checker security:check composer.lock
   test-php-postgresql:
-    name: Test PHP with PostgreSQL
+    name: Test PHP ${{ matrix.php-versions }} + Node ${{ matrix.node }} with PostgreSQL
     runs-on: ubuntu-latest
     env:
       BROADCAST_DRIVER: log
