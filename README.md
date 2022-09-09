@@ -45,7 +45,33 @@ Connect Development Environment. Details can be found here: <https://github.com/
 
 ## Installation
 
-Before you begin, make sure you have a server with PHP 8.1 to run everything on.
+Before you begin, make sure you have a server with the following installed:
+
+- PHP 8.1
+- PHP extensions:
+  - [Laravel](https://laravel.com/docs/deployment)
+    - BCMath PHP Extension
+    - Ctype PHP Extension
+    - cURL PHP Extension
+    - DOM PHP Extension
+    - Fileinfo PHP Extension
+    - JSON PHP Extension
+    - Mbstring PHP Extension
+    - OpenSSL PHP Extension
+    - PCRE PHP Extension
+    - PDO PHP Extension
+    - Tokenizer PHP Extension
+    - XML PHP Extension
+  - [Laravel Excel](https://docs.laravel-excel.com/3.1/getting-started/installation.html)
+    - php_zip
+    - php_xml
+    - php_gd2
+    - php_iconv
+    - php_simplexml
+    - php_xmlreader
+    - php_zlib
+- NodeJS: I recommend LTS (v16 at time of writing), minimum v14
+
 For local development,
 I use [Laravel Valet](https://laravel.com/docs/9.x/valet),
 and before that I used [Laravel Homestead](https://laravel.com/docs/9.x/homestead).
