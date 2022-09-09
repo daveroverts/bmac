@@ -10,9 +10,9 @@ jobs:
       DB_USERNAME: root
       DB_PASSWORD: password
       BROADCAST_DRIVER: log
-      # CACHE_DRIVER: redis
-      # QUEUE_CONNECTION: redis
-      # SESSION_DRIVER: redis
+      CACHE_DRIVER: redis
+      QUEUE_CONNECTION: redis
+      SESSION_DRIVER: redis
     services:
       mysql:
         image: mysql:8.0
@@ -23,11 +23,11 @@ jobs:
         ports:
           - 3306/tcp
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
-      # redis:
-      #   image: redis
-      #   ports:
-      #     - 6379/tcp
-      #   options: --health-cmd="redis-cli ping" --health-interval=10s --health-timeout=5s --health-retries=3
+      redis:
+        image: redis
+        ports:
+          - 6379/tcp
+        options: --health-cmd="redis-cli ping" --health-interval=10s --health-timeout=5s --health-retries=3
     strategy:
       fail-fast: false
       matrix:
@@ -84,13 +84,13 @@ jobs:
         run: php artisan migrate -v
         env:
           DB_PORT: ${{ job.services.mysql.ports['3306'] }}
-          # REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
+          REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
 
       - name: Run tests
         run: php artisan test --coverage
         env:
           DB_PORT: ${{ job.services.mysql.ports['3306'] }}
-          # REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
+          REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
 
       - name: PHP_CodeSniffer
         run: phpcs --extensions=php app
@@ -102,9 +102,9 @@ jobs:
     runs-on: ubuntu-latest
     env:
       BROADCAST_DRIVER: log
-      # CACHE_DRIVER: redis
-      # QUEUE_CONNECTION: redis
-      # SESSION_DRIVER: redis
+      CACHE_DRIVER: redis
+      QUEUE_CONNECTION: redis
+      SESSION_DRIVER: redis
       DB_CONNECTION: pgsql
       DB_HOST: localhost
       DB_PASSWORD: postgres
@@ -120,11 +120,11 @@ jobs:
         ports:
           - 5432/tcp
         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 3
-      # redis:
-      #   image: redis
-      #   ports:
-      #     - 6379/tcp
-      #   options: --health-cmd="redis-cli ping" --health-interval=10s --health-timeout=5s --health-retries=3
+      redis:
+        image: redis
+        ports:
+          - 6379/tcp
+        options: --health-cmd="redis-cli ping" --health-interval=10s --health-timeout=5s --health-retries=3
     strategy:
       fail-fast: false
       matrix:
@@ -181,13 +181,13 @@ jobs:
         run: php artisan migrate -v
         env:
           DB_PORT: ${{ job.services.postgres.ports[5432] }}
-          # REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
+          REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
 
       - name: Run tests
         run: php artisan test --coverage
         env:
           DB_PORT: ${{ job.services.postgres.ports[5432] }}
-          # REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
+          REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
 
       - name: PHP_CodeSniffer
         run: phpcs --extensions=php app
