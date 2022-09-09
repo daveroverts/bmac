@@ -97,9 +97,6 @@ jobs:
 
       - name: Copy/Paste Detector
         run: phpcpd app/ --min-lines=50
-
-      # - name: Enlightn Security Checker
-      #   run: php vendor/enlightn/security-checker/security-checker security:check composer.lock
   test-php-postgresql:
     name: Test PHP ${{ matrix.php-versions }} + Node ${{ matrix.node }} with PostgreSQL
     runs-on: ubuntu-latest
@@ -197,6 +194,3 @@ jobs:
 
       - name: Copy/Paste Detector
         run: phpcpd app/ --min-lines=50
-
-      # - name: Enlightn Security Checker
-      #   run: php vendor/enlightn/security-checker/security-checker security:check composer.lock
