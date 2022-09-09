@@ -3,7 +3,7 @@ name: CI
 on: [push, pull_request]
 jobs:
   test-php-mysql:
-    name: Test PHP with MySQL
+    name: Test PHP ${{ matrix.php-versions }} + Node ${{ matrix.node }} with MySQL
     runs-on: ubuntu-latest
     env:
       DB_DATABASE: laravel
@@ -32,6 +32,7 @@ jobs:
       fail-fast: false
       matrix:
         php-versions: ["8.1"]
+        node: [14, 16, 18]
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -71,7 +72,7 @@ jobs:
       - name: Setup NPM
         uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version: ${{ matrix.node }}
           cache: "npm"
 
       - name: Build assets
@@ -96,11 +97,8 @@ jobs:
 
       - name: Copy/Paste Detector
         run: phpcpd app/ --min-lines=50
-
-      # - name: Enlightn Security Checker
-      #   run: php vendor/enlightn/security-checker/security-checker security:check composer.lock
   test-php-postgresql:
-    name: Test PHP with PostgreSQL
+    name: Test PHP ${{ matrix.php-versions }} + Node ${{ matrix.node }} with PostgreSQL
     runs-on: ubuntu-latest
     env:
       BROADCAST_DRIVER: log
@@ -131,6 +129,7 @@ jobs:
       fail-fast: false
       matrix:
         php-versions: ["8.1"]
+        node: [14, 16, 18]
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -167,7 +166,7 @@ jobs:
       - name: Setup NPM
         uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version: ${{ matrix.node }}
           cache: "npm"
 
       - name: Build assets
@@ -195,6 +194,3 @@ jobs:
 
       - name: Copy/Paste Detector
         run: phpcpd app/ --min-lines=50
-
-      # - name: Enlightn Security Checker
-      #   run: php vendor/enlightn/security-checker/security-checker security:check composer.lock
