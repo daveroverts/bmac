@@ -48,7 +48,7 @@
         "sass": "^1.54.8",
         "sass-loader": "^13.0.2",
         "semantic-release": "^19.0.5",
-        "tinymce": "^6.1.2"
+        "tinymce": "^6.2.0"
     },
     "dependencies": {
         "alpinejs": "^3.10.3",
