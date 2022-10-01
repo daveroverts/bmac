@@ -45,7 +45,7 @@
         "popper.js": "^1.16.1",
         "postcss": "^8.4.16",
         "resolve-url-loader": "^5.0.0",
-        "sass": "^1.54.8",
+        "sass": "^1.55.0",
         "sass-loader": "^13.0.2",
         "semantic-release": "^19.0.5",
         "tinymce": "^6.1.2"
