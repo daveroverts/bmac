@@ -43,18 +43,18 @@
         "laravel-mix": "^6.0.49",
         "laravel-mix-purgecss": "^6.0.0",
         "popper.js": "^1.16.1",
-        "postcss": "^8.4.16",
+        "postcss": "^8.4.17",
         "resolve-url-loader": "^5.0.0",
-        "sass": "^1.54.8",
+        "sass": "^1.55.0",
         "sass-loader": "^13.0.2",
         "semantic-release": "^19.0.5",
-        "tinymce": "^6.1.2"
+        "tinymce": "^6.2.0"
     },
     "dependencies": {
         "alpinejs": "^3.10.3",
         "bootswatch": "^4.6.2",
         "flatpickr": "^4.6.13",
-        "sweetalert2": "^11.4.29"
+        "sweetalert2": "^11.4.37"
     },
     "release": {
         "branches": [
