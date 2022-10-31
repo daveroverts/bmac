@@ -17,8 +17,9 @@
         "watch": "mix watch",
         "watch-poll": "mix watch -- --watch-options-poll=1000",
         "hot": "cross-env NODE_ENV=development node_modules/webpack-dev-server/bin/webpack-dev-server.js --inline --hot --config=node_modules/laravel-mix/setup/webpack.config.js",
-        "prod": "npm run production",
-        "production": "mix --production",
+        "prod": "npm run build",
+        "production": "npm run build",
+        "build": "mix --production",
         "semantic-release": "semantic-release"
     },
     "devDependencies": {

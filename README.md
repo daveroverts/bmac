@@ -150,7 +150,7 @@ and before that I used [Laravel Homestead](https://laravel.com/docs/9.x/homestea
      php artisan migrate
      php artisan storage:link # Only needed for first deployment
      npm ci
-     npm run prod
+     npm run build
    ```
 
    Development:
