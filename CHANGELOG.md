@@ -1,3 +1,15 @@
+## [2.8.1](https://github.com/daveroverts/bmac/compare/v2.8.0...v2.8.1) (2022-10-31)
+
+
+### Bug Fixes
+
+* **build:** add build command to match vite commands ([d1d84c9](https://github.com/daveroverts/bmac/commit/d1d84c934c727f3d148d913822d7b3f2d4ed8aa7))
+
+
+### Reverts
+
+* ci(ci): run tests parallel ([85fb10d](https://github.com/daveroverts/bmac/commit/85fb10d6fde1ace792e0d531aedeccf05d156b6c))
+
 # [2.8.0](https://github.com/daveroverts/bmac/compare/v2.7.2...v2.8.0) (2022-06-02)
 
 
