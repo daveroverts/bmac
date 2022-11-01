@@ -25,7 +25,7 @@
     "devDependencies": {
         "@commitlint/cli": "^17.1.2",
         "@commitlint/config-conventional": "^17.1.0",
-        "@commitlint/cz-commitlint": "^17.1.2",
+        "@commitlint/cz-commitlint": "^17.2.0",
         "@eclass/semantic-release-sentry-releases": "^3.0.0",
         "@fortawesome/fontawesome-free": "^6.2.0",
         "@fortawesome/fontawesome-svg-core": "^6.2.0",
