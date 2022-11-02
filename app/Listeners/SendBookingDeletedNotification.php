@@ -4,7 +4,6 @@ namespace App\Listeners;
 
 use App\Events\BookingDeleted;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Queue\InteractsWithQueue;
 
 class SendBookingDeletedNotification implements ShouldQueue
 {

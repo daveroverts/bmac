@@ -3,7 +3,6 @@
 namespace App\Http\Requests\Booking;
 
 use App\Http\Requests\Request;
-use Illuminate\Support\Facades\Auth;
 
 class UpdateBooking extends Request
 {

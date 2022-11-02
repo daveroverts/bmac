@@ -3,7 +3,6 @@
 namespace Database\Factories;
 
 use App\Models\Booking;
-use App\Models\Event;
 use App\Models\Flight;
 use Illuminate\Database\Eloquent\Factories\Factory;
 

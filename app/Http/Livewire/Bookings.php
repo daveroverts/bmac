@@ -3,9 +3,7 @@
 namespace App\Http\Livewire;
 
 use App\Models\Event;
-use App\Models\Booking;
 use Livewire\Component;
-use App\Enums\EventType;
 use App\Enums\BookingStatus;
 
 class Bookings extends Component

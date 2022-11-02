@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Event;
 
-use Carbon\Carbon;
 use App\Models\User;
 use App\Models\Event;
 use App\Models\Airport;

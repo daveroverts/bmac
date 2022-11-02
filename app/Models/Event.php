@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Models\EventLink;
 use Spatie\Activitylog\LogOptions;
 use Illuminate\Database\Eloquent\Model;
 use Cviebrock\EloquentSluggable\Sluggable;

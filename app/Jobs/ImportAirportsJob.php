@@ -4,7 +4,6 @@ namespace App\Jobs;
 
 use Illuminate\Bus\Queueable;
 use App\Imports\AirportsImport;
-use Illuminate\Support\Facades\Bus;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Queue\InteractsWithQueue;

@@ -4,7 +4,6 @@ namespace App\Listeners;
 
 use App\Events\BookingConfirmed;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Queue\InteractsWithQueue;
 
 class SendBookingConfirmedNotification implements ShouldQueue
 {
