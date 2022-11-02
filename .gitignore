@@ -5,6 +5,7 @@
 
 /node_modules
 /public/hot
+/public/build
 /public/storage
 /public/js
 /public/css
