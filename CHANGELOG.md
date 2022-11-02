@@ -1,3 +1,11 @@
+## [2.8.2](https://github.com/daveroverts/bmac/compare/v2.8.1...v2.8.2) (2022-11-02)
+
+
+### Bug Fixes
+
+* **build:** add laravel pint ([79c0650](https://github.com/daveroverts/bmac/commit/79c065025fd81cbab2e83a2c8d58d2eb6b3753a3))
+* convert commonjs imports to esm imports ([b85cdee](https://github.com/daveroverts/bmac/commit/b85cdee16bdd7924608c994ef787aa7dd0c68663))
+
 ## [2.8.1](https://github.com/daveroverts/bmac/compare/v2.8.0...v2.8.1) (2022-10-31)
 
 
