@@ -4,7 +4,7 @@
  * building robust, powerful web applications using Vue and Laravel.
  */
 
-require('./bootstrap');
+import './bootstrap';
 
 // Importing Font Awesome
 import { dom, library } from '@fortawesome/fontawesome-svg-core'

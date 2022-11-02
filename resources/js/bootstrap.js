@@ -1,5 +1,10 @@
+import popper from 'popper.js';
+import jquery from 'jquery';
+import axios from 'axios';
+import Swal from 'sweetalert2'
+import 'bootstrap';
 
-window.Popper = require('popper.js').default;
+window.popper = popper;
 
 /**
  * We'll load jQuery and the Bootstrap jQuery plugin which provides support
@@ -8,10 +13,9 @@ window.Popper = require('popper.js').default;
  */
 
 try {
-    window.$ = window.jQuery = require('jquery');
+    window.$ = window.jQuery = jquery;
 
-    window.Swal = require('sweetalert2');
-    require('bootstrap');
+    window.Swal = Swal;
 } catch (e) { }
 
 /**
@@ -20,7 +24,7 @@ try {
  * CSRF token as a header based on the value of the "XSRF" token cookie.
  */
 
-window.axios = require('axios');
+window.axios = axios;
 
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
