@@ -17,7 +17,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700;800" rel="stylesheet" type="text/css">
 
     <!-- Styles -->
-    <link href="{{ mix('css/app.css') }}" rel="stylesheet">
+    @vite('resources/css/app.css')
 
     @livewireStyles
 
@@ -25,12 +25,12 @@
     <meta name="robots" content="noindex" />
 
     <!-- Scripts -->
-    <script src="{{ mix('js/manifest.js') }}"></script>
-    <script src="{{ mix('js/vendor.js') }}"></script>
-    <script src="{{ mix('js/app.js') }}"></script>
+    @vite('resources/js/manifest.js')
+    @vite('resources/js/vendor.js')
+    @vite('resources/js/app.js')
     @if (request()->routeIs('admin*'))
-        <script src="{{ mix('js/alpine.js') }}" defer></script>
-        <script src="{{ mix('js/tinymce.js') }}" defer></script>
+        @vite('resources/js/alpine.js')
+        @vite('resources/js/tinymce.js')
     @endif
 </head>
 
