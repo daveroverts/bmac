@@ -36,6 +36,7 @@
         "beyondcode/laravel-query-detector": "^1.6",
         "brianium/paratest": "^6.4",
         "fakerphp/faker": "^1.18",
+        "laravel/pint": "^1.2",
         "laravel/sail": "^1.13",
         "mockery/mockery": "^1.5",
         "nunomaduro/collision": "^6.1",
