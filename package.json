@@ -12,15 +12,12 @@
         "url": "https://www.daveroverts.nl"
     },
     "scripts": {
-        "dev": "npm run development",
-        "development": "mix",
-        "watch": "mix watch",
-        "watch-poll": "mix watch -- --watch-options-poll=1000",
         "hot": "cross-env NODE_ENV=development node_modules/webpack-dev-server/bin/webpack-dev-server.js --inline --hot --config=node_modules/laravel-mix/setup/webpack.config.js",
         "prod": "npm run build",
         "production": "npm run build",
-        "build": "mix --production",
-        "semantic-release": "semantic-release"
+        "build": "vite build",
+        "semantic-release": "semantic-release",
+        "dev": "vite"
     },
     "devDependencies": {
         "@commitlint/cli": "^17.2.0",

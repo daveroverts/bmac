@@ -78,7 +78,7 @@ jobs:
       - name: Build assets
         run: |
           npm ci
-          npm run production --no-progress
+          npm run build --no-progress
 
       - name: Run Migration
         run: php artisan migrate -v
@@ -172,7 +172,7 @@ jobs:
       - name: Build assets
         run: |
           npm ci
-          npm run production --no-progress
+          npm run build --no-progress
 
       - name: Clear Config
         run: php artisan config:clear
