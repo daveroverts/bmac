@@ -3,7 +3,6 @@
 namespace App\Exports;
 
 use App\Models\Event;
-use App\Models\Booking;
 use App\Enums\BookingStatus;
 use App\Enums\EventType;
 use Maatwebsite\Excel\Concerns\Exportable;

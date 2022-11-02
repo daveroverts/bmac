@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Models\Event;
 use Spatie\Activitylog\LogOptions;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;

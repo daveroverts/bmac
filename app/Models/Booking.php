@@ -2,10 +2,6 @@
 
 namespace App\Models;
 
-use App\Models\User;
-use App\Models\Event;
-use App\Models\Flight;
-use App\Models\Airport;
 use Illuminate\Support\Str;
 use Illuminate\Support\Collection;
 use Spatie\Activitylog\LogOptions;

@@ -4,7 +4,6 @@ namespace App\Listeners;
 
 use App\Events\EventFinalInformation;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Queue\InteractsWithQueue;
 
 class SendEventFinalInformationNotification implements ShouldQueue
 {

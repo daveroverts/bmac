@@ -2,8 +2,6 @@
 
 namespace App\Models;
 
-use App\Models\Airport;
-use App\Models\Booking;
 use Spatie\Activitylog\LogOptions;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;

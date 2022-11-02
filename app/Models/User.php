@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Models\Booking;
 use Spatie\Activitylog\LogOptions;
 use Illuminate\Notifications\Notifiable;
 use App\Http\Controllers\OAuthController;

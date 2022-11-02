@@ -9,7 +9,6 @@ use Illuminate\Http\RedirectResponse;
 use App\Http\Controllers\AdminController;
 use App\Http\Requests\Airport\Admin\StoreAirport;
 use App\Http\Requests\Airport\Admin\UpdateAirport;
-use App\Jobs\ImportAirportsJob;
 
 class AirportAdminController extends AdminController
 {

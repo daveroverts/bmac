@@ -4,7 +4,6 @@ namespace App\Listeners;
 
 use App\Events\EventBulkEmail;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Facades\Notification;
 
 class SendEventBulkEmailNotification implements ShouldQueue
