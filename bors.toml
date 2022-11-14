@@ -1,1 +1,1 @@
-status = ["CI", "PHP Linting"]
+status = ["test-php-mysql", "test-php-postgresql"]
