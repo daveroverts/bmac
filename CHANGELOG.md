@@ -1,3 +1,10 @@
+## [2.8.3](https://github.com/daveroverts/bmac/compare/v2.8.2...v2.8.3) (2022-11-14)
+
+
+### Bug Fixes
+
+* add bors.toml ([3ec082c](https://github.com/daveroverts/bmac/commit/3ec082c69f09d2a4739b7bebcf066cdd21921f21))
+
 ## [2.8.2](https://github.com/daveroverts/bmac/compare/v2.8.1...v2.8.2) (2022-11-02)
 
 
