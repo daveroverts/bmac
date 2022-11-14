@@ -1,6 +1,10 @@
 # GitHub Action for Laravel with MySQL
 name: CI
-on: [push, pull_request]
+on:
+  push:
+    branches: [main, staging, trying]
+  pull_request:
+    branches: [main]
 jobs:
   test-php-mysql:
     name: Test PHP ${{ matrix.php-versions }} + Node ${{ matrix.node }} with MySQL
