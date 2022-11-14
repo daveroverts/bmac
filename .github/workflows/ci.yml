@@ -198,3 +198,13 @@ jobs:
 
       - name: Copy/Paste Detector
         run: phpcpd app/ --min-lines=50
+  ci-success:
+    name: CI
+    if: $
+    needs:
+      - test-php-mysql
+      - test-php-postgresql
+    runs-on: ubuntu-latest
+    steps:
+      - name: CI succeeded
+        run: exit 0
