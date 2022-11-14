@@ -1,7 +1,8 @@
 
 # Book me a Cookie [BMAC]
 
-![CI](https://github.com/daveroverts/bmac/workflows/CI/badge.svg)
+![CI](https://github.com/daveroverts/bmac/workflows/CI/badge.svg) [![Bors enabled](https://bors.tech/images/badge_small.svg)](https://app.bors.tech/repositories/56570)
+
 
 Book me a Cookie [BMAC] is a Vatsim booking system created in Laravel.
 It's initial purpose was to be used for one event (The Holland - America Line),
