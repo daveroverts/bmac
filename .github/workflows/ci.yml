@@ -200,7 +200,7 @@ jobs:
         run: phpcpd app/ --min-lines=50
   ci-success:
     name: CI
-    if: $
+    if: ${{ success() }}
     needs:
       - test-php-mysql
       - test-php-postgresql
