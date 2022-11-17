@@ -1,93 +1,14 @@
 version: 2
 updates:
-- package-ecosystem: composer
-  directory: "/"
-  schedule:
-    interval: monthly
-    time: "07:00"
-  open-pull-requests-limit: 10
-  ignore:
-  - dependency-name: renatomarinho/laravel-page-speed
-    versions:
-    - 2.0.0
-  - dependency-name: doctrine/dbal
-    versions:
-    - 3.0.0
-  - dependency-name: cviebrock/eloquent-sluggable
-    versions:
-    - 8.0.5
-  - dependency-name: laravel/framework
-    versions:
-    - 8.22.1
-    - 8.29.0
-  - dependency-name: livewire/livewire
-    versions:
-    - 2.4.0
-  - dependency-name: enlightn/security-checker
-    versions:
-    - 1.6.1
-  - dependency-name: facade/ignition
-    versions:
-    - 2.5.13
-    - 2.5.8
-  - dependency-name: laravel/telescope
-    versions:
-    - 4.4.0
-    - 4.4.4
-  - dependency-name: mockery/mockery
-    versions:
-    - 1.4.3
-  - dependency-name: beyondcode/laravel-query-detector
-    versions:
-    - 1.5.0
-  - dependency-name: barryvdh/laravel-ide-helper
-    versions:
-    - 2.9.0
-  - dependency-name: bensampo/laravel-enum
-    versions:
-    - 3.2.0
-  - dependency-name: phpoffice/phpspreadsheet
-    versions:
-    - 1.16.1
-- package-ecosystem: npm
-  directory: "/"
-  schedule:
-    interval: monthly
-    time: "07:00"
-  open-pull-requests-limit: 10
-  ignore:
-  - dependency-name: sass-loader
-    versions:
-    - 11.0.1
-  - dependency-name: elliptic
-    versions:
-    - 6.5.4
-  - dependency-name: postcss
-    versions:
-    - 8.2.6
-  - dependency-name: laravel-mix
-    versions:
-    - 6.0.13
-  - dependency-name: sass
-    versions:
-    - 1.32.0
-    - 1.32.8
-  - dependency-name: sweetalert2
-    versions:
-    - 10.12.6
-    - 10.15.5
-  - dependency-name: tinymce
-    versions:
-    - 5.7.0
-  - dependency-name: lodash
-    versions:
-    - 4.17.21
-  - dependency-name: axios
-    versions:
-    - 0.21.1
-  - dependency-name: browser-sync-webpack-plugin
-    versions:
-    - 2.3.0
-  - dependency-name: ini
-    versions:
-    - 1.3.7
+  - package-ecosystem: composer
+    directory: "/"
+    schedule:
+      interval: monthly
+      time: "07:00"
+    open-pull-requests-limit: 10
+  - package-ecosystem: npm
+    directory: "/"
+    schedule:
+      interval: monthly
+      time: "07:00"
+    open-pull-requests-limit: 10
