@@ -172,3 +172,35 @@ Example can be found below:
 For local development, you can run `php artisan schedule:work` in a separate terminal.
 
 More info can be found here: <https://laravel.com/docs/8.x/scheduling#running-the-scheduler>
+
+## K8S deployment
+The deployment create 1 POD with 2 containers and 1 init container in the firstwings namespace: 
+1. unit => contains Nginx unit and serves files
+2. cronjob => runs the needed cronjob every minute
+3. web-data (init container) => copies the data into anephimeral volume so it can be shared.
+
+The K8S deployment uses base images for cronjob and unit and configMaps to configure the environment.
+
+
+
+
+### To deploy 
+The dir k8s has the yaml files needed for local test and production deployment.
+1. Mofify the laravel-config.yml file accordingly (it's the laravel config aka .env file) and create the configMap
+2. Create Configmaps for Cronjobs and Unit configuration
+```
+kubectl apply -f laravel-cronjob.yml -f 8 unit-config.yml
+```
+3. if you are testing locally deploy the mysql_local.yml redis_local.yml to create mysql and redis pods and svc_local.yml to access the service using a Local host port
+
+4. Apply the deployment_prod.yml file or the deployment_local.yml in case of local development
+
+### How to update laravel configuration 
+To update the laravel-config.yml config map and trigger the deployment rollout follow this process:
+1. Do your updates on laravel-config.yml and apply them
+2. Run 
+``` kubectl get cm/laravel-config -oyaml | sha256sum ```
+and copy the hash
+3. Open the deployment_prod.yml and update the configHash annotation
+4. Apply the new deployment_prod.yml and watch the rollout being triggered.
+

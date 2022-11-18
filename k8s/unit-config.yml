@@ -1,0 +1,49 @@
+apiVersion: v1
+data:
+  unit.json: |
+    {
+        "access_log": {
+            "path": "/dev/stdout",
+        },
+        "settings": {
+            "http": {
+                "header_read_timeout": 20,
+                "body_read_timeout": 60,
+                "send_timeout": 60,
+                "idle_timeout": 120,
+                "max_body_size": 6291456
+            }
+        },
+    
+        "listeners": {
+            "*:80": {
+                "pass": "routes"
+            }
+        },
+    
+        "routes": [
+            {
+                "match": {
+                    "uri": "!/index.php"
+                },
+                "action": {
+                    "share": "/var/www/app/public$uri",
+                    "fallback": {
+                        "pass": "applications/laravel"
+                    }
+                }
+            }
+        ],
+    
+        "applications": {
+            "laravel": {
+                "type": "php",
+                "root": "/var/www/app/public/",
+                "script": "index.php"
+            }
+        }
+    }    
+kind: ConfigMap
+metadata:
+  name: unit-config
+  namespace: firstwings

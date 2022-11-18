@@ -1,0 +1,8 @@
+apiVersion: v1
+data:
+  root: |
+    * * * * * cd /var/www/app && php artisan schedule:run > /proc/1/fd/1 2>/proc/1/fd/2
+kind: ConfigMap
+metadata:
+  name: laravel-cronjob
+  namespace: firstwings

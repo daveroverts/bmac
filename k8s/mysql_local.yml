@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: firstwings-mysql
+  namespace: firstwings
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: firstwings-mysql
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: firstwings-mysql
+    spec:
+      containers:
+      - name: mysql
+        image:  quay.io/continuouspipe/mysql5.7:stable
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 3306
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          value: "secret"
+        - name: MYSQL_DATABASE
+          value: "homestead"
+        - name: MYSQL_USER
+          value: "homestead"
+        - name: MYSQL_PASSWORD
+          value: "secret"
+        livenessProbe:
+          tcpSocket:
+            port: 3306
+          initialDelaySeconds: 15
+          periodSeconds: 15
+        readinessProbe:
+          tcpSocket:
+            port: 3306
+          initialDelaySeconds: 30
+          periodSeconds: 10
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    name: firstwings-mysql
+  name: firstwings-mysql
+  namespace: firstwings
+spec:
+  ports:
+  - port: 3306
+  selector:
+    app: firstwings-mysql
