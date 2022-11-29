@@ -71,7 +71,7 @@ Before you begin, make sure you have a server with the following installed:
     - php_simplexml
     - php_xmlreader
     - php_zlib
-- NodeJS: I recommend LTS (v16 at time of writing), minimum v14
+- NodeJS: I recommend LTS (v18 at time of writing), minimum v14
 
 For local development,
 I use [Laravel Valet](https://laravel.com/docs/9.x/valet),
