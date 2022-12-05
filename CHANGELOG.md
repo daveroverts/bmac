@@ -1,3 +1,10 @@
+## [2.8.4](https://github.com/daveroverts/bmac/compare/v2.8.3...v2.8.4) (2022-12-05)
+
+
+### Bug Fixes
+
+* **deps:** downgrade sweetalert2 to 11.4.8 ([9671671](https://github.com/daveroverts/bmac/commit/96716710402757870ea4cf256bd6ce6a5627fa1a))
+
 ## [2.8.3](https://github.com/daveroverts/bmac/compare/v2.8.2...v2.8.3) (2022-11-14)
 
 
