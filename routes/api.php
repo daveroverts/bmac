@@ -7,11 +7,8 @@ use App\Http\Resources\BookingResource;
 use App\Http\Resources\BookingsCollection;
 use App\Http\Resources\EventResource;
 use App\Http\Resources\EventsCollection;
-use App\Http\Resources\UserResource;
-use App\Http\Resources\UsersCollection;
 use App\Models\Airport;
 use App\Models\Booking;
-use App\Models\User;
 use App\Models\Event;
 
 /*
