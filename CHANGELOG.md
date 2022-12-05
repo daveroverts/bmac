@@ -1,3 +1,10 @@
+## [2.8.5](https://github.com/daveroverts/bmac/compare/v2.8.4...v2.8.5) (2022-12-05)
+
+
+### Bug Fixes
+
+* disable user endpoint ([254302f](https://github.com/daveroverts/bmac/commit/254302f9e92e1029e5365cf51df7549e9d7b0ff2))
+
 ## [2.8.4](https://github.com/daveroverts/bmac/compare/v2.8.3...v2.8.4) (2022-12-05)
 
 
