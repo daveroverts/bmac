@@ -17,3 +17,11 @@ yarn-error.log
 /.fleet
 /.idea
 /.vscode
+
+# Laravel IDE helper
+_ide_helper*\.php
+\.phpstorm\.meta\.php
+
+# Laravel Blueprint
+/draft.yaml
+/.blueprint

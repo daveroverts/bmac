@@ -20,6 +20,8 @@
         "barryvdh/laravel-debugbar": "^3.7",
         "barryvdh/laravel-ide-helper": "^2.12",
         "fakerphp/faker": "^1.9.1",
+        "jasonmccreary/laravel-test-assertions": "^2.1",
+        "laravel-shift/blueprint": "^2.4",
         "laravel/breeze": "^1.15",
         "laravel/pint": "^1.0",
         "laravel/sail": "^1.0.1",
