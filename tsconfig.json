@@ -1,9 +1,11 @@
 {
+    "extends": "@tsconfig/vite-react/tsconfig.json",
     "compilerOptions": {
         "baseUrl": ".",
         "paths": {
             "@/*": ["resources/js/*"]
-        }
+        },
+        "allowJs": true
     },
     "exclude": ["node_modules", "public"]
 }
