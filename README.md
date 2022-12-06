@@ -1,66 +1,205 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+# Book me a Cookie [BMAC]
 
-## About Laravel
+![CI](https://github.com/daveroverts/bmac/workflows/CI/badge.svg) [![Bors enabled](https://bors.tech/images/badge_small.svg)](https://app.bors.tech/repositories/56570)
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+Book me a Cookie [BMAC] is a Vatsim booking system created in Laravel.
+It's initial purpose was to be used for one event (The Holland - America Line),
+however, this system is already ready to be used for more events.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## Features
 
-## Learning Laravel
+- Uses [Vatsim Connect](https://vatsimnetwork.github.io/documentation/connect) as
+  default authentication provider
+- A different OAuth2 provider can also be used
+- Supports the following event types:
+  - One-way / Groupflight
+  - Citypair
+  - Fly-in
+  - Multiflights (limited to 2 flights per booking)
+- E-mail templates included
+- Bootstrap / Bootswatch colors are editable
+- Slots can be imported or added manually.
+- Airports and Events can have links for charts, briefing, scenery or something else.
+  They are visible after pilots book a flight.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## Tech Stack
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+- Laravel
+- Bootstrap 4
+- Bootswatch 4 Flatly theme
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## Vatsim Connect
 
-## Laravel Sponsors
+In order to use Vatsim Connect as OAuth2 provider, you need to create a
+organization (or have somebody else do that for you). <https://auth.vatsim.net/>
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+Once you have a Organization, Navigate to `OAUTH`,
+create `NEW SITE` and set the `Redirect URL` to the `APP_URL` + `/login`.
+For example: `https://example.org/login`.
 
-### Premium Partners
+Save the `Client ID` and `Secret` somewhere, you will need this later.
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+When testing or running this project locally, Vatsim wants your to use their
+Connect Development Environment. Details can be found here: <https://github.com/vatsimnetwork/developer-info/wiki/Connect-Development-Environment>
 
-## Contributing
+## Installation
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+Before you begin, make sure you have a server with the following installed:
 
-## Code of Conduct
+- PHP 8.1
+- PHP extensions:
+  - [Laravel](https://laravel.com/docs/deployment)
+    - BCMath PHP Extension
+    - Ctype PHP Extension
+    - cURL PHP Extension
+    - DOM PHP Extension
+    - Fileinfo PHP Extension
+    - JSON PHP Extension
+    - Mbstring PHP Extension
+    - OpenSSL PHP Extension
+    - PCRE PHP Extension
+    - PDO PHP Extension
+    - Tokenizer PHP Extension
+    - XML PHP Extension
+  - [Laravel Excel](https://docs.laravel-excel.com/3.1/getting-started/installation.html)
+    - php_zip
+    - php_xml
+    - php_gd2
+    - php_iconv
+    - php_simplexml
+    - php_xmlreader
+    - php_zlib
+- NodeJS: I recommend LTS (v18 at time of writing), minimum v14
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+For local development,
+I use [Laravel Valet](https://laravel.com/docs/9.x/valet),
+and before that I used [Laravel Homestead](https://laravel.com/docs/9.x/homestead).
 
-## Security Vulnerabilities
+1. Clone the project
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+   ```bash
+     git clone -b main https://github.com/daveroverts/bmac.git
+   ```
 
-## License
+2. Go to the project directory
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+   ```bash
+     cd bmac
+   ```
+
+3. Copy `.env.example` to `.env`
+
+   ```bash
+     cp .env.example .env
+   ```
+
+   Open `.env`. The following must be changed:
+
+   - `APP_ENV`
+     - Set this to `production` when running this in a production environment.
+     - Set this to `local` when running this project locally to test things out.
+   - `APP_URL`
+     - Be sure to set this to the URL the project will be running. For example: ``APP_URL=https://example.org``
+     - If you forget, you will have issues with Vatsim Connect (or any OAuth 2 provider)
+   - `BUGSNAG_API_KEY`:
+     - BMAC uses Bugsnag by default for error monitoring.
+     - If you have a key, you can put this here.
+   - `SENTRY_LARAVEL_DSN`:
+     - If you prefer to use Sentry, you can fill in the DSN here.
+   - `DB_*`
+     - As required
+     - If you need to share a database with some other application,
+     you can add in a prefix by setting `DB_TABLE_PREFIX=bmac_`
+     - If your database does not support long indexes, set `DB_LOWER_STRING_LENGTH=true`
+   - `QUEUE_CONNECTION`
+     - For local, you can use `sync` with no issues
+     - In a production environment, I recommend you use something else,
+     like `database` or `redis`. More info can be found [here](https://laravel.com/docs/9.x/queues)
+       - When you use `database`, the `jobs` table is already migrated,
+       no need to do that again.
+       - When you use `redis`, and can't use `phpredis` PHP extension,
+       `predis` is already in the `composer.json` file,
+       no need to require it again. You do need to add `REDIS_CLIENT=predis`.
+       See this link for more information about Redis and Laravel: <https://laravel.com/docs/9.x/redis#introduction>
+   - `MAIL_*`
+     - As required
+     - `MAIL_MAILER`: For testing, you can use something like
+     [Mailtrap](https://mailtrap.io/) (online) or
+     [Mailhog](https://github.com/mailhog/MailHog)
+     (local, included with [Laravel Homestead](https://laravel.com/docs/9.x/homestead))
+     - `MAIL_FROM_ADDRESS`: This will be used as the `From` email.
+     Don't forget to set this.
+     - `MAIL_FROM_NAME`: This will be used as the `From` name
+   - `OAUTH_*`
+     - See [Vatsim Connect](#vatsim-connect) if you're not sure what to do
+     at this point.
+   - `SITE_*`
+     - Feel free to edit these. They are used all over the place.
+   - `BOOTSTRAP_COLOR`:
+     - By default, BMAC uses [Bootswatch Flatly](https://bootswatch.com/flatly/).
+     If you wish to edit some colors, you can do so here.
+
+4. Install dependencies
+
+   Production:
+
+   ```bash
+     composer install --optimize-autoloader --no-dev
+     php artisan key:generate # Only needed for first deployment
+     php artisan migrate
+     php artisan storage:link # Only needed for first deployment
+     npm ci
+     npm run build
+   ```
+
+   Development:
+
+   ```bash
+     composer install
+     php artisan key:generate # Only needed for first deployment
+     php artisan migrate
+     php artisan storage:link # Only needed for first deployment
+     npm ci
+     npm run dev
+   ```
+
+5. Open the website, and login.
+
+6. Open the database, and make yourself admin by setting `isAdmin` to `1`.
+
+7. Setup Task schedule. You need to add a cronjob to run
+   `php artisan schedule:run` every minute. Example can be found below:
+
+    ```bash
+      * * * * * cd /bmac && php artisan schedule:run >> /dev/null 2>&1
+    ```
+
+    For local development,
+    you can run `php artisan schedule:work` in a separate terminal.
+
+    More info can be found here: <https://laravel.com/docs/9.x/scheduling#running-the-scheduler>
+
+8. (Optional) If you want to include all airports in the database,
+run the following command:
+
+   ```bash
+     php artisan import:airports
+   ```
+
+    The script uses [this](https://raw.githubusercontent.com/mborsetti/airportsdata/main/airportsdata/airports.csv)
+    file as source.
+    If you choose to not include all airports,
+    you're responsible to add the ones you need.
+    If you're planning on importing flights later on,
+    add the airports in first before starting a import.
+
+## Queue worker / Laravel Horizon
+
+If you're not using `sync` as `QUEUE_CONNECTION`, you need to run a queue worker,
+or else things like emails aren't being sent.
+Check Laravel documentation on how to set one up using Supervisor <https://laravel.com/docs/9.x/queues#supervisor-configuration>
+
+When you're using `redis` as `QUEUE_CONNECTION`, [Laravel Horizon](https://laravel.com/docs/9.x/horizon)
+is already installed and can be used to start a queue worker.
