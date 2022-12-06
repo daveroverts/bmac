@@ -1,0 +1,101 @@
+parameters:
+	ignoreErrors:
+		-
+			message: "#^Cannot access property \\$email on App\\\\Models\\\\User\\|null\\.$#"
+			count: 1
+			path: app/Http/Controllers/Auth/ConfirmablePasswordController.php
+
+		-
+			message: "#^Cannot call method hasVerifiedEmail\\(\\) on App\\\\Models\\\\User\\|null\\.$#"
+			count: 1
+			path: app/Http/Controllers/Auth/EmailVerificationNotificationController.php
+
+		-
+			message: "#^Cannot call method sendEmailVerificationNotification\\(\\) on App\\\\Models\\\\User\\|null\\.$#"
+			count: 1
+			path: app/Http/Controllers/Auth/EmailVerificationNotificationController.php
+
+		-
+			message: "#^Cannot call method hasVerifiedEmail\\(\\) on App\\\\Models\\\\User\\|null\\.$#"
+			count: 1
+			path: app/Http/Controllers/Auth/EmailVerificationPromptController.php
+
+		-
+			message: "#^Parameter \\#1 \\$key of function __ expects string\\|null, mixed given\\.$#"
+			count: 1
+			path: app/Http/Controllers/Auth/NewPasswordController.php
+
+		-
+			message: "#^Parameter \\#1 \\$key of function trans expects string\\|null, mixed given\\.$#"
+			count: 1
+			path: app/Http/Controllers/Auth/NewPasswordController.php
+
+		-
+			message: "#^Parameter \\#1 \\$value of static method Illuminate\\\\Hashing\\\\HashManager\\:\\:make\\(\\) expects string, mixed given\\.$#"
+			count: 1
+			path: app/Http/Controllers/Auth/NewPasswordController.php
+
+		-
+			message: "#^Cannot call method update\\(\\) on App\\\\Models\\\\User\\|null\\.$#"
+			count: 1
+			path: app/Http/Controllers/Auth/PasswordController.php
+
+		-
+			message: "#^Parameter \\#1 \\$value of static method Illuminate\\\\Hashing\\\\HashManager\\:\\:make\\(\\) expects string, mixed given\\.$#"
+			count: 1
+			path: app/Http/Controllers/Auth/RegisteredUserController.php
+
+		-
+			message: "#^Cannot call method hasVerifiedEmail\\(\\) on App\\\\Models\\\\User\\|null\\.$#"
+			count: 1
+			path: app/Http/Controllers/Auth/VerifyEmailController.php
+
+		-
+			message: "#^Cannot call method markEmailAsVerified\\(\\) on App\\\\Models\\\\User\\|null\\.$#"
+			count: 1
+			path: app/Http/Controllers/Auth/VerifyEmailController.php
+
+		-
+			message: "#^Parameter \\#1 \\$user of class Illuminate\\\\Auth\\\\Events\\\\Verified constructor expects Illuminate\\\\Contracts\\\\Auth\\\\MustVerifyEmail, App\\\\Models\\\\User\\|null given\\.$#"
+			count: 1
+			path: app/Http/Controllers/Auth/VerifyEmailController.php
+
+		-
+			message: "#^Cannot access property \\$email_verified_at on App\\\\Models\\\\User\\|null\\.$#"
+			count: 1
+			path: app/Http/Controllers/ProfileController.php
+
+		-
+			message: "#^Cannot call method delete\\(\\) on App\\\\Models\\\\User\\|null\\.$#"
+			count: 1
+			path: app/Http/Controllers/ProfileController.php
+
+		-
+			message: "#^Cannot call method fill\\(\\) on App\\\\Models\\\\User\\|null\\.$#"
+			count: 1
+			path: app/Http/Controllers/ProfileController.php
+
+		-
+			message: "#^Cannot call method isDirty\\(\\) on App\\\\Models\\\\User\\|null\\.$#"
+			count: 1
+			path: app/Http/Controllers/ProfileController.php
+
+		-
+			message: "#^Cannot call method save\\(\\) on App\\\\Models\\\\User\\|null\\.$#"
+			count: 1
+			path: app/Http/Controllers/ProfileController.php
+
+		-
+			message: "#^Method App\\\\Http\\\\Requests\\\\Auth\\\\LoginRequest\\:\\:rules\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: app/Http/Requests/Auth/LoginRequest.php
+
+		-
+			message: "#^Parameter \\#1 \\$value of static method Illuminate\\\\Support\\\\Str\\:\\:lower\\(\\) expects string, mixed given\\.$#"
+			count: 1
+			path: app/Http/Requests/Auth/LoginRequest.php
+
+		-
+			message: "#^Cannot access property \\$id on App\\\\Models\\\\User\\|null\\.$#"
+			count: 1
+			path: app/Http/Requests/ProfileUpdateRequest.php
