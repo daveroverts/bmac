@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b8354be0df5411f048e30388b5c3e7eb",
+    "content-hash": "05dcd109f4eb1651da781ca59f1e089d",
     "packages": [
         {
             "name": "brick/math",
@@ -6382,6 +6382,79 @@
                 "source": "https://github.com/FakerPHP/Faker/tree/v1.20.0"
             },
             "time": "2022-07-20T13:12:54+00:00"
+        },
+        {
+            "name": "fidum/laravel-blueprint-pestphp-addon",
+            "version": "2.2.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/fidum/laravel-blueprint-pestphp-addon.git",
+                "reference": "b66446846a98aa8bb40c1927c4bd53ba5811a7cd"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/fidum/laravel-blueprint-pestphp-addon/zipball/b66446846a98aa8bb40c1927c4bd53ba5811a7cd",
+                "reference": "b66446846a98aa8bb40c1927c4bd53ba5811a7cd",
+                "shasum": ""
+            },
+            "require": {
+                "jasonmccreary/laravel-test-assertions": "^2.1",
+                "laravel-shift/blueprint": "^2.3",
+                "php": "^8.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "^1.4.4",
+                "orchestra/testbench": "^7.0",
+                "pestphp/pest": "^1.21.1",
+                "phpunit/phpunit": "^9.3",
+                "vimeo/psalm": "^4.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Fidum\\BlueprintPestAddon\\BlueprintPestAddonServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Fidum\\BlueprintPestAddon\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Daniel Mason",
+                    "email": "fidum.dev@gmail.com",
+                    "homepage": "https://fidum.uk",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Generate pestphp tests from your laravel blueprint!",
+            "homepage": "https://github.com/fidum/laravel-blueprint-pestphp-addon",
+            "keywords": [
+                "blueprint",
+                "fidum",
+                "laravel-blueprint-pestphp-addon",
+                "laravel-shift",
+                "pest",
+                "pestphp"
+            ],
+            "support": {
+                "issues": "https://github.com/fidum/laravel-blueprint-pestphp-addon/issues",
+                "source": "https://github.com/fidum/laravel-blueprint-pestphp-addon/tree/2.2.3"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/dmason30",
+                    "type": "github"
+                }
+            ],
+            "time": "2022-02-26T17:49:27+00:00"
         },
         {
             "name": "filp/whoops",
