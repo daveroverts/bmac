@@ -1,3 +1,10 @@
+## [2.8.6](https://github.com/daveroverts/bmac/compare/v2.8.5...v2.8.6) (2023-04-03)
+
+
+### Bug Fixes
+
+* **sail:** up sail php to 8.1 ([c595010](https://github.com/daveroverts/bmac/commit/c595010d56d1d14ed9fcdeadf90f5722e846f8c2))
+
 ## [2.8.5](https://github.com/daveroverts/bmac/compare/v2.8.4...v2.8.5) (2022-12-05)
 
 
