@@ -1,3 +1,15 @@
+# [3.0.0](https://github.com/daveroverts/bmac/compare/v2.8.6...v3.0.0) (2023-04-03)
+
+
+### Bug Fixes
+
+* **npm:** Drop node v14 support ([1369abf](https://github.com/daveroverts/bmac/commit/1369abf316b552ef9f4787e5b5ea1bab935e8510))
+
+
+### BREAKING CHANGES
+
+* **npm:** Dropped support for node v14. There where issues with alpinejs
+
 ## [2.8.6](https://github.com/daveroverts/bmac/compare/v2.8.5...v2.8.6) (2023-04-03)
 
 
