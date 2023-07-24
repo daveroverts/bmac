@@ -2,7 +2,7 @@
 name: CI
 on:
   push:
-    branches: [main, staging, trying]
+    branches: [main]
   pull_request:
     branches: [main]
 jobs:
@@ -171,13 +171,3 @@ jobs:
 
       - name: Copy/Paste Detector
         run: phpcpd app/ --min-lines=50
-  ci-success:
-    name: CI
-    if: ${{ success() }}
-    needs:
-      - test-php-mysql
-      - test-php-postgresql
-    runs-on: ubuntu-latest
-    steps:
-      - name: CI succeeded
-        run: exit 0
