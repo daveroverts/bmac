@@ -1,7 +1,7 @@
 
 # Book me a Cookie [BMAC]
 
-![CI](https://github.com/daveroverts/bmac/workflows/CI/badge.svg) [![Bors enabled](https://bors.tech/images/badge_small.svg)](https://app.bors.tech/repositories/56570)
+![CI](https://github.com/daveroverts/bmac/workflows/CI/badge.svg)
 
 
 Book me a Cookie [BMAC] is a Vatsim booking system created in Laravel.
