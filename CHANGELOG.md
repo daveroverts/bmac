@@ -1,3 +1,10 @@
+## [3.0.1](https://github.com/daveroverts/bmac/compare/v3.0.0...v3.0.1) (2023-07-24)
+
+
+### Bug Fixes
+
+* remove bors ([eacdd9e](https://github.com/daveroverts/bmac/commit/eacdd9ed4fcf3d57bf59cff5a61476c4c9f9bf43)), closes [#596](https://github.com/daveroverts/bmac/issues/596)
+
 # [3.0.0](https://github.com/daveroverts/bmac/compare/v2.8.6...v3.0.0) (2023-04-03)
 
 
