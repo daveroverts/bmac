@@ -70,10 +70,7 @@ class Booking extends Model
     protected $casts = [
         'is_editable' => 'boolean',
         'has_already_received_final_information_email' => 'boolean',
-    ];
-
-    protected $dates = [
-        'final_information_email_sent_at',
+        'final_information_email_sent_at' => 'datetime',
     ];
 
     /**
