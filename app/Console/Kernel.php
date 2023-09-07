@@ -36,6 +36,10 @@ class Kernel extends ConsoleKernel
         if (config('queue.default') == 'redis') {
             $schedule->command('horizon:snapshot')->everyFiveMinutes();
         }
+
+        if (config('queue.default') == 'redis') {
+            $schedule->command('cache:prune-stale-tags')->hourly();
+        }
     }
 
     /**

@@ -84,20 +84,6 @@ class Event extends Model
     ];
 
     /**
-     * The attributes that should be mutated to dates.
-     *
-     * @var array
-     */
-    protected $dates = [
-        'startEvent',
-        'endEvent',
-        'startBooking',
-        'endBooking',
-        'created_at',
-        'updated_at',
-    ];
-
-    /**
      * The attributes that should be cast to native types.
      *
      * @var array<string, string>
@@ -112,6 +98,12 @@ class Event extends Model
         'uses_times' => 'boolean',
         'multiple_bookings_allowed' => 'boolean',
         'is_oceanic_event' => 'boolean',
+        'startEvent' => 'datetime',
+        'endEvent' => 'datetime',
+        'startBooking' => 'datetime',
+        'endBooking' => 'datetime',
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
     ];
 
     public function getActivitylogOptions(): LogOptions

@@ -62,11 +62,14 @@ class Flight extends Model
     protected $guarded = ['id'];
 
     /**
-     * The attributes that should be mutated to dates.
+     * The attributes that should be cast to native types.
      *
-     * @var array
+     * @var array<string, string>
      */
-    protected $dates = ['ctot', 'eta'];
+    protected $casts = [
+        'ctot' => 'datetime',
+        'eta' => 'datetime',
+    ];
 
     /**
      * The relationships that should be touched on save.

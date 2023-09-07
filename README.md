@@ -48,7 +48,7 @@ Connect Development Environment. Details can be found here: <https://github.com/
 
 Before you begin, make sure you have a server with the following installed:
 
-- PHP 8.1
+- PHP 8.1 or greater
 - PHP extensions:
   - [Laravel](https://laravel.com/docs/deployment)
     - BCMath PHP Extension
