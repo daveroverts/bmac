@@ -1,3 +1,10 @@
+# [3.1.0](https://github.com/daveroverts/bmac/compare/v3.0.1...v3.1.0) (2023-09-07)
+
+
+### Features
+
+* update to laravel 10 ([63fcc43](https://github.com/daveroverts/bmac/commit/63fcc431ce7036a100901306ccbd4c04f8abeac8))
+
 ## [3.0.1](https://github.com/daveroverts/bmac/compare/v3.0.0...v3.0.1) (2023-07-24)
 
 
