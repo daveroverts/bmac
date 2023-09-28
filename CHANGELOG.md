@@ -1,3 +1,15 @@
+# [3.2.0](https://github.com/daveroverts/bmac/compare/v3.1.0...v3.2.0) (2023-09-28)
+
+
+### Bug Fixes
+
+* **console:** Fix for activity-log not cleaning up every day ([7de6dd1](https://github.com/daveroverts/bmac/commit/7de6dd118fdaa8e8ba0497cb2fdc3c47302dd53b))
+
+
+### Features
+
+* **oauth:** add support for custom scopes ([#730](https://github.com/daveroverts/bmac/issues/730)) ([e2a9cb0](https://github.com/daveroverts/bmac/commit/e2a9cb05d95365da4ab627de6f7ce88f7c55bae5))
+
 # [3.1.0](https://github.com/daveroverts/bmac/compare/v3.0.1...v3.1.0) (2023-09-07)
 
 
