@@ -32,7 +32,7 @@ return [
     /**
      * The scopes the user will be requested
      */
-    'scopes' => explode(',', "full_name,email"),
+    'scopes' => explode(',', env('OAUTH_SCOPES', 'full_name,email')),
 
     /*
      * OAuth variable mapping
