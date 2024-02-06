@@ -21,7 +21,7 @@ class CreateAirportsTable extends Migration
             $table->string('name');
             $table->timestamps();
         });
-        DB::table('airports')->insert(['icao' => 'EHAM', 'iata' => 'AMS', 'name' => 'Amsterdam Airport Schiphol']);
+        // DB::table('airports')->insert(['icao' => 'EHAM', 'iata' => 'AMS', 'name' => 'Amsterdam Airport Schiphol']);
     }
 
     /**
