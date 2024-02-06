@@ -1,5 +1,5 @@
-# GitHub Action for Laravel with MySQL
 name: CI
+
 on:
   push:
     branches: [main]
@@ -7,7 +7,7 @@ on:
     branches: [main]
 jobs:
   test-php-mysql:
-    name: Test PHP ${{ matrix.php-versions }} + Node ${{ matrix.node }} with MySQL
+    name: Test PHP ${{ matrix.php-versions }} (${{ matrix.stability }}) + Node ${{ matrix.node }} with MySQL
     runs-on: ubuntu-latest
     env:
       DB_DATABASE: laravel
@@ -37,6 +37,7 @@ jobs:
       matrix:
         php-versions: ["8.2", "8.3"]
         node: [16, 18, 20]
+        stability: [prefer-lowest, prefer-stable]
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -88,8 +89,9 @@ jobs:
 
       - name: Copy/Paste Detector
         run: phpcpd app/ --min-lines=50
+
   test-php-postgresql:
-    name: Test PHP ${{ matrix.php-versions }} + Node ${{ matrix.node }} with PostgreSQL
+    name: Test PHP ${{ matrix.php-versions }} (${{ matrix.stability }}) + Node ${{ matrix.node }} with PostgreSQL
     runs-on: ubuntu-latest
     env:
       BROADCAST_DRIVER: log
@@ -121,6 +123,7 @@ jobs:
       matrix:
         php-versions: ["8.2", "8.3"]
         node: [16, 18, 20]
+        stability: [prefer-lowest, prefer-stable]
     steps:
       - name: Checkout
         uses: actions/checkout@v3
