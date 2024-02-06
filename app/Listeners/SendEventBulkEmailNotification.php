@@ -24,7 +24,7 @@ class SendEventBulkEmailNotification implements ShouldQueue
      * @param  EventBulkEmail  $event
      * @return void
      */
-    public function handle(EventBulkEmail $event)
+    public function handle(EventBulkEmail $event): void
     {
         if (isset($event->request['testmode'])) {
             $log = 'Bulk E-mail test performed';

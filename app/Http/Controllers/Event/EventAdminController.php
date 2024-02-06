@@ -143,7 +143,7 @@ class EventAdminController extends AdminController
             /* @var User $users */
             $users = User::whereHas('bookings', function (Builder $query) use ($event) {
                 $query->where('event_id', $event->id);
-                $query->where('status', BookingStatus::BOOKED);
+                $query->where('status', BookingStatus::BOOKED->value);
             })->get();
             event(new EventBulkEmail($event, $request->all(), $users));
             flashMessage('success', __('Done'), __('Bulk E-mail has been sent to :count people!', ['count' => $users->count()]));
@@ -155,7 +155,7 @@ class EventAdminController extends AdminController
     {
         $bookings = $event->bookings()
             ->with(['user', 'flights'])
-            ->where('status', BookingStatus::BOOKED)
+            ->where('status', BookingStatus::BOOKED->value)
             ->get();
 
         if ($request->testmode) {

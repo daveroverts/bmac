@@ -27,12 +27,12 @@ class BookingsExport implements FromCollection, WithColumnFormatting, WithMappin
      */
     public function collection()
     {
-        return $this->event->bookings()->with('flights')->whereStatus(BookingStatus::BOOKED)->get();
+        return $this->event->bookings()->with('flights')->whereStatus(BookingStatus::BOOKED->value)->get();
     }
 
     public function map($booking): array
     {
-        if ($this->event->event_type_id == EventType::MULTIFLIGHTS) {
+        if ($this->event->event_type_id == EventType::MULTIFLIGHTS->value) {
             $flight1 = $booking->flights()->first();
             $flight2 = $booking->flights()->whereKeyNot($flight1->id)->first();
             if ($this->vacc) {
@@ -74,7 +74,7 @@ class BookingsExport implements FromCollection, WithColumnFormatting, WithMappin
 
     public function columnFormats(): array
     {
-        if ($this->event->event_type_id == EventType::MULTIFLIGHTS && !$this->vacc) {
+        if ($this->event->event_type_id == EventType::MULTIFLIGHTS->value && !$this->vacc) {
             return [
                 'E' => NumberFormat::FORMAT_DATE_TIME4,
                 'G' => NumberFormat::FORMAT_DATE_TIME4,

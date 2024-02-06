@@ -14,7 +14,7 @@ class FlightRouteAssign implements ToCollection, WithHeadingRow, WithValidation
 {
     use Importable;
 
-    public function collection(Collection $rows)
+    public function collection(Collection $rows): void
     {
         foreach ($rows as $row) {
             $from = $this->getAirport($row['from']);

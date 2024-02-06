@@ -33,7 +33,7 @@ class ImportAirportsJob implements ShouldQueue, ShouldBeUnique
      *
      * @return void
      */
-    public function handle()
+    public function handle(): void
     {
         $file = 'import_' . time() . '.csv';
         Storage::disk('local')->put(

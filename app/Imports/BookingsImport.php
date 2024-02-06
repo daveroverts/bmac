@@ -28,7 +28,7 @@ class BookingsImport implements ToModel, WithHeadingRow, WithBatchInserts, WithC
      *
      * @return \Illuminate\Database\Eloquent\Model|null
      */
-    public function model(array $row)
+    public function model(array $row): void
     {
         $editable = true;
         if (!empty($row['call_sign']) && !empty($row['aircraft_type'])) {
@@ -41,7 +41,7 @@ class BookingsImport implements ToModel, WithHeadingRow, WithBatchInserts, WithC
             'acType'   => $row['aircraft_type'] ?? null,
         ]);
 
-        if ($this->event->event_type_id == EventType::MULTIFLIGHTS) {
+        if ($this->event->event_type_id == EventType::MULTIFLIGHTS->value) {
             $airport1 = $this->getAirport($row['airport_1']);
             $airport2 = $this->getAirport($row['airport_2']);
             $airport3 = $this->getAirport($row['airport_3']);
@@ -89,7 +89,7 @@ class BookingsImport implements ToModel, WithHeadingRow, WithBatchInserts, WithC
 
     public function rules(): array
     {
-        if ($this->event->event_type_id == EventType::MULTIFLIGHTS) {
+        if ($this->event->event_type_id == EventType::MULTIFLIGHTS->value) {
             return [
                 'airport_1' => 'exists:airports,icao',
                 'airport_2' => 'exists:airports,icao',

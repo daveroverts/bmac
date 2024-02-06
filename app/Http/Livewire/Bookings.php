@@ -15,12 +15,12 @@ class Bookings extends Component
     public int $total = 0;
     public int $booked = 0;
 
-    public function filter($filter)
+    public function filter($filter): void
     {
         $this->filter = strtolower($filter);
     }
 
-    public function mount()
+    public function mount(): void
     {
         // Only enable polling if event is 'active'
         if (now()->between($this->event->startBooking, $this->event->endEvent)) {
@@ -61,7 +61,7 @@ class Bookings extends Component
             abort_unless(auth()->check() && auth()->user()->isAdmin, 404);
         }
 
-        $this->booked = $this->bookings->where('status', BookingStatus::BOOKED)->count();
+        $this->booked = $this->bookings->where('status', BookingStatus::BOOKED->value)->count();
 
         $this->total = $this->bookings->count();
 
