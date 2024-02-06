@@ -2,20 +2,11 @@
 
 namespace App\Enums;
 
-use BenSampo\Enum\Enum;
-
-/**
- * @method static static ONEWAY()
- * @method static static CITYPAIR()
- * @method static static FLYIN()
- * @method static static GROUPFLIGHT()
- * @method static static MULTIFLIGHTS()
- */
-final class EventType extends Enum
+enum EventType: int
 {
-    public const ONEWAY = 1;
-    public const CITYPAIR = 2;
-    public const FLYIN = 3;
-    public const GROUPFLIGHT = 4;
-    public const MULTIFLIGHTS = 5;
+    case ONEWAY = 1;
+    case CITYPAIR = 2;
+    case FLYIN = 3;
+    case GROUPFLIGHT = 4;
+    case MULTIFLIGHTS = 5;
 }

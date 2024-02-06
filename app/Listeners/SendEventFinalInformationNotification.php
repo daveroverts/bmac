@@ -23,7 +23,7 @@ class SendEventFinalInformationNotification implements ShouldQueue
      * @param  EventFinalInformation  $event
      * @return void
      */
-    public function handle(EventFinalInformation $event)
+    public function handle(EventFinalInformation $event): void
     {
         if ($event->testUser) {
             activity()

@@ -11,7 +11,7 @@ class BreadcrumbsServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function register()
+    public function register(): void
     {
         //
     }
@@ -21,7 +21,7 @@ class BreadcrumbsServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot()
+    public function boot(): void
     {
         require base_path('routes/breadcrumbs.php');
     }

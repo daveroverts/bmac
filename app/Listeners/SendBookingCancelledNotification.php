@@ -24,7 +24,7 @@ class SendBookingCancelledNotification implements ShouldQueue
      *
      * @return void
      */
-    public function handle(BookingCancelled $event)
+    public function handle(BookingCancelled $event): void
     {
         activity()
             ->by($event->user)

@@ -23,7 +23,7 @@ class SendBookingConfirmedNotification implements ShouldQueue
      * @param  BookingConfirmed  $event
      * @return void
      */
-    public function handle(BookingConfirmed $event)
+    public function handle(BookingConfirmed $event): void
     {
         activity()
             ->by(auth()->user())

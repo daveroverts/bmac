@@ -18,24 +18,24 @@ it('cleans up reserverd bookings', function () {
 
     $booking = $event->bookings()->inRandomOrder()->first();
 
-    $booking->status = BookingStatus::RESERVED;
+    $booking->status = BookingStatus::RESERVED->value;
     $booking->save();
 
-    $this->assertCount(1, $event->bookings()->whereStatus(BookingStatus::RESERVED)->get());
+    $this->assertCount(1, $event->bookings()->whereStatus(BookingStatus::RESERVED->value)->get());
 
     EventCleanupReservationsJob::dispatch($event);
 
-    $this->assertCount(1, $event->bookings()->whereStatus(BookingStatus::RESERVED)->get());
+    $this->assertCount(1, $event->bookings()->whereStatus(BookingStatus::RESERVED->value)->get());
 
     $this->travel(9)->minutes();
 
     EventCleanupReservationsJob::dispatch($event);
 
-    $this->assertCount(1, $event->bookings()->whereStatus(BookingStatus::RESERVED)->get());
+    $this->assertCount(1, $event->bookings()->whereStatus(BookingStatus::RESERVED->value)->get());
 
     $this->travel(1)->minutes();
 
     EventCleanupReservationsJob::dispatch($event);
 
-    $this->assertCount(0, $event->bookings()->whereStatus(BookingStatus::RESERVED)->get());
+    $this->assertCount(0, $event->bookings()->whereStatus(BookingStatus::RESERVED->value)->get());
 });

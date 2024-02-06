@@ -2,16 +2,9 @@
 
 namespace App\Enums;
 
-use BenSampo\Enum\Enum;
-
-/**
- * @method static static UNASSIGNED()
- * @method static static RESERVED()
- * @method static static BOOKED()
- */
-final class BookingStatus extends Enum
+enum BookingStatus: int
 {
-    public const UNASSIGNED = 0;
-    public const RESERVED = 1;
-    public const BOOKED = 2;
+    case UNASSIGNED = 0;
+    case RESERVED = 1;
+    case BOOKED = 2;
 }

@@ -23,7 +23,7 @@ class SendBookingDeletedNotification implements ShouldQueue
      * @param  BookingDeleted  $event
      * @return void
      */
-    public function handle(BookingDeleted $event)
+    public function handle(BookingDeleted $event): void
     {
         $event->user->notify(new \App\Notifications\BookingDeleted($event->event));
     }

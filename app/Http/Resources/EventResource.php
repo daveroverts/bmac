@@ -19,7 +19,7 @@ class EventResource extends JsonResource
     public function toArray($request)
     {
         $total = $this->bookings->count();
-        $booked = $total - $this->bookings->where('status', BookingStatus::BOOKED)->count();
+        $booked = $total - $this->bookings->where('status', BookingStatus::BOOKED->value)->count();
         return [
             'id' => $this->id,
             'event_type' => $this->type->name,

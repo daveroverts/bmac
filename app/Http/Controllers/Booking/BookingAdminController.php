@@ -263,7 +263,7 @@ class BookingAdminController extends AdminController
             }]);
 
         if (!$request->checkAssignAllFlights) {
-            $bookings = $bookings->where('status', BookingStatus::BOOKED);
+            $bookings = $bookings->where('status', BookingStatus::BOOKED->value);
         }
         $bookings = $bookings->get();
         $count = 0;

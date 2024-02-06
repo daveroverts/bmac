@@ -158,8 +158,8 @@ class Event extends Model
     public function hasOrderButtons(): bool
     {
         return in_array($this->event_type_id, [
-            \App\Enums\EventType::FLYIN,
-            \App\Enums\EventType::GROUPFLIGHT
+            \App\Enums\EventType::FLYIN->value,
+            \App\Enums\EventType::GROUPFLIGHT->value
         ]);
     }
 }

@@ -39,7 +39,7 @@ Route::get('/events/upcoming/{limit?}', function ($limit = 3) {
 });
 
 Route::get('/events/{event}/bookings', function (Event $event) {
-    return new BookingsCollection($event->bookings->where('status', BookingStatus::BOOKED));
+    return new BookingsCollection($event->bookings->where('status', BookingStatus::BOOKED->value));
 });
 
 Route::get('/events/{event}', function (Event $event) {

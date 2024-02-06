@@ -23,7 +23,7 @@ class SendBookingChangedNotification implements ShouldQueue
      * @param  BookingChanged  $event
      * @return void
      */
-    public function handle(BookingChanged $event)
+    public function handle(BookingChanged $event): void
     {
         $event->booking->user->notify(new \App\Notifications\BookingChanged($event->booking, $event->changes));
     }

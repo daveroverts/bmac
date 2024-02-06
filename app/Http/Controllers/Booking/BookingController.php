@@ -24,7 +24,7 @@ class BookingController extends Controller
 
     public function show(Booking $booking): View
     {
-        if ($booking->event->event_type_id == EventType::MULTIFLIGHTS) {
+        if ($booking->event->event_type_id == EventType::MULTIFLIGHTS->value) {
             return view('booking.show_multiflights', compact('booking'));
         }
         $flight = $booking->flights->first();
@@ -35,21 +35,21 @@ class BookingController extends Controller
     public function edit(Booking $booking): View|RedirectResponse
     {
         // Check if the booking has already been booked or reserved
-        if ($booking->status !== BookingStatus::UNASSIGNED) {
+        if ($booking->status !== BookingStatus::UNASSIGNED->value) {
             // Check if current user has booked/reserved
             if ($booking->user_id == auth()->id()) {
-                if ($booking->status == BookingStatus::BOOKED && !$booking->is_editable) {
+                if ($booking->status == BookingStatus::BOOKED->value && !$booking->is_editable) {
                     flashMessage('info', __('Danger'), __('You cannot edit the booking!'));
                     return to_route('bookings.event.index', $booking->event);
                 }
-                if ($booking->event->event_type_id == EventType::MULTIFLIGHTS) {
+                if ($booking->event->event_type_id == EventType::MULTIFLIGHTS->value) {
                     return view('booking.edit_multiflights', compact('booking'));
                 }
                 $flight = $booking->flights->first();
                 return view('booking.edit', compact('booking', 'flight'));
             } else {
                 // Check if the booking has already been reserved
-                if ($booking->status === BookingStatus::RESERVED) {
+                if ($booking->status === BookingStatus::RESERVED->value) {
                     flashMessage(
                         'danger',
                         __('Warning'),
@@ -74,7 +74,7 @@ class BookingController extends Controller
                     'event_id',
                     $booking->event_id
                 )
-                ->where('status', BookingStatus::BOOKED)
+                ->where('status', BookingStatus::BOOKED->value)
                 ->first()
             ) {
                 flashMessage('danger!', __('Warning'), __('You already have a booking!'));
@@ -82,7 +82,7 @@ class BookingController extends Controller
             }
             // If user already has another reservation open
             if (auth()->user()->bookings->where('event_id', $booking->event_id)
-                ->where('status', BookingStatus::RESERVED)
+                ->where('status', BookingStatus::RESERVED->value)
                 ->first()
             ) {
                 flashMessage('danger', __('Warning'), __('You already have a reservation! Please cancel or book that flight first.'));
@@ -96,14 +96,14 @@ class BookingController extends Controller
                             ->by(auth()->user())
                             ->on($booking)
                             ->log('Flight reserved');
-                        $booking->status = BookingStatus::RESERVED;
+                        $booking->status = BookingStatus::RESERVED->value;
                         $booking->user()->associate(auth()->user())->save();
                         flashMessage(
                             'info',
                             __('Slot reserved'),
                             __('Slot remains reserved until :time', ['time' => $booking->updated_at->addMinutes(10)->format('Hi') . 'z'])
                         );
-                        if ($booking->event->event_type_id == EventType::MULTIFLIGHTS) {
+                        if ($booking->event->event_type_id == EventType::MULTIFLIGHTS->value) {
                             return view('booking.edit_multiflights', compact('booking'));
                         }
                         $flight = $booking->flights->first();
@@ -146,8 +146,8 @@ class BookingController extends Controller
                 );
             }
 
-            $booking->status = BookingStatus::BOOKED;
-            if ($booking->getOriginal('status') === BookingStatus::RESERVED) {
+            $booking->status = BookingStatus::BOOKED->value;
+            if ($booking->getOriginal('status') === BookingStatus::RESERVED->value) {
                 $booking->save();
                 event(new BookingConfirmed($booking));
                 if (!Str::contains(config('mail.default'), ['log', 'array'])) {
@@ -219,7 +219,7 @@ class BookingController extends Controller
                 ]);
             }
 
-            if ($booking->status === BookingStatus::BOOKED) {
+            if ($booking->status === BookingStatus::BOOKED->value) {
                 event(new BookingCancelled($booking, auth()->user()));
                 $title = __('Booking cancelled!');
                 $message = __('Booking has been cancelled!');
@@ -228,7 +228,7 @@ class BookingController extends Controller
                 $message = __('Slot is now free to use again');
             }
 
-            $booking->status = BookingStatus::UNASSIGNED;
+            $booking->status = BookingStatus::UNASSIGNED->value;
             flashMessage('info', $title, $message);
             $booking->user()->dissociate()->save();
             return to_route('bookings.event.index', $booking->event);
