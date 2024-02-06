@@ -1,3 +1,15 @@
+# [4.0.0](https://github.com/daveroverts/bmac/compare/v3.2.0...v4.0.0) (2024-02-06)
+
+
+### Bug Fixes
+
+* **php:** drop php 8.1 support ([bdf35df](https://github.com/daveroverts/bmac/commit/bdf35df7541ba966dba1e47d1f222cba8b0ba676))
+
+
+### BREAKING CHANGES
+
+* **php:** Drop support for php 8.1
+
 # [3.2.0](https://github.com/daveroverts/bmac/compare/v3.1.0...v3.2.0) (2023-09-28)
 
 
