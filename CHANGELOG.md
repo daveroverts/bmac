@@ -1,3 +1,10 @@
+# [4.1.0](https://github.com/daveroverts/bmac/compare/v4.0.0...v4.1.0) (2024-02-06)
+
+
+### Features
+
+* convert enums to native enums ([0b322d5](https://github.com/daveroverts/bmac/commit/0b322d5d62d09d1ae1827145817c0370c19be418))
+
 # [4.0.0](https://github.com/daveroverts/bmac/compare/v3.2.0...v4.0.0) (2024-02-06)
 
 
