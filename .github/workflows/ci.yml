@@ -68,7 +68,7 @@ jobs:
         run: php artisan config:clear
 
       - name: Setup NPM
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node }}
           cache: "npm"
@@ -149,7 +149,7 @@ jobs:
           php artisan key:generate
 
       - name: Setup NPM
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node }}
           cache: "npm"
