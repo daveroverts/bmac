@@ -1,3 +1,10 @@
+## [4.1.1](https://github.com/daveroverts/bmac/compare/v4.1.0...v4.1.1) (2024-02-10)
+
+
+### Bug Fixes
+
+* bump laravel/sail to use php 8.3 ([e89a9a6](https://github.com/daveroverts/bmac/commit/e89a9a61fc8239a149c130c6f12ea8548f34f4cc))
+
 # [4.1.0](https://github.com/daveroverts/bmac/compare/v4.0.0...v4.1.0) (2024-02-06)
 
 
