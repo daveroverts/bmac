@@ -50,6 +50,12 @@ jobs:
           extensions: mbstring, dom, fileinfo, mysql
           coverage: xdebug
           tools: phpcs, phpcpd
+
+      - name: Setup problem matchers
+        run: |
+          echo "::add-matcher::${{ runner.tool_cache }}/php.json"
+          echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
+
       - name: Start mysql service
         run: sudo systemctl start mysql.service
 
@@ -137,6 +143,11 @@ jobs:
           extensions: mbstring, dom, fileinfo, pgsql
           coverage: xdebug
           tools: phpcs, phpcpd
+
+      - name: Setup problem matchers
+        run: |
+          echo "::add-matcher::${{ runner.tool_cache }}/php.json"
+          echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
 
       - uses: ramsey/composer-install@v2
 
