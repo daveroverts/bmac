@@ -1,0 +1,44 @@
+name: Code analysis
+
+on:
+  push:
+    paths:
+      - "**.php"
+jobs:
+  phpcs:
+    name: PHP_CodeSniffer
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup PHP, with composer and extensions
+        uses: shivammathur/setup-php@v2 #https://github.com/shivammathur/setup-php
+        with:
+          php-version: "8.3"
+          extensions: mbstring, dom, fileinfo
+          tools: phpcs
+
+      - uses: ramsey/composer-install@v2
+
+      - name: Run PHP_CodeSniffer
+        run: phpcs --extensions=php app
+
+  phpstan:
+    name: PHPStan
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup PHP, with composer and extensions
+        uses: shivammathur/setup-php@v2 #https://github.com/shivammathur/setup-php
+        with:
+          php-version: "8.3"
+          extensions: mbstring, dom, fileinfo
+          tools: phpstan
+
+      - uses: ramsey/composer-install@v2
+
+      - name: Run PHPStan
+        run: phpstan analyse

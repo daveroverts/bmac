@@ -49,7 +49,12 @@ jobs:
           php-version: ${{ matrix.php-versions }}
           extensions: mbstring, dom, fileinfo, mysql
           coverage: xdebug
-          tools: phpcs, phpcpd
+
+      - name: Setup problem matchers
+        run: |
+          echo "::add-matcher::${{ runner.tool_cache }}/php.json"
+          echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
+
       - name: Start mysql service
         run: sudo systemctl start mysql.service
 
@@ -63,7 +68,7 @@ jobs:
         run: php artisan config:clear
 
       - name: Setup NPM
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node }}
           cache: "npm"
@@ -84,12 +89,6 @@ jobs:
         env:
           DB_PORT: ${{ job.services.mysql.ports['3306'] }}
           # REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
-
-      - name: PHP_CodeSniffer
-        run: phpcs --extensions=php app
-
-      - name: Copy/Paste Detector
-        run: phpcpd app/ --min-lines=50
 
   test-php-postgresql:
     name: Test PHP ${{ matrix.php-versions }} (${{ matrix.stability }}) + Node ${{ matrix.node }} + ${{ matrix.os }} with PostgreSQL
@@ -136,7 +135,11 @@ jobs:
           php-version: ${{ matrix.php-versions }}
           extensions: mbstring, dom, fileinfo, pgsql
           coverage: xdebug
-          tools: phpcs, phpcpd
+
+      - name: Setup problem matchers
+        run: |
+          echo "::add-matcher::${{ runner.tool_cache }}/php.json"
+          echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
 
       - uses: ramsey/composer-install@v2
 
@@ -146,7 +149,7 @@ jobs:
           php artisan key:generate
 
       - name: Setup NPM
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node }}
           cache: "npm"
@@ -170,9 +173,3 @@ jobs:
         env:
           DB_PORT: ${{ job.services.postgres.ports[5432] }}
           # REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
-
-      - name: PHP_CodeSniffer
-        run: phpcs --extensions=php app
-
-      - name: Copy/Paste Detector
-        run: phpcpd app/ --min-lines=50
