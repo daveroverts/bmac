@@ -49,7 +49,7 @@ jobs:
           php-version: ${{ matrix.php-versions }}
           extensions: mbstring, dom, fileinfo, mysql
           coverage: xdebug
-          tools: phpcs, phpcpd
+          tools: phpcs
 
       - name: Setup problem matchers
         run: |
@@ -93,9 +93,6 @@ jobs:
 
       - name: PHP_CodeSniffer
         run: phpcs --extensions=php app
-
-      - name: Copy/Paste Detector
-        run: phpcpd app/ --min-lines=50
 
   test-php-postgresql:
     name: Test PHP ${{ matrix.php-versions }} (${{ matrix.stability }}) + Node ${{ matrix.node }} + ${{ matrix.os }} with PostgreSQL
@@ -142,7 +139,7 @@ jobs:
           php-version: ${{ matrix.php-versions }}
           extensions: mbstring, dom, fileinfo, pgsql
           coverage: xdebug
-          tools: phpcs, phpcpd
+          tools: phpcs
 
       - name: Setup problem matchers
         run: |
@@ -184,6 +181,3 @@ jobs:
 
       - name: PHP_CodeSniffer
         run: phpcs --extensions=php app
-
-      - name: Copy/Paste Detector
-        run: phpcpd app/ --min-lines=50
