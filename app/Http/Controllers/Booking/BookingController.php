@@ -38,7 +38,7 @@ class BookingController extends Controller
         if ($booking->status != BookingStatus::UNASSIGNED) {
             // Check if current user has booked/reserved
             if ($booking->user_id == auth()->id()) {
-                if ($booking->status == BookingStatus::BOOKED->value && !$booking->is_editable) {
+                if ($booking->status == BookingStatus::BOOKED && !$booking->is_editable) {
                     flashMessage('info', __('Danger'), __('You cannot edit the booking!'));
                     return to_route('bookings.event.index', $booking->event);
                 }
@@ -49,7 +49,7 @@ class BookingController extends Controller
                 return view('booking.edit', compact('booking', 'flight'));
             } else {
                 // Check if the booking has already been reserved
-                if ($booking->status === BookingStatus::RESERVED->value) {
+                if ($booking->status == BookingStatus::RESERVED) {
                     flashMessage(
                         'danger',
                         __('Warning'),
@@ -96,7 +96,7 @@ class BookingController extends Controller
                             ->by(auth()->user())
                             ->on($booking)
                             ->log('Flight reserved');
-                        $booking->status = BookingStatus::RESERVED->value;
+                        $booking->status = BookingStatus::RESERVED;
                         $booking->user()->associate(auth()->user())->save();
                         flashMessage(
                             'info',
@@ -228,7 +228,7 @@ class BookingController extends Controller
                 $message = __('Slot is now free to use again');
             }
 
-            $booking->status = BookingStatus::UNASSIGNED->value;
+            $booking->status = BookingStatus::UNASSIGNED;
             flashMessage('info', $title, $message);
             $booking->user()->dissociate()->save();
             return to_route('bookings.event.index', $booking->event);
