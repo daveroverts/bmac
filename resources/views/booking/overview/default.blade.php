@@ -42,7 +42,7 @@
                 {{ $booking->formatted_actype }}</td>
             <td>
                 {{-- Check if booking has been booked --}}
-                @if ($booking->status === \App\Enums\BookingStatus::BOOKED)
+                @if ($booking->status == \App\Enums\BookingStatus::BOOKED)
                     {{-- Check if booking has been booked by current user --}}
                     @if (auth()->check() && $booking->user_id == auth()->id())
                         <a href="{{ route('bookings.show', $booking) }}" class="btn btn-info">My
@@ -52,7 +52,6 @@
                             Booked [{{ $booking->user->id }}]
                         </button>
                     @endif
-
                 @elseif($booking->status === \App\Enums\BookingStatus::RESERVED)
                     {{-- Check if a booking has been reserved --}}
                     @can('update', $booking)
@@ -69,9 +68,10 @@
                         {{-- Check if user is logged in --}}
                         @if ($booking->event->startBooking <= now() && $booking->event->endBooking >= now())
                             {{-- Check if user already has a booking --}}
-                            @if ($booking->event->multiple_bookings_allowed ||
-    (!$booking->event->multiple_bookings_allowed &&
-        !auth()->user()->bookings->where('event_id', $event->id)->first()))
+                            @if (
+                                $booking->event->multiple_bookings_allowed ||
+                                    (!$booking->event->multiple_bookings_allowed &&
+                                        !auth()->user()->bookings->where('event_id', $event->id)->first()))
                                 {{-- Check if user already has a booking, and only 1 is allowed --}}
                                 <a href="{{ route('bookings.edit', $booking) }}" class="btn btn-success">BOOK
                                     NOW</a>

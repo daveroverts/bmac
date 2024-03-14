@@ -35,7 +35,7 @@ class BookingController extends Controller
     public function edit(Booking $booking): View|RedirectResponse
     {
         // Check if the booking has already been booked or reserved
-        if ($booking->status !== BookingStatus::UNASSIGNED->value) {
+        if ($booking->status != BookingStatus::UNASSIGNED) {
             // Check if current user has booked/reserved
             if ($booking->user_id == auth()->id()) {
                 if ($booking->status == BookingStatus::BOOKED->value && !$booking->is_editable) {
@@ -146,8 +146,8 @@ class BookingController extends Controller
                 );
             }
 
-            $booking->status = BookingStatus::BOOKED->value;
-            if ($booking->getOriginal('status') === BookingStatus::RESERVED->value) {
+            if ($booking->status == BookingStatus::RESERVED) {
+                $booking->status = BookingStatus::BOOKED;
                 $booking->save();
                 event(new BookingConfirmed($booking));
                 if (!Str::contains(config('mail.default'), ['log', 'array'])) {
@@ -219,7 +219,7 @@ class BookingController extends Controller
                 ]);
             }
 
-            if ($booking->status === BookingStatus::BOOKED->value) {
+            if ($booking->status == BookingStatus::BOOKED) {
                 event(new BookingCancelled($booking, auth()->user()));
                 $title = __('Booking cancelled!');
                 $message = __('Booking has been cancelled!');

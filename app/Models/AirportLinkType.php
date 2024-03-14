@@ -17,9 +17,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @property string|null $class
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\Activitylog\Models\Activity[] $activities
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Activitylog\Models\Activity> $activities
  * @property-read int|null $activities_count
- * @property-read AirportLink $links
+ * @property-read \App\Models\AirportLink|null $links
  * @method static Builder|AirportLinkType newModelQuery()
  * @method static Builder|AirportLinkType newQuery()
  * @method static Builder|AirportLinkType query()

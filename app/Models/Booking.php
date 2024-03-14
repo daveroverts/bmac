@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\BookingStatus;
 use Illuminate\Support\Str;
 use Illuminate\Support\Collection;
 use Spatie\Activitylog\LogOptions;
@@ -18,7 +19,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @property int $id
  * @property string|null $uuid
  * @property int $event_id
- * @property int $status
+ * @property BookingStatus $status
  * @property bool $is_editable
  * @property int|null $user_id
  * @property string|null $callsign
@@ -27,20 +28,20 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @property \Illuminate\Support\Carbon|null $final_information_email_sent_at
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\Activitylog\Models\Activity[] $activities
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Activitylog\Models\Activity> $activities
  * @property-read int|null $activities_count
- * @property-read Airport|null $airportArr
- * @property-read Airport|null $airportDep
- * @property-read Event $event
- * @property-read \Illuminate\Database\Eloquent\Collection|Flight[] $flights
+ * @property-read \App\Models\Airport|null $airportArr
+ * @property-read \App\Models\Airport|null $airportDep
+ * @property-read \App\Models\Event $event
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Flight> $flights
  * @property-read int|null $flights_count
  * @property-read string $formatted_actype
  * @property-read string $formatted_callsign
  * @property-read string $formatted_selcal
  * @property-read bool $has_received_final_information_email
  * @property-write mixed $actype
- * @property-read User|null $user
- * @method static \Database\Factories\BookingFactory factory(...$parameters)
+ * @property-read \App\Models\User|null $user
+ * @method static \Database\Factories\BookingFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|Booking newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Booking newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Booking query()
@@ -68,6 +69,7 @@ class Booking extends Model
     ];
 
     protected $casts = [
+        'status' => BookingStatus::class,
         'is_editable' => 'boolean',
         'has_already_received_final_information_email' => 'boolean',
         'final_information_email_sent_at' => 'datetime',
