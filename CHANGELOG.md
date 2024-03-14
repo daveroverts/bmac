@@ -1,3 +1,10 @@
+## [4.1.2](https://github.com/daveroverts/bmac/compare/v4.1.1...v4.1.2) (2024-03-14)
+
+
+### Bug Fixes
+
+* fix for enums not properly working after ([ed30828](https://github.com/daveroverts/bmac/commit/ed30828f91fd4a15919e04e0a0cdc7b90dcd3e57)), closes [#799](https://github.com/daveroverts/bmac/issues/799)
+
 ## [4.1.1](https://github.com/daveroverts/bmac/compare/v4.1.0...v4.1.1) (2024-02-10)
 
 
