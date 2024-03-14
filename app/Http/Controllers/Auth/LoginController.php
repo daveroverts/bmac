@@ -100,7 +100,7 @@ class LoginController extends Controller
             $booking = Booking::whereUuid(session('booking'))->first();
             session()->forget('booking');
             if (!empty($booking)) {
-                if ($booking->status !== BookingStatus::BOOKED->value) {
+                if ($booking->status != BookingStatus::BOOKED) {
                     return to_route('bookings.edit', $booking);
                 }
                 return to_route('bookings.show', $booking);

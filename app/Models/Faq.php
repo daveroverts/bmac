@@ -17,11 +17,11 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  * @property string $answer
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\Activitylog\Models\Activity[] $activities
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Activitylog\Models\Activity> $activities
  * @property-read int|null $activities_count
- * @property-read \Illuminate\Database\Eloquent\Collection|Event[] $events
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Event> $events
  * @property-read int|null $events_count
- * @method static \Database\Factories\FaqFactory factory(...$parameters)
+ * @method static \Database\Factories\FaqFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|Faq newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Faq newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Faq query()

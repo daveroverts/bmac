@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\AirportView;
 use Spatie\Activitylog\LogOptions;
 use Illuminate\Notifications\Notifiable;
 use App\Http\Controllers\OAuthController;
@@ -19,7 +20,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  * @property string $name_last
  * @property string $email
  * @property bool $isAdmin
- * @property int $airport_view
+ * @property AirportView $airport_view
  * @property bool $use_monospace_font
  * @property string|null $remember_token
  * @property string|null $access_token
@@ -27,16 +28,16 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  * @property int|null $token_expires
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\Activitylog\Models\Activity[] $activities
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Activitylog\Models\Activity> $activities
  * @property-read int|null $activities_count
- * @property-read \Illuminate\Database\Eloquent\Collection|Booking[] $bookings
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Booking> $bookings
  * @property-read int|null $bookings_count
  * @property-read string $full_name
  * @property-read string $pic
  * @property-read \League\OAuth2\Client\Token\AccessToken|null $token
- * @property-read \Illuminate\Notifications\DatabaseNotificationCollection|\Illuminate\Notifications\DatabaseNotification[] $notifications
+ * @property-read \Illuminate\Notifications\DatabaseNotificationCollection<int, \Illuminate\Notifications\DatabaseNotification> $notifications
  * @property-read int|null $notifications_count
- * @method static \Database\Factories\UserFactory factory(...$parameters)
+ * @method static \Database\Factories\UserFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|User newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|User newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|User query()
@@ -80,6 +81,7 @@ class User extends Authenticatable
     protected $casts = [
         'isAdmin' => 'boolean',
         'use_monospace_font' => 'boolean',
+        'airport_view' => AirportView::class,
     ];
 
     public function getActivitylogOptions(): LogOptions

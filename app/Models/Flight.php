@@ -25,17 +25,17 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @property string|null $oceanicTrack
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\Activitylog\Models\Activity[] $activities
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Activitylog\Models\Activity> $activities
  * @property-read int|null $activities_count
- * @property-read Airport $airportArr
- * @property-read Airport $airportDep
- * @property-read Booking $booking
+ * @property-read \App\Models\Airport $airportArr
+ * @property-read \App\Models\Airport $airportDep
+ * @property-read \App\Models\Booking $booking
  * @property-read string $formatted_ctot
  * @property-read string $formatted_eta
  * @property-read string $formatted_notes
  * @property-read string $formatted_oceanicfl
  * @property-write mixed $oceanictrack
- * @method static \Database\Factories\FlightFactory factory(...$parameters)
+ * @method static \Database\Factories\FlightFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|Flight newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Flight newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Flight query()

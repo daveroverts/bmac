@@ -18,11 +18,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @property string $url
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\Activitylog\Models\Activity[] $activities
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Activitylog\Models\Activity> $activities
  * @property-read int|null $activities_count
- * @property-read Event $event
- * @property-read AirportLinkType $type
- * @method static \Database\Factories\EventLinkFactory factory(...$parameters)
+ * @property-read \App\Models\Event $event
+ * @property-read \App\Models\AirportLinkType $type
+ * @method static \Database\Factories\EventLinkFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|EventLink newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|EventLink newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|EventLink query()

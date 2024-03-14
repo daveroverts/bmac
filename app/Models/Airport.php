@@ -17,22 +17,24 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @property string $icao
  * @property string $iata
  * @property string $name
+ * @property float|null $latitude
+ * @property float|null $longitude
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\Activitylog\Models\Activity[] $activities
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Activitylog\Models\Activity> $activities
  * @property-read int|null $activities_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Event[] $eventArr
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Event> $eventArr
  * @property-read int|null $event_arr_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Event[] $eventDep
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Event> $eventDep
  * @property-read int|null $event_dep_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Flight[] $flightsArr
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Flight> $flightsArr
  * @property-read int|null $flights_arr_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Flight[] $flightsDep
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Flight> $flightsDep
  * @property-read int|null $flights_dep_count
  * @property-read string $full_name
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\AirportLink[] $links
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\AirportLink> $links
  * @property-read int|null $links_count
- * @method static \Database\Factories\AirportFactory factory(...$parameters)
+ * @method static \Database\Factories\AirportFactory factory($count = null, $state = [])
  * @method static Builder|Airport newModelQuery()
  * @method static Builder|Airport newQuery()
  * @method static Builder|Airport query()
@@ -40,6 +42,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @method static Builder|Airport whereIata($value)
  * @method static Builder|Airport whereIcao($value)
  * @method static Builder|Airport whereId($value)
+ * @method static Builder|Airport whereLatitude($value)
+ * @method static Builder|Airport whereLongitude($value)
  * @method static Builder|Airport whereName($value)
  * @method static Builder|Airport whereUpdatedAt($value)
  * @mixin \Eloquent

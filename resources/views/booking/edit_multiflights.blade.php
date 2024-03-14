@@ -7,7 +7,7 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header">{{ $booking->event->name }} |
-                    {{ $booking->status === \App\Enums\BookingStatus::BOOKED ? __('My Booking') : __('My Reservation') }}
+                    {{ $booking->status == \App\Enums\BookingStatus::BOOKED ? __('My Booking') : __('My Reservation') }}
                 </div>
 
                 <div class="card-body">
@@ -80,51 +80,46 @@
                         @endforeach
 
                         @bind($booking)
-                        @if (!$booking->is_editable)
-                            <x-form-group :label="__('Callsign')">
-                                <strong>{{ $booking->formatted_callsign }}</strong>
+                            @if (!$booking->is_editable)
+                                <x-form-group :label="__('Callsign')">
+                                    <strong>{{ $booking->formatted_callsign }}</strong>
+                                </x-form-group>
+                                <x-form-group :label="__('Aircraft code')">
+                                    <strong>{{ $booking->formatted_actype }}</strong>
+                                </x-form-group>
+                            @else
+                                <x-form-input name="callsign" :label="__('Callsign')" required maxlength="7" />
+                                <x-form-input name="acType" :label="__('Aircraft code')" required minlength="3" maxlength="4" />
+                            @endif
+
+                            <x-form-group :label="__('PIC')">
+                                <strong>{{ $booking->user->pic }}</strong>
                             </x-form-group>
-                            <x-form-group :label="__('Aircraft code')">
-                                <strong>{{ $booking->formatted_actype }}</strong>
-                            </x-form-group>
-                        @else
-                            <x-form-input name="callsign" :label="__('Callsign')" required maxlength="7" />
-                            <x-form-input name="acType" :label="__('Aircraft code')" required minlength="3" maxlength="4" />
-                        @endif
-
-                        <x-form-group :label="__('PIC')">
-                            <strong>{{ $booking->user->pic }}</strong>
-                        </x-form-group>
-
-                        @if ($booking->status === \App\Enums\BookingStatus::RESERVED)
-                            <x-form-group>
-                                <x-form-checkbox name="checkStudy" required
-                                    :label="__('I agree to study the provided briefing material')" value="1" />
-
-                                <x-form-checkbox name="checkCharts" required
-                                    :label="__('I agree to have the applicable charts at hand during the event')"
-                                    value="1" />
-                            </x-form-group>
-                        @endif
-
-                        <x-form-group inline>
-                            <x-form-submit>
-                                <i class="fas fa-check"></i> {{ $booking->bookedBy ? 'Edit' : 'Confirm' }} Booking
-                            </x-form-submit>
 
                             @if ($booking->status === \App\Enums\BookingStatus::RESERVED)
-                                <button class="btn btn-danger"
-                                    onclick="event.preventDefault(); document.getElementById('cancel-form').submit();">
-                                    <i class=" fa fa-times"></i> Cancel Reservation
-                                </button>
-                            @endif
-                        </x-form-group>
+                                <x-form-group>
+                                    <x-form-checkbox name="checkStudy" required :label="__('I agree to study the provided briefing material')" value="1" />
 
+                                    <x-form-checkbox name="checkCharts" required :label="__('I agree to have the applicable charts at hand during the event')" value="1" />
+                                </x-form-group>
+                            @endif
+
+                            <x-form-group inline>
+                                <x-form-submit>
+                                    <i class="fas fa-check"></i> {{ $booking->bookedBy ? 'Edit' : 'Confirm' }} Booking
+                                </x-form-submit>
+
+                                @if ($booking->status === \App\Enums\BookingStatus::RESERVED)
+                                    <button class="btn btn-danger"
+                                        onclick="event.preventDefault(); document.getElementById('cancel-form').submit();">
+                                        <i class=" fa fa-times"></i> Cancel Reservation
+                                    </button>
+                                @endif
+                            </x-form-group>
                         @endbind
                         </x-form-group>
 
-                        <x-form :action="route('bookings.cancel', $booking)" id="cancel-form" method="PATCH"
-                            style="display: none;"></x-form>
+                        <x-form :action="route('bookings.cancel', $booking)" id="cancel-form" method="PATCH" style="display: none;"></x-form>
                 </div>
             </div>
         </div>
