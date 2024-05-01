@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "aws/aws-crt-php",
-            "version": "v1.2.4",
+            "version": "v1.2.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/awslabs/aws-crt-php.git",
-                "reference": "eb0c6e4e142224a10b08f49ebf87f32611d162b2"
+                "reference": "0ea1f04ec5aa9f049f97e012d1ed63b76834a31b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/awslabs/aws-crt-php/zipball/eb0c6e4e142224a10b08f49ebf87f32611d162b2",
-                "reference": "eb0c6e4e142224a10b08f49ebf87f32611d162b2",
+                "url": "https://api.github.com/repos/awslabs/aws-crt-php/zipball/0ea1f04ec5aa9f049f97e012d1ed63b76834a31b",
+                "reference": "0ea1f04ec5aa9f049f97e012d1ed63b76834a31b",
                 "shasum": ""
             },
             "require": {
@@ -56,22 +56,22 @@
             ],
             "support": {
                 "issues": "https://github.com/awslabs/aws-crt-php/issues",
-                "source": "https://github.com/awslabs/aws-crt-php/tree/v1.2.4"
+                "source": "https://github.com/awslabs/aws-crt-php/tree/v1.2.5"
             },
-            "time": "2023-11-08T00:42:13+00:00"
+            "time": "2024-04-19T21:30:56+00:00"
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.300.17",
+            "version": "3.305.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "ddd93079be1646e7db727d078f4c5beee1ddb052"
+                "reference": "3ce65364cc318ae36fc2c61c87a7aa5c83ee626f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/ddd93079be1646e7db727d078f4c5beee1ddb052",
-                "reference": "ddd93079be1646e7db727d078f4c5beee1ddb052",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/3ce65364cc318ae36fc2c61c87a7aa5c83ee626f",
+                "reference": "3ce65364cc318ae36fc2c61c87a7aa5c83ee626f",
                 "shasum": ""
             },
             "require": {
@@ -151,9 +151,9 @@
             "support": {
                 "forum": "https://forums.aws.amazon.com/forum.jspa?forumID=80",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.300.17"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.305.6"
             },
-            "time": "2024-03-13T18:08:32+00:00"
+            "time": "2024-04-30T18:08:11+00:00"
         },
         {
             "name": "blade-ui-kit/blade-ui-kit",
