@@ -61,10 +61,18 @@ class Bookings extends Component
             abort_unless(auth()->check() && auth()->user()->isAdmin, 404);
         }
 
-        $this->booked = $this->bookings->where('status', BookingStatus::BOOKED->value)->count();
+        $this->booked = $this->bookings->where('status', BookingStatus::BOOKED)->count();
 
         $this->total = $this->bookings->count();
 
-        return view('livewire.bookings');
+        // https://github.com/TomasVotruba/bladestan/issues/65#issuecomment-1582383622
+        return view('livewire.bookings', [
+            'event' => $this->event,
+            'refreshInSeconds' => $this->refreshInSeconds,
+            'bookings' => $this->bookings,
+            'filter' => $this->filter,
+            'total' => $this->total,
+            'booked' => $this->booked,
+        ]);
     }
 }

@@ -88,13 +88,13 @@
                     <div class="dropdown-menu">
                         <a class="dropdown-item"
                             href="{{ route('admin.bookings.export', $event) }}">{{ __('Excluding emails') }}</a>
-                        @if ($event->event_type_id == \App\Enums\EventType::MULTIFLIGHTS)
+                        @if ($event->event_type_id == \App\Enums\EventType::MULTIFLIGHTS->value)
                             <a class="dropdown-item" href="{{ route('admin.bookings.export', [$event, 'vacc']) }}">
                                 {{ __('Including emails') }}</a>
                         @endif
                     </div>
 
-                    @if ($event->event_type_id == \App\Enums\EventType::MULTIFLIGHTS)
+                    @if ($event->event_type_id == \App\Enums\EventType::MULTIFLIGHTS->value)
                         <a href="{{ route('admin.bookings.routeAssignForm', $event) }}" class="btn btn-primary m-1"><i
                                 class="fa fa-edit"></i> {{ __('Assign Routes') }}</a>&nbsp;
                     @endif
