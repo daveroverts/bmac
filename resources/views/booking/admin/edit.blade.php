@@ -25,13 +25,14 @@
                         <x-form-input name="acType" :label="__('Aircraft code')" minlength="3" maxlength="4" />
 
                         @bind($flight)
+                        
                         <x-form-group inline>
-                            <x-form-input name="ctot" type="time" :label="'<i class=\'fa fa-clock\'></i> ' . __('CTOT')">
+                            <x-form-input name="ctot" :bind="false" value="{{ $flight->ctot?->format('H:i') }}" type="time" :label="'<i class=\'fa fa-clock\'></i> ' . __('CTOT')">
                                 @slot('append')
                                     z
                                 @endslot
                             </x-form-input>
-                            <x-form-input name="eta" type="time" :label="'<i class=\'fa fa-clock\'></i> ' . __('ETA')">
+                            <x-form-input name="eta" :bind="false" value="{{ $flight->eta?->format('H:i') }}" type="time" :label="'<i class=\'fa fa-clock\'></i> ' . __('ETA')">
                                 @slot('append')
                                     z
                                 @endslot
