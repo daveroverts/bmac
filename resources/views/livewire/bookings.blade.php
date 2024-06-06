@@ -44,9 +44,9 @@
     </p>
     @include('layouts.alert')
     @if($event->startBooking <= now() || auth()->check() && auth()->user()->isAdmin)
-        Flights available: {{ $total - $booked }} / {{ $total }}
+        Flights available: {{ strval($total - $booked) }} / {{ $total }}
         <table class="table table-hover table-responsive">
-            @if($event->event_type_id == \App\Enums\EventType::MULTIFLIGHTS)
+            @if($event->event_type_id == \App\Enums\EventType::MULTIFLIGHTS->value)
                 @include('booking.overview.multiflights')
             @else
                 @include('booking.overview.default')

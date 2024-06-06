@@ -27,7 +27,9 @@ class FaqAdminController extends AdminController
     public function create(): View
     {
         $faq = new Faq();
-        return view('faq.admin.form', compact('faq'));
+
+        $events = collect();
+        return view('faq.admin.form', compact('faq', 'events'));
     }
 
     public function store(StoreFaq $request): RedirectResponse

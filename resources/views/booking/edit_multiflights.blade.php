@@ -106,7 +106,8 @@
 
                             <x-form-group inline>
                                 <x-form-submit>
-                                    <i class="fas fa-check"></i> {{ $booking->bookedBy ? 'Edit' : 'Confirm' }} Booking
+                                    <i class="fas fa-check"></i>
+                                    {{ $booking->status === \App\Enums\BookingStatus::RESERVED ? 'Confirm' : 'Edit' }} Booking
                                 </x-form-submit>
 
                                 @if ($booking->status === \App\Enums\BookingStatus::RESERVED)
