@@ -119,11 +119,6 @@ class BookingAdminController extends AdminController
         return to_route('bookings.event.index', $event);
     }
 
-    public function show(Booking $booking): View
-    {
-        return view('booking.show', compact('booking'));
-    }
-
     public function edit(Booking $booking): View|RedirectResponse
     {
         if ($booking->event->endEvent >= now()) {
