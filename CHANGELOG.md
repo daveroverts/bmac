@@ -1,3 +1,12 @@
+## [4.1.3](https://github.com/daveroverts/bmac/compare/v4.1.2...v4.1.3) (2024-06-06)
+
+
+### Bug Fixes
+
+* **BookingAdminController:** fix for time values not rendering in the edit form ([a60db70](https://github.com/daveroverts/bmac/commit/a60db703a0e418977f887ca6047167ba09300b94)), closes [#852](https://github.com/daveroverts/bmac/issues/852)
+* **BookingAdminController:** remove time values if it really was removed ([d4e55c9](https://github.com/daveroverts/bmac/commit/d4e55c970472c762107e6226234289111d5c45f6))
+* fix even more issues after moving to native enums ([0dbba90](https://github.com/daveroverts/bmac/commit/0dbba90c7de1a9ab7ddc8d93da2c7d5267cd0dce)), closes [#853](https://github.com/daveroverts/bmac/issues/853) [#854](https://github.com/daveroverts/bmac/issues/854)
+
 ## [4.1.2](https://github.com/daveroverts/bmac/compare/v4.1.1...v4.1.2) (2024-03-14)
 
 
