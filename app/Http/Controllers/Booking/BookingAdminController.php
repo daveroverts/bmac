@@ -168,6 +168,8 @@ class BookingAdminController extends AdminController
                 'Y-m-d H:i',
                 $booking->event->startEvent->toDateString() . ' ' . $request->ctot
             );
+        } else {
+            $flightAttributes['ctot'] = null;
         }
 
         if ($request->eta) {
@@ -175,6 +177,8 @@ class BookingAdminController extends AdminController
                 'Y-m-d H:i',
                 $booking->event->startEvent->toDateString() . ' ' . $request->eta
             );
+        } else {
+            $flightAttributes['eta'] = null;
         }
 
         $flight->fill($flightAttributes);
