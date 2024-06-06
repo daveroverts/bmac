@@ -13,7 +13,7 @@
                         <x-form-input name="file" type="file" :label="__('File')" />
 
                         <x-form-group :label="__('Headers in <strong>bold</strong> are mandatory')">
-                            @if ($event->event_type_id == \App\Enums\EventType::MULTIFLIGHTS)
+                            @if ($event->event_type_id == \App\Enums\EventType::MULTIFLIGHTS->value)
                                 <strong><abbr title="[hh:mm]">CTOT 1</abbr></strong> - <strong><abbr title="[ICAO]">Airport
                                         1</abbr></strong> -
                                 <strong><abbr title="[hh:mm]">CTOT 2</abbr></strong> - <strong><abbr title="[ICAO]">Airport
@@ -34,7 +34,7 @@
                             </x-form-submit>
 
                             <a class="btn btn-secondary"
-                                href="{{ $event->event_type_id == \App\Enums\EventType::MULTIFLIGHTS ? url('import_multi_flights_template.xlsx') : url('import_template.xlsx') }}">
+                                href="{{ $event->event_type_id == \App\Enums\EventType::MULTIFLIGHTS->value ? url('import_multi_flights_template.xlsx') : url('import_template.xlsx') }}">
                                 <i class="fas fa-file-excel"></i> Download template
                             </a>
                         </x-form-group>

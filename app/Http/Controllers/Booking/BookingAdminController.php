@@ -119,11 +119,6 @@ class BookingAdminController extends AdminController
         return to_route('bookings.event.index', $event);
     }
 
-    public function show(Booking $booking): View
-    {
-        return view('booking.show', compact('booking'));
-    }
-
     public function edit(Booking $booking): View|RedirectResponse
     {
         if ($booking->event->endEvent >= now()) {
@@ -168,6 +163,8 @@ class BookingAdminController extends AdminController
                 'Y-m-d H:i',
                 $booking->event->startEvent->toDateString() . ' ' . $request->ctot
             );
+        } else {
+            $flightAttributes['ctot'] = null;
         }
 
         if ($request->eta) {
@@ -175,6 +172,8 @@ class BookingAdminController extends AdminController
                 'Y-m-d H:i',
                 $booking->event->startEvent->toDateString() . ' ' . $request->eta
             );
+        } else {
+            $flightAttributes['eta'] = null;
         }
 
         $flight->fill($flightAttributes);

@@ -70,8 +70,7 @@
                             {{-- Check if user already has a booking --}}
                             @if (
                                 $booking->event->multiple_bookings_allowed ||
-                                    (!$booking->event->multiple_bookings_allowed &&
-                                        !auth()->user()->bookings->where('event_id', $event->id)->first()))
+                                    auth()->user()->bookings->where('event_id', $booking->event->id)->isEmpty())
                                 {{-- Check if user already has a booking, and only 1 is allowed --}}
                                 <a href="{{ route('bookings.edit', $booking) }}" class="btn btn-success">BOOK
                                     NOW</a>

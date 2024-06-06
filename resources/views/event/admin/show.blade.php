@@ -30,7 +30,7 @@
                         </div>
                     </div>
 
-                    @if ($event->type->id != \App\Enums\EventType::MULTIFLIGHTS)
+                    @if ($event->event_type_id != \App\Enums\EventType::MULTIFLIGHTS->value)
                         {{--Departure Airport--}}
                         <div class="form-group row">
                             <label for="dep" class="col-md-4 col-form-label text-md-right">Departure Airport</label>
