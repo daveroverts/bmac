@@ -14,7 +14,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
- * App\Models\Booking
+ * 
  *
  * @property int $id
  * @property string|null $uuid
