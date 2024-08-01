@@ -24,7 +24,7 @@
         "maatwebsite/excel": "^3.1",
         "predis/predis": "^2.0",
         "protonemedia/laravel-form-components": "^3.8",
-        "sentry/sentry-laravel": "^3.2",
+        "sentry/sentry-laravel": "^4.7",
         "spatie/laravel-activitylog": "^4.7",
         "spatie/laravel-ignition": "^2.0",
         "tabuna/breadcrumbs": "^4.0"
