@@ -1,3 +1,11 @@
+## [4.1.4](https://github.com/daveroverts/bmac/compare/v4.1.3...v4.1.4) (2024-10-20)
+
+
+### Bug Fixes
+
+* **deps:** Update livewire/livewire version to 2.12.8 or greater ([baf0897](https://github.com/daveroverts/bmac/commit/baf089734d9aaa386a2b833216859de136bad7e1))
+* **deps:** Update tinymce to version 7.4.1 ([5049c9a](https://github.com/daveroverts/bmac/commit/5049c9a8ac130d241422d69f74441a0edf303dc1))
+
 ## [4.1.3](https://github.com/daveroverts/bmac/compare/v4.1.2...v4.1.3) (2024-06-06)
 
 
