@@ -1,5 +1,8 @@
 name: PHP Linting
-on: pull_request
+on:
+  pull_request:
+    paths:
+      - "**/*.php"
 jobs:
   phplint:
     runs-on: ubuntu-latest
