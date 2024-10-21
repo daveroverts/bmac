@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "84d00180dcd3be836834eabced4a6076",
+    "content-hash": "a80ebe66ead4d608c34af83388cac46c",
     "packages": [
         {
             "name": "aws/aws-crt-php",
@@ -160,33 +160,35 @@
         },
         {
             "name": "blade-ui-kit/blade-ui-kit",
-            "version": "0.4.0",
+            "version": "0.6.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/blade-ui-kit/blade-ui-kit.git",
-                "reference": "bfb5beb26e1347e0f2be6f245a22388410fe53ce"
+                "reference": "0369d4ce2433dff605b80c70726c9d231902e122"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/blade-ui-kit/blade-ui-kit/zipball/bfb5beb26e1347e0f2be6f245a22388410fe53ce",
-                "reference": "bfb5beb26e1347e0f2be6f245a22388410fe53ce",
+                "url": "https://api.github.com/repos/blade-ui-kit/blade-ui-kit/zipball/0369d4ce2433dff605b80c70726c9d231902e122",
+                "reference": "0369d4ce2433dff605b80c70726c9d231902e122",
                 "shasum": ""
             },
             "require": {
                 "ext-json": "*",
-                "illuminate/filesystem": "^9.0|^10.0",
-                "illuminate/support": "^9.0|^10.0",
-                "illuminate/view": "^9.0|^10.0",
-                "nesbot/carbon": "^2.38",
-                "php": "^8.0"
+                "illuminate/filesystem": "^10.0|^11.0",
+                "illuminate/support": "^10.0|^11.0",
+                "illuminate/view": "^10.0|^11.0",
+                "nesbot/carbon": "^2.38|^3.0",
+                "php": "^8.1"
             },
             "require-dev": {
-                "gajus/dindent": "^2.0",
                 "guzzlehttp/guzzle": "^7.4",
                 "league/commonmark": "^1.4|^2.0",
-                "lorisleiva/cron-translator": "^0.1.1",
-                "orchestra/testbench": "^7.1|^8.0",
-                "phpunit/phpunit": "^9.0"
+                "livewire/livewire": "^3.0",
+                "lorisleiva/cron-translator": "^0.1.1|^0.4",
+                "orchestra/testbench": "^8.0|^9.0",
+                "orchestra/testbench-dusk": "^8.0|^9.0",
+                "pestphp/pest": "^2.34",
+                "phpunit/phpunit": "^10.5|^11.0"
             },
             "suggest": {
                 "league/commonmark": "Required to use the markdown component (^1.4).",
@@ -228,15 +230,11 @@
             },
             "funding": [
                 {
-                    "url": "https://github.com/caneco",
-                    "type": "github"
-                },
-                {
-                    "url": "https://github.com/driesvints",
+                    "url": "https://github.com/sponsors/driesvints",
                     "type": "github"
                 }
             ],
-            "time": "2023-02-13T16:56:05+00:00"
+            "time": "2024-04-05T08:11:10+00:00"
         },
         {
             "name": "brick/math",
