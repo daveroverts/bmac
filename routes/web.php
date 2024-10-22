@@ -27,7 +27,7 @@ use App\Http\Controllers\EventLink\EventLinkAdminController;
 Route::get('/', HomeController::class)->name('home');
 
 Route::get('/login', [LoginController::class, 'login'])->name('login');
-Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
+Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
 // Admin routes
 Route::group(['as' => 'admin.', 'prefix' => 'admin', 'middleware' => 'auth.isAdmin'], function () {

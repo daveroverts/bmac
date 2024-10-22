@@ -18,8 +18,8 @@
             <ul class="navbar-nav mr-auto">
 
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
-                        aria-haspopup="true" aria-expanded="false">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         {{ __('Events') }}
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -32,8 +32,7 @@
                                     href="{{ route('bookings.event.index', $event) }}">{{ $event->name }}
                                     – {{ $event->startEvent->toFormattedDateString() }}</a>
                                 @auth
-                                    @foreach ($bookings = auth()->user()->bookings->where('event_id', $event->id)
-        as $booking)
+                                    @foreach ($bookings = auth()->user()->bookings->where('event_id', $event->id) as $booking)
                                         <a class="dropdown-item {{ request()->fullUrlIs(route('bookings.show', $booking)) ? 'active' : '' }}"
                                             href="{{ route('bookings.show', $booking) }}">
                                             <i
@@ -54,16 +53,15 @@
                     <a class="nav-link" href="{{ route('faq') }}">{{ __('FAQ') }}</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link"
-                        href="mailto:{{ config('app.contact_mail') }}">{{ __('Contact Us') }}</a>
+                    <a class="nav-link" href="mailto:{{ config('app.contact_mail') }}">{{ __('Contact Us') }}</a>
                 </li>
 
                 @auth
                     @if (auth()->user()->isAdmin)
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle {{ request()->routeIs('admin*') ? 'active' : '' }}"
-                                href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
-                                aria-expanded="false">
+                                href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+                                aria-haspopup="true" aria-expanded="false">
                                 {{ __('Admin') }}
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -93,11 +91,9 @@
                         <li class="nav-item"><a class="nav-link"
                                 href="{{ route('login', ['event' => $event]) }}">{{ __('Login') }}</a></li>
                     @else
-                        <li class="nav-item"><a class="nav-link"
-                                href="{{ route('login') }}">{{ __('Login') }}</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a></li>
                     @endif
                 @else
-
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -106,6 +102,7 @@
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <a class="dropdown-item {{ request()->routeIs('user.settings') ? 'active' : '' }}"
                                 href="{{ route('user.settings') }}">{{ __('My settings') }}</a>
+                            <x-logout class="dropdown-item" />
                             <a class="dropdown-item" href="{{ route('logout') }}">{{ __('Log out') }}</a>
                         </div>
                     </li>
