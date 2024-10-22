@@ -1,5 +1,5 @@
 @extends('layouts.app')
 
 @section('content')
-<livewire:bookings :event="$event" />
+    <livewire:bookings :event="$event" />
 @endsection

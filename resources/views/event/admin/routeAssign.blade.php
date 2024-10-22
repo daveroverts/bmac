@@ -9,8 +9,7 @@
                 <div class="card-header">{{ $event->name }} | {{ __('Import') }}</div>
 
                 <div class="card-body">
-                    <x-form :action="route('admin.bookings.routeAssign', $event)" method="POST"
-                        enctype="multipart/form-data">
+                    <x-form :action="route('admin.bookings.routeAssign', $event)" method="POST" enctype="multipart/form-data">
                         <x-form-input name="file" type="file" :label="__('File')" />
 
                         <x-form-group :label="__('Headers in <strong>bold</strong> are mandatory')">

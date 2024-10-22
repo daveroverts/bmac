@@ -28,25 +28,24 @@
                 <div class="card-header">{{ $faq->id ? 'Edit' : 'Add new' }} FAQ</div>
 
                 <div class="card-body">
-                    <x-form :action="$faq->id ? route('admin.faq.update', $faq) : route('admin.faq.store')"
-                        :method="$faq->id ? 'PATCH' : 'POST'">
+                    <x-form :action="$faq->id ? route('admin.faq.update', $faq) : route('admin.faq.store')" :method="$faq->id ? 'PATCH' : 'POST'">
                         @bind($faq)
-                        <x-form-group name="is_online" :label="__('Is online')" inline>
-                            <x-form-radio name="is_online" value="0" :label="__('No')" required />
-                            <x-form-radio name="is_online" value="1" :label="__('Yes')" required />
-                        </x-form-group>
+                            <x-form-group name="is_online" :label="__('Is online')" inline>
+                                <x-form-radio name="is_online" value="0" :label="__('No')" required />
+                                <x-form-radio name="is_online" value="1" :label="__('Yes')" required />
+                            </x-form-group>
 
-                        <x-form-input name="question" :label="__('Question')" required />
+                            <x-form-input name="question" :label="__('Question')" required />
 
-                        <x-form-textarea name="answer" :label="__('Answer')" class="tinymce" />
+                            <x-form-textarea name="answer" :label="__('Answer')" class="tinymce" />
 
-                        <x-form-submit>
-                            @if ($faq->id)
-                                <i class="fa fa-check"></i> {{ __('Edit') }}
-                            @else
-                                <i class="fa fa-plus"></i> {{ __('Add') }}
-                            @endif
-                        </x-form-submit>
+                            <x-form-submit>
+                                @if ($faq->id)
+                                    <i class="fa fa-check"></i> {{ __('Edit') }}
+                                @else
+                                    <i class="fa fa-plus"></i> {{ __('Add') }}
+                                @endif
+                            </x-form-submit>
                         @endbind
                     </x-form>
 

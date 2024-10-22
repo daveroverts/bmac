@@ -1,4 +1,4 @@
-@if(session('text'))
+@if (session('text'))
     @push('scripts')
         <script>
             Swal.fire({
