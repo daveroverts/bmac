@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <x-forms.alert />
+    <x-form.alert />
     @include('layouts.alert')
     @push('scripts')
         <script>

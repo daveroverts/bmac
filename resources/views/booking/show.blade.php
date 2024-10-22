@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <x-forms.alert />
+    <x-form.alert />
     @push('scripts')
         <script>
             $('.cancel-booking').on('click', function(e) {
