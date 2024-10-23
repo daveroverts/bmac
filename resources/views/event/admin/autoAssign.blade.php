@@ -10,24 +10,22 @@
 
                 <div class="card-body">
                     <x-form :action="route('admin.bookings.autoAssign', $event)" method="POST">
-                        <x-form-input name="oceanicTrack1" :label="__('Track #:number', ['number' => 1])" required
-                            maxlength="2" />
+                        <x-form-input name="oceanicTrack1" :label="__('Track #:number', ['number' => 1])" required maxlength="2" />
                         <x-form-textarea name="route1" :label="__('Route #:number', ['number' => 1])" />
 
-                        <x-form-input name="oceanicTrack2" :label="__('Track #:number', ['number' => 2])" required
-                            maxlength="2" />
+                        <x-form-input name="oceanicTrack2" :label="__('Track #:number', ['number' => 2])" required maxlength="2" />
                         <x-form-textarea name="route2" :label="__('Route #:number', ['number' => 2])" />
 
                         <x-form-group inline>
-                            <x-form-input name="minFL" :label="__('Minimum Oceanic Entry FL')" default="320" required
-                                minlength="3" maxlength="3">
+                            <x-form-input name="minFL" :label="__('Minimum Oceanic Entry FL')" default="320" required minlength="3"
+                                maxlength="3">
                                 @slot('prepend')
                                     FL
                                 @endslot
                             </x-form-input>
 
-                            <x-form-input name="maxFL" :label="__('Maximum Oceanic Entry FL')" default="380" required
-                                minlength="3" maxlength="3">
+                            <x-form-input name="maxFL" :label="__('Maximum Oceanic Entry FL')" default="380" required minlength="3"
+                                maxlength="3">
                                 @slot('prepend')
                                     FL
                                 @endslot

@@ -8,7 +8,7 @@
                 <div class="card-header">{{ $event->name }} | {{ $bulk ? __('Add Timeslots') : __('Add Slot') }}</div>
 
                 <div class="card-body">
-                    <x-form :action="route('admin.bookings.store',$event)" method="POST">
+                    <x-form :action="route('admin.bookings.store', $event)" method="POST">
                         <input type="hidden" name="id" value="{{ $event->id }}">
                         <input type="hidden" name="bulk" value="{{ $bulk ? 1 : 0 }}">
 
@@ -33,16 +33,15 @@
                             <x-form-input name="acType" :label="__('Aircraft code')" minlength="3" maxlength="4" />
                         @endif
 
-                        <x-form-select name="dep" :label="__('Departure airport')" :options="$airports"
-                            :placeholder="__('Choose...')" required :default="$event->dep" />
+                        <x-form-select name="dep" :label="__('Departure airport')" :options="$airports" :placeholder="__('Choose...')" required
+                            :default="$event->dep" />
 
-                        <x-form-select name="arr" :label="__('Arrival airport')" :options="$airports"
-                            :placeholder="__('Choose...')" required :default="$event->dep" />
+                        <x-form-select name="arr" :label="__('Arrival airport')" :options="$airports" :placeholder="__('Choose...')" required
+                            :default="$event->dep" />
 
                         @if ($bulk)
                             <x-form-group inline>
-                                <x-form-input name="start" type="time"
-                                    :label="'<i class=\'fa fa-clock\'></i> ' . __('Start')">
+                                <x-form-input name="start" type="time" :label="'<i class=\'fa fa-clock\'></i> ' . __('Start')">
                                     @slot('append')
                                         z
                                     @endslot
@@ -57,8 +56,7 @@
                             </x-form-group>
                         @else
                             <x-form-group inline>
-                                <x-form-input name="ctot" type="time"
-                                    :label="'<i class=\'fa fa-clock\'></i> ' . __('CTOT')">
+                                <x-form-input name="ctot" type="time" :label="'<i class=\'fa fa-clock\'></i> ' . __('CTOT')">
                                     @slot('append')
                                         z
                                     @endslot
@@ -74,13 +72,11 @@
                             <x-form-textarea name="route" :label="__('Route')" />
 
 
-                            <x-form-input name="oceanicFL"
-                                :label="$event->is_oceanic_event ? __('Oceanic Entry Level') : __('Cruise FL')">
+                            <x-form-input name="oceanicFL" :label="$event->is_oceanic_event ? __('Oceanic Entry Level') : __('Cruise FL')">
                                 @slot('prepend')
                                     FL
                                 @endslot
                             </x-form-input>
-
                         @endif
 
                         <x-form-textarea name="notes" :label="__('Notes')" />
