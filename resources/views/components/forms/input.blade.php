@@ -1,8 +1,6 @@
-@props(['name', 'label' => null, 'prepend', 'append'])
+@props(['name', 'label' => null, 'value' => null, 'prepend', 'append'])
 
-<div class="form-group">
-    <x-forms.label :for="$name" :label="$label" />
-
+<x-forms.form-group :name="$name" :label="$label">
     <div class="input-group has-validation">
         @isset($prepend)
             <div class="input-group-prepend">
@@ -11,7 +9,8 @@
                 </div>
             </div>
         @endisset
-        <x-input :name="$name" {{ $attributes->class(['form-control', 'is-invalid' => $errors->has($name)]) }} />
+        <x-input :name="$name" :value="$value"
+            {{ $attributes->class(['form-control', 'is-invalid' => $errors->has($name)]) }} />
 
 
         <x-error :field="$name" class="invalid-feedback" />
@@ -24,4 +23,4 @@
             </div>
         @endisset
     </div>
-</div>
+</x-forms.form-group>
