@@ -24,7 +24,7 @@
                             <x-forms.select name="airport_id" :label="__('Airport')" :options="$airports" :placeholder="__('Choose...')"
                                 required />
                         @endif
-                        <x-forms.input name="name" :label="__('Name')" />
+                        <x-forms.input name="name" :label="__('Name')" :help="__('Leave empty to use the type as name')" />
                         <x-forms.input name="url" :label="__('URL')" placeholder="https://example.org" required />
 
                         <x-forms.button type="submit">
