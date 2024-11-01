@@ -32,7 +32,7 @@
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.6",
         "barryvdh/laravel-ide-helper": "^3.0",
-        "beyondcode/laravel-query-detector": "^1.7",
+        "beyondcode/laravel-query-detector": "^2.0",
         "fakerphp/faker": "^1.18",
         "larastan/larastan": "^2.0",
         "laravel/pint": "^1.10",
