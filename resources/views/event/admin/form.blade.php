@@ -100,7 +100,7 @@
 
                         <x-forms.input name="image_url" :label="__('Image URL')" placeholder="https://example.org" />
 
-                        <x-forms.textarea name="description" :label="__('Description')" :value="$event->description" />
+                        <x-forms.textarea name="description" :label="__('Description')" :value="$event->description" tinymce />
 
                         <x-forms.button type="submit">
                             @if ($event->id)
