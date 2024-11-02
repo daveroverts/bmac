@@ -1,9 +1,11 @@
-@props(['name', 'label' => null, 'inline' => false, 'help'])
+@props(['name' => null, 'label' => null, 'inline' => false, 'help'])
 
 <div class="form-group">
-    <x-forms.label :for="$name" :label="$label" />
+    @if ($name || $label)
+        <x-forms.label :for="$name" :label="$label" />
+    @endif
 
-    <div {{ $attributes->class(['form-inline' => $inline]) }}>
+    <div {{ $attributes->class(['d-flex flex-row flex-wrap inline-space' => $inline]) }}>
         {!! $slot !!}
     </div>
 
