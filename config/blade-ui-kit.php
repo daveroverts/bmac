@@ -31,7 +31,7 @@ return [
         'form' => Components\Forms\Form::class,
         'form-button' => Components\Buttons\FormButton::class,
         'html' => Components\Layouts\Html::class,
-        'input' => Components\Forms\Inputs\Input::class,
+        'input' => App\View\Components\Forms\Inputs\Input::class,
         'label' => Components\Forms\Label::class,
         'logout' => Components\Buttons\Logout::class,
         // 'mapbox' => Components\Maps\Mapbox::class,
