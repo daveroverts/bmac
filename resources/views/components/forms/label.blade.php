@@ -1,3 +1,3 @@
 <label for="{{ $for }}" {{ $attributes }}>
-    {{ $label ?? $fallback }}
+    {!! $label ?? $fallback !!}
 </label>
