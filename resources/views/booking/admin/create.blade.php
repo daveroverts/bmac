@@ -12,84 +12,91 @@
                         <input type="hidden" name="id" value="{{ $event->id }}">
                         <input type="hidden" name="bulk" value="{{ $bulk ? 1 : 0 }}">
 
-                        <x-form-group :label="__('Event')">
+                        <x-forms.form-group name="event" :label="__('Event')">
                             {{ $event->name }} [{{ $event->startEvent->format('d-m-Y') }} |
                             {{ $event->startEvent->format('Hi') }}z -
                             {{ $event->endEvent->format('Hi') }}z]
-                        </x-form-group>
+                        </x-forms.form-group>
 
-                        <x-form-group name="is_editable" :label="__('Editable?')" inline>
-                            <x-form-radio name="is_editable" value="0" :label="__('No')" required />
-                            <x-form-radio name="is_editable" value="1" :label="__('Yes')" required />
-                            @slot('help')
-                                <small class="form-text text-muted">
-                                    {{ __('Choose if you want the booking to be editable (Callsign and Aircraft Code only) by users. This is useful when using \'import only\', but want to add extra slots') }}
-                                </small>
-                            @endslot
-                        </x-form-group>
+                        <x-forms.form-group name="is_editable" :label="__('Editable?')" inline>
+                            <x-forms.radio name="is_editable" value="0" :label="__('No')" inline required />
+                            <x-forms.radio name="is_editable" value="1" :label="__('Yes')" inline required />
+                            <x-slot:help>
+                                {{ __('Choose if you want the booking to be editable (Callsign and Aircraft Code only) by users. This is useful when using \'import only\', but want to add extra slots') }}
+                            </x-slot:help>
+                        </x-forms.form-group>
 
                         @if (!$bulk)
-                            <x-form-input name="callsign" :label="__('Callsign')" maxlength="7" />
-                            <x-form-input name="acType" :label="__('Aircraft code')" minlength="3" maxlength="4" />
+                            <x-forms.input name="callsign" :label="__('Callsign')" maxlength="7" />
+                            <x-forms.input name="acType" :label="__('Aircraft code')" minlength="3" maxlength="4" />
                         @endif
 
-                        <x-form-select name="dep" :label="__('Departure airport')" :options="$airports" :placeholder="__('Choose...')" required
-                            :default="$event->dep" />
+                        <x-forms.select name="dep" :label="__('Departure airport')" :options="$airports" :placeholder="__('Choose...')" required
+                            :value="$event->dep" />
 
-                        <x-form-select name="arr" :label="__('Arrival airport')" :options="$airports" :placeholder="__('Choose...')" required
-                            :default="$event->dep" />
+                        <x-forms.select name="arr" :label="__('Arrival airport')" :options="$airports" :placeholder="__('Choose...')" required
+                            :value="$event->dep" />
 
                         @if ($bulk)
-                            <x-form-group inline>
-                                <x-form-input name="start" type="time" :label="'<i class=\'fa fa-clock\'></i> ' . __('Start')">
-                                    @slot('append')
+                            <x-forms.form-group inline>
+                                <x-forms.input name="start" type="time" input-group-class="pr-2">
+                                    <x-slot:label>
+                                        <i class="fa fa-clock"></i> Start
+                                    </x-slot:label>
+                                    <x-slot:append>
                                         z
-                                    @endslot
-                                </x-form-input>
-                                <x-form-input name="end" type="time" :label="'<i class=\'fa fa-clock\'></i> ' . __('End')">
-                                    @slot('append')
+                                    </x-slot:append>
+                                </x-forms.input>
+                                <x-forms.input name="end" type="time" input-group-class="pr-2">
+                                    <x-slot:label>
+                                        <i class="fa fa-clock"></i> End
+                                    </x-slot:label>
+                                    <x-slot:append>
                                         z
-                                    @endslot
-                                </x-form-input>
+                                    </x-slot:append>
+                                </x-forms.input>
 
-                                <x-form-input name="separation" type="number" :label="__('Separation (in minutes)')" />
-                            </x-form-group>
+                                <x-forms.input name="separation" type="number" :label="__('Separation (in minutes)')" />
+                            </x-forms.form-group>
                         @else
-                            <x-form-group inline>
-                                <x-form-input name="ctot" type="time" :label="'<i class=\'fa fa-clock\'></i> ' . __('CTOT')">
-                                    @slot('append')
+                            <x-forms.form-group inline>
+                                <x-forms.input name="ctot" type="time" input-group-class="pr-2">
+                                    <x-slot:label>
+                                        <i class="fa fa-clock"></i> CTOT
+                                    </x-slot:label>
+                                    <x-slot:append>
                                         z
-                                    @endslot
-                                </x-form-input>
-                                <x-form-input name="eta" type="time" :label="'<i class=\'fa fa-clock\'></i> ' . __('ETA')">
-                                    @slot('append')
+                                    </x-slot:append>
+                                </x-forms.input>
+                                <x-forms.input name="eta" type="time">
+                                    <x-slot:label>
+                                        <i class="fa fa-clock"></i> ETA
+                                    </x-slot:label>
+                                    <x-slot:append>
                                         z
-                                    @endslot
-                                </x-form-input>
+                                    </x-slot:append>
+                                </x-forms.input>
+                            </x-forms.form-group>
 
-                            </x-form-group>
+                            <x-forms.textarea name="route" :label="__('Route')" />
 
-                            <x-form-textarea name="route" :label="__('Route')" />
-
-
-                            <x-form-input name="oceanicFL" :label="$event->is_oceanic_event ? __('Oceanic Entry Level') : __('Cruise FL')">
-                                @slot('prepend')
+                            <x-forms.input name="oceanicFL" :label="$event->is_oceanic_event ? __('Oceanic Entry Level') : __('Cruise FL')">
+                                <x-slot:prepend>
                                     FL
-                                @endslot
-                            </x-form-input>
+                                </x-slot:prepend>
+                            </x-forms.input>
                         @endif
 
-                        <x-form-textarea name="notes" :label="__('Notes')" />
+                        <x-forms.textarea name="notes" :label="__('Notes')" />
 
-                        <x-form-submit>
+                        <x-forms.button type="submit">
                             @if ($bulk)
                                 <i class="fa fa-plus"></i> {{ __('Add timeslots') }}
                             @else
                                 <i class="fa fa-plus"></i> {{ __('Add slot') }}
                             @endif
-                        </x-form-submit>
+                        </x-forms.button>
                     </x-form>
-
                 </div>
             </div>
         </div>
