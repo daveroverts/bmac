@@ -28,7 +28,7 @@
         "@fortawesome/fontawesome-svg-core": "^6.2.1",
         "@fortawesome/free-brands-svg-icons": "^6.2.1",
         "@fortawesome/free-regular-svg-icons": "^6.2.1",
-        "@fortawesome/free-solid-svg-icons": "^6.2.1",
+        "@fortawesome/free-solid-svg-icons": "^6.7.2",
         "@semantic-release/changelog": "^6.0.3",
         "@semantic-release/git": "^10.0.1",
         "axios": "^1.1.3",
