@@ -25,7 +25,7 @@
     "devDependencies": {
         "@eclass/semantic-release-sentry-releases": "^3.1.0",
         "@fortawesome/fontawesome-free": "^6.2.1",
-        "@fortawesome/fontawesome-svg-core": "^6.2.1",
+        "@fortawesome/fontawesome-svg-core": "^6.7.2",
         "@fortawesome/free-brands-svg-icons": "^6.2.1",
         "@fortawesome/free-regular-svg-icons": "^6.2.1",
         "@fortawesome/free-solid-svg-icons": "^6.2.1",
