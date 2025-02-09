@@ -21,9 +21,8 @@
                         @else
                             <x-forms.select name="event_id" :label="__('Event')" :options="$events" :placeholder="__('Choose...')" required />
                         @endif
-                        <x-forms.input name="name" :label="__('Name')" :value="$eventLink->name" :help="__('Leave empty to use the type as name')" />
-                        <x-forms.input name="url" :label="__('URL')" :value="$eventLink->url" placeholder="https://example.org"
-                            required />
+                        <x-forms.input name="name" :label="__('Name')" :value="$eventLink->name" :help="__('Leave empty to use the type as name')" :value="old('name', $eventLink->name)" />
+                        <x-forms.input name="url" :label="__('URL')" :value="$eventLink->url" placeholder="https://example.org" required :value="old('name', $eventLink->url)" />
 
                         <x-forms.button type="submit">
                             @if ($eventLink->id)
