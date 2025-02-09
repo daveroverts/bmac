@@ -19,7 +19,7 @@ return [
         'alert' => Components\Alerts\Alert::class,
         // 'avatar' => Components\Support\Avatar::class,
         // 'carbon' => Components\DateTime\Carbon::class,
-        // 'checkbox' => Components\Forms\Inputs\Checkbox::class,
+        'checkbox' => Components\Forms\Inputs\Checkbox::class,
         // 'color-picker' => Components\Forms\Inputs\ColorPicker::class,
         // 'countdown' => Components\DateTime\Countdown::class,
         // 'cron' => Components\Support\Cron::class,

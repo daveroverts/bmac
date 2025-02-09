@@ -29,24 +29,23 @@
 
                 <div class="card-body">
                     <x-form :action="$faq->id ? route('admin.faq.update', $faq) : route('admin.faq.store')" :method="$faq->id ? 'PATCH' : 'POST'">
-                        @bind($faq)
-                            <x-form-group name="is_online" :label="__('Is online')" inline>
-                                <x-form-radio name="is_online" value="0" :label="__('No')" required />
-                                <x-form-radio name="is_online" value="1" :label="__('Yes')" required />
-                            </x-form-group>
 
-                            <x-form-input name="question" :label="__('Question')" required />
+                            <x-forms.form-group name="is_online" :label="__('Is online')" inline>
+                                <x-forms.radio name="is_online" value="0" :label="__('No')" required />
+                                <x-forms.radio name="is_online" value="1" :label="__('Yes')" required />
+                            </x-forms.form-group>
 
-                            <x-form-textarea name="answer" :label="__('Answer')" class="tinymce" />
+                            <x-forms.input name="question" :label="__('Question')" required />
 
-                            <x-form-submit>
+                            <x-forms.textarea name="answer" :label="__('Answer')" class="tinymce" />
+
+                        <x-forms.button type="submit">
                                 @if ($faq->id)
                                     <i class="fa fa-check"></i> {{ __('Edit') }}
                                 @else
                                     <i class="fa fa-plus"></i> {{ __('Add') }}
                                 @endif
-                            </x-form-submit>
-                        @endbind
+                            </x-forms.button>
                     </x-form>
 
                 </div>
