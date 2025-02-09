@@ -31,13 +31,15 @@
                     <x-form :action="$faq->id ? route('admin.faq.update', $faq) : route('admin.faq.store')" :method="$faq->id ? 'PATCH' : 'POST'">
 
                             <x-forms.form-group name="is_online" :label="__('Is online')" inline>
-                                <x-forms.radio name="is_online" value="0" :label="__('No')" required />
-                                <x-forms.radio name="is_online" value="1" :label="__('Yes')" required />
+
+                                <x-forms.radio inline name="is_online" value="0" :label="__('No')" required :should-be-checked="old('is_online' === 0, !$faq->is_online )" />
+                                <x-forms.radio inline name="is_online" value="1" :label="__('Yes')" required :should-be-checked="old('is_online' === 1, $faq->is_online )" />
+
                             </x-forms.form-group>
 
-                            <x-forms.input name="question" :label="__('Question')" required />
+                            <x-forms.input name="question" :label="__('Question')" required value="{!! old('question', $faq->question) !!}" />
 
-                            <x-forms.textarea name="answer" :label="__('Answer')" class="tinymce" />
+                            <x-forms.textarea tinymce name="answer" :label="__('Answer')" value="{!! old('answer', $faq->answer) !!}" />
 
                         <x-forms.button type="submit">
                                 @if ($faq->id)
