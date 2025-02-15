@@ -12,9 +12,9 @@
                     <x-form :action="route('admin.bookings.update', $booking)" method="PATCH">
                         <x-forms.form-group name="is_editable" :label="__('Editable?')" inline>
                             <x-forms.radio name="is_editable" value="0" :label="__('No')" inline required
-                                :checked="!$booking->is_editable" />
+                                           :should-be-checked="old('is_editable', $booking->is_editable) == 0" />
                             <x-forms.radio name="is_editable" value="1" :label="__('Yes')" inline required
-                                :checked="$booking->is_editable" />
+                                           :should-be-checked="old('is_editable', $booking->is_editable) == 1" />
                             <x-slot:help>
                                 {{ __('Choose if you want the booking to be editable (Callsign and Aircraft Code only) by users. This is useful when using \'import only\', but want to add extra slots') }}
                             </x-slot:help>
