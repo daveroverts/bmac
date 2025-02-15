@@ -103,7 +103,6 @@
                             <a class="dropdown-item {{ request()->routeIs('user.settings') ? 'active' : '' }}"
                                 href="{{ route('user.settings') }}">{{ __('My settings') }}</a>
                             <x-logout class="dropdown-item" />
-                            <a class="dropdown-item" href="{{ route('logout') }}">{{ __('Log out') }}</a>
                         </div>
                     </li>
 
