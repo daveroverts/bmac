@@ -53,3 +53,7 @@ h5 {
     color: $cyan;
     text-decoration: underline;
 }
+
+.inline-space > :not(template) {
+    margin-right: 1.25rem;
+}
