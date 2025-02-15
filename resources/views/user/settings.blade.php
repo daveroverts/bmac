@@ -10,22 +10,25 @@
 
                 <div class="card-body">
                     <x-form :action="route('user.saveSettings')" method="PATCH">
-                        @bind($user)
-                            <x-form-group name="airport_view" :label="__('Default airport view')">
-                                <x-form-radio name="airport_view" value="0" :label="__('Name') . ': Amsterdam Airport Schiphol - EHAM | [AMS]'" required />
-                                <x-form-radio name="airport_view" value="1" :label="__('ICAO') . ': EHAM - Amsterdam Airport Schiphol | [AMS]'" required />
-                                <x-form-radio name="airport_view" value="2" :label="__('IATA') . ': AMS - Amsterdam Airport Schiphol | [EHAM]'" required />
-                            </x-form-group>
+                            <x-forms.form-group name="airport_view" :label="__('Default airport view')" inline>
+                                <x-forms.radio name="airport_view" value="0" :label="__('Name') . ': Amsterdam Airport Schiphol - EHAM | [AMS]'" inline required
+                                               :should-be-checked="old('airport_view', $user->airport_view->value) == 0"/>
+                                <x-forms.radio name="airport_view" value="1" :label="__('ICAO') . ': EHAM - Amsterdam Airport Schiphol | [AMS]'" inline required
+                                               :should-be-checked="old('airport_view', $user->airport_view->value) == 1"/>
+                                <x-forms.radio name="airport_view" value="2" :label="__('IATA') . ': AMS - Amsterdam Airport Schiphol | [EHAM]'" inline required
+                                               :should-be-checked="old('airport_view', $user->airport_view->value) == 2"/>
+                            </x-forms.form-group>
 
-                            <x-form-group name="use_monospace_font" :label="__('Use monospace font')" inline>
-                                <x-form-radio name="use_monospace_font" value="0" :label="__('No')" required />
-                                <x-form-radio name="use_monospace_font" value="1" :label="__('Yes')" required />
-                            </x-form-group>
+                            <x-forms.form-group name="use_monospace_font" :label="__('Use monospace font')" inline>
+                                <x-forms.radio name="use_monospace_font" value="0" :label="__('No')" inline required
+                                               :should-be-checked="old('use_monospace_font', $user->use_monospace_font) == 0"/>
+                                <x-forms.radio name="use_monospace_font" value="1" :label="__('Yes')" inline required
+                                               :should-be-checked="old('use_monospace_font', $user->use_monospace_font) == 1"/>
+                            </x-forms.form-group>
 
-                            <x-form-submit>
-                                <i class="fas fa-save"></i> Save settings
-                            </x-form-submit>
-                        @endbind
+                        <x-forms.button type="submit">
+                            <i class="fas fa-save"></i> {{ __('Save settings') }}
+                        </x-forms.button>
                     </x-form>
                 </div>
             </div>
