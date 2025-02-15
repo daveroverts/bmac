@@ -1,5 +1,9 @@
 @props(['name' => null, 'label' => null, 'inline' => false, 'help'])
 
+@php
+$name = $name ?? $label
+@endphp
+
 <div class="form-group">
     @if ($name || $label)
         <x-forms.label :for="$name" :label="$label" />
