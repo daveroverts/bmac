@@ -4,6 +4,11 @@ on:
   push:
     paths:
       - "**.php"
+      - ".github/workflows/code-analysis.yml"
+      - "phpstan.neon"
+      - "phpstan-baseline.neon"
+      - "composer.json"
+      - "composer.lock"
 jobs:
   phpcs:
     name: PHP_CodeSniffer
@@ -36,9 +41,8 @@ jobs:
         with:
           php-version: "8.3"
           extensions: mbstring, dom, fileinfo
-          tools: phpstan
 
       - uses: ramsey/composer-install@v2
 
       - name: Run PHPStan
-        run: phpstan analyse
+        run: ./vendor/bin/phpstan analyse

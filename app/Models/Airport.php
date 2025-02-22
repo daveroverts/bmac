@@ -114,9 +114,9 @@ class Airport extends Model
         }
         if (auth()->check() && auth()->user()->airport_view !== AirportView::NAME->value) {
             switch (auth()->user()->airport_view) {
-                case AirportView::ICAO->value:
+                case AirportView::ICAO:
                     return '<abbr title="' . $this->name . ' | [' . $this->iata . ']">' . $this->icao . '</abbr>';
-                case AirportView::IATA->value:
+                case AirportView::IATA:
                     return '<abbr title="' . $this->name . ' | [' . $this->icao . ']">' . $this->iata . '</abbr>';
             }
         }

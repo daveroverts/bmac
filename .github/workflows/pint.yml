@@ -3,6 +3,10 @@ on:
   pull_request:
     paths:
       - "**/*.php"
+      - "pint.json"
+      - ".github/workflows/pint.yml"
+      - "composer.json"
+      - "composer.lock"
 jobs:
   phplint:
     runs-on: ubuntu-latest

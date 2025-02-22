@@ -10,73 +10,73 @@
 
                 <div class="card-body">
                     <x-form :action="route('admin.bookings.update', $booking)" method="PATCH">
-                        @bind($booking)
-                        <x-form-group name="is_editable" :label="__('Editable?')" inline>
-                            <x-form-radio name="is_editable" value="0" :label="__('No')" required />
-                            <x-form-radio name="is_editable" value="1" :label="__('Yes')" required />
-                            @slot('help')
-                                <small class="form-text text-muted">
-                                    {{ __('Choose if you want the booking to be editable (Callsign and Aircraft Code only) by users. This is useful when using \'import only\', but want to add extra slots') }}
-                                </small>
-                            @endslot
-                        </x-form-group>
+                        <x-forms.form-group name="is_editable" :label="__('Editable?')" inline>
+                            <x-forms.radio name="is_editable" value="0" :label="__('No')" inline required
+                                           :should-be-checked="old('is_editable', $booking->is_editable) == 0" />
+                            <x-forms.radio name="is_editable" value="1" :label="__('Yes')" inline required
+                                           :should-be-checked="old('is_editable', $booking->is_editable) == 1" />
+                            <x-slot:help>
+                                {{ __('Choose if you want the booking to be editable (Callsign and Aircraft Code only) by users. This is useful when using \'import only\', but want to add extra slots') }}
+                            </x-slot:help>
+                        </x-forms.form-group>
 
-                        <x-form-input name="callsign" :label="__('Callsign')" maxlength="7" />
-                        <x-form-input name="acType" :label="__('Aircraft code')" minlength="3" maxlength="4" />
+                        <x-forms.input name="callsign" :label="__('Callsign')" maxlength="7" :value="$booking->callsign" />
+                        <x-forms.input name="acType" :label="__('Aircraft code')" minlength="3" maxlength="4" :value="$booking->acType" />
 
-                        @bind($flight)
-                        
-                        <x-form-group inline>
-                            <x-form-input name="ctot" :bind="false" value="{{ $flight->ctot?->format('H:i') }}" type="time" :label="'<i class=\'fa fa-clock\'></i> ' . __('CTOT')">
-                                @slot('append')
+                        <x-forms.form-group inline>
+                            <x-forms.input name="ctot" type="time" :value="$flight->ctot?->format('H:i')" input-group-class="pr-2">
+                                <x-slot:label>
+                                    <i class="fa fa-clock"></i> CTOT
+                                </x-slot:label>
+                                <x-slot:append>
                                     z
-                                @endslot
-                            </x-form-input>
-                            <x-form-input name="eta" :bind="false" value="{{ $flight->eta?->format('H:i') }}" type="time" :label="'<i class=\'fa fa-clock\'></i> ' . __('ETA')">
-                                @slot('append')
+                                </x-slot:append>
+                            </x-forms.input>
+                            <x-forms.input name="eta" type="time" :value="$flight->eta?->format('H:i')">
+                                <x-slot:label>
+                                    <i class="fa fa-clock"></i> ETA
+                                </x-slot:label>
+                                <x-slot:append>
                                     z
-                                @endslot
-                            </x-form-input>
-                        </x-form-group>
+                                </x-slot:append>
+                            </x-forms.input>
+                        </x-forms.form-group>
 
-                        <x-form-select name="dep" :label="__('Departure airport')" :options="$airports"
-                            :placeholder="__('Choose...')" required />
+                        <x-forms.select name="dep" :label="__('Departure airport')" :options="$airports" :placeholder="__('Choose...')" required
+                            :value="$flight->dep" />
 
-                        <x-form-select name="arr" :label="__('Arrival airport')" :options="$airports"
-                            :placeholder="__('Choose...')" required />
+                        <x-forms.select name="arr" :label="__('Arrival airport')" :options="$airports" :placeholder="__('Choose...')" required
+                            :value="$flight->arr" />
 
-                        <x-form-group :label="__('PIC')">
+                        <x-forms.form-group name="pic" :label="__('PIC')">
                             {{ $booking->user ? $booking->user->pic : '-' }}
-                        </x-form-group>
+                        </x-forms.form-group>
 
-                        <x-form-textarea name="route" :label="__('Route')" />
+                        <x-forms.textarea name="route" :label="__('Route')" :value="$flight->route" />
 
                         @if ($booking->event->is_oceanic_event)
-                            <x-form-input name="oceanicTrack" :label="__('Track')" maxlength="2" />
+                            <x-forms.input name="oceanicTrack" :label="__('Track')" maxlength="2" :value="$flight->oceanicTrack" />
                         @endif
 
-                        <x-form-input name="oceanicFL"
-                            :label="$booking->event->is_oceanic_event ? __('Oceanic Entry Level') : __('Cruise FL')">
-                            @slot('prepend')
+                        <x-forms.input name="oceanicFL" :label="$booking->event->is_oceanic_event ? __('Oceanic Entry Level') : __('Cruise FL')" :value="$flight->oceanicFL">
+                            <x-slot:prepend>
                                 FL
-                            @endslot
-                        </x-form-input>
+                            </x-slot:prepend>
+                        </x-forms.input>
 
-                        <x-form-textarea name="notes" :label="__('Notes')" />
-                        @endbind
+                        <x-forms.textarea name="notes" :label="__('Notes')" :value="$flight->notes" />
 
                         @if ($booking->user_id)
-                            <x-form-textarea name="message" :label="__('Message')" />
+                            <x-forms.textarea name="message" :label="__('Message')" />
 
-                            <x-form-group>
-                                <x-form-checkbox name="notify_user" checked :label="__('Notify user?')" />
-                            </x-form-group>
+                            <x-forms.form-group>
+                                <x-forms.checkbox name="notify_user" :label="__('Notify user?')" />
+                            </x-forms.form-group>
                         @endif
 
-                        <x-form-submit>
+                        <x-forms.button type="submit">
                             <i class="fas fa-check"></i> {{ __('Update') }}
-                        </x-form-submit>
-                        @endbind
+                        </x-forms.button>
                     </x-form>
                 </div>
             </div>

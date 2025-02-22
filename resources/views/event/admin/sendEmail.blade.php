@@ -76,52 +76,31 @@
                 <div class="card-body">
 
                     <x-form :action="route('admin.events.email.final', $event)" method="PATCH">
-                        <x-form-group inline>
-                            <x-form-checkbox name="testmode1" id="testmode1" :label="__('Test mode')">
-                                @slot('help')
-                                    <small class="form-text text-muted">
-                                        {{ __('Send a random Final Information E-mail to yourself') }}
-                                    </small>
-                                @endslot
-                            </x-form-checkbox>
-                            <x-form-checkbox name="forceSend" :label="__('Send to everybody')">
-                                @slot('help')
-                                    <small class="form-text text-muted">
-                                        {{ __('Send to all particpants, even though they already received it (and no edit was made)') }}
-                                    </small>
-                                @endslot
-                            </x-form-checkbox>
-                        </x-form-group>
-                        <x-form-submit class="send-final-email">
+                        <x-forms.form-group :help="__('Send a random Final Information E-mail to yourself')">
+                            <x-forms.checkbox name="testmode1" :label="__('Test mode')" />
+                        </x-forms.form-group>
+
+                        <x-forms.form-group :help="__('Send to all particpants, even though they already received it (and no edit was made)')">
+                            <x-forms.checkbox name="forceSend" :label="__('Send to everybody')" />
+                        </x-forms.form-group>
+                        <x-forms.button class="send-final-email" type="submit">
                             <i class="fa fa-envelope"></i> {!! __('Send <strong>Final Information</strong> E-mail') !!}
-                        </x-form-submit>
+                        </x-forms.button>
                     </x-form>
 
                     <hr>
 
                     <x-form :action="route('admin.events.email', $event)" method="PATCH">
-                        <x-form-input name="subject" id="subject" :label="__('Subject')" required />
-                        <x-form-textarea name="message" :label="__('Message')" class="tinymce">
-                            @slot('help')
-                                <small class="form-text text-muted">
-                                    {{ __('Salutation and closing are already included') }}
-                                </small>
-                            @endslot
-                        </x-form-textarea>
+                        <x-forms.input name="subject" :label="__('Subject')" required />
+                        <x-forms.textarea name="message" :label="__('Message')" tinymce :help="__('Salutation and closing are already included')" />
 
-                        <x-form-group>
-                            <x-form-checkbox name="testmode" id="testmode2" :label="__('Test mode')">
-                                @slot('help')
-                                    <small class="form-text text-muted">
-                                        {{ __('Send a E-mail to yourself') }}
-                                    </small>
-                                @endslot
-                            </x-form-checkbox>
-                        </x-form-group>
+                        <x-forms.form-group :help="__('Send a E-mail to yourself')">
+                            <x-forms.checkbox name="testmode2" :label="__('Test mode')" />
+                        </x-forms.form-group>
 
-                        <x-form-submit class="send-email">
+                        <x-forms.button class="send-email" type="submit">
                             <i class="fa fa-envelope"></i> {{ __('Send E-mail') }}
-                        </x-form-submit>
+                        </x-forms.button>
                     </x-form>
 
                 </div>
