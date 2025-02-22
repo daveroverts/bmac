@@ -4,6 +4,11 @@ on:
   push:
     paths:
       - "**.php"
+      - ".github/workflows/code-analysis.yml"
+      - "phpstan.neon"
+      - "phpstan-baseline.neon"
+      - "composer.json"
+      - "composer.lock"
 jobs:
   phpcs:
     name: PHP_CodeSniffer
