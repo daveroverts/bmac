@@ -78,8 +78,8 @@
                             </x-forms.form-group>
 
                             <x-forms.form-group :label="__('SELCAL')" inline>
-                                <x-form-input name="selcal1" placeholder="AB" minlength="2" maxlength="2" />
-                                <x-form-input name="selcal2" placeholder="CD" minlength="2" maxlength="2" />
+                                <x-forms.input name="selcal1" placeholder="AB" minlength="2" maxlength="2" />
+                                <x-forms.input name="selcal2" placeholder="CD" minlength="2" maxlength="2" />
                             </x-forms.form-group>
                         @else
                             @if ($flight->oceanicFL)
