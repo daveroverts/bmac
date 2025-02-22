@@ -116,7 +116,7 @@ class Airport extends Model
             switch (auth()->user()->airport_view) {
                 case AirportView::ICAO:
                     return '<abbr title="' . $this->name . ' | [' . $this->iata . ']">' . $this->icao . '</abbr>';
-                case AirportView::IATA  :
+                case AirportView::IATA:
                     return '<abbr title="' . $this->name . ' | [' . $this->icao . ']">' . $this->iata . '</abbr>';
             }
         }
