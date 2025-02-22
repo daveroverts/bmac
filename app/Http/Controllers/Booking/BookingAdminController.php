@@ -253,6 +253,7 @@ class BookingAdminController extends AdminController
         return view('event.admin.autoAssign', compact('event'));
     }
 
+
     public function adminAutoAssign(AutoAssign $request, Event $event): RedirectResponse
     {
         // @TODO Optimise this, for now it's a ugly fix

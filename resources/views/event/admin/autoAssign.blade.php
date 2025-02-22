@@ -10,41 +10,35 @@
 
                 <div class="card-body">
                     <x-form :action="route('admin.bookings.autoAssign', $event)" method="POST">
-                        <x-form-input name="oceanicTrack1" :label="__('Track #:number', ['number' => 1])" required maxlength="2" />
-                        <x-form-textarea name="route1" :label="__('Route #:number', ['number' => 1])" />
+                        <x-forms.input name="oceanicTrack1" :label="__('Track #:number', ['number' => 1])" required maxlength="2" />
+                        <x-forms.textarea name="route1" :label="__('Route #:number', ['number' => 1])" />
 
-                        <x-form-input name="oceanicTrack2" :label="__('Track #:number', ['number' => 2])" required maxlength="2" />
-                        <x-form-textarea name="route2" :label="__('Route #:number', ['number' => 2])" />
+                        <x-forms.input name="oceanicTrack2" :label="__('Track #:number', ['number' => 2])" required maxlength="2" />
+                        <x-forms.textarea name="route2" :label="__('Route #:number', ['number' => 2])" />
 
-                        <x-form-group inline>
-                            <x-form-input name="minFL" :label="__('Minimum Oceanic Entry FL')" default="320" required minlength="3"
+                        <x-forms.form-group inline>
+                            <x-forms.input name="minFL" :label="__('Minimum Oceanic Entry FL')" default="320" required minlength="3"
                                 maxlength="3">
                                 @slot('prepend')
                                     FL
                                 @endslot
-                            </x-form-input>
+                            </x-forms.input>
 
-                            <x-form-input name="maxFL" :label="__('Maximum Oceanic Entry FL')" default="380" required minlength="3"
+                            <x-forms.input name="maxFL" :label="__('Maximum Oceanic Entry FL')" default="380" required minlength="3"
                                 maxlength="3">
                                 @slot('prepend')
                                     FL
                                 @endslot
-                            </x-form-input>
-                        </x-form-group>
+                            </x-forms.input>
+                        </x-forms.form-group>
 
-                        <x-form-group>
-                            <x-form-checkbox name="checkAssignAllFlights" :label="__('Auto-assign all flights?')">
-                                @slot('help')
-                                    <small class="form-text text-muted">
-                                        {{ __('When enabled, all flights, regardless of being booked will be auto-assigned') }}
-                                    </small>
-                                @endslot
-                            </x-form-checkbox>
-                        </x-form-group>
+                        <x-forms.form-group :help="__('When enabled, all flights, regardless of being booked will be auto-assigned')">
+                            <x-forms.checkbox name="checkAssignAllFlights" :label="__('Auto-assign all flights?')" />
+                        </x-forms.form-group>
 
-                        <x-form-submit>
+                        <x-forms.button type="submit">
                             <i class="fas fa-check"></i> {{ __('Auto-Assign FL / Route') }}
-                        </x-form-submit>
+                        </x-forms.button>
 
                     </x-form>
                 </div>
