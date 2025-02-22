@@ -39,7 +39,7 @@
 
                         @if ($bulk)
                             <x-forms.form-group inline>
-                                <x-forms.input name="start" type="time" input-group-class="pr-2">
+                                <x-forms.input name="start" type="time" :value="old('start', $event->startEvent->format('H:i'))">
                                     <x-slot:label>
                                         <i class="fa fa-clock"></i> Start
                                     </x-slot:label>
@@ -47,7 +47,7 @@
                                         z
                                     </x-slot:append>
                                 </x-forms.input>
-                                <x-forms.input name="end" type="time" input-group-class="pr-2">
+                                <x-forms.input name="end" type="time" :value="old('end', $event->endEvent->format('H:i'))">
                                     <x-slot:label>
                                         <i class="fa fa-clock"></i> End
                                     </x-slot:label>

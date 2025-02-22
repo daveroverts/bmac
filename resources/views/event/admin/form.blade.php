@@ -108,7 +108,7 @@
                             @else
                                 <i class="fa fa-plus"></i> {{ __('Add') }}
                             @endif
-                            </x-form-submit>
+                            </x-forms.button>
                     </x-form>
                 </div>
             </div>
