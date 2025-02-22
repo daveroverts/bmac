@@ -1,3 +1,13 @@
+## [4.1.5-beta.1](https://github.com/daveroverts/bmac/compare/v4.1.4...v4.1.5-beta.1) (2025-02-22)
+
+
+### Bug Fixes
+
+* add help text to airport/event link that name is optional ([23f4b9c](https://github.com/daveroverts/bmac/commit/23f4b9c2d43506ee26959ef672c42846f4ffc922))
+* change logout to a post route ([a10cdad](https://github.com/daveroverts/bmac/commit/a10cdad21359d738c4a9c4734e8550d5df9b9044))
+* fix Airport full_name attribute not listening to preference ([1e5cf50](https://github.com/daveroverts/bmac/commit/1e5cf50d24c63a4f6ce8f716ad190e499b05413f))
+* replace form components with own components ([f7d7c65](https://github.com/daveroverts/bmac/commit/f7d7c65e356955c12ec84145e5d9cf0dec2a1dd2)), closes [#783](https://github.com/daveroverts/bmac/issues/783)
+
 ## [4.1.4](https://github.com/daveroverts/bmac/compare/v4.1.3...v4.1.4) (2024-10-20)
 
 
