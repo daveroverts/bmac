@@ -1,3 +1,16 @@
+# [4.2.0-beta.1](https://github.com/daveroverts/bmac/compare/v4.1.5-beta.1...v4.2.0-beta.1) (2025-02-25)
+
+
+### Bug Fixes
+
+* replace strval with string casting ([52c86a0](https://github.com/daveroverts/bmac/commit/52c86a0339761529eb7736585ff46d2957d186cf))
+
+
+### Features
+
+* add helper text for callsign and aircraft ([2f8428b](https://github.com/daveroverts/bmac/commit/2f8428bc0ab29695de6a7966db35daecd533d758)), closes [#945](https://github.com/daveroverts/bmac/issues/945)
+* **deps:** upgrade to livewire 3 ([e0448fd](https://github.com/daveroverts/bmac/commit/e0448fd1b9dcb45a7d797140cfb8533f26d7eccc)), closes [#239](https://github.com/daveroverts/bmac/issues/239)
+
 ## [4.1.5-beta.1](https://github.com/daveroverts/bmac/compare/v4.1.4...v4.1.5-beta.1) (2025-02-22)
 
 
