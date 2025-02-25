@@ -6,8 +6,8 @@ on:
   pull_request:
 jobs:
   test-php-mysql:
-    name: Test PHP ${{ matrix.php-versions }} (${{ matrix.stability }}) + Node ${{ matrix.node }} + ${{ matrix.os }} with MySQL
-    runs-on: ${{ matrix.os }}
+    name: Test PHP ${{ matrix.php-versions }} (${{ matrix.stability }}) + Node ${{ matrix.node }} with MySQL
+    runs-on: ubuntu-latest
     env:
       DB_DATABASE: laravel
       DB_USERNAME: root
@@ -90,8 +90,8 @@ jobs:
           # REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
 
   test-php-postgresql:
-    name: Test PHP ${{ matrix.php-versions }} (${{ matrix.stability }}) + Node ${{ matrix.node }} + ${{ matrix.os }} with PostgreSQL
-    runs-on: ${{ matrix.os }}
+    name: Test PHP ${{ matrix.php-versions }} (${{ matrix.stability }}) + Node ${{ matrix.node }} with PostgreSQL
+    runs-on: ubuntu-latest
     env:
       BROADCAST_DRIVER: log
       # CACHE_DRIVER: redis
