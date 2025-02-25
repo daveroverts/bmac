@@ -20,8 +20,10 @@
                                     <strong>{{ $booking->formatted_actype }}</strong>
                                 </x-forms.form-group>
                             @else
-                                <x-forms.input name="callsign" :label="__('Callsign')" required maxlength="7" :value="old('callsign', $booking->callsign)" />
-                                <x-forms.input name="acType" :label="__('Aircraft code')" required minlength="3" maxlength="4" :value="old('acType', $booking->acType)" />
+                                <x-forms.input name="callsign" :label="__('Callsign')" required maxlength="7" :value="old('callsign', $booking->callsign)"
+                                               :help="__('Be sure to use valid ICAO codes. Ex: <strong>KLM</strong>1337, not KL1337')" />
+                                <x-forms.input name="acType" :label="__('Aircraft code')" required minlength="3" maxlength="4" :value="old('acType', $booking->acType)"
+                                :help="__('Be sure to use valid ICAO codes. Ex: B738, not 737')"/>
                             @endif
 
                                 @if ($booking->event->uses_times)
