@@ -6,7 +6,6 @@ use App\Models\Event;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Livewire\Attributes\Computed;
-use Livewire\Attributes\Url;
 use Livewire\Component;
 use App\Enums\BookingStatus;
 
