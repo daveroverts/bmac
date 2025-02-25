@@ -7,7 +7,7 @@ on:
 jobs:
   test-php-mysql:
     name: Test PHP ${{ matrix.php-versions }} (${{ matrix.stability }}) + Node ${{ matrix.node }} + ${{ matrix.os }} with MySQL
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     env:
       DB_DATABASE: laravel
       DB_USERNAME: root
@@ -91,7 +91,7 @@ jobs:
 
   test-php-postgresql:
     name: Test PHP ${{ matrix.php-versions }} (${{ matrix.stability }}) + Node ${{ matrix.node }} + ${{ matrix.os }} with PostgreSQL
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     env:
       BROADCAST_DRIVER: log
       # CACHE_DRIVER: redis
