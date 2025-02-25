@@ -20,7 +20,7 @@
         "laravel/tinker": "^2.7",
         "league/flysystem-aws-s3-v3": "^3.0",
         "league/oauth2-client": "^2.6",
-        "livewire/livewire": "^2.12.8",
+        "livewire/livewire": "^3.5",
         "maatwebsite/excel": "^3.1",
         "predis/predis": "^2.0",
         "sentry/sentry-laravel": "^3.2",
@@ -41,7 +41,6 @@
         "pestphp/pest": "^2.0",
         "pestphp/pest-plugin-laravel": "^2.0",
         "pestphp/pest-plugin-livewire": "^2.0",
-        "phpstan/extension-installer": "^1.4",
         "phpstan/phpstan-beberlei-assert": "^1.1",
         "phpunit/phpunit": "^10.0",
         "tomasvotruba/bladestan": "^0.5.0"
@@ -79,9 +78,14 @@
         ],
         "post-update-cmd": [
             "Illuminate\\Foundation\\ComposerScripts::postUpdate",
-            "php artisan ide-helper:generate",
-            "php artisan ide-helper:meta",
+            "@php artisan ide-helper:generate",
+            "@php artisan ide-helper:meta",
             "@php artisan telescope:publish --ansi"
+        ],
+        "ide-helper": [
+            "@php artisan ide-helper:generate",
+            "@php artisan ide-helper:meta",
+            "@php artisan ide-helper:models -N"
         ]
     },
     "config": {
@@ -90,8 +94,7 @@
         "optimize-autoloader": true,
         "allow-plugins": {
             "pestphp/pest-plugin": true,
-            "php-http/discovery": true,
-            "phpstan/extension-installer": true
+            "php-http/discovery": true
         }
     },
     "minimum-stability": "stable",

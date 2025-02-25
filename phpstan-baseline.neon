@@ -56,6 +56,11 @@ parameters:
 			path: app/Imports/BookingsImport.php
 
 		-
+			message: "#^Undefined variable\\: \\$this$#"
+			count: 2
+			path: app/Livewire/Bookings.php
+
+		-
 			message: "#^PHPDoc type array of property App\\\\Providers\\\\EventServiceProvider\\:\\:\\$listen is not covariant with PHPDoc type array\\<string, array\\<int, string\\>\\> of overridden property Illuminate\\\\Foundation\\\\Support\\\\Providers\\\\EventServiceProvider\\:\\:\\$listen\\.$#"
 			count: 1
 			path: app/Providers/EventServiceProvider.php

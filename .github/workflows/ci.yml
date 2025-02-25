@@ -6,7 +6,7 @@ on:
   pull_request:
 jobs:
   test-php-mysql:
-    name: Test PHP ${{ matrix.php-versions }} (${{ matrix.stability }}) + Node ${{ matrix.node }} + ${{ matrix.os }} with MySQL
+    name: Test PHP ${{ matrix.php-versions }} (${{ matrix.stability }}) + Node ${{ matrix.node }} with MySQL
     runs-on: ubuntu-latest
     env:
       DB_DATABASE: laravel
@@ -34,7 +34,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php-versions: ["8.2", "8.3"]
+        php-versions: ["8.2", "8.3", "8.4"]
         node: [16, 18, 20, 22]
         stability: [prefer-lowest, prefer-stable]
         os: [ubuntu-latest, windows-latest]
@@ -90,7 +90,7 @@ jobs:
           # REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
 
   test-php-postgresql:
-    name: Test PHP ${{ matrix.php-versions }} (${{ matrix.stability }}) + Node ${{ matrix.node }} + ${{ matrix.os }} with PostgreSQL
+    name: Test PHP ${{ matrix.php-versions }} (${{ matrix.stability }}) + Node ${{ matrix.node }} with PostgreSQL
     runs-on: ubuntu-latest
     env:
       BROADCAST_DRIVER: log
@@ -120,7 +120,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php-versions: ["8.2", "8.3"]
+        php-versions: ["8.2", "8.3", "8.4"]
         node: [16, 18, 20, 22]
         stability: [prefer-lowest, prefer-stable]
         os: [ubuntu-latest, windows-latest]

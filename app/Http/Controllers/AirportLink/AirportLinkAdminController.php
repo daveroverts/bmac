@@ -30,7 +30,7 @@ class AirportLinkAdminController extends AdminController
     public function create(): View
     {
         $airportLink = new AirportLink();
-        $airportLinkTypes = AirportLinkType::all(['id', 'name'])->pluck('name', 'id');
+        $airportLinkTypes = AirportLinkType::pluck('name', 'id');
         $airports = Airport::all(['id', 'icao', 'iata', 'name'])->keyBy('id')
             ->map(function ($airport) {
                 /** @var Airport $airport */
@@ -52,7 +52,7 @@ class AirportLinkAdminController extends AdminController
 
     public function edit(AirportLink $airportLink): View
     {
-        $airportLinkTypes = AirportLinkType::all(['id', 'name'])->pluck('name', 'id');
+        $airportLinkTypes = AirportLinkType::pluck('name', 'id');
 
         return view('airportLink.admin.form', compact('airportLink', 'airportLinkTypes'));
     }

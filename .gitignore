@@ -26,3 +26,5 @@ _ide_helper*\.php
 
 .phpunit.result.cache
 .phpunit.cache/test-results
+
+.phpstan.neon

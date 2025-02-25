@@ -32,8 +32,8 @@
 
                             <x-forms.form-group name="is_online" :label="__('Is online')" inline>
 
-                                <x-forms.radio inline name="is_online" value="0" :label="__('No')" required :should-be-checked="old('is_online' === 0, !$faq->is_online )" />
-                                <x-forms.radio inline name="is_online" value="1" :label="__('Yes')" required :should-be-checked="old('is_online' === 1, $faq->is_online )" />
+                                <x-forms.radio inline name="is_online" value="0" :label="__('No')" required :should-be-checked="old('is_online' === false, !$faq->is_online )" />
+                                <x-forms.radio inline name="is_online" value="1" :label="__('Yes')" required :should-be-checked="old('is_online' === true, $faq->is_online )" />
 
                             </x-forms.form-group>
 
