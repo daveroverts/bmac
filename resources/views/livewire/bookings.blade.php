@@ -3,14 +3,14 @@
     <hr>
     <p>
         @if ($event->hasOrderButtons())
-            <button wire:model="filter" wire:click="filter(null)"
+            <button wire:click="setFilter(null)"
                 class="btn {{ !$filter ? 'btn-success' : 'btn-primary' }}">Show
                 All</button>&nbsp;
-            <button wire:model="filter" wire:click="filter('departures')"
-                class="btn {{ $filter == 'departures' ? 'btn-success' : 'btn-primary' }}">Show
+            <button wire:click="setFilter('departures')"
+                class="btn {{ $filter === 'departures' ? 'btn-success' : 'btn-primary' }}">Show
                 Departures</button>&nbsp;
-            <button wire:model="filter" wire:click="filter('arrivals')"
-                class="btn {{ $filter == 'arrivals' ? 'btn-success' : 'btn-primary' }}">Show
+            <button wire:click="setFilter('arrivals')"
+                class="btn {{ $filter === 'arrivals' ? 'btn-success' : 'btn-primary' }}">Show
                 Arrivals</button>&nbsp;
         @endif
         @if (auth()->check() && auth()->user()->isAdmin && $event->endBooking >= now())

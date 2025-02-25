@@ -29,7 +29,7 @@
     <script src="{{ mix('js/vendor.js') }}"></script>
     <script src="{{ mix('js/app.js') }}"></script>
     @if (request()->routeIs('admin*'))
-        <script src="{{ mix('js/alpine.js') }}" defer></script>
+        <script src="{{ mix('js/flatpickr.js') }}" defer></script>
         <script src="{{ mix('js/tinymce.js') }}" defer></script>
     @endif
 </head>

@@ -14,14 +14,12 @@
         @endif
     </tr>
 </thead>
-@foreach ($bookings as $booking)
+@foreach ($this->bookings as $booking)
     @php
         $flight = $booking->flights->first();
     @endphp
-    {{-- @TODO Temp fix for events using filter buttons --}}
-    @if ($flight)
         {{-- Check if flight belongs to the logged in user --}}
-        <tr class="{{ auth()->check() && $booking->user_id == auth()->id() ? 'table-active' : '' }}">
+        <tr class="{{ auth()->check() && $booking->user_id == auth()->id() ? 'table-active' : '' }}" wire:key="{{ $booking->getKey() }}">
             <td>
                 {!! $flight->airportDep->fullName !!}
             </td>
@@ -109,5 +107,4 @@
                 </td>
             @endif
         </tr>
-    @endif
 @endforeach
