@@ -41,7 +41,6 @@
         "pestphp/pest": "^2.0",
         "pestphp/pest-plugin-laravel": "^2.0",
         "pestphp/pest-plugin-livewire": "^2.0",
-        "phpstan/extension-installer": "^1.4",
         "phpstan/phpstan-beberlei-assert": "^1.1",
         "phpunit/phpunit": "^10.0",
         "tomasvotruba/bladestan": "^0.5.0"
@@ -90,8 +89,7 @@
         "optimize-autoloader": true,
         "allow-plugins": {
             "pestphp/pest-plugin": true,
-            "php-http/discovery": true,
-            "phpstan/extension-installer": true
+            "php-http/discovery": true
         }
     },
     "minimum-stability": "stable",
