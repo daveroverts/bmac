@@ -43,7 +43,7 @@ class EventAdminController extends AdminController
                 /** @var Airport $airport */
                 return "$airport->icao | $airport->name | $airport->iata";
             });
-        $eventTypes = EventType::all()->pluck('name', 'id');
+        $eventTypes = EventType::pluck('name', 'id');
         return view('event.admin.form', compact('event', 'airports', 'eventTypes'));
     }
 
@@ -87,7 +87,7 @@ class EventAdminController extends AdminController
                 /** @var Airport $airport */
                 return "$airport->icao | $airport->name | $airport->iata";
             });
-        $eventTypes = EventType::all()->pluck('name', 'id');
+        $eventTypes = EventType::pluck('name', 'id');
         return view('event.admin.form', compact('event', 'airports', 'eventTypes'));
     }
 

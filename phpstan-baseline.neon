@@ -1,26 +1,6 @@
 parameters:
 	ignoreErrors:
 		-
-			message: "#^Variable \\$events might not be defined\\.$#"
-			count: 1
-			path: app/Http/Controllers/EventLink/EventLinkAdminController.php
-
-		-
-			message: "#^Parameter \\#1 \\$key of function old expects string\\|null, false given\\.$#"
-			count: 4
-			path: app/Http/Controllers/Faq/FaqAdminController.php
-
-		-
-			message: "#^Strict comparison using \\=\\=\\= between 'is_online' and 0 will always evaluate to false\\.$#"
-			count: 2
-			path: app/Http/Controllers/Faq/FaqAdminController.php
-
-		-
-			message: "#^Strict comparison using \\=\\=\\= between 'is_online' and 1 will always evaluate to false\\.$#"
-			count: 2
-			path: app/Http/Controllers/Faq/FaqAdminController.php
-
-		-
 			message: "#^Method App\\\\Http\\\\Controllers\\\\OAuthController\\:\\:updateToken\\(\\) should return League\\\\OAuth2\\\\Client\\\\Token\\\\AccessToken\\|null but returns League\\\\OAuth2\\\\Client\\\\Token\\\\AccessTokenInterface\\.$#"
 			count: 1
 			path: app/Http/Controllers/OAuthController.php

@@ -27,10 +27,10 @@ class EventLinkAdminController extends AdminController
         return view('eventLink.admin.overview', compact('eventLinks'));
     }
 
-    public function create(Event $event): View
+    public function create(): View
     {
         $eventLink = new EventLink();
-        $eventLinkTypes = AirportLinkType::all(['id', 'name'])->pluck('name', 'id');
+        $eventLinkTypes = AirportLinkType::pluck('name', 'id');
         $events = Event::where('endEvent', '>', now())
             ->orderBy('startEvent')
             ->get(['id', 'name', 'startEvent'])
@@ -39,6 +39,7 @@ class EventLinkAdminController extends AdminController
                 /** @var Event $event */
                 return "$event->name [{$event->startEvent->format('d-m-Y')}]";
             });
+
         return view('eventLink.admin.form', compact('eventLink', 'eventLinkTypes', 'events'));
     }
 
@@ -55,7 +56,7 @@ class EventLinkAdminController extends AdminController
 
     public function edit(EventLink $eventLink): View
     {
-        $eventLinkTypes = AirportLinkType::all(['id', 'name'])->pluck('name', 'id');
+        $eventLinkTypes = AirportLinkType::pluck('name', 'id');
         return view('eventLink.admin.form', compact('eventLink', 'eventLinkTypes'));
     }
 
