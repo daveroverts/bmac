@@ -13,7 +13,7 @@ class AddIseditableToBookingsTable extends Migration
      */
     public function up()
     {
-        Schema::table('bookings', function (Blueprint $table) {
+        Schema::table('bookings', function (Blueprint $table): void {
             $table->boolean('is_editable')->after('status')->default(false);
         });
     }
@@ -25,7 +25,7 @@ class AddIseditableToBookingsTable extends Migration
      */
     public function down()
     {
-        Schema::table('bookings', function (Blueprint $table) {
+        Schema::table('bookings', function (Blueprint $table): void {
             $table->dropColumn('is_editable');
         });
     }

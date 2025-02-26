@@ -39,10 +39,9 @@ class EventAdminController extends AdminController
     {
         $event = new Event();
         $airports = Airport::all(['id', 'icao', 'iata', 'name'])->keyBy('id')
-            ->map(function ($airport) {
+            ->map(fn ($airport) =>
                 /** @var Airport $airport */
-                return "$airport->icao | $airport->name | $airport->iata";
-            });
+                "$airport->icao | $airport->name | $airport->iata");
         $eventTypes = EventType::pluck('name', 'id');
         return view('event.admin.form', compact('event', 'airports', 'eventTypes'));
     }
@@ -83,10 +82,9 @@ class EventAdminController extends AdminController
     public function edit(Event $event): View
     {
         $airports = Airport::all(['id', 'icao', 'iata', 'name'])->keyBy('id')
-            ->map(function ($airport) {
+            ->map(fn ($airport) =>
                 /** @var Airport $airport */
-                return "$airport->icao | $airport->name | $airport->iata";
-            });
+                "$airport->icao | $airport->name | $airport->iata");
         $eventTypes = EventType::pluck('name', 'id');
         return view('event.admin.form', compact('event', 'airports', 'eventTypes'));
     }
@@ -141,7 +139,7 @@ class EventAdminController extends AdminController
             return response()->json(['success' => __('Email has been sent to yourself')]);
         } else {
             /* @var User $users */
-            $users = User::whereHas('bookings', function (Builder $query) use ($event) {
+            $users = User::whereHas('bookings', function (Builder $query) use ($event): void {
                 $query->where('event_id', $event->id);
                 $query->where('status', BookingStatus::BOOKED->value);
             })->get();

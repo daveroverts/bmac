@@ -8,7 +8,7 @@ use App\Models\Booking;
 use App\Models\Event;
 use Tests\TestCase;
 
-it('cleans up reserverd bookings', function () {
+it('cleans up reserverd bookings', function (): void {
     /** @var TestCase $this  */
 
     /** @var Event $event */

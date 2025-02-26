@@ -13,7 +13,7 @@ class CreateEventTypesTable extends Migration
      */
     public function up()
     {
-        Schema::create('event_types', function (Blueprint $table) {
+        Schema::create('event_types', function (Blueprint $table): void {
             $table->unsignedTinyInteger('id')->primary();
             $table->string('name');
         });

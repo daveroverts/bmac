@@ -13,7 +13,7 @@ class CreateAirportLinkTypesTable extends Migration
      */
     public function up()
     {
-        Schema::create('airport_link_types', function (Blueprint $table) {
+        Schema::create('airport_link_types', function (Blueprint $table): void {
             $table->increments('id');
             $table->string('name');
             $table->string('class')->nullable();

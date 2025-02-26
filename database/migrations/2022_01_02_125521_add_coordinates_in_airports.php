@@ -13,7 +13,7 @@ class AddCoordinatesInAirports extends Migration
      */
     public function up()
     {
-        Schema::table('airports', function (Blueprint $table) {
+        Schema::table('airports', function (Blueprint $table): void {
             $table->double('longitude')->after('name')->nullable();
             $table->double('latitude')->after('name')->nullable();
         });
@@ -26,7 +26,7 @@ class AddCoordinatesInAirports extends Migration
      */
     public function down()
     {
-        Schema::table('airports', function (Blueprint $table) {
+        Schema::table('airports', function (Blueprint $table): void {
             $table->dropColumn(['latitude', 'longitude']);
         });
     }

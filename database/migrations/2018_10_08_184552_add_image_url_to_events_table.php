@@ -13,7 +13,7 @@ class AddImageUrlToEventsTable extends Migration
      */
     public function up()
     {
-        Schema::table('events', function (Blueprint $table) {
+        Schema::table('events', function (Blueprint $table): void {
             $table->string('image_url')->after('slug')->nullable();
         });
     }
@@ -25,7 +25,7 @@ class AddImageUrlToEventsTable extends Migration
      */
     public function down()
     {
-        Schema::table('events', function (Blueprint $table) {
+        Schema::table('events', function (Blueprint $table): void {
             $table->dropColumn('image_url');
         });
     }

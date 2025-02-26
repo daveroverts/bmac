@@ -13,7 +13,7 @@ class CreateEventFaqTable extends Migration
      */
     public function up()
     {
-        Schema::create('event_faq', function (Blueprint $table) {
+        Schema::create('event_faq', function (Blueprint $table): void {
             $table->increments('id');
             $table->unsignedInteger('event_id')->index();
             $table->unsignedInteger('faq_id')->index();

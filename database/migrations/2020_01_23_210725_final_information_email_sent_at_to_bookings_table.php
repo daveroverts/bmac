@@ -13,7 +13,7 @@ class FinalInformationEmailSentAtToBookingsTable extends Migration
      */
     public function up()
     {
-        Schema::table('bookings', function (Blueprint $table) {
+        Schema::table('bookings', function (Blueprint $table): void {
             $table->dateTime('final_information_email_sent_at')->nullable()->after('selcal');
         });
     }
@@ -25,7 +25,7 @@ class FinalInformationEmailSentAtToBookingsTable extends Migration
      */
     public function down()
     {
-        Schema::table('bookings', function (Blueprint $table) {
+        Schema::table('bookings', function (Blueprint $table): void {
             $table->dropColumn('final_information_email_sent_at');
         });
     }

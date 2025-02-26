@@ -14,11 +14,11 @@ class AddEventTypeToEventsTable extends Migration
      */
     public function up()
     {
-        Schema::table('events', function (Blueprint $table) {
+        Schema::table('events', function (Blueprint $table): void {
             $table->tinyInteger('event_type_id')->unsigned()->after('id')->default(EventType::ONEWAY);
         });
 
-        Schema::table('events', function (Blueprint $table) {
+        Schema::table('events', function (Blueprint $table): void {
             $table->foreign('event_type_id')->references('id')->on('event_types');
         });
     }
@@ -30,7 +30,7 @@ class AddEventTypeToEventsTable extends Migration
      */
     public function down()
     {
-        Schema::table('events', function (Blueprint $table) {
+        Schema::table('events', function (Blueprint $table): void {
             $table->dropForeign(['event_type_id']);
             $table->dropColumn('event_type_id');
         });

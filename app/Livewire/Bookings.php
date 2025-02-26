@@ -23,7 +23,7 @@ class Bookings extends Component
 
     public function setFilter($filter): void
     {
-        $this->filter = strtolower($filter);
+        $this->filter = strtolower((string) $filter);
 
         unset($this->bookings);
     }
@@ -79,17 +79,12 @@ class Bookings extends Component
                 'flights.airportDep',
                 'flights.airportArr',
             ])
-            ->withWhereHas('flights', function (Builder|HasMany $query) {
-                switch ($this->filter) {
-                    case 'departures':
-                        $query->where('dep', $this->event->dep)->orderBy('ctot');
-                        break;
-                    case 'arrivals':
-                        $query->where('arr', $this->event->arr)->orderBy('eta');
-                        break;
-                    default:
-                        $query->orderBy('eta')->orderBy('ctot');
-                }
+            ->withWhereHas('flights', function (Builder|HasMany $query): void {
+                match ($this->filter) {
+                    'departures' => $query->where('dep', $this->event->dep)->orderBy('ctot'),
+                    'arrivals' => $query->where('arr', $this->event->arr)->orderBy('eta'),
+                    default => $query->orderBy('eta')->orderBy('ctot'),
+                };
             })
             ->get()
             ->sortBy(function ($booking) {

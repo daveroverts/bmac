@@ -13,7 +13,7 @@ class CreateAirportsTable extends Migration
      */
     public function up()
     {
-        Schema::create('airports', function (Blueprint $table) {
+        Schema::create('airports', function (Blueprint $table): void {
             // Can't use id() because that uses bigIncrements since Laravel 6, which might break existing envs at one point.
             $table->unsignedInteger('id')->autoIncrement();
             $table->string('icao')->unique();

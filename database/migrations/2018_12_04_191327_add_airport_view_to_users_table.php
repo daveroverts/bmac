@@ -14,7 +14,7 @@ class AddAirportViewToUsersTable extends Migration
      */
     public function up()
     {
-        Schema::table('users', function (Blueprint $table) {
+        Schema::table('users', function (Blueprint $table): void {
             $table->tinyInteger('airport_view')->after('isAdmin')->default(AirportView::NAME);
         });
     }
@@ -26,7 +26,7 @@ class AddAirportViewToUsersTable extends Migration
      */
     public function down()
     {
-        Schema::table('users', function (Blueprint $table) {
+        Schema::table('users', function (Blueprint $table): void {
             $table->dropColumn('airport_view');
         });
     }

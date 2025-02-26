@@ -32,46 +32,36 @@ class UserFactory extends Factory
 
     public function admin()
     {
-        return $this->state(function (array $attributes) {
-            return [
-                'isAdmin' => true,
-            ];
-        });
+        return $this->state(fn (array $attributes) => [
+            'isAdmin' => true,
+        ]);
     }
 
     public function airportViewName()
     {
-        return $this->state(function (array $attributes) {
-            return [
-                'airport_view' => AirportView::NAME,
-            ];
-        });
+        return $this->state(fn (array $attributes) => [
+            'airport_view' => AirportView::NAME,
+        ]);
     }
 
     public function airportViewIcao()
     {
-        return $this->state(function (array $attributes) {
-            return [
-                'airport_view' => AirportView::ICAO,
-            ];
-        });
+        return $this->state(fn (array $attributes) => [
+            'airport_view' => AirportView::ICAO,
+        ]);
     }
 
     public function airportViewIata()
     {
-        return $this->state(function (array $attributes) {
-            return [
-                'airport_view' => AirportView::IATA,
-            ];
-        });
+        return $this->state(fn (array $attributes) => [
+            'airport_view' => AirportView::IATA,
+        ]);
     }
 
     public function monospaceFont()
     {
-        return $this->state(function (array $attributes) {
-            return [
-                'monospace_font' => true,
-            ];
-        });
+        return $this->state(fn (array $attributes) => [
+            'monospace_font' => true,
+        ]);
     }
 }

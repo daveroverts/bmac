@@ -35,10 +35,9 @@ class EventLinkAdminController extends AdminController
             ->orderBy('startEvent')
             ->get(['id', 'name', 'startEvent'])
             ->keyBy('id')
-            ->map(function ($event) {
+            ->map(fn ($event) =>
                 /** @var Event $event */
-                return "$event->name [{$event->startEvent->format('d-m-Y')}]";
-            });
+                "$event->name [{$event->startEvent->format('d-m-Y')}]");
 
         return view('eventLink.admin.form', compact('eventLink', 'eventLinkTypes', 'events'));
     }

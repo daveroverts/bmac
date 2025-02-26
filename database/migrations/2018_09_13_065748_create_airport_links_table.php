@@ -13,7 +13,7 @@ class CreateAirportLinksTable extends Migration
      */
     public function up()
     {
-        Schema::create('airport_links', function (Blueprint $table) {
+        Schema::create('airport_links', function (Blueprint $table): void {
             $table->increments('id');
             $table->unsignedInteger('airport_id');
             $table->unsignedInteger('airportLinkType_id');
@@ -23,7 +23,7 @@ class CreateAirportLinksTable extends Migration
             $table->softDeletes();
         });
 
-        Schema::table('airport_links', function (Blueprint $table) {
+        Schema::table('airport_links', function (Blueprint $table): void {
             $table->foreign('airport_id')->references('id')->on('airports')->onDelete('cascade');
             $table->foreign('airportLinkType_id')->references('id')->on('airport_link_types')->onDelete('cascade');
         });
@@ -36,7 +36,7 @@ class CreateAirportLinksTable extends Migration
      */
     public function down()
     {
-        Schema::table('airport_links', function (Blueprint $table) {
+        Schema::table('airport_links', function (Blueprint $table): void {
             $table->dropForeign(['airport_id']);
             $table->dropForeign(['airportLinkType_id']);
         });

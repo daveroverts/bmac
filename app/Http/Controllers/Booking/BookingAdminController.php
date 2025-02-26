@@ -37,10 +37,9 @@ class BookingAdminController extends AdminController
     {
         $bulk = $request->bulk;
         $airports = Airport::all(['id', 'icao', 'iata', 'name'])->keyBy('id')
-            ->map(function ($airport) {
+            ->map(fn ($airport) =>
                 /** @var Airport $airport */
-                return "$airport->icao | $airport->name | $airport->iata";
-            });
+                "$airport->icao | $airport->name | $airport->iata");
 
         return view('booking.admin.create', compact('event', 'airports', 'bulk'));
     }
@@ -63,7 +62,7 @@ class BookingAdminController extends AdminController
                 }
                 $time->second = 0;
 
-                if (!Flight::whereHas('booking', function ($query) use ($request) {
+                if (!Flight::whereHas('booking', function ($query) use ($request): void {
                     $query->where('event_id', $request->id);
                 })->where([
                     'ctot' => $time,
@@ -123,10 +122,9 @@ class BookingAdminController extends AdminController
     {
         if ($booking->event->endEvent >= now()) {
             $airports = Airport::all(['id', 'icao', 'iata', 'name'])->keyBy('id')
-                ->map(function ($airport) {
+                ->map(fn ($airport) =>
                     /** @var Airport $airport */
-                    return "$airport->icao | $airport->name | $airport->iata";
-                });
+                    "$airport->icao | $airport->name | $airport->iata");
             $flight = $booking->flights()->first();
             return view('booking.admin.edit', compact('booking', 'airports', 'flight'));
         }
@@ -258,7 +256,7 @@ class BookingAdminController extends AdminController
     {
         // @TODO Optimise this, for now it's a ugly fix
         $bookings = $event->bookings()
-            ->with(['flights' => function ($query) {
+            ->with(['flights' => function ($query): void {
                 $query->orderBy('ctot');
             }]);
 

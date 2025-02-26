@@ -13,7 +13,7 @@ class CreateFlightsTable extends Migration
      */
     public function up()
     {
-        Schema::create('flights', function (Blueprint $table) {
+        Schema::create('flights', function (Blueprint $table): void {
             $table->bigIncrements('id');
             $table->unsignedInteger('booking_id');
             $table->smallInteger('order_by')->default(1);

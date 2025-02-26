@@ -13,7 +13,7 @@ class AddShowOnHomepageToEventsTable extends Migration
      */
     public function up()
     {
-        Schema::table('events', function (Blueprint $table) {
+        Schema::table('events', function (Blueprint $table): void {
             $table->boolean('show_on_homepage')->after('is_online')->default(true);
         });
     }
@@ -25,7 +25,7 @@ class AddShowOnHomepageToEventsTable extends Migration
      */
     public function down()
     {
-        Schema::table('events', function (Blueprint $table) {
+        Schema::table('events', function (Blueprint $table): void {
             $table->dropColumn('show_on_homepage');
         });
     }

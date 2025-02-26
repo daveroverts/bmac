@@ -70,7 +70,7 @@ class LoginController extends Controller
             $accessToken = $this->provider->getAccessToken('authorization_code', [
                 'code' => $request->input('code')
             ]);
-        } catch (IdentityProviderException $e) {
+        } catch (IdentityProviderException) {
             flashMessage('error', 'Login failed', 'Something went wrong, please try again');
             return to_route('home');
         }

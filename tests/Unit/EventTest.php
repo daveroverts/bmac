@@ -5,7 +5,7 @@ namespace Tests\Unit;
 use App\Models\Event;
 use Tests\TestCase;
 
-it('creates new event', function () {
+it('creates new event', function (): void {
     /** @var TestCase $this */
 
     /** @var Event $event */

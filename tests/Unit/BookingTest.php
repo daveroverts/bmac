@@ -5,7 +5,7 @@ namespace Tests\Unit;
 use App\Models\Flight;
 use Tests\TestCase;
 
-it('can creates new booking', function () {
+it('can creates new booking', function (): void {
     /** @var TestCase $this */
 
     /** @var Flight $flight */

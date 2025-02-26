@@ -25,10 +25,9 @@ class BookingDeleted extends Notification implements ShouldQueue
     /**
      * Get the notification's delivery channels.
      *
-     * @param  mixed  $notifiable
      * @return array
      */
-    public function via($notifiable)
+    public function via(mixed $notifiable)
     {
         return ['mail'];
     }
@@ -36,10 +35,9 @@ class BookingDeleted extends Notification implements ShouldQueue
     /**
      * Get the mail representation of the notification.
      *
-     * @param  mixed  $notifiable
      * @return MailMessage
      */
-    public function toMail($notifiable)
+    public function toMail(mixed $notifiable)
     {
         $event = $this->event;
         $subject = $event->name . ': ' . __('Booking deleted');
@@ -56,10 +54,9 @@ class BookingDeleted extends Notification implements ShouldQueue
     /**
      * Get the array representation of the notification.
      *
-     * @param  mixed  $notifiable
      * @return array
      */
-    public function toArray($notifiable)
+    public function toArray(mixed $notifiable)
     {
         return [
             'event_id' => $this->event->id,

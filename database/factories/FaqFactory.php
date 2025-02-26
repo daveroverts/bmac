@@ -29,10 +29,8 @@ class FaqFactory extends Factory
 
     public function offline()
     {
-        return $this->state(function (array $attributes) {
-            return [
-                'is_online' => false,
-            ];
-        });
+        return $this->state(fn (array $attributes) => [
+            'is_online' => false,
+        ]);
     }
 }

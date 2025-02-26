@@ -174,21 +174,21 @@ class BookingController extends Controller
     public function validateSELCAL($selcal, $eventId): ?string
     {
         // Separate characters
-        $char1 = substr($selcal, 0, 1);
-        $char2 = substr($selcal, 1, 1);
-        $char3 = substr($selcal, 3, 1);
-        $char4 = substr($selcal, 4, 1);
+        $char1 = substr((string) $selcal, 0, 1);
+        $char2 = substr((string) $selcal, 1, 1);
+        $char3 = substr((string) $selcal, 3, 1);
+        $char4 = substr((string) $selcal, 4, 1);
 
         // Check if SELCAL has valid format
-        if (!preg_match("/[ABCDEFGHJKLMPQRS]{2}[-][ABCDEFGHJKLMPQRS]{2}/", $selcal)) {
+        if (!preg_match("/[ABCDEFGHJKLMPQRS]{2}[-][ABCDEFGHJKLMPQRS]{2}/", (string) $selcal)) {
             return null;
         }
 
         // Check if each character is unique
-        if (substr_count($selcal, $char1) > 1 || substr_count($selcal, $char2) > 1 || substr_count(
-            $selcal,
+        if (substr_count((string) $selcal, $char1) > 1 || substr_count((string) $selcal, $char2) > 1 || substr_count(
+            (string) $selcal,
             $char3
-        ) > 1 || substr_count($selcal, $char4) > 1) {
+        ) > 1 || substr_count((string) $selcal, $char4) > 1) {
             return null;
         }
 

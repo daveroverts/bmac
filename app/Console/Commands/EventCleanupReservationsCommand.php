@@ -48,7 +48,7 @@ class EventCleanupReservationsCommand extends Command
             }
             EventCleanupReservationsJob::dispatch($event);
         } else {
-            $this->withProgressBar(nextEvents(), function ($event) {
+            $this->withProgressBar(nextEvents(), function ($event): void {
                 EventCleanupReservationsJob::dispatch($event);
             });
         }

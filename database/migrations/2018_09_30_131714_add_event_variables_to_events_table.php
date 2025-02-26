@@ -13,7 +13,7 @@ class AddEventVariablesToEventsTable extends Migration
      */
     public function up()
     {
-        Schema::table('events', function (Blueprint $table) {
+        Schema::table('events', function (Blueprint $table): void {
             $table->boolean('is_oceanic_event')->default(false)->after('endBooking');
             $table->boolean('multiple_bookings_allowed')->default(true)->after('endBooking');
             $table->boolean('uses_times')->default(false)->after('endBooking');
@@ -28,7 +28,7 @@ class AddEventVariablesToEventsTable extends Migration
      */
     public function down()
     {
-        Schema::table('events', function (Blueprint $table) {
+        Schema::table('events', function (Blueprint $table): void {
             $table->dropColumn(['is_oceanic_event', 'multiple_bookings_allowed', 'uses_times', 'import_only']);
         });
     }

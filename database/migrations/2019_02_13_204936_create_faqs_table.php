@@ -13,7 +13,7 @@ class CreateFaqsTable extends Migration
      */
     public function up()
     {
-        Schema::create('faqs', function (Blueprint $table) {
+        Schema::create('faqs', function (Blueprint $table): void {
             $table->increments('id');
             $table->boolean('is_online')->default(true);
             $table->string('question');

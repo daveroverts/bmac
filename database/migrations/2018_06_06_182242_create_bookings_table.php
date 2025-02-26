@@ -13,7 +13,7 @@ class CreateBookingsTable extends Migration
      */
     public function up()
     {
-        Schema::create('bookings', function (Blueprint $table) {
+        Schema::create('bookings', function (Blueprint $table): void {
             $table->increments('id');
             $table->unsignedInteger('event_id');
             $table->unsignedInteger('user_id')->nullable();

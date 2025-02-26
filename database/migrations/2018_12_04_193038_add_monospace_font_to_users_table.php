@@ -13,7 +13,7 @@ class AddMonospaceFontToUsersTable extends Migration
      */
     public function up()
     {
-        Schema::table('users', function (Blueprint $table) {
+        Schema::table('users', function (Blueprint $table): void {
             $table->boolean('use_monospace_font')->after('airport_view')->default(false);
         });
     }
@@ -25,7 +25,7 @@ class AddMonospaceFontToUsersTable extends Migration
      */
     public function down()
     {
-        Schema::table('users', function (Blueprint $table) {
+        Schema::table('users', function (Blueprint $table): void {
             $table->dropColumn('use_monospace_font');
         });
     }

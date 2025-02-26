@@ -115,12 +115,12 @@ class Flight extends Model
 
     public function setRouteAttribute($value): void
     {
-        $this->attributes['route'] = !empty($value) ? strtoupper($value) : null;
+        $this->attributes['route'] = !empty($value) ? strtoupper((string) $value) : null;
     }
 
     public function setOceanictrackAttribute($value): void
     {
-        $this->attributes['oceanicTrack'] = !empty($value) ? strtoupper($value) : null;
+        $this->attributes['oceanicTrack'] = !empty($value) ? strtoupper((string) $value) : null;
     }
 
     public function booking(): BelongsTo

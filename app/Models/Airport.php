@@ -62,7 +62,7 @@ class Airport extends Model
      */
     protected static function booted()
     {
-        static::addGlobalScope('order', function (Builder $builder) {
+        static::addGlobalScope('order', function (Builder $builder): void {
             $builder->orderBy('icao');
         });
     }
@@ -99,12 +99,12 @@ class Airport extends Model
 
     public function setIcaoAttribute($value): void
     {
-        $this->attributes['icao'] = strtoupper($value);
+        $this->attributes['icao'] = strtoupper((string) $value);
     }
 
     public function setIataAttribute($value): void
     {
-        $this->attributes['iata'] = strtoupper($value);
+        $this->attributes['iata'] = strtoupper((string) $value);
     }
 
     public function getFullNameAttribute(): string

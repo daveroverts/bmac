@@ -16,15 +16,13 @@ class EventsComposer
         $this->events = Event::where('endEvent', '>', now())
             ->orderBy('startEvent')
             ->where('is_online', true)
-            ->where(function ($query) {
+            ->where(function ($query): void {
                 /** @var Builder $query */
                 $query->where('show_on_homepage', true)
-                    ->when(auth()->id(), function ($query, $userId) {
-                        return $query->orWhereHas('bookings', function ($query) use ($userId) {
-                            /** @var Builder $query */
-                            $query->where('user_id', $userId);
-                        });
-                    });
+                    ->when(auth()->id(), fn ($query, $userId) => $query->orWhereHas('bookings', function ($query) use ($userId): void {
+                        /** @var Builder $query */
+                        $query->where('user_id', $userId);
+                    }));
             })->get();
     }
 

@@ -3,7 +3,7 @@
 use Tests\TestCase;
 use App\Models\Event;
 
-it('can render event page', function () {
+it('can render event page', function (): void {
     /** @var TestCase $this */
 
     /** @var Event $event */

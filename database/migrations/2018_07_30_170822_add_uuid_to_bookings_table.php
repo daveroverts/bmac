@@ -14,7 +14,7 @@ class AddUuidToBookingsTable extends Migration
      */
     public function up()
     {
-        Schema::table('bookings', function (Blueprint $table) {
+        Schema::table('bookings', function (Blueprint $table): void {
             $table->uuid('uuid')->after('id')->nullable()->unique();
             $table->index('uuid');
         });
@@ -31,7 +31,7 @@ class AddUuidToBookingsTable extends Migration
      */
     public function down()
     {
-        Schema::table('bookings', function (Blueprint $table) {
+        Schema::table('bookings', function (Blueprint $table): void {
             $table->dropColumn('uuid');
         });
     }

@@ -13,7 +13,7 @@ class CreateEventLinksTable extends Migration
      */
     public function up()
     {
-        Schema::create('event_links', function (Blueprint $table) {
+        Schema::create('event_links', function (Blueprint $table): void {
             $table->id();
             $table->unsignedInteger('event_id');
             $table->unsignedInteger('event_link_type_id');
@@ -23,7 +23,7 @@ class CreateEventLinksTable extends Migration
         });
 
         // We can't use $table->foreignId()->constrained() due to different different datatype
-        Schema::table('event_links', function (Blueprint $table) {
+        Schema::table('event_links', function (Blueprint $table): void {
             $table->foreign('event_id')->references('id')->on('events')->onUpdate('cascade')->onDelete('cascade');
             $table->foreign('event_link_type_id')->references('id')->on('airport_link_types')->onUpdate('cascade')->onDelete('cascade');
         });

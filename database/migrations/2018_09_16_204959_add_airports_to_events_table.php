@@ -13,12 +13,12 @@ class AddAirportsToEventsTable extends Migration
      */
     public function up()
     {
-        Schema::table('events', function (Blueprint $table) {
+        Schema::table('events', function (Blueprint $table): void {
             $table->unsignedInteger('arr')->after('description')->nullable();
             $table->unsignedInteger('dep')->after('description')->nullable();
         });
 
-        Schema::table('events', function (Blueprint $table) {
+        Schema::table('events', function (Blueprint $table): void {
             $table->foreign('dep')->references('id')->on('airports');
             $table->foreign('arr')->references('id')->on('airports');
         });
@@ -31,7 +31,7 @@ class AddAirportsToEventsTable extends Migration
      */
     public function down()
     {
-        Schema::table('events', function (Blueprint $table) {
+        Schema::table('events', function (Blueprint $table): void {
             $table->dropForeign(['dep']);
             $table->dropForeign(['arr']);
             $table->dropColumn(['dep', 'arr']);

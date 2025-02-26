@@ -30,7 +30,7 @@ Route::get('/login', [LoginController::class, 'login'])->name('login');
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
 // Admin routes
-Route::group(['as' => 'admin.', 'prefix' => 'admin', 'middleware' => 'auth.isAdmin'], function () {
+Route::group(['as' => 'admin.', 'prefix' => 'admin', 'middleware' => 'auth.isAdmin'], function (): void {
     // Airports
     Route::post('airports/destroy-unused', [AirportAdminController::class, 'destroyUnused'])->name('airports.destroyUnused');
     Route::resource('airports', AirportAdminController::class);
@@ -89,9 +89,9 @@ Route::get('faq', FaqController::class)->name('faq');
 
 Route::get('{event}', EventController::class)->name('events.show');
 
-Route::middleware('auth.isLoggedIn')->group(function () {
+Route::middleware('auth.isLoggedIn')->group(function (): void {
     Route::prefix('user')->name('user.')
-        ->group(function () {
+        ->group(function (): void {
             Route::get('settings', [UserController::class, 'showSettingsForm'])->name('settings');
             Route::patch('settings', [UserController::class, 'saveSettings'])->name('saveSettings');
         });

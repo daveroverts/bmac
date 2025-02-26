@@ -13,7 +13,7 @@ class SetFormSentDefaultToFalse extends Migration
      */
     public function up()
     {
-        Schema::table('events', function (Blueprint $table) {
+        Schema::table('events', function (Blueprint $table): void {
             $table->boolean('formSent')->default(0)->change();
         });
     }
@@ -25,7 +25,7 @@ class SetFormSentDefaultToFalse extends Migration
      */
     public function down()
     {
-        Schema::table('events', function (Blueprint $table) {
+        Schema::table('events', function (Blueprint $table): void {
             $table->boolean('formSent')->default(1)->change();
         });
     }

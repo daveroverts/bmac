@@ -81,7 +81,7 @@ class Booking extends Model
     public static function boot(): void
     {
         parent::boot();
-        self::creating(function ($model) {
+        self::creating(function ($model): void {
             $model->uuid = (string)Str::uuid();
         });
     }
@@ -118,17 +118,17 @@ class Booking extends Model
 
     public function setCallsignAttribute($value): void
     {
-        $this->attributes['callsign'] = !empty($value) ? strtoupper($value) : null;
+        $this->attributes['callsign'] = !empty($value) ? strtoupper((string) $value) : null;
     }
 
     public function setActypeAttribute($value): void
     {
-        $this->attributes['acType'] = !empty($value) ? strtoupper($value) : null;
+        $this->attributes['acType'] = !empty($value) ? strtoupper((string) $value) : null;
     }
 
     public function setSelcalAttribute($value): void
     {
-        $this->attributes['selcal'] = !empty($value) ? strtoupper($value) : null;
+        $this->attributes['selcal'] = !empty($value) ? strtoupper((string) $value) : null;
     }
 
     public function airportDep(): HasOne
@@ -170,7 +170,7 @@ class Booking extends Model
     public function uniqueAirports(): Collection
     {
         $airports = collect();
-        $this->flights()->each(function ($flight) use ($airports) {
+        $this->flights()->each(function ($flight) use ($airports): void {
             /* @var Flight $flight */
             $airports->push($flight->airportDep);
             $airports->push($flight->airportArr);

@@ -35,11 +35,9 @@ class BookingFactory extends Factory
      */
     public function unassigned()
     {
-        return $this->state(function () {
-            return [
-                'status' => BookingStatus::UNASSIGNED,
-            ];
-        });
+        return $this->state(fn () => [
+            'status' => BookingStatus::UNASSIGNED,
+        ]);
     }
 
     /**
@@ -49,11 +47,9 @@ class BookingFactory extends Factory
      */
     public function reserved()
     {
-        return $this->state(function () {
-            return [
-                'status' => BookingStatus::RESERVED,
-            ];
-        });
+        return $this->state(fn () => [
+            'status' => BookingStatus::RESERVED,
+        ]);
     }
 
     /**
@@ -63,10 +59,8 @@ class BookingFactory extends Factory
      */
     public function booked()
     {
-        return $this->state(function () {
-            return [
-                'status' => BookingStatus::BOOKED,
-            ];
-        });
+        return $this->state(fn () => [
+            'status' => BookingStatus::BOOKED,
+        ]);
     }
 }

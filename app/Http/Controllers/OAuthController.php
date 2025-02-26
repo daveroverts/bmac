@@ -37,7 +37,7 @@ class OAuthController extends GenericProvider
             return $controller->getAccessToken('refresh_token', [
                 'refresh_token' => $token->getRefreshToken()
             ]);
-        } catch (IdentityProviderException $e) {
+        } catch (IdentityProviderException) {
             return null;
         }
     }

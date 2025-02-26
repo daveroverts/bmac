@@ -13,7 +13,7 @@ class ChangeOceanicTrackToTextInFlightsTable extends Migration
      */
     public function up()
     {
-        Schema::table('flights', function (Blueprint $table) {
+        Schema::table('flights', function (Blueprint $table): void {
             $table->text('oceanicTrack')->nullable()->change();
         });
     }
@@ -25,7 +25,7 @@ class ChangeOceanicTrackToTextInFlightsTable extends Migration
      */
     public function down()
     {
-        Schema::table('flights', function (Blueprint $table) {
+        Schema::table('flights', function (Blueprint $table): void {
             $table->string('oceanicTrack', 2)->nullable()->change();
         });
     }

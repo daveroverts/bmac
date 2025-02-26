@@ -14,7 +14,7 @@ class MakeSecretNullableInOauthClientsTable extends Migration
     public function up()
     {
         if (Schema::hasTable('oauth_clients')) {
-            Schema::table('oauth_clients', function (Blueprint $table) {
+            Schema::table('oauth_clients', function (Blueprint $table): void {
                 $table->string('secret', 100)->nullable()->change();
             });
         }
@@ -28,7 +28,7 @@ class MakeSecretNullableInOauthClientsTable extends Migration
     public function down()
     {
         if (Schema::hasTable('oauth_clients')) {
-            Schema::table('oauth_clients', function (Blueprint $table) {
+            Schema::table('oauth_clients', function (Blueprint $table): void {
                 $table->string('secret', 100)->nullable(false)->change();
             });
         }

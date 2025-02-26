@@ -37,7 +37,7 @@ class EventCleanupReservationsJob implements ShouldQueue
     {
         $this->event->bookings()
             ->whereStatus(BookingStatus::RESERVED->value)
-            ->each(function (Booking $booking) {
+            ->each(function (Booking $booking): void {
                 if (now()->greaterThanOrEqualTo($booking->updated_at->addMinutes(10))) {
                     $booking->status = BookingStatus::UNASSIGNED;
                     $booking->user_id = null;

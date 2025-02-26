@@ -13,7 +13,7 @@ class AddNotesToFlightsTable extends Migration
      */
     public function up()
     {
-        Schema::table('flights', function (Blueprint $table) {
+        Schema::table('flights', function (Blueprint $table): void {
             $table->text('notes')->nullable()->after('route');
         });
     }
@@ -25,7 +25,7 @@ class AddNotesToFlightsTable extends Migration
      */
     public function down()
     {
-        Schema::table('flights', function (Blueprint $table) {
+        Schema::table('flights', function (Blueprint $table): void {
             $table->dropColumn('notes');
         });
     }

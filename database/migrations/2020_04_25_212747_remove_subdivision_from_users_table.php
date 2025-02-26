@@ -13,7 +13,7 @@ class RemoveSubdivisionFromUsersTable extends Migration
      */
     public function up()
     {
-        Schema::table('users', function (Blueprint $table) {
+        Schema::table('users', function (Blueprint $table): void {
             $table->dropColumn('subdivision');
         });
     }
@@ -25,7 +25,7 @@ class RemoveSubdivisionFromUsersTable extends Migration
      */
     public function down()
     {
-        Schema::table('users', function (Blueprint $table) {
+        Schema::table('users', function (Blueprint $table): void {
             $table->string('subdivision')->nullable();
         });
     }
