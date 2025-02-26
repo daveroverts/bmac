@@ -7,6 +7,9 @@ use App\Models\Booking;
 use App\Models\Event;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
+/**
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Booking>
+ */
 class BookingFactory extends Factory
 {
     /**

@@ -5,6 +5,8 @@ declare(strict_types=1);
 use Rector\Caching\ValueObject\Storage\FileCacheStorage;
 use Rector\Config\RectorConfig;
 use RectorLaravel\Set\LaravelLevelSetList;
+use RectorLaravel\Set\LaravelSetList;
+use RectorLaravel\Set\Packages\Livewire\LivewireSetList;
 
 return RectorConfig::configure()
     ->withPaths([
@@ -16,7 +18,7 @@ return RectorConfig::configure()
         __DIR__ . '/tests',
     ])
     ->withCache(
-    // ensure file system caching is used instead of in-memory
+        // ensure file system caching is used instead of in-memory
         cacheClass: FileCacheStorage::class,
 
         // specify a path that works locally as well as on CI job runners
@@ -24,4 +26,9 @@ return RectorConfig::configure()
     )
     ->withPhpSets()
     ->withTypeCoverageLevel(0)
-    ->withSets([LaravelLevelSetList::UP_TO_LARAVEL_100]);
+    ->withSets([
+        LaravelLevelSetList::UP_TO_LARAVEL_100,
+        LaravelSetList::LARAVEL_CODE_QUALITY,
+        LaravelSetList::LARAVEL_COLLECTION,
+        LivewireSetList::LIVEWIRE_30,
+    ]);

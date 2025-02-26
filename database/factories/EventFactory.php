@@ -7,6 +7,9 @@ use App\Models\Event;
 use Cviebrock\EloquentSluggable\Services\SlugService;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
+/**
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Event>
+ */
 class EventFactory extends Factory
 {
     /**
@@ -23,12 +26,12 @@ class EventFactory extends Factory
      */
     public function definition()
     {
-        $name = $this->faker->sentence();
+        $name = fake()->sentence();
         $slug = SlugService::createSlug($this->model, 'slug', $name);
         return [
             'name' => $name,
             'slug' => $slug,
-            'description' => $this->faker->text(),
+            'description' => fake()->text(),
             'dep' => Airport::factory(),
             'arr' => Airport::factory(),
             'startEvent' => now()->addMonth(),

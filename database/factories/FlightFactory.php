@@ -6,6 +6,9 @@ use App\Models\Booking;
 use App\Models\Flight;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
+/**
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Flight>
+ */
 class FlightFactory extends Factory
 {
     /**
