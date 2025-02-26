@@ -86,7 +86,10 @@
             "@php artisan ide-helper:generate",
             "@php artisan ide-helper:meta",
             "@php artisan ide-helper:models -N"
-        ]
+        ],
+        "test": "vendor/bin/pest",
+        "format": "vendor/bin/pint",
+        "phpstan" : "vendor/bin/phpstan analyse --ansi"
     },
     "config": {
         "preferred-install": "dist",
