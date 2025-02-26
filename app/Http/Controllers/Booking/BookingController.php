@@ -62,6 +62,7 @@ class BookingController extends Controller
                 );
                 return to_route('bookings.event.index', $booking->event);
             }
+
             flashMessage(
                 'danger',
                 __('Warning'),
@@ -121,6 +122,7 @@ class BookingController extends Controller
             );
             return to_route('bookings.event.index', $booking->event);
         }
+
         flashMessage(
             'danger',
             __('Danger'),
