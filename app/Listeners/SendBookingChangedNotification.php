@@ -19,9 +19,6 @@ class SendBookingChangedNotification implements ShouldQueue
 
     /**
      * Handle the event.
-     *
-     * @param  BookingChanged  $event
-     * @return void
      */
     public function handle(BookingChanged $event): void
     {

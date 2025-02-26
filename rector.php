@@ -25,7 +25,15 @@ return RectorConfig::configure()
         cacheDirectory: '/tmp/rector'
     )
     ->withPhpSets()
-    ->withTypeCoverageLevel(0)
+    ->withPreparedSets(
+        deadCode: true,
+        //        codeQuality: true,
+        //        codingStyle: true,
+        //        typeDeclarations: true,
+        //        privatization: true,
+        //        earlyReturn: true,
+        //        strictBooleans: true,
+    )
     ->withSets([
         LaravelLevelSetList::UP_TO_LARAVEL_100,
         LaravelSetList::LARAVEL_CODE_QUALITY,

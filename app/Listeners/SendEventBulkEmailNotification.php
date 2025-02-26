@@ -20,9 +20,6 @@ class SendEventBulkEmailNotification implements ShouldQueue
 
     /**
      * Handle the event.
-     *
-     * @param  EventBulkEmail  $event
-     * @return void
      */
     public function handle(EventBulkEmail $event): void
     {

@@ -23,11 +23,7 @@ class BookingsImport implements ToModel, WithHeadingRow, WithBatchInserts, WithC
         //
     }
 
-    /**
-     * @param array $row
-     *
-     * @return \Illuminate\Database\Eloquent\Model|null
-     */
+
     public function model(array $row): void
     {
         $editable = true;

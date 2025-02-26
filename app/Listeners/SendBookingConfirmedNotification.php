@@ -19,9 +19,6 @@ class SendBookingConfirmedNotification implements ShouldQueue
 
     /**
      * Handle the event.
-     *
-     * @param  BookingConfirmed  $event
-     * @return void
      */
     public function handle(BookingConfirmed $event): void
     {
