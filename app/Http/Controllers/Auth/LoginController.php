@@ -66,6 +66,7 @@ class LoginController extends Controller
             flashMessage('error', 'Login failed', 'Something went wrong, please try again');
             return to_route('home');
         }
+
         // Callback (user has just logged in Connect)
         return $this->verifyLogin($request);
     }

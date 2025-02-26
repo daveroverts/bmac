@@ -43,12 +43,15 @@ class BookingController extends Controller
                     flashMessage('info', __('Danger'), __('You cannot edit the booking!'));
                     return to_route('bookings.event.index', $booking->event);
                 }
+
                 if ($booking->event->event_type_id == EventType::MULTIFLIGHTS->value) {
                     return view('booking.edit_multiflights', ['booking' => $booking]);
                 }
+
                 $flight = $booking->flights->first();
                 return view('booking.edit', ['booking' => $booking, 'flight' => $flight]);
             }
+
             // Check if current user has booked/reserved
             if ($booking->status == BookingStatus::RESERVED) {
                 // Check if the booking has already been reserved
@@ -58,15 +61,15 @@ class BookingController extends Controller
                     __("Whoops! Somebody else reserved that slot just before you! Please choose another one. The slot will become available if it isn't confirmed within 10 minutes.")
                 );
                 return to_route('bookings.event.index', $booking->event);
-            } else {
-                flashMessage(
-                    'danger',
-                    __('Warning'),
-                    __('Whoops! Somebody else booked that slot just before you! Please choose another one.')
-                );
-                return to_route('bookings.event.index', $booking->event);
             }
+            flashMessage(
+                'danger',
+                __('Warning'),
+                __('Whoops! Somebody else booked that slot just before you! Please choose another one.')
+            );
+            return to_route('bookings.event.index', $booking->event);
         }
+
         // If user already has another booking, but event only allows for 1
         if (
             !$booking->event->multiple_bookings_allowed && auth()->user()->bookings->where(
@@ -79,6 +82,7 @@ class BookingController extends Controller
             flashMessage('danger!', __('Warning'), __('You already have a booking!'));
             return to_route('bookings.event.index', $booking->event);
         }
+
         // If user already has another reservation open
         if (auth()->user()->bookings->where('event_id', $booking->event_id)
             ->where('status', BookingStatus::RESERVED->value)
@@ -86,6 +90,7 @@ class BookingController extends Controller
             flashMessage('danger', __('Warning'), __('You already have a reservation! Please cancel or book that flight first.'));
             return to_route('bookings.event.index', $booking->event);
         }
+
         // If user already has another reservation open
         if ($booking->event->startBooking <= now()) {
             // Check if you are allowed to reserve the slot
@@ -108,20 +113,20 @@ class BookingController extends Controller
                 $flight = $booking->flights->first();
                 return view('booking.edit', ['booking' => $booking, 'flight' => $flight]);
             }
+
             flashMessage(
                 'danger',
                 __('Danger'),
                 __('Bookings have been closed at :time', ['time' => $booking->event->endBooking->format('d-m-Y Hi') . 'z'])
             );
             return to_route('bookings.event.index', $booking->event);
-        } else {
-            flashMessage(
-                'danger',
-                __('Danger'),
-                __("Bookings aren't open yet. They will open at :time", ['time' => $booking->event->startBooking->format('d-m-Y Hi') . 'z'])
-            );
-            return to_route('bookings.event.index', $booking->event);
         }
+        flashMessage(
+            'danger',
+            __('Danger'),
+            __("Bookings aren't open yet. They will open at :time", ['time' => $booking->event->startBooking->format('d-m-Y Hi') . 'z'])
+        );
+        return to_route('bookings.event.index', $booking->event);
     }
 
     public function update(UpdateBooking $request, Booking $booking): RedirectResponse
@@ -164,6 +169,7 @@ class BookingController extends Controller
 
             return to_route('bookings.event.index', $booking->event);
         }
+
         abort(403);
     }
 
