@@ -33,10 +33,8 @@ class ImportAirportsCommand extends Command
 
     /**
      * Execute the console command.
-     *
-     * @return int
      */
-    public function handle()
+    public function handle(): int
     {
         ImportAirportsJob::dispatch();
 

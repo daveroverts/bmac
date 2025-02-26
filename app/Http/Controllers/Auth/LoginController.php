@@ -24,7 +24,7 @@ class LoginController extends Controller
     |
     */
 
-    protected $provider;
+    protected \App\Http\Controllers\OAuthController $provider;
 
     /**
      * Create a new controller instance.
@@ -119,7 +119,7 @@ class LoginController extends Controller
         return to_route('home');
     }
 
-    protected function completeLogin($data, $token): User
+    protected function completeLogin(array $data, $token): User
     {
         $account = User::updateOrCreate(
             ['id' => $data['cid']],

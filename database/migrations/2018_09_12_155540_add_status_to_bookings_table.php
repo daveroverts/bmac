@@ -9,10 +9,8 @@ class AddStatusToBookingsTable extends Migration
 {
     /**
      * Run the migrations.
-     *
-     * @return void
      */
-    public function up()
+    public function up(): void
     {
         Schema::table('bookings', function (Blueprint $table): void {
             $table->tinyInteger('status')->unsigned()->after('event_id')->default(BookingStatus::UNASSIGNED);
@@ -21,10 +19,8 @@ class AddStatusToBookingsTable extends Migration
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
-    public function down()
+    public function down(): void
     {
         Schema::table('bookings', function (Blueprint $table): void {
             $table->dropColumn('status');

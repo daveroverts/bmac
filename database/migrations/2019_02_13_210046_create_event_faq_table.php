@@ -8,10 +8,8 @@ class CreateEventFaqTable extends Migration
 {
     /**
      * Run the migrations.
-     *
-     * @return void
      */
-    public function up()
+    public function up(): void
     {
         Schema::create('event_faq', function (Blueprint $table): void {
             $table->increments('id');
@@ -24,10 +22,8 @@ class CreateEventFaqTable extends Migration
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
-    public function down()
+    public function down(): void
     {
         Schema::dropIfExists('event_faq');
     }

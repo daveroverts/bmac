@@ -8,10 +8,8 @@ class CreateAirportsTable extends Migration
 {
     /**
      * Run the migrations.
-     *
-     * @return void
      */
-    public function up()
+    public function up(): void
     {
         Schema::create('airports', function (Blueprint $table): void {
             // Can't use id() because that uses bigIncrements since Laravel 6, which might break existing envs at one point.
@@ -26,10 +24,8 @@ class CreateAirportsTable extends Migration
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
-    public function down()
+    public function down(): void
     {
         Schema::dropIfExists('airports');
     }

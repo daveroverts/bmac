@@ -43,7 +43,7 @@ class EventFactory extends Factory
 
     public function expired()
     {
-        return $this->state(fn (array $attributes) => [
+        return $this->state(fn (array $attributes): array => [
             'startEvent' => now()->subMonth(),
             'endEvent' => now()->subMonth()->addHours(3),
             'startBooking' => now()->subWeek(),
@@ -53,14 +53,14 @@ class EventFactory extends Factory
 
     public function onHomePage()
     {
-        return $this->state(fn (array $attributes) => [
+        return $this->state(fn (array $attributes): array => [
             'show_on_homepage' => true,
         ]);
     }
 
     public function notOnHomePage()
     {
-        return $this->state(fn (array $attributes) => [
+        return $this->state(fn (array $attributes): array => [
             'show_on_homepage' => false,
         ]);
     }

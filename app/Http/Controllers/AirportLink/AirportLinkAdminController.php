@@ -32,7 +32,7 @@ class AirportLinkAdminController extends AdminController
         $airportLink = new AirportLink();
         $airportLinkTypes = AirportLinkType::pluck('name', 'id');
         $airports = Airport::all(['id', 'icao', 'iata', 'name'])->keyBy('id')
-            ->map(fn ($airport) =>
+            ->map(fn ($airport): string =>
                 /** @var Airport $airport */
                 sprintf('%s | %s | %s', $airport->icao, $airport->name, $airport->iata));
         return view('airportLink.admin.form', ['airportLink' => $airportLink, 'airportLinkTypes' => $airportLinkTypes, 'airports' => $airports]);

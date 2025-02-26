@@ -25,10 +25,8 @@ class EventFinalInformation extends Notification implements ShouldQueue
 
     /**
      * Get the notification's delivery channels.
-     *
-     * @return array
      */
-    public function via(mixed $notifiable)
+    public function via(mixed $notifiable): array
     {
         return ['mail'];
     }
@@ -51,10 +49,8 @@ class EventFinalInformation extends Notification implements ShouldQueue
 
     /**
      * Get the array representation of the notification.
-     *
-     * @return array
      */
-    public function toArray(mixed $notifiable)
+    public function toArray(mixed $notifiable): array
     {
         return [
             $this->booking

@@ -9,7 +9,7 @@ class CreateActivityLogTable extends Migration
     /**
      * Run the migrations.
      */
-    public function up()
+    public function up(): void
     {
         Schema::create(config('activitylog.table_name'), function (Blueprint $table): void {
             $table->increments('id');
@@ -29,7 +29,7 @@ class CreateActivityLogTable extends Migration
     /**
      * Reverse the migrations.
      */
-    public function down()
+    public function down(): void
     {
         Schema::dropIfExists(config('activitylog.table_name'));
     }

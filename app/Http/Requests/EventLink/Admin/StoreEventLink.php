@@ -8,10 +8,8 @@ class StoreEventLink extends Request
 {
     /**
      * Get the validation rules that apply to the request.
-     *
-     * @return array
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             'event_link_type_id' => 'required|exists:airport_link_types,id',

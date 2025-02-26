@@ -38,7 +38,7 @@ class BookingFactory extends Factory
      */
     public function unassigned()
     {
-        return $this->state(fn () => [
+        return $this->state(fn (): array => [
             'status' => BookingStatus::UNASSIGNED,
         ]);
     }
@@ -50,7 +50,7 @@ class BookingFactory extends Factory
      */
     public function reserved()
     {
-        return $this->state(fn () => [
+        return $this->state(fn (): array => [
             'status' => BookingStatus::RESERVED,
         ]);
     }
@@ -62,7 +62,7 @@ class BookingFactory extends Factory
      */
     public function booked()
     {
-        return $this->state(fn () => [
+        return $this->state(fn (): array => [
             'status' => BookingStatus::BOOKED,
         ]);
     }

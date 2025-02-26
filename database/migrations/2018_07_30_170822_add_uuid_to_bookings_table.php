@@ -9,10 +9,8 @@ class AddUuidToBookingsTable extends Migration
 {
     /**
      * Run the migrations.
-     *
-     * @return void
      */
-    public function up()
+    public function up(): void
     {
         Schema::table('bookings', function (Blueprint $table): void {
             $table->uuid('uuid')->after('id')->nullable()->unique();
@@ -26,10 +24,8 @@ class AddUuidToBookingsTable extends Migration
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
-    public function down()
+    public function down(): void
     {
         Schema::table('bookings', function (Blueprint $table): void {
             $table->dropColumn('uuid');

@@ -8,10 +8,8 @@ class MakeSecretNullableInOauthClientsTable extends Migration
 {
     /**
      * Run the migrations.
-     *
-     * @return void
      */
-    public function up()
+    public function up(): void
     {
         if (Schema::hasTable('oauth_clients')) {
             Schema::table('oauth_clients', function (Blueprint $table): void {
@@ -22,10 +20,8 @@ class MakeSecretNullableInOauthClientsTable extends Migration
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
-    public function down()
+    public function down(): void
     {
         if (Schema::hasTable('oauth_clients')) {
             Schema::table('oauth_clients', function (Blueprint $table): void {

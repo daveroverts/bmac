@@ -37,7 +37,7 @@ class BookingAdminController extends AdminController
     {
         $bulk = $request->bulk;
         $airports = Airport::all(['id', 'icao', 'iata', 'name'])->keyBy('id')
-            ->map(fn ($airport) =>
+            ->map(fn ($airport): string =>
                 /** @var Airport $airport */
                 sprintf('%s | %s | %s', $airport->icao, $airport->name, $airport->iata));
 
@@ -125,7 +125,7 @@ class BookingAdminController extends AdminController
     {
         if ($booking->event->endEvent >= now()) {
             $airports = Airport::all(['id', 'icao', 'iata', 'name'])->keyBy('id')
-                ->map(fn ($airport) =>
+                ->map(fn ($airport): string =>
                     /** @var Airport $airport */
                     sprintf('%s | %s | %s', $airport->icao, $airport->name, $airport->iata));
             $flight = $booking->flights()->first();

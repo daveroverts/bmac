@@ -8,10 +8,8 @@ class UpdateBooking extends Request
 {
     /**
      * Get the validation rules that apply to the request.
-     *
-     * @return array
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             'callsign' => 'sometimes|alpha_num|between:4,7|unique:bookings,callsign,' . auth()->id() . ',user_id,event_id,' . $this->route('booking')->event->id,

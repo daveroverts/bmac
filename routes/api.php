@@ -30,20 +30,20 @@ use App\Models\Event;
 //     return new UsersCollection(User::all());
 // });
 
-Route::get('/events/upcoming/{limit?}', fn ($limit = 3) => new EventsCollection(Event::where('is_online', true)
+Route::get('/events/upcoming/{limit?}', fn ($limit = 3): \App\Http\Resources\EventsCollection => new EventsCollection(Event::where('is_online', true)
     ->where('endEvent', '>', now())
     ->orderBy('startEvent', 'asc')
     ->limit($limit)
     ->get()));
 
-Route::get('/events/{event}/bookings', fn (Event $event) => new BookingsCollection($event->bookings->where('status', BookingStatus::BOOKED->value)));
+Route::get('/events/{event}/bookings', fn (Event $event): \App\Http\Resources\BookingsCollection => new BookingsCollection($event->bookings->where('status', BookingStatus::BOOKED->value)));
 
-Route::get('/events/{event}', fn (Event $event) => new EventResource($event));
+Route::get('/events/{event}', fn (Event $event): \App\Http\Resources\EventResource => new EventResource($event));
 
-Route::get('/events', fn () => new EventsCollection(Event::paginate()));
+Route::get('/events', fn (): \App\Http\Resources\EventsCollection => new EventsCollection(Event::paginate()));
 
-Route::get('/bookings/{booking}', fn (Booking $booking) => new BookingResource($booking));
+Route::get('/bookings/{booking}', fn (Booking $booking): \App\Http\Resources\BookingResource => new BookingResource($booking));
 
-Route::get('/airports/{airport}', fn (Airport $airport) => new AirportResource($airport));
+Route::get('/airports/{airport}', fn (Airport $airport): \App\Http\Resources\AirportResource => new AirportResource($airport));
 
-Route::get('/airports', fn () => new AirportsCollection(Airport::paginate()));
+Route::get('/airports', fn (): \App\Http\Resources\AirportsCollection => new AirportsCollection(Airport::paginate()));

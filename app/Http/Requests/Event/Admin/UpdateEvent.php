@@ -8,10 +8,8 @@ class UpdateEvent extends Request
 {
     /**
      * Get the validation rules that apply to the request.
-     *
-     * @return array
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             'is_online' => 'required|boolean',

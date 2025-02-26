@@ -35,35 +35,35 @@ class UserFactory extends Factory
 
     public function admin()
     {
-        return $this->state(fn (array $attributes) => [
+        return $this->state(fn (array $attributes): array => [
             'isAdmin' => true,
         ]);
     }
 
     public function airportViewName()
     {
-        return $this->state(fn (array $attributes) => [
+        return $this->state(fn (array $attributes): array => [
             'airport_view' => AirportView::NAME,
         ]);
     }
 
     public function airportViewIcao()
     {
-        return $this->state(fn (array $attributes) => [
+        return $this->state(fn (array $attributes): array => [
             'airport_view' => AirportView::ICAO,
         ]);
     }
 
     public function airportViewIata()
     {
-        return $this->state(fn (array $attributes) => [
+        return $this->state(fn (array $attributes): array => [
             'airport_view' => AirportView::IATA,
         ]);
     }
 
     public function monospaceFont()
     {
-        return $this->state(fn (array $attributes) => [
+        return $this->state(fn (array $attributes): array => [
             'monospace_font' => true,
         ]);
     }
