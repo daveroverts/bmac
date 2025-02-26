@@ -6,6 +6,9 @@ use App\Models\Event;
 use App\Models\EventLink;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
+/**
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\EventLink>
+ */
 class EventLinkFactory extends Factory
 {
     /**
@@ -25,7 +28,7 @@ class EventLinkFactory extends Factory
         return [
             'event_id' => Event::factory(),
             'event_link_type_id' => 4,
-            'url' => $this->faker->url(),
+            'url' => fake()->url(),
         ];
     }
 }

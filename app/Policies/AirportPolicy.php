@@ -12,71 +12,48 @@ class AirportPolicy
 
     /**
      * Determine whether the user can view the airport.
-     *
-     * @param  User  $user
-     * @param  Airport  $airport
-     * @return mixed
      */
-    public function view(User $user, Airport $airport)
+    public function view(User $user, Airport $airport): bool
     {
         return false;
     }
 
     /**
      * Determine whether the user can create airports.
-     *
-     * @param  User  $user
-     * @return mixed
      */
-    public function create(User $user)
+    public function create(User $user): bool
     {
         return false;
     }
 
     /**
      * Determine whether the user can update the airport.
-     *
-     * @param  User  $user
-     * @param  Airport  $airport
-     * @return mixed
      */
-    public function update(User $user, Airport $airport)
+    public function update(User $user, Airport $airport): bool
     {
         return false;
     }
 
     /**
      * Determine whether the user can delete the airport.
-     *
-     * @param  User  $user
-     * @param  Airport  $airport
-     * @return mixed
      */
-    public function delete(User $user, Airport $airport)
+    public function delete(User $user, Airport $airport): bool
     {
         return false;
     }
 
     /**
      * Determine whether the user can restore the airport.
-     *
-     * @param  User  $user
-     * @param  Airport  $airport
-     * @return mixed
      */
-    public function restore(User $user, Airport $airport)
+    public function restore(User $user, Airport $airport): bool
     {
         return false;
     }
 
     /**
      * Determine whether the user can permanently delete the airport.
-     *
-     * @param  User  $user
-     * @param  Airport  $airport
-     * @return mixed
      */
-    public function forceDelete(User $user, Airport $airport)
+    public function forceDelete(User $user, Airport $airport): bool
     {
         return false;
     }

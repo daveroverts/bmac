@@ -3,13 +3,13 @@
 use Tests\TestCase;
 use App\Models\Event;
 
-it('can render homepage', function () {
+it('can render homepage', function (): void {
     /** @var TestCase $this */
     $this->get('/')->assertOk();
 });
 
 
-it('can render events', function () {
+it('can render events', function (): void {
     /** @var TestCase $this */
 
     /** @var Event $event1 */

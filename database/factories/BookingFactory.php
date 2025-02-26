@@ -7,6 +7,9 @@ use App\Models\Booking;
 use App\Models\Event;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
+/**
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Booking>
+ */
 class BookingFactory extends Factory
 {
     /**
@@ -35,11 +38,9 @@ class BookingFactory extends Factory
      */
     public function unassigned()
     {
-        return $this->state(function () {
-            return [
-                'status' => BookingStatus::UNASSIGNED,
-            ];
-        });
+        return $this->state(fn (): array => [
+            'status' => BookingStatus::UNASSIGNED,
+        ]);
     }
 
     /**
@@ -49,11 +50,9 @@ class BookingFactory extends Factory
      */
     public function reserved()
     {
-        return $this->state(function () {
-            return [
-                'status' => BookingStatus::RESERVED,
-            ];
-        });
+        return $this->state(fn (): array => [
+            'status' => BookingStatus::RESERVED,
+        ]);
     }
 
     /**
@@ -63,10 +62,8 @@ class BookingFactory extends Factory
      */
     public function booked()
     {
-        return $this->state(function () {
-            return [
-                'status' => BookingStatus::BOOKED,
-            ];
-        });
+        return $this->state(fn (): array => [
+            'status' => BookingStatus::BOOKED,
+        ]);
     }
 }

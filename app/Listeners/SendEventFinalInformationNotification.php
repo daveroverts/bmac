@@ -19,13 +19,10 @@ class SendEventFinalInformationNotification implements ShouldQueue
 
     /**
      * Handle the event.
-     *
-     * @param  EventFinalInformation  $event
-     * @return void
      */
     public function handle(EventFinalInformation $event): void
     {
-        if ($event->testUser) {
+        if ($event->testUser instanceof \App\Models\User) {
             activity()
                 ->by(auth()->user())
                 ->on($event->booking)

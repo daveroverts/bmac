@@ -8,10 +8,8 @@ class StoreAirport extends Request
 {
     /**
      * Get the validation rules that apply to the request.
-     *
-     * @return array
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             'icao' => 'required:string|unique:airports|size:4',

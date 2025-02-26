@@ -4,6 +4,7 @@ namespace App\Events;
 
 use App\Models\User;
 use App\Models\Event;
+use Illuminate\Broadcasting\Channel;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Foundation\Events\Dispatchable;
@@ -22,10 +23,8 @@ class BookingDeleted
 
     /**
      * Get the channels the event should broadcast on.
-     *
-     * @return \Illuminate\Broadcasting\Channel|array
      */
-    public function broadcastOn()
+    public function broadcastOn(): Channel
     {
         return new PrivateChannel('channel-name');
     }

@@ -24,11 +24,8 @@ class BookingCancelled extends Notification implements ShouldQueue
 
     /**
      * Get the notification's delivery channels.
-     *
-     * @param  mixed  $notifiable
-     * @return array
      */
-    public function via($notifiable)
+    public function via(mixed $notifiable): array
     {
         return ['mail'];
     }
@@ -36,10 +33,9 @@ class BookingCancelled extends Notification implements ShouldQueue
     /**
      * Get the mail representation of the notification.
      *
-     * @param  mixed  $notifiable
      * @return MailMessage
      */
-    public function toMail($notifiable)
+    public function toMail(mixed $notifiable)
     {
         $eventName = $this->event->name;
         $subject = $eventName . ': ' . __('Booking cancelled');
@@ -47,17 +43,14 @@ class BookingCancelled extends Notification implements ShouldQueue
             ->subject($subject)
             ->greeting('Booking cancelled')
             ->line('Dear ' . $notifiable->full_name . ',')
-            ->line("We've processed your cancellation for the $eventName event and opened the slot you held for other pilots to book. Thanks for letting us know.")
+            ->line(sprintf("We've processed your cancellation for the %s event and opened the slot you held for other pilots to book. Thanks for letting us know.", $eventName))
             ->line('We hope to see you again soon.');
     }
 
     /**
      * Get the array representation of the notification.
-     *
-     * @param  mixed  $notifiable
-     * @return array
      */
-    public function toArray($notifiable)
+    public function toArray(mixed $notifiable): array
     {
         return [
             'event_id' => $this->event->id,

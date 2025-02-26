@@ -65,6 +65,7 @@ class User extends Authenticatable
     protected $guarded = [
         'isAdmin'
     ];
+
     /**
      * The attributes that should be hidden for arrays.
      *
@@ -73,6 +74,7 @@ class User extends Authenticatable
     protected $hidden = [
         'remember_token',
     ];
+
     /**
      * The attributes that should be cast to native types.
      *
@@ -102,8 +104,9 @@ class User extends Authenticatable
     public function getPicAttribute(): string
     {
         if (!empty($this->full_name) && !empty($this->id)) {
-            return "{$this->full_name} | {$this->id}";
+            return sprintf('%s | %s', $this->full_name, $this->id);
         }
+
         return '-';
     }
 
@@ -126,9 +129,9 @@ class User extends Authenticatable
         // Can't put it inside the "if token expired"; $this is null there
         // but anyway Laravel will only update if any changes have been made.
         $this->update([
-            'access_token' => ($token) ? $token->getToken() : null,
-            'refresh_token' => ($token) ? $token->getRefreshToken() : null,
-            'token_expires' => ($token) ? $token->getExpires() : null,
+            'access_token' => ($token instanceof \League\OAuth2\Client\Token\AccessToken) ? $token->getToken() : null,
+            'refresh_token' => ($token instanceof \League\OAuth2\Client\Token\AccessToken) ? $token->getRefreshToken() : null,
+            'token_expires' => ($token instanceof \League\OAuth2\Client\Token\AccessToken) ? $token->getExpires() : null,
         ]);
 
         return $token;

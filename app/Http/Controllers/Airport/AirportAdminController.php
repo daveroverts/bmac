@@ -21,7 +21,7 @@ class AirportAdminController extends AdminController
     {
         $airports = Airport::with(['flightsDep', 'flightsArr', 'eventDep', 'eventArr'])
             ->paginate(100);
-        return view('airport.admin.overview', compact('airports'));
+        return view('airport.admin.overview', ['airports' => $airports]);
     }
 
     public function create(): View
@@ -32,24 +32,24 @@ class AirportAdminController extends AdminController
     public function store(StoreAirport $request): RedirectResponse
     {
         $airport = Airport::create($request->validated());
-        flashMessage('success', __('Done'), __(':airport has been added!', ['airport' => "$airport->name [$airport->icao | $airport->iata]"]));
+        flashMessage('success', __('Done'), __(':airport has been added!', ['airport' => sprintf('%s [%s | %s]', $airport->name, $airport->icao, $airport->iata)]));
         return to_route('admin.airports.index');
     }
 
     public function show(Airport $airport): View
     {
-        return view('airport.admin.show', compact('airport'));
+        return view('airport.admin.show', ['airport' => $airport]);
     }
 
     public function edit(Airport $airport): View
     {
-        return view('airport.admin.form', compact('airport'));
+        return view('airport.admin.form', ['airport' => $airport]);
     }
 
     public function update(UpdateAirport $request, Airport $airport): RedirectResponse
     {
         $airport->update($request->validated());
-        flashMessage('success', __('Done'), __(':airport has been updated!', ['airport' => "$airport->name [$airport->icao | $airport->iata]"]));
+        flashMessage('success', __('Done'), __(':airport has been updated!', ['airport' => sprintf('%s [%s | %s]', $airport->name, $airport->icao, $airport->iata)]));
 
         return to_route('admin.airports.index');
     }
@@ -58,17 +58,17 @@ class AirportAdminController extends AdminController
     {
         if ($airport->flightsDep->isEmpty() && $airport->flightsArr->isEmpty()) {
             $airport->delete();
-            flashMessage('success', __('Done'), __(':airport has been deleted!', ['airport' => "$airport->name [$airport->icao | $airport->iata]"]));
+            flashMessage('success', __('Done'), __(':airport has been deleted!', ['airport' => sprintf('%s [%s | %s]', $airport->name, $airport->icao, $airport->iata)]));
 
             return redirect()->back();
-        } else {
-            flashMessage(
-                'danger',
-                __('Warning'),
-                __(':airport could not be deleted! It\'s linked to another event', ['airport' => "$airport->name [$airport->icao | $airport->iata]"])
-            );
-            return redirect()->back();
         }
+
+        flashMessage(
+            'danger',
+            __('Warning'),
+            __(":airport could not be deleted! It's linked to another event", ['airport' => sprintf('%s [%s | %s]', $airport->name, $airport->icao, $airport->iata)])
+        );
+        return redirect()->back();
     }
 
     public function destroyUnused()

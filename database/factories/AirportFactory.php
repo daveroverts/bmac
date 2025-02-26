@@ -5,6 +5,9 @@ namespace Database\Factories;
 use App\Models\Airport;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
+/**
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Airport>
+ */
 class AirportFactory extends Factory
 {
     /**
@@ -22,11 +25,11 @@ class AirportFactory extends Factory
     public function definition()
     {
         return [
-            'icao' => $this->faker->unique()->lexify(),
-            'iata' => $this->faker->unique()->lexify('???'),
-            'name' => $this->faker->name() . ' Airport',
-            'latitude' => $this->faker->latitude(),
-            'longitude' => $this->faker->longitude(),
+            'icao' => fake()->unique()->lexify(),
+            'iata' => fake()->unique()->lexify('???'),
+            'name' => fake()->name() . ' Airport',
+            'latitude' => fake()->latitude(),
+            'longitude' => fake()->longitude(),
         ];
     }
 }

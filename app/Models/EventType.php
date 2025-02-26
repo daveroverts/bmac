@@ -28,7 +28,9 @@ class EventType extends Model
     use LogsActivity;
 
     public $incrementing = false;
+
     public $timestamps = false;
+
     protected $guarded = ['id'];
 
     /**
@@ -38,7 +40,7 @@ class EventType extends Model
      */
     protected static function booted()
     {
-        static::addGlobalScope('order', function (Builder $builder) {
+        static::addGlobalScope('order', function (Builder $builder): void {
             $builder->orderBy('name');
         });
     }

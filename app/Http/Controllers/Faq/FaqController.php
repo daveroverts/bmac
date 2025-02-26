@@ -15,6 +15,6 @@ class FaqController extends Controller
             ->whereIsOnline(true)
             ->get();
 
-        return view('faq.overview', compact('faqs'));
+        return view('faq.overview', ['faqs' => $faqs]);
     }
 }

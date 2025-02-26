@@ -88,6 +88,7 @@ class Flight extends Model
         if (!empty($this->ctot)) {
             return $this->ctot->format('Hi') . 'z';
         }
+
         return '-';
     }
 
@@ -96,6 +97,7 @@ class Flight extends Model
         if (!empty($this->eta)) {
             return $this->eta->format('Hi') . 'z';
         }
+
         return '-';
     }
 
@@ -115,12 +117,12 @@ class Flight extends Model
 
     public function setRouteAttribute($value): void
     {
-        $this->attributes['route'] = !empty($value) ? strtoupper($value) : null;
+        $this->attributes['route'] = empty($value) ? null : strtoupper((string) $value);
     }
 
     public function setOceanictrackAttribute($value): void
     {
-        $this->attributes['oceanicTrack'] = !empty($value) ? strtoupper($value) : null;
+        $this->attributes['oceanicTrack'] = empty($value) ? null : strtoupper((string) $value);
     }
 
     public function booking(): BelongsTo

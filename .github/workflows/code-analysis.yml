@@ -44,5 +44,20 @@ jobs:
 
       - uses: ramsey/composer-install@v2
 
+      - name: "Restore result cache"
+        uses: actions/cache/restore@v4
+        with:
+          path: /tmp/phpstan # same as in phpstan.neon
+          key: "phpstan-result-cache-${{ github.run_id }}"
+          restore-keys: |
+            phpstan-result-cache-
+
       - name: Run PHPStan
         run: ./vendor/bin/phpstan analyse
+
+      - name: "Save result cache"
+        uses: actions/cache/save@v4
+        if: always()
+        with:
+          path: /tmp/phpstan # same as in phpstan.neon
+          key: "phpstan-result-cache-${{ github.run_id }}"

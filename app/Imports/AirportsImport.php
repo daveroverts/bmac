@@ -21,8 +21,6 @@ class AirportsImport implements ShouldQueue, ToModel, WithBatchInserts, WithChun
     use SkipsFailures;
 
     /**
-     * @param array $row
-     *
      * @return \Illuminate\Database\Eloquent\Model|null
      */
     public function model(array $row)

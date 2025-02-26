@@ -37,12 +37,11 @@ class BookingAdminController extends AdminController
     {
         $bulk = $request->bulk;
         $airports = Airport::all(['id', 'icao', 'iata', 'name'])->keyBy('id')
-            ->map(function ($airport) {
+            ->map(fn ($airport): string =>
                 /** @var Airport $airport */
-                return "$airport->icao | $airport->name | $airport->iata";
-            });
+                sprintf('%s | %s | %s', $airport->icao, $airport->name, $airport->iata));
 
-        return view('booking.admin.create', compact('event', 'airports', 'bulk'));
+        return view('booking.admin.create', ['event' => $event, 'airports' => $airports, 'bulk' => $bulk]);
     }
 
     public function store(StoreBooking $request): RedirectResponse
@@ -61,9 +60,10 @@ class BookingAdminController extends AdminController
                 if ($time->second >= 30) {
                     $time->addMinute();
                 }
+
                 $time->second = 0;
 
-                if (!Flight::whereHas('booking', function ($query) use ($request) {
+                if (!Flight::whereHas('booking', function ($query) use ($request): void {
                     $query->where('event_id', $request->id);
                 })->where([
                     'ctot' => $time,
@@ -82,6 +82,7 @@ class BookingAdminController extends AdminController
                     $count++;
                 }
             }
+
             flashMessage('success', __('Done'), __(':count slots have been created!', ['count' => $count]));
         } else {
             $booking = new Booking([
@@ -116,6 +117,7 @@ class BookingAdminController extends AdminController
             $booking->flights()->create($flightAttributes);
             flashMessage('success', __('Done'), __('Slot created'));
         }
+
         return to_route('bookings.event.index', $event);
     }
 
@@ -123,13 +125,13 @@ class BookingAdminController extends AdminController
     {
         if ($booking->event->endEvent >= now()) {
             $airports = Airport::all(['id', 'icao', 'iata', 'name'])->keyBy('id')
-                ->map(function ($airport) {
+                ->map(fn ($airport): string =>
                     /** @var Airport $airport */
-                    return "$airport->icao | $airport->name | $airport->iata";
-                });
+                    sprintf('%s | %s | %s', $airport->icao, $airport->name, $airport->iata));
             $flight = $booking->flights()->first();
-            return view('booking.admin.edit', compact('booking', 'airports', 'flight'));
+            return view('booking.admin.edit', ['booking' => $booking, 'airports' => $airports, 'flight' => $flight]);
         }
+
         flashMessage('danger', __('Danger'), __('Booking can no longer be edited'));
         return back();
     }
@@ -140,6 +142,7 @@ class BookingAdminController extends AdminController
         if (!empty($booking->user) && $request->notify_user) {
             $shouldSendEmail = true;
         }
+
         /* @var Flight $flight */
         $flight = $booking->flights()->first();
         $booking->fill([
@@ -185,11 +188,13 @@ class BookingAdminController extends AdminController
                     ['name' => $key, 'old' => $booking->getOriginal($key), 'new' => $value]
                 );
             }
+
             foreach ($flight->getDirty() as $key => $value) {
                 $changes->push(
                     ['name' => $key, 'old' => $flight->getOriginal($key), 'new' => $value]
                 );
             }
+
             if (!empty($request->message)) {
                 $changes->push(
                     ['name' => 'message', 'new' => $request->message]
@@ -202,6 +207,7 @@ class BookingAdminController extends AdminController
         if ($shouldSendEmail) {
             event(new BookingChanged($booking, $changes));
         }
+
         flashMessage('success', 'Booking changed', __('Booking has been changed!'));
         return to_route('bookings.event.index', $booking->event);
     }
@@ -212,10 +218,12 @@ class BookingAdminController extends AdminController
             if (!empty($booking->user)) {
                 event(new BookingDeleted($booking->event, $booking->user));
             }
+
             $booking->delete();
             flashMessage('success', 'Booking deleted!', __('Booking has been deleted.'));
             return to_route('bookings.event.index', $booking->event);
         }
+
         flashMessage('danger', __('Danger'), __('Booking can no longer be deleted'));
         return back();
     }
@@ -232,7 +240,7 @@ class BookingAdminController extends AdminController
 
     public function importForm(Event $event)
     {
-        return view('event.admin.import', compact('event'));
+        return view('event.admin.import', ['event' => $event]);
     }
 
     public function import(ImportBookings $request, Event $event): RedirectResponse
@@ -250,7 +258,7 @@ class BookingAdminController extends AdminController
 
     public function adminAutoAssignForm(Event $event): View
     {
-        return view('event.admin.autoAssign', compact('event'));
+        return view('event.admin.autoAssign', ['event' => $event]);
     }
 
 
@@ -258,13 +266,14 @@ class BookingAdminController extends AdminController
     {
         // @TODO Optimise this, for now it's a ugly fix
         $bookings = $event->bookings()
-            ->with(['flights' => function ($query) {
+            ->with(['flights' => function ($query): void {
                 $query->orderBy('ctot');
             }]);
 
         if (!$request->checkAssignAllFlights) {
             $bookings = $bookings->where('status', BookingStatus::BOOKED->value);
         }
+
         $bookings = $bookings->get();
         $count = 0;
         $flOdd = $request->maxFL;
@@ -278,7 +287,7 @@ class BookingAdminController extends AdminController
                     'route' => $request->route2,
                     'oceanicFL' => $flEven,
                 ]);
-                $flEven = $flEven + 10;
+                $flEven += 10;
                 if ($flEven > $request->maxFL) {
                     $flEven = $request->minFL;
                 }
@@ -288,13 +297,15 @@ class BookingAdminController extends AdminController
                     'route' => $request->route1,
                     'oceanicFL' => $flOdd,
                 ]);
-                $flOdd = $flOdd - 10;
+                $flOdd -= 10;
                 if ($flOdd < $request->minFL) {
                     $flOdd = $request->maxFL;
                 }
             }
+
             $flight->save();
         }
+
         flashMessage('success', __('Bookings changed'), __(':count bookings have been Auto-Assigned a FL, and route', ['count' => $count]));
         activity()
             ->by(auth()->user())
@@ -314,7 +325,7 @@ class BookingAdminController extends AdminController
 
     public function routeAssignForm(Event $event): View
     {
-        return view('event.admin.routeAssign', compact('event'));
+        return view('event.admin.routeAssign', ['event' => $event]);
     }
 
 

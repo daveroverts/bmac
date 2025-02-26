@@ -11,7 +11,6 @@ class AddEtaToBookingsTable extends Migration
      */
     public function up()
     {
-        return;
     }
 
     /**
@@ -21,6 +20,5 @@ class AddEtaToBookingsTable extends Migration
      */
     public function down()
     {
-        return;
     }
 }

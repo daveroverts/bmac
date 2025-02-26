@@ -78,10 +78,10 @@ class Booking extends Model
     /**
      *  Setup model event hooks
      */
-    public static function boot(): void
+    protected static function boot(): void
     {
         parent::boot();
-        self::creating(function ($model) {
+        self::creating(function ($model): void {
             $model->uuid = (string)Str::uuid();
         });
     }
@@ -118,17 +118,17 @@ class Booking extends Model
 
     public function setCallsignAttribute($value): void
     {
-        $this->attributes['callsign'] = !empty($value) ? strtoupper($value) : null;
+        $this->attributes['callsign'] = empty($value) ? null : strtoupper((string) $value);
     }
 
     public function setActypeAttribute($value): void
     {
-        $this->attributes['acType'] = !empty($value) ? strtoupper($value) : null;
+        $this->attributes['acType'] = empty($value) ? null : strtoupper((string) $value);
     }
 
     public function setSelcalAttribute($value): void
     {
-        $this->attributes['selcal'] = !empty($value) ? strtoupper($value) : null;
+        $this->attributes['selcal'] = empty($value) ? null : strtoupper((string) $value);
     }
 
     public function airportDep(): HasOne
@@ -160,17 +160,19 @@ class Booking extends Model
     {
         if ($flight = $this->flights->where('order_by', $orderBy)->first()) {
             if ($withAbbr) {
-                return "<abbr title='{$flight->airportDep->name} | [{$flight->airportDep->iata}]'>{$flight->airportDep->icao}</abbr> - <abbr title='{$flight->airportArr->name} | [{$flight->airportArr->iata}]'>{$flight->airportArr->icao}</abbr> {$flight->formattedCtot}";
+                return sprintf("<abbr title='%s | [%s]'>%s</abbr> - <abbr title='%s | [%s]'>%s</abbr> %s", $flight->airportDep->name, $flight->airportDep->iata, $flight->airportDep->icao, $flight->airportArr->name, $flight->airportArr->iata, $flight->airportArr->icao, $flight->formattedCtot);
             }
-            return "{$flight->airportDep->icao} - {$flight->airportArr->icao} {$flight->formattedCtot}";
+
+            return sprintf('%s - %s %s', $flight->airportDep->icao, $flight->airportArr->icao, $flight->formattedCtot);
         }
+
         return '-';
     }
 
     public function uniqueAirports(): Collection
     {
         $airports = collect();
-        $this->flights()->each(function ($flight) use ($airports) {
+        $this->flights()->each(function ($flight) use ($airports): void {
             /* @var Flight $flight */
             $airports->push($flight->airportDep);
             $airports->push($flight->airportArr);

@@ -13,30 +13,28 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $listen = [
-        'App\Events\BookingConfirmed' => [
-            'App\Listeners\SendBookingConfirmedNotification',
+        \App\Events\BookingConfirmed::class => [
+            \App\Listeners\SendBookingConfirmedNotification::class,
         ],
-        'App\Events\BookingCancelled' => [
-            'App\Listeners\SendBookingCancelledNotification',
+        \App\Events\BookingCancelled::class => [
+            \App\Listeners\SendBookingCancelledNotification::class,
         ],
-        'App\Events\BookingChanged' => [
-            'App\Listeners\SendBookingChangedNotification',
+        \App\Events\BookingChanged::class => [
+            \App\Listeners\SendBookingChangedNotification::class,
         ],
-        'App\Events\BookingDeleted' => [
-            'App\Listeners\SendBookingDeletedNotification',
+        \App\Events\BookingDeleted::class => [
+            \App\Listeners\SendBookingDeletedNotification::class,
         ],
-        'App\Events\EventBulkEmail' => [
-            'App\Listeners\SendEventBulkEmailNotification',
+        \App\Events\EventBulkEmail::class => [
+            \App\Listeners\SendEventBulkEmailNotification::class,
         ],
-        'App\Events\EventFinalInformation' => [
-            'App\Listeners\SendEventFinalInformationNotification',
+        \App\Events\EventFinalInformation::class => [
+            \App\Listeners\SendEventFinalInformationNotification::class,
         ]
     ];
 
     /**
      * Register any events for your application.
-     *
-     * @return void
      */
     public function boot(): void
     {

@@ -8,12 +8,10 @@ class AddCoordinatesInAirports extends Migration
 {
     /**
      * Run the migrations.
-     *
-     * @return void
      */
-    public function up()
+    public function up(): void
     {
-        Schema::table('airports', function (Blueprint $table) {
+        Schema::table('airports', function (Blueprint $table): void {
             $table->double('longitude')->after('name')->nullable();
             $table->double('latitude')->after('name')->nullable();
         });
@@ -21,12 +19,10 @@ class AddCoordinatesInAirports extends Migration
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
-    public function down()
+    public function down(): void
     {
-        Schema::table('airports', function (Blueprint $table) {
+        Schema::table('airports', function (Blueprint $table): void {
             $table->dropColumn(['latitude', 'longitude']);
         });
     }

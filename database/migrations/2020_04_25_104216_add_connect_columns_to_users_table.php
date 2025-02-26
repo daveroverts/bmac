@@ -8,12 +8,10 @@ class AddConnectColumnsToUsersTable extends Migration
 {
     /**
      * Run the migrations.
-     *
-     * @return void
      */
-    public function up()
+    public function up(): void
     {
-        Schema::table('users', function (Blueprint $table) {
+        Schema::table('users', function (Blueprint $table): void {
             $table->string('name_first', 191)->change();
             $table->string('name_last', 191)->change();
             $table->text('access_token')->after('remember_token')->nullable();
@@ -25,12 +23,10 @@ class AddConnectColumnsToUsersTable extends Migration
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
-    public function down()
+    public function down(): void
     {
-        Schema::table('users', function (Blueprint $table) {
+        Schema::table('users', function (Blueprint $table): void {
             $table->dropColumn(['token_expires', 'refresh_token', 'access_token']);
             $table->string('name_first', 50)->change();
             $table->string('name_last', 50)->change();

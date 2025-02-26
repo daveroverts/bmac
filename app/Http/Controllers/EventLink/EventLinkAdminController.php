@@ -24,7 +24,7 @@ class EventLinkAdminController extends AdminController
         $eventLinks = EventLink::orderBy('event_id', 'asc')
             ->with(['event', 'type'])
             ->paginate();
-        return view('eventLink.admin.overview', compact('eventLinks'));
+        return view('eventLink.admin.overview', ['eventLinks' => $eventLinks]);
     }
 
     public function create(): View
@@ -35,12 +35,11 @@ class EventLinkAdminController extends AdminController
             ->orderBy('startEvent')
             ->get(['id', 'name', 'startEvent'])
             ->keyBy('id')
-            ->map(function ($event) {
+            ->map(fn ($event): string =>
                 /** @var Event $event */
-                return "$event->name [{$event->startEvent->format('d-m-Y')}]";
-            });
+                sprintf('%s [%s]', $event->name, $event->startEvent->format('d-m-Y')));
 
-        return view('eventLink.admin.form', compact('eventLink', 'eventLinkTypes', 'events'));
+        return view('eventLink.admin.form', ['eventLink' => $eventLink, 'eventLinkTypes' => $eventLinkTypes, 'events' => $events]);
     }
 
     public function store(StoreEventLink $request): RedirectResponse
@@ -57,7 +56,7 @@ class EventLinkAdminController extends AdminController
     public function edit(EventLink $eventLink): View
     {
         $eventLinkTypes = AirportLinkType::pluck('name', 'id');
-        return view('eventLink.admin.form', compact('eventLink', 'eventLinkTypes'));
+        return view('eventLink.admin.form', ['eventLink' => $eventLink, 'eventLinkTypes' => $eventLinkTypes]);
     }
 
     public function update(UpdateEventLink $request, EventLink $eventLink): RedirectResponse

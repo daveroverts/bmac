@@ -8,12 +8,10 @@ class CreateFlightsTable extends Migration
 {
     /**
      * Run the migrations.
-     *
-     * @return void
      */
-    public function up()
+    public function up(): void
     {
-        Schema::create('flights', function (Blueprint $table) {
+        Schema::create('flights', function (Blueprint $table): void {
             $table->bigIncrements('id');
             $table->unsignedInteger('booking_id');
             $table->smallInteger('order_by')->default(1);
@@ -34,10 +32,8 @@ class CreateFlightsTable extends Migration
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
-    public function down()
+    public function down(): void
     {
         Schema::dropIfExists('flights');
     }

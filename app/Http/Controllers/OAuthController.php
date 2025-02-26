@@ -37,7 +37,7 @@ class OAuthController extends GenericProvider
             return $controller->getAccessToken('refresh_token', [
                 'refresh_token' => $token->getRefreshToken()
             ]);
-        } catch (IdentityProviderException $e) {
+        } catch (IdentityProviderException) {
             return null;
         }
     }
@@ -51,11 +51,13 @@ class OAuthController extends GenericProvider
             if (empty($proplist[0]) || empty($obj->{$proplist[0]})) {
                 return false;
             }
+
             $obj = $obj->{$proplist[0]};
 
             if (count($proplist) > 1) {
                 return $getfunc($obj, $proplist[1]);
             }
+
             return $obj;
         };
 

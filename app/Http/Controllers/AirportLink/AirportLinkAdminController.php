@@ -24,7 +24,7 @@ class AirportLinkAdminController extends AdminController
         $airportLinks = AirportLink::orderBy('airport_id', 'asc')
             ->with(['airport', 'type'])
             ->paginate();
-        return view('airportLink.admin.overview', compact('airportLinks'));
+        return view('airportLink.admin.overview', ['airportLinks' => $airportLinks]);
     }
 
     public function create(): View
@@ -32,11 +32,10 @@ class AirportLinkAdminController extends AdminController
         $airportLink = new AirportLink();
         $airportLinkTypes = AirportLinkType::pluck('name', 'id');
         $airports = Airport::all(['id', 'icao', 'iata', 'name'])->keyBy('id')
-            ->map(function ($airport) {
+            ->map(fn ($airport): string =>
                 /** @var Airport $airport */
-                return "$airport->icao | $airport->name | $airport->iata";
-            });
-        return view('airportLink.admin.form', compact('airportLink', 'airportLinkTypes', 'airports'));
+                sprintf('%s | %s | %s', $airport->icao, $airport->name, $airport->iata));
+        return view('airportLink.admin.form', ['airportLink' => $airportLink, 'airportLinkTypes' => $airportLinkTypes, 'airports' => $airports]);
     }
 
     public function store(StoreAirportLink $request): RedirectResponse
@@ -45,7 +44,7 @@ class AirportLinkAdminController extends AdminController
         flashMessage(
             'success',
             __('Done'),
-            __(':Type item has been added for :airport', ['Type' => $airportLink->type->name, 'airport' => "{$airportLink->airport->name} [{$airportLink->airport->icao} | {$airportLink->airport->iata}]"])
+            __(':Type item has been added for :airport', ['Type' => $airportLink->type->name, 'airport' => sprintf('%s [%s | %s]', $airportLink->airport->name, $airportLink->airport->icao, $airportLink->airport->iata)])
         );
         return to_route('admin.airports.index');
     }
@@ -54,7 +53,7 @@ class AirportLinkAdminController extends AdminController
     {
         $airportLinkTypes = AirportLinkType::pluck('name', 'id');
 
-        return view('airportLink.admin.form', compact('airportLink', 'airportLinkTypes'));
+        return view('airportLink.admin.form', ['airportLink' => $airportLink, 'airportLinkTypes' => $airportLinkTypes]);
     }
 
     public function update(UpdateAirportLink $request, AirportLink $airportLink): RedirectResponse

@@ -13,7 +13,6 @@ class AddIdToAirportsTable extends Migration
      */
     public function up()
     {
-        return;
     }
 
     /**
@@ -23,6 +22,5 @@ class AddIdToAirportsTable extends Migration
      */
     public function down()
     {
-        return;
     }
 }

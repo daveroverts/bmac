@@ -32,6 +32,7 @@
         "barryvdh/laravel-debugbar": "^3.6",
         "barryvdh/laravel-ide-helper": "^3.0",
         "beyondcode/laravel-query-detector": "^1.7",
+        "driftingly/rector-laravel": "^1.2",
         "fakerphp/faker": "^1.18",
         "larastan/larastan": "^2.0",
         "laravel/pint": "^1.10",
@@ -43,6 +44,7 @@
         "pestphp/pest-plugin-livewire": "^2.0",
         "phpstan/phpstan-beberlei-assert": "^1.1",
         "phpunit/phpunit": "^10.0",
+        "rector/rector": "^1.2",
         "tomasvotruba/bladestan": "^0.5.0"
     },
     "autoload": {
@@ -86,7 +88,11 @@
             "@php artisan ide-helper:generate",
             "@php artisan ide-helper:meta",
             "@php artisan ide-helper:models -N"
-        ]
+        ],
+        "test": "vendor/bin/pest",
+        "format": "vendor/bin/pint",
+        "phpstan" : "vendor/bin/phpstan analyse --ansi",
+        "rector": "vendor/bin/rector process --ansi"
     },
     "config": {
         "preferred-install": "dist",

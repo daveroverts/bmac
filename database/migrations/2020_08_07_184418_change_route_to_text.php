@@ -8,24 +8,20 @@ class ChangeRouteToText extends Migration
 {
     /**
      * Run the migrations.
-     *
-     * @return void
      */
-    public function up()
+    public function up(): void
     {
-        Schema::table('flights', function (Blueprint $table) {
+        Schema::table('flights', function (Blueprint $table): void {
             $table->text('route')->nullable()->change();
         });
     }
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
-    public function down()
+    public function down(): void
     {
-        Schema::table('flights', function (Blueprint $table) {
+        Schema::table('flights', function (Blueprint $table): void {
             $table->string('route')->nullable();
         });
     }
