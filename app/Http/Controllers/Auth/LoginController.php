@@ -39,7 +39,8 @@ class LoginController extends Controller
 
     public function login(Request $request)
     {
-        if (!$request->has('code') || !$request->has('state')) { // User has clicked "login", redirect to Connect
+        if (!$request->has('code') || !$request->has('state')) {
+            // User has clicked "login", redirect to Connect
             if ($request->get('booking')) {
                 // Check if the booking exists, just to prevent a 404 later on
                 $booking = Booking::whereUuid($request->booking)->first();
@@ -54,15 +55,19 @@ class LoginController extends Controller
                 }
             }
 
-            $authorizationUrl = $this->provider->getAuthorizationUrl(); // Generates state
+            $authorizationUrl = $this->provider->getAuthorizationUrl();
+            // Generates state
             $request->session()->put('oauthstate', $this->provider->getState());
             return redirect()->away($authorizationUrl);
-        } elseif ($request->input('state') !== session()->pull('oauthstate')) { // State mismatch, error
+        }
+
+        if ($request->input('state') !== session()->pull('oauthstate')) {
+            // State mismatch, error
             flashMessage('error', 'Login failed', 'Something went wrong, please try again');
             return to_route('home');
-        } else { // Callback (user has just logged in Connect)
-            return $this->verifyLogin($request);
         }
+        // Callback (user has just logged in Connect)
+        return $this->verifyLogin($request);
     }
 
     protected function verifyLogin(Request $request)

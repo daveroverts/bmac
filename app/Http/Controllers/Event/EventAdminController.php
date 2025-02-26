@@ -121,10 +121,10 @@ class EventAdminController extends AdminController
             $event->delete();
             flashMessage('success', __('Done'), __(':event has been deleted!', ['event' => $event->name]));
             return redirect()->back();
-        } else {
-            flashMessage('danger', __('Danger'), __('Event can no longer be deleted!'));
-            return redirect()->back();
         }
+
+        flashMessage('danger', __('Danger'), __('Event can no longer be deleted!'));
+        return redirect()->back();
     }
 
     public function sendEmailForm(Event $event): View
@@ -137,16 +137,16 @@ class EventAdminController extends AdminController
         if ($request->testmode) {
             event(new EventBulkEmail($event, $request->all(), collect([auth()->user()])));
             return response()->json(['success' => __('Email has been sent to yourself')]);
-        } else {
-            /* @var User $users */
-            $users = User::whereHas('bookings', function (Builder $query) use ($event): void {
-                $query->where('event_id', $event->id);
-                $query->where('status', BookingStatus::BOOKED->value);
-            })->get();
-            event(new EventBulkEmail($event, $request->all(), $users));
-            flashMessage('success', __('Done'), __('Bulk E-mail has been sent to :count people!', ['count' => $users->count()]));
-            return to_route('admin.events.index');
         }
+
+        /* @var User $users */
+        $users = User::whereHas('bookings', function (Builder $query) use ($event): void {
+            $query->where('event_id', $event->id);
+            $query->where('status', BookingStatus::BOOKED->value);
+        })->get();
+        event(new EventBulkEmail($event, $request->all(), $users));
+        flashMessage('success', __('Done'), __('Bulk E-mail has been sent to :count people!', ['count' => $users->count()]));
+        return to_route('admin.events.index');
     }
 
     public function sendFinalInformationMail(Request $request, Event $event): RedirectResponse|JsonResponse
@@ -160,30 +160,30 @@ class EventAdminController extends AdminController
             event(new EventFinalInformation($bookings->random(), $request->user()));
 
             return response()->json(['success' => __('Email has been sent to yourself')]);
-        } else {
-            $count = $bookings->count();
-            $countSkipped = 0;
-            foreach ($bookings as $booking) {
-                if (!$booking->has_received_final_information_email || $request->forceSend) {
-                    event(new EventFinalInformation($booking));
-                } else {
-                    $count--;
-                    $countSkipped++;
-                }
-            }
-
-            $message = __('Final Information has been sent to :count people!', ['count' => $count]);
-            if ($countSkipped != 0) {
-                $message .= ' ' . __('However, :count where skipped, because they already received one', ['count' => $count]);
-            }
-
-            flashMessage('success', __('Done'), $message);
-            activity()
-                ->by(auth()->user())
-                ->on($event)
-                ->withProperty('count', $count)
-                ->log('Final Information E-mail');
         }
+
+        $count = $bookings->count();
+        $countSkipped = 0;
+        foreach ($bookings as $booking) {
+            if (!$booking->has_received_final_information_email || $request->forceSend) {
+                event(new EventFinalInformation($booking));
+            } else {
+                $count--;
+                $countSkipped++;
+            }
+        }
+
+        $message = __('Final Information has been sent to :count people!', ['count' => $count]);
+        if ($countSkipped != 0) {
+            $message .= ' ' . __('However, :count where skipped, because they already received one', ['count' => $count]);
+        }
+
+        flashMessage('success', __('Done'), $message);
+        activity()
+            ->by(auth()->user())
+            ->on($event)
+            ->withProperty('count', $count)
+            ->log('Final Information E-mail');
 
         return to_route('admin.events.index');
     }

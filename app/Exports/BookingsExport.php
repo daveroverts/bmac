@@ -35,7 +35,7 @@ class BookingsExport implements FromCollection, WithColumnFormatting, WithMappin
         if ($this->event->event_type_id == EventType::MULTIFLIGHTS->value) {
             $flight1 = $booking->flights()->first();
             $flight2 = $booking->flights()->whereKeyNot($flight1->id)->first();
-            if ($this->vacc) {
+            if ($this->vacc === true) {
                 return [
                     $booking->user->full_name,
                     $booking->user_id,
@@ -76,7 +76,7 @@ class BookingsExport implements FromCollection, WithColumnFormatting, WithMappin
 
     public function columnFormats(): array
     {
-        if ($this->event->event_type_id == EventType::MULTIFLIGHTS->value && !$this->vacc) {
+        if ($this->event->event_type_id == EventType::MULTIFLIGHTS->value && $this->vacc !== true) {
             return [
                 'E' => NumberFormat::FORMAT_DATE_TIME4,
                 'G' => NumberFormat::FORMAT_DATE_TIME4,

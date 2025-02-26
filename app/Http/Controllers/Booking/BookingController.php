@@ -43,14 +43,14 @@ class BookingController extends Controller
                     flashMessage('info', __('Danger'), __('You cannot edit the booking!'));
                     return to_route('bookings.event.index', $booking->event);
                 }
-
                 if ($booking->event->event_type_id == EventType::MULTIFLIGHTS->value) {
                     return view('booking.edit_multiflights', ['booking' => $booking]);
                 }
-
                 $flight = $booking->flights->first();
                 return view('booking.edit', ['booking' => $booking, 'flight' => $flight]);
-            } elseif ($booking->status == BookingStatus::RESERVED) {
+            }
+            // Check if current user has booked/reserved
+            if ($booking->status == BookingStatus::RESERVED) {
                 // Check if the booking has already been reserved
                 flashMessage(
                     'danger',
@@ -66,63 +66,61 @@ class BookingController extends Controller
                 );
                 return to_route('bookings.event.index', $booking->event);
             }
-        } // If the booking hasn't been taken by anybody else, check if user doesn't already have a booking
-        else {
-            // If user already has another booking, but event only allows for 1
-            if (
-                !$booking->event->multiple_bookings_allowed && auth()->user()->bookings->where(
-                    'event_id',
-                    $booking->event_id
-                )
-                ->where('status', BookingStatus::BOOKED->value)
-                ->first()
-            ) {
-                flashMessage('danger!', __('Warning'), __('You already have a booking!'));
-                return to_route('bookings.event.index', $booking->event);
-            }
-
-            // If user already has another reservation open
-            if (auth()->user()->bookings->where('event_id', $booking->event_id)
-                ->where('status', BookingStatus::RESERVED->value)
-                ->first()) {
-                flashMessage('danger', __('Warning'), __('You already have a reservation! Please cancel or book that flight first.'));
-                return to_route('bookings.event.index', $booking->event);
-            } elseif ($booking->event->startBooking <= now()) {
-                // Check if you are allowed to reserve the slot
-                if ($booking->event->endBooking >= now()) {
-                    activity()
-                        ->by(auth()->user())
-                        ->on($booking)
-                        ->log('Flight reserved');
-                    $booking->status = BookingStatus::RESERVED;
-                    $booking->user()->associate(auth()->user())->save();
-                    flashMessage(
-                        'info',
-                        __('Slot reserved'),
-                        __('Slot remains reserved until :time', ['time' => $booking->updated_at->addMinutes(10)->format('Hi') . 'z'])
-                    );
-                    if ($booking->event->event_type_id == EventType::MULTIFLIGHTS->value) {
-                        return view('booking.edit_multiflights', ['booking' => $booking]);
-                    }
-
-                    $flight = $booking->flights->first();
-                    return view('booking.edit', ['booking' => $booking, 'flight' => $flight]);
-                } else {
-                    flashMessage(
-                        'danger',
-                        __('Danger'),
-                        __('Bookings have been closed at :time', ['time' => $booking->event->endBooking->format('d-m-Y Hi') . 'z'])
-                    );
-                    return to_route('bookings.event.index', $booking->event);
-                }
-            } else {
+        }
+        // If user already has another booking, but event only allows for 1
+        if (
+            !$booking->event->multiple_bookings_allowed && auth()->user()->bookings->where(
+                'event_id',
+                $booking->event_id
+            )
+            ->where('status', BookingStatus::BOOKED->value)
+            ->first()
+        ) {
+            flashMessage('danger!', __('Warning'), __('You already have a booking!'));
+            return to_route('bookings.event.index', $booking->event);
+        }
+        // If user already has another reservation open
+        if (auth()->user()->bookings->where('event_id', $booking->event_id)
+            ->where('status', BookingStatus::RESERVED->value)
+            ->first()) {
+            flashMessage('danger', __('Warning'), __('You already have a reservation! Please cancel or book that flight first.'));
+            return to_route('bookings.event.index', $booking->event);
+        }
+        // If user already has another reservation open
+        if ($booking->event->startBooking <= now()) {
+            // Check if you are allowed to reserve the slot
+            if ($booking->event->endBooking >= now()) {
+                activity()
+                    ->by(auth()->user())
+                    ->on($booking)
+                    ->log('Flight reserved');
+                $booking->status = BookingStatus::RESERVED;
+                $booking->user()->associate(auth()->user())->save();
                 flashMessage(
-                    'danger',
-                    __('Danger'),
-                    __("Bookings aren't open yet. They will open at :time", ['time' => $booking->event->startBooking->format('d-m-Y Hi') . 'z'])
+                    'info',
+                    __('Slot reserved'),
+                    __('Slot remains reserved until :time', ['time' => $booking->updated_at->addMinutes(10)->format('Hi') . 'z'])
                 );
-                return to_route('bookings.event.index', $booking->event);
+                if ($booking->event->event_type_id == EventType::MULTIFLIGHTS->value) {
+                    return view('booking.edit_multiflights', ['booking' => $booking]);
+                }
+
+                $flight = $booking->flights->first();
+                return view('booking.edit', ['booking' => $booking, 'flight' => $flight]);
             }
+            flashMessage(
+                'danger',
+                __('Danger'),
+                __('Bookings have been closed at :time', ['time' => $booking->event->endBooking->format('d-m-Y Hi') . 'z'])
+            );
+            return to_route('bookings.event.index', $booking->event);
+        } else {
+            flashMessage(
+                'danger',
+                __('Danger'),
+                __("Bookings aren't open yet. They will open at :time", ['time' => $booking->event->startBooking->format('d-m-Y Hi') . 'z'])
+            );
+            return to_route('bookings.event.index', $booking->event);
         }
     }
 
@@ -165,9 +163,8 @@ class BookingController extends Controller
             }
 
             return to_route('bookings.event.index', $booking->event);
-        } else {
-            abort(403);
         }
+        abort(403);
     }
 
     public function validateSELCAL($selcal, $eventId): ?string
@@ -179,7 +176,7 @@ class BookingController extends Controller
         $char4 = substr((string) $selcal, 4, 1);
 
         // Check if SELCAL has valid format
-        if (!preg_match("/[ABCDEFGHJKLMPQRS]{2}[-][ABCDEFGHJKLMPQRS]{2}/", (string) $selcal)) {
+        if (in_array(preg_match("/[ABCDEFGHJKLMPQRS]{2}[-][ABCDEFGHJKLMPQRS]{2}/", (string) $selcal), [0, false], true)) {
             return null;
         }
 

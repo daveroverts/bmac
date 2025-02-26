@@ -30,9 +30,9 @@ return RectorConfig::configure()
         codeQuality: true,
         codingStyle: true,
         typeDeclarations: true,
-        //        privatization: true,
-        //        earlyReturn: true,
-        //        strictBooleans: true,
+        privatization: true,
+        earlyReturn: true,
+        strictBooleans: true,
     )
     ->withSets([
         LaravelLevelSetList::UP_TO_LARAVEL_100,
