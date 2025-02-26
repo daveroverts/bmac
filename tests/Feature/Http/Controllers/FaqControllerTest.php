@@ -39,7 +39,7 @@ it('can render faq page with event items', function (): void {
 
     $this->get(route('faq'))
         ->assertOk()
-        ->assertSee("FAQ for {$event->name}")
+        ->assertSee('FAQ for ' . $event->name)
         ->assertSee($event->faqs->first()->question)
         ->assertSee($event->faqs->first()->answer)
         ->assertSee('General FAQ')

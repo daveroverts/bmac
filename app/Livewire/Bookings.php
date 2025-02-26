@@ -15,10 +15,13 @@ use App\Enums\BookingStatus;
 class Bookings extends Component
 {
     public Event $event;
+
     public int $refreshInSeconds = 0;
 
     public ?string $filter = null;
+
     public int $total = 0;
+
     public int $booked = 0;
 
     public function setFilter($filter): void

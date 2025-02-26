@@ -28,7 +28,9 @@ class EventType extends Model
     use LogsActivity;
 
     public $incrementing = false;
+
     public $timestamps = false;
+
     protected $guarded = ['id'];
 
     /**

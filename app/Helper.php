@@ -27,6 +27,7 @@ if (!function_exists('nextEvents')) {
         if (!$showAll) {
             $events = $events->where('is_online', true);
         }
+
         if ($homepage) {
             $events = $events->where('show_on_homepage', true);
         }

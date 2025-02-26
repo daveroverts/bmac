@@ -51,11 +51,13 @@ class OAuthController extends GenericProvider
             if (empty($proplist[0]) || empty($obj->{$proplist[0]})) {
                 return false;
             }
+
             $obj = $obj->{$proplist[0]};
 
             if (count($proplist) > 1) {
                 return $getfunc($obj, $proplist[1]);
             }
+
             return $obj;
         };
 

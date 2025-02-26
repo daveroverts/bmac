@@ -65,6 +65,7 @@ class User extends Authenticatable
     protected $guarded = [
         'isAdmin'
     ];
+
     /**
      * The attributes that should be hidden for arrays.
      *
@@ -73,6 +74,7 @@ class User extends Authenticatable
     protected $hidden = [
         'remember_token',
     ];
+
     /**
      * The attributes that should be cast to native types.
      *
@@ -102,8 +104,9 @@ class User extends Authenticatable
     public function getPicAttribute(): string
     {
         if (!empty($this->full_name) && !empty($this->id)) {
-            return "{$this->full_name} | {$this->id}";
+            return sprintf('%s | %s', $this->full_name, $this->id);
         }
+
         return '-';
     }
 

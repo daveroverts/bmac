@@ -34,7 +34,7 @@ class AirportLinkAdminController extends AdminController
         $airports = Airport::all(['id', 'icao', 'iata', 'name'])->keyBy('id')
             ->map(fn ($airport) =>
                 /** @var Airport $airport */
-                "$airport->icao | $airport->name | $airport->iata");
+                sprintf('%s | %s | %s', $airport->icao, $airport->name, $airport->iata));
         return view('airportLink.admin.form', ['airportLink' => $airportLink, 'airportLinkTypes' => $airportLinkTypes, 'airports' => $airports]);
     }
 
@@ -44,7 +44,7 @@ class AirportLinkAdminController extends AdminController
         flashMessage(
             'success',
             __('Done'),
-            __(':Type item has been added for :airport', ['Type' => $airportLink->type->name, 'airport' => "{$airportLink->airport->name} [{$airportLink->airport->icao} | {$airportLink->airport->iata}]"])
+            __(':Type item has been added for :airport', ['Type' => $airportLink->type->name, 'airport' => sprintf('%s [%s | %s]', $airportLink->airport->name, $airportLink->airport->icao, $airportLink->airport->iata)])
         );
         return to_route('admin.airports.index');
     }

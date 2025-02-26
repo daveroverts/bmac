@@ -88,6 +88,7 @@ class Flight extends Model
         if (!empty($this->ctot)) {
             return $this->ctot->format('Hi') . 'z';
         }
+
         return '-';
     }
 
@@ -96,6 +97,7 @@ class Flight extends Model
         if (!empty($this->eta)) {
             return $this->eta->format('Hi') . 'z';
         }
+
         return '-';
     }
 

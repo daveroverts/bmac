@@ -46,6 +46,7 @@ class BookingsExport implements FromCollection, WithColumnFormatting, WithMappin
                     $flight2->airportArr->icao,
                 ];
             }
+
             return [
                 $booking->user->full_name,
                 $booking->user_id,
@@ -57,6 +58,7 @@ class BookingsExport implements FromCollection, WithColumnFormatting, WithMappin
                 $flight2->airportArr->icao,
             ];
         }
+
         $flight = $booking->flights->first();
         return [
             $booking->user->full_name,
@@ -80,6 +82,7 @@ class BookingsExport implements FromCollection, WithColumnFormatting, WithMappin
                 'G' => NumberFormat::FORMAT_DATE_TIME4,
             ];
         }
+
         return [
             'H' => NumberFormat::FORMAT_DATE_TIME4,
             'I' => NumberFormat::FORMAT_DATE_TIME4,

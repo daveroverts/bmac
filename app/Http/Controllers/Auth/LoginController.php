@@ -53,6 +53,7 @@ class LoginController extends Controller
                     session()->put('event', $event->slug);
                 }
             }
+
             $authorizationUrl = $this->provider->getAuthorizationUrl(); // Generates state
             $request->session()->put('oauthstate', $this->provider->getState());
             return redirect()->away($authorizationUrl);
@@ -74,6 +75,7 @@ class LoginController extends Controller
             flashMessage('error', 'Login failed', 'Something went wrong, please try again');
             return to_route('home');
         }
+
         $resourceOwner = json_decode(json_encode($this->provider->getResourceOwner($accessToken)->toArray()));
 
         $data = [
@@ -103,6 +105,7 @@ class LoginController extends Controller
                 if ($booking->status != BookingStatus::BOOKED) {
                     return to_route('bookings.edit', $booking);
                 }
+
                 return to_route('bookings.show', $booking);
             }
         } elseif (session('event')) {
@@ -112,6 +115,7 @@ class LoginController extends Controller
                 return to_route('events.show', $event);
             }
         }
+
         return to_route('home');
     }
 
@@ -129,9 +133,11 @@ class LoginController extends Controller
         if ($token->getToken() !== null) {
             $account->access_token = $token->getToken();
         }
+
         if ($token->getRefreshToken() !== null) {
             $account->refresh_token = $token->getRefreshToken();
         }
+
         if ($token->getExpires() !== null) {
             $account->token_expires = $token->getExpires();
         }

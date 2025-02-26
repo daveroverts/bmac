@@ -71,6 +71,7 @@ class FaqAdminController extends AdminController
             $faq->events()->attach($event->id);
             flashMessage('success', __('Event linked'), __('Event has been linked to this FAQ'));
         }
+
         return back();
     }
 }

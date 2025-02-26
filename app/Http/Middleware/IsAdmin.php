@@ -17,6 +17,7 @@ class IsAdmin
         if (auth()->check() && auth()->user()->isAdmin) {
             return $next($request);
         }
+
         // We got a bad-ass over here, log that person out
         return to_route('home');
     }

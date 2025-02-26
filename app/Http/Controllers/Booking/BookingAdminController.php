@@ -39,7 +39,7 @@ class BookingAdminController extends AdminController
         $airports = Airport::all(['id', 'icao', 'iata', 'name'])->keyBy('id')
             ->map(fn ($airport) =>
                 /** @var Airport $airport */
-                "$airport->icao | $airport->name | $airport->iata");
+                sprintf('%s | %s | %s', $airport->icao, $airport->name, $airport->iata));
 
         return view('booking.admin.create', ['event' => $event, 'airports' => $airports, 'bulk' => $bulk]);
     }
@@ -60,6 +60,7 @@ class BookingAdminController extends AdminController
                 if ($time->second >= 30) {
                     $time->addMinute();
                 }
+
                 $time->second = 0;
 
                 if (!Flight::whereHas('booking', function ($query) use ($request): void {
@@ -81,6 +82,7 @@ class BookingAdminController extends AdminController
                     $count++;
                 }
             }
+
             flashMessage('success', __('Done'), __(':count slots have been created!', ['count' => $count]));
         } else {
             $booking = new Booking([
@@ -115,6 +117,7 @@ class BookingAdminController extends AdminController
             $booking->flights()->create($flightAttributes);
             flashMessage('success', __('Done'), __('Slot created'));
         }
+
         return to_route('bookings.event.index', $event);
     }
 
@@ -124,10 +127,11 @@ class BookingAdminController extends AdminController
             $airports = Airport::all(['id', 'icao', 'iata', 'name'])->keyBy('id')
                 ->map(fn ($airport) =>
                     /** @var Airport $airport */
-                    "$airport->icao | $airport->name | $airport->iata");
+                    sprintf('%s | %s | %s', $airport->icao, $airport->name, $airport->iata));
             $flight = $booking->flights()->first();
             return view('booking.admin.edit', ['booking' => $booking, 'airports' => $airports, 'flight' => $flight]);
         }
+
         flashMessage('danger', __('Danger'), __('Booking can no longer be edited'));
         return back();
     }
@@ -138,6 +142,7 @@ class BookingAdminController extends AdminController
         if (!empty($booking->user) && $request->notify_user) {
             $shouldSendEmail = true;
         }
+
         /* @var Flight $flight */
         $flight = $booking->flights()->first();
         $booking->fill([
@@ -183,11 +188,13 @@ class BookingAdminController extends AdminController
                     ['name' => $key, 'old' => $booking->getOriginal($key), 'new' => $value]
                 );
             }
+
             foreach ($flight->getDirty() as $key => $value) {
                 $changes->push(
                     ['name' => $key, 'old' => $flight->getOriginal($key), 'new' => $value]
                 );
             }
+
             if (!empty($request->message)) {
                 $changes->push(
                     ['name' => 'message', 'new' => $request->message]
@@ -200,6 +207,7 @@ class BookingAdminController extends AdminController
         if ($shouldSendEmail) {
             event(new BookingChanged($booking, $changes));
         }
+
         flashMessage('success', 'Booking changed', __('Booking has been changed!'));
         return to_route('bookings.event.index', $booking->event);
     }
@@ -210,10 +218,12 @@ class BookingAdminController extends AdminController
             if (!empty($booking->user)) {
                 event(new BookingDeleted($booking->event, $booking->user));
             }
+
             $booking->delete();
             flashMessage('success', 'Booking deleted!', __('Booking has been deleted.'));
             return to_route('bookings.event.index', $booking->event);
         }
+
         flashMessage('danger', __('Danger'), __('Booking can no longer be deleted'));
         return back();
     }
@@ -263,6 +273,7 @@ class BookingAdminController extends AdminController
         if (!$request->checkAssignAllFlights) {
             $bookings = $bookings->where('status', BookingStatus::BOOKED->value);
         }
+
         $bookings = $bookings->get();
         $count = 0;
         $flOdd = $request->maxFL;
@@ -291,8 +302,10 @@ class BookingAdminController extends AdminController
                     $flOdd = $request->maxFL;
                 }
             }
+
             $flight->save();
         }
+
         flashMessage('success', __('Bookings changed'), __(':count bookings have been Auto-Assigned a FL, and route', ['count' => $count]));
         activity()
             ->by(auth()->user())

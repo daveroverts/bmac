@@ -41,7 +41,7 @@ class EventAdminController extends AdminController
         $airports = Airport::all(['id', 'icao', 'iata', 'name'])->keyBy('id')
             ->map(fn ($airport) =>
                 /** @var Airport $airport */
-                "$airport->icao | $airport->name | $airport->iata");
+                sprintf('%s | %s | %s', $airport->icao, $airport->name, $airport->iata));
         $eventTypes = EventType::pluck('name', 'id');
         return view('event.admin.form', ['event' => $event, 'airports' => $airports, 'eventTypes' => $eventTypes]);
     }
@@ -84,7 +84,7 @@ class EventAdminController extends AdminController
         $airports = Airport::all(['id', 'icao', 'iata', 'name'])->keyBy('id')
             ->map(fn ($airport) =>
                 /** @var Airport $airport */
-                "$airport->icao | $airport->name | $airport->iata");
+                sprintf('%s | %s | %s', $airport->icao, $airport->name, $airport->iata));
         $eventTypes = EventType::pluck('name', 'id');
         return view('event.admin.form', ['event' => $event, 'airports' => $airports, 'eventTypes' => $eventTypes]);
     }
@@ -171,10 +171,12 @@ class EventAdminController extends AdminController
                     $countSkipped++;
                 }
             }
+
             $message = __('Final Information has been sent to :count people!', ['count' => $count]);
             if ($countSkipped != 0) {
                 $message .= ' ' . __('However, :count where skipped, because they already received one', ['count' => $count]);
             }
+
             flashMessage('success', __('Done'), $message);
             activity()
                 ->by(auth()->user())

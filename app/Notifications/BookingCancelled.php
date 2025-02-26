@@ -45,7 +45,7 @@ class BookingCancelled extends Notification implements ShouldQueue
             ->subject($subject)
             ->greeting('Booking cancelled')
             ->line('Dear ' . $notifiable->full_name . ',')
-            ->line("We've processed your cancellation for the $eventName event and opened the slot you held for other pilots to book. Thanks for letting us know.")
+            ->line(sprintf("We've processed your cancellation for the %s event and opened the slot you held for other pilots to book. Thanks for letting us know.", $eventName))
             ->line('We hope to see you again soon.');
     }
 
