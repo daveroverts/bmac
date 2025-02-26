@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use Rector\Config\RectorConfig;
+use RectorLaravel\Set\LaravelLevelSetList;
 
 return RectorConfig::configure()
     ->withPaths([
@@ -14,4 +15,5 @@ return RectorConfig::configure()
         __DIR__ . '/tests',
     ])
     ->withPhpSets()
-    ->withTypeCoverageLevel(0);
+    ->withTypeCoverageLevel(0)
+    ->withSets([LaravelLevelSetList::UP_TO_LARAVEL_100]);
