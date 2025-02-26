@@ -35,13 +35,7 @@ if (!function_exists('nextEvents')) {
             $events = $events->with($withRelations);
         }
 
-        if ($one) {
-            $events = $events->first();
-        } else {
-            $events = $events->get();
-        }
-
-        return $events;
+        return $one ? $events->first() : $events->get();
     }
 }
 

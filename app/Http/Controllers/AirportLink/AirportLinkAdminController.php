@@ -24,7 +24,7 @@ class AirportLinkAdminController extends AdminController
         $airportLinks = AirportLink::orderBy('airport_id', 'asc')
             ->with(['airport', 'type'])
             ->paginate();
-        return view('airportLink.admin.overview', compact('airportLinks'));
+        return view('airportLink.admin.overview', ['airportLinks' => $airportLinks]);
     }
 
     public function create(): View
@@ -35,7 +35,7 @@ class AirportLinkAdminController extends AdminController
             ->map(fn ($airport) =>
                 /** @var Airport $airport */
                 "$airport->icao | $airport->name | $airport->iata");
-        return view('airportLink.admin.form', compact('airportLink', 'airportLinkTypes', 'airports'));
+        return view('airportLink.admin.form', ['airportLink' => $airportLink, 'airportLinkTypes' => $airportLinkTypes, 'airports' => $airports]);
     }
 
     public function store(StoreAirportLink $request): RedirectResponse
@@ -53,7 +53,7 @@ class AirportLinkAdminController extends AdminController
     {
         $airportLinkTypes = AirportLinkType::pluck('name', 'id');
 
-        return view('airportLink.admin.form', compact('airportLink', 'airportLinkTypes'));
+        return view('airportLink.admin.form', ['airportLink' => $airportLink, 'airportLinkTypes' => $airportLinkTypes]);
     }
 
     public function update(UpdateAirportLink $request, AirportLink $airportLink): RedirectResponse

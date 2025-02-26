@@ -21,7 +21,7 @@ class AirportAdminController extends AdminController
     {
         $airports = Airport::with(['flightsDep', 'flightsArr', 'eventDep', 'eventArr'])
             ->paginate(100);
-        return view('airport.admin.overview', compact('airports'));
+        return view('airport.admin.overview', ['airports' => $airports]);
     }
 
     public function create(): View
@@ -38,12 +38,12 @@ class AirportAdminController extends AdminController
 
     public function show(Airport $airport): View
     {
-        return view('airport.admin.show', compact('airport'));
+        return view('airport.admin.show', ['airport' => $airport]);
     }
 
     public function edit(Airport $airport): View
     {
-        return view('airport.admin.form', compact('airport'));
+        return view('airport.admin.form', ['airport' => $airport]);
     }
 
     public function update(UpdateAirport $request, Airport $airport): RedirectResponse

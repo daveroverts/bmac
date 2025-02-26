@@ -32,7 +32,7 @@ class EventAdminController extends AdminController
         $events = Event::orderByDesc('startEvent')
             ->with('type')
             ->paginate();
-        return view('event.admin.overview', compact('events'));
+        return view('event.admin.overview', ['events' => $events]);
     }
 
     public function create(): View
@@ -43,7 +43,7 @@ class EventAdminController extends AdminController
                 /** @var Airport $airport */
                 "$airport->icao | $airport->name | $airport->iata");
         $eventTypes = EventType::pluck('name', 'id');
-        return view('event.admin.form', compact('event', 'airports', 'eventTypes'));
+        return view('event.admin.form', ['event' => $event, 'airports' => $airports, 'eventTypes' => $eventTypes]);
     }
 
     public function store(StoreEvent $request): RedirectResponse
@@ -76,7 +76,7 @@ class EventAdminController extends AdminController
 
     public function show(Event $event): View
     {
-        return view('event.admin.show', compact('event'));
+        return view('event.admin.show', ['event' => $event]);
     }
 
     public function edit(Event $event): View
@@ -86,7 +86,7 @@ class EventAdminController extends AdminController
                 /** @var Airport $airport */
                 "$airport->icao | $airport->name | $airport->iata");
         $eventTypes = EventType::pluck('name', 'id');
-        return view('event.admin.form', compact('event', 'airports', 'eventTypes'));
+        return view('event.admin.form', ['event' => $event, 'airports' => $airports, 'eventTypes' => $eventTypes]);
     }
 
     public function update(UpdateEvent $request, Event $event): RedirectResponse
@@ -129,7 +129,7 @@ class EventAdminController extends AdminController
 
     public function sendEmailForm(Event $event): View
     {
-        return view('event.admin.sendEmail', compact('event'));
+        return view('event.admin.sendEmail', ['event' => $event]);
     }
 
     public function sendEmail(SendEmail $request, Event $event): JsonResponse|RedirectResponse

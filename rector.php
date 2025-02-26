@@ -27,7 +27,7 @@ return RectorConfig::configure()
     ->withPhpSets()
     ->withPreparedSets(
         deadCode: true,
-        //        codeQuality: true,
+        codeQuality: true,
         //        codingStyle: true,
         //        typeDeclarations: true,
         //        privatization: true,

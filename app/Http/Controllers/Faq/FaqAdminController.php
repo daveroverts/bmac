@@ -21,7 +21,7 @@ class FaqAdminController extends AdminController
     public function index(): View
     {
         $faqs = Faq::withCount('events')->paginate();
-        return view('faq.admin.overview', compact('faqs'));
+        return view('faq.admin.overview', ['faqs' => $faqs]);
     }
 
     public function create(): View
@@ -29,7 +29,7 @@ class FaqAdminController extends AdminController
         $faq = new Faq();
 
         $events = collect();
-        return view('faq.admin.form', compact('faq', 'events'));
+        return view('faq.admin.form', ['faq' => $faq, 'events' => $events]);
     }
 
     public function store(StoreFaq $request): RedirectResponse
@@ -45,7 +45,7 @@ class FaqAdminController extends AdminController
             ->orderBy('startEvent', 'desc')
             ->get();
 
-        return view('faq.admin.form', compact('faq', 'events'));
+        return view('faq.admin.form', ['faq' => $faq, 'events' => $events]);
     }
 
     public function update(UpdateFaq $request, Faq $faq): RedirectResponse

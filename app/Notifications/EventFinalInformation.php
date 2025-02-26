@@ -46,7 +46,7 @@ class EventFinalInformation extends Notification implements ShouldQueue
         $flight = $booking->flights->first() ?? null;
         return (new MailMessage())
             ->subject($subject)
-            ->markdown($template, compact('booking', 'flight'));
+            ->markdown($template, ['booking' => $booking, 'flight' => $flight]);
     }
 
     /**

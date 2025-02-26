@@ -118,17 +118,17 @@ class Booking extends Model
 
     public function setCallsignAttribute($value): void
     {
-        $this->attributes['callsign'] = !empty($value) ? strtoupper((string) $value) : null;
+        $this->attributes['callsign'] = empty($value) ? null : strtoupper((string) $value);
     }
 
     public function setActypeAttribute($value): void
     {
-        $this->attributes['acType'] = !empty($value) ? strtoupper((string) $value) : null;
+        $this->attributes['acType'] = empty($value) ? null : strtoupper((string) $value);
     }
 
     public function setSelcalAttribute($value): void
     {
-        $this->attributes['selcal'] = !empty($value) ? strtoupper((string) $value) : null;
+        $this->attributes['selcal'] = empty($value) ? null : strtoupper((string) $value);
     }
 
     public function airportDep(): HasOne

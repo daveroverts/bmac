@@ -41,7 +41,7 @@ class BookingAdminController extends AdminController
                 /** @var Airport $airport */
                 "$airport->icao | $airport->name | $airport->iata");
 
-        return view('booking.admin.create', compact('event', 'airports', 'bulk'));
+        return view('booking.admin.create', ['event' => $event, 'airports' => $airports, 'bulk' => $bulk]);
     }
 
     public function store(StoreBooking $request): RedirectResponse
@@ -126,7 +126,7 @@ class BookingAdminController extends AdminController
                     /** @var Airport $airport */
                     "$airport->icao | $airport->name | $airport->iata");
             $flight = $booking->flights()->first();
-            return view('booking.admin.edit', compact('booking', 'airports', 'flight'));
+            return view('booking.admin.edit', ['booking' => $booking, 'airports' => $airports, 'flight' => $flight]);
         }
         flashMessage('danger', __('Danger'), __('Booking can no longer be edited'));
         return back();
@@ -230,7 +230,7 @@ class BookingAdminController extends AdminController
 
     public function importForm(Event $event)
     {
-        return view('event.admin.import', compact('event'));
+        return view('event.admin.import', ['event' => $event]);
     }
 
     public function import(ImportBookings $request, Event $event): RedirectResponse
@@ -248,7 +248,7 @@ class BookingAdminController extends AdminController
 
     public function adminAutoAssignForm(Event $event): View
     {
-        return view('event.admin.autoAssign', compact('event'));
+        return view('event.admin.autoAssign', ['event' => $event]);
     }
 
 
@@ -276,7 +276,7 @@ class BookingAdminController extends AdminController
                     'route' => $request->route2,
                     'oceanicFL' => $flEven,
                 ]);
-                $flEven = $flEven + 10;
+                $flEven += 10;
                 if ($flEven > $request->maxFL) {
                     $flEven = $request->minFL;
                 }
@@ -286,7 +286,7 @@ class BookingAdminController extends AdminController
                     'route' => $request->route1,
                     'oceanicFL' => $flOdd,
                 ]);
-                $flOdd = $flOdd - 10;
+                $flOdd -= 10;
                 if ($flOdd < $request->minFL) {
                     $flOdd = $request->maxFL;
                 }
@@ -312,7 +312,7 @@ class BookingAdminController extends AdminController
 
     public function routeAssignForm(Event $event): View
     {
-        return view('event.admin.routeAssign', compact('event'));
+        return view('event.admin.routeAssign', ['event' => $event]);
     }
 
 
