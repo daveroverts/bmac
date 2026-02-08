@@ -39,7 +39,7 @@ class Bookings extends Component
         }
     }
 
-    public function render()
+    public function render(): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
     {
         abort_unless(auth()->user()?->isAdmin || $this->event->is_online, 404);
 

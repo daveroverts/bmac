@@ -13,9 +13,8 @@ return [
     |
     */
 
-    // TODO: when the time is right, use below line instead
-    // 'default' => env('QUEUE_CONNECTION', 'sync'),
-    'default' => env('QUEUE_CONNECTION', env('QUEUE_DRIVER', '')),
+    // TODO: Remove QUEUE_DRIVER fallback once all .env files are updated
+    'default' => env('QUEUE_CONNECTION', env('QUEUE_DRIVER', 'sync')),
 
     /*
     |--------------------------------------------------------------------------

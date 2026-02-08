@@ -15,7 +15,8 @@ return [
     |
     */
 
-    'default' => env('BROADCAST_DRIVER', 'null'),
+    // TODO: Remove BROADCAST_DRIVER fallback once all .env files are updated
+    'default' => env('BROADCAST_CONNECTION', env('BROADCAST_DRIVER', 'null')),
 
     /*
     |--------------------------------------------------------------------------

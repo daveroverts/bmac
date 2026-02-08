@@ -9,6 +9,7 @@
     "mcp": true,
     "sail": false,
     "skills": [
-        "livewire-development"
+        "livewire-development",
+        "pest-testing"
     ]
 }

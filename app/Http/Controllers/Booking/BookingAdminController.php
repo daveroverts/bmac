@@ -237,7 +237,7 @@ class BookingAdminController extends AdminController
         return (new BookingsExport($event, $request->vacc))->download('bookings.csv');
     }
 
-    public function importForm(Event $event)
+    public function importForm(Event $event): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
     {
         return view('event.admin.import', ['event' => $event]);
     }

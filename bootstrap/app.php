@@ -17,7 +17,7 @@ return Application::configure(basePath: dirname(__DIR__))
         channels: __DIR__.'/../routes/channels.php',
         health: '/up',
     )
-    ->withMiddleware(function (Middleware $middleware) {
+    ->withMiddleware(function (Middleware $middleware): void {
         $middleware->trustProxies(
             headers: Request::HEADER_X_FORWARDED_FOR |
                 Request::HEADER_X_FORWARDED_HOST |
@@ -35,7 +35,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'auth.isLoggedIn' => IsLoggedIn::class,
         ]);
     })
-    ->withExceptions(function (Exceptions $exceptions) {
+    ->withExceptions(function (Exceptions $exceptions): void {
         Integration::handles($exceptions);
     })
     ->create();
