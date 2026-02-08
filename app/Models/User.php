@@ -110,15 +110,16 @@ class User extends Authenticatable
         ]);
 
         if ($token->hasExpired()) {
-            $token = OAuthController::updateToken($token);
+            $refreshedToken = OAuthController::updateToken($token);
+            $token = $refreshedToken instanceof AccessToken ? $refreshedToken : null;
         }
 
         // Can't put it inside the "if token expired"; $this is null there
         // but anyway Laravel will only update if any changes have been made.
         $this->update([
-            'access_token' => ($token instanceof \League\OAuth2\Client\Token\AccessToken) ? $token->getToken() : null,
-            'refresh_token' => ($token instanceof \League\OAuth2\Client\Token\AccessToken) ? $token->getRefreshToken() : null,
-            'token_expires' => ($token instanceof \League\OAuth2\Client\Token\AccessToken) ? $token->getExpires() : null,
+            'access_token' => $token?->getToken(),
+            'refresh_token' => $token?->getRefreshToken(),
+            'token_expires' => $token?->getExpires(),
         ]);
 
         return $token;

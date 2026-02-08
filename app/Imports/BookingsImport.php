@@ -24,7 +24,7 @@ class BookingsImport implements ToModel, WithHeadingRow, WithBatchInserts, WithC
     }
 
 
-    public function model(array $row): void
+    public function model(array $row): ?Booking
     {
         $editable = true;
         if (!empty($row['call_sign']) && !empty($row['aircraft_type'])) {
@@ -72,6 +72,8 @@ class BookingsImport implements ToModel, WithHeadingRow, WithBatchInserts, WithC
             ]);
             $booking->flights()->create($flight->toArray());
         }
+
+        return null;
     }
 
     public function batchSize(): int

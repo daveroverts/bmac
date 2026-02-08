@@ -80,6 +80,7 @@ class LoginController extends Controller
             return to_route('home');
         }
 
+        /** @var \League\OAuth2\Client\Token\AccessToken $accessToken */
         $resourceOwner = json_decode(json_encode($this->provider->getResourceOwner($accessToken)->toArray()));
 
         $data = [
