@@ -4,9 +4,8 @@ declare(strict_types=1);
 
 use Rector\Caching\ValueObject\Storage\FileCacheStorage;
 use Rector\Config\RectorConfig;
-use RectorLaravel\Set\LaravelLevelSetList;
 use RectorLaravel\Set\LaravelSetList;
-use RectorLaravel\Set\Packages\Livewire\LivewireSetList;
+use RectorLaravel\Set\LaravelSetProvider;
 
 return RectorConfig::configure()
     ->withPaths([
@@ -32,11 +31,12 @@ return RectorConfig::configure()
         typeDeclarations: true,
         privatization: true,
         earlyReturn: true,
-        strictBooleans: true,
     )
     ->withSets([
-        LaravelLevelSetList::UP_TO_LARAVEL_100,
         LaravelSetList::LARAVEL_CODE_QUALITY,
         LaravelSetList::LARAVEL_COLLECTION,
-        LivewireSetList::LIVEWIRE_30,
-    ]);
+    ])
+    ->withSetProviders(
+        LaravelSetProvider::class,
+    )
+    ->withComposerBased(laravel:true);
