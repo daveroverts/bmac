@@ -14,8 +14,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
- *
- *
  * @property int $id
  * @property string|null $uuid
  * @property int $event_id
@@ -42,21 +40,21 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @property-write mixed $actype
  * @property-read \App\Models\User|null $user
  * @method static \Database\Factories\BookingFactory factory($count = null, $state = [])
- * @method static \Illuminate\Database\Eloquent\Builder|Booking newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Booking newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Booking query()
- * @method static \Illuminate\Database\Eloquent\Builder|Booking whereAcType($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Booking whereCallsign($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Booking whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Booking whereEventId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Booking whereFinalInformationEmailSentAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Booking whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Booking whereIsEditable($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Booking whereSelcal($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Booking whereStatus($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Booking whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Booking whereUserId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Booking whereUuid($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereAcType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereCallsign($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereEventId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereFinalInformationEmailSentAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereIsEditable($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereSelcal($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereUserId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereUuid($value)
  * @mixin \Eloquent
  */
 class Booking extends Model

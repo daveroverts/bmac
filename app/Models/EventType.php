@@ -9,18 +9,16 @@ use Spatie\Activitylog\Traits\LogsActivity;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
- *
- *
  * @property int $id
  * @property string $name
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Activitylog\Models\Activity> $activities
  * @property-read int|null $activities_count
  * @property-read \App\Models\Event|null $events
- * @method static Builder|EventType newModelQuery()
- * @method static Builder|EventType newQuery()
- * @method static Builder|EventType query()
- * @method static Builder|EventType whereId($value)
- * @method static Builder|EventType whereName($value)
+ * @method static Builder<static>|EventType newModelQuery()
+ * @method static Builder<static>|EventType newQuery()
+ * @method static Builder<static>|EventType query()
+ * @method static Builder<static>|EventType whereId($value)
+ * @method static Builder<static>|EventType whereName($value)
  * @mixin \Eloquent
  */
 class EventType extends Model

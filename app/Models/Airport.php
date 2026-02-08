@@ -11,8 +11,6 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
- *
- *
  * @property int $id
  * @property string $icao
  * @property string $iata
@@ -35,17 +33,17 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\AirportLink> $links
  * @property-read int|null $links_count
  * @method static \Database\Factories\AirportFactory factory($count = null, $state = [])
- * @method static Builder|Airport newModelQuery()
- * @method static Builder|Airport newQuery()
- * @method static Builder|Airport query()
- * @method static Builder|Airport whereCreatedAt($value)
- * @method static Builder|Airport whereIata($value)
- * @method static Builder|Airport whereIcao($value)
- * @method static Builder|Airport whereId($value)
- * @method static Builder|Airport whereLatitude($value)
- * @method static Builder|Airport whereLongitude($value)
- * @method static Builder|Airport whereName($value)
- * @method static Builder|Airport whereUpdatedAt($value)
+ * @method static Builder<static>|Airport newModelQuery()
+ * @method static Builder<static>|Airport newQuery()
+ * @method static Builder<static>|Airport query()
+ * @method static Builder<static>|Airport whereCreatedAt($value)
+ * @method static Builder<static>|Airport whereIata($value)
+ * @method static Builder<static>|Airport whereIcao($value)
+ * @method static Builder<static>|Airport whereId($value)
+ * @method static Builder<static>|Airport whereLatitude($value)
+ * @method static Builder<static>|Airport whereLongitude($value)
+ * @method static Builder<static>|Airport whereName($value)
+ * @method static Builder<static>|Airport whereUpdatedAt($value)
  * @mixin \Eloquent
  */
 class Airport extends Model
