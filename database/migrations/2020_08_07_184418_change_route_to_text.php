@@ -22,7 +22,7 @@ class ChangeRouteToText extends Migration
     public function down(): void
     {
         Schema::table('flights', function (Blueprint $table): void {
-            $table->string('route')->nullable();
+            $table->string('route')->nullable()->change();
         });
     }
 }
