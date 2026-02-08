@@ -28,3 +28,8 @@ _ide_helper*\.php
 .phpunit.cache/test-results
 
 .phpstan.neon
+
+# Local MCP files
+.junie/mcp/mcp.json
+.mcp.json
+opencode.json
