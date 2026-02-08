@@ -82,7 +82,8 @@
             "Illuminate\\Foundation\\ComposerScripts::postUpdate",
             "@php artisan ide-helper:generate",
             "@php artisan ide-helper:meta",
-            "@php artisan telescope:publish --ansi"
+            "@php artisan telescope:publish --ansi",
+            "@php artisan boost:update --ansi"
         ],
         "ide-helper": [
             "@php artisan ide-helper:generate",
