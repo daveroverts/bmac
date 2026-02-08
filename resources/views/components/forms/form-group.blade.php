@@ -1,7 +1,7 @@
 @props(['name' => null, 'label' => null, 'inline' => false, 'help'])
 
 @php
-$name = $name ?? $label
+$name = $name ?? $label;
 @endphp
 
 <div class="form-group">
