@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class RemoveFeedbackFromEventsTable extends Migration
+return new class extends Migration
 {
     /**
      * Run the migrations.
@@ -15,7 +15,6 @@ class RemoveFeedbackFromEventsTable extends Migration
             $table->dropColumn(['sendFeedbackForm', 'formSent']);
         });
     }
-
     /**
      * Reverse the migrations.
      */
@@ -26,4 +25,4 @@ class RemoveFeedbackFromEventsTable extends Migration
             $table->dateTime('sendFeedbackForm')->nullable()->after('endBooking');
         });
     }
-}
+};

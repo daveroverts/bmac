@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateAirportsTable extends Migration
+return new class extends Migration
 {
     /**
      * Run the migrations.
@@ -21,7 +21,6 @@ class CreateAirportsTable extends Migration
         });
         // DB::table('airports')->insert(['icao' => 'EHAM', 'iata' => 'AMS', 'name' => 'Amsterdam Airport Schiphol']);
     }
-
     /**
      * Reverse the migrations.
      */
@@ -29,4 +28,4 @@ class CreateAirportsTable extends Migration
     {
         Schema::dropIfExists('airports');
     }
-}
+};

@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class MakeDivisionNullableFromUsersTable extends Migration
+return new class extends Migration
 {
     /**
      * Run the migrations.
@@ -15,7 +15,6 @@ class MakeDivisionNullableFromUsersTable extends Migration
             $table->string('division')->nullable()->change();
         });
     }
-
     /**
      * Reverse the migrations.
      */
@@ -25,4 +24,4 @@ class MakeDivisionNullableFromUsersTable extends Migration
             $table->string('division')->change();
         });
     }
-}
+};

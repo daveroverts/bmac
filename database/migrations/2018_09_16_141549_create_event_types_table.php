@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateEventTypesTable extends Migration
+return new class extends Migration
 {
     /**
      * Run the migrations.
@@ -23,7 +23,6 @@ class CreateEventTypesTable extends Migration
         ];
         DB::table('event_types')->insert($types);
     }
-
     /**
      * Reverse the migrations.
      */
@@ -31,4 +30,4 @@ class CreateEventTypesTable extends Migration
     {
         Schema::dropIfExists('event_types');
     }
-}
+};

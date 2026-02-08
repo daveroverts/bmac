@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 
-class AddEtaToBookingsTable extends Migration
+return new class extends Migration
 {
     /**
      * Run the migrations.
@@ -12,7 +12,6 @@ class AddEtaToBookingsTable extends Migration
     public function up()
     {
     }
-
     /**
      * Reverse the migrations.
      *
@@ -21,4 +20,4 @@ class AddEtaToBookingsTable extends Migration
     public function down()
     {
     }
-}
+};

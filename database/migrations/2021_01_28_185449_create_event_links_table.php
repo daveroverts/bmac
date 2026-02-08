@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateEventLinksTable extends Migration
+return new class extends Migration
 {
     /**
      * Run the migrations.
@@ -26,7 +26,6 @@ class CreateEventLinksTable extends Migration
             $table->foreign('event_link_type_id')->references('id')->on('airport_link_types')->onUpdate('cascade')->onDelete('cascade');
         });
     }
-
     /**
      * Reverse the migrations.
      */
@@ -34,4 +33,4 @@ class CreateEventLinksTable extends Migration
     {
         Schema::dropIfExists('event_links');
     }
-}
+};

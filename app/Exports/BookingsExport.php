@@ -18,8 +18,6 @@ class BookingsExport implements FromCollection, WithColumnFormatting, WithMappin
 
     public function __construct(public Event $event, public ?bool $vacc)
     {
-        $this->event = $event;
-        $this->vacc = $vacc;
     }
 
     /**

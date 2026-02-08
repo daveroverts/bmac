@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddEventTypeToEventsTable extends Migration
+return new class extends Migration
 {
     /**
      * Run the migrations.
@@ -20,7 +20,6 @@ class AddEventTypeToEventsTable extends Migration
             $table->foreign('event_type_id')->references('id')->on('event_types');
         });
     }
-
     /**
      * Reverse the migrations.
      */
@@ -31,4 +30,4 @@ class AddEventTypeToEventsTable extends Migration
             $table->dropColumn('event_type_id');
         });
     }
-}
+};

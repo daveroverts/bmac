@@ -22,21 +22,11 @@ class ImportAirportsCommand extends Command
     protected $description = 'Import airports using the following file: https://raw.githubusercontent.com/mborsetti/airportsdata/main/airportsdata/airports.csv';
 
     /**
-     * Create a new command instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-    /**
      * Execute the console command.
      */
     public function handle(): int
     {
-        ImportAirportsJob::dispatch();
+        dispatch(new \App\Jobs\ImportAirportsJob());
 
         return Command::SUCCESS;
     }

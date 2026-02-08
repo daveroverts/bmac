@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class MakeAirportsNullableInFlightsTable extends Migration
+return new class extends Migration
 {
     /**
      * Run the migrations.
@@ -20,7 +20,6 @@ class MakeAirportsNullableInFlightsTable extends Migration
         //     $table->foreign('arr')->references('id')->on('airports')->nullOnDelete();
         // });
     }
-
     /**
      * Reverse the migrations.
      */
@@ -35,4 +34,4 @@ class MakeAirportsNullableInFlightsTable extends Migration
         //     $table->foreign('arr')->references('id')->on('airports');
         // });
     }
-}
+};

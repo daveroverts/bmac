@@ -83,29 +83,6 @@ class Event extends Model
         'id', 'slug',
     ];
 
-    /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array<string, string>
-     */
-    protected $casts = [
-        'is_online' => 'boolean',
-        'show_on_homepage' => 'boolean',
-        'image_url' => 'string',
-        'dep' => 'string',
-        'arr' => 'string',
-        'import_only' => 'boolean',
-        'uses_times' => 'boolean',
-        'multiple_bookings_allowed' => 'boolean',
-        'is_oceanic_event' => 'boolean',
-        'startEvent' => 'datetime',
-        'endEvent' => 'datetime',
-        'startBooking' => 'datetime',
-        'endBooking' => 'datetime',
-        'created_at' => 'datetime',
-        'updated_at' => 'datetime',
-    ];
-
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()->logOnlyDirty();
@@ -161,5 +138,30 @@ class Event extends Model
             \App\Enums\EventType::FLYIN->value,
             \App\Enums\EventType::GROUPFLIGHT->value
         ]);
+    }
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            'is_online' => 'boolean',
+            'show_on_homepage' => 'boolean',
+            'image_url' => 'string',
+            'dep' => 'string',
+            'arr' => 'string',
+            'import_only' => 'boolean',
+            'uses_times' => 'boolean',
+            'multiple_bookings_allowed' => 'boolean',
+            'is_oceanic_event' => 'boolean',
+            'startEvent' => 'datetime',
+            'endEvent' => 'datetime',
+            'startBooking' => 'datetime',
+            'endBooking' => 'datetime',
+            'created_at' => 'datetime',
+            'updated_at' => 'datetime',
+        ];
     }
 }

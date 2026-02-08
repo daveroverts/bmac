@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateEventsTable extends Migration
+return new class extends Migration
 {
     /**
      * Run the migrations.
@@ -25,7 +25,6 @@ class CreateEventsTable extends Migration
             $table->timestamps();
         });
     }
-
     /**
      * Reverse the migrations.
      */
@@ -33,4 +32,4 @@ class CreateEventsTable extends Migration
     {
         Schema::dropIfExists('events');
     }
-}
+};

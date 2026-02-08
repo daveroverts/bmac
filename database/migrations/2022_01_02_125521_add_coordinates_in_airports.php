@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddCoordinatesInAirports extends Migration
+return new class extends Migration
 {
     /**
      * Run the migrations.
@@ -16,7 +16,6 @@ class AddCoordinatesInAirports extends Migration
             $table->double('latitude')->after('name')->nullable();
         });
     }
-
     /**
      * Reverse the migrations.
      */
@@ -26,4 +25,4 @@ class AddCoordinatesInAirports extends Migration
             $table->dropColumn(['latitude', 'longitude']);
         });
     }
-}
+};

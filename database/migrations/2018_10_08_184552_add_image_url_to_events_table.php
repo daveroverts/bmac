@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddImageUrlToEventsTable extends Migration
+return new class extends Migration
 {
     /**
      * Run the migrations.
@@ -15,7 +15,6 @@ class AddImageUrlToEventsTable extends Migration
             $table->string('image_url')->after('slug')->nullable();
         });
     }
-
     /**
      * Reverse the migrations.
      */
@@ -25,4 +24,4 @@ class AddImageUrlToEventsTable extends Migration
             $table->dropColumn('image_url');
         });
     }
-}
+};

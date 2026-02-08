@@ -60,7 +60,7 @@ class AirportAdminController extends AdminController
             $airport->delete();
             flashMessage('success', __('Done'), __(':airport has been deleted!', ['airport' => sprintf('%s [%s | %s]', $airport->name, $airport->icao, $airport->iata)]));
 
-            return redirect()->back();
+            return back();
         }
 
         flashMessage(
@@ -68,7 +68,7 @@ class AirportAdminController extends AdminController
             __('Warning'),
             __(":airport could not be deleted! It's linked to another event", ['airport' => sprintf('%s [%s | %s]', $airport->name, $airport->icao, $airport->iata)])
         );
-        return redirect()->back();
+        return back();
     }
 
     public function destroyUnused()

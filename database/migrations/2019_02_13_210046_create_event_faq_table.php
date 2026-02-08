@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateEventFaqTable extends Migration
+return new class extends Migration
 {
     /**
      * Run the migrations.
@@ -19,7 +19,6 @@ class CreateEventFaqTable extends Migration
             $table->foreign('faq_id')->references('id')->on('faqs')->onDelete('cascade');
         });
     }
-
     /**
      * Reverse the migrations.
      */
@@ -27,4 +26,4 @@ class CreateEventFaqTable extends Migration
     {
         Schema::dropIfExists('event_faq');
     }
-}
+};

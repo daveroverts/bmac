@@ -68,13 +68,6 @@ class Booking extends Model
         'id', 'uuid', 'status', 'selcal',
     ];
 
-    protected $casts = [
-        'status' => BookingStatus::class,
-        'is_editable' => 'boolean',
-        'has_already_received_final_information_email' => 'boolean',
-        'final_information_email_sent_at' => 'datetime',
-    ];
-
     /**
      *  Setup model event hooks
      */
@@ -96,37 +89,37 @@ class Booking extends Model
         return 'uuid';
     }
 
-    public function getFormattedCallsignAttribute(): string
+    protected function getFormattedCallsignAttribute(): string
     {
         return $this->callsign ?: '-';
     }
 
-    public function getFormattedActypeAttribute(): string
+    protected function getFormattedActypeAttribute(): string
     {
         return $this->acType ?: '-';
     }
 
-    public function getFormattedSelcalAttribute(): string
+    protected function getFormattedSelcalAttribute(): string
     {
         return $this->selcal ?: '-';
     }
 
-    public function getHasReceivedFinalInformationEmailAttribute(): bool
+    protected function getHasReceivedFinalInformationEmailAttribute(): bool
     {
         return !empty($this->final_information_email_sent_at);
     }
 
-    public function setCallsignAttribute($value): void
+    protected function setCallsignAttribute($value): void
     {
         $this->attributes['callsign'] = empty($value) ? null : strtoupper((string) $value);
     }
 
-    public function setActypeAttribute($value): void
+    protected function setActypeAttribute($value): void
     {
         $this->attributes['acType'] = empty($value) ? null : strtoupper((string) $value);
     }
 
-    public function setSelcalAttribute($value): void
+    protected function setSelcalAttribute($value): void
     {
         $this->attributes['selcal'] = empty($value) ? null : strtoupper((string) $value);
     }
@@ -179,5 +172,14 @@ class Booking extends Model
         });
 
         return $airports->unique();
+    }
+    protected function casts(): array
+    {
+        return [
+            'status' => BookingStatus::class,
+            'is_editable' => 'boolean',
+            'has_already_received_final_information_email' => 'boolean',
+            'final_information_email_sent_at' => 'datetime',
+        ];
     }
 }

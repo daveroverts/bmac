@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddShowOnHomepageToEventsTable extends Migration
+return new class extends Migration
 {
     /**
      * Run the migrations.
@@ -15,7 +15,6 @@ class AddShowOnHomepageToEventsTable extends Migration
             $table->boolean('show_on_homepage')->after('is_online')->default(true);
         });
     }
-
     /**
      * Reverse the migrations.
      */
@@ -25,4 +24,4 @@ class AddShowOnHomepageToEventsTable extends Migration
             $table->dropColumn('show_on_homepage');
         });
     }
-}
+};

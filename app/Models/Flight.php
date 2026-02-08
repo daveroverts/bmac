@@ -62,16 +62,6 @@ class Flight extends Model
     protected $guarded = ['id'];
 
     /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array<string, string>
-     */
-    protected $casts = [
-        'ctot' => 'datetime',
-        'eta' => 'datetime',
-    ];
-
-    /**
      * The relationships that should be touched on save.
      *
      * @var array
@@ -83,7 +73,7 @@ class Flight extends Model
         return LogOptions::defaults()->logOnlyDirty();
     }
 
-    public function getFormattedCtotAttribute(): string
+    protected function getFormattedCtotAttribute(): string
     {
         if (!empty($this->ctot)) {
             return $this->ctot->format('Hi') . 'z';
@@ -92,7 +82,7 @@ class Flight extends Model
         return '-';
     }
 
-    public function getFormattedEtaAttribute(): string
+    protected function getFormattedEtaAttribute(): string
     {
         if (!empty($this->eta)) {
             return $this->eta->format('Hi') . 'z';
@@ -101,7 +91,7 @@ class Flight extends Model
         return '-';
     }
 
-    public function getFormattedOceanicflAttribute(): string
+    protected function getFormattedOceanicflAttribute(): string
     {
         if ($this->oceanicFL) {
             return 'FL' . $this->oceanicFL;
@@ -110,17 +100,17 @@ class Flight extends Model
         return '-';
     }
 
-    public function getFormattedNotesAttribute(): string
+    protected function getFormattedNotesAttribute(): string
     {
         return $this->notes ?: '-';
     }
 
-    public function setRouteAttribute($value): void
+    protected function setRouteAttribute($value): void
     {
         $this->attributes['route'] = empty($value) ? null : strtoupper((string) $value);
     }
 
-    public function setOceanictrackAttribute($value): void
+    protected function setOceanictrackAttribute($value): void
     {
         $this->attributes['oceanicTrack'] = empty($value) ? null : strtoupper((string) $value);
     }
@@ -138,5 +128,17 @@ class Flight extends Model
     public function airportArr(): HasOne
     {
         return $this->hasOne(Airport::class, 'id', 'arr')->withDefault();
+    }
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            'ctot' => 'datetime',
+            'eta' => 'datetime',
+        ];
     }
 }

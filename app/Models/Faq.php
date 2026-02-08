@@ -40,10 +40,6 @@ class Faq extends Model
 
     protected $guarded = ['id'];
 
-    protected $casts = [
-        'is_online' => 'boolean',
-    ];
-
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()->logOnlyDirty();
@@ -52,5 +48,11 @@ class Faq extends Model
     public function events(): BelongsToMany
     {
         return $this->belongsToMany(Event::class);
+    }
+    protected function casts(): array
+    {
+        return [
+            'is_online' => 'boolean',
+        ];
     }
 }

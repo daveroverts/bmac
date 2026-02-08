@@ -75,17 +75,6 @@ class User extends Authenticatable
         'remember_token',
     ];
 
-    /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array<string, string>
-     */
-    protected $casts = [
-        'isAdmin' => 'boolean',
-        'use_monospace_font' => 'boolean',
-        'airport_view' => AirportView::class,
-    ];
-
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()->logOnlyDirty();
@@ -96,12 +85,12 @@ class User extends Authenticatable
         return $this->hasMany(Booking::class);
     }
 
-    public function getFullNameAttribute(): string
+    protected function getFullNameAttribute(): string
     {
         return ucfirst($this->name_first) . ' ' . ucfirst($this->name_last);
     }
 
-    public function getPicAttribute(): string
+    protected function getPicAttribute(): string
     {
         if (!empty($this->full_name) && !empty($this->id)) {
             return sprintf('%s | %s', $this->full_name, $this->id);
@@ -110,7 +99,7 @@ class User extends Authenticatable
         return '-';
     }
 
-    public function getTokenAttribute(): ?AccessToken
+    protected function getTokenAttribute(): ?AccessToken
     {
         if ($this->access_token === null) {
             return null;
@@ -135,5 +124,18 @@ class User extends Authenticatable
         ]);
 
         return $token;
+    }
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            'isAdmin' => 'boolean',
+            'use_monospace_font' => 'boolean',
+            'airport_view' => AirportView::class,
+        ];
     }
 }

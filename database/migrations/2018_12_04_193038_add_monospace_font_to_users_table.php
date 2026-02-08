@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddMonospaceFontToUsersTable extends Migration
+return new class extends Migration
 {
     /**
      * Run the migrations.
@@ -15,7 +15,6 @@ class AddMonospaceFontToUsersTable extends Migration
             $table->boolean('use_monospace_font')->after('airport_view')->default(false);
         });
     }
-
     /**
      * Reverse the migrations.
      */
@@ -25,4 +24,4 @@ class AddMonospaceFontToUsersTable extends Migration
             $table->dropColumn('use_monospace_font');
         });
     }
-}
+};

@@ -15,8 +15,6 @@ class EventFinalInformation extends Notification implements ShouldQueue
 
     /**
      * Create a new notification instance.
-     *
-     * @return void
      */
     public function __construct(public Booking $booking)
     {

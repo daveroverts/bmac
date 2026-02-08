@@ -12,7 +12,7 @@ class RouteAssign extends Request
     public function rules(): array
     {
         return [
-            'file' => 'required|file',
+            'file' => ['required', 'file'],
         ];
     }
 }

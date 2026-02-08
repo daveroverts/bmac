@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddIseditableToBookingsTable extends Migration
+return new class extends Migration
 {
     /**
      * Run the migrations.
@@ -15,7 +15,6 @@ class AddIseditableToBookingsTable extends Migration
             $table->boolean('is_editable')->after('status')->default(false);
         });
     }
-
     /**
      * Reverse the migrations.
      */
@@ -25,4 +24,4 @@ class AddIseditableToBookingsTable extends Migration
             $table->dropColumn('is_editable');
         });
     }
-}
+};

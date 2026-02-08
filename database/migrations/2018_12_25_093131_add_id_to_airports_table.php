@@ -2,10 +2,9 @@
 
 use Illuminate\Database\Migrations\Migration;
 
-class AddIdToAirportsTable extends Migration
+return new class extends Migration
 {
     // I hate myself so much for this
-
     /**
      * Run the migrations.
      *
@@ -14,7 +13,6 @@ class AddIdToAirportsTable extends Migration
     public function up()
     {
     }
-
     /**
      * Reverse the migrations.
      *
@@ -23,4 +21,4 @@ class AddIdToAirportsTable extends Migration
     public function down()
     {
     }
-}
+};

@@ -120,11 +120,11 @@ class EventAdminController extends AdminController
         if ($event->startEvent > now()) {
             $event->delete();
             flashMessage('success', __('Done'), __(':event has been deleted!', ['event' => $event->name]));
-            return redirect()->back();
+            return back();
         }
 
         flashMessage('danger', __('Danger'), __('Event can no longer be deleted!'));
-        return redirect()->back();
+        return back();
     }
 
     public function sendEmailForm(Event $event): View
@@ -174,7 +174,7 @@ class EventAdminController extends AdminController
         }
 
         $message = __('Final Information has been sent to :count people!', ['count' => $count]);
-        if ($countSkipped != 0) {
+        if ($countSkipped !== 0) {
             $message .= ' ' . __('However, :count where skipped, because they already received one', ['count' => $count]);
         }
 
