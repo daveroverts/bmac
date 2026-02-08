@@ -15,6 +15,7 @@ return new class extends Migration
             $table->text('notes')->nullable()->after('route');
         });
     }
+
     /**
      * Reverse the migrations.
      */

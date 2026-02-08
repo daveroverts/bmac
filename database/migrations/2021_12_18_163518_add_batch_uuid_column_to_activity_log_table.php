@@ -12,6 +12,7 @@ return new class extends Migration
             $table->uuid('batch_uuid')->nullable()->after('properties');
         });
     }
+
     public function down(): void
     {
         Schema::connection(config('activitylog.database_connection'))->table(config('activitylog.table_name'), function (Blueprint $table): void {

@@ -13,6 +13,7 @@ return new class extends Migration
             'id' => 4, 'name' => 'Groupflight'
         ]);
     }
+
     /**
      * Reverse the migrations.
      */

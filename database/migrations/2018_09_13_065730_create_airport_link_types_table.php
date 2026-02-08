@@ -25,6 +25,7 @@ return new class extends Migration
         ];
         DB::table('airport_link_types')->insert($types);
     }
+
     /**
      * Reverse the migrations.
      */

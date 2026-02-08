@@ -47,6 +47,7 @@ class Faq extends Model
     {
         return $this->belongsToMany(Event::class);
     }
+
     protected function casts(): array
     {
         return [

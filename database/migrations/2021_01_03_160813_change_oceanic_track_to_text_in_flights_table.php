@@ -15,6 +15,7 @@ return new class extends Migration
             $table->text('oceanicTrack')->nullable()->change();
         });
     }
+
     /**
      * Reverse the migrations.
      */

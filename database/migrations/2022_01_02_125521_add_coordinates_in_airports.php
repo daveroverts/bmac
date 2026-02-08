@@ -16,6 +16,7 @@ return new class extends Migration
             $table->double('latitude')->after('name')->nullable();
         });
     }
+
     /**
      * Reverse the migrations.
      */

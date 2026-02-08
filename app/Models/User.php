@@ -67,7 +67,7 @@ class User extends Authenticatable
     /**
      * The attributes that should be hidden for arrays.
      *
-     * @var array<int, string>
+     * @var list<string>
      */
     protected $hidden = [
         'remember_token',
@@ -123,6 +123,7 @@ class User extends Authenticatable
 
         return $token;
     }
+
     /**
      * The attributes that should be cast to native types.
      *

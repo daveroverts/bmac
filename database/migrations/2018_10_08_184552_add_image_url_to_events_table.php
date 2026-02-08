@@ -15,6 +15,7 @@ return new class extends Migration
             $table->string('image_url')->after('slug')->nullable();
         });
     }
+
     /**
      * Reverse the migrations.
      */

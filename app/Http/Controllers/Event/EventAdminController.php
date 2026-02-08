@@ -157,13 +157,16 @@ class EventAdminController extends AdminController
             ->get();
 
         if ($request->testmode) {
-            event(new EventFinalInformation($bookings->random(), $request->user()));
+            /** @var \App\Models\Booking $randomBooking */
+            $randomBooking = $bookings->random();
+            event(new EventFinalInformation($randomBooking, $request->user()));
 
             return response()->json(['success' => __('Email has been sent to yourself')]);
         }
 
         $count = $bookings->count();
         $countSkipped = 0;
+        /** @var \App\Models\Booking $booking */
         foreach ($bookings as $booking) {
             if (!$booking->has_received_final_information_email || $request->forceSend) {
                 event(new EventFinalInformation($booking));

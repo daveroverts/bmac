@@ -15,6 +15,7 @@ return new class extends Migration
             $table->boolean('is_online')->after('event_type_id')->default(true);
         });
     }
+
     /**
      * Reverse the migrations.
      */

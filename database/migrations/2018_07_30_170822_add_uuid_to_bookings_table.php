@@ -21,6 +21,7 @@ return new class extends Migration
             $booking->save();
         }
     }
+
     /**
      * Reverse the migrations.
      */

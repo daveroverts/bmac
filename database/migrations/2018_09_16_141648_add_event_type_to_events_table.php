@@ -20,6 +20,7 @@ return new class extends Migration
             $table->foreign('event_type_id')->references('id')->on('event_types');
         });
     }
+
     /**
      * Reverse the migrations.
      */

@@ -15,6 +15,7 @@ return new class extends Migration
             $table->boolean('show_on_homepage')->after('is_online')->default(true);
         });
     }
+
     /**
      * Reverse the migrations.
      */

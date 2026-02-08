@@ -15,6 +15,7 @@ return new class extends Migration
             $table->boolean('use_monospace_font')->after('airport_view')->default(false);
         });
     }
+
     /**
      * Reverse the migrations.
      */

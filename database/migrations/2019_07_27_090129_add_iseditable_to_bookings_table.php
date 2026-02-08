@@ -15,6 +15,7 @@ return new class extends Migration
             $table->boolean('is_editable')->after('status')->default(false);
         });
     }
+
     /**
      * Reverse the migrations.
      */

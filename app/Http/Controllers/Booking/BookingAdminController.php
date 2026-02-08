@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Booking;
 
-use Carbon\Carbon;
 use App\Models\Event;
 use App\Models\Flight;
 use App\Models\Airport;
@@ -278,6 +277,7 @@ class BookingAdminController extends AdminController
         $count = 0;
         $flOdd = $request->maxFL;
         $flEven = $request->minFL;
+        /** @var Booking $booking */
         foreach ($bookings as $booking) {
             $flight = $booking->flights()->first();
             $count++;

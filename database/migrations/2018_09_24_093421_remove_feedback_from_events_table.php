@@ -15,6 +15,7 @@ return new class extends Migration
             $table->dropColumn(['sendFeedbackForm', 'formSent']);
         });
     }
+
     /**
      * Reverse the migrations.
      */

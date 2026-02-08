@@ -16,6 +16,7 @@ return new class extends Migration
             $table->tinyInteger('status')->unsigned()->after('event_id')->default(BookingStatus::UNASSIGNED);
         });
     }
+
     /**
      * Reverse the migrations.
      */

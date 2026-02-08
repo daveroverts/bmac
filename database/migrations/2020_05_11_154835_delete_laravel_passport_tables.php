@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::dropIfExists('oauth_personal_access_clients');
         Schema::dropIfExists('oauth_refresh_tokens');
     }
+
     /**
      * Reverse the migrations.
      */

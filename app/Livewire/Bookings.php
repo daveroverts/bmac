@@ -60,25 +60,11 @@ class Bookings extends Component
     #[Computed]
     public function bookings()
     {
-        return $this->event->bookings()
+        /** @var \Illuminate\Database\Eloquent\Collection<int, \App\Models\Booking> $bookings */
+        $bookings = $this->event->bookings()
             ->with([
                 'event',
                 'user',
-//                'flights' => function ($query) {
-//                    switch ($this->filter) {
-//                        case 'departures':
-//                            $query->where('dep', $this->event->dep)
-//                                ->orderBy('ctot');
-//                            break;
-//                        case 'arrivals':
-//                            $query->where('arr', $this->event->arr)
-//                                ->orderBy('eta');
-//                            break;
-//                        default:
-//                            $query->orderBy('eta')
-//                                ->orderBy('ctot');
-//                    }
-//                },
                 'flights.airportDep',
                 'flights.airportArr',
             ])
@@ -89,18 +75,19 @@ class Bookings extends Component
                     default => $query->orderBy('eta')->orderBy('ctot'),
                 };
             })
-            ->get()
-            ->sortBy(function ($booking) {
-                switch ($this->filter) {
-                    case 'departures':
-                        return $booking->flights->first()->ctot?->timestamp;
-                    case 'arrivals':
-                        return $booking->flights->first()->eta?->timestamp;
-                    default:
-                        $flight = $booking->flights->first();
-                        // Default needs to order by eta, if not filled in, by ctot
-                        return $flight->eta?->timestamp ?: $flight->ctot?->timestamp;
-                }
-            });
+            ->get();
+
+        return $bookings->sortBy(function (\App\Models\Booking $booking) {
+            switch ($this->filter) {
+                case 'departures':
+                    return $booking->flights->first()?->ctot?->timestamp;
+                case 'arrivals':
+                    return $booking->flights->first()?->eta?->timestamp;
+                default:
+                    $flight = $booking->flights->first();
+                    // Default needs to order by eta, if not filled in, by ctot
+                    return $flight?->eta?->timestamp ?: $flight?->ctot?->timestamp;
+            }
+        });
     }
 }

@@ -163,14 +163,18 @@ class Booking extends Model
     public function uniqueAirports(): Collection
     {
         $airports = collect();
-        $this->flights()->each(function ($flight) use ($airports): void {
-            /* @var Flight $flight */
+
+        /** @var \Illuminate\Database\Eloquent\Collection<int, Flight> $flights */
+        $flights = $this->flights()->get();
+
+        $flights->each(function (Flight $flight) use ($airports): void {
             $airports->push($flight->airportDep);
             $airports->push($flight->airportArr);
         });
 
         return $airports->unique();
     }
+
     protected function casts(): array
     {
         return [

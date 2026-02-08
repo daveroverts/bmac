@@ -15,6 +15,7 @@ return new class extends Migration
             $table->string('uuid')->after('id')->nullable()->unique();
         });
     }
+
     /**
      * Reverse the migrations.
      */

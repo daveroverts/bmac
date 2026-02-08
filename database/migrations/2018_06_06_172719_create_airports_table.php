@@ -21,6 +21,7 @@ return new class extends Migration
         });
         // DB::table('airports')->insert(['icao' => 'EHAM', 'iata' => 'AMS', 'name' => 'Amsterdam Airport Schiphol']);
     }
+
     /**
      * Reverse the migrations.
      */

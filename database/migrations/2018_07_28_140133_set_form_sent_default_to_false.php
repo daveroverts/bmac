@@ -15,6 +15,7 @@ return new class extends Migration
             $table->boolean('formSent')->default(0)->change();
         });
     }
+
     /**
      * Reverse the migrations.
      */

@@ -137,6 +137,7 @@ class Event extends Model
             \App\Enums\EventType::GROUPFLIGHT->value
         ]);
     }
+
     /**
      * The attributes that should be cast to native types.
      *

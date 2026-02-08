@@ -127,6 +127,7 @@ class Flight extends Model
     {
         return $this->hasOne(Airport::class, 'id', 'arr')->withDefault();
     }
+
     /**
      * The attributes that should be cast to native types.
      *

@@ -13,6 +13,7 @@ return new class extends Migration
             'id' => 5, 'name' => 'Multi flights'
         ]);
     }
+
     /**
      * Reverse the migrations.
      */

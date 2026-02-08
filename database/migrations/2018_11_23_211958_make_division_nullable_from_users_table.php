@@ -15,6 +15,7 @@ return new class extends Migration
             $table->string('division')->nullable()->change();
         });
     }
+
     /**
      * Reverse the migrations.
      */

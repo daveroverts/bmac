@@ -16,6 +16,7 @@ return new class extends Migration
             $table->tinyInteger('airport_view')->after('isAdmin')->default(AirportView::NAME);
         });
     }
+
     /**
      * Reverse the migrations.
      */

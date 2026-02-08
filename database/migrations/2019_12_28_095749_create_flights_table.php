@@ -29,6 +29,7 @@ return new class extends Migration
             $table->foreign('arr')->references('id')->on('airports');
         });
     }
+
     /**
      * Reverse the migrations.
      */

@@ -19,6 +19,7 @@ return new class extends Migration
             $table->foreign('faq_id')->references('id')->on('faqs')->onDelete('cascade');
         });
     }
+
     /**
      * Reverse the migrations.
      */

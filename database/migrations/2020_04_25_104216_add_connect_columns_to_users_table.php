@@ -20,6 +20,7 @@ return new class extends Migration
             $table->dropColumn(['country', 'region', 'division']);
         });
     }
+
     /**
      * Reverse the migrations.
      */

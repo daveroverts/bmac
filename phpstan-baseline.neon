@@ -31,19 +31,9 @@ parameters:
 			path: app/Http/Middleware/VerifyCsrfToken.php
 
 		-
-			message: "#^Cannot access property \\$event on object\\|string\\.$#"
-			count: 1
-			path: app/Http/Requests/Booking/UpdateBooking.php
-
-		-
 			message: "#^Return type \\(void\\) of method App\\\\Imports\\\\BookingsImport\\:\\:model\\(\\) should be compatible with return type \\(array\\<Illuminate\\\\Database\\\\Eloquent\\\\Model\\>\\|Illuminate\\\\Database\\\\Eloquent\\\\Model\\|null\\) of method Maatwebsite\\\\Excel\\\\Concerns\\\\ToModel\\:\\:model\\(\\)$#"
 			count: 1
 			path: app/Imports/BookingsImport.php
-
-		-
-			message: "#^Undefined variable\\: \\$this$#"
-			count: 2
-			path: app/Livewire/Bookings.php
 
 		-
 			message: "#^PHPDoc type array of property App\\\\Providers\\\\EventServiceProvider\\:\\:\\$listen is not covariant with PHPDoc type array\\<string, array\\<int, string\\>\\> of overridden property Illuminate\\\\Foundation\\\\Support\\\\Providers\\\\EventServiceProvider\\:\\:\\$listen\\.$#"

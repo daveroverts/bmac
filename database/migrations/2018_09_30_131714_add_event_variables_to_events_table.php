@@ -18,6 +18,7 @@ return new class extends Migration
             $table->boolean('import_only')->default(false)->after('endBooking');
         });
     }
+
     /**
      * Reverse the migrations.
      */

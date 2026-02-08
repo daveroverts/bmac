@@ -13,7 +13,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        if (env('DB_LOWER_STRING_LENGTH')) {
+        if (config('database.lower_string_length')) {
             Schema::defaultStringLength(191);
         }
 

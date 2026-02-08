@@ -23,6 +23,7 @@ return new class extends Migration
         ];
         DB::table('event_types')->insert($types);
     }
+
     /**
      * Reverse the migrations.
      */

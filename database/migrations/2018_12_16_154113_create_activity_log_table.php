@@ -25,6 +25,7 @@ return new class extends Migration
             $table->index('log_name');
         });
     }
+
     /**
      * Reverse the migrations.
      */

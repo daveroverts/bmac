@@ -17,6 +17,8 @@ return [
 
     'default' => env('DB_CONNECTION', 'mysql'),
 
+    'lower_string_length' => env('DB_LOWER_STRING_LENGTH', false),
+
     /*
     |--------------------------------------------------------------------------
     | Database Connections

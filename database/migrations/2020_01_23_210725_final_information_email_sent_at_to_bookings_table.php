@@ -15,6 +15,7 @@ return new class extends Migration
             $table->dateTime('final_information_email_sent_at')->nullable()->after('selcal');
         });
     }
+
     /**
      * Reverse the migrations.
      */

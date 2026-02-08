@@ -16,6 +16,7 @@ return new class extends Migration
         //     $table->dropUnique('users_email_unique');
         // });
     }
+
     /**
      * Reverse the migrations.
      */

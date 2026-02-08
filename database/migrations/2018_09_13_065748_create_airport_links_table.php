@@ -26,6 +26,7 @@ return new class extends Migration
             $table->foreign('airportLinkType_id')->references('id')->on('airport_link_types')->onDelete('cascade');
         });
     }
+
     /**
      * Reverse the migrations.
      */
