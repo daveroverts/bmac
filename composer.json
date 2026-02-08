@@ -68,11 +68,23 @@
         }
     },
     "scripts": {
+        "setup": [
+            "composer install",
+            "@php -r \"file_exists('.env') || copy('.env.example', '.env');\"",
+            "@php artisan key:generate --ansi",
+            "@php artisan migrate --force",
+            "npm install",
+            "npm run build"
+        ],
+        "dev": [
+            "Composer\\Config::disableProcessTimeout",
+            "npm run dev"
+        ],
         "post-root-package-install": [
             "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
         ],
         "post-create-project-cmd": [
-            "@php artisan key:generate"
+            "@php artisan key:generate --ansi"
         ],
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
@@ -93,7 +105,10 @@
             "@php artisan ide-helper:meta",
             "@php artisan ide-helper:models -N"
         ],
-        "test": "vendor/bin/pest",
+        "test": [
+            "@php artisan config:clear --ansi",
+            "vendor/bin/pest"
+        ],
         "format": "vendor/bin/pint",
         "phpstan" : "vendor/bin/phpstan analyse --ansi",
         "rector": "vendor/bin/rector process --ansi"
