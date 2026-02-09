@@ -27,6 +27,7 @@ however, this system is already ready to be used for more events.
 ## Tech Stack
 
 - Laravel
+- Vite
 - Bootstrap 4
 - Bootswatch 4 Flatly theme
 
@@ -71,11 +72,10 @@ Before you begin, make sure you have a server with the following installed:
     - php_simplexml
     - php_xmlreader
     - php_zlib
-- NodeJS: I recommend LTS (v18 at time of writing), minimum v16
+- NodeJS: LTS recommended (v22 at time of writing), minimum v18
 
 For local development,
-I use [Laravel Valet](https://laravel.com/docs/9.x/valet),
-and before that I used [Laravel Homestead](https://laravel.com/docs/9.x/homestead).
+I recommend [Laravel Herd](https://herd.laravel.com).
 
 1. Clone the project
 
@@ -116,19 +116,19 @@ and before that I used [Laravel Homestead](https://laravel.com/docs/9.x/homestea
    - `QUEUE_CONNECTION`
      - For local, you can use `sync` with no issues
      - In a production environment, I recommend you use something else,
-     like `database` or `redis`. More info can be found [here](https://laravel.com/docs/9.x/queues)
+     like `database` or `redis`. More info can be found [here](https://laravel.com/docs/queues)
        - When you use `database`, the `jobs` table is already migrated,
        no need to do that again.
        - When you use `redis`, and can't use `phpredis` PHP extension,
        `predis` is already in the `composer.json` file,
        no need to require it again. You do need to add `REDIS_CLIENT=predis`.
-       See this link for more information about Redis and Laravel: <https://laravel.com/docs/9.x/redis#introduction>
+       See this link for more information about Redis and Laravel: <https://laravel.com/docs/redis#introduction>
    - `MAIL_*`
      - As required
      - `MAIL_MAILER`: For testing, you can use something like
      [Mailtrap](https://mailtrap.io/) (online) or
-     [Mailhog](https://github.com/mailhog/MailHog)
-     (local, included with [Laravel Homestead](https://laravel.com/docs/9.x/homestead))
+     [Mailpit](https://github.com/axllent/mailpit)
+     (local, included with [Laravel Homestead](https://laravel.com/docs/homestead))
      - `MAIL_FROM_ADDRESS`: This will be used as the `From` email.
      Don't forget to set this.
      - `MAIL_FROM_NAME`: This will be used as the `From` name
@@ -146,12 +146,13 @@ and before that I used [Laravel Homestead](https://laravel.com/docs/9.x/homestea
    Production:
 
    ```bash
-     composer install --optimize-autoloader --no-dev
-     php artisan key:generate # Only needed for first deployment
-     php artisan migrate
-     php artisan storage:link # Only needed for first deployment
-     npm ci
-     npm run build
+      composer install --optimize-autoloader --no-dev
+      php artisan key:generate # Only needed for first deployment
+      php artisan migrate
+      php artisan storage:link # Only needed for first deployment
+      php artisan optimize
+      npm ci
+      npm run build
    ```
 
    Development:
@@ -179,7 +180,7 @@ and before that I used [Laravel Homestead](https://laravel.com/docs/9.x/homestea
     For local development,
     you can run `php artisan schedule:work` in a separate terminal.
 
-    More info can be found here: <https://laravel.com/docs/9.x/scheduling#running-the-scheduler>
+    More info can be found here: <https://laravel.com/docs/scheduling#running-the-scheduler>
 
 8. (Optional) If you want to include all airports in the database,
 run the following command:
@@ -199,7 +200,7 @@ run the following command:
 
 If you're not using `sync` as `QUEUE_CONNECTION`, you need to run a queue worker,
 or else things like emails aren't being sent.
-Check Laravel documentation on how to set one up using Supervisor <https://laravel.com/docs/9.x/queues#supervisor-configuration>
+Check Laravel documentation on how to set one up using Supervisor <https://laravel.com/docs/queues#supervisor-configuration>
 
-When you're using `redis` as `QUEUE_CONNECTION`, [Laravel Horizon](https://laravel.com/docs/9.x/horizon)
+When you're using `redis` as `QUEUE_CONNECTION`, [Laravel Horizon](https://laravel.com/docs/horizon)
 is already installed and can be used to start a queue worker.
