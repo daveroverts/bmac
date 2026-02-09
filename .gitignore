@@ -31,5 +31,6 @@ _ide_helper*\.php
 .junie/mcp/mcp.json
 .mcp.json
 opencode.json
-
 .ai/mcp/mcp.json
+.claude/settings.local.json
+
