@@ -9,6 +9,7 @@ jobs:
     name: Test PHP ${{ matrix.php-versions }} (${{ matrix.stability }}) + Node ${{ matrix.node }} with MySQL
     runs-on: ubuntu-latest
     env:
+      DB_CONNECTION: mysql
       DB_DATABASE: laravel
       DB_USERNAME: root
       DB_PASSWORD: password
