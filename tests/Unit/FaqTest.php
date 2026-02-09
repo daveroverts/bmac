@@ -6,7 +6,7 @@ use App\Models\Event;
 use App\Models\Faq;
 use Tests\TestCase;
 
-it('creates new FAQ', function () {
+it('creates new FAQ', function (): void {
     /** @var TestCase $this */
 
     /** @var Faq $faq */
@@ -19,7 +19,7 @@ it('creates new FAQ', function () {
     ]);
 });
 
-it('links faq to event', function () {
+it('links faq to event', function (): void {
     /** @var TestCase $this */
 
     /** @var Event $event */

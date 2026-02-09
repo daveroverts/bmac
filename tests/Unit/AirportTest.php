@@ -5,7 +5,7 @@ namespace Tests\Unit;
 use App\Models\Airport;
 use Tests\TestCase;
 
-it('creates new airport', function () {
+it('creates new airport', function (): void {
     /** @var TestCase $this */
 
     /** @var Airport $airport */

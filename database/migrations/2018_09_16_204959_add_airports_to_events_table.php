@@ -4,21 +4,19 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddAirportsToEventsTable extends Migration
+return new class extends Migration
 {
     /**
      * Run the migrations.
-     *
-     * @return void
      */
-    public function up()
+    public function up(): void
     {
-        Schema::table('events', function (Blueprint $table) {
+        Schema::table('events', function (Blueprint $table): void {
             $table->unsignedInteger('arr')->after('description')->nullable();
             $table->unsignedInteger('dep')->after('description')->nullable();
         });
 
-        Schema::table('events', function (Blueprint $table) {
+        Schema::table('events', function (Blueprint $table): void {
             $table->foreign('dep')->references('id')->on('airports');
             $table->foreign('arr')->references('id')->on('airports');
         });
@@ -26,15 +24,13 @@ class AddAirportsToEventsTable extends Migration
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
-    public function down()
+    public function down(): void
     {
-        Schema::table('events', function (Blueprint $table) {
+        Schema::table('events', function (Blueprint $table): void {
             $table->dropForeign(['dep']);
             $table->dropForeign(['arr']);
             $table->dropColumn(['dep', 'arr']);
         });
     }
-}
+};

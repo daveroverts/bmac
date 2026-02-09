@@ -1,0 +1,15 @@
+{
+    "agents": [
+        "junie",
+        "claude_code",
+        "opencode"
+    ],
+    "guidelines": true,
+    "herd_mcp": true,
+    "mcp": true,
+    "sail": false,
+    "skills": [
+        "livewire-development",
+        "pest-testing"
+    ]
+}

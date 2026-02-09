@@ -20,8 +20,6 @@ class ImportAirportsJob implements ShouldQueue, ShouldBeUnique
 
     /**
      * Create a new job instance.
-     *
-     * @return void
      */
     public function __construct()
     {
@@ -30,8 +28,6 @@ class ImportAirportsJob implements ShouldQueue, ShouldBeUnique
 
     /**
      * Execute the job.
-     *
-     * @return void
      */
     public function handle(): void
     {
@@ -41,7 +37,7 @@ class ImportAirportsJob implements ShouldQueue, ShouldBeUnique
             file_get_contents('https://raw.githubusercontent.com/mborsetti/airportsdata/main/airportsdata/airports.csv')
         );
         (new AirportsImport())->queue($file)->chain([
-            function () use ($file) {
+            function () use ($file): void {
                 Storage::delete($file);
             }
         ]);

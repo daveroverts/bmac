@@ -6,9 +6,10 @@ on:
   pull_request:
 jobs:
   test-php-mysql:
-    name: Test PHP ${{ matrix.php-versions }} (${{ matrix.stability }}) + Node ${{ matrix.node }} + ${{ matrix.os }} with MySQL
+    name: Test PHP ${{ matrix.php-versions }} (${{ matrix.stability }}) + Node ${{ matrix.node }} with MySQL
     runs-on: ubuntu-latest
     env:
+      DB_CONNECTION: mysql
       DB_DATABASE: laravel
       DB_USERNAME: root
       DB_PASSWORD: password
@@ -34,10 +35,9 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php-versions: ["8.2", "8.3"]
-        node: [16, 18, 20, 22]
+        php-versions: ["8.3", "8.4"]
+        node: [20, 22]
         stability: [prefer-lowest, prefer-stable]
-        os: [ubuntu-latest, windows-latest]
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -57,7 +57,7 @@ jobs:
       - name: Start mysql service
         run: sudo systemctl start mysql.service
 
-      - uses: ramsey/composer-install@v2
+      - uses: ramsey/composer-install@v3
 
       - name: Prepare the application
         run: |
@@ -75,7 +75,7 @@ jobs:
       - name: Build assets
         run: |
           npm ci
-          npm run production --no-progress
+          npm run build --no-progress
 
       - name: Run Migration
         run: php artisan migrate -v
@@ -90,7 +90,7 @@ jobs:
           # REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
 
   test-php-postgresql:
-    name: Test PHP ${{ matrix.php-versions }} (${{ matrix.stability }}) + Node ${{ matrix.node }} + ${{ matrix.os }} with PostgreSQL
+    name: Test PHP ${{ matrix.php-versions }} (${{ matrix.stability }}) + Node ${{ matrix.node }} with PostgreSQL
     runs-on: ubuntu-latest
     env:
       BROADCAST_DRIVER: log
@@ -120,10 +120,9 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php-versions: ["8.2", "8.3"]
-        node: [16, 18, 20, 22]
+        php-versions: [8.3", "8.4"]
+        node: [20, 22]
         stability: [prefer-lowest, prefer-stable]
-        os: [ubuntu-latest, windows-latest]
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -140,7 +139,7 @@ jobs:
           echo "::add-matcher::${{ runner.tool_cache }}/php.json"
           echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
 
-      - uses: ramsey/composer-install@v2
+      - uses: ramsey/composer-install@v3
 
       - name: Prepare the application
         run: |
@@ -156,7 +155,7 @@ jobs:
       - name: Build assets
         run: |
           npm ci
-          npm run production --no-progress
+          npm run build --no-progress
 
       - name: Clear Config
         run: php artisan config:clear

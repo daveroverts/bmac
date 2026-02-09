@@ -1,6 +1,6 @@
-@if(session('text'))
+@if (session('text'))
     @push('scripts')
-        <script>
+        <script type="module">
             Swal.fire({
                 title: '{{ session('title') }}',
                 text: '{{ session('text') }}',

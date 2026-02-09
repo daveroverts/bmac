@@ -23,35 +23,25 @@ class EventCleanupReservationsCommand extends Command
     protected $description = 'Clean up reservations that have exceeded 10 minutes. If no event is provided, it is done for all active events.';
 
     /**
-     * Create a new command instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-    /**
      * Execute the console command.
-     *
-     * @return int
      */
-    public function handle()
+    public function handle(): int
     {
         $eventId = $this->argument('eventId');
         if ($eventId) {
             $event = Event::find($eventId);
             if (!$event) {
-                $this->error("Could not find event with id {$eventId}");
+                $this->error('Could not find event with id ' . $eventId);
                 return Command::FAILURE;
             }
-            EventCleanupReservationsJob::dispatch($event);
+
+            dispatch(new \App\Jobs\EventCleanupReservationsJob($event));
         } else {
-            $this->withProgressBar(nextEvents(), function ($event) {
-                EventCleanupReservationsJob::dispatch($event);
+            $this->withProgressBar(nextEvents(), function ($event): void {
+                dispatch(new \App\Jobs\EventCleanupReservationsJob($event));
             });
         }
+
         return Command::SUCCESS;
     }
 }

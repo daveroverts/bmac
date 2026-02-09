@@ -7,6 +7,9 @@ use App\Models\Event;
 use Cviebrock\EloquentSluggable\Services\SlugService;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
+/**
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Event>
+ */
 class EventFactory extends Factory
 {
     /**
@@ -23,12 +26,12 @@ class EventFactory extends Factory
      */
     public function definition()
     {
-        $name = $this->faker->sentence();
+        $name = fake()->sentence();
         $slug = SlugService::createSlug($this->model, 'slug', $name);
         return [
             'name' => $name,
             'slug' => $slug,
-            'description' => $this->faker->text(),
+            'description' => fake()->text(),
             'dep' => Airport::factory(),
             'arr' => Airport::factory(),
             'startEvent' => now()->addMonth(),
@@ -40,31 +43,25 @@ class EventFactory extends Factory
 
     public function expired()
     {
-        return $this->state(function (array $attributes) {
-            return [
-                'startEvent' => now()->subMonth(),
-                'endEvent' => now()->subMonth()->addHours(3),
-                'startBooking' => now()->subWeek(),
-                'endBooking' => now()->subMonth()->subHours(12),
-            ];
-        });
+        return $this->state(fn (array $attributes): array => [
+            'startEvent' => now()->subMonth(),
+            'endEvent' => now()->subMonth()->addHours(3),
+            'startBooking' => now()->subWeek(),
+            'endBooking' => now()->subMonth()->subHours(12),
+        ]);
     }
 
     public function onHomePage()
     {
-        return $this->state(function (array $attributes) {
-            return [
-                'show_on_homepage' => true,
-            ];
-        });
+        return $this->state(fn (array $attributes): array => [
+            'show_on_homepage' => true,
+        ]);
     }
 
     public function notOnHomePage()
     {
-        return $this->state(function (array $attributes) {
-            return [
-                'show_on_homepage' => false,
-            ];
-        });
+        return $this->state(fn (array $attributes): array => [
+            'show_on_homepage' => false,
+        ]);
     }
 }

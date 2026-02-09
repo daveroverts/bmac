@@ -4,16 +4,14 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateBookingsTable extends Migration
+return new class extends Migration
 {
     /**
      * Run the migrations.
-     *
-     * @return void
      */
-    public function up()
+    public function up(): void
     {
-        Schema::create('bookings', function (Blueprint $table) {
+        Schema::create('bookings', function (Blueprint $table): void {
             $table->increments('id');
             $table->unsignedInteger('event_id');
             $table->unsignedInteger('user_id')->nullable();
@@ -26,11 +24,9 @@ class CreateBookingsTable extends Migration
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
-    public function down()
+    public function down(): void
     {
         Schema::dropIfExists('bookings');
     }
-}
+};

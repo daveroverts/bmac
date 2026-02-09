@@ -8,15 +8,13 @@ class SendEmail extends Request
 {
     /**
      * Get the validation rules that apply to the request.
-     *
-     * @return array
      */
-    public function rules()
+    public function rules(): array
     {
         return [
-            'subject' => 'bail|required:string',
-            'message' => 'required:string',
-            'testmode' => 'boolean'
+            'subject' => ['bail', 'required:string'],
+            'message' => ['required:string'],
+            'testmode' => ['boolean']
         ];
     }
 

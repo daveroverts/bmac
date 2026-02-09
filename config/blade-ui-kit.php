@@ -1,6 +1,5 @@
 <?php
 
-use App\View\Components\FlatPickr;
 use BladeUIKit\Components;
 
 return [
@@ -17,30 +16,30 @@ return [
     */
 
     'components' => [
-        // 'alert' => Components\Alerts\Alert::class,
+        'alert' => Components\Alerts\Alert::class,
         // 'avatar' => Components\Support\Avatar::class,
         // 'carbon' => Components\DateTime\Carbon::class,
-        // 'checkbox' => Components\Forms\Inputs\Checkbox::class,
+        'checkbox' => Components\Forms\Inputs\Checkbox::class,
         // 'color-picker' => Components\Forms\Inputs\ColorPicker::class,
         // 'countdown' => Components\DateTime\Countdown::class,
         // 'cron' => Components\Support\Cron::class,
         // 'dropdown' => Components\Navigation\Dropdown::class,
         // 'easy-mde' => Components\Editors\EasyMDE::class,
         // 'email' => Components\Forms\Inputs\Email::class,
-        // 'error' => Components\Forms\Error::class,
-        'flat-pickr' => FlatPickr::class,
-        // 'form' => Components\Forms\Form::class,
-        // 'form-button' => Components\Buttons\FormButton::class,
-        // 'html' => Components\Layouts\Html::class,
-        // 'input' => Components\Forms\Inputs\Input::class,
-        // 'label' => Components\Forms\Label::class,
-        // 'logout' => Components\Buttons\Logout::class,
+        'error' => Components\Forms\Error::class,
+        'flat-pickr' => App\View\Components\FlatPickr::class,
+        'form' => Components\Forms\Form::class,
+        'form-button' => Components\Buttons\FormButton::class,
+        'html' => Components\Layouts\Html::class,
+        'input' => App\View\Components\Forms\Inputs\Input::class,
+        'label' => Components\Forms\Label::class,
+        'logout' => Components\Buttons\Logout::class,
         // 'mapbox' => Components\Maps\Mapbox::class,
         // 'markdown' => Components\Markdown\Markdown::class,
         // 'password' => Components\Forms\Inputs\Password::class,
         // 'pikaday' => Components\Forms\Inputs\Pikaday::class,
         // 'social-meta' => Components\Layouts\SocialMeta::class,
-        // 'textarea' => Components\Forms\Inputs\Textarea::class,
+        'textarea' => Components\Forms\Inputs\Textarea::class,
         // 'toc' => Components\Markdown\ToC::class,
         // 'trix' => Components\Editors\Trix::class,
         // 'unsplash' => Components\Support\Unsplash::class,

@@ -23,17 +23,14 @@ class BookingsImport implements ToModel, WithHeadingRow, WithBatchInserts, WithC
         //
     }
 
-    /**
-     * @param array $row
-     *
-     * @return \Illuminate\Database\Eloquent\Model|null
-     */
-    public function model(array $row): void
+
+    public function model(array $row): ?Booking
     {
         $editable = true;
         if (!empty($row['call_sign']) && !empty($row['aircraft_type'])) {
             $editable = false;
         }
+
         $booking = Booking::create([
             'event_id' => $this->event->id,
             'is_editable' => $editable,
@@ -75,6 +72,8 @@ class BookingsImport implements ToModel, WithHeadingRow, WithBatchInserts, WithC
             ]);
             $booking->flights()->create($flight->toArray());
         }
+
+        return null;
     }
 
     public function batchSize(): int
@@ -96,6 +95,7 @@ class BookingsImport implements ToModel, WithHeadingRow, WithBatchInserts, WithC
                 'airport_3' => 'exists:airports,icao',
             ];
         }
+
         return [
             'origin'        => 'exists:airports,icao',
             'destination'   => 'exists:airports,icao',
@@ -121,6 +121,7 @@ class BookingsImport implements ToModel, WithHeadingRow, WithBatchInserts, WithC
             );
             return $time;
         }
+
         return null;
     }
 }

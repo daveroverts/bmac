@@ -13,8 +13,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 /**
- *
- *
  * @property int $id
  * @property string $name_first
  * @property string $name_last
@@ -38,22 +36,22 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  * @property-read \Illuminate\Notifications\DatabaseNotificationCollection<int, \Illuminate\Notifications\DatabaseNotification> $notifications
  * @property-read int|null $notifications_count
  * @method static \Database\Factories\UserFactory factory($count = null, $state = [])
- * @method static \Illuminate\Database\Eloquent\Builder|User newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|User newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|User query()
- * @method static \Illuminate\Database\Eloquent\Builder|User whereAccessToken($value)
- * @method static \Illuminate\Database\Eloquent\Builder|User whereAirportView($value)
- * @method static \Illuminate\Database\Eloquent\Builder|User whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|User whereEmail($value)
- * @method static \Illuminate\Database\Eloquent\Builder|User whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|User whereIsAdmin($value)
- * @method static \Illuminate\Database\Eloquent\Builder|User whereNameFirst($value)
- * @method static \Illuminate\Database\Eloquent\Builder|User whereNameLast($value)
- * @method static \Illuminate\Database\Eloquent\Builder|User whereRefreshToken($value)
- * @method static \Illuminate\Database\Eloquent\Builder|User whereRememberToken($value)
- * @method static \Illuminate\Database\Eloquent\Builder|User whereTokenExpires($value)
- * @method static \Illuminate\Database\Eloquent\Builder|User whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|User whereUseMonospaceFont($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereAccessToken($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereAirportView($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereEmail($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereIsAdmin($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereNameFirst($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereNameLast($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereRefreshToken($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereRememberToken($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereTokenExpires($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereUseMonospaceFont($value)
  * @mixin \Eloquent
  */
 class User extends Authenticatable
@@ -62,26 +60,19 @@ class User extends Authenticatable
     use LogsActivity;
     use Notifiable;
 
+    public $incrementing = false;
+
     protected $guarded = [
         'isAdmin'
     ];
+
     /**
      * The attributes that should be hidden for arrays.
      *
-     * @var array<int, string>
+     * @var list<string>
      */
     protected $hidden = [
         'remember_token',
-    ];
-    /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array<string, string>
-     */
-    protected $casts = [
-        'isAdmin' => 'boolean',
-        'use_monospace_font' => 'boolean',
-        'airport_view' => AirportView::class,
     ];
 
     public function getActivitylogOptions(): LogOptions
@@ -94,20 +85,21 @@ class User extends Authenticatable
         return $this->hasMany(Booking::class);
     }
 
-    public function getFullNameAttribute(): string
+    protected function getFullNameAttribute(): string
     {
         return ucfirst($this->name_first) . ' ' . ucfirst($this->name_last);
     }
 
-    public function getPicAttribute(): string
+    protected function getPicAttribute(): string
     {
         if (!empty($this->full_name) && !empty($this->id)) {
-            return "{$this->full_name} | {$this->id}";
+            return sprintf('%s | %s', $this->full_name, $this->id);
         }
+
         return '-';
     }
 
-    public function getTokenAttribute(): ?AccessToken
+    protected function getTokenAttribute(): ?AccessToken
     {
         if ($this->access_token === null) {
             return null;
@@ -120,17 +112,32 @@ class User extends Authenticatable
         ]);
 
         if ($token->hasExpired()) {
-            $token = OAuthController::updateToken($token);
+            $refreshedToken = OAuthController::updateToken($token);
+            $token = $refreshedToken instanceof AccessToken ? $refreshedToken : null;
         }
 
         // Can't put it inside the "if token expired"; $this is null there
         // but anyway Laravel will only update if any changes have been made.
         $this->update([
-            'access_token' => ($token) ? $token->getToken() : null,
-            'refresh_token' => ($token) ? $token->getRefreshToken() : null,
-            'token_expires' => ($token) ? $token->getExpires() : null,
+            'access_token' => $token?->getToken(),
+            'refresh_token' => $token?->getRefreshToken(),
+            'token_expires' => $token?->getExpires(),
         ]);
 
         return $token;
+    }
+
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            'isAdmin' => 'boolean',
+            'use_monospace_font' => 'boolean',
+            'airport_view' => AirportView::class,
+        ];
     }
 }

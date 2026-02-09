@@ -4,16 +4,14 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateAirportsTable extends Migration
+return new class extends Migration
 {
     /**
      * Run the migrations.
-     *
-     * @return void
      */
-    public function up()
+    public function up(): void
     {
-        Schema::create('airports', function (Blueprint $table) {
+        Schema::create('airports', function (Blueprint $table): void {
             // Can't use id() because that uses bigIncrements since Laravel 6, which might break existing envs at one point.
             $table->unsignedInteger('id')->autoIncrement();
             $table->string('icao')->unique();
@@ -26,11 +24,9 @@ class CreateAirportsTable extends Migration
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
-    public function down()
+    public function down(): void
     {
         Schema::dropIfExists('airports');
     }
-}
+};

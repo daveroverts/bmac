@@ -8,44 +8,44 @@
     "license": "MIT",
     "type": "project",
     "require": {
-        "php": "^8.1",
+        "php": "^8.2",
         "aws/aws-sdk-php": "^3.209",
-        "blade-ui-kit/blade-ui-kit": "^0.6",
-        "bugsnag/bugsnag-laravel": "^2.26",
-        "cviebrock/eloquent-sluggable": "^10.0",
-        "doctrine/dbal": "^3.8",
-        "laravel/framework": "^10.0",
+        "blade-ui-kit/blade-ui-kit": "^0.7.0",
+        "bugsnag/bugsnag-laravel": "^2.29",
+        "cviebrock/eloquent-sluggable": "^12.0",
+        "laravel/framework": "^12.0",
         "laravel/horizon": "^5.9",
-        "laravel/telescope": "^4.9",
+        "laravel/telescope": "^5.0",
         "laravel/tinker": "^2.7",
         "league/flysystem-aws-s3-v3": "^3.0",
         "league/oauth2-client": "^2.6",
-        "livewire/livewire": "^2.12.8",
+        "livewire/livewire": "^3.5",
         "maatwebsite/excel": "^3.1",
         "predis/predis": "^2.0",
-        "protonemedia/laravel-form-components": "^3.8",
-        "sentry/sentry-laravel": "^3.2",
+        "sentry/sentry-laravel": "^4.20.1",
         "spatie/laravel-activitylog": "^4.7",
         "spatie/laravel-ignition": "^2.0",
         "tabuna/breadcrumbs": "^4.0"
     },
     "require-dev": {
-        "barryvdh/laravel-debugbar": "^3.6",
-        "barryvdh/laravel-ide-helper": "^3.0",
-        "beyondcode/laravel-query-detector": "^1.7",
+        "barryvdh/laravel-ide-helper": "^3.6",
+        "beyondcode/laravel-query-detector": "^2.2",
+        "driftingly/rector-laravel": "^2.1.9",
         "fakerphp/faker": "^1.18",
-        "larastan/larastan": "^2.0",
+        "fruitcake/laravel-debugbar": "^4.0",
+        "larastan/larastan": "^3.0",
+        "laravel/boost": "^2.1",
         "laravel/pint": "^1.10",
         "laravel/sail": "^1.27",
         "mockery/mockery": "^1.5",
-        "nunomaduro/collision": "^7.0",
-        "pestphp/pest": "^2.0",
-        "pestphp/pest-plugin-laravel": "^2.0",
-        "pestphp/pest-plugin-livewire": "^2.0",
-        "phpstan/extension-installer": "^1.4",
-        "phpstan/phpstan-beberlei-assert": "^1.1",
-        "phpunit/phpunit": "^10.0",
-        "tomasvotruba/bladestan": "^0.5.0"
+        "nunomaduro/collision": "^8.1",
+        "pestphp/pest": "^4.0",
+        "pestphp/pest-plugin-laravel": "^4.0",
+        "pestphp/pest-plugin-livewire": "^4.0",
+        "phpstan/phpstan-beberlei-assert": "^2.0.2",
+        "phpunit/phpunit": "^12.0",
+        "rector/rector": "^2.3.6",
+        "tomasvotruba/bladestan": "^0.11.4"
     },
     "autoload": {
         "psr-4": {
@@ -68,22 +68,50 @@
         }
     },
     "scripts": {
+        "setup": [
+            "composer install",
+            "@php -r \"file_exists('.env') || copy('.env.example', '.env');\"",
+            "@php artisan key:generate --ansi",
+            "@php artisan migrate --force",
+            "npm install",
+            "npm run build"
+        ],
+        "dev": [
+            "Composer\\Config::disableProcessTimeout",
+            "npm run dev"
+        ],
         "post-root-package-install": [
             "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
         ],
         "post-create-project-cmd": [
-            "@php artisan key:generate"
+            "@php artisan key:generate --ansi"
         ],
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
-            "@php artisan package:discover"
+            "@php artisan package:discover --ansi"
         ],
         "post-update-cmd": [
-            "Illuminate\\Foundation\\ComposerScripts::postUpdate",
-            "php artisan ide-helper:generate",
-            "php artisan ide-helper:meta",
-            "@php artisan telescope:publish --ansi"
-        ]
+            "@php artisan vendor:publish --tag=laravel-assets --ansi --force",
+            "@php artisan ide-helper:generate",
+            "@php artisan ide-helper:meta",
+            "@php artisan telescope:publish --ansi",
+            "@php artisan boost:update --ansi"
+        ],
+        "pre-package-uninstall": [
+            "Illuminate\\Foundation\\ComposerScripts::prePackageUninstall"
+        ],
+        "ide-helper": [
+            "@php artisan ide-helper:generate",
+            "@php artisan ide-helper:meta",
+            "@php artisan ide-helper:models -N"
+        ],
+        "test": [
+            "@php artisan config:clear --ansi",
+            "vendor/bin/pest"
+        ],
+        "format": "vendor/bin/pint",
+        "phpstan" : "vendor/bin/phpstan analyse --ansi",
+        "rector": "vendor/bin/rector process --ansi"
     },
     "config": {
         "preferred-install": "dist",
@@ -91,8 +119,7 @@
         "optimize-autoloader": true,
         "allow-plugins": {
             "pestphp/pest-plugin": true,
-            "php-http/discovery": true,
-            "phpstan/extension-installer": true
+            "php-http/discovery": true
         }
     },
     "minimum-stability": "stable",

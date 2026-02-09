@@ -9,8 +9,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 /**
- *
- *
  * @property int $id
  * @property bool $is_online
  * @property string $question
@@ -22,15 +20,15 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Event> $events
  * @property-read int|null $events_count
  * @method static \Database\Factories\FaqFactory factory($count = null, $state = [])
- * @method static \Illuminate\Database\Eloquent\Builder|Faq newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Faq newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Faq query()
- * @method static \Illuminate\Database\Eloquent\Builder|Faq whereAnswer($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Faq whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Faq whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Faq whereIsOnline($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Faq whereQuestion($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Faq whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Faq newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Faq newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Faq query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Faq whereAnswer($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Faq whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Faq whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Faq whereIsOnline($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Faq whereQuestion($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Faq whereUpdatedAt($value)
  * @mixin \Eloquent
  */
 class Faq extends Model
@@ -40,10 +38,6 @@ class Faq extends Model
 
     protected $guarded = ['id'];
 
-    protected $casts = [
-        'is_online' => 'boolean',
-    ];
-
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()->logOnlyDirty();
@@ -52,5 +46,12 @@ class Faq extends Model
     public function events(): BelongsToMany
     {
         return $this->belongsToMany(Event::class);
+    }
+
+    protected function casts(): array
+    {
+        return [
+            'is_online' => 'boolean',
+        ];
     }
 }

@@ -5,6 +5,9 @@ namespace Database\Factories;
 use App\Models\Faq;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
+/**
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Faq>
+ */
 class FaqFactory extends Factory
 {
     /**
@@ -22,17 +25,15 @@ class FaqFactory extends Factory
     public function definition()
     {
         return [
-            'question' => $this->faker->sentence() . '?',
-            'answer' => $this->faker->sentence(),
+            'question' => fake()->sentence() . '?',
+            'answer' => fake()->sentence(),
         ];
     }
 
     public function offline()
     {
-        return $this->state(function (array $attributes) {
-            return [
-                'is_online' => false,
-            ];
-        });
+        return $this->state(fn (array $attributes): array => [
+            'is_online' => false,
+        ]);
     }
 }

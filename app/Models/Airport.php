@@ -11,8 +11,6 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
- *
- *
  * @property int $id
  * @property string $icao
  * @property string $iata
@@ -35,17 +33,17 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\AirportLink> $links
  * @property-read int|null $links_count
  * @method static \Database\Factories\AirportFactory factory($count = null, $state = [])
- * @method static Builder|Airport newModelQuery()
- * @method static Builder|Airport newQuery()
- * @method static Builder|Airport query()
- * @method static Builder|Airport whereCreatedAt($value)
- * @method static Builder|Airport whereIata($value)
- * @method static Builder|Airport whereIcao($value)
- * @method static Builder|Airport whereId($value)
- * @method static Builder|Airport whereLatitude($value)
- * @method static Builder|Airport whereLongitude($value)
- * @method static Builder|Airport whereName($value)
- * @method static Builder|Airport whereUpdatedAt($value)
+ * @method static Builder<static>|Airport newModelQuery()
+ * @method static Builder<static>|Airport newQuery()
+ * @method static Builder<static>|Airport query()
+ * @method static Builder<static>|Airport whereCreatedAt($value)
+ * @method static Builder<static>|Airport whereIata($value)
+ * @method static Builder<static>|Airport whereIcao($value)
+ * @method static Builder<static>|Airport whereId($value)
+ * @method static Builder<static>|Airport whereLatitude($value)
+ * @method static Builder<static>|Airport whereLongitude($value)
+ * @method static Builder<static>|Airport whereName($value)
+ * @method static Builder<static>|Airport whereUpdatedAt($value)
  * @mixin \Eloquent
  */
 class Airport extends Model
@@ -62,7 +60,7 @@ class Airport extends Model
      */
     protected static function booted()
     {
-        static::addGlobalScope('order', function (Builder $builder) {
+        static::addGlobalScope('order', function (Builder $builder): void {
             $builder->orderBy('icao');
         });
     }
@@ -97,29 +95,31 @@ class Airport extends Model
         return $this->hasMany(AirportLink::class);
     }
 
-    public function setIcaoAttribute($value): void
+    protected function setIcaoAttribute($value): void
     {
-        $this->attributes['icao'] = strtoupper($value);
+        $this->attributes['icao'] = strtoupper((string) $value);
     }
 
-    public function setIataAttribute($value): void
+    protected function setIataAttribute($value): void
     {
-        $this->attributes['iata'] = strtoupper($value);
+        $this->attributes['iata'] = strtoupper((string) $value);
     }
 
-    public function getFullNameAttribute(): string
+    protected function getFullNameAttribute(): string
     {
         if (!$this->id) {
             return '-';
         }
-        if (auth()->check() && auth()->user()->airport_view !== AirportView::NAME->value) {
+
+        if (auth()->check() && auth()->user()->airport_view !== AirportView::NAME) {
             switch (auth()->user()->airport_view) {
-                case AirportView::ICAO->value:
+                case AirportView::ICAO:
                     return '<abbr title="' . $this->name . ' | [' . $this->iata . ']">' . $this->icao . '</abbr>';
-                case AirportView::IATA->value:
+                case AirportView::IATA:
                     return '<abbr title="' . $this->name . ' | [' . $this->icao . ']">' . $this->iata . '</abbr>';
             }
         }
+
         return '<abbr title="' . $this->icao . ' | [' . $this->iata . ']">' . $this->name . '</abbr>';
     }
 

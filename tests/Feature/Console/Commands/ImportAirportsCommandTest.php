@@ -5,7 +5,7 @@ use App\Jobs\ImportAirportsJob;
 use Illuminate\Support\Facades\Queue;
 use App\Console\Commands\ImportAirportsCommand;
 
-it('can start airports import', function () {
+it('can start airports import', function (): void {
     /** @var TestCase $this  */
     Queue::fake();
 

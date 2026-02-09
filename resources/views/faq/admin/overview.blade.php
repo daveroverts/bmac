@@ -5,7 +5,7 @@
     <hr>
     @include('layouts.alert')
     @push('scripts')
-        <script>
+        <script type="module">
             $('.delete-faq').on('click', function(e) {
                 e.preventDefault();
                 Swal.fire({

@@ -5,29 +5,25 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddStatusToBookingsTable extends Migration
+return new class extends Migration
 {
     /**
      * Run the migrations.
-     *
-     * @return void
      */
-    public function up()
+    public function up(): void
     {
-        Schema::table('bookings', function (Blueprint $table) {
+        Schema::table('bookings', function (Blueprint $table): void {
             $table->tinyInteger('status')->unsigned()->after('event_id')->default(BookingStatus::UNASSIGNED);
         });
     }
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
-    public function down()
+    public function down(): void
     {
-        Schema::table('bookings', function (Blueprint $table) {
+        Schema::table('bookings', function (Blueprint $table): void {
             $table->dropColumn('status');
         });
     }
-}
+};

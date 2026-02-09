@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use League\OAuth2\Client\Provider\GenericProvider;
 use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
-use League\OAuth2\Client\Token\AccessToken;
+use League\OAuth2\Client\Token\AccessTokenInterface;
 
 class OAuthController extends GenericProvider
 {
@@ -30,14 +30,14 @@ class OAuthController extends GenericProvider
         ]);
     }
 
-    public static function updateToken($token): ?AccessToken
+    public static function updateToken($token): ?AccessTokenInterface
     {
         $controller = new OAuthController();
         try {
             return $controller->getAccessToken('refresh_token', [
                 'refresh_token' => $token->getRefreshToken()
             ]);
-        } catch (IdentityProviderException $e) {
+        } catch (IdentityProviderException) {
             return null;
         }
     }
@@ -51,11 +51,13 @@ class OAuthController extends GenericProvider
             if (empty($proplist[0]) || empty($obj->{$proplist[0]})) {
                 return false;
             }
+
             $obj = $obj->{$proplist[0]};
 
             if (count($proplist) > 1) {
                 return $getfunc($obj, $proplist[1]);
             }
+
             return $obj;
         };
 

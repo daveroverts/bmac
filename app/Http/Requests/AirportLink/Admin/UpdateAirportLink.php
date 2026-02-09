@@ -8,15 +8,13 @@ class UpdateAirportLink extends Request
 {
     /**
      * Get the validation rules that apply to the request.
-     *
-     * @return array
      */
-    public function rules()
+    public function rules(): array
     {
         return [
-            'airportLinkType_id' => 'required|exists:airport_link_types,id',
-            'name' => 'nullable|string',
-            'url' => 'required|url',
+            'airportLinkType_id' => ['required', 'exists:airport_link_types,id'],
+            'name' => ['nullable', 'string'],
+            'url' => ['required', 'url'],
         ];
     }
 

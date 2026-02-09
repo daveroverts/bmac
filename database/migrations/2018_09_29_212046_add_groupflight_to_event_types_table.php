@@ -2,14 +2,12 @@
 
 use Illuminate\Database\Migrations\Migration;
 
-class AddGroupflightToEventTypesTable extends Migration
+return new class extends Migration
 {
     /**
      * Run the migrations.
-     *
-     * @return void
      */
-    public function up()
+    public function up(): void
     {
         DB::table('event_types')->insert([
             'id' => 4, 'name' => 'Groupflight'
@@ -18,11 +16,9 @@ class AddGroupflightToEventTypesTable extends Migration
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
-    public function down()
+    public function down(): void
     {
         DB::table('event_types')->delete(4);
     }
-}
+};

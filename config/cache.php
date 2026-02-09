@@ -15,7 +15,8 @@ return [
     |
     */
 
-    'default' => env('CACHE_DRIVER', 'file'),
+    // TODO: Remove CACHE_DRIVER fallback once all .env files are updated
+    'default' => env('CACHE_STORE', env('CACHE_DRIVER', 'file')),
 
     /*
     |--------------------------------------------------------------------------

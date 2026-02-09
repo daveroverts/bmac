@@ -10,9 +10,9 @@
 
                 <div class="card-body">
                     <x-form :action="route('admin.bookings.import', $event)" method="POST" enctype="multipart/form-data">
-                        <x-form-input name="file" type="file" :label="__('File')" />
+                        <x-forms.input name="file" type="file" :label="__('File')" />
 
-                        <x-form-group :label="__('Headers in <strong>bold</strong> are mandatory')">
+                        <x-forms.form-group :label="__('Headers in <strong>bold</strong> are mandatory')">
                             @if ($event->event_type_id == \App\Enums\EventType::MULTIFLIGHTS->value)
                                 <strong><abbr title="[hh:mm]">CTOT 1</abbr></strong> - <strong><abbr title="[ICAO]">Airport
                                         1</abbr></strong> -
@@ -26,18 +26,18 @@
                                 <abbr title="[ICAO]">Aircraft Type</abbr> | Route | Notes | Track | <abbr
                                     title="Max 3 numbers. Examples: 370">FL</abbr>
                             @endif
-                        </x-form-group>
+                        </x-forms.form-group>
 
-                        <x-form-group inline>
-                            <x-form-submit>
+                        <x-forms.form-group inline>
+                            <x-forms.button type="submit">
                                 <i class="fas fa-check"></i> Import
-                            </x-form-submit>
+                            </x-forms.button>
 
                             <a class="btn btn-secondary"
                                 href="{{ $event->event_type_id == \App\Enums\EventType::MULTIFLIGHTS->value ? url('import_multi_flights_template.xlsx') : url('import_template.xlsx') }}">
                                 <i class="fas fa-file-excel"></i> Download template
                             </a>
-                        </x-form-group>
+                        </x-forms.form-group>
                     </x-form>
                 </div>
             </div>

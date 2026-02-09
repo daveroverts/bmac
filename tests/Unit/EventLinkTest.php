@@ -5,7 +5,7 @@ namespace Tests\Unit;
 use App\Models\EventLink;
 use Tests\TestCase;
 
-it('creates new event link', function () {
+it('creates new event link', function (): void {
     /** @var TestCase $this */
 
     /** @var EventLink $eventLink */

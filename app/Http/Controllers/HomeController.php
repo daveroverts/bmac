@@ -9,6 +9,6 @@ class HomeController extends Controller
     public function __invoke(): View
     {
         $events = nextEvents(false, false, true);
-        return view('home', compact('events'));
+        return view('home', ['events' => $events]);
     }
 }

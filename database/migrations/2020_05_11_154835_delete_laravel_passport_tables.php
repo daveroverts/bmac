@@ -3,14 +3,12 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Support\Facades\Schema;
 
-class DeleteLaravelPassportTables extends Migration
+return new class extends Migration
 {
     /**
      * Run the migrations.
-     *
-     * @return void
      */
-    public function up()
+    public function up(): void
     {
         Schema::dropIfExists('oauth_access_tokens');
         Schema::dropIfExists('oauth_auth_codes');
@@ -21,11 +19,9 @@ class DeleteLaravelPassportTables extends Migration
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
-    public function down()
+    public function down(): void
     {
         // Rollback not possible
     }
-}
+};

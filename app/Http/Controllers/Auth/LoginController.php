@@ -24,12 +24,10 @@ class LoginController extends Controller
     |
     */
 
-    protected $provider;
+    protected \App\Http\Controllers\OAuthController $provider;
 
     /**
      * Create a new controller instance.
-     *
-     * @return void
      */
     public function __construct()
     {
@@ -39,7 +37,8 @@ class LoginController extends Controller
 
     public function login(Request $request)
     {
-        if (!$request->has('code') || !$request->has('state')) { // User has clicked "login", redirect to Connect
+        if (!$request->has('code') || !$request->has('state')) {
+            // User has clicked "login", redirect to Connect
             if ($request->get('booking')) {
                 // Check if the booking exists, just to prevent a 404 later on
                 $booking = Booking::whereUuid($request->booking)->first();
@@ -53,15 +52,21 @@ class LoginController extends Controller
                     session()->put('event', $event->slug);
                 }
             }
-            $authorizationUrl = $this->provider->getAuthorizationUrl(); // Generates state
+
+            $authorizationUrl = $this->provider->getAuthorizationUrl();
+            // Generates state
             $request->session()->put('oauthstate', $this->provider->getState());
             return redirect()->away($authorizationUrl);
-        } elseif ($request->input('state') !== session()->pull('oauthstate')) { // State mismatch, error
+        }
+
+        if ($request->input('state') !== session()->pull('oauthstate')) {
+            // State mismatch, error
             flashMessage('error', 'Login failed', 'Something went wrong, please try again');
             return to_route('home');
-        } else { // Callback (user has just logged in Connect)
-            return $this->verifyLogin($request);
         }
+
+        // Callback (user has just logged in Connect)
+        return $this->verifyLogin($request);
     }
 
     protected function verifyLogin(Request $request)
@@ -70,10 +75,12 @@ class LoginController extends Controller
             $accessToken = $this->provider->getAccessToken('authorization_code', [
                 'code' => $request->input('code')
             ]);
-        } catch (IdentityProviderException $e) {
+        } catch (IdentityProviderException) {
             flashMessage('error', 'Login failed', 'Something went wrong, please try again');
             return to_route('home');
         }
+
+        /** @var \League\OAuth2\Client\Token\AccessToken $accessToken */
         $resourceOwner = json_decode(json_encode($this->provider->getResourceOwner($accessToken)->toArray()));
 
         $data = [
@@ -103,6 +110,7 @@ class LoginController extends Controller
                 if ($booking->status != BookingStatus::BOOKED) {
                     return to_route('bookings.edit', $booking);
                 }
+
                 return to_route('bookings.show', $booking);
             }
         } elseif (session('event')) {
@@ -112,10 +120,11 @@ class LoginController extends Controller
                 return to_route('events.show', $event);
             }
         }
+
         return to_route('home');
     }
 
-    protected function completeLogin($data, $token): User
+    protected function completeLogin(array $data, $token): User
     {
         $account = User::updateOrCreate(
             ['id' => $data['cid']],
@@ -129,9 +138,11 @@ class LoginController extends Controller
         if ($token->getToken() !== null) {
             $account->access_token = $token->getToken();
         }
+
         if ($token->getRefreshToken() !== null) {
             $account->refresh_token = $token->getRefreshToken();
         }
+
         if ($token->getExpires() !== null) {
             $account->token_expires = $token->getExpires();
         }

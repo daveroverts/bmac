@@ -6,6 +6,9 @@ use App\Models\User;
 use App\Enums\AirportView;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
+/**
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\User>
+ */
 class UserFactory extends Factory
 {
     /**
@@ -23,55 +26,45 @@ class UserFactory extends Factory
     public function definition()
     {
         return [
-            'id' => $this->faker->unique()->numberBetween(860000, 1999999),
-            'name_first' => $this->faker->firstName(),
-            'name_last' => $this->faker->lastName(),
-            'email' => $this->faker->unique()->safeEmail(),
+            'id' => fake()->unique()->numberBetween(860000, 1999999),
+            'name_first' => fake()->firstName(),
+            'name_last' => fake()->lastName(),
+            'email' => fake()->unique()->safeEmail(),
         ];
     }
 
     public function admin()
     {
-        return $this->state(function (array $attributes) {
-            return [
-                'isAdmin' => true,
-            ];
-        });
+        return $this->state(fn (array $attributes): array => [
+            'isAdmin' => true,
+        ]);
     }
 
     public function airportViewName()
     {
-        return $this->state(function (array $attributes) {
-            return [
-                'airport_view' => AirportView::NAME,
-            ];
-        });
+        return $this->state(fn (array $attributes): array => [
+            'airport_view' => AirportView::NAME,
+        ]);
     }
 
     public function airportViewIcao()
     {
-        return $this->state(function (array $attributes) {
-            return [
-                'airport_view' => AirportView::ICAO,
-            ];
-        });
+        return $this->state(fn (array $attributes): array => [
+            'airport_view' => AirportView::ICAO,
+        ]);
     }
 
     public function airportViewIata()
     {
-        return $this->state(function (array $attributes) {
-            return [
-                'airport_view' => AirportView::IATA,
-            ];
-        });
+        return $this->state(fn (array $attributes): array => [
+            'airport_view' => AirportView::IATA,
+        ]);
     }
 
     public function monospaceFont()
     {
-        return $this->state(function (array $attributes) {
-            return [
-                'monospace_font' => true,
-            ];
-        });
+        return $this->state(fn (array $attributes): array => [
+            'monospace_font' => true,
+        ]);
     }
 }

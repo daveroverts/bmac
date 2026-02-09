@@ -6,6 +6,9 @@ use App\Models\Airport;
 use App\Models\AirportLink;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
+/**
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\AirportLink>
+ */
 class AirportLinkFactory extends Factory
 {
     /**
@@ -25,7 +28,7 @@ class AirportLinkFactory extends Factory
         return [
             'airport_id' => Airport::factory(),
             'airportLinkType_id' => 4,
-            'url' => $this->faker->url(),
+            'url' => fake()->url(),
         ];
     }
 }

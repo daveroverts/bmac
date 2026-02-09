@@ -8,32 +8,29 @@
                 <div class="card-header">{{ $eventLink->id ? 'Edit' : 'Add new' }} Event Link</div>
 
                 <div class="card-body">
-                    <x-form
-                        :action="$eventLink->id ? route('admin.eventLinks.update', $eventLink) : route('admin.eventLinks.store')"
-                        :method="$eventLink->id ? 'PATCH' : 'POST'">
+                    <x-form :action="$eventLink->id
+                        ? route('admin.eventLinks.update', $eventLink)
+                        : route('admin.eventLinks.store')" :method="$eventLink->id ? 'PATCH' : 'POST'">
 
-                        @bind($eventLink)
-                        <x-form-select name="event_link_type_id" :label="__('Type')" :options="$eventLinkTypes"
-                            :placeholder="__('Choose...')" required />
+                        <x-forms.select name="event_link_type_id" :label="__('Type')" :options="$eventLinkTypes" :placeholder="__('Choose...')"
+                            required :value="$eventLink->event_link_type_id" />
                         @if ($eventLink->id)
-                            <x-form-group :label="__('Event')">
+                            <x-forms.form-group name="event_id" :label="__('Event')">
                                 {{ $eventLink->event->name }} [{{ $eventLink->event->startEvent->format('d-m-Y') }}]
-                            </x-form-group>
+                            </x-forms.form-group>
                         @else
-                            <x-form-select name="event_id" :label="__('Event')" :options="$events"
-                                :placeholder="__('Choose...')" required />
+                            <x-forms.select name="event_id" :label="__('Event')" :options="$events" :placeholder="__('Choose...')" required />
                         @endif
-                        <x-form-input name="name" :label="__('Name')" />
-                        <x-form-input name="url" :label="__('URL')" placeholder="https://example.org" required />
+                        <x-forms.input name="name" :label="__('Name')" :value="$eventLink->name" :help="__('Leave empty to use the type as name')" :value="old('name', $eventLink->name)" />
+                        <x-forms.input name="url" :label="__('URL')" :value="$eventLink->url" placeholder="https://example.org" required :value="old('name', $eventLink->url)" />
 
-                        <x-form-submit>
+                        <x-forms.button type="submit">
                             @if ($eventLink->id)
                                 <i class="fa fa-check"></i> {{ __('Edit') }}
                             @else
                                 <i class="fa fa-plus"></i> {{ __('Add') }}
                             @endif
-                        </x-form-submit>
-                        @endbind
+                        </x-forms.button>
                     </x-form>
                 </div>
             </div>

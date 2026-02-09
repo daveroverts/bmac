@@ -1,5 +1,5 @@
-
 <?php
+
 /*
  * DO NOT PUBLISH THE KEY, SECRET AND CERT TO CODE REPOSITORIES
  * FOR SECURITY. PLEASE USE LARAVEL'S .envFILES TO PROTECT
@@ -32,7 +32,7 @@ return [
     /**
      * The scopes the user will be requested
      */
-    'scopes' => explode(',', env('OAUTH_SCOPES', 'full_name,email')),
+    'scopes' => explode(',', (string) env('OAUTH_SCOPES', 'full_name,email')),
 
     /*
      * OAuth variable mapping

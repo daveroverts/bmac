@@ -27,6 +27,7 @@ if (!function_exists('nextEvents')) {
         if (!$showAll) {
             $events = $events->where('is_online', true);
         }
+
         if ($homepage) {
             $events = $events->where('show_on_homepage', true);
         }
@@ -35,13 +36,7 @@ if (!function_exists('nextEvents')) {
             $events = $events->with($withRelations);
         }
 
-        if ($one) {
-            $events = $events->first();
-        } else {
-            $events = $events->get();
-        }
-
-        return $events;
+        return $one ? $events->first() : $events->get();
     }
 }
 

@@ -8,7 +8,7 @@
     </p>
     @include('layouts.alert')
     @push('scripts')
-        <script>
+        <script type="module">
             $('.delete-bookings').on('click', function(e) {
                 e.preventDefault();
                 Swal.fire({
@@ -110,13 +110,17 @@
             </td>
             </tr>
 
-            <x-form :action="route('admin.events.delete-bookings', $event)" id="delete-bookings-{{ $event->id }}"
-                method="DELETE" style="display: none;"></x-form>
+            <x-form :action="route('admin.events.delete-bookings', $event)" id="delete-bookings-{{ $event->id }}" method="DELETE"
+                style="display: none;"></x-form>
             <x-form :action="route('admin.events.destroy', $event)" id="delete-event-{{ $event->id }}" method="DELETE"
                 style="display: none;"></x-form>
         @empty
             @php
-                flashMessage('info', 'No events found', 'No events are in the system, consider adding one, using the button above');
+                flashMessage(
+                    'info',
+                    'No events found',
+                    'No events are in the system, consider adding one, using the button above',
+                );
             @endphp
             @include('layouts.alert')
         @endforelse

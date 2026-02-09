@@ -32,19 +32,18 @@ class EventAdminController extends AdminController
         $events = Event::orderByDesc('startEvent')
             ->with('type')
             ->paginate();
-        return view('event.admin.overview', compact('events'));
+        return view('event.admin.overview', ['events' => $events]);
     }
 
     public function create(): View
     {
         $event = new Event();
         $airports = Airport::all(['id', 'icao', 'iata', 'name'])->keyBy('id')
-            ->map(function ($airport) {
+            ->map(fn ($airport): string =>
                 /** @var Airport $airport */
-                return "$airport->icao | $airport->name | $airport->iata";
-            });
-        $eventTypes = EventType::all()->pluck('name', 'id');
-        return view('event.admin.form', compact('event', 'airports', 'eventTypes'));
+                sprintf('%s | %s | %s', $airport->icao, $airport->name, $airport->iata));
+        $eventTypes = EventType::pluck('name', 'id');
+        return view('event.admin.form', ['event' => $event, 'airports' => $airports, 'eventTypes' => $eventTypes]);
     }
 
     public function store(StoreEvent $request): RedirectResponse
@@ -77,18 +76,17 @@ class EventAdminController extends AdminController
 
     public function show(Event $event): View
     {
-        return view('event.admin.show', compact('event'));
+        return view('event.admin.show', ['event' => $event]);
     }
 
     public function edit(Event $event): View
     {
         $airports = Airport::all(['id', 'icao', 'iata', 'name'])->keyBy('id')
-            ->map(function ($airport) {
+            ->map(fn ($airport): string =>
                 /** @var Airport $airport */
-                return "$airport->icao | $airport->name | $airport->iata";
-            });
-        $eventTypes = EventType::all()->pluck('name', 'id');
-        return view('event.admin.form', compact('event', 'airports', 'eventTypes'));
+                sprintf('%s | %s | %s', $airport->icao, $airport->name, $airport->iata));
+        $eventTypes = EventType::pluck('name', 'id');
+        return view('event.admin.form', ['event' => $event, 'airports' => $airports, 'eventTypes' => $eventTypes]);
     }
 
     public function update(UpdateEvent $request, Event $event): RedirectResponse
@@ -122,16 +120,16 @@ class EventAdminController extends AdminController
         if ($event->startEvent > now()) {
             $event->delete();
             flashMessage('success', __('Done'), __(':event has been deleted!', ['event' => $event->name]));
-            return redirect()->back();
-        } else {
-            flashMessage('danger', __('Danger'), __('Event can no longer be deleted!'));
-            return redirect()->back();
+            return back();
         }
+
+        flashMessage('danger', __('Danger'), __('Event can no longer be deleted!'));
+        return back();
     }
 
     public function sendEmailForm(Event $event): View
     {
-        return view('event.admin.sendEmail', compact('event'));
+        return view('event.admin.sendEmail', ['event' => $event]);
     }
 
     public function sendEmail(SendEmail $request, Event $event): JsonResponse|RedirectResponse
@@ -139,16 +137,16 @@ class EventAdminController extends AdminController
         if ($request->testmode) {
             event(new EventBulkEmail($event, $request->all(), collect([auth()->user()])));
             return response()->json(['success' => __('Email has been sent to yourself')]);
-        } else {
-            /* @var User $users */
-            $users = User::whereHas('bookings', function (Builder $query) use ($event) {
-                $query->where('event_id', $event->id);
-                $query->where('status', BookingStatus::BOOKED->value);
-            })->get();
-            event(new EventBulkEmail($event, $request->all(), $users));
-            flashMessage('success', __('Done'), __('Bulk E-mail has been sent to :count people!', ['count' => $users->count()]));
-            return to_route('admin.events.index');
         }
+
+        /* @var User $users */
+        $users = User::whereHas('bookings', function (Builder $query) use ($event): void {
+            $query->where('event_id', $event->id);
+            $query->where('status', BookingStatus::BOOKED->value);
+        })->get();
+        event(new EventBulkEmail($event, $request->all(), $users));
+        flashMessage('success', __('Done'), __('Bulk E-mail has been sent to :count people!', ['count' => $users->count()]));
+        return to_route('admin.events.index');
     }
 
     public function sendFinalInformationMail(Request $request, Event $event): RedirectResponse|JsonResponse
@@ -159,31 +157,36 @@ class EventAdminController extends AdminController
             ->get();
 
         if ($request->testmode) {
-            event(new EventFinalInformation($bookings->random(), $request->user()));
+            /** @var \App\Models\Booking $randomBooking */
+            $randomBooking = $bookings->random();
+            event(new EventFinalInformation($randomBooking, $request->user()));
 
             return response()->json(['success' => __('Email has been sent to yourself')]);
-        } else {
-            $count = $bookings->count();
-            $countSkipped = 0;
-            foreach ($bookings as $booking) {
-                if (!$booking->has_received_final_information_email || $request->forceSend) {
-                    event(new EventFinalInformation($booking));
-                } else {
-                    $count--;
-                    $countSkipped++;
-                }
-            }
-            $message = __('Final Information has been sent to :count people!', ['count' => $count]);
-            if ($countSkipped != 0) {
-                $message .= ' ' . __('However, :count where skipped, because they already received one', ['count' => $count]);
-            }
-            flashMessage('success', __('Done'), $message);
-            activity()
-                ->by(auth()->user())
-                ->on($event)
-                ->withProperty('count', $count)
-                ->log('Final Information E-mail');
         }
+
+        $count = $bookings->count();
+        $countSkipped = 0;
+        /** @var \App\Models\Booking $booking */
+        foreach ($bookings as $booking) {
+            if (!$booking->has_received_final_information_email || $request->forceSend) {
+                event(new EventFinalInformation($booking));
+            } else {
+                $count--;
+                $countSkipped++;
+            }
+        }
+
+        $message = __('Final Information has been sent to :count people!', ['count' => $count]);
+        if ($countSkipped !== 0) {
+            $message .= ' ' . __('However, :count where skipped, because they already received one', ['count' => $count]);
+        }
+
+        flashMessage('success', __('Done'), $message);
+        activity()
+            ->by(auth()->user())
+            ->on($event)
+            ->withProperty('count', $count)
+            ->log('Final Information E-mail');
 
         return to_route('admin.events.index');
     }

@@ -4,26 +4,12 @@ on:
   push:
     paths:
       - "**.php"
+      - ".github/workflows/code-analysis.yml"
+      - "phpstan.neon"
+      - "phpstan-baseline.neon"
+      - "composer.json"
+      - "composer.lock"
 jobs:
-  phpcs:
-    name: PHP_CodeSniffer
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup PHP, with composer and extensions
-        uses: shivammathur/setup-php@v2 #https://github.com/shivammathur/setup-php
-        with:
-          php-version: "8.3"
-          extensions: mbstring, dom, fileinfo
-          tools: phpcs
-
-      - uses: ramsey/composer-install@v2
-
-      - name: Run PHP_CodeSniffer
-        run: phpcs --extensions=php app
-
   phpstan:
     name: PHPStan
     runs-on: ubuntu-latest
@@ -34,11 +20,25 @@ jobs:
       - name: Setup PHP, with composer and extensions
         uses: shivammathur/setup-php@v2 #https://github.com/shivammathur/setup-php
         with:
-          php-version: "8.3"
+          php-version: "8.4"
           extensions: mbstring, dom, fileinfo
-          tools: phpstan
 
-      - uses: ramsey/composer-install@v2
+      - uses: ramsey/composer-install@v3
+
+      - name: "Restore result cache"
+        uses: actions/cache/restore@v4
+        with:
+          path: /tmp/phpstan # same as in phpstan.neon
+          key: "phpstan-result-cache-${{ github.run_id }}"
+          restore-keys: |
+            phpstan-result-cache-
 
       - name: Run PHPStan
-        run: phpstan analyse
+        run: ./vendor/bin/phpstan analyse
+
+      - name: "Save result cache"
+        uses: actions/cache/save@v4
+        if: always()
+        with:
+          path: /tmp/phpstan # same as in phpstan.neon
+          key: "phpstan-result-cache-${{ github.run_id }}"

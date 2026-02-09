@@ -12,83 +12,56 @@ class BookingPolicy
 
     /**
      * Determine whether the user can view the booking.
-     *
-     * @param  User  $user
-     * @param  Booking  $booking
-     * @return mixed
      */
-    public function view(User $user, Booking $booking)
+    public function view(User $user, Booking $booking): bool
     {
         return $user->id === $booking->user_id;
     }
 
     /**
      * Determine whether the user can create bookings.
-     *
-     * @param  User  $user
-     * @return mixed
      */
-    public function create(User $user)
+    public function create(User $user): bool
     {
         return false;
     }
 
     /**
      * Determine whether the user can update the booking.
-     *
-     * @param  User  $user
-     * @param  Booking  $booking
-     * @return mixed
      */
-    public function update(User $user, Booking $booking)
+    public function update(User $user, Booking $booking): bool
     {
         return $user->id === $booking->user_id || empty($booking->user_id);
     }
 
     /**
      * Determine whether the user can delete the booking.
-     *
-     * @param  User  $user
-     * @param  Booking  $booking
-     * @return mixed
      */
-    public function delete(User $user, Booking $booking)
+    public function delete(User $user, Booking $booking): bool
     {
         return false;
     }
 
     /**
      * Determine whether the user can restore the booking.
-     *
-     * @param  User  $user
-     * @param  Booking  $booking
-     * @return mixed
      */
-    public function restore(User $user, Booking $booking)
+    public function restore(User $user, Booking $booking): bool
     {
         return false;
     }
 
     /**
      * Determine whether the user can permanently delete the booking.
-     *
-     * @param  User  $user
-     * @param  Booking  $booking
-     * @return mixed
      */
-    public function forceDelete(User $user, Booking $booking)
+    public function forceDelete(User $user, Booking $booking): bool
     {
         return false;
     }
 
     /**
      * Determine whether the user can cancel the booking.
-     *
-     * @param  User  $user
-     * @param  Booking  $booking
-     * @return mixed
      */
-    public function cancel(User $user, Booking $booking)
+    public function cancel(User $user, Booking $booking): bool
     {
         return $user->id === $booking->user_id;
     }

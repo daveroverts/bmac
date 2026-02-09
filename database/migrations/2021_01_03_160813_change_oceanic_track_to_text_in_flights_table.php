@@ -4,29 +4,25 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class ChangeOceanicTrackToTextInFlightsTable extends Migration
+return new class extends Migration
 {
     /**
      * Run the migrations.
-     *
-     * @return void
      */
-    public function up()
+    public function up(): void
     {
-        Schema::table('flights', function (Blueprint $table) {
+        Schema::table('flights', function (Blueprint $table): void {
             $table->text('oceanicTrack')->nullable()->change();
         });
     }
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
-    public function down()
+    public function down(): void
     {
-        Schema::table('flights', function (Blueprint $table) {
+        Schema::table('flights', function (Blueprint $table): void {
             $table->string('oceanicTrack', 2)->nullable()->change();
         });
     }
-}
+};

@@ -4,7 +4,7 @@
     <x-forms.alert />
     @include('layouts.alert')
     @push('scripts')
-        <script>
+        <script type="module">
             $('.unlink-event').on('click', function(e) {
                 e.preventDefault();
                 Swal.fire({
@@ -28,26 +28,26 @@
                 <div class="card-header">{{ $faq->id ? 'Edit' : 'Add new' }} FAQ</div>
 
                 <div class="card-body">
-                    <x-form :action="$faq->id ? route('admin.faq.update', $faq) : route('admin.faq.store')"
-                        :method="$faq->id ? 'PATCH' : 'POST'">
-                        @bind($faq)
-                        <x-form-group name="is_online" :label="__('Is online')" inline>
-                            <x-form-radio name="is_online" value="0" :label="__('No')" required />
-                            <x-form-radio name="is_online" value="1" :label="__('Yes')" required />
-                        </x-form-group>
+                    <x-form :action="$faq->id ? route('admin.faq.update', $faq) : route('admin.faq.store')" :method="$faq->id ? 'PATCH' : 'POST'">
 
-                        <x-form-input name="question" :label="__('Question')" required />
+                            <x-forms.form-group name="is_online" :label="__('Is online')" inline>
 
-                        <x-form-textarea name="answer" :label="__('Answer')" class="tinymce" />
+                                <x-forms.radio inline name="is_online" value="0" :label="__('No')" required :should-be-checked="old('is_online' === false, !$faq->is_online )" />
+                                <x-forms.radio inline name="is_online" value="1" :label="__('Yes')" required :should-be-checked="old('is_online' === true, $faq->is_online )" />
 
-                        <x-form-submit>
-                            @if ($faq->id)
-                                <i class="fa fa-check"></i> {{ __('Edit') }}
-                            @else
-                                <i class="fa fa-plus"></i> {{ __('Add') }}
-                            @endif
-                        </x-form-submit>
-                        @endbind
+                            </x-forms.form-group>
+
+                            <x-forms.input name="question" :label="__('Question')" required value="{!! old('question', $faq->question) !!}" />
+
+                            <x-forms.textarea tinymce name="answer" :label="__('Answer')" value="{!! old('answer', $faq->answer) !!}" />
+
+                        <x-forms.button type="submit">
+                                @if ($faq->id)
+                                    <i class="fa fa-check"></i> {{ __('Edit') }}
+                                @else
+                                    <i class="fa fa-plus"></i> {{ __('Add') }}
+                                @endif
+                            </x-forms.button>
                     </x-form>
 
                 </div>

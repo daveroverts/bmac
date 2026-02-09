@@ -9,8 +9,6 @@ class SendBookingConfirmedNotification implements ShouldQueue
 {
     /**
      * Create the event listener.
-     *
-     * @return void
      */
     public function __construct()
     {
@@ -19,9 +17,6 @@ class SendBookingConfirmedNotification implements ShouldQueue
 
     /**
      * Handle the event.
-     *
-     * @param  BookingConfirmed  $event
-     * @return void
      */
     public function handle(BookingConfirmed $event): void
     {

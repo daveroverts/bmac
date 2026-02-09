@@ -5,7 +5,7 @@ use Tests\TestCase;
 use App\Models\User;
 use App\Models\Event;
 
-it('can render navbar', function () {
+it('can render navbar', function (): void {
     /** @var TestCase $this */
 
     $this->view('layouts.app')
@@ -35,7 +35,7 @@ it('can render navbar', function () {
 });
 
 
-it('can render events', function () {
+it('can render events', function (): void {
     /** @var TestCase $this */
 
     /** @var Event $event1 */
@@ -53,17 +53,17 @@ it('can render events', function () {
         ->assertDontSee($event3->name);
 });
 
-it('can render single booking', function () {
+it('can render single booking', function (): void {
     /** @var TestCase $this */
 
-    $booking = Booking::factory()->booked()->create(['user_id' => auth()->id()]);
+    $booking = Booking::factory()->booked()->create(['user_id' => auth()->user()->getKey()]);
 
     $this->view('layouts.app')
         ->assertSee($booking->event->name)
         ->assertSee('My booking');
 });
 
-it('can render multiple bookings', function () {
+it('can render multiple bookings', function (): void {
     /** @var TestCase $this */
 
     $event = Event::factory()->create();

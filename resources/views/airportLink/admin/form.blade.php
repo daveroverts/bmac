@@ -9,33 +9,31 @@
                 </div>
 
                 <div class="card-body">
-                    <x-form
-                        :action="$airportLink->id ? route('admin.airportLinks.update', $airportLink) : route('admin.airportLinks.store')"
-                        :method="$airportLink->id ? 'PATCH' : 'POST'">
+                    <x-form :action="$airportLink->id
+                        ? route('admin.airportLinks.update', $airportLink)
+                        : route('admin.airportLinks.store')" :method="$airportLink->id ? 'PATCH' : 'POST'">
 
-                        @bind($airportLink)
-                        <x-form-select name="airportLinkType_id" :label="__('Type')" :options="$airportLinkTypes"
-                            :placeholder="__('Choose...')" required />
+                        <x-forms.select name="airportLinkType_id" :label="__('Type')" :options="$airportLinkTypes" :placeholder="__('Choose...')"
+                            required :value="$airportLink->airportLinkType_id" />
                         @if ($airportLink->id)
-                            <x-form-group :label="__('Airport')">
+                            <x-forms.form-group name="airport_id" label="Airport">
                                 {{ $airportLink->airport->icao }} [{{ $airportLink->airport->name }}
                                 ({{ $airportLink->airport->iata }})]
-                            </x-form-group>
+                            </x-forms.form-group>
                         @else
-                            <x-form-select name="airport_id" :label="__('Airport')" :options="$airports"
-                                :placeholder="__('Choose...')" required />
+                            <x-forms.select name="airport_id" :label="__('Airport')" :options="$airports" :placeholder="__('Choose...')"
+                                required />
                         @endif
-                        <x-form-input name="name" :label="__('Name')" />
-                        <x-form-input name="url" :label="__('URL')" placeholder="https://example.org" required />
+                        <x-forms.input name="name" :label="__('Name')" :help="__('Leave empty to use the type as name')" :value="old('name', $airportLink->name)" />
+                        <x-forms.input name="url" :label="__('URL')" placeholder="https://example.org" required :value="old('url', $airportLink->url)" />
 
-                        <x-form-submit>
+                        <x-forms.button type="submit">
                             @if ($airportLink->id)
                                 <i class="fa fa-check"></i> {{ __('Edit') }}
                             @else
                                 <i class="fa fa-plus"></i> {{ __('Add') }}
                             @endif
-                        </x-form-submit>
-                        @endbind
+                        </x-forms.button>
                     </x-form>
                 </div>
             </div>

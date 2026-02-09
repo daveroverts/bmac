@@ -4,7 +4,7 @@ use App\Models\Faq;
 use Tests\TestCase;
 use App\Models\Event;
 
-it('can render faq page with no items', function () {
+it('can render faq page with no items', function (): void {
     /** @var TestCase $this */
     $this->get(route('faq'))
         ->assertOk()
@@ -12,7 +12,7 @@ it('can render faq page with no items', function () {
         ->assertSee('No Questions / Answers are available at the moment');
 });
 
-it('can render faq page with generic items', function () {
+it('can render faq page with generic items', function (): void {
     /** @var TestCase $this */
 
     /** @var Faq $faq1 */
@@ -31,7 +31,7 @@ it('can render faq page with generic items', function () {
         ->assertDontSee($faq2->answer);
 });
 
-it('can render faq page with event items', function () {
+it('can render faq page with event items', function (): void {
     /** @var TestCase $this */
 
     /** @var Event $event */
@@ -39,7 +39,7 @@ it('can render faq page with event items', function () {
 
     $this->get(route('faq'))
         ->assertOk()
-        ->assertSee("FAQ for {$event->name}")
+        ->assertSee('FAQ for ' . $event->name)
         ->assertSee($event->faqs->first()->question)
         ->assertSee($event->faqs->first()->answer)
         ->assertSee('General FAQ')
