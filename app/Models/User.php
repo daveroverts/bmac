@@ -60,6 +60,8 @@ class User extends Authenticatable
     use LogsActivity;
     use Notifiable;
 
+    public $incrementing = false;
+
     protected $guarded = [
         'isAdmin'
     ];
