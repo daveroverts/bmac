@@ -1,3 +1,33 @@
+# [5.0.0](https://github.com/daveroverts/bmac/compare/v4.1.4...v5.0.0) (2026-02-09)
+
+
+### Bug Fixes
+
+* add help text to airport/event link that name is optional ([23f4b9c](https://github.com/daveroverts/bmac/commit/23f4b9c2d43506ee26959ef672c42846f4ffc922))
+* add laravel-boost ([ebe3d81](https://github.com/daveroverts/bmac/commit/ebe3d8197dcf914850e561602f957a41d26db199))
+* change logout to a post route ([a10cdad](https://github.com/daveroverts/bmac/commit/a10cdad21359d738c4a9c4734e8550d5df9b9044))
+* fix Airport full_name attribute not listening to preference ([1e5cf50](https://github.com/daveroverts/bmac/commit/1e5cf50d24c63a4f6ce8f716ad190e499b05413f))
+* **npm:** drop support for node 16 and node 18 ([bde6667](https://github.com/daveroverts/bmac/commit/bde666776394484df0d78bff555f8b9c561a9eca))
+* regenerate lock for to support php 8.3 again, and drop 8.2 ([e45494d](https://github.com/daveroverts/bmac/commit/e45494dfacbcc15986e58574ceefc634a94d073e))
+* replace form components with own components ([f7d7c65](https://github.com/daveroverts/bmac/commit/f7d7c65e356955c12ec84145e5d9cf0dec2a1dd2)), closes [#783](https://github.com/daveroverts/bmac/issues/783)
+* replace strval with string casting ([52c86a0](https://github.com/daveroverts/bmac/commit/52c86a0339761529eb7736585ff46d2957d186cf))
+
+
+### Features
+
+* add helper text for callsign and aircraft ([2f8428b](https://github.com/daveroverts/bmac/commit/2f8428bc0ab29695de6a7966db35daecd533d758)), closes [#945](https://github.com/daveroverts/bmac/issues/945)
+* **deps:** upgrade to livewire 3 ([e0448fd](https://github.com/daveroverts/bmac/commit/e0448fd1b9dcb45a7d797140cfb8533f26d7eccc)), closes [#239](https://github.com/daveroverts/bmac/issues/239)
+* migrate to Laravel 11 application structure ([6953da8](https://github.com/daveroverts/bmac/commit/6953da8d1eb9359bf0a98ac20ca98922debfe860))
+* migrate to vite ([942c02a](https://github.com/daveroverts/bmac/commit/942c02a7f13cdd06ebf80c612b34f705c65771ac))
+* upgrade to laravel 11 ([2856af8](https://github.com/daveroverts/bmac/commit/2856af832c98684d8f766983b16cc09b7c9fcdf1))
+* upgrade to laravel 12 ([414a66a](https://github.com/daveroverts/bmac/commit/414a66a63f74c9532130d759dab8d207dd17ba19))
+
+
+### BREAKING CHANGES
+
+* **npm:** Drop support for node 16 and node 18
+* Drop support for php 8.2
+
 # [5.0.0-beta.1](https://github.com/daveroverts/bmac/compare/v4.2.0-beta.1...v5.0.0-beta.1) (2026-02-09)
 
 
