@@ -4,7 +4,7 @@
     <x-forms.alert />
     @include('layouts.alert')
     @push('scripts')
-        <script>
+        <script type="module">
             $('.unlink-event').on('click', function(e) {
                 e.preventDefault();
                 Swal.fire({

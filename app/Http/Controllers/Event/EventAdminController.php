@@ -120,11 +120,11 @@ class EventAdminController extends AdminController
         if ($event->startEvent > now()) {
             $event->delete();
             flashMessage('success', __('Done'), __(':event has been deleted!', ['event' => $event->name]));
-            return redirect()->back();
+            return back();
         }
 
         flashMessage('danger', __('Danger'), __('Event can no longer be deleted!'));
-        return redirect()->back();
+        return back();
     }
 
     public function sendEmailForm(Event $event): View
@@ -157,13 +157,16 @@ class EventAdminController extends AdminController
             ->get();
 
         if ($request->testmode) {
-            event(new EventFinalInformation($bookings->random(), $request->user()));
+            /** @var \App\Models\Booking $randomBooking */
+            $randomBooking = $bookings->random();
+            event(new EventFinalInformation($randomBooking, $request->user()));
 
             return response()->json(['success' => __('Email has been sent to yourself')]);
         }
 
         $count = $bookings->count();
         $countSkipped = 0;
+        /** @var \App\Models\Booking $booking */
         foreach ($bookings as $booking) {
             if (!$booking->has_received_final_information_email || $request->forceSend) {
                 event(new EventFinalInformation($booking));
@@ -174,7 +177,7 @@ class EventAdminController extends AdminController
         }
 
         $message = __('Final Information has been sent to :count people!', ['count' => $count]);
-        if ($countSkipped != 0) {
+        if ($countSkipped !== 0) {
             $message .= ' ' . __('However, :count where skipped, because they already received one', ['count' => $count]);
         }
 

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class FinalInformationEmailSentAtToBookingsTable extends Migration
+return new class extends Migration
 {
     /**
      * Run the migrations.
@@ -25,4 +25,4 @@ class FinalInformationEmailSentAtToBookingsTable extends Migration
             $table->dropColumn('final_information_email_sent_at');
         });
     }
-}
+};

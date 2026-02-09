@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddBatchUuidColumnToActivityLogTable extends Migration
+return new class extends Migration
 {
     public function up(): void
     {
@@ -19,4 +19,4 @@ class AddBatchUuidColumnToActivityLogTable extends Migration
             $table->dropColumn('batch_uuid');
         });
     }
-}
+};

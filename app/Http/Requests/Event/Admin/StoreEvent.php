@@ -12,22 +12,22 @@ class StoreEvent extends Request
     public function rules(): array
     {
         return [
-            'is_online' => 'required|boolean',
-            'show_on_homepage' => 'required|boolean',
-            'name' => 'bail|required:string',
-            'event_type_id' => 'exists:event_types,id|required',
-            'import_only' => 'required|boolean',
-            'uses_times' => 'required|boolean',
-            'multiple_bookings_allowed' => 'required|boolean',
-            'is_oceanic_event' => 'required|boolean',
-            'dep' => 'exists:airports,id|required',
-            'arr' => 'exists:airports,id|required',
-            'startEvent' => 'required|date',
-            'endEvent' => 'required|date|after_or_equal:startEvent',
-            'startBooking' => 'required|date',
-            'endBooking' => 'required|date|after_or_equal:startBooking',
-            'image_url' => 'nullable|url',
-            'description' => 'required:string',
+            'is_online' => ['required', 'boolean'],
+            'show_on_homepage' => ['required', 'boolean'],
+            'name' => ['bail', 'required:string'],
+            'event_type_id' => ['exists:event_types,id', 'required'],
+            'import_only' => ['required', 'boolean'],
+            'uses_times' => ['required', 'boolean'],
+            'multiple_bookings_allowed' => ['required', 'boolean'],
+            'is_oceanic_event' => ['required', 'boolean'],
+            'dep' => ['exists:airports,id', 'required'],
+            'arr' => ['exists:airports,id', 'required'],
+            'startEvent' => ['required', 'date'],
+            'endEvent' => ['required', 'date', 'after_or_equal:startEvent'],
+            'startBooking' => ['required', 'date'],
+            'endBooking' => ['required', 'date', 'after_or_equal:startBooking'],
+            'image_url' => ['nullable', 'url'],
+            'description' => ['required:string'],
         ];
     }
 

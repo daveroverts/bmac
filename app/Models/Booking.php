@@ -14,8 +14,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
- *
- *
  * @property int $id
  * @property string|null $uuid
  * @property int $event_id
@@ -42,21 +40,21 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @property-write mixed $actype
  * @property-read \App\Models\User|null $user
  * @method static \Database\Factories\BookingFactory factory($count = null, $state = [])
- * @method static \Illuminate\Database\Eloquent\Builder|Booking newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Booking newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Booking query()
- * @method static \Illuminate\Database\Eloquent\Builder|Booking whereAcType($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Booking whereCallsign($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Booking whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Booking whereEventId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Booking whereFinalInformationEmailSentAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Booking whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Booking whereIsEditable($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Booking whereSelcal($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Booking whereStatus($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Booking whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Booking whereUserId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Booking whereUuid($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereAcType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereCallsign($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereEventId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereFinalInformationEmailSentAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereIsEditable($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereSelcal($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereUserId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereUuid($value)
  * @mixin \Eloquent
  */
 class Booking extends Model
@@ -66,13 +64,6 @@ class Booking extends Model
 
     protected $guarded = [
         'id', 'uuid', 'status', 'selcal',
-    ];
-
-    protected $casts = [
-        'status' => BookingStatus::class,
-        'is_editable' => 'boolean',
-        'has_already_received_final_information_email' => 'boolean',
-        'final_information_email_sent_at' => 'datetime',
     ];
 
     /**
@@ -96,37 +87,37 @@ class Booking extends Model
         return 'uuid';
     }
 
-    public function getFormattedCallsignAttribute(): string
+    protected function getFormattedCallsignAttribute(): string
     {
         return $this->callsign ?: '-';
     }
 
-    public function getFormattedActypeAttribute(): string
+    protected function getFormattedActypeAttribute(): string
     {
         return $this->acType ?: '-';
     }
 
-    public function getFormattedSelcalAttribute(): string
+    protected function getFormattedSelcalAttribute(): string
     {
         return $this->selcal ?: '-';
     }
 
-    public function getHasReceivedFinalInformationEmailAttribute(): bool
+    protected function getHasReceivedFinalInformationEmailAttribute(): bool
     {
         return !empty($this->final_information_email_sent_at);
     }
 
-    public function setCallsignAttribute($value): void
+    protected function setCallsignAttribute($value): void
     {
         $this->attributes['callsign'] = empty($value) ? null : strtoupper((string) $value);
     }
 
-    public function setActypeAttribute($value): void
+    protected function setActypeAttribute($value): void
     {
         $this->attributes['acType'] = empty($value) ? null : strtoupper((string) $value);
     }
 
-    public function setSelcalAttribute($value): void
+    protected function setSelcalAttribute($value): void
     {
         $this->attributes['selcal'] = empty($value) ? null : strtoupper((string) $value);
     }
@@ -172,12 +163,25 @@ class Booking extends Model
     public function uniqueAirports(): Collection
     {
         $airports = collect();
-        $this->flights()->each(function ($flight) use ($airports): void {
-            /* @var Flight $flight */
+
+        /** @var \Illuminate\Database\Eloquent\Collection<int, Flight> $flights */
+        $flights = $this->flights()->get();
+
+        $flights->each(function (Flight $flight) use ($airports): void {
             $airports->push($flight->airportDep);
             $airports->push($flight->airportArr);
         });
 
         return $airports->unique();
+    }
+
+    protected function casts(): array
+    {
+        return [
+            'status' => BookingStatus::class,
+            'is_editable' => 'boolean',
+            'has_already_received_final_information_email' => 'boolean',
+            'final_information_email_sent_at' => 'datetime',
+        ];
     }
 }

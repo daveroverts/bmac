@@ -10,8 +10,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
- *
- *
  * @property int $id
  * @property string $name
  * @property string|null $class
@@ -20,14 +18,14 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Activitylog\Models\Activity> $activities
  * @property-read int|null $activities_count
  * @property-read \App\Models\AirportLink|null $links
- * @method static Builder|AirportLinkType newModelQuery()
- * @method static Builder|AirportLinkType newQuery()
- * @method static Builder|AirportLinkType query()
- * @method static Builder|AirportLinkType whereClass($value)
- * @method static Builder|AirportLinkType whereCreatedAt($value)
- * @method static Builder|AirportLinkType whereId($value)
- * @method static Builder|AirportLinkType whereName($value)
- * @method static Builder|AirportLinkType whereUpdatedAt($value)
+ * @method static Builder<static>|AirportLinkType newModelQuery()
+ * @method static Builder<static>|AirportLinkType newQuery()
+ * @method static Builder<static>|AirportLinkType query()
+ * @method static Builder<static>|AirportLinkType whereClass($value)
+ * @method static Builder<static>|AirportLinkType whereCreatedAt($value)
+ * @method static Builder<static>|AirportLinkType whereId($value)
+ * @method static Builder<static>|AirportLinkType whereName($value)
+ * @method static Builder<static>|AirportLinkType whereUpdatedAt($value)
  * @mixin \Eloquent
  */
 class AirportLinkType extends Model

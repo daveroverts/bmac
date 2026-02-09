@@ -23,19 +23,19 @@ it('cleans up reserverd bookings', function (): void {
 
     $this->assertCount(1, $event->bookings()->whereStatus(BookingStatus::RESERVED->value)->get());
 
-    EventCleanupReservationsJob::dispatch($event);
+    dispatch(new \App\Jobs\EventCleanupReservationsJob($event));
 
     $this->assertCount(1, $event->bookings()->whereStatus(BookingStatus::RESERVED->value)->get());
 
     $this->travel(9)->minutes();
 
-    EventCleanupReservationsJob::dispatch($event);
+    dispatch(new \App\Jobs\EventCleanupReservationsJob($event));
 
     $this->assertCount(1, $event->bookings()->whereStatus(BookingStatus::RESERVED->value)->get());
 
     $this->travel(1)->minutes();
 
-    EventCleanupReservationsJob::dispatch($event);
+    dispatch(new \App\Jobs\EventCleanupReservationsJob($event));
 
     $this->assertCount(0, $event->bookings()->whereStatus(BookingStatus::RESERVED->value)->get());
 });

@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 
-class AddGroupflightToEventTypesTable extends Migration
+return new class extends Migration
 {
     /**
      * Run the migrations.
@@ -21,4 +21,4 @@ class AddGroupflightToEventTypesTable extends Migration
     {
         DB::table('event_types')->delete(4);
     }
-}
+};

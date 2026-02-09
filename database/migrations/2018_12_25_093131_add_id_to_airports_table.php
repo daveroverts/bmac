@@ -2,25 +2,20 @@
 
 use Illuminate\Database\Migrations\Migration;
 
-class AddIdToAirportsTable extends Migration
+return new class extends Migration
 {
     // I hate myself so much for this
-
     /**
      * Run the migrations.
-     *
-     * @return void
      */
-    public function up()
+    public function up(): void
     {
     }
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
-    public function down()
+    public function down(): void
     {
     }
-}
+};

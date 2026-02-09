@@ -8,7 +8,7 @@
     </p>
     @include('layouts.alert')
     @push('scripts')
-        <script>
+        <script type="module">
             $('.delete-bookings').on('click', function(e) {
                 e.preventDefault();
                 Swal.fire({

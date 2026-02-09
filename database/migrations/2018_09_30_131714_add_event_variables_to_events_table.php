@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddEventVariablesToEventsTable extends Migration
+return new class extends Migration
 {
     /**
      * Run the migrations.
@@ -28,4 +28,4 @@ class AddEventVariablesToEventsTable extends Migration
             $table->dropColumn(['is_oceanic_event', 'multiple_bookings_allowed', 'uses_times', 'import_only']);
         });
     }
-}
+};

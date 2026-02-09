@@ -10,8 +10,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
- *
- *
  * @property int $id
  * @property int $booking_id
  * @property int $order_by
@@ -36,22 +34,22 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @property-read string $formatted_oceanicfl
  * @property-write mixed $oceanictrack
  * @method static \Database\Factories\FlightFactory factory($count = null, $state = [])
- * @method static \Illuminate\Database\Eloquent\Builder|Flight newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Flight newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Flight query()
- * @method static \Illuminate\Database\Eloquent\Builder|Flight whereArr($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Flight whereBookingId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Flight whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Flight whereCtot($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Flight whereDep($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Flight whereEta($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Flight whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Flight whereNotes($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Flight whereOceanicFL($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Flight whereOceanicTrack($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Flight whereOrderBy($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Flight whereRoute($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Flight whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Flight newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Flight newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Flight query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Flight whereArr($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Flight whereBookingId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Flight whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Flight whereCtot($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Flight whereDep($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Flight whereEta($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Flight whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Flight whereNotes($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Flight whereOceanicFL($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Flight whereOceanicTrack($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Flight whereOrderBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Flight whereRoute($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Flight whereUpdatedAt($value)
  * @mixin \Eloquent
  */
 class Flight extends Model
@@ -60,16 +58,6 @@ class Flight extends Model
     use LogsActivity;
 
     protected $guarded = ['id'];
-
-    /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array<string, string>
-     */
-    protected $casts = [
-        'ctot' => 'datetime',
-        'eta' => 'datetime',
-    ];
 
     /**
      * The relationships that should be touched on save.
@@ -83,7 +71,7 @@ class Flight extends Model
         return LogOptions::defaults()->logOnlyDirty();
     }
 
-    public function getFormattedCtotAttribute(): string
+    protected function getFormattedCtotAttribute(): string
     {
         if (!empty($this->ctot)) {
             return $this->ctot->format('Hi') . 'z';
@@ -92,7 +80,7 @@ class Flight extends Model
         return '-';
     }
 
-    public function getFormattedEtaAttribute(): string
+    protected function getFormattedEtaAttribute(): string
     {
         if (!empty($this->eta)) {
             return $this->eta->format('Hi') . 'z';
@@ -101,7 +89,7 @@ class Flight extends Model
         return '-';
     }
 
-    public function getFormattedOceanicflAttribute(): string
+    protected function getFormattedOceanicflAttribute(): string
     {
         if ($this->oceanicFL) {
             return 'FL' . $this->oceanicFL;
@@ -110,17 +98,17 @@ class Flight extends Model
         return '-';
     }
 
-    public function getFormattedNotesAttribute(): string
+    protected function getFormattedNotesAttribute(): string
     {
         return $this->notes ?: '-';
     }
 
-    public function setRouteAttribute($value): void
+    protected function setRouteAttribute($value): void
     {
         $this->attributes['route'] = empty($value) ? null : strtoupper((string) $value);
     }
 
-    public function setOceanictrackAttribute($value): void
+    protected function setOceanictrackAttribute($value): void
     {
         $this->attributes['oceanicTrack'] = empty($value) ? null : strtoupper((string) $value);
     }
@@ -138,5 +126,18 @@ class Flight extends Model
     public function airportArr(): HasOne
     {
         return $this->hasOne(Airport::class, 'id', 'arr')->withDefault();
+    }
+
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            'ctot' => 'datetime',
+            'eta' => 'datetime',
+        ];
     }
 }

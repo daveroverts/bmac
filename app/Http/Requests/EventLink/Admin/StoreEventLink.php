@@ -12,10 +12,10 @@ class StoreEventLink extends Request
     public function rules(): array
     {
         return [
-            'event_link_type_id' => 'required|exists:airport_link_types,id',
-            'event_id' => 'required|exists:events,id',
-            'name' => 'nullable|string',
-            'url' => 'required|url',
+            'event_link_type_id' => ['required', 'exists:airport_link_types,id'],
+            'event_id' => ['required', 'exists:events,id'],
+            'name' => ['nullable', 'string'],
+            'url' => ['required', 'url'],
         ];
     }
 

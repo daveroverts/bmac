@@ -12,10 +12,10 @@ class StoreAirportLink extends Request
     public function rules(): array
     {
         return [
-            'airportLinkType_id' => 'required|exists:airport_link_types,id',
-            'airport_id' => 'required|exists:airports,id',
-            'name' => 'nullable|string',
-            'url' => 'required|url',
+            'airportLinkType_id' => ['required', 'exists:airport_link_types,id'],
+            'airport_id' => ['required', 'exists:airports,id'],
+            'name' => ['nullable', 'string'],
+            'url' => ['required', 'url'],
         ];
     }
 

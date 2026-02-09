@@ -18,8 +18,6 @@ class EventFinalInformation
 
     /**
      * Create a new event instance.
-     *
-     * @return void
      */
     public function __construct(public Booking $booking, public ?User $testUser = null)
     {

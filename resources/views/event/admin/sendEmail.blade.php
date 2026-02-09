@@ -4,7 +4,7 @@
     <x-forms.alert />
     @include('layouts.alert')
     @push('scripts')
-        <script>
+        <script type="module">
             $('.send-final-email').on('click', function(e) {
                 e.preventDefault();
                 if ($('#testmode1').prop('checked')) {

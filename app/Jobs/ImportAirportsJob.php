@@ -20,8 +20,6 @@ class ImportAirportsJob implements ShouldQueue, ShouldBeUnique
 
     /**
      * Create a new job instance.
-     *
-     * @return void
      */
     public function __construct()
     {

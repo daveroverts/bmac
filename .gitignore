@@ -4,11 +4,9 @@
 .env
 
 /node_modules
+/public/build
 /public/hot
 /public/storage
-/public/js
-/public/css
-/public/mix-manifest.json
 /storage/*.key
 /vendor
 /.idea
@@ -28,3 +26,11 @@ _ide_helper*\.php
 .phpunit.cache/test-results
 
 .phpstan.neon
+
+# Local MCP files
+.junie/mcp/mcp.json
+.mcp.json
+opencode.json
+.ai/mcp/mcp.json
+.claude/settings.local.json
+

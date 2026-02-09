@@ -20,8 +20,6 @@ class EventCleanupReservationsJob implements ShouldQueue
 
     /**
      * Create a new job instance.
-     *
-     * @return void
      */
     public function __construct(public Event $event)
     {
@@ -33,14 +31,17 @@ class EventCleanupReservationsJob implements ShouldQueue
      */
     public function handle(): void
     {
-        $this->event->bookings()
+        /** @var \Illuminate\Database\Eloquent\Collection<int, Booking> $bookings */
+        $bookings = $this->event->bookings()
             ->whereStatus(BookingStatus::RESERVED->value)
-            ->each(function (Booking $booking): void {
-                if (now()->greaterThanOrEqualTo($booking->updated_at->addMinutes(10))) {
-                    $booking->status = BookingStatus::UNASSIGNED;
-                    $booking->user_id = null;
-                    $booking->save();
-                }
-            });
+            ->get();
+
+        $bookings->each(function (Booking $booking): void {
+            if (now()->greaterThanOrEqualTo($booking->updated_at->addMinutes(10))) {
+                $booking->status = BookingStatus::UNASSIGNED;
+                $booking->user_id = null;
+                $booking->save();
+            }
+        });
     }
 }

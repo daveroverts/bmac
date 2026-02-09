@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class ChangeRouteToText extends Migration
+return new class extends Migration
 {
     /**
      * Run the migrations.
@@ -22,7 +22,7 @@ class ChangeRouteToText extends Migration
     public function down(): void
     {
         Schema::table('flights', function (Blueprint $table): void {
-            $table->string('route')->nullable();
+            $table->string('route')->nullable()->change();
         });
     }
-}
+};

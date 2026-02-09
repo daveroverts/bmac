@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use League\OAuth2\Client\Provider\GenericProvider;
 use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
-use League\OAuth2\Client\Token\AccessToken;
+use League\OAuth2\Client\Token\AccessTokenInterface;
 
 class OAuthController extends GenericProvider
 {
@@ -30,7 +30,7 @@ class OAuthController extends GenericProvider
         ]);
     }
 
-    public static function updateToken($token): ?AccessToken
+    public static function updateToken($token): ?AccessTokenInterface
     {
         $controller = new OAuthController();
         try {

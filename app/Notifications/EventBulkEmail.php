@@ -14,8 +14,6 @@ class EventBulkEmail extends Notification implements ShouldQueue
 
     /**
      * Create a new notification instance.
-     *
-     * @return void
      */
     public function __construct(public Event $event, public string $subject, public string $content)
     {

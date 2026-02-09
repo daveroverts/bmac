@@ -56,7 +56,7 @@ it('can render events', function (): void {
 it('can render single booking', function (): void {
     /** @var TestCase $this */
 
-    $booking = Booking::factory()->booked()->create(['user_id' => auth()->id()]);
+    $booking = Booking::factory()->booked()->create(['user_id' => auth()->user()->getKey()]);
 
     $this->view('layouts.app')
         ->assertSee($booking->event->name)

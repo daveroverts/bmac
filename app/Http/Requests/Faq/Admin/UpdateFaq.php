@@ -12,9 +12,9 @@ class UpdateFaq extends Request
     public function rules(): array
     {
         return [
-            'is_online' => 'required:boolean',
-            'question' => 'required:string',
-            'answer' => 'required:string'
+            'is_online' => ['required:boolean'],
+            'question' => ['required:string'],
+            'answer' => ['required:string']
         ];
     }
 

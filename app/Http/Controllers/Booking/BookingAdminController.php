@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Booking;
 
-use Carbon\Carbon;
 use App\Models\Event;
 use App\Models\Flight;
 use App\Models\Airport;
@@ -48,11 +47,11 @@ class BookingAdminController extends AdminController
     {
         $event = Event::whereKey($request->id)->first();
         if ($request->bulk) {
-            $event_start = Carbon::createFromFormat(
+            $event_start = \Illuminate\Support\Facades\Date::createFromFormat(
                 'Y-m-d H:i',
                 $event->startEvent->toDateString() . ' ' . $request->start
             );
-            $event_end = Carbon::createFromFormat('Y-m-d H:i', $event->endEvent->toDateString() . ' ' . $request->end);
+            $event_end = \Illuminate\Support\Facades\Date::createFromFormat('Y-m-d H:i', $event->endEvent->toDateString() . ' ' . $request->end);
             $separation = $request->separation * 60;
             $count = 0;
             for (; $event_start <= $event_end; $event_start->addSeconds($separation)) {
@@ -101,14 +100,14 @@ class BookingAdminController extends AdminController
             ];
 
             if ($request->ctot) {
-                $flightAttributes['ctot'] = Carbon::createFromFormat(
+                $flightAttributes['ctot'] = \Illuminate\Support\Facades\Date::createFromFormat(
                     'Y-m-d H:i',
                     $event->startEvent->toDateString() . ' ' . $request->ctot
                 );
             }
 
             if ($request->eta) {
-                $flightAttributes['eta'] = Carbon::createFromFormat(
+                $flightAttributes['eta'] = \Illuminate\Support\Facades\Date::createFromFormat(
                     'Y-m-d H:i',
                     $event->startEvent->toDateString() . ' ' . $request->eta
                 );
@@ -162,7 +161,7 @@ class BookingAdminController extends AdminController
         ];
 
         if ($request->ctot) {
-            $flightAttributes['ctot'] = Carbon::createFromFormat(
+            $flightAttributes['ctot'] = \Illuminate\Support\Facades\Date::createFromFormat(
                 'Y-m-d H:i',
                 $booking->event->startEvent->toDateString() . ' ' . $request->ctot
             );
@@ -171,7 +170,7 @@ class BookingAdminController extends AdminController
         }
 
         if ($request->eta) {
-            $flightAttributes['eta'] = Carbon::createFromFormat(
+            $flightAttributes['eta'] = \Illuminate\Support\Facades\Date::createFromFormat(
                 'Y-m-d H:i',
                 $booking->event->startEvent->toDateString() . ' ' . $request->eta
             );
@@ -238,7 +237,7 @@ class BookingAdminController extends AdminController
         return (new BookingsExport($event, $request->vacc))->download('bookings.csv');
     }
 
-    public function importForm(Event $event)
+    public function importForm(Event $event): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
     {
         return view('event.admin.import', ['event' => $event]);
     }
@@ -278,10 +277,11 @@ class BookingAdminController extends AdminController
         $count = 0;
         $flOdd = $request->maxFL;
         $flEven = $request->minFL;
+        /** @var Booking $booking */
         foreach ($bookings as $booking) {
             $flight = $booking->flights()->first();
             $count++;
-            if ($count % 2 == 0) {
+            if ($count % 2 === 0) {
                 $flight->fill([
                     'oceanicTrack' => $request->oceanicTrack2,
                     'route' => $request->route2,

@@ -12,9 +12,9 @@ class UpdateEventLink extends Request
     public function rules(): array
     {
         return [
-            'event_link_type_id' => 'required|exists:airport_link_types,id',
-            'name' => 'nullable|string',
-            'url' => 'required|url',
+            'event_link_type_id' => ['required', 'exists:airport_link_types,id'],
+            'name' => ['nullable', 'string'],
+            'url' => ['required', 'url'],
         ];
     }
 
