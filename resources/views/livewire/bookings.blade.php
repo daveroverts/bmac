@@ -18,7 +18,7 @@
         @endif
         @if (auth()->check() && auth()->user()->isAdmin && $event->endBooking >= now())
             @push('scripts')
-                <script>
+                <script type="module">
                     $('.delete-booking').on('click', function (e) {
                         e.preventDefault();
                         Swal.fire({

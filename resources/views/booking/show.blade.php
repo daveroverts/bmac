@@ -3,7 +3,7 @@
 @section('content')
     <x-forms.alert />
     @push('scripts')
-        <script>
+        <script type="module">
             $('.cancel-booking').on('click', function(e) {
                 e.preventDefault();
                 Swal.fire({

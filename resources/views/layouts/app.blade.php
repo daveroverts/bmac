@@ -16,22 +16,16 @@
     <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@300..600" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700;800" rel="stylesheet" type="text/css">
 
-    <!-- Styles -->
-    <link href="{{ mix('css/app.css') }}" rel="stylesheet">
+    <!-- Styles & Scripts -->
+    @vite(['resources/sass/app.scss', 'resources/js/app.js'])
+    @if (request()->routeIs('admin*'))
+        @vite(['resources/js/flatpickr.js', 'resources/js/tinymce.js'])
+    @endif
 
     @livewireStyles
 
     <!-- Robots -->
     <meta name="robots" content="noindex" />
-
-    <!-- Scripts -->
-    <script src="{{ mix('js/manifest.js') }}"></script>
-    <script src="{{ mix('js/vendor.js') }}"></script>
-    <script src="{{ mix('js/app.js') }}"></script>
-    @if (request()->routeIs('admin*'))
-        <script src="{{ mix('js/flatpickr.js') }}" defer></script>
-        <script src="{{ mix('js/tinymce.js') }}" defer></script>
-    @endif
 </head>
 
 <body>

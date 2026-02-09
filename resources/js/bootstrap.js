@@ -2,6 +2,7 @@ import popper from 'popper.js';
 import jquery from 'jquery';
 import axios from 'axios';
 import Swal from 'sweetalert2'
+import 'sweetalert2/dist/sweetalert2.min.css'
 import 'bootstrap';
 
 window.popper = popper;
@@ -48,13 +49,14 @@ if (token) {
  * allows your team to easily build robust real-time web applications.
  */
 
-// import Echo from 'laravel-echo'
+// import Echo from 'laravel-echo';
+// import Pusher from 'pusher-js';
 
-// window.Pusher = require('pusher-js');
+// window.Pusher = Pusher;
 
 // window.Echo = new Echo({
 //     broadcaster: 'pusher',
-//     key: process.env.MIX_PUSHER_APP_KEY,
-//     cluster: process.env.MIX_PUSHER_APP_CLUSTER,
+//     key: import.meta.env.VITE_PUSHER_APP_KEY,
+//     cluster: import.meta.env.VITE_PUSHER_APP_CLUSTER,
 //     encrypted: true
 // });

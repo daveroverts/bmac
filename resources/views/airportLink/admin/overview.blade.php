@@ -4,7 +4,7 @@
     <h2>Airport Links Overview</h2>
     @include('layouts.alert')
     @push('scripts')
-        <script>
+        <script type="module">
             $('.delete-airportlink').on('click', function(e) {
                 e.preventDefault();
                 Swal.fire({
