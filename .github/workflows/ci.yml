@@ -36,7 +36,7 @@ jobs:
       fail-fast: false
       matrix:
         php-versions: ["8.3", "8.4"]
-        node: [16, 18, 20, 22]
+        node: [20, 22]
         stability: [prefer-lowest, prefer-stable]
     steps:
       - name: Checkout
@@ -121,7 +121,7 @@ jobs:
       fail-fast: false
       matrix:
         php-versions: [8.3", "8.4"]
-        node: [16, 18, 20, 22]
+        node: [20, 22]
         stability: [prefer-lowest, prefer-stable]
     steps:
       - name: Checkout
