@@ -19,7 +19,6 @@
         "semantic-release": "semantic-release"
     },
     "devDependencies": {
-        "@eclass/semantic-release-sentry-releases": "^3.1.0",
         "@fortawesome/fontawesome-free": "^6.2.1",
         "@fortawesome/fontawesome-svg-core": "^6.2.1",
         "@fortawesome/free-brands-svg-icons": "^6.2.1",
@@ -69,10 +68,5 @@
             "@semantic-release/git",
             "@semantic-release/github"
         ]
-    },
-    "config": {
-        "commitizen": {
-            "path": "./node_modules/@commitlint/cz-commitlint"
-        }
     }
 }
