@@ -1,3 +1,26 @@
+# [5.0.0-beta.1](https://github.com/daveroverts/bmac/compare/v4.2.0-beta.1...v5.0.0-beta.1) (2026-02-09)
+
+
+### Bug Fixes
+
+* add laravel-boost ([ebe3d81](https://github.com/daveroverts/bmac/commit/ebe3d8197dcf914850e561602f957a41d26db199))
+* **npm:** drop support for node 16 and node 18 ([bde6667](https://github.com/daveroverts/bmac/commit/bde666776394484df0d78bff555f8b9c561a9eca))
+* regenerate lock for to support php 8.3 again, and drop 8.2 ([e45494d](https://github.com/daveroverts/bmac/commit/e45494dfacbcc15986e58574ceefc634a94d073e))
+
+
+### Features
+
+* migrate to Laravel 11 application structure ([6953da8](https://github.com/daveroverts/bmac/commit/6953da8d1eb9359bf0a98ac20ca98922debfe860))
+* migrate to vite ([942c02a](https://github.com/daveroverts/bmac/commit/942c02a7f13cdd06ebf80c612b34f705c65771ac))
+* upgrade to laravel 11 ([2856af8](https://github.com/daveroverts/bmac/commit/2856af832c98684d8f766983b16cc09b7c9fcdf1))
+* upgrade to laravel 12 ([414a66a](https://github.com/daveroverts/bmac/commit/414a66a63f74c9532130d759dab8d207dd17ba19))
+
+
+### BREAKING CHANGES
+
+* **npm:** Drop support for node 16 and node 18
+* Drop support for php 8.2
+
 # [4.2.0-beta.1](https://github.com/daveroverts/bmac/compare/v4.1.5-beta.1...v4.2.0-beta.1) (2025-02-25)
 
 
