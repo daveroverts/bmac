@@ -3,25 +3,6 @@
 @section('content')
     <h2>Event Links Overview</h2>
     @include('layouts.alert')
-    @push('scripts')
-        <script type="module">
-            $('.delete-eventlink').on('click', function(e) {
-                e.preventDefault();
-                Swal.fire({
-                    title: 'Are you sure',
-                    text: 'Are you sure you want to remove this event link?',
-                    icon: 'warning',
-                    showCancelButton: true,
-                }).then((result) => {
-                    if (result.value) {
-                        Swal.fire('Deleting event link...');
-                        Swal.showLoading();
-                        $(this).closest('form').submit();
-                    }
-                });
-            });
-        </script>
-    @endpush
     <p>
         <a href=" {{ route('admin.eventLinks.create') }}" class="btn btn-primary"><i class="fa fa-plus"></i> Add new
             Event
@@ -51,9 +32,10 @@
                 <td>
                     <form action="{{ route('admin.eventLinks.destroy', $eventLink) }}" method="post">
                         @method('DELETE')
-                        <button class="btn btn-danger delete-eventlink"><i class="fa fa-trash"></i> Remove event
-                            Link
-                        </button>
+                        <x-confirm-button
+                            confirm-text="Are you sure you want to remove this event link?"
+                            loading-message="Deleting event link..."
+                        ><i class="fa fa-trash"></i> Remove event Link</x-confirm-button>
                         @csrf
                     </form>
                 </td>

@@ -3,25 +3,6 @@
 @section('content')
     <x-forms.alert />
     @include('layouts.alert')
-    @push('scripts')
-        <script type="module">
-            $('.unlink-event').on('click', function(e) {
-                e.preventDefault();
-                Swal.fire({
-                    title: 'Are you sure',
-                    text: 'Are you sure you want to unlink this event?',
-                    icon: 'warning',
-                    showCancelButton: true,
-                }).then((result) => {
-                    if (result.value) {
-                        Swal.fire('Unlinking event...');
-                        Swal.showLoading();
-                        $(this).closest('form').submit();
-                    }
-                });
-            });
-        </script>
-    @endpush
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
@@ -74,8 +55,10 @@
                                                 @method('PATCH')
 
                                                 @if ($faq->events()->where('event_id', $event->id)->first())
-                                                    <button
-                                                        class="btn btn-danger unlink-event">{{ __('Unlink event') }}</button>
+                                                    <x-confirm-button
+                                                        confirm-text="Are you sure you want to unlink this event?"
+                                                        loading-message="Unlinking event..."
+                                                    >{{ __('Unlink event') }}</x-confirm-button>
                                                 @else
                                                     <button class="btn btn-success">{{ __('Link event') }}</button>
                                                 @endif

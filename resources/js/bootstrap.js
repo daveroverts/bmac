@@ -9,8 +9,9 @@ window.popper = popper;
 
 /**
  * We'll load jQuery and the Bootstrap jQuery plugin which provides support
- * for JavaScript based Bootstrap features such as modals and tabs. This
- * code may be modified to fit the specific needs of your application.
+ * for JavaScript based Bootstrap features such as modals and tabs.
+ *
+ * TODO: Remove jQuery and Popper.js when upgrading to Bootstrap 5.
  */
 
 try {

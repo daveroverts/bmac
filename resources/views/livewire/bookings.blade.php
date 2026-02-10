@@ -17,25 +17,6 @@
             </button>&nbsp;
         @endif
         @if (auth()->check() && auth()->user()->isAdmin && $event->endBooking >= now())
-            @push('scripts')
-                <script type="module">
-                    $('.delete-booking').on('click', function (e) {
-                        e.preventDefault();
-                        Swal.fire({
-                            title: 'Are you sure',
-                            text: 'Are you sure you want to remove this booking?',
-                            icon: 'warning',
-                            showCancelButton: true,
-                        }).then((result) => {
-                            if (result.value) {
-                                Swal.fire('Deleting booking...');
-                                Swal.showLoading();
-                                $(this).closest('form').submit();
-                            }
-                        });
-                    });
-                </script>
-            @endpush
             <a href="{{ route('admin.bookings.create', $event) }}" class="btn btn-primary"><i class="fa fa-plus"></i>
                 Add
                 Booking</a>&nbsp;

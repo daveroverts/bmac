@@ -4,25 +4,6 @@
     <h3>FAQ Overview</h3>
     <hr>
     @include('layouts.alert')
-    @push('scripts')
-        <script type="module">
-            $('.delete-faq').on('click', function(e) {
-                e.preventDefault();
-                Swal.fire({
-                    title: 'Are you sure',
-                    text: 'Are you sure you want to remove this faq?',
-                    icon: 'warning',
-                    showCancelButton: true,
-                }).then((result) => {
-                    if (result.value) {
-                        Swal.fire('Deleting faq...');
-                        Swal.showLoading();
-                        $(this).closest('form').submit();
-                    }
-                });
-            });
-        </script>
-    @endpush
     <p>
         <a href="{{ route('admin.faq.create') }}" class="btn btn-primary"><i class="fa fa-plus"></i> {{ __('Add') }}
             new FAQ</a>
@@ -51,7 +32,10 @@
                 <td>
                     <form action="{{ route('admin.faq.destroy', $faq) }}" method="post">
                         @method('DELETE')
-                        <button class="btn btn-danger delete-faq"><i class="fa fa-trash"></i> Remove FAQ</button>
+                        <x-confirm-button
+                            confirm-text="Are you sure you want to remove this faq?"
+                            loading-message="Deleting faq..."
+                        ><i class="fa fa-trash"></i> Remove FAQ</x-confirm-button>
                         @csrf
                     </form>
                 </td>

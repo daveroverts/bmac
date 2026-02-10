@@ -7,40 +7,6 @@
             {{ __('Add new Event') }}</a>
     </p>
     @include('layouts.alert')
-    @push('scripts')
-        <script type="module">
-            $('.delete-bookings').on('click', function(e) {
-                e.preventDefault();
-                Swal.fire({
-                    title: 'Are you sure',
-                    text: 'Are you sure you want to delete all bookings?',
-                    icon: 'warning',
-                    showCancelButton: true,
-                }).then((result) => {
-                    if (result.value) {
-                        Swal.fire('Deleting bookings...');
-                        Swal.showLoading();
-                        $(`#${$(this).attr('form')}`).submit();
-                    }
-                });
-            });
-            $('.delete-event').on('click', function(e) {
-                e.preventDefault();
-                Swal.fire({
-                    title: 'Are you sure',
-                    text: 'Are you sure you want to remove this event?',
-                    icon: 'warning',
-                    showCancelButton: true,
-                }).then((result) => {
-                    if (result.value) {
-                        Swal.fire('Deleting event...');
-                        Swal.showLoading();
-                        $(`#${$(this).attr('form')}`).submit();
-                    }
-                });
-            });
-        </script>
-    @endpush
     <table class="table table-hover table-responsive">
         <thead>
             <tr>
@@ -99,12 +65,18 @@
                                 class="fa fa-edit"></i> {{ __('Assign Routes') }}</a>&nbsp;
                     @endif
                     @if ($event->startEvent > now())
-                        <button class="btn btn-danger delete-bookings m-1" form="delete-bookings-{{ $event->id }}">
-                            {{ __('Delete bookings') }}
-                        </button>
-                        <button class="btn btn-danger delete-event m-1" form="delete-event-{{ $event->id }}">
-                            {{ __('Delete event') }}
-                        </button>
+                        <x-confirm-button
+                            class="m-1"
+                            confirm-text="Are you sure you want to delete all bookings?"
+                            loading-message="Deleting bookings..."
+                            form="delete-bookings-{{ $event->id }}"
+                        >{{ __('Delete bookings') }}</x-confirm-button>
+                        <x-confirm-button
+                            class="m-1"
+                            confirm-text="Are you sure you want to remove this event?"
+                            loading-message="Deleting event..."
+                            form="delete-event-{{ $event->id }}"
+                        >{{ __('Delete event') }}</x-confirm-button>
                     @endif
                 </div>
             </td>
