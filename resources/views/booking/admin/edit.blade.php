@@ -24,7 +24,7 @@
                         <x-forms.input name="acType" :label="__('Aircraft code')" minlength="3" maxlength="4" :value="$booking->acType" />
 
                         <x-forms.form-group inline>
-                            <x-forms.input name="ctot" type="time" :value="$flight->ctot?->format('H:i')" input-group-class="pr-2">
+                            <x-forms.input name="ctot" type="time" :value="$flight->ctot?->format('H:i')" input-group-class="pe-2">
                                 <x-slot:label>
                                     <i class="fa fa-clock"></i> CTOT
                                 </x-slot:label>

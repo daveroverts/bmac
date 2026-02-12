@@ -10,8 +10,8 @@
                 <div class="card-body">
 
                     {{-- Name --}}
-                    <div class="form-group row">
-                        <label for="name" class="col-md-4 col-form-label text-md-right">Name</label>
+                    <div class="row mb-3">
+                        <label for="name" class="col-md-4 col-form-label text-md-end">Name</label>
 
                         <div class="col-md-6">
                             <div class="form-control-plaintext"><strong><a href="{{ route('events.show', $event) }}"
@@ -22,8 +22,8 @@
                     </div>
 
                     {{-- Type --}}
-                    <div class="form-group row">
-                        <label for="type" class="col-md-4 col-form-label text-md-right">Type</label>
+                    <div class="row mb-3">
+                        <label for="type" class="col-md-4 col-form-label text-md-end">Type</label>
 
                         <div class="col-md-6">
                             <div class="form-control-plaintext"><strong>{{ $event->type->name }}</strong></div>
@@ -32,8 +32,8 @@
 
                     @if ($event->event_type_id != \App\Enums\EventType::MULTIFLIGHTS->value)
                         {{-- Departure Airport --}}
-                        <div class="form-group row">
-                            <label for="dep" class="col-md-4 col-form-label text-md-right">Departure Airport</label>
+                        <div class="row mb-3">
+                            <label for="dep" class="col-md-4 col-form-label text-md-end">Departure Airport</label>
 
                             <div class="col-md-6">
                                 <div class="form-control-plaintext">
@@ -48,8 +48,8 @@
                         </div>
 
                         {{-- Arrival Airport --}}
-                        <div class="form-group row">
-                            <label for="arr" class="col-md-4 col-form-label text-md-right">Arrival Airport</label>
+                        <div class="row mb-3">
+                            <label for="arr" class="col-md-4 col-form-label text-md-end">Arrival Airport</label>
 
                             <div class="col-md-6">
                                 <div class="form-control-plaintext">
@@ -65,8 +65,8 @@
                     @endif
 
                     {{-- Event date/time --}}
-                    <div class="form-group row">
-                        <label for="eventDateTime" class="col-md-4 col-form-label text-md-right">Event date | time</label>
+                    <div class="row mb-3">
+                        <label for="eventDateTime" class="col-md-4 col-form-label text-md-end">Event date | time</label>
 
                         <div class="col-md-6">
                             <div class="form-control-plaintext">
@@ -78,8 +78,8 @@
                     </div>
 
                     {{-- Booking status --}}
-                    <div class="form-group row">
-                        <label for="bookingStatus" class="col-md-4 col-form-label text-md-right">Booking status</label>
+                    <div class="row mb-3">
+                        <label for="bookingStatus" class="col-md-4 col-form-label text-md-end">Booking status</label>
 
                         <div class="col-md-6">
                             <div class="form-control-plaintext">
@@ -110,8 +110,8 @@
                     </div>
 
                     {{-- Import only? --}}
-                    <div class="form-group row">
-                        <label for="importOnly" class="col-md-4 col-form-label text-md-right">
+                    <div class="row mb-3">
+                        <label for="importOnly" class="col-md-4 col-form-label text-md-end">
                             <abbr title="If enabled, only admins can fill in details via import script">
                                 Only import?
                             </abbr>
@@ -127,8 +127,8 @@
                     </div>
 
                     {{-- Show times? --}}
-                    <div class="form-group row">
-                        <label for="usesTimes" class="col-md-4 col-form-label text-md-right">
+                    <div class="row mb-3">
+                        <label for="usesTimes" class="col-md-4 col-form-label text-md-end">
                             <abbr title="If enabled, CTOT and ETA (if set in booking) will be shown">
                                 Show times?
                             </abbr>
@@ -144,8 +144,8 @@
                     </div>
 
                     {{-- Multiple bookings allowed? --}}
-                    <div class="form-group row">
-                        <label for="multipleBookingsAllowed" class="col-md-4 col-form-label text-md-right">
+                    <div class="row mb-3">
+                        <label for="multipleBookingsAllowed" class="col-md-4 col-form-label text-md-end">
                             <abbr title="If enabled, a user is allowed to book multiple flights for this event">
                                 Multiple bookings allowed?
                             </abbr>
@@ -161,8 +161,8 @@
                     </div>
 
                     {{-- Is oceanic event? --}}
-                    <div class="form-group row">
-                        <label for="isOceanicEvent" class="col-md-4 col-form-label text-md-right">
+                    <div class="row mb-3">
+                        <label for="isOceanicEvent" class="col-md-4 col-form-label text-md-end">
                             <abbr
                                 title="If enabled, users can fill in a SELCAL code, and oceanic links are shown in the booking briefing">
                                 Oceanic event?
@@ -179,9 +179,9 @@
                     </div>
 
                     @foreach ($event->links as $link)
-                        <div class="form-group row">
+                        <div class="row mb-3">
                             <label for="{{ $link->type->name . '-' . $loop->index }}"
-                                class="col-md-4 col-form-label text-md-right">{{ $link->name ?? $link->type->name }}</label>
+                                class="col-md-4 col-form-label text-md-end">{{ $link->name ?? $link->type->name }}</label>
 
                             <div class="col-md-6">
                                 <div class="form-control-plaintext"><a href="{{ $link->url }}" target="_blank">Link</a>

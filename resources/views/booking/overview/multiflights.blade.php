@@ -19,9 +19,9 @@
         <td>
             {!! $booking->airportCtot(2) !!}
         </td>
-        <td class="{{ auth()->check() && auth()->user()->use_monospace_font ? 'text-monospace' : '' }}">
+        <td class="{{ auth()->check() && auth()->user()->use_monospace_font ? 'font-monospace' : '' }}">
             {{ $booking->formatted_callsign }}</td>
-        <td class="{{ auth()->check() && auth()->user()->use_monospace_font ? 'text-monospace' : '' }}">
+        <td class="{{ auth()->check() && auth()->user()->use_monospace_font ? 'font-monospace' : '' }}">
             {{ $booking->formatted_actype }}</td>
         <td>
             {{-- Check if booking has been booked --}}

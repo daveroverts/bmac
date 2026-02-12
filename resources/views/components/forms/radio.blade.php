@@ -5,8 +5,8 @@
 @endphp
 
 <div @class([
-    'custom-control custom-radio',
-    'custom-control-inline' => $inline,
+    'form-check',
+    'form-check-inline' => $inline,
 ])>
     <input
         type="radio"
@@ -14,8 +14,8 @@
         id="{{ $id }}"
         value="{{ $value }}"
         @if($shouldBeChecked) checked @endif
-        {{ $attributes->class(['custom-control-input', 'is-invalid' => $errors->has($name)]) }}
+        {{ $attributes->class(['form-check-input', 'is-invalid' => $errors->has($name)]) }}
     >
 
-    <x-forms.label :for="$id" :label="$label" class="custom-control-label"/>
+    <x-forms.label :for="$id" :label="$label" class="form-check-label"/>
 </div>

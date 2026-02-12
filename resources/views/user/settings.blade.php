@@ -10,12 +10,12 @@
 
                 <div class="card-body">
                     <x-form :action="route('user.saveSettings')" method="PATCH">
-                            <x-forms.form-group name="airport_view" :label="__('Default airport view')" inline>
-                                <x-forms.radio name="airport_view" value="0" :label="__('Name') . ': Amsterdam Airport Schiphol - EHAM | [AMS]'" inline required
+                            <x-forms.form-group name="airport_view" :label="__('Default airport view')">
+                                <x-forms.radio name="airport_view" value="0" :label="__('Name') . ': Amsterdam Airport Schiphol - EHAM | [AMS]'" required
                                                :should-be-checked="old('airport_view', $user->airport_view->value) == 0"/>
-                                <x-forms.radio name="airport_view" value="1" :label="__('ICAO') . ': EHAM - Amsterdam Airport Schiphol | [AMS]'" inline required
+                                <x-forms.radio name="airport_view" value="1" :label="__('ICAO') . ': EHAM - Amsterdam Airport Schiphol | [AMS]'" required
                                                :should-be-checked="old('airport_view', $user->airport_view->value) == 1"/>
-                                <x-forms.radio name="airport_view" value="2" :label="__('IATA') . ': AMS - Amsterdam Airport Schiphol | [EHAM]'" inline required
+                                <x-forms.radio name="airport_view" value="2" :label="__('IATA') . ': AMS - Amsterdam Airport Schiphol | [EHAM]'" required
                                                :should-be-checked="old('airport_view', $user->airport_view->value) == 2"/>
                             </x-forms.form-group>
 

@@ -29,7 +29,7 @@ export default defineConfig(({ mode }) => {
                 content: [
                     './resources/views/**/*.blade.php',
                     './resources/js/**/*.js',
-                    './vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*bootstrap-4.blade.php',
+                    './vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*bootstrap-5.blade.php',
                 ],
                 safelist: {
                     deep: [/\b(ui|flatpickr)-\S*$/, /^swal2-/],

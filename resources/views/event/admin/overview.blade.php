@@ -49,7 +49,7 @@
                     <a href="{{ route('admin.events.email.form', $event) }}" class="btn btn-primary m-1"><i
                             class="fa fa-envelope"></i> {{ __('Send mail to all') }}</a>&nbsp;
 
-                    <button class="btn btn-success dropdown-toggle m-1" type="button" data-toggle="dropdown"
+                    <button class="btn btn-success dropdown-toggle m-1" type="button" data-bs-toggle="dropdown"
                         aria-haspopup="true" aria-expanded="false"><i class="fa fa-file-export"></i> Export</button>
                     <div class="dropdown-menu">
                         <a class="dropdown-item"

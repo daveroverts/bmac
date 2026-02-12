@@ -60,7 +60,7 @@
                             </x-forms.form-group>
                         @else
                             <x-forms.form-group inline>
-                                <x-forms.input name="ctot" type="time" input-group-class="pr-2">
+                                <x-forms.input name="ctot" type="time" input-group-class="pe-2">
                                     <x-slot:label>
                                         <i class="fa fa-clock"></i> CTOT
                                     </x-slot:label>

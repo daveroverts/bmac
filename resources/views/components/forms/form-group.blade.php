@@ -4,7 +4,7 @@
 $name = $name ?? $label;
 @endphp
 
-<div class="form-group">
+<div class="mb-3">
     @if ($name || $label)
         <x-forms.label :for="$name" :label="$label" />
     @endif
@@ -14,7 +14,7 @@ $name = $name ?? $label;
     </div>
 
     @isset($help)
-        <small id="{{ $name }}-help" class="form-text text-muted">
+        <small id="{{ $name }}-help" class="form-text">
             {!! $help !!}
         </small>
     @endisset
