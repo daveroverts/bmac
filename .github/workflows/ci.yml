@@ -14,6 +14,7 @@ jobs:
       DB_USERNAME: root
       DB_PASSWORD: password
       BROADCAST_DRIVER: log
+      MAIL_MAILER: log
       # CACHE_DRIVER: redis
       # QUEUE_CONNECTION: redis
       # SESSION_DRIVER: redis
@@ -94,6 +95,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       BROADCAST_DRIVER: log
+      MAIL_MAILER: log
       # CACHE_DRIVER: redis
       # QUEUE_CONNECTION: redis
       # SESSION_DRIVER: redis

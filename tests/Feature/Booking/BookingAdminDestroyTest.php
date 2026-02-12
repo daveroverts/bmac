@@ -2,10 +2,14 @@
 
 use App\Models\Flight;
 use App\Models\User;
+use App\Notifications\BookingDeleted;
 use Tests\TestCase;
+use Illuminate\Support\Facades\Mail;
 
 it('allows an admin to delete a booking with a user', function (): void {
     /** @var TestCase $this */
+
+    Mail::fake();
 
     /** @var User $admin */
     $admin = User::factory()->admin()->create();
@@ -31,6 +35,8 @@ it('allows an admin to delete a booking with a user', function (): void {
 
 it('allows an admin to delete a booking without a user', function (): void {
     /** @var TestCase $this */
+
+    Mail::fake();
 
     /** @var User $admin */
     $admin = User::factory()->admin()->create();
