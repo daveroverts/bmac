@@ -15,8 +15,7 @@
     },
     "scripts": {
         "dev": "vite",
-        "build": "vite build",
-        "semantic-release": "semantic-release"
+        "build": "vite build"
     },
     "devDependencies": {
         "@fortawesome/fontawesome-free": "^7.2.0",
@@ -25,8 +24,6 @@
         "@fortawesome/free-regular-svg-icons": "^7.2.0",
         "@fortawesome/free-solid-svg-icons": "^7.2.0",
         "@popperjs/core": "^2.11.8",
-        "@semantic-release/changelog": "^6.0.3",
-        "@semantic-release/git": "^10.0.1",
         "axios": "^1.13.5",
         "bootstrap": "^5.3.8",
         "bootswatch": "^5.3.8",
@@ -34,7 +31,6 @@
         "laravel-vite-plugin": "^2.1.0",
         "postcss": "^8.4.31",
         "sass": "^1.56.1",
-        "semantic-release": "^24.2.3",
         "tinymce": "^7.4.1",
         "vite": "^7.3.1",
         "vite-plugin-purgecss": "^0.2.13",
