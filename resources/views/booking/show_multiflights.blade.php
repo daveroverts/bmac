@@ -2,25 +2,6 @@
 
 @section('content')
     <x-forms.alert />
-    @push('scripts')
-        <script type="module">
-            $('.cancel-booking').on('click', function(e) {
-                e.preventDefault();
-                Swal.fire({
-                    title: 'Are you sure',
-                    text: 'Are you sure you want to cancel your booking?',
-                    icon: 'warning',
-                    showCancelButton: true,
-                }).then((result) => {
-                    if (result.value) {
-                        Swal.fire('Cancelling booking...');
-                        Swal.showLoading();
-                        $('#cancel-booking').submit();
-                    }
-                });
-            });
-        </script>
-    @endpush
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
@@ -112,9 +93,11 @@
                             </a>
                         @endif
 
-                        <button class="btn btn-danger cancel-booking" form="cancel-booking">
-                            {{ __('Cancel Booking') }}
-                        </button>
+                        <x-confirm-button
+                            confirm-text="Are you sure you want to cancel your booking?"
+                            loading-message="Cancelling booking..."
+                            form="cancel-booking"
+                        >{{ __('Cancel Booking') }}</x-confirm-button>
                     </x-forms.form-group>
 
 

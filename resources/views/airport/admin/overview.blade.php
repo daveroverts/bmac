@@ -4,40 +4,6 @@
     <h3>Airports Overview</h3>
     <hr>
     @include('layouts.alert')
-    @push('scripts')
-        <script type="module">
-            $('.delete-airport').on('click', function(e) {
-                e.preventDefault();
-                Swal.fire({
-                    title: 'Are you sure',
-                    text: 'Are you sure you want to remove this airport?',
-                    icon: 'warning',
-                    showCancelButton: true,
-                }).then((result) => {
-                    if (result.value) {
-                        Swal.fire('Deleting airport...');
-                        Swal.showLoading();
-                        $(this).closest('form').submit();
-                    }
-                });
-            });
-            $('.delete-unused-airports').on('click', function(e) {
-                e.preventDefault();
-                Swal.fire({
-                    title: 'Are you sure',
-                    text: 'Are you sure you want to delete all unused airports?',
-                    icon: 'warning',
-                    showCancelButton: true,
-                }).then((result) => {
-                    if (result.value) {
-                        Swal.fire('Deleting unused airports...');
-                        Swal.showLoading();
-                        $(`#${$(this).attr('form')}`).submit();
-                    }
-                });
-            });
-        </script>
-    @endpush
     <div class="d-flex flex-row flex-wrap">
         <a href="{{ route('admin.airports.create') }}" class="btn btn-primary m-1"><i class="fa fa-plus"></i> Add new
             Airport</a>
@@ -45,8 +11,12 @@
             new
             Airport
             Link</a>
-        <button class="btn btn-danger m-1 delete-unused-airports" form="delete-unused-airports"><i class="fa fa-trash"></i>
-            Delete unused airports</button>
+        <x-confirm-button
+            class="m-1"
+            confirm-text="Are you sure you want to delete all unused airports?"
+            loading-message="Deleting unused airports..."
+            form="delete-unused-airports"
+        ><i class="fa fa-trash"></i> Delete unused airports</x-confirm-button>
     </div>
     <table class="table table-hover">
         <thead>
@@ -77,8 +47,10 @@
                             $airport->eventArr->isEmpty())
                         <form action="{{ route('admin.airports.destroy', $airport) }}" method="post">
                             @method('DELETE')
-                            <button class="btn btn-danger delete-airport"><i class="fa fa-trash"></i> Remove Airport
-                            </button>
+                            <x-confirm-button
+                                confirm-text="Are you sure you want to remove this airport?"
+                                loading-message="Deleting airport..."
+                            ><i class="fa fa-trash"></i> Remove Airport</x-confirm-button>
                             @csrf
                         </form>
                     @else

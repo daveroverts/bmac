@@ -34,9 +34,9 @@
                     {{ $flight->formattedEta }}
                 </td>
             @endif
-            <td class="{{ auth()->check() && auth()->user()->use_monospace_font ? 'text-monospace' : '' }}">
+            <td class="{{ auth()->check() && auth()->user()->use_monospace_font ? 'font-monospace' : '' }}">
                 {{ $booking->formatted_callsign }}</td>
-            <td class="{{ auth()->check() && auth()->user()->use_monospace_font ? 'text-monospace' : '' }}">
+            <td class="{{ auth()->check() && auth()->user()->use_monospace_font ? 'font-monospace' : '' }}">
                 {{ $booking->formatted_actype }}</td>
             <td>
                 {{-- Check if booking has been booked --}}
@@ -92,8 +92,10 @@
                     <form action="{{ route('admin.bookings.destroy', $booking) }}" method="post">
                         @csrf
                         @method('DELETE')
-                        <button class="btn btn-danger delete-booking"><i class="fas fa-trash"></i> Delete
-                        </button>
+                        <x-confirm-button
+                            confirm-text="Are you sure you want to remove this booking?"
+                            loading-message="Deleting booking..."
+                        ><i class="fas fa-trash"></i> Delete</x-confirm-button>
                     </form>
                 </td>
                 <td>

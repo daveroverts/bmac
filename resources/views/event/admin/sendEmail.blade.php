@@ -3,71 +3,6 @@
 @section('content')
     <x-forms.alert />
     @include('layouts.alert')
-    @push('scripts')
-        <script type="module">
-            $('.send-final-email').on('click', function(e) {
-                e.preventDefault();
-                if ($('#testmode1').prop('checked')) {
-                    Swal.fire('Sending test Email...');
-                    Swal.showLoading();
-                    var url = '{{ route('admin.events.email.final', $event) }}';
-                    axios.post(url, {
-                            'testmode': 1,
-                            '_method': 'PATCH',
-                        })
-                        .then(function(response) {
-                            Swal.fire(response.data.success);
-                        });
-                } else {
-                    Swal.fire({
-                        title: 'Are you sure',
-                        text: 'Are you sure you want to send the Final Information Email?',
-                        icon: 'warning',
-                        showCancelButton: true,
-                    }).then((result) => {
-                        if (result.value) {
-                            Swal.fire('Sending Final Information Email...');
-                            Swal.showLoading();
-                            $(this).closest('form').submit();
-                        }
-                    });
-                }
-            });
-
-            $('.send-email').on('click', function(e) {
-                e.preventDefault();
-                if ($('#testmode2').prop('checked')) {
-                    Swal.fire('Sending test Email...');
-                    Swal.showLoading();
-                    var url = '{{ route('admin.events.email', $event) }}';
-                    axios.post(url, {
-                            'subject': $('#subject').val(),
-                            'message': tinymce.activeEditor.getContent(),
-                            'testmode': 1,
-                            '_method': 'PATCH',
-                        })
-                        .then(function(response) {
-                            console.log(response);
-                            Swal.fire(response.data.success);
-                        });
-                } else {
-                    Swal.fire({
-                        title: 'Are you sure',
-                        text: 'Are you sure you want to send a Email?',
-                        icon: 'warning',
-                        showCancelButton: true,
-                    }).then((result) => {
-                        if (result.value) {
-                            Swal.fire('Sending Email...');
-                            Swal.showLoading();
-                            $(this).closest('form').submit();
-                        }
-                    });
-                }
-
-            });
-        </script>
-    @endpush
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
@@ -83,7 +18,32 @@
                         <x-forms.form-group :help="__('Send to all particpants, even though they already received it (and no edit was made)')">
                             <x-forms.checkbox name="forceSend" :label="__('Send to everybody')" />
                         </x-forms.form-group>
-                        <x-forms.button class="send-final-email" type="submit">
+                        <x-forms.button type="submit" x-data
+                            x-on:click.prevent="
+                                if (document.getElementById('testmode1').checked) {
+                                    Swal.fire('Sending test Email...');
+                                    Swal.showLoading();
+                                    axios.post('{{ route('admin.events.email.final', $event) }}', {
+                                        'testmode': 1,
+                                        '_method': 'PATCH',
+                                    }).then(function(response) {
+                                        Swal.fire(response.data.success);
+                                    });
+                                } else {
+                                    Swal.fire({
+                                        title: 'Are you sure',
+                                        text: 'Are you sure you want to send the Final Information Email?',
+                                        icon: 'warning',
+                                        showCancelButton: true,
+                                    }).then((result) => {
+                                        if (result.isConfirmed) {
+                                            Swal.fire('Sending Final Information Email...');
+                                            Swal.showLoading();
+                                            $el.closest('form').submit();
+                                        }
+                                    });
+                                }
+                            ">
                             <i class="fa fa-envelope"></i> {!! __('Send <strong>Final Information</strong> E-mail') !!}
                         </x-forms.button>
                     </x-form>
@@ -98,7 +58,34 @@
                             <x-forms.checkbox name="testmode2" :label="__('Test mode')" />
                         </x-forms.form-group>
 
-                        <x-forms.button class="send-email" type="submit">
+                        <x-forms.button type="submit" x-data
+                            x-on:click.prevent="
+                                if (document.getElementById('testmode2').checked) {
+                                    Swal.fire('Sending test Email...');
+                                    Swal.showLoading();
+                                    axios.post('{{ route('admin.events.email', $event) }}', {
+                                        'subject': document.getElementById('subject').value,
+                                        'message': tinymce.activeEditor.getContent(),
+                                        'testmode': 1,
+                                        '_method': 'PATCH',
+                                    }).then(function(response) {
+                                        Swal.fire(response.data.success);
+                                    });
+                                } else {
+                                    Swal.fire({
+                                        title: 'Are you sure',
+                                        text: 'Are you sure you want to send a Email?',
+                                        icon: 'warning',
+                                        showCancelButton: true,
+                                    }).then((result) => {
+                                        if (result.isConfirmed) {
+                                            Swal.fire('Sending Email...');
+                                            Swal.showLoading();
+                                            $el.closest('form').submit();
+                                        }
+                                    });
+                                }
+                            ">
                             <i class="fa fa-envelope"></i> {{ __('Send E-mail') }}
                         </x-forms.button>
                     </x-form>

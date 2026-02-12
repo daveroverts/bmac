@@ -1,23 +1,10 @@
-import popper from 'popper.js';
-import jquery from 'jquery';
+import * as bootstrap from 'bootstrap';
 import axios from 'axios';
 import Swal from 'sweetalert2'
 import 'sweetalert2/dist/sweetalert2.min.css'
-import 'bootstrap';
 
-window.popper = popper;
-
-/**
- * We'll load jQuery and the Bootstrap jQuery plugin which provides support
- * for JavaScript based Bootstrap features such as modals and tabs. This
- * code may be modified to fit the specific needs of your application.
- */
-
-try {
-    window.$ = window.jQuery = jquery;
-
-    window.Swal = Swal;
-} catch (e) { }
+window.bootstrap = bootstrap;
+window.Swal = Swal;
 
 /**
  * We'll load the axios HTTP library which allows us to easily issue requests

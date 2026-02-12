@@ -4,20 +4,33 @@
 // Bootswatch Flatly variables
 @import 'bootswatch/dist/flatly/variables';
 
+// Bootstrap functions (needed for shade-color before full import)
+@import 'bootstrap/scss/functions';
+
 // Bootstrap color overrides
-$theme-colors: (primary: $envColorPrimary,
+$theme-colors: (
+    primary: $envColorPrimary,
     secondary: $envColorSecondary,
     success: $envColorSuccess,
+    info: $info,
     warning: $envColorWarning,
     danger: $envColorDanger,
+    light: $light,
+    dark: $dark,
 );
+
+// Restore breadcrumb background (removed by default in BS5)
+$breadcrumb-padding-y: .75rem;
+$breadcrumb-padding-x: 1rem;
+$breadcrumb-bg: $gray-200;
+$breadcrumb-border-radius: .25rem;
 
 $navbar-dark-color: white;
 $navbar-dark-hover-color: $envColorTertiary;
 $navbar-dark-active-color: $envColorTertiary;
 
 $link-color: $envColorSecondary;
-$link-hover-color: darken($envColorSecondary, 25%);
+$link-hover-color: shade-color($envColorSecondary, 25%);
 
 // Import boostrap
 @import 'bootstrap/scss/bootstrap';

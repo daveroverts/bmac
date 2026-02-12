@@ -1,8 +1,8 @@
 @props(['name', 'label', 'value' => null])
 
-<div class="custom-control custom-checkbox">
+<div class="form-check">
     <x-checkbox :name="$name" :value="$value"
-        {{ $attributes->class(['custom-control-input', 'is-invalid' => $errors->has($name)]) }} />
+        {{ $attributes->class(['form-check-input', 'is-invalid' => $errors->has($name)]) }} />
 
-    <x-forms.label :for="$name" :label="$label" class="custom-control-label" />
+    <x-forms.label :for="$name" :label="$label" class="form-check-label" />
 </div>
