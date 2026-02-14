@@ -79,10 +79,10 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin', 'middleware' => 'auth.isAdm
     )->name('bookings.routeAssign');
 });
 
-Route::resource('bookings', BookingController::class)->only(['show', 'edit', 'update']);
+Route::resource('bookings', BookingController::class)
+    ->only(['show', 'edit', 'update'])
+    ->middleware(['edit' => 'auth.isLoggedIn']);
 Route::get('/{event}/bookings/{filter?}', [BookingController::class, 'index'])->name('bookings.event.index');
-Route::get('/bookings/{booking}/edit', [BookingController::class, 'edit'])
-    ->middleware('auth.isLoggedIn')->name('bookings.edit');
 Route::patch('/bookings/{booking}/cancel', [BookingController::class, 'cancel'])->name('bookings.cancel');
 
 Route::get('faq', FaqController::class)->name('faq');
