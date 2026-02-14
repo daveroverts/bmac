@@ -248,51 +248,365 @@ if ($booking->event->is_oceanic_event) {
 }
 ```
 
-**5b. Simplify edit() method**
+**5b. Split Edit into Reserve and Edit Endpoints**
 
 **Current State (line 35):**
 ```php
 // TODO: Split this in multiple functions/routes. This is just one big mess
 public function edit(Booking $booking): View|RedirectResponse
 {
-    // 97 lines of nested conditions
+    // 97 lines mixing reservation logic with edit form display
 }
 ```
+
+**Issue:** The `edit()` method conflates two distinct user actions:
+1. **Reserving/claiming** an unassigned booking (creating a relationship)
+2. **Editing** an already-assigned booking (modifying existing data)
+
+**Understanding Booking States & Constraints:**
+
+The booking system has three states with specific timing and editability constraints:
+
+```
+UNASSIGNED → (reserve) → RESERVED → (confirm) → BOOKED → (cancel) → UNASSIGNED
+```
+
+**State Definitions:**
+- **UNASSIGNED**: No user assigned, available for reservation
+- **RESERVED**: User assigned, status=RESERVED, expires in 10 minutes if not confirmed
+- **BOOKED**: User assigned, status=BOOKED, confirmed booking
+
+**Key Constraints:**
+
+1. **Booking Window (`event.endBooking`)**: Hard deadline for all booking operations
+   - Reserve: ❌ Not allowed after `endBooking`
+   - Confirm: ❌ Not allowed after `endBooking`
+   - Edit: ❌ **Never allowed** after `endBooking` (even if `is_editable=true`)
+   - Cancel: ❌ Not allowed after `endBooking`
+   - **Reason**: Admins export data after this point for external tooling
+
+2. **`is_editable` Flag**: Database column controlling whether callsign/acType can be modified
+   - Set when booking is created (typically false for real-life events)
+   - Only applies to BOOKED status
+   - Only matters **before** `endBooking` (booking window takes precedence)
+   - **Edit logic**: `is_editable=true` AND `event.endBooking > now()` → can edit callsign/acType
 
 **Proposed Approach:**
-1. Extract authorization checks to Policy methods
-2. Extract business logic to Service/Action classes
-3. Consider using Form Request authorization
 
-**New Service:** `app/Services/Booking/BookingReservationService.php`
+**5b-1. Create Reservation Endpoint**
+
+**New Route:**
 ```php
-class BookingReservationService
+Route::post('bookings/{booking}/reservation', [BookingReservationController::class, 'store'])
+    ->middleware('auth.isLoggedIn')
+    ->name('bookings.reservation.store');
+```
+
+**New Controller:** `app/Http/Controllers/Booking/BookingReservationController.php`
+```php
+class BookingReservationController extends Controller
 {
-    public function canReserve(Booking $booking, User $user): bool
-    public function reserve(Booking $booking, User $user): void
-    public function isAvailable(Booking $booking): bool
+    public function store(Booking $booking): RedirectResponse
+    {
+        $this->authorize('reserve', $booking);
+
+        // Check if booking window is still open
+        if ($booking->event->endBooking < now()) {
+            flashMessage('danger', __('Danger'), __('Bookings have been closed'));
+            return redirect()->route('bookings.event.index', $booking->event);
+        }
+
+        // Check if user already has a reservation
+        if (auth()->user()->bookings()
+            ->where('event_id', $booking->event_id)
+            ->where('status', BookingStatus::RESERVED)
+            ->exists()) {
+            flashMessage('danger', __('Warning'), __('You already have a reservation!'));
+            return redirect()->route('bookings.event.index', $booking->event);
+        }
+
+        // Check if event allows multiple bookings
+        if (!$booking->event->multiple_bookings_allowed
+            && auth()->user()->bookings()
+                ->where('event_id', $booking->event_id)
+                ->where('status', BookingStatus::BOOKED)
+                ->exists()) {
+            flashMessage('danger', __('Warning'), __('You already have a booking!'));
+            return redirect()->route('bookings.event.index', $booking->event);
+        }
+
+        // Reserve the booking
+        $booking->status = BookingStatus::RESERVED;
+        $booking->user()->associate(auth()->user())->save();
+
+        activity()
+            ->by(auth()->user())
+            ->on($booking)
+            ->log('Flight reserved');
+
+        flashMessage(
+            'info',
+            __('Slot reserved'),
+            __('Slot remains reserved until :time', [
+                'time' => $booking->updated_at->addMinutes(10)->format('Hi') . 'z'
+            ])
+        );
+
+        return redirect()->route('bookings.edit', $booking);
+    }
 }
 ```
 
-**Simplified Controller:**
+**5b-2. Simplify Edit Endpoint**
+
+**Updated Controller:**
 ```php
-public function edit(Booking $booking): View|RedirectResponse
+public function edit(Booking $booking): View
 {
     $this->authorize('edit', $booking);
 
-    if (!$this->reservationService->canReserve($booking, auth()->user())) {
-        return $this->handleUnavailable($booking);
+    // Check booking window (hard lock after endBooking)
+    if ($booking->event->endBooking < now()) {
+        flashMessage(
+            'danger',
+            __('Danger'),
+            __('Bookings have been locked at :time', [
+                'time' => $booking->event->endBooking->format('d-m-Y Hi') . 'z'
+            ])
+        );
+        return redirect()->route('bookings.event.index', $booking->event);
     }
 
-    if ($booking->isUnassigned()) {
-        $this->reservationService->reserve($booking, auth()->user());
+    // Check if editable for BOOKED status
+    if ($booking->status === BookingStatus::BOOKED && !$booking->is_editable) {
+        flashMessage('info', __('Danger'), __('You cannot edit the booking!'));
+        return redirect()->route('bookings.event.index', $booking->event);
     }
 
-    return $this->showEditForm($booking);
+    // Show edit form
+    if ($booking->event->event_type_id == EventType::MULTIFLIGHTS->value) {
+        return view('booking.edit_multiflights', ['booking' => $booking]);
+    }
+
+    $flight = $booking->flights->first();
+    return view('booking.edit', ['booking' => $booking, 'flight' => $flight]);
 }
 ```
 
-**Impact:** High - code readability and maintainability
+**5b-3. Update Update Method**
+
+**Updated Controller:**
+```php
+public function update(UpdateBooking $request, Booking $booking): RedirectResponse
+{
+    $this->authorize('update', $booking);
+
+    // Check booking window (hard lock after endBooking)
+    if ($booking->event->endBooking < now()) {
+        abort(403, 'Bookings have been locked');
+    }
+
+    // Only update callsign/acType if editable
+    if ($booking->is_editable) {
+        $booking->fill([
+            'callsign' => $request->callsign,
+            'acType' => $request->acType
+        ]);
+    }
+
+    // Handle SELCAL for oceanic events
+    if ($booking->event->is_oceanic_event && $request->filled('selcal')) {
+        $booking->selcal = $request->selcal;
+    }
+
+    // Transition RESERVED → BOOKED
+    if ($booking->status === BookingStatus::RESERVED) {
+        $booking->status = BookingStatus::BOOKED;
+        $booking->save();
+        event(new BookingConfirmed($booking));
+
+        flashMessage(
+            'success',
+            __('Booking confirmed!'),
+            __('Your booking has been confirmed.')
+        );
+    } else {
+        $booking->save();
+        flashMessage('success', __('Booking edited!'), __('Booking has been edited!'));
+    }
+
+    return redirect()->route('bookings.event.index', $booking->event);
+}
+```
+
+**5b-4. Update Policy**
+
+Add separate authorization methods in `BookingPolicy`:
+```php
+public function reserve(User $user, Booking $booking): bool
+{
+    // Can only reserve unassigned bookings within booking window
+    return $booking->status === BookingStatus::UNASSIGNED
+        && $booking->event->startBooking <= now()
+        && $booking->event->endBooking >= now();
+}
+
+public function edit(User $user, Booking $booking): bool
+{
+    // Must own the booking
+    if ($booking->user_id !== $user->id) {
+        return false;
+    }
+
+    // Hard lock after endBooking
+    if ($booking->event->endBooking < now()) {
+        return false;
+    }
+
+    // RESERVED status: always editable (to complete booking)
+    if ($booking->status === BookingStatus::RESERVED) {
+        return true;
+    }
+
+    // BOOKED status: only if is_editable flag is true
+    if ($booking->status === BookingStatus::BOOKED) {
+        return $booking->is_editable;
+    }
+
+    return false;
+}
+
+public function update(User $user, Booking $booking): bool
+{
+    return $this->edit($user, $booking);
+}
+```
+
+**Benefits:**
+- Clearer semantics: POST for reservation (creating), GET for editing (reading)
+- Single Responsibility: Each endpoint does one thing
+- Better authorization: Separate policies for `reserve` vs `edit` with explicit timing constraints
+- Easier testing: Test reservation logic independently from edit form
+- More RESTful: Follows resource creation patterns
+- **Security**: GET requests no longer modify state (no auto-reservation)
+
+**User Flow:**
+1. User clicks "Reserve" button → POST to `/bookings/{booking}/reservation`
+2. System validates, reserves booking (status=RESERVED), redirects to `/bookings/{booking}/edit`
+3. User fills form, submits → PATCH to `/bookings/{booking}` (status changes RESERVED → BOOKED)
+4. User can edit if BOOKED and `is_editable=true` (only before `endBooking`)
+5. After `endBooking`: All edit/cancel operations blocked
+
+**Impact:** High - code readability, maintainability, semantic clarity, and security
+
+---
+
+**5c. Extract Cancel to Dedicated Controller**
+
+**Current State (line 175):**
+```php
+public function cancel(Booking $booking): RedirectResponse
+{
+    $this->authorize('cancel', $booking);
+    // 30+ lines of cancellation logic
+}
+```
+
+**Issue:** Cancel is a state transition (like reserve), not a traditional CRUD operation. For consistency with extracting reservation, it should have its own controller.
+
+**New Route:**
+```php
+Route::delete('bookings/{booking}/cancellation', [BookingCancellationController::class, 'destroy'])
+    ->middleware('auth.isLoggedIn')
+    ->name('bookings.cancellation.destroy');
+```
+
+**New Controller:** `app/Http/Controllers/Booking/BookingCancellationController.php`
+```php
+class BookingCancellationController extends Controller
+{
+    public function destroy(Booking $booking): RedirectResponse
+    {
+        $this->authorize('cancel', $booking);
+
+        // Check booking window
+        if ($booking->event->endBooking < now()) {
+            flashMessage(
+                'danger',
+                __('Danger'),
+                __('Bookings have been locked at :time', [
+                    'time' => $booking->event->endBooking->format('d-m-Y Hi') . 'z'
+                ])
+            );
+            return redirect()->route('bookings.event.index', $booking->event);
+        }
+
+        // Clear booking data if editable
+        if ($booking->is_editable) {
+            $booking->fill([
+                'callsign' => null,
+                'acType' => null,
+                'selcal' => null,
+            ]);
+        }
+
+        // Fire event if was BOOKED
+        if ($booking->status === BookingStatus::BOOKED) {
+            event(new BookingCancelled($booking, auth()->user()));
+            $title = __('Booking cancelled!');
+            $message = __('Booking has been cancelled!');
+        } else {
+            $title = __('Slot free');
+            $message = __('Slot is now free to use again');
+        }
+
+        // Reset to UNASSIGNED
+        $booking->status = BookingStatus::UNASSIGNED;
+        $booking->user()->dissociate()->save();
+
+        flashMessage('info', $title, $message);
+
+        return redirect()->route('bookings.event.index', $booking->event);
+    }
+}
+```
+
+**Policy Update:**
+
+Add to `BookingPolicy`:
+```php
+public function cancel(User $user, Booking $booking): bool
+{
+    // Must own the booking
+    if ($booking->user_id !== $user->id) {
+        return false;
+    }
+
+    // Can only cancel RESERVED or BOOKED bookings
+    if (!in_array($booking->status, [BookingStatus::RESERVED, BookingStatus::BOOKED])) {
+        return false;
+    }
+
+    // Hard lock after endBooking
+    return $booking->event->endBooking >= now();
+}
+```
+
+**Benefits:**
+- Consistent with reservation extraction (both are state transitions)
+- Clean separation: `BookingController` becomes pure CRUD
+- Clear RESTful semantics: DELETE for cancellation
+- Dedicated policy for cancel authorization
+- Easier testing and maintenance
+
+**BookingController Final Responsibilities:**
+After extracting reservation and cancellation, `BookingController` has clean CRUD operations:
+- `index`: List bookings for an event
+- `show`: View single booking details
+- `edit`: Show edit form (with authorization checks)
+- `update`: Save changes to booking
+
+**Impact:** Medium - consistency and separation of concerns
 
 ---
 
@@ -956,9 +1270,15 @@ Route::prefix('admin')->name('admin.')->middleware('auth.isAdmin')->group(functi
 
 **Step 3: BookingController Refactoring**
 1. Create `SelcalValidator` service
-2. Create `BookingReservationService`
-3. Refactor `edit()` method
-4. Update tests
+2. Create `BookingReservationController`
+3. Create `BookingCancellationController`
+4. Refactor `edit()` method (remove reservation logic, add timing constraints)
+5. Refactor `update()` method (add timing constraints)
+6. Remove `cancel()` method
+7. Update `BookingPolicy` with `reserve()`, `edit()`, `update()`, and `cancel()` methods
+8. Update routes (reservation POST, cancellation DELETE)
+9. Update views (change "Book" buttons to POST to reservation endpoint)
+10. Update tests
 
 **Estimated Effort:** 16-24 hours
 **Risk:** Medium (requires extensive testing)
@@ -1038,9 +1358,10 @@ For each refactoring step:
 - `app/Http/Controllers/Booking/BookingImportController.php`
 - `app/Http/Controllers/Booking/BookingAutoAssignController.php`
 - `app/Http/Controllers/Booking/BookingRouteAssignController.php`
+- `app/Http/Controllers/Booking/BookingReservationController.php`
+- `app/Http/Controllers/Booking/BookingCancellationController.php`
 - `app/Http/Controllers/Event/EventEmailController.php`
 - `app/Services/Booking/SelcalValidator.php`
-- `app/Services/Booking/BookingReservationService.php`
 - `app/Services/OAuth/VatsimProvider.php` (renamed from OAuthController)
 
 ### Phase 3
@@ -1070,12 +1391,19 @@ For each refactoring step:
 
 ### Controllers (Simplified)
 - `app/Http/Controllers/Booking/BookingAdminController.php` - Remove extracted methods
-- `app/Http/Controllers/Booking/BookingController.php` - Refactor edit(), remove validateSELCAL()
+- `app/Http/Controllers/Booking/BookingController.php` - Refactor edit(), update update(), remove cancel(), remove validateSELCAL()
 - `app/Http/Controllers/Event/EventAdminController.php` - Remove email methods and deleteAllBookings
 - All controllers extending `AdminController` - Change to extend `Controller`
 
+### Policies
+- `app/Policies/BookingPolicy.php` - Add `reserve()`, `cancel()` methods, update `edit()` and `update()` with timing constraints
+
 ### Middleware
 - `bootstrap/app.php` - Update middleware aliases (Phase 5)
+
+### Views
+- Update all views using `route('bookings.cancel')` to use `route('bookings.cancellation.destroy')`
+- Update all "Book" buttons to POST to `route('bookings.reservation.store')`
 
 ### Tests
 - All affected controller tests
