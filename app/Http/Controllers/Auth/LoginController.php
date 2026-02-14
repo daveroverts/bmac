@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Enums\BookingStatus;
 use App\Http\Controllers\Controller;
-use App\Http\Controllers\OAuthController;
+use App\Services\OAuth\VatsimProvider;
 use App\Models\Booking;
 use App\Models\Event;
 use App\Models\User;
@@ -24,7 +24,7 @@ class LoginController extends Controller
     |
     */
 
-    protected \App\Http\Controllers\OAuthController $provider;
+    protected VatsimProvider $provider;
 
     /**
      * Create a new controller instance.
@@ -32,7 +32,7 @@ class LoginController extends Controller
     public function __construct()
     {
         $this->middleware('guest')->except('logout');
-        $this->provider = new OAuthController();
+        $this->provider = new VatsimProvider();
     }
 
     public function login(Request $request)
@@ -84,10 +84,10 @@ class LoginController extends Controller
         $resourceOwner = json_decode(json_encode($this->provider->getResourceOwner($accessToken)->toArray()));
 
         $data = [
-            'cid' => OAuthController::getOAuthProperty(config('oauth.mapping_cid'), $resourceOwner),
-            'first_name' => OAuthController::getOAuthProperty(config('oauth.mapping_first_name'), $resourceOwner),
-            'last_name' => OAuthController::getOAuthProperty(config('oauth.mapping_last_name'), $resourceOwner),
-            'email' => OAuthController::getOAuthProperty(config('oauth.mapping_mail'), $resourceOwner),
+            'cid' => VatsimProvider::getOAuthProperty(config('oauth.mapping_cid'), $resourceOwner),
+            'first_name' => VatsimProvider::getOAuthProperty(config('oauth.mapping_first_name'), $resourceOwner),
+            'last_name' => VatsimProvider::getOAuthProperty(config('oauth.mapping_last_name'), $resourceOwner),
+            'email' => VatsimProvider::getOAuthProperty(config('oauth.mapping_mail'), $resourceOwner),
         ];
 
         // Check if user has granted us the data we need

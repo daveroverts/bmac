@@ -5,7 +5,7 @@ namespace App\Models;
 use App\Enums\AirportView;
 use Spatie\Activitylog\LogOptions;
 use Illuminate\Notifications\Notifiable;
-use App\Http\Controllers\OAuthController;
+use App\Services\OAuth\VatsimProvider;
 use League\OAuth2\Client\Token\AccessToken;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -112,7 +112,7 @@ class User extends Authenticatable
         ]);
 
         if ($token->hasExpired()) {
-            $refreshedToken = OAuthController::updateToken($token);
+            $refreshedToken = VatsimProvider::updateToken($token);
             $token = $refreshedToken instanceof AccessToken ? $refreshedToken : null;
         }
 

@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Services\OAuth;
 
 use League\OAuth2\Client\Provider\GenericProvider;
 use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
 use League\OAuth2\Client\Token\AccessTokenInterface;
 
-class OAuthController extends GenericProvider
+class VatsimProvider extends GenericProvider
 {
     /**
      * @var GenericProvider
@@ -32,7 +32,7 @@ class OAuthController extends GenericProvider
 
     public static function updateToken($token): ?AccessTokenInterface
     {
-        $controller = new OAuthController();
+        $controller = new VatsimProvider();
         try {
             return $controller->getAccessToken('refresh_token', [
                 'refresh_token' => $token->getRefreshToken()
