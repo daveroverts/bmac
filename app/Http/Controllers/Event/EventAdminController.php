@@ -14,13 +14,13 @@ use App\Events\EventBulkEmail;
 use Illuminate\Http\JsonResponse;
 use App\Events\EventFinalInformation;
 use Illuminate\Http\RedirectResponse;
-use App\Http\Controllers\AdminController;
+use App\Http\Controllers\Controller;
 use Illuminate\Database\Eloquent\Builder;
 use App\Http\Requests\Event\Admin\SendEmail;
 use App\Http\Requests\Event\Admin\StoreEvent;
 use App\Http\Requests\Event\Admin\UpdateEvent;
 
-class EventAdminController extends AdminController
+class EventAdminController extends Controller
 {
     public function __construct()
     {

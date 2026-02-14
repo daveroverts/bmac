@@ -8,11 +8,11 @@ use Illuminate\View\View;
 use App\Models\AirportLinkType;
 use App\Policies\EventLinkPolicy;
 use Illuminate\Http\RedirectResponse;
-use App\Http\Controllers\AdminController;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\EventLink\Admin\StoreEventLink;
 use App\Http\Requests\EventLink\Admin\UpdateEventLink;
 
-class EventLinkAdminController extends AdminController
+class EventLinkAdminController extends Controller
 {
     public function __construct()
     {

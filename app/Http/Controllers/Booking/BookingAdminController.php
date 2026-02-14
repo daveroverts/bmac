@@ -17,7 +17,7 @@ use App\Policies\BookingPolicy;
 use App\Imports\FlightRouteAssign;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Storage;
-use App\Http\Controllers\AdminController;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\Booking\Admin\AutoAssign;
 use App\Http\Requests\Booking\Admin\RouteAssign;
 use App\Http\Requests\Booking\Admin\StoreBooking;
@@ -25,7 +25,7 @@ use App\Http\Requests\Booking\Admin\UpdateBooking;
 use App\Http\Requests\Booking\Admin\ImportBookings;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
-class BookingAdminController extends AdminController
+class BookingAdminController extends Controller
 {
     public function __construct()
     {

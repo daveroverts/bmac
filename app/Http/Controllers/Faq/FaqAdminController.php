@@ -7,11 +7,11 @@ use App\Models\Event;
 use Illuminate\View\View;
 use App\Policies\FaqPolicy;
 use Illuminate\Http\RedirectResponse;
-use App\Http\Controllers\AdminController;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\Faq\Admin\StoreFaq;
 use App\Http\Requests\Faq\Admin\UpdateFaq;
 
-class FaqAdminController extends AdminController
+class FaqAdminController extends Controller
 {
     public function __construct()
     {
