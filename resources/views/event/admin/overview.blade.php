@@ -61,7 +61,7 @@
                     </div>
 
                     @if ($event->event_type_id == \App\Enums\EventType::MULTIFLIGHTS->value)
-                        <a href="{{ route('admin.bookings.routeAssignForm', $event) }}" class="btn btn-primary m-1"><i
+                        <a href="{{ route('admin.bookings.routeAssign.create', $event) }}" class="btn btn-primary m-1"><i
                                 class="fa fa-edit"></i> {{ __('Assign Routes') }}</a>&nbsp;
                     @endif
                     @if ($event->startEvent > now())

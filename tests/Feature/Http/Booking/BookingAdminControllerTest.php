@@ -86,7 +86,7 @@ it('allows admin users to view route assign form', function (): void {
     $event = Event::factory()->create();
 
     $this->actingAs($admin)
-        ->get(route('admin.bookings.routeAssignForm', $event))
+        ->get(route('admin.bookings.routeAssign.create', $event))
         ->assertOk();
 });
 

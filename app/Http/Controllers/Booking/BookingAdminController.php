@@ -11,11 +11,8 @@ use Illuminate\Http\Request;
 use App\Events\BookingChanged;
 use App\Events\BookingDeleted;
 use App\Policies\BookingPolicy;
-use App\Imports\FlightRouteAssign;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Booking\Admin\RouteAssign;
 use App\Http\Requests\Booking\Admin\StoreBooking;
 use App\Http\Requests\Booking\Admin\UpdateBooking;
 
@@ -219,24 +216,5 @@ class BookingAdminController extends Controller
 
         flashMessage('danger', __('Danger'), __('Booking can no longer be deleted'));
         return back();
-    }
-
-    public function routeAssignForm(Event $event): View
-    {
-        return view('event.admin.routeAssign', ['event' => $event]);
-    }
-
-
-    public function routeAssign(RouteAssign $request, Event $event): RedirectResponse
-    {
-        activity()
-            ->by(auth()->user())
-            ->on($event)
-            ->log('Route assign triggered');
-        $file = $request->file('file');
-        (new FlightRouteAssign())->import($file);
-        Storage::delete($file);
-        flashMessage('success', __('Routes assigned'), __('Routes have been assigned to flights'));
-        return to_route('bookings.event.index', $event);
     }
 }
