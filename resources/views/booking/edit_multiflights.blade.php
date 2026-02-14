@@ -59,10 +59,10 @@
                                     <strong>{{ $flight->formatted_oceanicfl }}</strong>
                                 </x-forms.form-group>
 
-                                <x-forms.form-group :label="__('SELCAL')" inline>
-                                    <x-forms.input name="selcal1" placeholder="AB" minlength="2" maxlength="2" />
-                                    <x-forms.input name="selcal2" placeholder="CD" minlength="2" maxlength="2" />
-                                </x-forms.form-group>
+                                <x-forms.selcal
+                                    :label="__('SELCAL')"
+                                    :help="__('Two pairs of unique letters (A-S, no I/N/O/T) in alphabetical order per pair.')"
+                                />
                             @else
                                 @if ($flight->oceanicFL)
                                     <x-forms.form-group :label="__('Cruise FL')">

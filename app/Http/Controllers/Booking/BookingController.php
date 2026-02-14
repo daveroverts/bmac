@@ -142,11 +142,8 @@ class BookingController extends Controller
                 ]);
             }
 
-            if ($booking->event->is_oceanic_event) {
-                $booking->selcal = $this->validateSELCAL(
-                    strtoupper($request->selcal1 . '-' . $request->selcal2),
-                    $booking->event_id
-                );
+            if ($booking->event->is_oceanic_event && $request->filled('selcal')) {
+                $booking->selcal = $request->selcal;
             }
 
             if ($booking->status == BookingStatus::RESERVED) {
@@ -173,43 +170,6 @@ class BookingController extends Controller
         }
 
         abort(403);
-    }
-
-    public function validateSELCAL($selcal, $eventId): ?string
-    {
-        // Separate characters
-        $char1 = substr((string) $selcal, 0, 1);
-        $char2 = substr((string) $selcal, 1, 1);
-        $char3 = substr((string) $selcal, 3, 1);
-        $char4 = substr((string) $selcal, 4, 1);
-
-        // Check if SELCAL has valid format
-        if (in_array(preg_match("/[ABCDEFGHJKLMPQRS]{2}[-][ABCDEFGHJKLMPQRS]{2}/", (string) $selcal), [0, false], true)) {
-            return null;
-        }
-
-        // Check if each character is unique
-        if (substr_count((string) $selcal, $char1) > 1 || substr_count((string) $selcal, $char2) > 1 || substr_count(
-            (string) $selcal,
-            $char3
-        ) > 1 || substr_count((string) $selcal, $char4) > 1) {
-            return null;
-        }
-
-        // Check if characters per pair are in alphabetical order
-        if ($char1 > $char2 || $char3 > $char4) {
-            return null;
-        }
-
-        // Check for duplicates within the same event
-        if (Booking::where('event_id', $eventId)
-            ->where('selcal', '=', $selcal)
-            ->first()
-        ) {
-            return null;
-        }
-
-        return $selcal;
     }
 
     public function cancel(Booking $booking): RedirectResponse

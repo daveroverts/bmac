@@ -71,19 +71,21 @@
                                         <strong>{{ $flight->formatted_oceanicfl }}</strong>
                                     </x-forms.form-group>
 
-                                    <x-forms.form-group :label="__('SELCAL')" inline>
-                                        @php
-                                        if (!empty($booking->selcal)) {
-                                            $part1 = substr($booking->selcal, 0, 2);
-                                            $part2 = substr($booking->selcal, 3, 2);
-                                        } else {
-                                            $part1 = '';
-                                            $part2 = '';
-                                        }
-                                        @endphp
-                                        <x-forms.input name="selcal1" label="" placeholder="AB" minlength="2" maxlength="2" :value="old('selcal1', $part1)" />
-                                        <x-forms.input name="selcal2" label="" placeholder="CD" minlength="2" maxlength="2" :value="old('selcal2', $part2)" />
-                                    </x-forms.form-group>
+                                    @php
+                                    if (!empty($booking->selcal)) {
+                                        $part1 = substr($booking->selcal, 0, 2);
+                                        $part2 = substr($booking->selcal, 3, 2);
+                                    } else {
+                                        $part1 = '';
+                                        $part2 = '';
+                                    }
+                                    @endphp
+                                    <x-forms.selcal
+                                        :label="__('SELCAL')"
+                                        :value1="old('selcal1', $part1)"
+                                        :value2="old('selcal2', $part2)"
+                                        :help="__('Two pairs of unique letters (A-S, no I/N/O/T) in alphabetical order per pair.')"
+                                    />
                                 @else
                                     @if ($flight->oceanicFL)
                                         <x-forms.form-group :label="__('Cruise FL')">
