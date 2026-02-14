@@ -72,7 +72,7 @@ it('allows admin users to view import form', function (): void {
     $event = Event::factory()->create();
 
     $this->actingAs($admin)
-        ->get(route('admin.bookings.importForm', $event))
+        ->get(route('admin.bookings.import.create', $event))
         ->assertOk();
 });
 

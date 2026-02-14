@@ -37,7 +37,7 @@
                     <a href="{{ route('admin.events.edit', $event) }}" role="button" class="btn btn-primary m-1"><i
                             class="fa fa-edit"></i> {{ __('Edit') }}</a>&nbsp;
                     @if ($event->endEvent > now())
-                        <a href="{{ route('admin.bookings.importForm', $event) }}" class="btn btn-success m-1"><i
+                        <a href="{{ route('admin.bookings.import.create', $event) }}" class="btn btn-success m-1"><i
                                 class="fa fa-file-import"></i> {{ __('Import data') }}</a>&nbsp;
                         <a href="{{ route('admin.bookings.create', $event) }}/bulk" class="btn btn-primary m-1"><i
                                 class="fa fa-plus"></i> {{ __('Add Timeslots') }}</a>&nbsp;

@@ -137,9 +137,9 @@ Breadcrumbs::for('admin.bookings.create', function ($trail, $event): void {
 });
 
 // Home > Admin > [Event] > Import
-Breadcrumbs::for('admin.bookings.importForm', function ($trail, $event): void {
+Breadcrumbs::for('admin.bookings.import.create', function ($trail, $event): void {
     $trail->parent('admin.events.show', $event);
-    $trail->push('Import', route('admin.bookings.importForm', $event));
+    $trail->push('Import', route('admin.bookings.import.create', $event));
 });
 
 // Home > Admin > [Event] > Booking

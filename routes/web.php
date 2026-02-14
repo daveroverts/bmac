@@ -11,6 +11,7 @@ use App\Http\Controllers\Event\EventAdminController;
 use App\Http\Controllers\Airport\AirportAdminController;
 use App\Http\Controllers\Booking\BookingAdminController;
 use App\Http\Controllers\Booking\BookingExportController;
+use App\Http\Controllers\Booking\BookingImportController;
 use App\Http\Controllers\AirportLink\AirportLinkAdminController;
 use App\Http\Controllers\EventLink\EventLinkAdminController;
 
@@ -60,8 +61,8 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin', 'middleware' => 'auth.isAdm
     Route::resource('bookings', BookingAdminController::class)->except(['index', 'create', 'show']);
     Route::get('{event}/bookings/export', BookingExportController::class)->name('bookings.export');
     Route::get('{event}/bookings/create/{bulk?}', [BookingAdminController::class, 'create'])->name('bookings.create');
-    Route::get('{event}/bookings/import', [BookingAdminController::class, 'importForm'])->name('bookings.importForm');
-    Route::post('{event}/bookings/import', [BookingAdminController::class, 'import'])->name('bookings.import');
+    Route::get('{event}/bookings/import', [BookingImportController::class, 'create'])->name('bookings.import.create');
+    Route::post('{event}/bookings/import', [BookingImportController::class, 'store'])->name('bookings.import.store');
     Route::get(
         '{event}/bookings/auto-assign',
         [BookingAdminController::class, 'adminAutoAssignForm']

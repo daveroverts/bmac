@@ -11,7 +11,6 @@ use App\Enums\BookingStatus;
 use Illuminate\Http\Request;
 use App\Events\BookingChanged;
 use App\Events\BookingDeleted;
-use App\Imports\BookingsImport;
 use App\Policies\BookingPolicy;
 use App\Imports\FlightRouteAssign;
 use Illuminate\Http\RedirectResponse;
@@ -21,7 +20,6 @@ use App\Http\Requests\Booking\Admin\AutoAssign;
 use App\Http\Requests\Booking\Admin\RouteAssign;
 use App\Http\Requests\Booking\Admin\StoreBooking;
 use App\Http\Requests\Booking\Admin\UpdateBooking;
-use App\Http\Requests\Booking\Admin\ImportBookings;
 
 class BookingAdminController extends Controller
 {
@@ -223,24 +221,6 @@ class BookingAdminController extends Controller
 
         flashMessage('danger', __('Danger'), __('Booking can no longer be deleted'));
         return back();
-    }
-
-    public function importForm(Event $event): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
-    {
-        return view('event.admin.import', ['event' => $event]);
-    }
-
-    public function import(ImportBookings $request, Event $event): RedirectResponse
-    {
-        activity()
-            ->by(auth()->user())
-            ->on($event)
-            ->log('Import triggered');
-        $file = $request->file('file');
-        (new BookingsImport($event))->import($file);
-        Storage::delete($file->getRealPath());
-        flashMessage('success', __('Flights imported'), __('Flights have been imported'));
-        return to_route('bookings.event.index', $event);
     }
 
     public function adminAutoAssignForm(Event $event): View
