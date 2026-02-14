@@ -10,6 +10,7 @@ use App\Http\Controllers\Booking\BookingController;
 use App\Http\Controllers\Event\EventAdminController;
 use App\Http\Controllers\Airport\AirportAdminController;
 use App\Http\Controllers\Booking\BookingAdminController;
+use App\Http\Controllers\Booking\BookingExportController;
 use App\Http\Controllers\AirportLink\AirportLinkAdminController;
 use App\Http\Controllers\EventLink\EventLinkAdminController;
 
@@ -57,7 +58,7 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin', 'middleware' => 'auth.isAdm
 
     // Booking
     Route::resource('bookings', BookingAdminController::class)->except(['index', 'create', 'show']);
-    Route::get('{event}/bookings/export/{vacc?}', [BookingAdminController::class, 'export'])->name('bookings.export');
+    Route::get('{event}/bookings/export', BookingExportController::class)->name('bookings.export');
     Route::get('{event}/bookings/create/{bulk?}', [BookingAdminController::class, 'create'])->name('bookings.create');
     Route::get('{event}/bookings/import', [BookingAdminController::class, 'importForm'])->name('bookings.importForm');
     Route::post('{event}/bookings/import', [BookingAdminController::class, 'import'])->name('bookings.import');

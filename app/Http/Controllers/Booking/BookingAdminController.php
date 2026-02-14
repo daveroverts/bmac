@@ -11,7 +11,6 @@ use App\Enums\BookingStatus;
 use Illuminate\Http\Request;
 use App\Events\BookingChanged;
 use App\Events\BookingDeleted;
-use App\Exports\BookingsExport;
 use App\Imports\BookingsImport;
 use App\Policies\BookingPolicy;
 use App\Imports\FlightRouteAssign;
@@ -23,7 +22,6 @@ use App\Http\Requests\Booking\Admin\RouteAssign;
 use App\Http\Requests\Booking\Admin\StoreBooking;
 use App\Http\Requests\Booking\Admin\UpdateBooking;
 use App\Http\Requests\Booking\Admin\ImportBookings;
-use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class BookingAdminController extends Controller
 {
@@ -225,16 +223,6 @@ class BookingAdminController extends Controller
 
         flashMessage('danger', __('Danger'), __('Booking can no longer be deleted'));
         return back();
-    }
-
-    public function export(Event $event, Request $request): BinaryFileResponse
-    {
-        activity()
-            ->by(auth()->user())
-            ->on($event)
-            ->log('Export triggered');
-
-        return (new BookingsExport($event, $request->vacc))->download('bookings.csv');
     }
 
     public function importForm(Event $event): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
