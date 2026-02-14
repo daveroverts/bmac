@@ -125,30 +125,44 @@ class OAuthController extends GenericProvider
 
 **Proposed Refactoring:**
 
-**4a. Extract Export/Import to `BookingImportExportController`**
+**4a. Extract Export to `BookingExportController`**
+
+**New Route:**
+```php
+// In admin routes group
+Route::get('{event}/bookings/export', BookingExportController::class)
+    ->name('bookings.export');
+```
+
+**New Controller:** `app/Http/Controllers/Booking/BookingExportController.php`
+```php
+class BookingExportController extends Controller
+{
+    public function __invoke(Event $event, Request $request): BinaryFileResponse
+}
+```
+
+**4b. Extract Import to `BookingImportController`**
 
 **New Routes:**
 ```php
 // In admin routes group
-Route::get('{event}/bookings/export', [BookingImportExportController::class, 'export'])
-    ->name('bookings.export');
-Route::get('{event}/bookings/import', [BookingImportExportController::class, 'create'])
+Route::get('{event}/bookings/import', [BookingImportController::class, 'create'])
     ->name('bookings.import.create');
-Route::post('{event}/bookings/import', [BookingImportExportController::class, 'store'])
+Route::post('{event}/bookings/import', [BookingImportController::class, 'store'])
     ->name('bookings.import.store');
 ```
 
-**New Controller:** `app/Http/Controllers/Booking/BookingImportExportController.php`
+**New Controller:** `app/Http/Controllers/Booking/BookingImportController.php`
 ```php
-class BookingImportExportController extends Controller
+class BookingImportController extends Controller
 {
-    public function export(Event $event, Request $request): BinaryFileResponse
     public function create(Event $event): View
     public function store(ImportBookings $request, Event $event): RedirectResponse
 }
 ```
 
-**4b. Extract Auto-Assign to `BookingAutoAssignController`**
+**4c. Extract Auto-Assign to `BookingAutoAssignController`**
 
 **New Routes:**
 ```php
@@ -168,7 +182,7 @@ class BookingAutoAssignController extends Controller
 }
 ```
 
-**4c. Extract Route Assignment to `BookingRouteAssignController`**
+**4d. Extract Route Assignment to `BookingRouteAssignController`**
 
 **New Routes:**
 ```php
@@ -643,7 +657,7 @@ Route::get('{event}/bookings/export/{vacc?}', [BookingAdminController::class, 'e
 
 **Proposed State:**
 ```php
-Route::get('events/{event}/bookings/export', [BookingImportExportController::class, 'export'])
+Route::get('events/{event}/bookings/export', BookingExportController::class)
     ->name('events.bookings.export');
 
 // Access with: /admin/events/123/bookings/export?vacc=VATUSA
@@ -651,7 +665,7 @@ Route::get('events/{event}/bookings/export', [BookingImportExportController::cla
 
 **Controller Update:**
 ```php
-public function export(Event $event, Request $request): BinaryFileResponse
+public function __invoke(Event $event, Request $request): BinaryFileResponse
 {
     $vacc = $request->query('vacc');
     // ...
@@ -882,10 +896,10 @@ Route::prefix('admin')->name('admin.')->middleware('auth.isAdmin')->group(functi
 
         Route::prefix('bookings')->name('bookings.')->group(function () {
             Route::get('create', [BookingAdminController::class, 'create'])->name('create');
-            Route::get('export', [BookingImportExportController::class, 'export'])->name('export');
+            Route::get('export', BookingExportController::class)->name('export');
 
-            Route::get('import', [BookingImportExportController::class, 'create'])->name('import.create');
-            Route::post('import', [BookingImportExportController::class, 'store'])->name('import.store');
+            Route::get('import', [BookingImportController::class, 'create'])->name('import.create');
+            Route::post('import', [BookingImportController::class, 'store'])->name('import.store');
 
             Route::get('auto-assign', [BookingAutoAssignController::class, 'create'])->name('autoAssign.create');
             Route::post('auto-assign', [BookingAutoAssignController::class, 'store'])->name('autoAssign.store');
@@ -927,11 +941,12 @@ Route::prefix('admin')->name('admin.')->middleware('auth.isAdmin')->group(functi
 ### Phase 2: Controller Refactoring (P1) - 3-5 days
 
 **Step 1: BookingAdminController Split**
-1. Create `BookingImportExportController`
-2. Create `BookingAutoAssignController`
-3. Create `BookingRouteAssignController`
-4. Update routes
-5. Update tests
+1. Create `BookingExportController`
+2. Create `BookingImportController`
+3. Create `BookingAutoAssignController`
+4. Create `BookingRouteAssignController`
+5. Update routes
+6. Update tests
 
 **Step 2: EventAdminController Split**
 1. Create `EventEmailController`
@@ -1019,7 +1034,8 @@ For each refactoring step:
 - None (only deletions and renames)
 
 ### Phase 2
-- `app/Http/Controllers/Booking/BookingImportExportController.php`
+- `app/Http/Controllers/Booking/BookingExportController.php`
+- `app/Http/Controllers/Booking/BookingImportController.php`
 - `app/Http/Controllers/Booking/BookingAutoAssignController.php`
 - `app/Http/Controllers/Booking/BookingRouteAssignController.php`
 - `app/Http/Controllers/Event/EventEmailController.php`
