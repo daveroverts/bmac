@@ -58,7 +58,7 @@ it('allows admin users to view auto-assign form', function (): void {
     $event = Event::factory()->create();
 
     $this->actingAs($admin)
-        ->get(route('admin.bookings.autoAssignForm', $event))
+        ->get(route('admin.bookings.autoAssign.create', $event))
         ->assertOk();
 });
 

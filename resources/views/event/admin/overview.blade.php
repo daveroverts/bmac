@@ -42,7 +42,7 @@
                         <a href="{{ route('admin.bookings.create', $event) }}/bulk" class="btn btn-primary m-1"><i
                                 class="fa fa-plus"></i> {{ __('Add Timeslots') }}</a>&nbsp;
                         @if ($event->is_oceanic_event)
-                            <a href="{{ route('admin.bookings.autoAssignForm', $event) }}" class="btn btn-primary m-1">
+                            <a href="{{ route('admin.bookings.autoAssign.create', $event) }}" class="btn btn-primary m-1">
                                 {{ __('Auto Assign FL / Route') }}</a>&nbsp;
                         @endif
                     @endif
