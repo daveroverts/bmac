@@ -59,7 +59,7 @@ class FaqAdminController extends AdminController
     {
         $faq->delete();
         flashMessage('success', __('Done'), 'Question has been removed!');
-        return to_route(route('admin.faq.index'));
+        return to_route('admin.faq.index');
     }
 
     public function toggleEvent(Faq $faq, Event $event): RedirectResponse

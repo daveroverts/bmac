@@ -2,7 +2,6 @@
 
 use App\Models\Flight;
 use App\Models\User;
-use App\Notifications\BookingDeleted;
 use Tests\TestCase;
 use Illuminate\Support\Facades\Mail;
 
