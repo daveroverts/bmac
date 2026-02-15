@@ -65,4 +65,33 @@ class BookingPolicy
     {
         return $user->id === $booking->user_id;
     }
+
+    /**
+     * Determine whether the user can reserve the booking.
+     */
+    public function reserve(User $user, Booking $booking): bool
+    {
+        return $booking->status === \App\Enums\BookingStatus::UNASSIGNED
+            && $booking->event->startBooking <= now()
+            && $booking->event->endBooking >= now();
+    }
+
+    /**
+     * Determine whether the user can edit the booking.
+     */
+    public function edit(User $user, Booking $booking): bool
+    {
+        // Must own the booking
+        if ($booking->user_id !== $user->id) {
+            return false;
+        }
+
+        // Hard lock after endBooking
+        if ($booking->event->endBooking < now()) {
+            return false;
+        }
+
+        // Must be RESERVED or BOOKED to edit
+        return in_array($booking->status, [\App\Enums\BookingStatus::RESERVED, \App\Enums\BookingStatus::BOOKED]);
+    }
 }

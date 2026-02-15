@@ -14,6 +14,7 @@ use App\Http\Controllers\Booking\BookingExportController;
 use App\Http\Controllers\Booking\BookingImportController;
 use App\Http\Controllers\Booking\BookingAutoAssignController;
 use App\Http\Controllers\Booking\BookingRouteAssignController;
+use App\Http\Controllers\Booking\BookingReservationController;
 use App\Http\Controllers\AirportLink\AirportLinkAdminController;
 use App\Http\Controllers\EventLink\EventLinkAdminController;
 
@@ -74,6 +75,9 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin', 'middleware' => 'auth.isAdm
 Route::resource('bookings', BookingController::class)
     ->only(['show', 'edit', 'update'])
     ->middleware(['edit' => 'auth.isLoggedIn']);
+Route::post('bookings/{booking}/reservation', [BookingReservationController::class, 'store'])
+    ->middleware('auth.isLoggedIn')
+    ->name('bookings.reservation.store');
 Route::get('/{event}/bookings/{filter?}', [BookingController::class, 'index'])->name('bookings.event.index');
 Route::patch('/bookings/{booking}/cancel', [BookingController::class, 'cancel'])->name('bookings.cancel');
 

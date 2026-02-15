@@ -71,7 +71,7 @@ class UpdateBooking extends Request
      */
     public function withValidator($validator): void
     {
-        $validator->after(function ($validator) {
+        $validator->after(function ($validator): void {
             // If the combined selcal field has errors, add to selcal1 for display
             // and mark selcal2 as invalid for styling (without duplicating the message)
             if ($validator->errors()->has('selcal')) {
@@ -79,6 +79,7 @@ class UpdateBooking extends Request
                 foreach ($selcalErrors as $error) {
                     $validator->errors()->add('selcal1', $error);
                 }
+
                 // Add a marker to selcal2 for styling purposes only (no message)
                 $validator->errors()->add('selcal2', '');
                 // Remove the error from the combined field since it's not displayed

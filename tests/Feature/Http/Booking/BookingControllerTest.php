@@ -33,16 +33,25 @@ it('can view a booked flight details', function (): void {
 it('requires authentication to edit a booking', function (): void {
     /** @var TestCase $this */
 
+    /** @var User $user */
+    $user = User::factory()->create();
+
     /** @var Flight $flight */
-    $flight = Flight::factory()->create();
-    $booking = $flight->booking;
+    $flight = Flight::factory()->create([
+        'booking_id' => Booking::factory()->reserved()->create([
+            'user_id' => $user->id,
+        ])->id,
+    ]);
+
+    // Logout the default admin user from TestCase setUp
+    auth()->logout();
 
     $this->from('/')
-        ->get(route('bookings.edit', $booking))
-        ->assertRedirect();
+        ->get(route('bookings.edit', $flight->booking))
+        ->assertRedirect('/');
 });
 
-it('allows authenticated users to reserve and edit unassigned bookings', function (): void {
+it('allows authenticated users to edit their reserved bookings', function (): void {
     /** @var TestCase $this */
 
     /** @var User $user */
@@ -56,19 +65,15 @@ it('allows authenticated users to reserve and edit unassigned bookings', functio
 
     /** @var Flight $flight */
     $flight = Flight::factory()->create([
-        'booking_id' => Booking::factory()->create([
+        'booking_id' => Booking::factory()->reserved()->create([
             'event_id' => $event->id,
-            'status' => BookingStatus::UNASSIGNED,
+            'user_id' => $user->id,
         ])->id,
     ]);
 
     $this->actingAs($user)
         ->get(route('bookings.edit', $flight->booking))
         ->assertOk();
-
-    $flight->booking->refresh();
-    expect($flight->booking->status)->toBe(BookingStatus::RESERVED);
-    expect($flight->booking->user_id)->toBe($user->id);
 });
 
 it('allows users to confirm reserved bookings', function (): void {
@@ -123,4 +128,107 @@ it('allows users to cancel their own bookings', function (): void {
     $flight->booking->refresh();
     expect($flight->booking->status)->toBe(BookingStatus::UNASSIGNED);
     expect($flight->booking->user_id)->toBeNull();
+});
+
+it('prevents editing bookings after the booking window has closed', function (): void {
+    /** @var TestCase $this */
+
+    /** @var User $user */
+    $user = User::factory()->create();
+
+    /** @var Event $event */
+    $event = Event::factory()->create([
+        'startBooking' => now()->subDays(2),
+        'endBooking' => now()->subDay(),
+    ]);
+
+    /** @var Flight $flight */
+    $flight = Flight::factory()->create([
+        'booking_id' => Booking::factory()->reserved()->create([
+            'event_id' => $event->id,
+            'user_id' => $user->id,
+        ])->id,
+    ]);
+
+    $this->actingAs($user)
+        ->get(route('bookings.edit', $flight->booking))
+        ->assertForbidden();
+});
+
+it('prevents editing non-editable booked bookings', function (): void {
+    /** @var TestCase $this */
+
+    /** @var User $user */
+    $user = User::factory()->create();
+
+    /** @var Event $event */
+    $event = Event::factory()->create([
+        'startBooking' => now()->subDay(),
+        'endBooking' => now()->addDay(),
+    ]);
+
+    /** @var Flight $flight */
+    $flight = Flight::factory()->create([
+        'booking_id' => Booking::factory()->booked()->create([
+            'event_id' => $event->id,
+            'user_id' => $user->id,
+            'is_editable' => false,
+        ])->id,
+    ]);
+
+    $this->actingAs($user)
+        ->get(route('bookings.edit', $flight->booking))
+        ->assertRedirect(route('bookings.event.index', $event));
+});
+
+it('allows editing editable booked bookings within the booking window', function (): void {
+    /** @var TestCase $this */
+
+    /** @var User $user */
+    $user = User::factory()->create();
+
+    /** @var Event $event */
+    $event = Event::factory()->create([
+        'startBooking' => now()->subDay(),
+        'endBooking' => now()->addDay(),
+    ]);
+
+    /** @var Flight $flight */
+    $flight = Flight::factory()->create([
+        'booking_id' => Booking::factory()->booked()->create([
+            'event_id' => $event->id,
+            'user_id' => $user->id,
+            'is_editable' => true,
+        ])->id,
+    ]);
+
+    $this->actingAs($user)
+        ->get(route('bookings.edit', $flight->booking))
+        ->assertOk();
+});
+
+it('prevents users from editing bookings they do not own', function (): void {
+    /** @var TestCase $this */
+
+    /** @var User $user */
+    $user = User::factory()->create();
+    $otherUser = User::factory()->create();
+
+    /** @var Event $event */
+    $event = Event::factory()->create([
+        'startBooking' => now()->subDay(),
+        'endBooking' => now()->addDay(),
+    ]);
+
+    /** @var Flight $flight */
+    $flight = Flight::factory()->create([
+        'booking_id' => Booking::factory()->reserved()->create([
+            'event_id' => $event->id,
+            'user_id' => $otherUser->id,
+        ])->id,
+    ]);
+
+    $this->actingAs($user)
+        ->get(route('bookings.edit', $flight->booking))
+        ->assertForbidden();
 });
