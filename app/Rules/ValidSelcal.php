@@ -12,7 +12,7 @@ class ValidSelcal implements ValidationRule
      * Create a new rule instance.
      */
     public function __construct(
-        private int $eventId
+        private readonly int $eventId
     ) {
     }
 

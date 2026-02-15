@@ -2,7 +2,6 @@
 
 namespace App\Console\Commands;
 
-use App\Jobs\EventCleanupReservationsJob;
 use App\Models\Event;
 use Illuminate\Console\Command;
 

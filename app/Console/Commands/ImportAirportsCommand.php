@@ -2,7 +2,6 @@
 
 namespace App\Console\Commands;
 
-use App\Jobs\ImportAirportsJob;
 use Illuminate\Console\Command;
 
 class ImportAirportsCommand extends Command

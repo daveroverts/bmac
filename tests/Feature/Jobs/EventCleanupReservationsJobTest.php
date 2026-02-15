@@ -3,7 +3,6 @@
 namespace Tests\Feature\Jobs;
 
 use App\Enums\BookingStatus;
-use App\Jobs\EventCleanupReservationsJob;
 use App\Models\Booking;
 use App\Models\Event;
 use Tests\TestCase;
