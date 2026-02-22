@@ -1212,14 +1212,29 @@ Route::middleware(['auth', 'can:admin'])->prefix('admin')->name('admin.')->group
 ### Phase 3: API Routes (P2) - 1-2 days
 > **Deferred** — Tackling after Phases 4 and 5 are complete.
 
-1. Create API v1 controllers
-2. Update routes with versioning
-3. Add controller tests
-4. Update API documentation
+1. Create `Api/V1/` controllers (`EventController`, `BookingController`, `AirportController`)
+2. Add versioned routes at `/api/v1/...` pointing to the new controllers
+3. Keep old unversioned routes (`/api/events`, etc.) exactly as-is — no breaking changes
+4. Add `Deprecation` and `Sunset` response headers to the old routes (informational only, not a breaking change)
+5. Write feature tests for all v1 endpoints (currently zero API tests exist)
 
-**Estimated Effort:** 8-12 hours
-**Risk:** Low (additive changes)
-**Breaking Changes:** None if routes kept for backward compatibility
+**Estimated Effort:** 6-10 hours
+**Risk:** Low (additive changes; old routes unchanged)
+**Breaking Changes:** None — old routes remain fully functional; deprecation headers are informational only
+
+---
+
+### Phase 3b: API Documentation - 0.5-1 day
+
+1. Install [Scribe](https://scribe.knuckles.wtf/laravel/) (`composer require knuckleswtf/scribe --dev`)
+2. Publish and configure `config/scribe.php` — scope to `v1` routes only
+3. Annotate v1 controllers with Scribe docblocks where auto-extraction falls short
+4. Run `php artisan scribe:generate` and review output
+5. Document legacy routes with a single deprecation notice pointing consumers to v1
+
+**Estimated Effort:** 2-4 hours
+**Risk:** Low (dev dependency only, no runtime impact)
+**Breaking Changes:** None
 
 ---
 
@@ -1272,13 +1287,13 @@ High blast radius but mechanical changes only:
 
 ---
 
-### Phase 5: Polish (P3) - 1-2 days
-1. Replace `IsLoggedIn` with Laravel's built-in `auth` middleware and delete `IsLoggedIn.php`
-2. Replace `IsAdmin` middleware with an `admin` Gate + built-in `auth` middleware, delete `IsAdmin.php`
-3. Remove constructor-based `$this->middleware('guest')` from `LoginController` — move to route-level
-4. Standardize middleware application style (fluent groups, no array-based `Route::group`)
-5. Reorganize admin route group with better nesting (section 20)
-6. Final cleanup (Pint, PHPStan, Rector)
+### Phase 5: Polish (P3) - 1-2 days ✅ COMPLETE
+1. ✅ Replace `IsLoggedIn` with Laravel's built-in `auth` middleware and delete `IsLoggedIn.php`
+2. ✅ Replace `IsAdmin` middleware with an `admin` Gate + built-in `auth` middleware, delete `IsAdmin.php`
+3. ✅ Remove constructor-based `$this->middleware('guest')` from `LoginController` — move to route-level
+4. ✅ Standardize middleware application style (fluent groups, no array-based `Route::group`)
+5. ✅ Reorganize admin route group with better nesting (section 20)
+6. Final cleanup (Pint, PHPStan, Rector) — run before starting Phase 3
 
 **Estimated Effort:** 4-6 hours
 **Risk:** Low
@@ -1484,8 +1499,9 @@ This refactoring plan addresses 67 specific issues across the routing and contro
 1. ✅ Start with Phase 1 (low risk, immediate value)
 2. ✅ Complete Phase 2 in increments (highest value)
 3. ✅ Phase 4: All sub-phases complete (4a, 4b, 4c, 4d)
-4. Complete Phase 5 (polish)
-5. Complete Phase 3 (API routes) last — additive, no breaking changes
+4. ✅ Complete Phase 5 (polish)
+5. Complete Phase 3 (API routes) — additive, no breaking changes
+6. Complete Phase 3b (API documentation) — after v1 routes are in place
 
 **Key Benefits:**
 - Improved code maintainability
