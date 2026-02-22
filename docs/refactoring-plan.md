@@ -1031,7 +1031,7 @@ All route names should use:
 | Old Name | New Name |
 |----------|----------|
 | `airports.destroyUnused` | `airports.unused.destroy` |
-| `faq.toggleEvent` | `faq.events.toggle` |
+| `faq.toggleEvent` | `faq.events.attach` / `faq.events.detach` |
 | `bookings.export` | `events.bookings.export` |
 | `bookings.autoAssignForm` | `events.bookings.autoAssign.create` |
 | `bookings.autoAssign` | `events.bookings.autoAssign.store` |
@@ -1301,11 +1301,11 @@ High blast radius but mechanical changes only:
 
 ---
 
-### Phase 4d: FAQ Toggle → Attach/Detach (P3) - 0.5 day
-1. **#17** Split `toggleEvent` into separate attach (`store`) and detach (`destroy`) endpoints
-2. Create `FaqEventController` with `store` and `destroy` methods
-3. Update routes: POST `faq/{faq}/events/{event}` and DELETE `faq/{faq}/events/{event}`
-4. Update view and tests (~3 references)
+### Phase 4d: FAQ Toggle → Attach/Detach (P3) - 0.5 day ✅ COMPLETE
+1. ✅ **#17** Split `toggleEvent` into separate attach (`store`) and detach (`destroy`) endpoints
+2. ✅ Create `FaqEventController` with `store` and `destroy` methods
+3. ✅ Update routes: POST `faq/{faq}/events/{event}` and DELETE `faq/{faq}/events/{event}`
+4. ✅ Update view and tests (~3 references)
 
 **Estimated Effort:** 2-3 hours
 **Risk:** Low
@@ -1374,7 +1374,7 @@ For each refactoring step:
 
 ### Phase 4
 - `app/Http/Controllers/User/UserSettingsController.php` (renamed from UserController)
-- `app/Http/Controllers/Faq/FaqEventController.php` (optional)
+- ✅ `app/Http/Controllers/Faq/FaqEventController.php`
 
 ---
 

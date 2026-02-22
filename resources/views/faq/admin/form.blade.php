@@ -47,22 +47,26 @@
                                 @foreach ($events as $event)
                                     <tr>
                                         <td>{{ $event->name }} [{{ $event->startEvent->format('d-m-Y') }}]</td>
-                                        <td>
-                                            <form
-                                                action="{{ route('admin.faq.toggleEvent', ['faq' => $faq, 'event' => $event]) }}"
-                                                method="post">
-                                                @csrf
-                                                @method('PATCH')
-
-                                                @if ($faq->events()->where('event_id', $event->id)->first())
+                                         <td>
+                                            @if ($faq->events()->where('event_id', $event->id)->first())
+                                                <form
+                                                    action="{{ route('admin.faq.events.detach', ['faq' => $faq, 'event' => $event]) }}"
+                                                    method="post">
+                                                    @csrf
+                                                    @method('DELETE')
                                                     <x-confirm-button
                                                         confirm-text="Are you sure you want to unlink this event?"
                                                         loading-message="Unlinking event..."
                                                     >{{ __('Unlink event') }}</x-confirm-button>
-                                                @else
+                                                </form>
+                                            @else
+                                                <form
+                                                    action="{{ route('admin.faq.events.attach', ['faq' => $faq, 'event' => $event]) }}"
+                                                    method="post">
+                                                    @csrf
                                                     <button class="btn btn-success">{{ __('Link event') }}</button>
-                                                @endif
-                                            </form>
+                                                </form>
+                                            @endif
                                         </td>
                                     </tr>
                                 @endforeach

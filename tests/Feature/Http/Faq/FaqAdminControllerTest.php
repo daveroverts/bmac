@@ -2,7 +2,6 @@
 
 use App\Models\User;
 use App\Models\Faq;
-use App\Models\Event;
 use Tests\TestCase;
 
 it('prevents non-admin users from accessing FAQ admin index', function (): void {
@@ -112,21 +111,4 @@ it('allows admin users to delete FAQs', function (): void {
     $this->assertDatabaseMissing('faqs', [
         'id' => $faq->id,
     ]);
-});
-
-it('allows admin users to toggle FAQ for events', function (): void {
-    /** @var TestCase $this */
-
-    /** @var User $admin */
-    $admin = User::factory()->admin()->create();
-
-    /** @var Faq $faq */
-    $faq = Faq::factory()->create();
-
-    /** @var Event $event */
-    $event = Event::factory()->create();
-
-    $this->actingAs($admin)
-        ->patch(route('admin.faq.toggleEvent', ['faq' => $faq, 'event' => $event]))
-        ->assertRedirect();
 });

@@ -5,6 +5,7 @@ use App\Http\Controllers\Faq\FaqController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Event\EventController;
 use App\Http\Controllers\Faq\FaqAdminController;
+use App\Http\Controllers\Faq\FaqEventController;
 use App\Http\Controllers\Booking\BookingController;
 use App\Http\Controllers\Event\EventAdminController;
 use App\Http\Controllers\Event\EventEmailController;
@@ -50,7 +51,8 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin', 'middleware' => 'auth.isAdm
 
     // Faq
     Route::resource('faq', FaqAdminController::class)->except('show');
-    Route::patch('faq/{faq}/toggle-event/{event}', [FaqAdminController::class, 'toggleEvent'])->name('faq.toggleEvent');
+    Route::post('faq/{faq}/events/{event}', [FaqEventController::class, 'store'])->name('faq.events.attach');
+    Route::delete('faq/{faq}/events/{event}', [FaqEventController::class, 'destroy'])->name('faq.events.detach');
 
     // Event
     Route::resource('events', EventAdminController::class);
