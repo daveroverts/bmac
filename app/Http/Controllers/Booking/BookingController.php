@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Booking;
 use App\Models\Event;
 use App\Models\Booking;
 use App\Enums\EventType;
-use Illuminate\Support\Str;
 use App\Enums\BookingStatus;
 use Illuminate\Http\Request;
 use App\Events\BookingConfirmed;
@@ -66,43 +65,40 @@ class BookingController extends Controller
 
     public function update(UpdateBooking $request, Booking $booking): RedirectResponse
     {
-        // This check should actually be in the policy, but is now here as a quick fix
-        if ($booking->user_id === $request->user()->id) {
-            if ($booking->is_editable) {
-                $booking->fill([
-                    'callsign' => $request->callsign,
-                    'acType' => $request->acType
-                ]);
-            }
+        $this->authorize('update', $booking);
 
-            if ($booking->event->is_oceanic_event && $request->filled('selcal')) {
-                $booking->selcal = $request->selcal;
-            }
-
-            if ($booking->status == BookingStatus::RESERVED) {
-                $booking->status = BookingStatus::BOOKED;
-                $booking->save();
-                event(new BookingConfirmed($booking));
-                if (!Str::contains(config('mail.default'), ['log', 'array'])) {
-                    $message = __('Your booking has been confirmed. You should shortly receive an email with your booking details. Be sure to also check your spam folder.');
-                } else {
-                    $message = __('Your booking has been confirmed');
-                }
-
-                flashMessage(
-                    'success',
-                    __('Booking confirmed!'),
-                    $message
-                );
-            } else {
-                $booking->save();
-                flashMessage('success', __('Booking edited!'), __('Booking has been edited!'));
-            }
-
-            return to_route('events.bookings.index', $booking->event);
+        if ($booking->is_editable) {
+            $booking->fill([
+                'callsign' => $request->callsign,
+                'acType' => $request->acType,
+            ]);
         }
 
-        abort(403);
+        if ($booking->event->is_oceanic_event && $request->filled('selcal')) {
+            $booking->selcal = $request->selcal;
+        }
+
+        if ($booking->status === BookingStatus::RESERVED) {
+            $booking->status = BookingStatus::BOOKED;
+            $booking->save();
+            event(new BookingConfirmed($booking));
+            if (! str_contains((string) config('mail.default'), 'log') && ! str_contains((string) config('mail.default'), 'array')) {
+                $message = __('Your booking has been confirmed. You should shortly receive an email with your booking details. Be sure to also check your spam folder.');
+            } else {
+                $message = __('Your booking has been confirmed');
+            }
+
+            flashMessage(
+                'success',
+                __('Booking confirmed!'),
+                $message
+            );
+        } else {
+            $booking->save();
+            flashMessage('success', __('Booking edited!'), __('Booking has been edited!'));
+        }
+
+        return to_route('events.bookings.index', $booking->event);
     }
 
 }

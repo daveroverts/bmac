@@ -32,7 +32,18 @@ class BookingPolicy
      */
     public function update(User $user, Booking $booking): bool
     {
-        return $user->id === $booking->user_id || empty($booking->user_id);
+        // Must own the booking
+        if ($user->id !== $booking->user_id) {
+            return false;
+        }
+
+        // Hard lock after endBooking
+        if ($booking->event->endBooking < now()) {
+            return false;
+        }
+
+        // Must be RESERVED or BOOKED to update
+        return in_array($booking->status, [BookingStatus::RESERVED, BookingStatus::BOOKED]);
     }
 
     /**
