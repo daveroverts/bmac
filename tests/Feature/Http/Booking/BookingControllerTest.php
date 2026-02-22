@@ -18,16 +18,40 @@ it('can view booking overview for an event', function (): void {
         ->assertSee($event->name);
 });
 
-it('can view a booked flight details', function (): void {
+it('can view a booked flight details as the booking owner', function (): void {
     /** @var TestCase $this */
+
+    /** @var User $user */
+    $user = User::factory()->create();
 
     /** @var Flight $flight */
     $flight = Flight::factory()->create([
-        'booking_id' => Booking::factory()->booked()->create()->id,
+        'booking_id' => Booking::factory()->booked()->create([
+            'user_id' => $user->id,
+        ])->id,
     ]);
 
-    $this->get(route('bookings.show', $flight->booking))
+    $this->actingAs($user)
+        ->get(route('bookings.show', $flight->booking))
         ->assertOk();
+});
+
+it('prevents viewing a booking belonging to another user', function (): void {
+    /** @var TestCase $this */
+
+    $owner = User::factory()->create();
+    $otherUser = User::factory()->create();
+
+    /** @var Flight $flight */
+    $flight = Flight::factory()->create([
+        'booking_id' => Booking::factory()->booked()->create([
+            'user_id' => $owner->id,
+        ])->id,
+    ]);
+
+    $this->actingAs($otherUser)
+        ->get(route('bookings.show', $flight->booking))
+        ->assertForbidden();
 });
 
 it('requires authentication to edit a booking', function (): void {

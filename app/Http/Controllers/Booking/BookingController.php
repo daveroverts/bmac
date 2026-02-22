@@ -23,6 +23,8 @@ class BookingController extends Controller
 
     public function show(Booking $booking): View
     {
+        $this->authorize('view', $booking);
+
         if ($booking->event->event_type_id == EventType::MULTIFLIGHTS->value) {
             return view('booking.show_multiflights', ['booking' => $booking]);
         }
