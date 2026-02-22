@@ -13,7 +13,7 @@ it('allows authenticated users to view settings page', function (): void {
     ]);
 
     $this->actingAs($user)
-        ->get(route('user.settings'))
+        ->get(route('user.settings.edit'))
         ->assertOk();
 });
 
@@ -27,7 +27,7 @@ it('allows authenticated users to update settings', function (): void {
     ]);
 
     $this->actingAs($user)
-        ->patch(route('user.saveSettings'), [
+        ->patch(route('user.settings.update'), [
             'airport_view' => 2,
             'use_monospace_font' => true,
         ])
@@ -47,8 +47,8 @@ it('validates required fields when updating settings', function (): void {
     ]);
 
     $this->actingAs($user)
-        ->from(route('user.settings'))
-        ->patch(route('user.saveSettings'), [])
-        ->assertRedirect(route('user.settings'))
+        ->from(route('user.settings.edit'))
+        ->patch(route('user.settings.update'), [])
+        ->assertRedirect(route('user.settings.edit'))
         ->assertSessionHasErrors(['airport_view', 'use_monospace_font']);
 });

@@ -100,8 +100,8 @@
                             {{ auth()->user()->fullName }}
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item {{ request()->routeIs('user.settings') ? 'active' : '' }}"
-                                href="{{ route('user.settings') }}">{{ __('My settings') }}</a>
+                            <a class="dropdown-item {{ request()->routeIs('user.settings.*') ? 'active' : '' }}"
+                                href="{{ route('user.settings.edit') }}">{{ __('My settings') }}</a>
                             <x-logout class="dropdown-item" />
                         </div>
                     </li>

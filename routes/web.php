@@ -2,7 +2,6 @@
 
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Faq\FaqController;
-use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Event\EventController;
 use App\Http\Controllers\Faq\FaqAdminController;
@@ -19,6 +18,7 @@ use App\Http\Controllers\Booking\BookingCancellationController;
 use App\Http\Controllers\Booking\BookingReservationController;
 use App\Http\Controllers\AirportLink\AirportLinkAdminController;
 use App\Http\Controllers\EventLink\EventLinkAdminController;
+use App\Http\Controllers\User\UserSettingsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -86,10 +86,6 @@ Route::get('faq', FaqController::class)->name('faq');
 
 Route::get('{event}', EventController::class)->name('events.show');
 
-Route::middleware('auth.isLoggedIn')->group(function (): void {
-    Route::prefix('user')->name('user.')
-        ->group(function (): void {
-            Route::get('settings', [UserController::class, 'showSettingsForm'])->name('settings');
-            Route::patch('settings', [UserController::class, 'saveSettings'])->name('saveSettings');
-        });
+Route::middleware('auth.isLoggedIn')->prefix('user')->name('user.')->group(function (): void {
+    Route::singleton('settings', UserSettingsController::class)->only(['edit', 'update']);
 });

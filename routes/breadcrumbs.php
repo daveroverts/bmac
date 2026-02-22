@@ -191,7 +191,7 @@ Breadcrumbs::for('admin.faq.edit', function ($trail, $faq): void {
 });
 
 // Home > My settings
-Breadcrumbs::for('user.settings', function ($trail): void {
+Breadcrumbs::for('user.settings.edit', function ($trail): void {
     $trail->parent('home');
-    $trail->push('My settings', route('user.settings', auth()->user()));
+    $trail->push('My settings', route('user.settings.edit'));
 });
