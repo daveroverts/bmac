@@ -12,7 +12,7 @@ it('returns a single booking by uuid', function (): void {
         'booking_id' => Booking::factory()->booked()->create()->id,
     ]);
 
-    $this->getJson("/api/v1/bookings/{$flight->booking->uuid}")
+    $this->getJson('/api/v1/bookings/' . $flight->booking->uuid)
         ->assertOk()
         ->assertJsonPath('data.uuid', $flight->booking->uuid)
         ->assertJsonPath('data.links.dep', route('v1.airports.show', $flight->airportDep))
@@ -40,7 +40,7 @@ it('returns only booked bookings for an event', function (): void {
     $unassignedBooking = Booking::factory()->unassigned()->create(['event_id' => $event->id]);
     Flight::factory()->create(['booking_id' => $unassignedBooking->id, 'dep' => $unassignedBooking->event->dep, 'arr' => $unassignedBooking->event->arr]);
 
-    $response = $this->getJson("/api/v1/events/{$event->slug}/bookings")
+    $response = $this->getJson(sprintf('/api/v1/events/%s/bookings', $event->slug))
         ->assertOk();
 
     expect($response->json('data'))->toHaveCount(1)
@@ -53,7 +53,7 @@ it('returns empty data when an event has no booked bookings', function (): void 
     $event = Event::factory()->create();
     Booking::factory()->unassigned()->create(['event_id' => $event->id]);
 
-    $response = $this->getJson("/api/v1/events/{$event->slug}/bookings")
+    $response = $this->getJson(sprintf('/api/v1/events/%s/bookings', $event->slug))
         ->assertOk();
 
     expect($response->json('data'))->toHaveCount(0);
@@ -64,7 +64,7 @@ it('does not include deprecation headers on v1 booking routes', function (): voi
 
     $event = Event::factory()->create();
 
-    $this->getJson("/api/v1/events/{$event->slug}/bookings")
+    $this->getJson(sprintf('/api/v1/events/%s/bookings', $event->slug))
         ->assertOk()
         ->assertHeaderMissing('Deprecation')
         ->assertHeaderMissing('Sunset');

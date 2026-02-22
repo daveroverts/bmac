@@ -18,7 +18,7 @@ it('returns a single airport by icao', function (): void {
 
     $airport = Airport::factory()->create();
 
-    $this->getJson("/api/v1/airports/{$airport->icao}")
+    $this->getJson('/api/v1/airports/' . $airport->icao)
         ->assertOk()
         ->assertJsonPath('data.icao', $airport->icao)
         ->assertJsonPath('data.name', $airport->name);
