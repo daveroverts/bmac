@@ -12,7 +12,8 @@ class ValidSelcal implements ValidationRule
      * Create a new rule instance.
      */
     public function __construct(
-        private readonly int $eventId
+        private readonly int $eventId,
+        private readonly ?int $excludeBookingId = null,
     ) {
     }
 
@@ -42,7 +43,7 @@ class ValidSelcal implements ValidationRule
         $char4 = substr($value, 4, 1);
 
         // Check if SELCAL has valid format
-        if (in_array(preg_match("/[ABCDEFGHJKLMPQRS]{2}[-][ABCDEFGHJKLMPQRS]{2}/", $value), [0, false], true)) {
+        if (in_array(preg_match('/^[ABCDEFGHJKLMPQRS]{2}-[ABCDEFGHJKLMPQRS]{2}$/', $value), [0, false], true)) {
             $fail('The SELCAL format is invalid. Must be XX-XX using valid SELCAL characters.');
 
             return;
@@ -66,10 +67,14 @@ class ValidSelcal implements ValidationRule
         }
 
         // Check for duplicates within the same event
-        if (Booking::where('event_id', $this->eventId)
-            ->where('selcal', '=', $value)
-            ->first()
-        ) {
+        $query = Booking::where('event_id', $this->eventId)
+            ->where('selcal', '=', $value);
+
+        if ($this->excludeBookingId !== null) {
+            $query->where('id', '!=', $this->excludeBookingId);
+        }
+
+        if ($query->exists()) {
             $fail('The SELCAL is already in use for this event.');
 
             return;

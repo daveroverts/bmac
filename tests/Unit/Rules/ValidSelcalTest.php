@@ -110,6 +110,53 @@ it('allows same SELCAL for different events', function (): void {
     expect($validator->passes())->toBeTrue();
 });
 
+it('passes validation when the same SELCAL belongs to the excluded booking', function (): void {
+    $event = Event::factory()->create();
+    $booking = Booking::factory()->create([
+        'event_id' => $event->id,
+        'selcal' => 'AB-CD',
+    ]);
+
+    $validator = Validator::make(
+        ['selcal' => 'AB-CD'],
+        ['selcal' => new ValidSelcal($event->id, $booking->id)]
+    );
+
+    expect($validator->passes())->toBeTrue();
+});
+
+it('fails validation when same SELCAL is used by a different booking in the same event', function (): void {
+    $event = Event::factory()->create();
+    $existingBooking = Booking::factory()->create([
+        'event_id' => $event->id,
+        'selcal' => 'AB-CD',
+    ]);
+    $otherBooking = Booking::factory()->create([
+        'event_id' => $event->id,
+        'selcal' => 'EF-GH',
+    ]);
+
+    $validator = Validator::make(
+        ['selcal' => 'AB-CD'],
+        ['selcal' => new ValidSelcal($event->id, $otherBooking->id)]
+    );
+
+    expect($validator->fails())->toBeTrue();
+    expect($validator->errors()->first('selcal'))->toContain('already in use');
+});
+
+it('fails validation when SELCAL has extra characters around valid pattern', function (): void {
+    $event = Event::factory()->create();
+
+    $validator = Validator::make(
+        ['selcal' => 'ZZAB-CDzz'],
+        ['selcal' => new ValidSelcal($event->id)]
+    );
+
+    expect($validator->fails())->toBeTrue();
+    expect($validator->errors()->first('selcal'))->toContain('format is invalid');
+});
+
 it('fails validation when value is not a string', function (): void {
     $event = Event::factory()->create();
 

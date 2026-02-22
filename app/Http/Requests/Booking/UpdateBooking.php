@@ -30,7 +30,7 @@ class UpdateBooking extends Request
             'acType' => ['sometimes', 'alpha_num', 'between:3,4'],
             'selcal1' => ['sometimes', 'nullable', 'alpha', 'size:2'],
             'selcal2' => 'sometimes|nullable|required_with:selcal1,!=' . null . '|alpha|size:2',
-            'selcal' => ['sometimes', 'nullable', new ValidSelcal($this->route('booking')->event->id)],
+            'selcal' => ['sometimes', 'nullable', new ValidSelcal($this->route('booking')->event->id, $this->route('booking')->id)],
             'checkStudy' => ['sometimes', 'accepted'],
             'checkCharts' => ['sometimes', 'accepted'],
         ];
