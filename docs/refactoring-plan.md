@@ -1241,10 +1241,10 @@ Route::prefix('admin')->name('admin.')->middleware('auth.isAdmin')->group(functi
 
 ## Implementation Roadmap
 
-### Phase 1: Critical Fixes (P0) - 1-2 days
-1. Remove duplicate `bookings.edit` route
-2. Delete `AdminController` and update extending classes
-3. Move/rename `OAuthController` to service
+### Phase 1: Critical Fixes (P0) - 1-2 days ✅ COMPLETE
+1. ✅ Remove duplicate `bookings.edit` route
+2. ✅ Delete `AdminController` and update extending classes
+3. ✅ Move/rename `OAuthController` to service
 
 **Estimated Effort:** 4-6 hours
 **Risk:** Low
@@ -1254,31 +1254,31 @@ Route::prefix('admin')->name('admin.')->middleware('auth.isAdmin')->group(functi
 
 ### Phase 2: Controller Refactoring (P1) - 3-5 days
 
-**Step 1: BookingAdminController Split**
-1. Create `BookingExportController`
-2. Create `BookingImportController`
-3. Create `BookingAutoAssignController`
-4. Create `BookingRouteAssignController`
-5. Update routes
-6. Update tests
+**Step 1: BookingAdminController Split** ✅ COMPLETE
+1. ✅ Create `BookingExportController`
+2. ✅ Create `BookingImportController`
+3. ✅ Create `BookingAutoAssignController`
+4. ✅ Create `BookingRouteAssignController`
+5. ✅ Update routes
+6. ✅ Update tests
 
-**Step 2: EventAdminController Split**
+**Step 2: EventAdminController Split** ← TODO
 1. Create `EventEmailController`
 2. Move `deleteAllBookings` to `BookingAdminController`
 3. Update routes
 4. Update tests
 
-**Step 3: BookingController Refactoring**
-1. Create `SelcalValidator` service
-2. Create `BookingReservationController`
-3. Create `BookingCancellationController`
-4. Refactor `edit()` method (remove reservation logic, add timing constraints)
-5. Refactor `update()` method (add timing constraints)
-6. Remove `cancel()` method
-7. Update `BookingPolicy` with `reserve()`, `edit()`, `update()`, and `cancel()` methods
-8. Update routes (reservation POST, cancellation DELETE)
-9. Update views (change "Book" buttons to POST to reservation endpoint)
-10. Update tests
+**Step 3: BookingController Refactoring** ← IN PROGRESS
+1. ✅ Create `SelcalValidator` (implemented as a dedicated validation Rule)
+2. ✅ Create `BookingReservationController`
+3. ⬜ Create `BookingCancellationController` ← **YOU ARE HERE**
+4. ✅ Refactor `edit()` method (remove reservation logic, add timing constraints)
+5. ✅ Refactor `update()` method (add timing constraints)
+6. ⬜ Remove `cancel()` method (blocked by #3)
+7. ✅ Update `BookingPolicy` with `reserve()`, `edit()`, `update()`, and `cancel()` methods
+8. ✅ Update routes (reservation POST added)
+9. ✅ Update views ("Book" buttons changed to POST to reservation endpoint)
+10. ✅ Update tests
 
 **Estimated Effort:** 16-24 hours
 **Risk:** Medium (requires extensive testing)
