@@ -87,6 +87,15 @@ class Booking extends Model
         return 'uuid';
     }
 
+    public function resolveRouteBinding($value, $field = null): ?Model
+    {
+        if (! Str::isUuid($value)) {
+            return null;
+        }
+
+        return parent::resolveRouteBinding($value, $field);
+    }
+
     protected function getFormattedCallsignAttribute(): string
     {
         return $this->callsign ?: '-';
