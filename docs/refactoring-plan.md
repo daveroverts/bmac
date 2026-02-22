@@ -859,106 +859,81 @@ Cancel logic was extracted to `BookingCancellationController`, the route method 
 
 ---
 
-### 12. Airport "Destroy Unused" Route
+### 12. Airport "Destroy Unused" Route ✅ COMPLETE
 
-**Location:** `routes/web.php:35`
+**Location:** `routes/web.php:43`
 
-**Current State:**
+**Previous State:**
 ```php
 Route::post('airports/destroy-unused', [AirportAdminController::class, 'destroyUnused'])
     ->name('airports.destroyUnused');
 ```
 
-**Issues:**
-1. Uses POST for deletion (should be DELETE)
-2. URL contains verb
-3. camelCase in route name
-
-**Proposed State:**
+**Implemented State:**
 ```php
 Route::delete('airports/unused', [AirportAdminController::class, 'destroyUnused'])
     ->name('airports.unused.destroy');
 ```
 
+HTTP method changed from POST to DELETE, verb removed from URL, route name standardized.
+
 **Impact:** Low - consistency
 
 ---
 
-### 13. Booking Admin Create Route with Bulk Parameter
+### 13. Booking Admin Create Route with Bulk Parameter — Partially Complete
 
-**Location:** `routes/web.php:61`
+**Location:** `routes/web.php:67`
 
 **Current State:**
 ```php
-Route::get('{event}/bookings/create/{bulk?}', [BookingAdminController::class, 'create'])
+Route::get('{event}/bookings/create', [BookingAdminController::class, 'create'])
     ->name('bookings.create');
 ```
 
-**Issues:**
-1. Optional parameter in URL should be query string
-2. Route name conflicts with resource route
+**What's done:** The `{bulk?}` URL parameter has been removed; bulk is now passed via query string.
 
-**Proposed State:**
+**What remains:**
+1. URL still uses `{event}` instead of `events/{event}` for consistency with other event-scoped routes
+2. Route name is still `bookings.create` instead of `events.bookings.create`
+
+**Proposed Final State:**
 ```php
 Route::get('events/{event}/bookings/create', [BookingAdminController::class, 'create'])
     ->name('events.bookings.create');
-
-// Access with: /admin/events/123/bookings/create?bulk=1
-```
-
-**Controller Update:**
-```php
-public function create(Event $event, Request $request): View
-{
-    $bulk = $request->boolean('bulk');
-    // ...
-}
 ```
 
 **Impact:** Low - consistency
 
 ---
 
-### 14. Booking Export Route with Optional Parameter
+### 14. Booking Export Route with Optional Parameter ✅ COMPLETE
 
-**Location:** `routes/web.php:60`
+**Location:** `routes/web.php:66`
 
-**Current State:**
+**Previous State:**
 ```php
 Route::get('{event}/bookings/export/{vacc?}', [BookingAdminController::class, 'export'])
     ->name('bookings.export');
 ```
 
-**Issues:**
-1. Optional parameter should be query string
-2. Missing 'events' prefix for clarity
-
-**Proposed State:**
+**Implemented State:**
 ```php
 Route::get('events/{event}/bookings/export', BookingExportController::class)
     ->name('events.bookings.export');
-
-// Access with: /admin/events/123/bookings/export?vacc=VATUSA
 ```
 
-**Controller Update:**
-```php
-public function __invoke(Event $event, Request $request): BinaryFileResponse
-{
-    $vacc = $request->query('vacc');
-    // ...
-}
-```
+Export extracted to `BookingExportController`, `{vacc?}` URL parameter converted to query string, URL updated to use `events/{event}` prefix, route name standardized.
 
 **Impact:** Low - consistency
 
 ---
 
-### 15. User Settings Routes
+### 15. User Settings Routes ✅ COMPLETE
 
-**Location:** `routes/web.php:93-98`
+**Location:** `routes/web.php:91-93`
 
-**Current State:**
+**Previous State:**
 ```php
 Route::middleware('auth.isLoggedIn')->group(function (): void {
     Route::prefix('user')->name('user.')
@@ -971,33 +946,14 @@ Route::middleware('auth.isLoggedIn')->group(function (): void {
 });
 ```
 
-**Issues:**
-1. Inconsistent method names (`showSettingsForm`, `saveSettings`)
-2. Inconsistent route names (`settings`, `saveSettings`)
-3. Not using resourceful routes
-
-**Proposed State:**
+**Implemented State:**
 ```php
-Route::middleware('auth.isLoggedIn')->group(function (): void {
-    Route::singleton('user/settings', UserSettingsController::class)
-        ->only(['edit', 'update']);
+Route::middleware('auth.isLoggedIn')->prefix('user')->name('user.')->group(function (): void {
+    Route::singleton('settings', UserSettingsController::class)->only(['edit', 'update']);
 });
 ```
 
-**Controller Update:**
-Rename `UserController` to `UserSettingsController`:
-```php
-class UserSettingsController extends Controller
-{
-    public function edit(): View  // was showSettingsForm
-
-    public function update(UpdateUserSettings $request): RedirectResponse  // was saveSettings
-}
-```
-
-**Routes Generated:**
-- GET `/user/settings/edit` → `user.settings.edit`
-- PATCH `/user/settings` → `user.settings.update`
+`UserController` renamed to `UserSettingsController`, methods renamed to `edit` and `update`, route changed to singleton resource.
 
 **Impact:** Medium - RESTful consistency
 
@@ -1007,69 +963,39 @@ class UserSettingsController extends Controller
 
 ### 16. Route Name Inconsistencies
 
-**Current Issues:**
+**Previously Fixed:**
 
-| Route | Current Name | Issue |
-|-------|-------------|-------|
-| Line 35 | `airports.destroyUnused` | camelCase |
-| Line 46 | `faq.toggleEvent` | camelCase |
-| Line 60 | `bookings.export` | Missing scope prefix |
-| Line 61 | `bookings.create` | Missing scope prefix |
-| Line 66 | `bookings.autoAssignForm` | camelCase + Form suffix |
-| Line 70 | `bookings.autoAssign` | camelCase |
-| Line 74 | `bookings.routeAssignForm` | camelCase + Form suffix |
-| Line 78 | `bookings.routeAssign` | camelCase |
+| Old Name | New Name | Status |
+|----------|----------|--------|
+| `airports.destroyUnused` | `airports.unused.destroy` | ✅ Done |
+| `faq.toggleEvent` | `faq.events.attach` / `faq.events.detach` | ✅ Done |
+| `bookings.export` | `events.bookings.export` | ✅ Done |
+| `bookings.autoAssignForm` | `bookings.autoAssign.create` | ✅ camelCase/Form suffix fixed |
+| `bookings.autoAssign` | `bookings.autoAssign.store` | ✅ Form suffix fixed |
+| `bookings.routeAssignForm` | `bookings.routeAssign.create` | ✅ camelCase/Form suffix fixed |
+| `bookings.routeAssign` | `bookings.routeAssign.store` | ✅ Form suffix fixed |
 
-**Proposed Standard:**
-All route names should use:
-- dot notation for nesting
-- lowercase with dots
-- resource verbs when applicable (index, create, store, show, edit, update, destroy)
+**Remaining Issues — Missing `events.` scope prefix:**
 
-**Updated Names:**
+| Current Name (line) | Proposed Name |
+|---------------------|---------------|
+| `bookings.create` (67) | `events.bookings.create` |
+| `bookings.import.create` (68) | `events.bookings.import.create` |
+| `bookings.import.store` (69) | `events.bookings.import.store` |
+| `bookings.autoAssign.create` (70) | `events.bookings.autoAssign.create` |
+| `bookings.autoAssign.store` (71) | `events.bookings.autoAssign.store` |
+| `bookings.routeAssign.create` (72) | `events.bookings.routeAssign.create` |
+| `bookings.routeAssign.store` (73) | `events.bookings.routeAssign.store` |
 
-| Old Name | New Name |
-|----------|----------|
-| `airports.destroyUnused` | `airports.unused.destroy` |
-| `faq.toggleEvent` | `faq.events.attach` / `faq.events.detach` |
-| `bookings.export` | `events.bookings.export` |
-| `bookings.autoAssignForm` | `events.bookings.autoAssign.create` |
-| `bookings.autoAssign` | `events.bookings.autoAssign.store` |
-| `bookings.routeAssignForm` | `events.bookings.routeAssign.create` |
-| `bookings.routeAssign` | `events.bookings.routeAssign.store` |
+These event-scoped admin booking routes also use `{event}/bookings/...` instead of `events/{event}/bookings/...` in the URL (see #13 and Section 20).
 
 **Impact:** Low - consistency and predictability
 
 ---
 
-### 17. FAQ Toggle Event Route
+### 17. FAQ Toggle Event Route ✅ COMPLETE
 
-**Location:** `routes/web.php:46`
-
-**Current State:**
-```php
-Route::patch('faq/{faq}/toggle-event/{event}', [FaqAdminController::class, 'toggleEvent'])
-    ->name('faq.toggleEvent');
-```
-
-**Issues:**
-1. Toggle operation using PATCH
-2. Action-based URL with verb
-3. Unclear semantics (attach/detach would be clearer)
-
-**Proposed State (Option 1 - Nested Resource):**
-```php
-Route::post('faq/{faq}/events/{event}', [FaqEventController::class, 'store'])
-    ->name('faq.events.attach');
-Route::delete('faq/{faq}/events/{event}', [FaqEventController::class, 'destroy'])
-    ->name('faq.events.detach');
-```
-
-**Proposed State (Option 2 - Keep toggle but improve naming):**
-```php
-Route::put('faq/{faq}/events/{event}', [FaqAdminController::class, 'toggleEvent'])
-    ->name('faq.events.toggle');
-```
+Implemented as Phase 4d. See that section for details.
 
 **Impact:** Low - clarity
 
@@ -1081,29 +1007,25 @@ Route::put('faq/{faq}/events/{event}', [FaqAdminController::class, 'toggleEvent'
 
 **Current Issues:**
 
-**Duplicate middleware on booking edit route (line 84-86):**
-```php
-Route::resource('bookings', BookingController::class)->only(['show', 'edit', 'update']);
-// ...
-Route::get('/bookings/{booking}/edit', [BookingController::class, 'edit'])
-    ->middleware('auth.isLoggedIn')->name('bookings.edit');
-```
+~~Duplicate middleware on booking edit route~~ — Fixed in Phase 1.
 
-**Mixed middleware approaches:**
-- Some use route middleware: `->middleware('auth.isLoggedIn')`
-- Some use route groups: `Route::middleware('auth.isLoggedIn')->group(...)`
-- Some use controller authorization: `$this->authorize(...)`
+**Mixed middleware approaches remain in `routes/web.php`:**
+- Array-based route group: `Route::group(['middleware' => 'auth.isAdmin'], ...)` (line 41)
+- Per-action on resource: `->middleware(['edit' => 'auth.isLoggedIn'])` (line 78)
+- Inline per-route: `->middleware('auth.isLoggedIn')` (lines 80, 83)
+- Fluent group: `Route::middleware('auth.isLoggedIn')->...->group(...)` (line 91)
+- Constructor-based (legacy): `$this->middleware('guest')` in `LoginController` (line 34)
 
 **Proposed Standard:**
 
-1. **Use route groups for multiple related routes:**
+1. **Use fluent middleware groups for multiple related routes:**
 ```php
 Route::middleware('auth.isLoggedIn')->group(function () {
     // Multiple routes
 });
 ```
 
-2. **Use resource middleware for single routes:**
+2. **Use resource middleware for conditional per-action middleware:**
 ```php
 Route::resource('bookings', BookingController::class)
     ->only(['edit'])
@@ -1111,6 +1033,8 @@ Route::resource('bookings', BookingController::class)
 ```
 
 3. **Use Policy authorization in controllers for complex logic**
+
+4. **Remove constructor-based middleware** (`$this->middleware(...)` in `LoginController`) — this is a pre-Laravel 11 pattern; move to route-level middleware.
 
 **Impact:** Low - consistency
 
@@ -1157,8 +1081,12 @@ Route::prefix('admin')->name('admin.')->middleware('auth.isAdmin')->group(functi
     Route::resource('faq', FaqAdminController::class)->except('show');
 
     // Link Resources (could be nested under parent)
-    Route::resource('airport-links', AirportLinkAdminController::class)->except(['show']);
-    Route::resource('event-links', EventLinkAdminController::class)->except(['show']);
+    Route::resource('airportLinks', AirportLinkAdminController::class)->except(['show']);
+    Route::resource('eventLinks', EventLinkAdminController::class)->except(['show']);
+
+    // FAQ events (attach/detach)
+    Route::post('faq/{faq}/events/{event}', [FaqEventController::class, 'store'])->name('faq.events.attach');
+    Route::delete('faq/{faq}/events/{event}', [FaqEventController::class, 'destroy'])->name('faq.events.detach');
 
     // Event-scoped routes
     Route::prefix('events/{event}')->name('events.')->group(function () {
@@ -1194,8 +1122,6 @@ Route::prefix('admin')->name('admin.')->middleware('auth.isAdmin')->group(functi
     // Special actions
     Route::delete('airports/unused', [AirportAdminController::class, 'destroyUnused'])
         ->name('airports.unused.destroy');
-    Route::put('faq/{faq}/events/{event}', [FaqAdminController::class, 'toggleEvent'])
-        ->name('faq.events.toggle');
 });
 ```
 
@@ -1266,21 +1192,21 @@ Route::prefix('admin')->name('admin.')->middleware('auth.isAdmin')->group(functi
 
 ### Phase 4a: Low-touch Route Fixes (P2) - 0.5-1 day
 Fix URL structure and HTTP method issues with minimal blast radius:
-1. **#12** Airport `destroyUnused` — POST→DELETE, remove verb from URL, rename `airports.destroyUnused` → `airports.unused.destroy` (~3 references)
-2. **#13** Booking admin create — remove `{bulk?}` from URL, switch to query string; fix views using `route(...) . '/bulk'` hack (~10 references)
-3. **#14** Booking export — remove `{vacc?}` from URL, switch to query string (~4 references)
+1. ✅ **#12** Airport `destroyUnused` — POST→DELETE, remove verb from URL, rename `airports.destroyUnused` → `airports.unused.destroy`
+2. **#13** Booking admin create — ~~remove `{bulk?}` from URL, switch to query string~~ (done); remaining: rename route `bookings.create` → `events.bookings.create` and add `events/` URL prefix (~10 references)
+3. ✅ **#14** Booking export — `{vacc?}` removed, query string used, extracted to `BookingExportController`, route renamed to `events.bookings.export`
 
-**Estimated Effort:** 3-5 hours
+**Estimated Effort:** 1-2 hours (only #13 URL prefix/rename remains)
 **Risk:** Low
-**Breaking Changes:** Route names and URL structure change for 3 routes
+**Breaking Changes:** Route name change for 1 route
 
 ---
 
-### Phase 4b: User Settings Controller Rename (P2) - 0.5 day
-1. **#15** Rename `UserController` → `UserSettingsController`
-2. Rename `showSettingsForm` → `edit`, `saveSettings` → `update`
-3. Switch to `Route::singleton('user/settings', UserSettingsController::class)->only(['edit', 'update'])`
-4. Update views and tests (~7 references)
+### Phase 4b: User Settings Controller Rename (P2) - 0.5 day ✅ COMPLETE
+1. ✅ **#15** Rename `UserController` → `UserSettingsController`
+2. ✅ Rename `showSettingsForm` → `edit`, `saveSettings` → `update`
+3. ✅ Switch to `Route::singleton('settings', UserSettingsController::class)->only(['edit', 'update'])`
+4. ✅ Update views and tests
 
 **Estimated Effort:** 2-3 hours
 **Risk:** Low
@@ -1373,7 +1299,7 @@ For each refactoring step:
 - `app/Http/Controllers/Api/V1/AirportController.php`
 
 ### Phase 4
-- `app/Http/Controllers/User/UserSettingsController.php` (renamed from UserController)
+- ✅ `app/Http/Controllers/User/UserSettingsController.php` (renamed from UserController)
 - ✅ `app/Http/Controllers/Faq/FaqEventController.php`
 
 ---
@@ -1382,7 +1308,7 @@ For each refactoring step:
 
 - ✅ `app/Http/Controllers/AdminController.php`
 - ✅ `app/Http/Controllers/OAuthController.php` (moved to services)
-- `app/Http/Controllers/User/UserController.php` (renamed — Phase 4)
+- ✅ `app/Http/Controllers/User/UserController.php` (renamed to `UserSettingsController` — Phase 4b)
 
 ---
 
@@ -1399,7 +1325,7 @@ For each refactoring step:
 - ✅ All controllers extending `AdminController` - Now extend `Controller` directly
 
 ### Policies
-- `app/Policies/BookingPolicy.php` - Add `reserve()`, `cancel()` methods, update `edit()` and `update()` with timing constraints
+- ✅ `app/Policies/BookingPolicy.php` - Added `reserve()`, `cancel()` methods, updated `edit()` and `update()` with timing constraints
 
 ### Middleware
 - `bootstrap/app.php` - Update middleware aliases (Phase 5)
@@ -1516,7 +1442,7 @@ This refactoring plan addresses 67 specific issues across the routing and contro
 **Recommended Approach:**
 1. ✅ Start with Phase 1 (low risk, immediate value)
 2. ✅ Complete Phase 2 in increments (highest value)
-3. Complete Phase 4 in sub-phases (4a → 4b → 4c → 4d), lowest risk first
+3. Phase 4: ✅ 4b, ✅ 4c, ✅ 4d complete; 4a has #13 remaining (route prefix/rename)
 4. Complete Phase 5 (polish)
 5. Complete Phase 3 (API routes) last — additive, no breaking changes
 
