@@ -43,10 +43,10 @@ class EventResource extends JsonResource
             'total_bookings_count' => $total,
             'available_bookings_count' => $booked,
             'links' => [
-                'bookings' => url('/api/events/' . $this->slug . '/bookings'),
-                'dep' => url('/api/airports/' . $this->airportDep->icao),
-                'arr' => url('/api/airports/' . $this->airportArr->icao),
-            ]
+                'bookings' => route('v1.events.bookings.index', $this),
+                'dep' => route('v1.airports.show', $this->airportDep),
+                'arr' => route('v1.airports.show', $this->airportArr),
+            ],
         ];
     }
 }

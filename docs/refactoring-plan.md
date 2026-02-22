@@ -1209,14 +1209,13 @@ Route::middleware(['auth', 'can:admin'])->prefix('admin')->name('admin.')->group
 
 ---
 
-### Phase 3: API Routes (P2) - 1-2 days
-> **Deferred** — Tackling after Phases 4 and 5 are complete.
+### Phase 3: API Routes (P2) - 1-2 days ✅ COMPLETE
 
-1. Create `Api/V1/` controllers (`EventController`, `BookingController`, `AirportController`)
-2. Add versioned routes at `/api/v1/...` pointing to the new controllers
-3. Keep old unversioned routes (`/api/events`, etc.) exactly as-is — no breaking changes
-4. Add `Deprecation` and `Sunset` response headers to the old routes (informational only, not a breaking change)
-5. Write feature tests for all v1 endpoints (currently zero API tests exist)
+1. ✅ Create `Api/V1/` controllers (`EventController`, `BookingController`, `AirportController`)
+2. ✅ Add versioned routes at `/api/v1/...` pointing to the new controllers
+3. ✅ Keep old unversioned routes (`/api/events`, etc.) exactly as-is — no breaking changes
+4. ✅ Add `Deprecation` and `Sunset` (2026-12-31) response headers to the old routes via `DeprecatedApiMiddleware`
+5. ✅ Write feature tests for all v1 endpoints (17 tests covering all endpoints)
 
 **Estimated Effort:** 6-10 hours
 **Risk:** Low (additive changes; old routes unchanged)
@@ -1226,14 +1225,14 @@ Route::middleware(['auth', 'can:admin'])->prefix('admin')->name('admin.')->group
 
 ### Phase 3b: API Documentation - 0.5-1 day
 
-1. Install [Scribe](https://scribe.knuckles.wtf/laravel/) (`composer require knuckleswtf/scribe --dev`)
-2. Publish and configure `config/scribe.php` — scope to `v1` routes only
-3. Annotate v1 controllers with Scribe docblocks where auto-extraction falls short
-4. Run `php artisan scribe:generate` and review output
-5. Document legacy routes with a single deprecation notice pointing consumers to v1
+1. Install [Scramble](https://scramble.dedoc.co/) (`composer require dedoc/scramble`)
+2. Publish and configure `config/scramble.php` — scope to `v1` routes only (`api_path => 'api/v1'`)
+3. Register `viewApiDocs` gate in `AppServiceProvider` to control access outside local environment
+4. No manual annotation needed — Scramble uses full type inference from return types and resource classes
+5. Legacy routes excluded automatically by Scramble's route resolver (scoped to `api/v1`)
 
 **Estimated Effort:** 2-4 hours
-**Risk:** Low (dev dependency only, no runtime impact)
+**Risk:** Low (no runtime impact in production without docs access)
 **Breaking Changes:** None
 
 ---
@@ -1344,9 +1343,10 @@ For each refactoring step:
 - ✅ `app/Services/OAuth/VatsimProvider.php` (renamed from OAuthController)
 
 ### Phase 3
-- `app/Http/Controllers/Api/V1/EventController.php`
-- `app/Http/Controllers/Api/V1/BookingController.php`
-- `app/Http/Controllers/Api/V1/AirportController.php`
+    - ✅ `app/Http/Controllers/Api/V1/EventController.php`
+- ✅ `app/Http/Controllers/Api/V1/BookingController.php`
+- ✅ `app/Http/Controllers/Api/V1/AirportController.php`
+- ✅ `app/Http/Middleware/DeprecatedApiMiddleware.php`
 
 ### Phase 4
 - ✅ `app/Http/Controllers/User/UserSettingsController.php` (renamed from UserController)
@@ -1500,7 +1500,7 @@ This refactoring plan addresses 67 specific issues across the routing and contro
 2. ✅ Complete Phase 2 in increments (highest value)
 3. ✅ Phase 4: All sub-phases complete (4a, 4b, 4c, 4d)
 4. ✅ Complete Phase 5 (polish)
-5. Complete Phase 3 (API routes) — additive, no breaking changes
+5. ✅ Complete Phase 3 (API routes) — additive, no breaking changes
 6. Complete Phase 3b (API documentation) — after v1 routes are in place
 
 **Key Benefits:**
