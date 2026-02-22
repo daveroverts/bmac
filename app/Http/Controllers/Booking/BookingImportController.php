@@ -6,14 +6,13 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Booking\Admin\ImportBookings;
 use App\Imports\BookingsImport;
 use App\Models\Event;
-use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Storage;
 
 class BookingImportController extends Controller
 {
-    public function create(Event $event): Factory|View
+    public function create(Event $event): View
     {
         return view('event.admin.import', ['event' => $event]);
     }

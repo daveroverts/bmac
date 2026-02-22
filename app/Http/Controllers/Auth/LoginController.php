@@ -8,6 +8,7 @@ use App\Services\OAuth\VatsimProvider;
 use App\Models\Booking;
 use App\Models\Event;
 use App\Models\User;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
 
@@ -34,7 +35,7 @@ class LoginController extends Controller
         $this->provider = new VatsimProvider();
     }
 
-    public function login(Request $request)
+    public function login(Request $request): RedirectResponse
     {
         if (!$request->has('code') || !$request->has('state')) {
             // User has clicked "login", redirect to Connect
@@ -68,7 +69,7 @@ class LoginController extends Controller
         return $this->verifyLogin($request);
     }
 
-    protected function verifyLogin(Request $request)
+    protected function verifyLogin(Request $request): RedirectResponse
     {
         try {
             $accessToken = $this->provider->getAccessToken('authorization_code', [
@@ -153,7 +154,7 @@ class LoginController extends Controller
         return $account;
     }
 
-    public function logout()
+    public function logout(): RedirectResponse
     {
         activity()->log('Logout');
         auth()->logout();
