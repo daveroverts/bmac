@@ -101,7 +101,7 @@ it('allows admin users to export bookings', function (): void {
     $event = Event::factory()->create();
 
     $this->actingAs($admin)
-        ->get(route('admin.bookings.export', $event))
+        ->get(route('admin.events.bookings.export', $event))
         ->assertOk();
 });
 

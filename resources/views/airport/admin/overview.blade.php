@@ -63,5 +63,5 @@
         {{ $airports->links() }}
     </table>
     {{ $airports->links() }}
-    <x-form :action="route('admin.airports.destroyUnused')" id="delete-unused-airports" method="POST" style="display: none;"></x-form>
+    <x-form :action="route('admin.airports.unused.destroy')" id="delete-unused-airports" method="DELETE" style="display: none;"></x-form>
 @endsection

@@ -30,7 +30,7 @@ class EventEmailController extends Controller
             return response()->json(['success' => __('Email has been sent to yourself')]);
         }
 
-        /** @var User $users */
+        /** @var \Illuminate\Support\Collection<int, User> $users */
         $users = User::whereHas('bookings', function (Builder $query) use ($event): void {
             $query->where('event_id', $event->id);
             $query->where('status', BookingStatus::BOOKED->value);

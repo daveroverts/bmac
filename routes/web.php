@@ -39,7 +39,7 @@ Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 // Admin routes
 Route::group(['as' => 'admin.', 'prefix' => 'admin', 'middleware' => 'auth.isAdmin'], function (): void {
     // Airports
-    Route::post('airports/destroy-unused', [AirportAdminController::class, 'destroyUnused'])->name('airports.destroyUnused');
+    Route::delete('airports/unused', [AirportAdminController::class, 'destroyUnused'])->name('airports.unused.destroy');
     Route::resource('airports', AirportAdminController::class);
 
     // AirportLinks
@@ -61,8 +61,8 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin', 'middleware' => 'auth.isAdm
 
     // Booking
     Route::resource('bookings', BookingAdminController::class)->except(['index', 'create', 'show']);
-    Route::get('{event}/bookings/export', BookingExportController::class)->name('bookings.export');
-    Route::get('{event}/bookings/create/{bulk?}', [BookingAdminController::class, 'create'])->name('bookings.create');
+    Route::get('events/{event}/bookings/export', BookingExportController::class)->name('events.bookings.export');
+    Route::get('{event}/bookings/create', [BookingAdminController::class, 'create'])->name('bookings.create');
     Route::get('{event}/bookings/import', [BookingImportController::class, 'create'])->name('bookings.import.create');
     Route::post('{event}/bookings/import', [BookingImportController::class, 'store'])->name('bookings.import.store');
     Route::get('{event}/bookings/auto-assign', [BookingAutoAssignController::class, 'create'])->name('bookings.autoAssign.create');

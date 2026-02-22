@@ -39,7 +39,7 @@
                     @if ($event->endEvent > now())
                         <a href="{{ route('admin.bookings.import.create', $event) }}" class="btn btn-success m-1"><i
                                 class="fa fa-file-import"></i> {{ __('Import data') }}</a>&nbsp;
-                        <a href="{{ route('admin.bookings.create', $event) }}/bulk" class="btn btn-primary m-1"><i
+                        <a href="{{ route('admin.bookings.create', $event) }}?bulk=1" class="btn btn-primary m-1"><i
                                 class="fa fa-plus"></i> {{ __('Add Timeslots') }}</a>&nbsp;
                         @if ($event->is_oceanic_event)
                             <a href="{{ route('admin.bookings.autoAssign.create', $event) }}" class="btn btn-primary m-1">
@@ -53,9 +53,9 @@
                         aria-haspopup="true" aria-expanded="false"><i class="fa fa-file-export"></i> Export</button>
                     <div class="dropdown-menu">
                         <a class="dropdown-item"
-                            href="{{ route('admin.bookings.export', $event) }}">{{ __('Excluding emails') }}</a>
+                            href="{{ route('admin.events.bookings.export', $event) }}">{{ __('Excluding emails') }}</a>
                         @if ($event->event_type_id == \App\Enums\EventType::MULTIFLIGHTS->value)
-                            <a class="dropdown-item" href="{{ route('admin.bookings.export', [$event, 'vacc']) }}">
+                            <a class="dropdown-item" href="{{ route('admin.events.bookings.export', $event) }}?vacc=vacc">
                                 {{ __('Including emails') }}</a>
                         @endif
                     </div>

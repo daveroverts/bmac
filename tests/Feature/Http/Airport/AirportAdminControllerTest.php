@@ -154,7 +154,7 @@ it('allows admin users to destroy unused airports', function (): void {
     ]);
 
     $this->actingAs($admin)
-        ->post(route('admin.airports.destroyUnused'))
+        ->delete(route('admin.airports.unused.destroy'))
         ->assertRedirect(route('admin.airports.index'));
 
     $this->assertDatabaseHas('airports', ['id' => $usedAirportDep->id]);
