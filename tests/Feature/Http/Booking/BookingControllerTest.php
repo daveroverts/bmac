@@ -79,6 +79,8 @@ it('allows authenticated users to edit their reserved bookings', function (): vo
 it('allows users to confirm reserved bookings', function (): void {
     /** @var TestCase $this */
 
+    Notification::fake();
+
     /** @var User $user */
     $user = User::factory()->create();
 

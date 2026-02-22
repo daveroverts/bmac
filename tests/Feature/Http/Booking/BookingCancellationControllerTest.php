@@ -5,10 +5,13 @@ use App\Models\Event;
 use App\Models\Flight;
 use App\Models\Booking;
 use App\Enums\BookingStatus;
+use Illuminate\Support\Facades\Notification;
 use Tests\TestCase;
 
 it('requires authentication to cancel a booking', function (): void {
     /** @var TestCase $this */
+
+    Notification::fake();
 
     /** @var Flight $flight */
     $flight = Flight::factory()->create([
@@ -21,6 +24,8 @@ it('requires authentication to cancel a booking', function (): void {
 
 it('allows users to cancel their own booked booking', function (): void {
     /** @var TestCase $this */
+
+    Notification::fake();
 
     /** @var User $user */
     $user = User::factory()->create();
@@ -136,6 +141,8 @@ it('prevents cancelling a booking owned by another user', function (): void {
 it('clears editable fields when cancelling an editable booking', function (): void {
     /** @var TestCase $this */
 
+    Notification::fake();
+
     /** @var User $user */
     $user = User::factory()->create();
 
@@ -167,6 +174,8 @@ it('clears editable fields when cancelling an editable booking', function (): vo
 
 it('clears selcal when cancelling a non-editable booking', function (): void {
     /** @var TestCase $this */
+
+    Notification::fake();
 
     /** @var User $user */
     $user = User::factory()->create();
