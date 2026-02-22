@@ -64,13 +64,13 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin', 'middleware' => 'auth.isAdm
     // Booking
     Route::resource('bookings', BookingAdminController::class)->except(['index', 'create', 'show']);
     Route::get('events/{event}/bookings/export', BookingExportController::class)->name('events.bookings.export');
-    Route::get('{event}/bookings/create', [BookingAdminController::class, 'create'])->name('bookings.create');
-    Route::get('{event}/bookings/import', [BookingImportController::class, 'create'])->name('bookings.import.create');
-    Route::post('{event}/bookings/import', [BookingImportController::class, 'store'])->name('bookings.import.store');
-    Route::get('{event}/bookings/auto-assign', [BookingAutoAssignController::class, 'create'])->name('bookings.autoAssign.create');
-    Route::post('{event}/bookings/auto-assign', [BookingAutoAssignController::class, 'store'])->name('bookings.autoAssign.store');
-    Route::get('{event}/bookings/route-assign', [BookingRouteAssignController::class, 'create'])->name('bookings.routeAssign.create');
-    Route::post('{event}/bookings/route-assign', [BookingRouteAssignController::class, 'store'])->name('bookings.routeAssign.store');
+    Route::get('events/{event}/bookings/create', [BookingAdminController::class, 'create'])->name('events.bookings.create');
+    Route::get('events/{event}/bookings/import', [BookingImportController::class, 'create'])->name('events.bookings.import.create');
+    Route::post('events/{event}/bookings/import', [BookingImportController::class, 'store'])->name('events.bookings.import.store');
+    Route::get('events/{event}/bookings/auto-assign', [BookingAutoAssignController::class, 'create'])->name('events.bookings.autoAssign.create');
+    Route::post('events/{event}/bookings/auto-assign', [BookingAutoAssignController::class, 'store'])->name('events.bookings.autoAssign.store');
+    Route::get('events/{event}/bookings/route-assign', [BookingRouteAssignController::class, 'create'])->name('events.bookings.routeAssign.create');
+    Route::post('events/{event}/bookings/route-assign', [BookingRouteAssignController::class, 'store'])->name('events.bookings.routeAssign.store');
 });
 
 Route::resource('bookings', BookingController::class)

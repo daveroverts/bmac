@@ -881,27 +881,23 @@ HTTP method changed from POST to DELETE, verb removed from URL, route name stand
 
 ---
 
-### 13. Booking Admin Create Route with Bulk Parameter — Partially Complete
+### 13. Booking Admin Create Route with Bulk Parameter ✅ COMPLETE
 
 **Location:** `routes/web.php:67`
 
-**Current State:**
+**Previous State:**
 ```php
 Route::get('{event}/bookings/create', [BookingAdminController::class, 'create'])
     ->name('bookings.create');
 ```
 
-**What's done:** The `{bulk?}` URL parameter has been removed; bulk is now passed via query string.
-
-**What remains:**
-1. URL still uses `{event}` instead of `events/{event}` for consistency with other event-scoped routes
-2. Route name is still `bookings.create` instead of `events.bookings.create`
-
-**Proposed Final State:**
+**Implemented State:**
 ```php
 Route::get('events/{event}/bookings/create', [BookingAdminController::class, 'create'])
     ->name('events.bookings.create');
 ```
+
+URL prefix updated to `events/{event}`, route name updated to `events.bookings.create`. All 7 event-scoped booking admin routes updated consistently. Views, breadcrumbs, and tests updated.
 
 **Impact:** Low - consistency
 
@@ -975,19 +971,19 @@ Route::middleware('auth.isLoggedIn')->prefix('user')->name('user.')->group(funct
 | `bookings.routeAssignForm` | `bookings.routeAssign.create` | ✅ camelCase/Form suffix fixed |
 | `bookings.routeAssign` | `bookings.routeAssign.store` | ✅ Form suffix fixed |
 
-**Remaining Issues — Missing `events.` scope prefix:**
+**All Fixed:**
 
-| Current Name (line) | Proposed Name |
-|---------------------|---------------|
-| `bookings.create` (67) | `events.bookings.create` |
-| `bookings.import.create` (68) | `events.bookings.import.create` |
-| `bookings.import.store` (69) | `events.bookings.import.store` |
-| `bookings.autoAssign.create` (70) | `events.bookings.autoAssign.create` |
-| `bookings.autoAssign.store` (71) | `events.bookings.autoAssign.store` |
-| `bookings.routeAssign.create` (72) | `events.bookings.routeAssign.create` |
-| `bookings.routeAssign.store` (73) | `events.bookings.routeAssign.store` |
+| Old Name | New Name | Status |
+|----------|----------|--------|
+| `bookings.create` | `events.bookings.create` | ✅ Done |
+| `bookings.import.create` | `events.bookings.import.create` | ✅ Done |
+| `bookings.import.store` | `events.bookings.import.store` | ✅ Done |
+| `bookings.autoAssign.create` | `events.bookings.autoAssign.create` | ✅ Done |
+| `bookings.autoAssign.store` | `events.bookings.autoAssign.store` | ✅ Done |
+| `bookings.routeAssign.create` | `events.bookings.routeAssign.create` | ✅ Done |
+| `bookings.routeAssign.store` | `events.bookings.routeAssign.store` | ✅ Done |
 
-These event-scoped admin booking routes also use `{event}/bookings/...` instead of `events/{event}/bookings/...` in the URL (see #13 and Section 20).
+URLs also updated from `{event}/bookings/...` to `events/{event}/bookings/...` for all 7 routes.
 
 **Impact:** Low - consistency and predictability
 
@@ -1190,15 +1186,15 @@ Route::prefix('admin')->name('admin.')->middleware('auth.isAdmin')->group(functi
 
 ---
 
-### Phase 4a: Low-touch Route Fixes (P2) - 0.5-1 day
+### Phase 4a: Low-touch Route Fixes (P2) - 0.5-1 day ✅ COMPLETE
 Fix URL structure and HTTP method issues with minimal blast radius:
 1. ✅ **#12** Airport `destroyUnused` — POST→DELETE, remove verb from URL, rename `airports.destroyUnused` → `airports.unused.destroy`
-2. **#13** Booking admin create — ~~remove `{bulk?}` from URL, switch to query string~~ (done); remaining: rename route `bookings.create` → `events.bookings.create` and add `events/` URL prefix (~10 references)
+2. ✅ **#13** Booking admin create — `{bulk?}` removed (query string), URL prefix updated to `events/{event}`, all 7 event-scoped routes renamed to `events.bookings.*`
 3. ✅ **#14** Booking export — `{vacc?}` removed, query string used, extracted to `BookingExportController`, route renamed to `events.bookings.export`
 
-**Estimated Effort:** 1-2 hours (only #13 URL prefix/rename remains)
+**Estimated Effort:** 1-2 hours
 **Risk:** Low
-**Breaking Changes:** Route name change for 1 route
+**Breaking Changes:** Route names changed for 7 routes
 
 ---
 
@@ -1442,7 +1438,7 @@ This refactoring plan addresses 67 specific issues across the routing and contro
 **Recommended Approach:**
 1. ✅ Start with Phase 1 (low risk, immediate value)
 2. ✅ Complete Phase 2 in increments (highest value)
-3. Phase 4: ✅ 4b, ✅ 4c, ✅ 4d complete; 4a has #13 remaining (route prefix/rename)
+3. ✅ Phase 4: All sub-phases complete (4a, 4b, 4c, 4d)
 4. Complete Phase 5 (polish)
 5. Complete Phase 3 (API routes) last — additive, no breaking changes
 

@@ -17,7 +17,7 @@ it('prevents non-admin users from accessing booking create form', function (): v
 
     $this->actingAs($user)
         ->from('/')
-        ->get(route('admin.bookings.create', $event))
+        ->get(route('admin.events.bookings.create', $event))
         ->assertRedirect('/');
 });
 
@@ -31,7 +31,7 @@ it('allows admin users to view create booking form', function (): void {
     $event = Event::factory()->create();
 
     $this->actingAs($admin)
-        ->get(route('admin.bookings.create', $event))
+        ->get(route('admin.events.bookings.create', $event))
         ->assertOk();
 });
 
@@ -59,7 +59,7 @@ it('allows admin users to view auto-assign form', function (): void {
     $event = Event::factory()->create();
 
     $this->actingAs($admin)
-        ->get(route('admin.bookings.autoAssign.create', $event))
+        ->get(route('admin.events.bookings.autoAssign.create', $event))
         ->assertOk();
 });
 
@@ -73,7 +73,7 @@ it('allows admin users to view import form', function (): void {
     $event = Event::factory()->create();
 
     $this->actingAs($admin)
-        ->get(route('admin.bookings.import.create', $event))
+        ->get(route('admin.events.bookings.import.create', $event))
         ->assertOk();
 });
 
@@ -87,7 +87,7 @@ it('allows admin users to view route assign form', function (): void {
     $event = Event::factory()->create();
 
     $this->actingAs($admin)
-        ->get(route('admin.bookings.routeAssign.create', $event))
+        ->get(route('admin.events.bookings.routeAssign.create', $event))
         ->assertOk();
 });
 

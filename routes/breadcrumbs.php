@@ -131,15 +131,15 @@ Breadcrumbs::for('bookings.show', function ($trail, $booking): void {
 });
 
 // Home > Admin > [Event] > Add Slot
-Breadcrumbs::for('admin.bookings.create', function ($trail, $event): void {
+Breadcrumbs::for('admin.events.bookings.create', function ($trail, $event): void {
     $trail->parent('admin.events.show', $event);
-    $trail->push('Add Slot(s)', route('admin.bookings.create', $event));
+    $trail->push('Add Slot(s)', route('admin.events.bookings.create', $event));
 });
 
 // Home > Admin > [Event] > Import
-Breadcrumbs::for('admin.bookings.import.create', function ($trail, $event): void {
+Breadcrumbs::for('admin.events.bookings.import.create', function ($trail, $event): void {
     $trail->parent('admin.events.show', $event);
-    $trail->push('Import', route('admin.bookings.import.create', $event));
+    $trail->push('Import', route('admin.events.bookings.import.create', $event));
 });
 
 // Home > Admin > [Event] > Booking
@@ -149,15 +149,15 @@ Breadcrumbs::for('admin.bookings.edit', function ($trail, $booking): void {
 });
 
 // Home > Admin > [Event] > Auto-Assign FL / Route
-Breadcrumbs::for('admin.bookings.autoAssign.create', function ($trail, $event): void {
+Breadcrumbs::for('admin.events.bookings.autoAssign.create', function ($trail, $event): void {
     $trail->parent('admin.events.show', $event);
-    $trail->push('Auto-Assign FL / Route', route('admin.bookings.autoAssign.create', $event));
+    $trail->push('Auto-Assign FL / Route', route('admin.events.bookings.autoAssign.create', $event));
 });
 
 // Home > Admin > [Event] > Route assign
-Breadcrumbs::for('admin.bookings.routeAssign.create', function ($trail, $event): void {
+Breadcrumbs::for('admin.events.bookings.routeAssign.create', function ($trail, $event): void {
     $trail->parent('admin.events.show', $event);
-    $trail->push('Route assign', route('admin.bookings.routeAssign.create', $event));
+    $trail->push('Route assign', route('admin.events.bookings.routeAssign.create', $event));
 });
 
 // Home > FAQ
