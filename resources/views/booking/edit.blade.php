@@ -148,7 +148,7 @@
                                     @endif
                                 </x-forms.form-group>
                     </x-form>
-                        <x-form :action="route('bookings.cancel', $booking)" id="cancel-form" method="PATCH" style="display: none;"></x-form>
+                        <x-form :action="route('bookings.cancellation.destroy', $booking)" id="cancel-form" method="DELETE" style="display: none;"></x-form>
                 </div>
             </div>
         </div>

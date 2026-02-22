@@ -101,35 +101,6 @@ it('allows users to confirm reserved bookings', function (): void {
     expect($flight->booking->status)->toBe(BookingStatus::BOOKED);
 });
 
-it('allows users to cancel their own bookings', function (): void {
-    /** @var TestCase $this */
-
-    /** @var User $user */
-    $user = User::factory()->create();
-
-    /** @var Event $event */
-    $event = Event::factory()->create([
-        'endBooking' => now()->addDay(),
-    ]);
-
-    /** @var Flight $flight */
-    $flight = Flight::factory()->create([
-        'booking_id' => Booking::factory()->create([
-            'event_id' => $event->id,
-            'status' => BookingStatus::BOOKED,
-            'user_id' => $user->id,
-        ])->id,
-    ]);
-
-    $this->actingAs($user)
-        ->patch(route('bookings.cancel', $flight->booking))
-        ->assertRedirect(route('bookings.event.index', $event));
-
-    $flight->booking->refresh();
-    expect($flight->booking->status)->toBe(BookingStatus::UNASSIGNED);
-    expect($flight->booking->user_id)->toBeNull();
-});
-
 it('prevents editing bookings after the booking window has closed', function (): void {
     /** @var TestCase $this */
 

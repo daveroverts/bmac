@@ -8,7 +8,6 @@ use App\Enums\EventType;
 use Illuminate\Support\Str;
 use App\Enums\BookingStatus;
 use Illuminate\Http\Request;
-use App\Events\BookingCancelled;
 use App\Events\BookingConfirmed;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Booking\UpdateBooking;
@@ -104,38 +103,4 @@ class BookingController extends Controller
         abort(403);
     }
 
-    public function cancel(Booking $booking): RedirectResponse
-    {
-        $this->authorize('cancel', $booking);
-        if ($booking->event->endBooking > now()) {
-            if ($booking->is_editable) {
-                $booking->fill([
-                    'callsign' => null,
-                    'acType' => null,
-                    'selcal' => null,
-                ]);
-            }
-
-            if ($booking->status == BookingStatus::BOOKED) {
-                event(new BookingCancelled($booking, auth()->user()));
-                $title = __('Booking cancelled!');
-                $message = __('Booking has been cancelled!');
-            } else {
-                $title = __('Slot free');
-                $message = __('Slot is now free to use again');
-            }
-
-            $booking->status = BookingStatus::UNASSIGNED;
-            flashMessage('info', $title, $message);
-            $booking->user()->dissociate()->save();
-            return to_route('bookings.event.index', $booking->event);
-        }
-
-        flashMessage(
-            'danger',
-            __('Danger'),
-            __('Bookings have been locked at :time', ['time' => $booking->event->endBooking->format('d-m-Y Hi') . 'z'])
-        );
-        return to_route('bookings.event.index', $booking->event);
-    }
 }

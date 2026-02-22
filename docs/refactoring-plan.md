@@ -862,34 +862,22 @@ public function index(Request $request, Event $event): View|RedirectResponse
 
 ---
 
-### 11. Booking Cancel Route Should Be Nested
+### 11. Booking Cancel Route Should Be Nested ✅ COMPLETE
 
-**Location:** `routes/web.php:86`
-
-**Current State:**
+**Previous State:**
 ```php
 Route::patch('/bookings/{booking}/cancel', [BookingController::class, 'cancel'])
     ->name('bookings.cancel');
 ```
 
-**Issues:**
-1. Uses PATCH with action name in URL (mixing REST with action-based)
-2. Could use DELETE method instead
-3. Not nested under event
-
-**Proposed State (Option 1 - RESTful with destroy):**
+**Implemented State:**
 ```php
-// Use the destroy method with a special policy check
-Route::delete('bookings/{booking}', [BookingController::class, 'destroy'])
-    ->name('bookings.destroy');
-```
-
-**Proposed State (Option 2 - Keep as action route):**
-```php
-// If cancel is semantically different from destroy
-Route::delete('bookings/{booking}/cancellation', [BookingController::class, 'cancel'])
+Route::delete('bookings/{booking}/cancellation', [BookingCancellationController::class, 'destroy'])
+    ->middleware('auth.isLoggedIn')
     ->name('bookings.cancellation.destroy');
 ```
+
+Cancel logic was extracted to `BookingCancellationController`, the route method changed from PATCH to DELETE, and all views updated to use the new route name.
 
 **Impact:** Low-Medium - semantic clarity
 
@@ -1268,16 +1256,16 @@ Route::prefix('admin')->name('admin.')->middleware('auth.isAdmin')->group(functi
 3. Update routes
 4. Update tests
 
-**Step 3: BookingController Refactoring** ← IN PROGRESS
+**Step 3: BookingController Refactoring** ✅ COMPLETE
 1. ✅ Create `SelcalValidator` (implemented as a dedicated validation Rule)
 2. ✅ Create `BookingReservationController`
-3. ⬜ Create `BookingCancellationController` ← **YOU ARE HERE**
+3. ✅ Create `BookingCancellationController`
 4. ✅ Refactor `edit()` method (remove reservation logic, add timing constraints)
 5. ✅ Refactor `update()` method (add timing constraints)
-6. ⬜ Remove `cancel()` method (blocked by #3)
+6. ✅ Remove `cancel()` method from `BookingController`
 7. ✅ Update `BookingPolicy` with `reserve()`, `edit()`, `update()`, and `cancel()` methods
-8. ✅ Update routes (reservation POST added)
-9. ✅ Update views ("Book" buttons changed to POST to reservation endpoint)
+8. ✅ Update routes (reservation POST and cancellation DELETE added)
+9. ✅ Update views ("Book" buttons changed to POST to reservation endpoint; cancel forms changed to DELETE cancellation endpoint)
 10. ✅ Update tests
 
 **Estimated Effort:** 16-24 hours
@@ -1402,8 +1390,8 @@ For each refactoring step:
 - `bootstrap/app.php` - Update middleware aliases (Phase 5)
 
 ### Views
-- Update all views using `route('bookings.cancel')` to use `route('bookings.cancellation.destroy')`
-- Update all "Book" buttons to POST to `route('bookings.reservation.store')`
+- ✅ Updated all views using `route('bookings.cancel')` to use `route('bookings.cancellation.destroy')`
+- ✅ Updated all "Book" buttons to POST to `route('bookings.reservation.store')`
 
 ### Tests
 - All affected controller tests

@@ -2,8 +2,9 @@
 
 namespace App\Policies;
 
-use App\Models\User;
+use App\Enums\BookingStatus;
 use App\Models\Booking;
+use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class BookingPolicy
@@ -63,7 +64,18 @@ class BookingPolicy
      */
     public function cancel(User $user, Booking $booking): bool
     {
-        return $user->id === $booking->user_id;
+        // Must own the booking
+        if ($booking->user_id !== $user->id) {
+            return false;
+        }
+
+        // Can only cancel RESERVED or BOOKED bookings
+        if (!in_array($booking->status, [BookingStatus::RESERVED, BookingStatus::BOOKED])) {
+            return false;
+        }
+
+        // Hard lock after endBooking
+        return $booking->event->endBooking >= now();
     }
 
     /**
@@ -71,7 +83,7 @@ class BookingPolicy
      */
     public function reserve(User $user, Booking $booking): bool
     {
-        return $booking->status === \App\Enums\BookingStatus::UNASSIGNED
+        return $booking->status === BookingStatus::UNASSIGNED
             && $booking->event->startBooking <= now()
             && $booking->event->endBooking >= now();
     }
@@ -92,6 +104,6 @@ class BookingPolicy
         }
 
         // Must be RESERVED or BOOKED to edit
-        return in_array($booking->status, [\App\Enums\BookingStatus::RESERVED, \App\Enums\BookingStatus::BOOKED]);
+        return in_array($booking->status, [BookingStatus::RESERVED, BookingStatus::BOOKED]);
     }
 }

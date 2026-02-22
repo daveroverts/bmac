@@ -119,7 +119,7 @@
                         >{{ __('Cancel Booking') }}</x-confirm-button>
                     </x-forms.form-group>
 
-                    <x-form :action="route('bookings.cancel', $booking)" id="cancel-booking" method="PATCH" style="display: none;"></x-form>
+                    <x-form :action="route('bookings.cancellation.destroy', $booking)" id="cancel-booking" method="DELETE" style="display: none;"></x-form>
                 </div>
             </div>
         </div>

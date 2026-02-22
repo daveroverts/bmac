@@ -14,6 +14,7 @@ use App\Http\Controllers\Booking\BookingExportController;
 use App\Http\Controllers\Booking\BookingImportController;
 use App\Http\Controllers\Booking\BookingAutoAssignController;
 use App\Http\Controllers\Booking\BookingRouteAssignController;
+use App\Http\Controllers\Booking\BookingCancellationController;
 use App\Http\Controllers\Booking\BookingReservationController;
 use App\Http\Controllers\AirportLink\AirportLinkAdminController;
 use App\Http\Controllers\EventLink\EventLinkAdminController;
@@ -78,8 +79,10 @@ Route::resource('bookings', BookingController::class)
 Route::post('bookings/{booking}/reservation', [BookingReservationController::class, 'store'])
     ->middleware('auth.isLoggedIn')
     ->name('bookings.reservation.store');
+Route::delete('bookings/{booking}/cancellation', [BookingCancellationController::class, 'destroy'])
+    ->middleware('auth.isLoggedIn')
+    ->name('bookings.cancellation.destroy');
 Route::get('/{event}/bookings/{filter?}', [BookingController::class, 'index'])->name('bookings.event.index');
-Route::patch('/bookings/{booking}/cancel', [BookingController::class, 'cancel'])->name('bookings.cancel');
 
 Route::get('faq', FaqController::class)->name('faq');
 
