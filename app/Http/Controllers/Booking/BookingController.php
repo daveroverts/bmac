@@ -24,7 +24,7 @@ class BookingController extends Controller
     {
         $this->authorize('view', $booking);
 
-        if ($booking->event->event_type_id == EventType::MULTIFLIGHTS->value) {
+        if ($booking->event->event_type_id === EventType::MULTIFLIGHTS->value) {
             return view('booking.show_multiflights', ['booking' => $booking]);
         }
 
@@ -55,7 +55,7 @@ class BookingController extends Controller
         }
 
         // Show edit form
-        if ($booking->event->event_type_id == EventType::MULTIFLIGHTS->value) {
+        if ($booking->event->event_type_id === EventType::MULTIFLIGHTS->value) {
             return view('booking.edit_multiflights', ['booking' => $booking]);
         }
 
