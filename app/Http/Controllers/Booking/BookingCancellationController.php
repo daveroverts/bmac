@@ -28,9 +28,10 @@ class BookingCancellationController extends Controller
             $booking->fill([
                 'callsign' => null,
                 'acType' => null,
-                'selcal' => null,
             ]);
         }
+
+        $booking->selcal = null;
 
         if ($booking->status === BookingStatus::BOOKED) {
             event(new BookingCancelled($booking, auth()->user()));

@@ -164,3 +164,37 @@ it('clears editable fields when cancelling an editable booking', function (): vo
     expect($flight->booking->acType)->toBeNull();
     expect($flight->booking->status)->toBe(BookingStatus::UNASSIGNED);
 });
+
+it('clears selcal when cancelling a non-editable booking', function (): void {
+    /** @var TestCase $this */
+
+    /** @var User $user */
+    $user = User::factory()->create();
+
+    /** @var Event $event */
+    $event = Event::factory()->create([
+        'endBooking' => now()->addDay(),
+    ]);
+
+    /** @var Flight $flight */
+    $flight = Flight::factory()->create([
+        'booking_id' => Booking::factory()->booked()->create([
+            'event_id' => $event->id,
+            'user_id' => $user->id,
+            'is_editable' => false,
+            'callsign' => 'TEST123',
+            'acType' => 'B738',
+            'selcal' => 'AB-CD',
+        ])->id,
+    ]);
+
+    $this->actingAs($user)
+        ->delete(route('bookings.cancellation.destroy', $flight->booking))
+        ->assertRedirect(route('bookings.event.index', $event));
+
+    $flight->booking->refresh();
+    expect($flight->booking->callsign)->toBe('TEST123')
+        ->and($flight->booking->acType)->toBe('B738')
+        ->and($flight->booking->selcal)->toBeNull()
+        ->and($flight->booking->status)->toBe(BookingStatus::UNASSIGNED);
+});
