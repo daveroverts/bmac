@@ -999,7 +999,66 @@ Implemented as Phase 4d. See that section for details.
 
 ## P3: Middleware Consistency
 
-### 18. Inconsistent Middleware Application
+### 18. Replace `IsLoggedIn` with Laravel's Built-in `auth` Middleware
+
+**Current State:**
+
+Custom `IsLoggedIn` middleware (`app/Http/Middleware/IsLoggedIn.php`) flashes a SweetAlert message ("You need to be logged in before you can do that") and calls `return back()`. This is used under the alias `auth.isLoggedIn` in 4 places in `routes/web.php`.
+
+**Issue:** This reimplements what Laravel's built-in `auth` middleware already does, but with worse UX — sending the user *back* instead of to the login page means they have to find the login button themselves. Laravel's `auth` middleware redirects to the `login` named route (which triggers the VATSIM OAuth flow), and supports intended URL redirects after authentication.
+
+**Proposed State:**
+1. Delete `app/Http/Middleware/IsLoggedIn.php`
+2. Remove the `auth.isLoggedIn` alias from `bootstrap/app.php`
+3. Replace all `auth.isLoggedIn` references in `routes/web.php` with the built-in `auth` middleware
+4. Configure `redirectGuestsTo` in `bootstrap/app.php` if the default redirect-to-`login` behavior needs customization
+
+The flash message is not needed — being redirected to login *is* the message.
+
+**Impact:** Low - removes custom code in favor of framework convention
+
+---
+
+### 18b. Replace `IsAdmin` Middleware with Gate + Built-in `auth`
+
+**Current State:**
+```php
+// bootstrap/app.php
+'auth.isAdmin' => IsAdmin::class,
+
+// routes/web.php
+Route::group(['middleware' => 'auth.isAdmin'], function () { ... });
+```
+
+The `IsAdmin` middleware checks both authentication *and* admin status, then silently redirects non-admins to home.
+
+**Issue:** This bundles two concerns (auth + authorization) into one middleware. The silent redirect also makes debugging harder — a 403 is the correct HTTP response for "authenticated but not authorized."
+
+**Proposed State:**
+1. Delete `app/Http/Middleware/IsAdmin.php`
+2. Remove the `auth.isAdmin` alias from `bootstrap/app.php`
+3. Define an `admin` Gate in `AppServiceProvider`:
+   ```php
+   Gate::define('admin', fn (User $user) => $user->isAdmin);
+   ```
+4. Update admin route group to use `['auth', 'can:admin']`:
+   ```php
+   Route::middleware(['auth', 'can:admin'])->prefix('admin')->name('admin.')->group(function () {
+       // ...
+   });
+   ```
+
+**Benefits:**
+- `auth` handles "is logged in?" (redirects to login if not)
+- `can:admin` handles "is admin?" (returns 403 if not)
+- The `admin` gate is reusable in Blade (`@can('admin')`) and controllers (`$this->authorize('admin')`)
+- Two fewer custom middleware files to maintain
+
+**Impact:** Low - only used in `routes/web.php`
+
+---
+
+### 18c. Standardize Middleware Application Style
 
 **Current Issues:**
 
@@ -1016,8 +1075,8 @@ Implemented as Phase 4d. See that section for details.
 
 1. **Use fluent middleware groups for multiple related routes:**
 ```php
-Route::middleware('auth.isLoggedIn')->group(function () {
-    // Multiple routes
+Route::middleware('auth')->group(function () {
+    // Multiple routes requiring authentication
 });
 ```
 
@@ -1025,36 +1084,14 @@ Route::middleware('auth.isLoggedIn')->group(function () {
 ```php
 Route::resource('bookings', BookingController::class)
     ->only(['edit'])
-    ->middleware(['edit' => 'auth.isLoggedIn']);
+    ->middleware(['edit' => 'auth']);
 ```
 
 3. **Use Policy authorization in controllers for complex logic**
 
-4. **Remove constructor-based middleware** (`$this->middleware(...)` in `LoginController`) — this is a pre-Laravel 11 pattern; move to route-level middleware.
+4. **Remove constructor-based middleware** (`$this->middleware(...)` in `LoginController`) — this is a pre-Laravel 11 pattern; move `guest` middleware to route-level in `routes/web.php`.
 
 **Impact:** Low - consistency
-
----
-
-### 19. Middleware Naming
-
-**Current Middleware Aliases:**
-```php
-'auth.isAdmin' => IsAdmin::class,
-'auth.isLoggedIn' => IsLoggedIn::class,
-```
-
-**Issue:** Inconsistent with Laravel conventions. Laravel typically uses short, simple names.
-
-**Proposed State:**
-```php
-'admin' => IsAdmin::class,
-'auth' => IsLoggedIn::class,  // Or use built-in 'auth' middleware
-```
-
-**Alternative:** Use Laravel's built-in `auth` middleware and handle admin checks via Gates/Policies.
-
-**Impact:** Low - Laravel convention alignment
 
 ---
 
@@ -1069,7 +1106,7 @@ All admin routes are in a flat group with prefix `admin`.
 Group related resources for better organization:
 
 ```php
-Route::prefix('admin')->name('admin.')->middleware('auth.isAdmin')->group(function () {
+Route::middleware(['auth', 'can:admin'])->prefix('admin')->name('admin.')->group(function () {
 
     // Core Resources
     Route::resource('events', EventAdminController::class);
@@ -1236,14 +1273,16 @@ High blast radius but mechanical changes only:
 ---
 
 ### Phase 5: Polish (P3) - 1-2 days
-1. Standardize middleware naming and usage
-2. Reorganize route files
-3. Update documentation
-4. Final cleanup
+1. Replace `IsLoggedIn` with Laravel's built-in `auth` middleware and delete `IsLoggedIn.php`
+2. Replace `IsAdmin` middleware with an `admin` Gate + built-in `auth` middleware, delete `IsAdmin.php`
+3. Remove constructor-based `$this->middleware('guest')` from `LoginController` — move to route-level
+4. Standardize middleware application style (fluent groups, no array-based `Route::group`)
+5. Reorganize admin route group with better nesting (section 20)
+6. Final cleanup (Pint, PHPStan, Rector)
 
-**Estimated Effort:** 6-8 hours
+**Estimated Effort:** 4-6 hours
 **Risk:** Low
-**Breaking Changes:** Minimal (middleware names)
+**Breaking Changes:** Both custom middleware deleted (replaced by built-in `auth` + `can:admin` Gate)
 
 ---
 
@@ -1305,6 +1344,8 @@ For each refactoring step:
 - ✅ `app/Http/Controllers/AdminController.php`
 - ✅ `app/Http/Controllers/OAuthController.php` (moved to services)
 - ✅ `app/Http/Controllers/User/UserController.php` (renamed to `UserSettingsController` — Phase 4b)
+- `app/Http/Middleware/IsLoggedIn.php` (replaced by built-in `auth` middleware — Phase 5)
+- `app/Http/Middleware/IsAdmin.php` (replaced by `admin` Gate + built-in `auth` middleware — Phase 5)
 
 ---
 
@@ -1324,7 +1365,9 @@ For each refactoring step:
 - ✅ `app/Policies/BookingPolicy.php` - Added `reserve()`, `cancel()` methods, updated `edit()` and `update()` with timing constraints
 
 ### Middleware
-- `bootstrap/app.php` - Update middleware aliases (Phase 5)
+- `bootstrap/app.php` - Remove both custom middleware aliases (Phase 5)
+- `app/Http/Controllers/Auth/LoginController.php` - Remove constructor-based `$this->middleware('guest')` (Phase 5)
+- `app/Providers/AppServiceProvider.php` - Register `admin` Gate (Phase 5)
 
 ### Views
 - ✅ Updated all views using `route('bookings.cancel')` to use `route('bookings.cancellation.destroy')`
@@ -1359,8 +1402,10 @@ For each refactoring step:
 - Recommendation: Add route redirects for most common routes
 
 **Phase 5:**
-- Middleware aliases change
-- Minimal impact if only used in route files
+- `IsLoggedIn` middleware deleted, replaced by Laravel's built-in `auth` middleware
+- `IsAdmin` middleware deleted, replaced by `admin` Gate + built-in `auth` middleware (non-admins now get 403 instead of silent redirect to home)
+- Constructor-based `guest` middleware moved to route-level
+- Minimal impact — all middleware references are in `routes/web.php` and `bootstrap/app.php`
 
 ### Migration Strategy
 
