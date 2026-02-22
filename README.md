@@ -196,6 +196,40 @@ run the following command:
     If you're planning on importing flights later on,
     add the airports in first before starting a import.
 
+## API
+
+BMAC exposes a read-only JSON API. All endpoints are public and require no authentication.
+
+### v1 (stable)
+
+Base URL: `/api/v1`
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `/api/v1/events` | Paginated list of all events |
+| GET | `/api/v1/events/upcoming/{limit?}` | Upcoming online events (default: 3) |
+| GET | `/api/v1/events/{event}` | Single event |
+| GET | `/api/v1/events/{event}/bookings` | Confirmed bookings for an event |
+| GET | `/api/v1/bookings/{booking}` | Single booking |
+| GET | `/api/v1/airports` | Paginated list of all airports |
+| GET | `/api/v1/airports/{airport}` | Single airport |
+
+Interactive documentation is available at `/docs/api`.
+
+### Legacy unversioned routes (deprecated)
+
+The unversioned routes (`/api/events`, `/api/bookings`, `/api/airports`, etc.) are **deprecated**
+and will be removed on **2026-12-31**. They remain fully functional in the meantime, but all
+responses include the following deprecation headers per [RFC 8594](https://httpwg.org/specs/rfc8594.html):
+
+```
+Deprecation: true
+Sunset: Wed, 31 Dec 2026 23:59:59 GMT
+Link: <https://your-domain/api/v1>; rel="successor-version"
+```
+
+Please migrate to the `/api/v1/` equivalents listed above.
+
 ## Queue worker / Laravel Horizon
 
 If you're not using `sync` as `QUEUE_CONNECTION`, you need to run a queue worker,

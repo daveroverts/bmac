@@ -18,7 +18,7 @@ it('returns a single event by slug', function (): void {
 
     $event = Event::factory()->create();
 
-    $this->getJson("/api/v1/events/{$event->slug}")
+    $this->getJson('/api/v1/events/' . $event->slug)
         ->assertOk()
         ->assertJsonPath('data.slug', $event->slug)
         ->assertJsonPath('data.name', $event->name)
