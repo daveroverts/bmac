@@ -46,7 +46,7 @@
                                 {{ __('Auto Assign FL / Route') }}</a>&nbsp;
                         @endif
                     @endif
-                    <a href="{{ route('admin.events.email.form', $event) }}" class="btn btn-primary m-1"><i
+                    <a href="{{ route('admin.events.emails.bulk.create', $event) }}" class="btn btn-primary m-1"><i
                             class="fa fa-envelope"></i> {{ __('Send mail to all') }}</a>&nbsp;
 
                     <button class="btn btn-success dropdown-toggle m-1" type="button" data-bs-toggle="dropdown"
@@ -82,7 +82,7 @@
             </td>
             </tr>
 
-            <x-form :action="route('admin.events.delete-bookings', $event)" id="delete-bookings-{{ $event->id }}" method="DELETE"
+            <x-form :action="route('admin.events.bookings.destroyAll', $event)" id="delete-bookings-{{ $event->id }}" method="DELETE"
                 style="display: none;"></x-form>
             <x-form :action="route('admin.events.destroy', $event)" id="delete-event-{{ $event->id }}" method="DELETE"
                 style="display: none;"></x-form>

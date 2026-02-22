@@ -8,6 +8,7 @@ use App\Http\Controllers\Event\EventController;
 use App\Http\Controllers\Faq\FaqAdminController;
 use App\Http\Controllers\Booking\BookingController;
 use App\Http\Controllers\Event\EventAdminController;
+use App\Http\Controllers\Event\EventEmailController;
 use App\Http\Controllers\Airport\AirportAdminController;
 use App\Http\Controllers\Booking\BookingAdminController;
 use App\Http\Controllers\Booking\BookingExportController;
@@ -52,14 +53,11 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin', 'middleware' => 'auth.isAdm
     Route::patch('faq/{faq}/toggle-event/{event}', [FaqAdminController::class, 'toggleEvent'])->name('faq.toggleEvent');
 
     // Event
-    Route::delete('events/{event}/delete-bookings', [EventAdminController::class, 'deleteAllBookings'])->name('events.delete-bookings');
     Route::resource('events', EventAdminController::class);
-    Route::get('{event}/email', [EventAdminController::class, 'sendEmailForm'])->name('events.email.form');
-    Route::patch('{event}/email', [EventAdminController::class, 'sendEmail'])->name('events.email');
-    Route::patch(
-        '{event}/email_final',
-        [EventAdminController::class, 'sendFinalInformationMail']
-    )->name('events.email.final');
+    Route::get('events/{event}/emails/bulk', [EventEmailController::class, 'createBulk'])->name('events.emails.bulk.create');
+    Route::post('events/{event}/emails/bulk', [EventEmailController::class, 'sendBulk'])->name('events.emails.bulk.send');
+    Route::post('events/{event}/emails/final', [EventEmailController::class, 'sendFinal'])->name('events.emails.final.send');
+    Route::delete('events/{event}/bookings', [BookingAdminController::class, 'destroyAll'])->name('events.bookings.destroyAll');
 
     // Booking
     Route::resource('bookings', BookingAdminController::class)->except(['index', 'create', 'show']);

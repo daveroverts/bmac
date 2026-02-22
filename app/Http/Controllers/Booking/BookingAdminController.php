@@ -217,4 +217,22 @@ class BookingAdminController extends Controller
         flashMessage('danger', __('Danger'), __('Booking can no longer be deleted'));
         return back();
     }
+
+    public function destroyAll(Event $event): RedirectResponse
+    {
+        if ($event->endEvent <= now()) {
+            flashMessage('danger', __('Danger'), __('Booking can no longer be deleted'));
+            return back();
+        }
+
+        activity()
+            ->by(auth()->user())
+            ->on($event)
+            ->log('Delete all bookings');
+
+        $event->bookings()->delete();
+        flashMessage('success', __('Bookings deleted'), __('All bookings have been deleted'));
+
+        return to_route('admin.events.index');
+    }
 }

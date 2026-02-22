@@ -610,55 +610,42 @@ After extracting reservation and cancellation, `BookingController` has clean CRU
 
 ---
 
-### 6. EventAdminController - Email Functionality Should Be Separate (210 lines)
+### 6. EventAdminController - Email Functionality Should Be Separate ✅ COMPLETE
 
 **Location:** `app/Http/Controllers/Event/EventAdminController.php`
 
 **Issue:** Email-related methods (sendEmailForm, sendEmail, sendFinalInformationMail) are mixed with CRUD operations.
 
-**Current Methods:**
-- Standard CRUD: `index`, `create`, `store`, `show`, `edit`, `update`, `destroy`
-- Email: `sendEmailForm` (line 130), `sendEmail` (line 135), `sendFinalInformationMail` (line 152)
-- Other: `deleteAllBookings` (line 194)
-
-**Proposed Refactoring:**
+**Implemented Refactoring:**
 
 **6a. Extract Email to `EventEmailController`**
 
 **New Routes:**
 ```php
-// In admin routes group
-Route::get('{event}/emails/bulk', [EventEmailController::class, 'createBulk'])
+Route::get('events/{event}/emails/bulk', [EventEmailController::class, 'createBulk'])
     ->name('events.emails.bulk.create');
-Route::post('{event}/emails/bulk', [EventEmailController::class, 'sendBulk'])
+Route::post('events/{event}/emails/bulk', [EventEmailController::class, 'sendBulk'])
     ->name('events.emails.bulk.send');
-Route::post('{event}/emails/final', [EventEmailController::class, 'sendFinal'])
+Route::post('events/{event}/emails/final', [EventEmailController::class, 'sendFinal'])
     ->name('events.emails.final.send');
 ```
 
 **New Controller:** `app/Http/Controllers/Event/EventEmailController.php`
-```php
-class EventEmailController extends Controller
-{
-    public function createBulk(Event $event): View
-    public function sendBulk(SendEmail $request, Event $event): JsonResponse|RedirectResponse
-    public function sendFinal(Request $request, Event $event): RedirectResponse|JsonResponse
-}
-```
+- `createBulk(Event $event): View`
+- `sendBulk(SendEmail $request, Event $event): JsonResponse|RedirectResponse`
+- `sendFinal(Request $request, Event $event): RedirectResponse|JsonResponse`
 
-**6b. Extract deleteAllBookings**
+Route methods changed from PATCH to POST. Views updated to use new route names.
 
-This should either:
-1. Move to `BookingAdminController` as `destroyAll(Event $event)`
-2. Create separate `EventBookingController` for event-scoped booking operations
-
-**Recommendation:** Move to `BookingAdminController`
+**6b. Move `deleteAllBookings` to `BookingAdminController::destroyAll`**
 
 **New Route:**
 ```php
-Route::delete('{event}/bookings', [BookingAdminController::class, 'destroyAll'])
-    ->name('bookings.destroyAll');
+Route::delete('events/{event}/bookings', [BookingAdminController::class, 'destroyAll'])
+    ->name('events.bookings.destroyAll');
 ```
+
+`EventAdminController` is now pure CRUD (113 lines). All extracted tests moved to `EventEmailControllerTest` and `BookingAdminControllerTest`.
 
 **Impact:** Medium-High - better organization
 
@@ -766,11 +753,9 @@ Route::prefix('v1')->name('v1.')->group(function () {
 
 ---
 
-### 8. Non-RESTful Event Email Routes
+### 8. Non-RESTful Event Email Routes ✅ COMPLETE
 
-**Location:** `routes/web.php:51-56`
-
-**Current State:**
+**Previous State:**
 ```php
 Route::get('{event}/email', [EventAdminController::class, 'sendEmailForm'])
     ->name('events.email.form');
@@ -780,13 +765,7 @@ Route::patch('{event}/email_final', [EventAdminController::class, 'sendFinalInfo
     ->name('events.email.final');
 ```
 
-**Issues:**
-1. Uses PATCH for sending emails (should be POST)
-2. Inconsistent naming (`email` vs `email_final`)
-3. Not RESTful
-4. Missing prefix in URL
-
-**Proposed State:**
+**Implemented State:**
 ```php
 Route::get('events/{event}/emails/bulk', [EventEmailController::class, 'createBulk'])
     ->name('events.emails.bulk.create');
@@ -796,30 +775,27 @@ Route::post('events/{event}/emails/final', [EventEmailController::class, 'sendFi
     ->name('events.emails.final.send');
 ```
 
+Methods changed from PATCH to POST, routes moved to `EventEmailController`, URL structure updated to `events/{event}/emails/*`.
+
 **Impact:** Medium - RESTful consistency
 
 ---
 
-### 9. Non-RESTful Event Booking Deletion Route
+### 9. Non-RESTful Event Booking Deletion Route ✅ COMPLETE
 
-**Location:** `routes/web.php:49`
-
-**Current State:**
+**Previous State:**
 ```php
 Route::delete('events/{event}/delete-bookings', [EventAdminController::class, 'deleteAllBookings'])
     ->name('events.delete-bookings');
 ```
 
-**Issues:**
-1. URL contains verb `delete-bookings`
-2. Wrong controller (should be BookingAdminController)
-3. Route name uses kebab-case with verb
-
-**Proposed State:**
+**Implemented State:**
 ```php
 Route::delete('events/{event}/bookings', [BookingAdminController::class, 'destroyAll'])
     ->name('events.bookings.destroyAll');
 ```
+
+Logic moved from `EventAdminController` to `BookingAdminController::destroyAll`. URL verb removed, route name corrected.
 
 **Impact:** Medium - RESTful consistency
 
@@ -1250,11 +1226,11 @@ Route::prefix('admin')->name('admin.')->middleware('auth.isAdmin')->group(functi
 5. ✅ Update routes
 6. ✅ Update tests
 
-**Step 2: EventAdminController Split** ← TODO
-1. Create `EventEmailController`
-2. Move `deleteAllBookings` to `BookingAdminController`
-3. Update routes
-4. Update tests
+**Step 2: EventAdminController Split** ✅ COMPLETE
+1. ✅ Create `EventEmailController`
+2. ✅ Move `deleteAllBookings` to `BookingAdminController` as `destroyAll`
+3. ✅ Update routes
+4. ✅ Update tests
 
 **Step 3: BookingController Refactoring** ✅ COMPLETE
 1. ✅ Create `SelcalValidator` (implemented as a dedicated validation Rule)
@@ -1342,15 +1318,15 @@ For each refactoring step:
 - None (only deletions and renames)
 
 ### Phase 2
-- `app/Http/Controllers/Booking/BookingExportController.php`
-- `app/Http/Controllers/Booking/BookingImportController.php`
-- `app/Http/Controllers/Booking/BookingAutoAssignController.php`
-- `app/Http/Controllers/Booking/BookingRouteAssignController.php`
-- `app/Http/Controllers/Booking/BookingReservationController.php`
-- `app/Http/Controllers/Booking/BookingCancellationController.php`
-- `app/Http/Controllers/Event/EventEmailController.php`
-- `app/Services/Booking/SelcalValidator.php`
-- `app/Services/OAuth/VatsimProvider.php` (renamed from OAuthController)
+- ✅ `app/Http/Controllers/Booking/BookingExportController.php`
+- ✅ `app/Http/Controllers/Booking/BookingImportController.php`
+- ✅ `app/Http/Controllers/Booking/BookingAutoAssignController.php`
+- ✅ `app/Http/Controllers/Booking/BookingRouteAssignController.php`
+- ✅ `app/Http/Controllers/Booking/BookingReservationController.php`
+- ✅ `app/Http/Controllers/Booking/BookingCancellationController.php`
+- ✅ `app/Http/Controllers/Event/EventEmailController.php`
+- ✅ `app/Rules/ValidSelcal.php` (implemented as a validation Rule instead of a Service)
+- ✅ `app/Services/OAuth/VatsimProvider.php` (renamed from OAuthController)
 
 ### Phase 3
 - `app/Http/Controllers/Api/V1/EventController.php`
@@ -1365,9 +1341,9 @@ For each refactoring step:
 
 ## Files to Delete
 
-- `app/Http/Controllers/AdminController.php`
-- `app/Http/Controllers/OAuthController.php` (moved to services)
-- `app/Http/Controllers/User/UserController.php` (renamed)
+- ✅ `app/Http/Controllers/AdminController.php`
+- ✅ `app/Http/Controllers/OAuthController.php` (moved to services)
+- `app/Http/Controllers/User/UserController.php` (renamed — Phase 4)
 
 ---
 
@@ -1378,10 +1354,10 @@ For each refactoring step:
 - `routes/api.php` - Phase 3
 
 ### Controllers (Simplified)
-- `app/Http/Controllers/Booking/BookingAdminController.php` - Remove extracted methods
-- `app/Http/Controllers/Booking/BookingController.php` - Refactor edit(), update update(), remove cancel(), remove validateSELCAL()
-- `app/Http/Controllers/Event/EventAdminController.php` - Remove email methods and deleteAllBookings
-- All controllers extending `AdminController` - Change to extend `Controller`
+- ✅ `app/Http/Controllers/Booking/BookingAdminController.php` - Export/import/auto-assign/route-assign extracted; `destroyAll` added
+- ✅ `app/Http/Controllers/Booking/BookingController.php` - `edit()` refactored, `cancel()` and `validateSELCAL()` removed
+- ✅ `app/Http/Controllers/Event/EventAdminController.php` - Email methods and `deleteAllBookings` removed (now 113 lines, pure CRUD)
+- ✅ All controllers extending `AdminController` - Now extend `Controller` directly
 
 ### Policies
 - `app/Policies/BookingPolicy.php` - Add `reserve()`, `cancel()` methods, update `edit()` and `update()` with timing constraints
@@ -1392,6 +1368,8 @@ For each refactoring step:
 ### Views
 - ✅ Updated all views using `route('bookings.cancel')` to use `route('bookings.cancellation.destroy')`
 - ✅ Updated all "Book" buttons to POST to `route('bookings.reservation.store')`
+- ✅ Updated `event/admin/overview.blade.php` email link to `route('admin.events.emails.bulk.create')` and delete-bookings form to `route('admin.events.bookings.destroyAll')`
+- ✅ Updated `event/admin/sendEmail.blade.php` route names and changed PATCH → POST for both email forms
 
 ### Tests
 - All affected controller tests
