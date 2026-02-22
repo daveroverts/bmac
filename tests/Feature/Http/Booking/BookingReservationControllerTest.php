@@ -105,7 +105,7 @@ it('prevents reservation when user already has a reservation for the event', fun
 
     $this->actingAs($user)
         ->post(route('bookings.reservation.store', $flight->booking))
-        ->assertRedirect(route('bookings.event.index', $event));
+        ->assertRedirect(route('events.bookings.index', $event));
 
     $flight->booking->refresh();
     expect($flight->booking->status)->toBe(BookingStatus::UNASSIGNED);
@@ -141,7 +141,7 @@ it('prevents reservation when event does not allow multiple bookings and user al
 
     $this->actingAs($user)
         ->post(route('bookings.reservation.store', $flight->booking))
-        ->assertRedirect(route('bookings.event.index', $event));
+        ->assertRedirect(route('events.bookings.index', $event));
 
     $flight->booking->refresh();
     expect($flight->booking->status)->toBe(BookingStatus::UNASSIGNED);

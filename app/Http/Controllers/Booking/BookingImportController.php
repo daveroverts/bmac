@@ -31,6 +31,6 @@ class BookingImportController extends Controller
 
         flashMessage('success', __('Flights imported'), __('Flights have been imported'));
 
-        return to_route('bookings.event.index', $event);
+        return to_route('events.bookings.index', $event);
     }
 }

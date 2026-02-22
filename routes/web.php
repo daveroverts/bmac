@@ -80,7 +80,7 @@ Route::post('bookings/{booking}/reservation', [BookingReservationController::cla
 Route::delete('bookings/{booking}/cancellation', [BookingCancellationController::class, 'destroy'])
     ->middleware('auth.isLoggedIn')
     ->name('bookings.cancellation.destroy');
-Route::get('/{event}/bookings/{filter?}', [BookingController::class, 'index'])->name('bookings.event.index');
+Route::get('events/{event}/bookings', [BookingController::class, 'index'])->name('events.bookings.index');
 
 Route::get('faq', FaqController::class)->name('faq');
 

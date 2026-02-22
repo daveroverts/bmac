@@ -30,6 +30,6 @@ class BookingRouteAssignController extends Controller
 
         flashMessage('success', __('Routes assigned'), __('Routes have been assigned to flights'));
 
-        return to_route('bookings.event.index', $event);
+        return to_route('events.bookings.index', $event);
     }
 }

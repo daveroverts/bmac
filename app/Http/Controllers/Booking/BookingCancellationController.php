@@ -21,7 +21,7 @@ class BookingCancellationController extends Controller
                 __('Bookings have been locked at :time', ['time' => $booking->event->endBooking->format('d-m-Y Hi') . 'z'])
             );
 
-            return to_route('bookings.event.index', $booking->event);
+            return to_route('events.bookings.index', $booking->event);
         }
 
         if ($booking->is_editable) {
@@ -47,6 +47,6 @@ class BookingCancellationController extends Controller
 
         flashMessage('info', $title, $message);
 
-        return to_route('bookings.event.index', $booking->event);
+        return to_route('events.bookings.index', $booking->event);
     }
 }

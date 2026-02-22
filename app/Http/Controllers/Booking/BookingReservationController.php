@@ -16,7 +16,7 @@ class BookingReservationController extends Controller
         // Check if booking window is still open
         if ($booking->event->endBooking < now()) {
             flashMessage('danger', __('Danger'), __('Bookings have been closed at :time', ['time' => $booking->event->endBooking->format('d-m-Y Hi') . 'z']));
-            return to_route('bookings.event.index', $booking->event);
+            return to_route('events.bookings.index', $booking->event);
         }
 
         // Check if user already has a reservation
@@ -25,7 +25,7 @@ class BookingReservationController extends Controller
             ->where('status', BookingStatus::RESERVED)
             ->exists()) {
             flashMessage('danger', __('Warning'), __('You already have a reservation! Please cancel or book that flight first.'));
-            return to_route('bookings.event.index', $booking->event);
+            return to_route('events.bookings.index', $booking->event);
         }
 
         // Check if event allows multiple bookings
@@ -35,7 +35,7 @@ class BookingReservationController extends Controller
                 ->where('status', BookingStatus::BOOKED)
                 ->exists()) {
             flashMessage('danger', __('Warning'), __('You already have a booking!'));
-            return to_route('bookings.event.index', $booking->event);
+            return to_route('events.bookings.index', $booking->event);
         }
 
         // Reserve the booking

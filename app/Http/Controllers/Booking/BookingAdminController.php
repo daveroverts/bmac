@@ -108,7 +108,7 @@ class BookingAdminController extends Controller
             flashMessage('success', __('Done'), __('Slot created'));
         }
 
-        return to_route('bookings.event.index', $event);
+        return to_route('events.bookings.index', $event);
     }
 
     public function edit(Booking $booking): View|RedirectResponse
@@ -199,7 +199,7 @@ class BookingAdminController extends Controller
         }
 
         flashMessage('success', 'Booking changed', __('Booking has been changed!'));
-        return to_route('bookings.event.index', $booking->event);
+        return to_route('events.bookings.index', $booking->event);
     }
 
     public function destroy(Booking $booking): RedirectResponse
@@ -211,7 +211,7 @@ class BookingAdminController extends Controller
 
             $booking->delete();
             flashMessage('success', 'Booking deleted!', __('Booking has been deleted.'));
-            return to_route('bookings.event.index', $booking->event);
+            return to_route('events.bookings.index', $booking->event);
         }
 
         flashMessage('danger', __('Danger'), __('Booking can no longer be deleted'));

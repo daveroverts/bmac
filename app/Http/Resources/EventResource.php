@@ -39,7 +39,7 @@ class EventResource extends JsonResource
             'is_oceanic_event' => (bool) $this->is_oceanic_event,
             'created_at' => (string) $this->created_at,
             'updated_at' => (string) $this->updated_at,
-            'url' => route('bookings.event.index', $this),
+            'url' => route('events.bookings.index', $this),
             'total_bookings_count' => $total,
             'available_bookings_count' => $booked,
             'links' => [

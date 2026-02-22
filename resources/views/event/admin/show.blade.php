@@ -16,7 +16,7 @@
                         <div class="col-md-6">
                             <div class="form-control-plaintext"><strong><a href="{{ route('events.show', $event) }}"
                                         title="Open event page as users would see">{{ $event->name }}</a>
-                                    | <a href="{{ route('bookings.event.index', $event) }}"
+                                    | <a href="{{ route('events.bookings.index', $event) }}"
                                         title="Open slot table of the event">Slot table</a></strong></div>
                         </div>
                     </div>

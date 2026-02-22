@@ -28,8 +28,8 @@
                         @if ($navbarEvents->isNotEmpty())
                             <div class="dropdown-divider"></div>
                             @foreach ($navbarEvents as $event)
-                                <a class="dropdown-item {{ request()->fullUrlIs(route('bookings.event.index', $event)) ? 'active' : '' }}"
-                                    href="{{ route('bookings.event.index', $event) }}">{{ $event->name }}
+                                <a class="dropdown-item {{ request()->fullUrlIs(route('events.bookings.index', $event)) ? 'active' : '' }}"
+                                    href="{{ route('events.bookings.index', $event) }}">{{ $event->name }}
                                     – {{ $event->startEvent->toFormattedDateString() }}</a>
                                 @auth
                                     @foreach ($bookings = auth()->user()->bookings->where('event_id', $event->id) as $booking)

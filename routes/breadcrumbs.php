@@ -113,20 +113,20 @@ Breadcrumbs::for('events.show', function ($trail, $event): void {
 });
 
 // Home > [Event] > Bookings
-Breadcrumbs::for('bookings.event.index', function ($trail, $event): void {
+Breadcrumbs::for('events.bookings.index', function ($trail, $event): void {
     $trail->parent('events.show', $event);
-    $trail->push('Bookings', route('bookings.event.index', $event));
+    $trail->push('Bookings', route('events.bookings.index', $event));
 });
 
 // Home > [Event] > Booking
 Breadcrumbs::for('bookings.edit', function ($trail, $booking): void {
-    $trail->parent('bookings.event.index', $booking->event);
+    $trail->parent('events.bookings.index', $booking->event);
     $trail->push('Booking', route('bookings.edit', $booking));
 });
 
 // Home > [Event] > My Booking
 Breadcrumbs::for('bookings.show', function ($trail, $booking): void {
-    $trail->parent('bookings.event.index', $booking->event);
+    $trail->parent('events.bookings.index', $booking->event);
     $trail->push('My Booking', route('bookings.show', $booking));
 });
 

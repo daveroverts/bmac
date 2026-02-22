@@ -1288,12 +1288,12 @@ Fix URL structure and HTTP method issues with minimal blast radius:
 
 ---
 
-### Phase 4c: Booking Index Route Rename (P2) - 1 day
+### Phase 4c: Booking Index Route Rename (P2) - 1 day ✅ COMPLETE
 High blast radius but mechanical changes only:
-1. **#10** Change URL from `/{event}/bookings/{filter?}` → `events/{event}/bookings`
-2. Rename `bookings.event.index` → `events.bookings.index`
-3. Remove unused `{filter?}` route parameter (not used in controller)
-4. Update all ~26 references across controllers, views, tests, notifications, API resources, breadcrumbs
+1. ✅ **#10** Change URL from `/{event}/bookings/{filter?}` → `events/{event}/bookings`
+2. ✅ Rename `bookings.event.index` → `events.bookings.index`
+3. ✅ Remove unused `{filter?}` route parameter (not used in controller)
+4. ✅ Update all references across controllers, views, tests, notifications, API resources, breadcrumbs
 
 **Estimated Effort:** 3-4 hours
 **Risk:** Medium (high blast radius, but purely mechanical changes)

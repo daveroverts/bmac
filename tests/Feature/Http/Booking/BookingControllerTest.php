@@ -13,7 +13,7 @@ it('can view booking overview for an event', function (): void {
     /** @var Event $event */
     $event = Event::factory()->create();
 
-    $this->get(route('bookings.event.index', $event))
+    $this->get(route('events.bookings.index', $event))
         ->assertOk()
         ->assertSee($event->name);
 });
@@ -95,7 +95,7 @@ it('allows users to confirm reserved bookings', function (): void {
             'callsign' => 'TEST123',
             'acType' => 'B738',
         ])
-        ->assertRedirect(route('bookings.event.index', $flight->booking->event));
+        ->assertRedirect(route('events.bookings.index', $flight->booking->event));
 
     $flight->booking->refresh();
     expect($flight->booking->status)->toBe(BookingStatus::BOOKED);
@@ -149,7 +149,7 @@ it('prevents editing non-editable booked bookings', function (): void {
 
     $this->actingAs($user)
         ->get(route('bookings.edit', $flight->booking))
-        ->assertRedirect(route('bookings.event.index', $event));
+        ->assertRedirect(route('events.bookings.index', $event));
 });
 
 it('allows editing editable booked bookings within the booking window', function (): void {

@@ -44,13 +44,13 @@ class BookingController extends Controller
                     'time' => $booking->event->endBooking->format('d-m-Y Hi') . 'z'
                 ])
             );
-            return to_route('bookings.event.index', $booking->event);
+            return to_route('events.bookings.index', $booking->event);
         }
 
         // Check if editable for BOOKED status
         if ($booking->status === BookingStatus::BOOKED && !$booking->is_editable) {
             flashMessage('info', __('Danger'), __('You cannot edit the booking!'));
-            return to_route('bookings.event.index', $booking->event);
+            return to_route('events.bookings.index', $booking->event);
         }
 
         // Show edit form
@@ -97,7 +97,7 @@ class BookingController extends Controller
                 flashMessage('success', __('Booking edited!'), __('Booking has been edited!'));
             }
 
-            return to_route('bookings.event.index', $booking->event);
+            return to_route('events.bookings.index', $booking->event);
         }
 
         abort(403);

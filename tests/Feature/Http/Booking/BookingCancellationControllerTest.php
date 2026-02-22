@@ -41,7 +41,7 @@ it('allows users to cancel their own booked booking', function (): void {
 
     $this->actingAs($user)
         ->delete(route('bookings.cancellation.destroy', $flight->booking))
-        ->assertRedirect(route('bookings.event.index', $event));
+        ->assertRedirect(route('events.bookings.index', $event));
 
     $flight->booking->refresh();
     expect($flight->booking->status)->toBe(BookingStatus::UNASSIGNED);
@@ -69,7 +69,7 @@ it('allows users to cancel their own reserved booking', function (): void {
 
     $this->actingAs($user)
         ->delete(route('bookings.cancellation.destroy', $flight->booking))
-        ->assertRedirect(route('bookings.event.index', $event));
+        ->assertRedirect(route('events.bookings.index', $event));
 
     $flight->booking->refresh();
     expect($flight->booking->status)->toBe(BookingStatus::UNASSIGNED);
@@ -157,7 +157,7 @@ it('clears editable fields when cancelling an editable booking', function (): vo
 
     $this->actingAs($user)
         ->delete(route('bookings.cancellation.destroy', $flight->booking))
-        ->assertRedirect(route('bookings.event.index', $event));
+        ->assertRedirect(route('events.bookings.index', $event));
 
     $flight->booking->refresh();
     expect($flight->booking->callsign)->toBeNull();
@@ -190,7 +190,7 @@ it('clears selcal when cancelling a non-editable booking', function (): void {
 
     $this->actingAs($user)
         ->delete(route('bookings.cancellation.destroy', $flight->booking))
-        ->assertRedirect(route('bookings.event.index', $event));
+        ->assertRedirect(route('events.bookings.index', $event));
 
     $flight->booking->refresh();
     expect($flight->booking->callsign)->toBe('TEST123')
