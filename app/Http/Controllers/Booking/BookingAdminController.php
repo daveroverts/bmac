@@ -10,8 +10,8 @@ use Illuminate\View\View;
 use Illuminate\Http\Request;
 use App\Events\BookingChanged;
 use App\Events\BookingDeleted;
-use App\Policies\BookingPolicy;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Date;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Booking\Admin\StoreBooking;
 use App\Http\Requests\Booking\Admin\UpdateBooking;
@@ -20,7 +20,7 @@ class BookingAdminController extends Controller
 {
     public function __construct()
     {
-        $this->authorizeResource(BookingPolicy::class, 'booking');
+        $this->authorizeResource(Booking::class, 'booking');
     }
 
     public function create(Event $event, Request $request): View
@@ -38,11 +38,11 @@ class BookingAdminController extends Controller
     {
         $event = Event::whereKey($request->id)->first();
         if ($request->bulk) {
-            $event_start = \Illuminate\Support\Facades\Date::createFromFormat(
+            $event_start = Date::createFromFormat(
                 'Y-m-d H:i',
                 $event->startEvent->toDateString() . ' ' . $request->start
             );
-            $event_end = \Illuminate\Support\Facades\Date::createFromFormat('Y-m-d H:i', $event->endEvent->toDateString() . ' ' . $request->end);
+            $event_end = Date::createFromFormat('Y-m-d H:i', $event->endEvent->toDateString() . ' ' . $request->end);
             $separation = $request->separation * 60;
             $count = 0;
             for (; $event_start <= $event_end; $event_start->addSeconds($separation)) {
@@ -66,7 +66,7 @@ class BookingAdminController extends Controller
                         'dep' => $request->dep,
                         'arr' => $request->arr,
                         'ctot' => $time,
-                        'notes' => $request->notes ?? null,
+                        'notes' => $request->notes,
                     ]);
 
                     $count++;
@@ -87,18 +87,18 @@ class BookingAdminController extends Controller
                 'arr' => $request->arr,
                 'route' => $request->route,
                 'oceanicFL' => $request->oceanicFL,
-                'notes' => $request->notes ?? null,
+                'notes' => $request->notes,
             ];
 
             if ($request->ctot) {
-                $flightAttributes['ctot'] = \Illuminate\Support\Facades\Date::createFromFormat(
+                $flightAttributes['ctot'] = Date::createFromFormat(
                     'Y-m-d H:i',
                     $event->startEvent->toDateString() . ' ' . $request->ctot
                 );
             }
 
             if ($request->eta) {
-                $flightAttributes['eta'] = \Illuminate\Support\Facades\Date::createFromFormat(
+                $flightAttributes['eta'] = Date::createFromFormat(
                     'Y-m-d H:i',
                     $event->startEvent->toDateString() . ' ' . $request->eta
                 );
@@ -128,10 +128,7 @@ class BookingAdminController extends Controller
 
     public function update(UpdateBooking $request, Booking $booking): RedirectResponse
     {
-        $shouldSendEmail = false;
-        if (!empty($booking->user) && $request->notify_user) {
-            $shouldSendEmail = true;
-        }
+        $shouldSendEmail = $booking->user_id && $request->notify_user;
 
         /* @var Flight $flight */
         $flight = $booking->flights()->first();
@@ -152,7 +149,7 @@ class BookingAdminController extends Controller
         ];
 
         if ($request->ctot) {
-            $flightAttributes['ctot'] = \Illuminate\Support\Facades\Date::createFromFormat(
+            $flightAttributes['ctot'] = Date::createFromFormat(
                 'Y-m-d H:i',
                 $booking->event->startEvent->toDateString() . ' ' . $request->ctot
             );
@@ -161,7 +158,7 @@ class BookingAdminController extends Controller
         }
 
         if ($request->eta) {
-            $flightAttributes['eta'] = \Illuminate\Support\Facades\Date::createFromFormat(
+            $flightAttributes['eta'] = Date::createFromFormat(
                 'Y-m-d H:i',
                 $booking->event->startEvent->toDateString() . ' ' . $request->eta
             );
