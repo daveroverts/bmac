@@ -8,6 +8,7 @@ use App\Models\AirportLink;
 use App\Models\Booking;
 use App\Models\Event;
 use App\Models\Faq;
+use App\Models\User;
 use App\Policies\AirportLinkPolicy;
 use App\Policies\AirportPolicy;
 use App\Policies\BookingPolicy;
@@ -60,6 +61,8 @@ class AppServiceProvider extends ServiceProvider
         Gate::policy(Booking::class, BookingPolicy::class);
         Gate::policy(Event::class, EventPolicy::class);
         Gate::policy(Faq::class, FaqPolicy::class);
+
+        Gate::define('admin', fn (User $user) => $user->isAdmin);
 
         Gate::before(function ($user, $ability) {
             if ($user->isAdmin) {

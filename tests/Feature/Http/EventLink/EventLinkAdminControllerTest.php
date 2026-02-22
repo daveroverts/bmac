@@ -12,9 +12,8 @@ it('prevents non-admin users from accessing event link admin index', function ()
     $user = User::factory()->create();
 
     $this->actingAs($user)
-        ->from('/')
         ->get(route('admin.eventLinks.index'))
-        ->assertRedirect('/');
+        ->assertForbidden();
 });
 
 it('allows admin users to view event link index', function (): void {

@@ -34,11 +34,11 @@ use App\Http\Controllers\User\UserSettingsController;
 
 Route::get('/', HomeController::class)->name('home');
 
-Route::get('/login', [LoginController::class, 'login'])->name('login');
+Route::middleware('guest')->get('/login', [LoginController::class, 'login'])->name('login');
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
 // Admin routes
-Route::group(['as' => 'admin.', 'prefix' => 'admin', 'middleware' => 'auth.isAdmin'], function (): void {
+Route::middleware(['auth', 'can:admin'])->prefix('admin')->name('admin.')->group(function (): void {
     // Airports
     Route::delete('airports/unused', [AirportAdminController::class, 'destroyUnused'])->name('airports.unused.destroy');
     Route::resource('airports', AirportAdminController::class);
@@ -54,33 +54,48 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin', 'middleware' => 'auth.isAdm
     Route::post('faq/{faq}/events/{event}', [FaqEventController::class, 'store'])->name('faq.events.attach');
     Route::delete('faq/{faq}/events/{event}', [FaqEventController::class, 'destroy'])->name('faq.events.detach');
 
-    // Event
+    // Events
     Route::resource('events', EventAdminController::class);
-    Route::get('events/{event}/emails/bulk', [EventEmailController::class, 'createBulk'])->name('events.emails.bulk.create');
-    Route::post('events/{event}/emails/bulk', [EventEmailController::class, 'sendBulk'])->name('events.emails.bulk.send');
-    Route::post('events/{event}/emails/final', [EventEmailController::class, 'sendFinal'])->name('events.emails.final.send');
-    Route::delete('events/{event}/bookings', [BookingAdminController::class, 'destroyAll'])->name('events.bookings.destroyAll');
 
-    // Booking
+    // Event-scoped routes
+    Route::prefix('events/{event}')->name('events.')->group(function (): void {
+        // Event emails
+        Route::prefix('emails')->name('emails.')->group(function (): void {
+            Route::get('bulk', [EventEmailController::class, 'createBulk'])->name('bulk.create');
+            Route::post('bulk', [EventEmailController::class, 'sendBulk'])->name('bulk.send');
+            Route::post('final', [EventEmailController::class, 'sendFinal'])->name('final.send');
+        });
+
+        // Event bookings
+        Route::delete('bookings', [BookingAdminController::class, 'destroyAll'])->name('bookings.destroyAll');
+
+        Route::prefix('bookings')->name('bookings.')->group(function (): void {
+            Route::get('create', [BookingAdminController::class, 'create'])->name('create');
+            Route::get('export', BookingExportController::class)->name('export');
+
+            Route::get('import', [BookingImportController::class, 'create'])->name('import.create');
+            Route::post('import', [BookingImportController::class, 'store'])->name('import.store');
+
+            Route::get('auto-assign', [BookingAutoAssignController::class, 'create'])->name('autoAssign.create');
+            Route::post('auto-assign', [BookingAutoAssignController::class, 'store'])->name('autoAssign.store');
+
+            Route::get('route-assign', [BookingRouteAssignController::class, 'create'])->name('routeAssign.create');
+            Route::post('route-assign', [BookingRouteAssignController::class, 'store'])->name('routeAssign.store');
+        });
+    });
+
+    // Booking resource (not event-scoped)
     Route::resource('bookings', BookingAdminController::class)->except(['index', 'create', 'show']);
-    Route::get('events/{event}/bookings/export', BookingExportController::class)->name('events.bookings.export');
-    Route::get('events/{event}/bookings/create', [BookingAdminController::class, 'create'])->name('events.bookings.create');
-    Route::get('events/{event}/bookings/import', [BookingImportController::class, 'create'])->name('events.bookings.import.create');
-    Route::post('events/{event}/bookings/import', [BookingImportController::class, 'store'])->name('events.bookings.import.store');
-    Route::get('events/{event}/bookings/auto-assign', [BookingAutoAssignController::class, 'create'])->name('events.bookings.autoAssign.create');
-    Route::post('events/{event}/bookings/auto-assign', [BookingAutoAssignController::class, 'store'])->name('events.bookings.autoAssign.store');
-    Route::get('events/{event}/bookings/route-assign', [BookingRouteAssignController::class, 'create'])->name('events.bookings.routeAssign.create');
-    Route::post('events/{event}/bookings/route-assign', [BookingRouteAssignController::class, 'store'])->name('events.bookings.routeAssign.store');
 });
 
 Route::resource('bookings', BookingController::class)
     ->only(['show', 'edit', 'update'])
-    ->middleware(['edit' => 'auth.isLoggedIn']);
+    ->middleware(['edit' => 'auth']);
 Route::post('bookings/{booking}/reservation', [BookingReservationController::class, 'store'])
-    ->middleware('auth.isLoggedIn')
+    ->middleware('auth')
     ->name('bookings.reservation.store');
 Route::delete('bookings/{booking}/cancellation', [BookingCancellationController::class, 'destroy'])
-    ->middleware('auth.isLoggedIn')
+    ->middleware('auth')
     ->name('bookings.cancellation.destroy');
 Route::get('events/{event}/bookings', [BookingController::class, 'index'])->name('events.bookings.index');
 
@@ -88,6 +103,6 @@ Route::get('faq', FaqController::class)->name('faq');
 
 Route::get('{event}', EventController::class)->name('events.show');
 
-Route::middleware('auth.isLoggedIn')->prefix('user')->name('user.')->group(function (): void {
+Route::middleware('auth')->prefix('user')->name('user.')->group(function (): void {
     Route::singleton('settings', UserSettingsController::class)->only(['edit', 'update']);
 });

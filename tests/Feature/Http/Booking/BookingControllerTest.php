@@ -46,9 +46,8 @@ it('requires authentication to edit a booking', function (): void {
     // Logout the default admin user from TestCase setUp
     auth()->logout();
 
-    $this->from('/')
-        ->get(route('bookings.edit', $flight->booking))
-        ->assertRedirect('/');
+    $this->get(route('bookings.edit', $flight->booking))
+        ->assertRedirect(route('login'));
 });
 
 it('allows authenticated users to edit their reserved bookings', function (): void {

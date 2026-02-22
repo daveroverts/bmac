@@ -18,9 +18,8 @@ it('prevents non-admin users from attaching an event to a FAQ', function (): voi
     $event = Event::factory()->create();
 
     $this->actingAs($user)
-        ->from('/')
         ->post(route('admin.faq.events.attach', ['faq' => $faq, 'event' => $event]))
-        ->assertRedirect('/');
+        ->assertForbidden();
 });
 
 it('prevents non-admin users from detaching an event from a FAQ', function (): void {
@@ -37,9 +36,8 @@ it('prevents non-admin users from detaching an event from a FAQ', function (): v
     $faq->events()->attach($event->id);
 
     $this->actingAs($user)
-        ->from('/')
         ->delete(route('admin.faq.events.detach', ['faq' => $faq, 'event' => $event]))
-        ->assertRedirect('/');
+        ->assertForbidden();
 });
 
 it('allows admin users to attach an event to a FAQ', function (): void {

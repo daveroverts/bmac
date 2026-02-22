@@ -16,9 +16,8 @@ it('prevents non-admin users from accessing booking create form', function (): v
     $event = Event::factory()->create();
 
     $this->actingAs($user)
-        ->from('/')
         ->get(route('admin.events.bookings.create', $event))
-        ->assertRedirect('/');
+        ->assertForbidden();
 });
 
 it('allows admin users to view create booking form', function (): void {
@@ -115,9 +114,8 @@ it('prevents non-admin users from deleting all bookings for an event', function 
     $event = Event::factory()->create();
 
     $this->actingAs($user)
-        ->from('/')
         ->delete(route('admin.events.bookings.destroyAll', $event))
-        ->assertRedirect('/');
+        ->assertForbidden();
 });
 
 it('allows admin users to delete all bookings for an event', function (): void {

@@ -14,9 +14,8 @@ it('prevents non-admin users from accessing send email form', function (): void 
     $event = Event::factory()->create();
 
     $this->actingAs($user)
-        ->from('/')
         ->get(route('admin.events.emails.bulk.create', $event))
-        ->assertRedirect('/');
+        ->assertForbidden();
 });
 
 it('allows admin users to view send email form', function (): void {
@@ -43,12 +42,11 @@ it('prevents non-admin users from sending bulk email', function (): void {
     $event = Event::factory()->create();
 
     $this->actingAs($user)
-        ->from('/')
         ->post(route('admin.events.emails.bulk.send', $event), [
             'subject' => 'Test Subject',
             'message' => 'Test message',
         ])
-        ->assertRedirect('/');
+        ->assertForbidden();
 });
 
 it('prevents non-admin users from sending final information email', function (): void {
@@ -61,7 +59,6 @@ it('prevents non-admin users from sending final information email', function ():
     $event = Event::factory()->create();
 
     $this->actingAs($user)
-        ->from('/')
         ->post(route('admin.events.emails.final.send', $event))
-        ->assertRedirect('/');
+        ->assertForbidden();
 });

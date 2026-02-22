@@ -12,9 +12,8 @@ it('prevents non-admin users from accessing airport link admin index', function 
     $user = User::factory()->create();
 
     $this->actingAs($user)
-        ->from('/')
         ->get(route('admin.airportLinks.index'))
-        ->assertRedirect('/');
+        ->assertForbidden();
 });
 
 it('allows admin users to view airport link index', function (): void {

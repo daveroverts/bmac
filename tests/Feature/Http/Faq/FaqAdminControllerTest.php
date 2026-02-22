@@ -11,9 +11,8 @@ it('prevents non-admin users from accessing FAQ admin index', function (): void 
     $user = User::factory()->create();
 
     $this->actingAs($user)
-        ->from('/')
         ->get(route('admin.faq.index'))
-        ->assertRedirect('/');
+        ->assertForbidden();
 });
 
 it('allows admin users to view FAQ index', function (): void {
