@@ -36,7 +36,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php-versions: ["8.3", "8.4"]
+        php-versions: ["8.3", "8.4", "8.5"]
         node: [20, 22]
         stability: [prefer-lowest, prefer-stable]
     steps:
@@ -122,7 +122,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php-versions: [8.3", "8.4"]
+        php-versions: [8.3", "8.4", "8.5"]
         node: [20, 22]
         stability: [prefer-lowest, prefer-stable]
     steps:
