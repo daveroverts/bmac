@@ -18,9 +18,7 @@ class BookingResource extends JsonResource
      */
     public function toArray($request)
     {
-        /**
-         * @var Flight $flight
-         */
+        /** @var Flight $flight */
         $flight = $this->flights()->first();
         return [
             'uuid' => $this->uuid,
@@ -34,7 +32,7 @@ class BookingResource extends JsonResource
             'selcal' => $this->selcal,
             'dep' => $flight->airportDep->icao,
             'arr' => $flight->airportArr->icao,
-            'ctot' =>  $flight->ctot ? $flight->ctot->format('Hi') . 'z' : null,
+            'ctot' => $flight->ctot ? $flight->ctot->format('Hi') . 'z' : null,
             'eta' => $flight->eta ? $flight->eta->format('Hi') . 'z' : null,
             'route' => $flight->route,
             'oceanicFL' => $flight->oceanicFL,
@@ -42,9 +40,8 @@ class BookingResource extends JsonResource
             'created_at' => (string) $this->created_at,
             'updated_at' => (string) $this->updated_at,
             'links' => [
-                // 'user' => url('/api/users/' . $this->user->id),
-                'dep' => url('/api/airports/' . $flight->airportDep->icao),
-                'arr' => url('/api/airports/' . $flight->airportArr->icao),
+                'dep' => route('v1.airports.show', $flight->airportDep),
+                'arr' => route('v1.airports.show', $flight->airportArr),
             ],
         ];
     }
