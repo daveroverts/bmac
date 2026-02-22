@@ -1251,6 +1251,8 @@ Route::prefix('admin')->name('admin.')->middleware('auth.isAdmin')->group(functi
 ---
 
 ### Phase 3: API Routes (P2) - 1-2 days
+> **Deferred** — Tackling after Phases 4 and 5 are complete.
+
 1. Create API v1 controllers
 2. Update routes with versioning
 3. Add controller tests
@@ -1262,15 +1264,52 @@ Route::prefix('admin')->name('admin.')->middleware('auth.isAdmin')->group(functi
 
 ---
 
-### Phase 4: Route Refinement (P2) - 2-3 days
-1. Update all non-RESTful routes (issues #8-15)
-2. Standardize route naming
-3. Update views with new route names
-4. Update tests
+### Phase 4a: Low-touch Route Fixes (P2) - 0.5-1 day
+Fix URL structure and HTTP method issues with minimal blast radius:
+1. **#12** Airport `destroyUnused` — POST→DELETE, remove verb from URL, rename `airports.destroyUnused` → `airports.unused.destroy` (~3 references)
+2. **#13** Booking admin create — remove `{bulk?}` from URL, switch to query string; fix views using `route(...) . '/bulk'` hack (~10 references)
+3. **#14** Booking export — remove `{vacc?}` from URL, switch to query string (~4 references)
 
-**Estimated Effort:** 12-16 hours
-**Risk:** Medium (many view updates)
-**Breaking Changes:** Yes (route names change)
+**Estimated Effort:** 3-5 hours
+**Risk:** Low
+**Breaking Changes:** Route names and URL structure change for 3 routes
+
+---
+
+### Phase 4b: User Settings Controller Rename (P2) - 0.5 day
+1. **#15** Rename `UserController` → `UserSettingsController`
+2. Rename `showSettingsForm` → `edit`, `saveSettings` → `update`
+3. Switch to `Route::singleton('user/settings', UserSettingsController::class)->only(['edit', 'update'])`
+4. Update views and tests (~7 references)
+
+**Estimated Effort:** 2-3 hours
+**Risk:** Low
+**Breaking Changes:** Route names change (`user.settings`, `user.saveSettings`)
+
+---
+
+### Phase 4c: Booking Index Route Rename (P2) - 1 day
+High blast radius but mechanical changes only:
+1. **#10** Change URL from `/{event}/bookings/{filter?}` → `events/{event}/bookings`
+2. Rename `bookings.event.index` → `events.bookings.index`
+3. Remove unused `{filter?}` route parameter (not used in controller)
+4. Update all ~26 references across controllers, views, tests, notifications, API resources, breadcrumbs
+
+**Estimated Effort:** 3-4 hours
+**Risk:** Medium (high blast radius, but purely mechanical changes)
+**Breaking Changes:** Route name and URL structure change
+
+---
+
+### Phase 4d: FAQ Toggle → Attach/Detach (P3) - 0.5 day
+1. **#17** Split `toggleEvent` into separate attach (`store`) and detach (`destroy`) endpoints
+2. Create `FaqEventController` with `store` and `destroy` methods
+3. Update routes: POST `faq/{faq}/events/{event}` and DELETE `faq/{faq}/events/{event}`
+4. Update view and tests (~3 references)
+
+**Estimated Effort:** 2-3 hours
+**Risk:** Low
+**Breaking Changes:** Route name and HTTP method change
 
 ---
 
@@ -1475,10 +1514,11 @@ This refactoring plan addresses 67 specific issues across the routing and contro
 **Total Estimated Effort:** 46-66 hours (6-8 working days)
 
 **Recommended Approach:**
-1. Start with Phase 1 (low risk, immediate value)
-2. Complete Phase 2 in increments (highest value)
-3. Evaluate business impact before Phases 3-5
-4. Consider splitting Phase 4 across multiple releases
+1. ✅ Start with Phase 1 (low risk, immediate value)
+2. ✅ Complete Phase 2 in increments (highest value)
+3. Complete Phase 4 in sub-phases (4a → 4b → 4c → 4d), lowest risk first
+4. Complete Phase 5 (polish)
+5. Complete Phase 3 (API routes) last — additive, no breaking changes
 
 **Key Benefits:**
 - Improved code maintainability
