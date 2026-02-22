@@ -70,8 +70,10 @@
                                 $booking->event->multiple_bookings_allowed ||
                                     auth()->user()->bookings->where('event_id', $booking->event->id)->isEmpty())
                                 {{-- Check if user already has a booking, and only 1 is allowed --}}
-                                <a href="{{ route('bookings.edit', $booking) }}" class="btn btn-success">BOOK
-                                    NOW</a>
+                                <form action="{{ route('bookings.reservation.store', $booking) }}" method="post">
+                                    @csrf
+                                    <button type="submit" class="btn btn-success">BOOK NOW</button>
+                                </form>
                             @else
                                 <i class="text-danger">You already have a booking</i>
                             @endif
