@@ -9,11 +9,6 @@ use League\OAuth2\Client\Token\AccessTokenInterface;
 class VatsimProvider extends GenericProvider
 {
     /**
-     * @var GenericProvider
-     */
-    private $provider;
-
-    /**
      * Initializes the provider variable.
      */
     public function __construct()

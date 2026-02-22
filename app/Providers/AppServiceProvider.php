@@ -64,7 +64,7 @@ class AppServiceProvider extends ServiceProvider
 
         Gate::define('admin', fn (User $user) => $user->isAdmin);
 
-        Gate::define('viewApiDocs', fn () => true);
+        Gate::define('viewApiDocs', fn (): true => true);
 
         Gate::before(function ($user, $ability) {
             if ($user->isAdmin) {
