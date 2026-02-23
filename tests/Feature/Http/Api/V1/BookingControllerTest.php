@@ -59,6 +59,30 @@ it('returns empty data when an event has no booked bookings', function (): void 
     expect($response->json('data'))->toHaveCount(0);
 });
 
+it('does not include full_name in v1 booking response', function (): void {
+    /** @var TestCase $this */
+
+    $flight = Flight::factory()->create([
+        'booking_id' => Booking::factory()->booked()->create()->id,
+    ]);
+
+    $this->getJson('/api/v1/bookings/' . $flight->booking->uuid)
+        ->assertOk()
+        ->assertJsonMissingPath('data.full_name');
+});
+
+it('does not include full_name in v1 event bookings response', function (): void {
+    /** @var TestCase $this */
+
+    $event = Event::factory()->create();
+    $booking = Booking::factory()->booked()->create(['event_id' => $event->id]);
+    Flight::factory()->create(['booking_id' => $booking->id, 'dep' => $event->dep, 'arr' => $event->arr]);
+
+    $this->getJson(sprintf('/api/v1/events/%s/bookings', $event->slug))
+        ->assertOk()
+        ->assertJsonMissingPath('data.0.full_name');
+});
+
 it('does not include deprecation headers on v1 booking routes', function (): void {
     /** @var TestCase $this */
 

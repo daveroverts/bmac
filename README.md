@@ -3,6 +3,7 @@
 
 ![CI](https://github.com/daveroverts/bmac/workflows/CI/badge.svg)
 
+> **Notice:** The unversioned API routes (`/api/events`, `/api/bookings`, etc.) are deprecated and will be removed on **2026-12-31**. Please migrate to `/api/v1/`. See [API](#api) for details.
 
 Book me a Cookie [BMAC] is a Vatsim booking system created in Laravel.
 It's initial purpose was to be used for one event (The Holland - America Line),
@@ -215,6 +216,10 @@ Base URL: `/api/v1`
 | GET | `/api/v1/airports/{airport}` | Single airport |
 
 Interactive documentation is available at `/docs/api`.
+
+> **Note:** The `full_name` field has been removed from v1 booking responses
+> (`/api/v1/bookings/{booking}` and `/api/v1/events/{event}/bookings`) as it felt unnecessary to expose.
+> The legacy unversioned routes still include `full_name` until their removal.
 
 ### Legacy unversioned routes (deprecated)
 

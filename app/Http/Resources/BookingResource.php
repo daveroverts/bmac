@@ -25,7 +25,8 @@ class BookingResource extends JsonResource
             'event_id' => $this->event->id,
             'event_name' => $this->event->name,
             'user' => $this->user->id ?? null,
-            'full_name' => $this->user->full_name ?? null,
+            // TODO: Remove when legacy unversioned API routes are dropped (2026-12-31)
+            'full_name' => $this->when(! $request->is('api/v1/*'), $this->user->full_name ?? null),
             'status' => $this->status,
             'callsign' => $this->callsign,
             'acType' => $this->acType,

@@ -49,6 +49,14 @@ return [
             ```
 
             Please migrate to the `/api/v1/` equivalents listed in this documentation.
+
+            ## Breaking changes
+
+            ### `full_name` removed from v1 booking responses
+
+            The `full_name` field has been removed from booking endpoints (`/api/v1/bookings/{booking}` and
+            `/api/v1/events/{event}/bookings`) as it felt unnecessary to expose. The legacy unversioned routes still
+            include `full_name` until their removal on **2026-12-31**.
             MD,
     ],
 
