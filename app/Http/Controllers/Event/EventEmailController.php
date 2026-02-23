@@ -70,7 +70,7 @@ class EventEmailController extends Controller
 
         $message = __('Final Information has been sent to :count people!', ['count' => $count]);
         if ($countSkipped !== 0) {
-            $message .= ' ' . __('However, :count where skipped, because they already received one', ['count' => $count]);
+            $message .= ' ' . __('However, :count were skipped, because they already received one', ['count' => $countSkipped]);
         }
 
         flashMessage('success', __('Done'), $message);
