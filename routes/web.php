@@ -90,7 +90,7 @@ Route::middleware(['auth', 'can:admin'])->prefix('admin')->name('admin.')->group
 
 Route::resource('bookings', BookingController::class)
     ->only(['show', 'edit', 'update'])
-    ->middleware(['edit' => 'auth']);
+    ->middleware('auth');
 Route::post('bookings/{booking}/reservation', [BookingReservationController::class, 'store'])
     ->middleware('auth')
     ->name('bookings.reservation.store');
