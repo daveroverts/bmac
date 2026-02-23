@@ -14,6 +14,7 @@ use App\Policies\AirportPolicy;
 use App\Policies\BookingPolicy;
 use App\Policies\EventPolicy;
 use App\Policies\FaqPolicy;
+use App\Services\OAuth\VatsimProvider;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\Paginator;
@@ -30,7 +31,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        $this->app->bind(VatsimProvider::class, fn () => new VatsimProvider());
     }
 
     /**

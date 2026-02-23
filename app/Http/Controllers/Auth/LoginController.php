@@ -25,14 +25,11 @@ class LoginController extends Controller
     |
     */
 
-    protected VatsimProvider $provider;
-
     /**
      * Create a new controller instance.
      */
-    public function __construct()
+    public function __construct(protected VatsimProvider $provider)
     {
-        $this->provider = new VatsimProvider();
     }
 
     public function login(Request $request): RedirectResponse
@@ -107,11 +104,15 @@ class LoginController extends Controller
             $booking = Booking::whereUuid(session('booking'))->first();
             session()->forget('booking');
             if (!empty($booking)) {
-                if ($booking->status != BookingStatus::BOOKED) {
-                    return to_route('bookings.edit', $booking);
+                if ($booking->status === BookingStatus::UNASSIGNED) {
+                    return $this->reserveAfterLogin($booking);
                 }
 
-                return to_route('bookings.show', $booking);
+                if ($booking->status === BookingStatus::BOOKED) {
+                    return to_route('bookings.show', $booking);
+                }
+
+                return to_route('bookings.edit', $booking);
             }
         } elseif (session('event')) {
             $event = Event::whereSlug(session('event'))->first();
@@ -152,6 +153,54 @@ class LoginController extends Controller
         activity()->log('Login');
 
         return $account;
+    }
+
+    protected function reserveAfterLogin(Booking $booking): RedirectResponse
+    {
+        // Booking window may have closed while the user was logging in
+        if ($booking->event->endBooking < now()) {
+            flashMessage('danger', __('Danger'), __('Bookings have been closed at :time', ['time' => $booking->event->endBooking->format('d-m-Y Hi') . 'z']));
+            return to_route('events.bookings.index', $booking->event);
+        }
+
+        $user = auth()->user();
+
+        // User may already have a reservation for this event
+        if ($user->bookings()
+            ->where('event_id', $booking->event_id)
+            ->where('status', BookingStatus::RESERVED)
+            ->exists()) {
+            flashMessage('danger', __('Warning'), __('You already have a reservation! Please cancel or book that flight first.'));
+            return to_route('events.bookings.index', $booking->event);
+        }
+
+        // Check if event allows multiple bookings
+        if (!$booking->event->multiple_bookings_allowed
+            && $user->bookings()
+                ->where('event_id', $booking->event_id)
+                ->where('status', BookingStatus::BOOKED)
+                ->exists()) {
+            flashMessage('danger', __('Warning'), __('You already have a booking!'));
+            return to_route('events.bookings.index', $booking->event);
+        }
+
+        $booking->status = BookingStatus::RESERVED;
+        $booking->user()->associate($user)->save();
+
+        activity()
+            ->by($user)
+            ->on($booking)
+            ->log('Flight reserved');
+
+        flashMessage(
+            'info',
+            __('Slot reserved'),
+            __('Slot remains reserved until :time', [
+                'time' => $booking->updated_at->addMinutes(10)->format('Hi') . 'z',
+            ])
+        );
+
+        return to_route('bookings.edit', $booking);
     }
 
     public function logout(): RedirectResponse
