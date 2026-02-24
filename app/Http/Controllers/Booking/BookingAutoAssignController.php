@@ -8,6 +8,7 @@ use App\Http\Requests\Booking\Admin\AutoAssign;
 use App\Models\Booking;
 use App\Models\Event;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
 
 class BookingAutoAssignController extends Controller
@@ -19,48 +20,49 @@ class BookingAutoAssignController extends Controller
 
     public function store(AutoAssign $request, Event $event): RedirectResponse
     {
-        // @TODO Optimise this, for now it's a ugly fix
         $bookings = $event->bookings()
             ->with(['flights' => function ($query): void {
                 $query->orderBy('ctot');
-            }]);
+            }])
+            ->unless($request->checkAssignAllFlights, function ($query): void {
+                $query->where('status', BookingStatus::BOOKED->value);
+            })
+            ->get();
 
-        if (!$request->checkAssignAllFlights) {
-            $bookings = $bookings->where('status', BookingStatus::BOOKED->value);
-        }
-
-        $bookings = $bookings->get();
         $count = 0;
         $flOdd = $request->maxFL;
         $flEven = $request->minFL;
-        /** @var Booking $booking */
-        foreach ($bookings as $booking) {
-            $flight = $booking->flights()->first();
-            $count++;
-            if ($count % 2 === 0) {
-                $flight->fill([
-                    'oceanicTrack' => $request->oceanicTrack2,
-                    'route' => $request->route2,
-                    'oceanicFL' => $flEven,
-                ]);
-                $flEven += 10;
-                if ($flEven > $request->maxFL) {
-                    $flEven = $request->minFL;
-                }
-            } else {
-                $flight->fill([
-                    'oceanicTrack' => $request->oceanicTrack1,
-                    'route' => $request->route1,
-                    'oceanicFL' => $flOdd,
-                ]);
-                $flOdd -= 10;
-                if ($flOdd < $request->minFL) {
-                    $flOdd = $request->maxFL;
-                }
-            }
 
-            $flight->save();
-        }
+        DB::transaction(function () use ($bookings, $request, &$count, &$flOdd, &$flEven): void {
+            /** @var Booking $booking */
+            foreach ($bookings as $booking) {
+                $flight = $booking->flights->first();
+                $count++;
+                if ($count % 2 === 0) {
+                    $flight->fill([
+                        'oceanicTrack' => $request->oceanicTrack2,
+                        'route' => $request->route2,
+                        'oceanicFL' => $flEven,
+                    ]);
+                    $flEven += 10;
+                    if ($flEven > $request->maxFL) {
+                        $flEven = $request->minFL;
+                    }
+                } else {
+                    $flight->fill([
+                        'oceanicTrack' => $request->oceanicTrack1,
+                        'route' => $request->route1,
+                        'oceanicFL' => $flOdd,
+                    ]);
+                    $flOdd -= 10;
+                    if ($flOdd < $request->minFL) {
+                        $flOdd = $request->maxFL;
+                    }
+                }
+
+                $flight->save();
+            }
+        });
 
         flashMessage('success', __('Bookings changed'), __(':count bookings have been Auto-Assigned a FL, and route', ['count' => $count]));
         activity()
