@@ -27,6 +27,12 @@
                                         'testmode': 1,
                                     }).then(function(response) {
                                         Swal.fire(response.data.success);
+                                    }).catch(function(error) {
+                                        Swal.fire({
+                                            title: '{{ __('Error') }}',
+                                            text: error.response?.data?.error ?? '{{ __('Something went wrong') }}',
+                                            icon: 'error',
+                                        });
                                     });
                                 } else {
                                     Swal.fire({
@@ -68,6 +74,12 @@
                                         'testmode': 1,
                                     }).then(function(response) {
                                         Swal.fire(response.data.success);
+                                    }).catch(function(error) {
+                                        Swal.fire({
+                                            title: '{{ __('Error') }}',
+                                            text: error.response?.data?.error ?? '{{ __('Something went wrong') }}',
+                                            icon: 'error',
+                                        });
                                     });
                                 } else {
                                     Swal.fire({

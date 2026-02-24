@@ -49,6 +49,10 @@ class EventEmailController extends Controller
             ->get();
 
         if ($request->testmode) {
+            if ($bookings->isEmpty()) {
+                return response()->json(['error' => __('No booked bookings found for this event')], 422);
+            }
+
             /** @var \App\Models\Booking $randomBooking */
             $randomBooking = $bookings->random();
             event(new EventFinalInformation($randomBooking, $request->user()));
