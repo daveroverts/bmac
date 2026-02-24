@@ -42,12 +42,16 @@ Route::prefix('v1')->name('v1.')->group(function (): void {
 
 // Legacy unversioned routes — deprecated, will be removed 2026-12-31
 Route::middleware(DeprecatedApiMiddleware::class)->group(function (): void {
-    Route::get('/events/upcoming/{limit?}', fn ($limit = 3): EventsCollection => new EventsCollection(Event::with(['bookings', 'type', 'airportDep', 'airportArr'])
-        ->where('is_online', true)
-        ->where('endEvent', '>', now())
-        ->orderBy('startEvent', 'asc')
-        ->limit($limit)
-        ->get()));
+    Route::get('/events/upcoming/{limit?}', function (int $limit = 3): EventsCollection {
+        $limit = min(max(1, $limit), 50);
+
+        return new EventsCollection(Event::with(['bookings', 'type', 'airportDep', 'airportArr'])
+            ->where('is_online', true)
+            ->where('endEvent', '>', now())
+            ->orderBy('startEvent', 'asc')
+            ->limit($limit)
+            ->get());
+    });
 
     Route::get('/events/{event}/bookings', fn (Event $event): BookingsCollection => new BookingsCollection(
         $event->bookings()
