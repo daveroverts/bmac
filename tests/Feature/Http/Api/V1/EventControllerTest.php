@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Booking;
 use App\Models\Event;
 use Tests\TestCase;
 
@@ -121,4 +122,19 @@ it('does not include deprecation headers on v1 event routes', function (): void 
         ->assertOk()
         ->assertHeaderMissing('Deprecation')
         ->assertHeaderMissing('Sunset');
+});
+
+it('returns correct available_bookings_count counting only unassigned slots', function (): void {
+    /** @var TestCase $this */
+
+    $event = Event::factory()->create();
+
+    Booking::factory()->for($event)->unassigned()->count(3)->create();
+    Booking::factory()->for($event)->reserved()->count(2)->create();
+    Booking::factory()->for($event)->booked()->count(1)->create();
+
+    $this->getJson('/api/v1/events/' . $event->slug)
+        ->assertOk()
+        ->assertJsonPath('data.total_bookings_count', 6)
+        ->assertJsonPath('data.available_bookings_count', 3);
 });

@@ -19,7 +19,7 @@ class EventResource extends JsonResource
     public function toArray($request)
     {
         $total = $this->bookings->count();
-        $booked = $total - $this->bookings->where('status', BookingStatus::BOOKED->value)->count();
+        $available = $this->bookings->where('status', BookingStatus::UNASSIGNED)->count();
         return [
             'id' => $this->id,
             'event_type' => $this->type->name,
@@ -41,7 +41,7 @@ class EventResource extends JsonResource
             'updated_at' => (string) $this->updated_at,
             'url' => route('events.bookings.index', $this),
             'total_bookings_count' => $total,
-            'available_bookings_count' => $booked,
+            'available_bookings_count' => $available,
             'links' => [
                 'bookings' => route('v1.events.bookings.index', $this),
                 'dep' => route('v1.airports.show', $this->airportDep),
