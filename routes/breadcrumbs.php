@@ -96,9 +96,9 @@ Breadcrumbs::for('admin.events.show', function ($trail, $event): void {
 });
 
 // Home > Admin > Events > [Event] > Send E-mail
-Breadcrumbs::for('admin.events.email.form', function ($trail, $event): void {
+Breadcrumbs::for('admin.events.emails.bulk.create', function ($trail, $event): void {
     $trail->parent('admin.events.show', $event);
-    $trail->push('Send E-mail', route('admin.events.email.form', $event));
+    $trail->push('Send E-mail', route('admin.events.emails.bulk.create', $event));
 });
 
 // Home (no event found)
