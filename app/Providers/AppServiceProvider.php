@@ -31,7 +31,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $this->app->bind(VatsimProvider::class, fn () => new VatsimProvider());
+        $this->app->bind(VatsimProvider::class, fn (): VatsimProvider => new VatsimProvider());
     }
 
     /**
