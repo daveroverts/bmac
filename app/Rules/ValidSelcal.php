@@ -43,17 +43,15 @@ class ValidSelcal implements ValidationRule
         $char4 = substr($value, 4, 1);
 
         // Check if SELCAL has valid format
-        if (in_array(preg_match('/^[ABCDEFGHJKLMPQRS]{2}-[ABCDEFGHJKLMPQRS]{2}$/', $value), [0, false], true)) {
+        if (! preg_match('/^[ABCDEFGHJKLMPQRS]{2}-[ABCDEFGHJKLMPQRS]{2}$/', $value)) {
             $fail('The SELCAL format is invalid. Must be XX-XX using valid SELCAL characters.');
 
             return;
         }
 
         // Check if each character is unique
-        if (substr_count($value, $char1) > 1 || substr_count($value, $char2) > 1 || substr_count(
-            $value,
-            $char3
-        ) > 1 || substr_count($value, $char4) > 1) {
+        $chars = [$char1, $char2, $char3, $char4];
+        if (count($chars) !== count(array_unique($chars))) {
             $fail('The SELCAL must contain unique characters.');
 
             return;
