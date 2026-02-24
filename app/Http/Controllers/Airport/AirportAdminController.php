@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Airport;
 
 use App\Models\Airport;
 use Illuminate\View\View;
-use App\Policies\AirportPolicy;
 use Illuminate\Http\RedirectResponse;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Airport\Admin\StoreAirport;
@@ -14,7 +13,7 @@ class AirportAdminController extends Controller
 {
     public function __construct()
     {
-        $this->authorizeResource(AirportPolicy::class, 'airport');
+        $this->authorizeResource(Airport::class, 'airport');
     }
 
     public function index(): View

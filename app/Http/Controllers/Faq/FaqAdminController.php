@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Faq;
 use App\Models\Faq;
 use App\Models\Event;
 use Illuminate\View\View;
-use App\Policies\FaqPolicy;
 use Illuminate\Http\RedirectResponse;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Faq\Admin\StoreFaq;
@@ -15,7 +14,7 @@ class FaqAdminController extends Controller
 {
     public function __construct()
     {
-        $this->authorizeResource(FaqPolicy::class, 'faq');
+        $this->authorizeResource(Faq::class, 'faq');
     }
 
     public function index(): View

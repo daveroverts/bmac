@@ -6,7 +6,6 @@ use App\Models\Airport;
 use Illuminate\View\View;
 use App\Models\AirportLink;
 use App\Models\AirportLinkType;
-use App\Policies\AirportLinkPolicy;
 use Illuminate\Http\RedirectResponse;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AirportLink\Admin\StoreAirportLink;
@@ -16,7 +15,7 @@ class AirportLinkAdminController extends Controller
 {
     public function __construct()
     {
-        $this->authorizeResource(AirportLinkPolicy::class, 'airportLink');
+        $this->authorizeResource(AirportLink::class, 'airportLink');
     }
 
     public function index(): View

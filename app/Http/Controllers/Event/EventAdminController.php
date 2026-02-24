@@ -8,7 +8,6 @@ use App\Models\EventType;
 use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
 use App\Http\Controllers\Controller;
-use App\Policies\EventPolicy;
 use App\Http\Requests\Event\Admin\StoreEvent;
 use App\Http\Requests\Event\Admin\UpdateEvent;
 
@@ -16,7 +15,7 @@ class EventAdminController extends Controller
 {
     public function __construct()
     {
-        $this->authorizeResource(EventPolicy::class, 'event');
+        $this->authorizeResource(Event::class, 'event');
     }
 
     public function index(): View

@@ -6,7 +6,6 @@ use App\Models\Event;
 use App\Models\EventLink;
 use Illuminate\View\View;
 use App\Models\AirportLinkType;
-use App\Policies\EventLinkPolicy;
 use Illuminate\Http\RedirectResponse;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\EventLink\Admin\StoreEventLink;
@@ -16,7 +15,7 @@ class EventLinkAdminController extends Controller
 {
     public function __construct()
     {
-        $this->authorizeResource(EventLinkPolicy::class, 'eventLink');
+        $this->authorizeResource(EventLink::class, 'eventLink');
     }
 
     public function index(): View
