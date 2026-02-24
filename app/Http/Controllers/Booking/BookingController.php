@@ -70,7 +70,8 @@ class BookingController extends Controller
             $booking->status = BookingStatus::BOOKED;
             $booking->save();
             event(new BookingConfirmed($booking));
-            if (! str_contains((string) config('mail.default'), 'log') && ! str_contains((string) config('mail.default'), 'array')) {
+            $hasRealMailDriver = ! in_array(config('mail.default'), ['log', 'array']);
+            if ($hasRealMailDriver) {
                 $message = __('Your booking has been confirmed. You should shortly receive an email with your booking details. Be sure to also check your spam folder.');
             } else {
                 $message = __('Your booking has been confirmed');
