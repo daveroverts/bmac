@@ -195,7 +195,7 @@ class BookingAdminController extends Controller
             event(new BookingChanged($booking, $changes));
         }
 
-        flashMessage('success', 'Booking changed', __('Booking has been changed!'));
+        flashMessage('success', __('Booking changed'), __('Booking has been changed!'));
         return to_route('events.bookings.index', $booking->event);
     }
 
@@ -207,7 +207,7 @@ class BookingAdminController extends Controller
             }
 
             $booking->delete();
-            flashMessage('success', 'Booking deleted!', __('Booking has been deleted.'));
+            flashMessage('success', __('Booking deleted!'), __('Booking has been deleted.'));
             return to_route('events.bookings.index', $booking->event);
         }
 

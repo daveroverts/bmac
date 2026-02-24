@@ -57,7 +57,7 @@ class FaqAdminController extends Controller
     public function destroy(Faq $faq): RedirectResponse
     {
         $faq->delete();
-        flashMessage('success', __('Done'), 'Question has been removed!');
+        flashMessage('success', __('Done'), __('Question has been removed!'));
         return to_route('admin.faq.index');
     }
 

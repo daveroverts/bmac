@@ -17,7 +17,7 @@ class UserSettingsController extends Controller
     public function update(UpdateUserSettings $request): RedirectResponse
     {
         auth()->user()->update($request->validated());
-        flashMessage('success', __('Done'), 'Settings saved!');
+        flashMessage('success', __('Done'), __('Settings saved!'));
 
         return back();
     }
