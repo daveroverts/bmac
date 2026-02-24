@@ -48,13 +48,22 @@ Route::middleware(DeprecatedApiMiddleware::class)->group(function (): void {
         ->limit($limit)
         ->get()));
 
-    Route::get('/events/{event}/bookings', fn (Event $event): BookingsCollection => new BookingsCollection($event->bookings()->where('status', BookingStatus::BOOKED)->get()));
+    Route::get('/events/{event}/bookings', fn (Event $event): BookingsCollection => new BookingsCollection(
+        $event->bookings()
+            ->where('status', BookingStatus::BOOKED)
+            ->with(['flights.airportDep', 'flights.airportArr', 'user', 'event'])
+            ->get()
+    ));
 
     Route::get('/events/{event}', fn (Event $event): EventResource => new EventResource($event));
 
     Route::get('/events', fn (): EventsCollection => new EventsCollection(Event::paginate()));
 
-    Route::get('/bookings/{booking}', fn (Booking $booking): BookingResource => new BookingResource($booking));
+    Route::get('/bookings/{booking}', function (Booking $booking): BookingResource {
+        $booking->loadMissing(['flights.airportDep', 'flights.airportArr', 'user', 'event']);
+
+        return new BookingResource($booking);
+    });
 
     Route::get('/airports/{airport}', fn (Airport $airport): AirportResource => new AirportResource($airport));
 

@@ -19,7 +19,7 @@ class BookingResource extends JsonResource
     public function toArray($request)
     {
         /** @var Flight $flight */
-        $flight = $this->flights()->first();
+        $flight = $this->flights->first();
         return [
             'uuid' => $this->uuid,
             'event_id' => $this->event->id,

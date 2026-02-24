@@ -17,7 +17,10 @@ class BookingController extends Controller
     public function byEvent(Event $event): BookingsCollection
     {
         return new BookingsCollection(
-            $event->bookings()->where('status', BookingStatus::BOOKED)->get()
+            $event->bookings()
+                ->where('status', BookingStatus::BOOKED)
+                ->with(['flights.airportDep', 'flights.airportArr', 'user', 'event'])
+                ->get()
         );
     }
 
@@ -26,6 +29,8 @@ class BookingController extends Controller
      */
     public function show(Booking $booking): BookingResource
     {
+        $booking->loadMissing(['flights.airportDep', 'flights.airportArr', 'user', 'event']);
+
         return new BookingResource($booking);
     }
 }
