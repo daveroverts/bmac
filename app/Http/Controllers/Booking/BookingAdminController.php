@@ -36,7 +36,7 @@ class BookingAdminController extends Controller
 
     public function store(StoreBooking $request): RedirectResponse
     {
-        $event = Event::whereKey($request->id)->first();
+        $event = Event::findOrFail($request->id);
         if ($request->bulk) {
             $event_start = Date::createFromFormat(
                 'Y-m-d H:i',
@@ -58,7 +58,7 @@ class BookingAdminController extends Controller
                 })->where([
                     'ctot' => $time,
                     'dep' => $request->dep,
-                ])->first()) {
+                ])->exists()) {
                     Booking::create([
                         'event_id' => $request->id,
                         'is_editable' => $request->is_editable,
