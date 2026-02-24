@@ -36,18 +36,6 @@ class BookingController extends Controller
     {
         $this->authorize('edit', $booking);
 
-        // Check booking window (hard lock after endBooking)
-        if ($booking->event->endBooking < now()) {
-            flashMessage(
-                'danger',
-                __('Danger'),
-                __('Bookings have been locked at :time', [
-                    'time' => $booking->event->endBooking->format('d-m-Y Hi') . 'z'
-                ])
-            );
-            return to_route('events.bookings.index', $booking->event);
-        }
-
         // Check if editable for BOOKED status
         if ($booking->status === BookingStatus::BOOKED && !$booking->is_editable) {
             flashMessage('info', __('Danger'), __('You cannot edit the booking!'));
