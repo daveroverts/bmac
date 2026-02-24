@@ -48,7 +48,7 @@ Route::middleware(DeprecatedApiMiddleware::class)->group(function (): void {
         ->limit($limit)
         ->get()));
 
-    Route::get('/events/{event}/bookings', fn (Event $event): BookingsCollection => new BookingsCollection($event->bookings->where('status', BookingStatus::BOOKED->value)));
+    Route::get('/events/{event}/bookings', fn (Event $event): BookingsCollection => new BookingsCollection($event->bookings()->where('status', BookingStatus::BOOKED)->get()));
 
     Route::get('/events/{event}', fn (Event $event): EventResource => new EventResource($event));
 

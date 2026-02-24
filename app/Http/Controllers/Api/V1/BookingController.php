@@ -17,7 +17,7 @@ class BookingController extends Controller
     public function byEvent(Event $event): BookingsCollection
     {
         return new BookingsCollection(
-            $event->bookings->where('status', BookingStatus::BOOKED->value)
+            $event->bookings()->where('status', BookingStatus::BOOKED)->get()
         );
     }
 
