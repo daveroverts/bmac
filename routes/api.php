@@ -42,7 +42,8 @@ Route::prefix('v1')->name('v1.')->group(function (): void {
 
 // Legacy unversioned routes — deprecated, will be removed 2026-12-31
 Route::middleware(DeprecatedApiMiddleware::class)->group(function (): void {
-    Route::get('/events/upcoming/{limit?}', fn ($limit = 3): EventsCollection => new EventsCollection(Event::where('is_online', true)
+    Route::get('/events/upcoming/{limit?}', fn ($limit = 3): EventsCollection => new EventsCollection(Event::with(['bookings', 'type', 'airportDep', 'airportArr'])
+        ->where('is_online', true)
         ->where('endEvent', '>', now())
         ->orderBy('startEvent', 'asc')
         ->limit($limit)
@@ -55,9 +56,15 @@ Route::middleware(DeprecatedApiMiddleware::class)->group(function (): void {
             ->get()
     ));
 
-    Route::get('/events/{event}', fn (Event $event): EventResource => new EventResource($event));
+    Route::get('/events/{event}', function (Event $event): EventResource {
+        $event->loadMissing(['bookings', 'type', 'airportDep', 'airportArr']);
 
-    Route::get('/events', fn (): EventsCollection => new EventsCollection(Event::paginate()));
+        return new EventResource($event);
+    });
+
+    Route::get('/events', fn (): EventsCollection => new EventsCollection(
+        Event::with(['bookings', 'type', 'airportDep', 'airportArr'])->paginate()
+    ));
 
     Route::get('/bookings/{booking}', function (Booking $booking): BookingResource {
         $booking->loadMissing(['flights.airportDep', 'flights.airportArr', 'user', 'event']);

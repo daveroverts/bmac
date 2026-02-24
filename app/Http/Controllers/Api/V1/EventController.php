@@ -14,7 +14,11 @@ class EventController extends Controller
      */
     public function index(): EventsCollection
     {
-        return new EventsCollection(Event::query()->paginate());
+        return new EventsCollection(
+            Event::query()
+                ->with(['bookings', 'type', 'airportDep', 'airportArr'])
+                ->paginate()
+        );
     }
 
     /**
@@ -22,6 +26,8 @@ class EventController extends Controller
      */
     public function show(Event $event): EventResource
     {
+        $event->loadMissing(['bookings', 'type', 'airportDep', 'airportArr']);
+
         return new EventResource($event);
     }
 
@@ -33,6 +39,7 @@ class EventController extends Controller
         $limit = min(max(1, $limit), 50);
 
         $events = Event::query()
+            ->with(['bookings', 'type', 'airportDep', 'airportArr'])
             ->where('is_online', true)
             ->where('endEvent', '>', now())
             ->orderBy('startEvent', 'asc')
