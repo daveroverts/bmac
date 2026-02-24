@@ -58,7 +58,7 @@ class LoginController extends Controller
 
         if ($request->input('state') !== session()->pull('oauthstate')) {
             // State mismatch, error
-            flashMessage('error', 'Login failed', 'Something went wrong, please try again');
+            flashMessage('error', __('Login failed'), __('Something went wrong, please try again'));
             return to_route('home');
         }
 
@@ -73,7 +73,7 @@ class LoginController extends Controller
                 'code' => $request->input('code')
             ]);
         } catch (IdentityProviderException) {
-            flashMessage('error', 'Login failed', 'Something went wrong, please try again');
+            flashMessage('error', __('Login failed'), __('Something went wrong, please try again'));
             return to_route('home');
         }
 
@@ -94,7 +94,7 @@ class LoginController extends Controller
             !$data['last_name'] ||
             !$data['email']
         ) {
-            flashMessage('error', 'Login failed', 'We need you to grant us all marked permissions');
+            flashMessage('error', __('Login failed'), __('We need you to grant us all marked permissions'));
             return to_route('home');
         }
 
