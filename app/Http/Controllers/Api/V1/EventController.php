@@ -30,6 +30,8 @@ class EventController extends Controller
      */
     public function upcoming(int $limit = 3): EventsCollection
     {
+        $limit = min(max(1, $limit), 50);
+
         $events = Event::query()
             ->where('is_online', true)
             ->where('endEvent', '>', now())

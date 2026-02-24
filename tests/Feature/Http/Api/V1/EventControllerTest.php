@@ -86,6 +86,34 @@ it('excludes past events from upcoming', function (): void {
     expect($response->json('data'))->toHaveCount(1);
 });
 
+it('clamps an over-limit request to 50 results', function (): void {
+    /** @var TestCase $this */
+
+    Event::factory()->count(60)->create([
+        'is_online' => true,
+        'endEvent' => now()->addMonth(),
+    ]);
+
+    $response = $this->getJson('/api/v1/events/upcoming/100')
+        ->assertOk();
+
+    expect($response->json('data'))->toHaveCount(50);
+});
+
+it('clamps a zero or negative limit to 1 result', function (): void {
+    /** @var TestCase $this */
+
+    Event::factory()->count(5)->create([
+        'is_online' => true,
+        'endEvent' => now()->addMonth(),
+    ]);
+
+    $response = $this->getJson('/api/v1/events/upcoming/0')
+        ->assertOk();
+
+    expect($response->json('data'))->toHaveCount(1);
+});
+
 it('does not include deprecation headers on v1 event routes', function (): void {
     /** @var TestCase $this */
 
