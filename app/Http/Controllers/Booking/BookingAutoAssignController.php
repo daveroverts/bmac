@@ -25,7 +25,7 @@ class BookingAutoAssignController extends Controller
                 $query->orderBy('ctot');
             }])
             ->unless($request->checkAssignAllFlights, function ($query): void {
-                $query->where('status', BookingStatus::BOOKED->value);
+                $query->where('status', BookingStatus::BOOKED);
             })
             ->get();
 

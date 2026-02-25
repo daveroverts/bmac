@@ -25,7 +25,7 @@ class BookingsExport implements FromCollection, WithColumnFormatting, WithMappin
      */
     public function collection()
     {
-        return $this->event->bookings()->with('flights')->whereStatus(BookingStatus::BOOKED->value)->get();
+        return $this->event->bookings()->with('flights')->whereStatus(BookingStatus::BOOKED)->get();
     }
 
     public function map($booking): array

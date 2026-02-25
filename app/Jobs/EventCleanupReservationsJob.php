@@ -33,7 +33,7 @@ class EventCleanupReservationsJob implements ShouldQueue
     {
         /** @var \Illuminate\Database\Eloquent\Collection<int, Booking> $bookings */
         $bookings = $this->event->bookings()
-            ->whereStatus(BookingStatus::RESERVED->value)
+            ->whereStatus(BookingStatus::RESERVED)
             ->get();
 
         $bookings->each(function (Booking $booking): void {

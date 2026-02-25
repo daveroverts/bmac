@@ -33,7 +33,7 @@ class EventEmailController extends Controller
         /** @var \Illuminate\Support\Collection<int, User> $users */
         $users = User::whereHas('bookings', function (Builder $query) use ($event): void {
             $query->where('event_id', $event->id);
-            $query->where('status', BookingStatus::BOOKED->value);
+            $query->where('status', BookingStatus::BOOKED);
         })->get();
         event(new EventBulkEmail($event, $request->all(), $users));
         flashMessage('success', __('Done'), __('Bulk E-mail has been sent to :count people!', ['count' => $users->count()]));
@@ -45,7 +45,7 @@ class EventEmailController extends Controller
     {
         $bookings = $event->bookings()
             ->with(['user', 'flights'])
-            ->where('status', BookingStatus::BOOKED->value)
+            ->where('status', BookingStatus::BOOKED)
             ->get();
 
         if ($request->testmode) {
