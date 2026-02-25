@@ -65,7 +65,7 @@ class BookingReservationController extends Controller
             'info',
             __('Slot reserved'),
             __('Slot remains reserved until :time', [
-                'time' => $booking->updated_at->addMinutes(10)->format('Hi') . 'z'
+                'time' => $booking->updated_at->addMinutes(Booking::RESERVATION_TIMEOUT_MINUTES)->format('Hi') . 'z'
             ])
         );
 

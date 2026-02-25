@@ -2,6 +2,8 @@
 
 namespace App\Console\Commands;
 
+use App\Enums\BookingStatus;
+use App\Models\Booking;
 use App\Models\Event;
 use Illuminate\Console\Command;
 
@@ -19,7 +21,7 @@ class EventCleanupReservationsCommand extends Command
      *
      * @var string
      */
-    protected $description = 'Clean up reservations that have exceeded 10 minutes. If no event is provided, it is done for all active events.';
+    protected $description = 'Clean up reservations that have exceeded the timeout. If no event is provided, it is done for all active events.';
 
     /**
      * Execute the console command.
@@ -34,13 +36,27 @@ class EventCleanupReservationsCommand extends Command
                 return Command::FAILURE;
             }
 
-            dispatch(new \App\Jobs\EventCleanupReservationsJob($event));
+            $this->cleanupReservations($event);
         } else {
-            $this->withProgressBar(nextEvents(), function ($event): void {
-                dispatch(new \App\Jobs\EventCleanupReservationsJob($event));
+            $this->withProgressBar(nextEvents(), function (Event $event): void {
+                $this->cleanupReservations($event);
             });
         }
 
         return Command::SUCCESS;
+    }
+
+    private function cleanupReservations(Event $event): void
+    {
+        $event->bookings()
+            ->where('status', BookingStatus::RESERVED)
+            ->where('updated_at', '<=', now()->subMinutes(Booking::RESERVATION_TIMEOUT_MINUTES))
+            ->chunkById(100, function ($bookings): void {
+                $bookings->each(function (Booking $booking): void {
+                    $booking->status = BookingStatus::UNASSIGNED;
+                    $booking->user_id = null;
+                    $booking->save();
+                });
+            });
     }
 }

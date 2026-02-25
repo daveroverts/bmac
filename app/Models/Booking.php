@@ -62,6 +62,8 @@ class Booking extends Model
     use HasFactory;
     use LogsActivity;
 
+    public const RESERVATION_TIMEOUT_MINUTES = 10;
+
     protected $guarded = [
         'id', 'uuid', 'status', 'selcal',
     ];
