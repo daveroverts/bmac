@@ -1,3 +1,48 @@
+# [5.1.0](https://github.com/daveroverts/bmac/compare/v5.0.0...v5.1.0) (2026-02-25)
+
+
+### Bug Fixes
+
+* always clear SELCAL on booking cancellation regardless of is_editable ([0214807](https://github.com/daveroverts/bmac/commit/02148079bf1b17f4b743151ef77a79e9a184df85))
+* **api:** add eager loading to byEvent and show booking endpoints ([f256ac8](https://github.com/daveroverts/bmac/commit/f256ac8249d0250a2edd393c2e3e5a275e94be54))
+* **api:** clamp limit on legacy events/upcoming route to 1–50 ([8a38729](https://github.com/daveroverts/bmac/commit/8a387290ef8b7ba49715b52b837111e7f5801dc3))
+* **api:** clamp upcoming events limit to 1–50 ([9e4ffb8](https://github.com/daveroverts/bmac/commit/9e4ffb82642c51647169e7e28c0595c368823153))
+* **api:** correct available_bookings_count to count only unassigned slots ([5da5344](https://github.com/daveroverts/bmac/commit/5da53442c327724025a0b92f19a05dfb5a567795))
+* **api:** eager load event relations to prevent N+1 queries ([29ffc76](https://github.com/daveroverts/bmac/commit/29ffc7651925e1cbc79ce2e9adccdc79ec532a4b))
+* **api:** use query builder instead of collection filter in byEvent API endpoint ([cd089b6](https://github.com/daveroverts/bmac/commit/cd089b654fc5cfe5af76d3ea39ab38924c0a9e05))
+* **blade:** replace loose == with strict === for enum comparisons in views ([2c7bcff](https://github.com/daveroverts/bmac/commit/2c7bcffb53d4a835df74289b0c41ea5db4b7a9ae))
+* **BookingAdminController:** use findOrFail and exists in store method ([e3f8b64](https://github.com/daveroverts/bmac/commit/e3f8b646bf49ec66bff1ece786e56d6ddc959456))
+* **BookingAutoAssignController:** fix N+1, add transaction, and simplify status filter ([d6185a3](https://github.com/daveroverts/bmac/commit/d6185a342bbc6afc72ac00a3944970f2b2345843))
+* **ci:** remove unnecessary systemctl start for MySQL ([2ba4130](https://github.com/daveroverts/bmac/commit/2ba4130f5c465a053206979012252c9a73be4743))
+* **ci:** rename deprecated BROADCAST_DRIVER to BROADCAST_CONNECTION ([af1a095](https://github.com/daveroverts/bmac/commit/af1a09542d583e9c94c6b3030cdc04df163d79f8))
+* **ci:** wire up stability matrix to composer-install ([5e80a1c](https://github.com/daveroverts/bmac/commit/5e80a1cf2f15fc9a89565abf444e8e2152821f85))
+* correct skip-count variable and typo in sendFinal flash message ([e105328](https://github.com/daveroverts/bmac/commit/e1053285140b74f5616a19ea80ef679c76596778))
+* enforce view authorization on booking show endpoint ([1ea0ea0](https://github.com/daveroverts/bmac/commit/1ea0ea03440b6de6c2b903fc766617837801a5fa))
+* **EventEmailController:** guard sendFinal testmode against empty bookings collection ([dca7cf8](https://github.com/daveroverts/bmac/commit/dca7cf867af9edf14ec09951979d5c9505a2665e))
+* fix ValidSelcal uniqueness exclusion and add regex anchors ([5ba01cf](https://github.com/daveroverts/bmac/commit/5ba01cf109f21932f1c556a8da830d9e4abaa53b))
+* guard Booking route binding against invalid UUID syntax for PostgreSQL ([325ca6a](https://github.com/daveroverts/bmac/commit/325ca6ad7a5672cac925ee2c4d0d62b583e55582))
+* **LoginController:** wrap error flash messages in __() for i18n ([8b45912](https://github.com/daveroverts/bmac/commit/8b4591287923ac33bc358580a00c117afc05d998))
+* **navbar:** show fallback label when booking callsign is empty ([229c6dc](https://github.com/daveroverts/bmac/commit/229c6dca697596db2b892f198be40fc03e25b56e))
+* pass Model class instead of Policy class to authorizeResource() ([97eced6](https://github.com/daveroverts/bmac/commit/97eced6d0d1e1437ff2ac333e2912843023a02fe))
+* remove duplicate bookings.edit route definition ([891d834](https://github.com/daveroverts/bmac/commit/891d83494e917b3b9b83b6e794fbc04cc33a8db0))
+* replace manual auth check with policy in BookingController::update ([7f2e20a](https://github.com/daveroverts/bmac/commit/7f2e20ac922f43f2c28bfca3acdb414b815259b6))
+* replace manual auth check with policy in BookingController::update ([25f5a02](https://github.com/daveroverts/bmac/commit/25f5a021d78b22ca6cdfe8c8c4e1497fcb03a0ff))
+* **routes:** apply auth middleware to all booking resource routes ([8ebdbcf](https://github.com/daveroverts/bmac/commit/8ebdbcfca1b7c58c47831872db5a3dc9b4fd032a))
+* use atomic WHERE status=UNASSIGNED update to prevent double-reservation race condition ([ed39408](https://github.com/daveroverts/bmac/commit/ed394089bcd8ac41ad5e84c6f25429bc128b2389))
+* wrap all flashMessage() titles and messages in __() for i18n consistency ([bdcb717](https://github.com/daveroverts/bmac/commit/bdcb7175ec53837df60c513bac8b3b1cd3ea354b))
+
+
+### Features
+
+* **api:** add API documentation using Scramble API ([441889a](https://github.com/daveroverts/bmac/commit/441889a9fbc3adc48e6fd4c770e820c93d977b39))
+* **api:** add versioned API v1 controllers with deprecation headers on legacy routes ([af747c9](https://github.com/daveroverts/bmac/commit/af747c9e78697eacd62ceb191948b221177e3542))
+* improve SELCAL validation with dedicated rule and reusable component ([5ce5e72](https://github.com/daveroverts/bmac/commit/5ce5e72ba336047900d88e91a5476b5005ac7e7c))
+
+
+### Performance Improvements
+
+* **ci:** reduce redundant matrix jobs and limit coverage runs ([9d5adca](https://github.com/daveroverts/bmac/commit/9d5adca36978910a8f5d439b920a6e105ae2fc71))
+
 # [5.0.0](https://github.com/daveroverts/bmac/compare/v4.1.4...v5.0.0) (2026-02-09)
 
 
