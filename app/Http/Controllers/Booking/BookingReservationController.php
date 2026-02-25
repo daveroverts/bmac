@@ -38,9 +38,23 @@ class BookingReservationController extends Controller
             return to_route('events.bookings.index', $booking->event);
         }
 
-        // Reserve the booking
-        $booking->status = BookingStatus::RESERVED;
-        $booking->user()->associate(auth()->user())->save();
+        // Atomically claim the slot: only update if it is still UNASSIGNED.
+        // This prevents two simultaneous requests from both passing the policy
+        // check and both reserving the same slot.
+        $claimed = Booking::query()
+            ->where('id', $booking->id)
+            ->where('status', BookingStatus::UNASSIGNED)
+            ->update([
+                'status' => BookingStatus::RESERVED,
+                'user_id' => auth()->id(),
+            ]);
+
+        if ($claimed === 0) {
+            flashMessage('danger', __('Warning'), __('Whoops! Somebody else reserved that slot just before you! Please choose another one.'));
+            return to_route('events.bookings.index', $booking->event);
+        }
+
+        $booking->refresh();
 
         activity()
             ->by(auth()->user())

@@ -5,6 +5,7 @@ use App\Models\Event;
 use App\Models\Flight;
 use App\Models\Booking;
 use App\Enums\BookingStatus;
+use Illuminate\Support\Facades\Gate;
 use Tests\TestCase;
 
 it('requires authentication to reserve a booking', function (): void {
@@ -240,4 +241,46 @@ it('prevents reservation of already booked bookings', function (): void {
 
     $flight->booking->refresh();
     expect($flight->booking->user_id)->toBe($otherUser->id);
+});
+
+it('handles a race condition where another request claims the slot between policy check and update', function (): void {
+    /** @var TestCase $this */
+
+    /** @var User $userA */
+    $userA = User::factory()->create();
+    /** @var User $userB */
+    $userB = User::factory()->create();
+
+    /** @var Event $event */
+    $event = Event::factory()->create([
+        'startBooking' => now()->subDay(),
+        'endBooking' => now()->addDay(),
+    ]);
+
+    $booking = Booking::factory()->create([
+        'event_id' => $event->id,
+        'status' => BookingStatus::UNASSIGNED,
+    ]);
+
+    Flight::factory()->create(['booking_id' => $booking->id]);
+
+    // Bypass the policy so we can reach the atomic update in the controller.
+    // The race condition happens after the policy check passes but before the update.
+    Gate::before(fn (User $user, string $ability): ?bool => $ability === 'reserve' ? true : null);
+
+    // Simulate userB winning the race by claiming the slot just before userA's request lands.
+    Booking::query()
+        ->where('id', $booking->id)
+        ->where('status', BookingStatus::UNASSIGNED)
+        ->update(['status' => BookingStatus::RESERVED, 'user_id' => $userB->id]);
+
+    // userA's atomic update should return 0 rows affected and redirect back with a warning.
+    $this->actingAs($userA)
+        ->post(route('bookings.reservation.store', $booking))
+        ->assertRedirect(route('events.bookings.index', $event));
+
+    $booking->refresh();
+    // Slot must still belong to userB
+    expect($booking->status)->toBe(BookingStatus::RESERVED);
+    expect($booking->user_id)->toBe($userB->id);
 });

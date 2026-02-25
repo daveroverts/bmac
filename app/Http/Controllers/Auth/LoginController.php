@@ -184,8 +184,22 @@ class LoginController extends Controller
             return to_route('events.bookings.index', $booking->event);
         }
 
-        $booking->status = BookingStatus::RESERVED;
-        $booking->user()->associate($user)->save();
+        // Atomically claim the slot: only update if it is still UNASSIGNED.
+        // The user may have been logging in while another request reserved the slot.
+        $claimed = Booking::query()
+            ->where('id', $booking->id)
+            ->where('status', BookingStatus::UNASSIGNED)
+            ->update([
+                'status' => BookingStatus::RESERVED,
+                'user_id' => $user->id,
+            ]);
+
+        if ($claimed === 0) {
+            flashMessage('danger', __('Warning'), __('Whoops! Somebody else reserved that slot just before you! Please choose another one.'));
+            return to_route('events.bookings.index', $booking->event);
+        }
+
+        $booking->refresh();
 
         activity()
             ->by($user)
