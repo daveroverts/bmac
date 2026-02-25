@@ -36,7 +36,7 @@
                                         <a class="dropdown-item {{ request()->fullUrlIs(route('bookings.show', $booking)) ? 'active' : '' }}"
                                             href="{{ route('bookings.show', $booking) }}">
                                             <i
-                                                class="fas fa-chevron-right"></i>&nbsp;{{ $bookings->count() > 1 ? $booking->callsign : __('My booking') }}
+                                                class="fas fa-chevron-right"></i>&nbsp;{{ $booking->callsign ?: __('My booking') }}
                                         </a>
                                     @endforeach
                                 @endauth
