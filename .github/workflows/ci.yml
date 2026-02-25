@@ -20,7 +20,7 @@ jobs:
       # SESSION_DRIVER: redis
     services:
       mysql:
-        image: mysql:8.0
+        image: mysql:8.4
         env:
           MYSQL_ALLOW_EMPTY_PASSWORD: false
           MYSQL_ROOT_PASSWORD: password
@@ -188,7 +188,7 @@ jobs:
       DB_DATABASE: postgres
     services:
       postgres:
-        image: postgres:14.1
+        image: postgres:17
         env:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
