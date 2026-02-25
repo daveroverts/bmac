@@ -133,11 +133,9 @@ it('sends bulk email to all users with booked bookings', function (): void {
         ])
         ->assertRedirect(route('admin.events.index'));
 
-    EventFacade::assertDispatched(EventBulkEmail::class, function (EventBulkEmail $e) use ($user1, $user2): bool {
-        return $e->users->count() === 2
-            && $e->users->pluck('id')->contains($user1->id)
-            && $e->users->pluck('id')->contains($user2->id);
-    });
+    EventFacade::assertDispatched(EventBulkEmail::class, fn (EventBulkEmail $e): bool => $e->users->count() === 2
+        && $e->users->pluck('id')->contains($user1->id)
+        && $e->users->pluck('id')->contains($user2->id));
 });
 
 it('sends bulk test email only to the admin', function (): void {
@@ -165,9 +163,7 @@ it('sends bulk test email only to the admin', function (): void {
         ->assertOk()
         ->assertJson(['success' => __('Email has been sent to yourself')]);
 
-    EventFacade::assertDispatched(EventBulkEmail::class, function (EventBulkEmail $e) use ($admin): bool {
-        return $e->users->count() === 1 && $e->users->first()->id === $admin->id;
-    });
+    EventFacade::assertDispatched(EventBulkEmail::class, fn (EventBulkEmail $e): bool => $e->users->count() === 1 && $e->users->first()->id === $admin->id);
 });
 
 it('sends final information email to all booked bookings', function (): void {

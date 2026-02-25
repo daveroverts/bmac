@@ -51,12 +51,13 @@ class EventCleanupReservationsCommand extends Command
         $event->bookings()
             ->where('status', BookingStatus::RESERVED)
             ->where('updated_at', '<=', now()->subMinutes(Booking::RESERVATION_TIMEOUT_MINUTES))
-            ->chunkById(100, function ($bookings): void {
-                $bookings->each(function (Booking $booking): void {
+            ->chunkById(100, function (\Illuminate\Database\Eloquent\Collection $bookings): void {
+                /** @var Booking $booking */
+                foreach ($bookings as $booking) {
                     $booking->status = BookingStatus::UNASSIGNED;
                     $booking->user_id = null;
                     $booking->save();
-                });
+                }
             });
     }
 }
