@@ -5,8 +5,30 @@ on:
     branches: [main, beta, alpha]
   pull_request:
 jobs:
+  build-assets:
+    name: Build assets (Node ${{ matrix.node }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        node: [20, 22, 24]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+          cache: "npm"
+
+      - name: Build assets
+        run: |
+          npm ci
+          npm run build --no-progress
+
   test-php-mysql:
-    name: Test PHP ${{ matrix.php-versions }} (${{ matrix.stability }}) + Node ${{ matrix.node }} with MySQL
+    name: Test PHP ${{ matrix.php-versions }} (${{ matrix.stability }}) with MySQL
     runs-on: ubuntu-latest
     env:
       DB_CONNECTION: mysql
@@ -37,8 +59,12 @@ jobs:
       fail-fast: false
       matrix:
         php-versions: ["8.3", "8.4"]
-        node: [20, 22, 24]
         stability: [prefer-lowest, prefer-stable]
+        coverage: [false]
+        include:
+          - php-versions: "8.4"
+            stability: prefer-stable
+            coverage: true
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -48,7 +74,7 @@ jobs:
         with:
           php-version: ${{ matrix.php-versions }}
           extensions: mbstring, dom, fileinfo, mysql
-          coverage: xdebug
+          coverage: ${{ matrix.coverage && 'xdebug' || 'none' }}
 
       - name: Setup problem matchers
         run: |
@@ -70,7 +96,7 @@ jobs:
       - name: Setup NPM
         uses: actions/setup-node@v4
         with:
-          node-version: ${{ matrix.node }}
+          node-version: 22
           cache: "npm"
 
       - name: Build assets
@@ -85,13 +111,13 @@ jobs:
           # REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
 
       - name: Run tests
-        run: php artisan test --coverage
+        run: php artisan test --compact ${{ matrix.coverage && '--coverage' || '' }}
         env:
           DB_PORT: ${{ job.services.mysql.ports['3306'] }}
           # REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
 
   test-php-mariadb:
-    name: Test PHP ${{ matrix.php-versions }} (${{ matrix.stability }}) + Node ${{ matrix.node }} with MariaDB
+    name: Test PHP ${{ matrix.php-versions }} (${{ matrix.stability }}) with MariaDB
     runs-on: ubuntu-latest
     env:
       DB_CONNECTION: mariadb
@@ -122,8 +148,12 @@ jobs:
       fail-fast: false
       matrix:
         php-versions: ["8.3", "8.4"]
-        node: [20, 22, 24]
         stability: [prefer-lowest, prefer-stable]
+        coverage: [false]
+        include:
+          - php-versions: "8.4"
+            stability: prefer-stable
+            coverage: true
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -133,7 +163,7 @@ jobs:
         with:
           php-version: ${{ matrix.php-versions }}
           extensions: mbstring, dom, fileinfo, mysql
-          coverage: xdebug
+          coverage: ${{ matrix.coverage && 'xdebug' || 'none' }}
 
       - name: Setup problem matchers
         run: |
@@ -155,7 +185,7 @@ jobs:
       - name: Setup NPM
         uses: actions/setup-node@v4
         with:
-          node-version: ${{ matrix.node }}
+          node-version: 22
           cache: "npm"
 
       - name: Build assets
@@ -170,13 +200,13 @@ jobs:
           # REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
 
       - name: Run tests
-        run: php artisan test --coverage
+        run: php artisan test --compact ${{ matrix.coverage && '--coverage' || '' }}
         env:
           DB_PORT: ${{ job.services.mariadb.ports['3306'] }}
           # REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
 
   test-php-postgresql:
-    name: Test PHP ${{ matrix.php-versions }} (${{ matrix.stability }}) + Node ${{ matrix.node }} with PostgreSQL
+    name: Test PHP ${{ matrix.php-versions }} (${{ matrix.stability }}) with PostgreSQL
     runs-on: ubuntu-latest
     env:
       BROADCAST_CONNECTION: log
@@ -208,8 +238,12 @@ jobs:
       fail-fast: false
       matrix:
         php-versions: ["8.3", "8.4"]
-        node: [20, 22, 24]
         stability: [prefer-lowest, prefer-stable]
+        coverage: [false]
+        include:
+          - php-versions: "8.4"
+            stability: prefer-stable
+            coverage: true
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -219,7 +253,7 @@ jobs:
         with:
           php-version: ${{ matrix.php-versions }}
           extensions: mbstring, dom, fileinfo, pgsql
-          coverage: xdebug
+          coverage: ${{ matrix.coverage && 'xdebug' || 'none' }}
 
       - name: Setup problem matchers
         run: |
@@ -241,7 +275,7 @@ jobs:
       - name: Setup NPM
         uses: actions/setup-node@v4
         with:
-          node-version: ${{ matrix.node }}
+          node-version: 22
           cache: "npm"
 
       - name: Build assets
@@ -256,7 +290,7 @@ jobs:
           # REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
 
       - name: Run tests
-        run: php artisan test --coverage
+        run: php artisan test --compact ${{ matrix.coverage && '--coverage' || '' }}
         env:
           DB_PORT: ${{ job.services.postgres.ports[5432] }}
           # REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
