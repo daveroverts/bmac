@@ -19,7 +19,7 @@
         $flight = $booking->flights->first();
     @endphp
         {{-- Check if flight belongs to the logged in user --}}
-        <tr class="{{ auth()->check() && $booking->user_id == auth()->id() ? 'table-active' : '' }}" wire:key="{{ $booking->getKey() }}">
+        <tr class="{{ auth()->check() && $booking->user_id === auth()->id() ? 'table-active' : '' }}" wire:key="{{ $booking->getKey() }}">
             <td>
                 {!! $flight->airportDep->fullName !!}
             </td>
@@ -40,7 +40,7 @@
                 {{ $booking->formatted_actype }}</td>
             <td>
                 {{-- Check if booking has been booked --}}
-                @if ($booking->status == \App\Enums\BookingStatus::BOOKED)
+                @if ($booking->status === \App\Enums\BookingStatus::BOOKED)
                     {{-- Check if booking has been booked by current user --}}
                     @if (auth()->check() && $booking->user_id == auth()->id())
                         <a href="{{ route('bookings.show', $booking) }}" class="btn btn-info">My

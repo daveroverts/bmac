@@ -7,7 +7,7 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header">{{ $booking->event->name }} |
-                    {{ $booking->status == \App\Enums\BookingStatus::BOOKED ? __('My Booking') : __('My Reservation') }}
+                    {{ $booking->status === \App\Enums\BookingStatus::BOOKED ? __('My Booking') : __('My Reservation') }}
                 </div>
 
                 <div class="card-body">

@@ -8,7 +8,7 @@ For reference, your booking details are listed below.
 
 @component('mail::table')
 |  |  |
-@if($booking->event->event_type_id == \App\Enums\EventType::MULTIFLIGHTS)
+@if($booking->event->event_type_id === \App\Enums\EventType::MULTIFLIGHTS->value)
 |-----------|---------------------------|
 | Callsign: | **{{ $booking->callsign }}** |
 | Aircraft: | **{{ $booking->acType }}** |
