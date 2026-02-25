@@ -55,9 +55,6 @@ jobs:
           echo "::add-matcher::${{ runner.tool_cache }}/php.json"
           echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
 
-      - name: Start mysql service
-        run: sudo systemctl start mysql.service
-
       - uses: ramsey/composer-install@v3
 
       - name: Prepare the application
