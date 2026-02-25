@@ -1,3 +1,6 @@
+<p align="center">
+  <img src="public/images/bmac-logo.png" alt="BMAC Logo" width="200">
+</p>
 
 # Book me a Cookie [BMAC]
 
