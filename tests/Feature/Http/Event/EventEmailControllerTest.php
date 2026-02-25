@@ -1,5 +1,6 @@
 <?php
 
+use App\Events\EventBulkEmail;
 use App\Events\EventFinalInformation;
 use App\Models\Booking;
 use App\Models\Event;
@@ -107,4 +108,143 @@ it('sends a test final information email to the admin when booked bookings exist
         ->assertJson(['success' => __('Email has been sent to yourself')]);
 
     EventFacade::assertDispatched(EventFinalInformation::class);
+});
+
+it('sends bulk email to all users with booked bookings', function (): void {
+    /** @var TestCase $this */
+
+    EventFacade::fake();
+
+    /** @var User $admin */
+    $admin = User::factory()->admin()->create();
+
+    /** @var Event $event */
+    $event = Event::factory()->create();
+
+    $user1 = User::factory()->create();
+    $user2 = User::factory()->create();
+    Booking::factory()->booked()->create(['event_id' => $event->id, 'user_id' => $user1->id]);
+    Booking::factory()->booked()->create(['event_id' => $event->id, 'user_id' => $user2->id]);
+
+    $this->actingAs($admin)
+        ->post(route('admin.events.emails.bulk.send', $event), [
+            'subject' => 'Test Subject',
+            'message' => 'Test message body',
+        ])
+        ->assertRedirect(route('admin.events.index'));
+
+    EventFacade::assertDispatched(EventBulkEmail::class, function (EventBulkEmail $e) use ($user1, $user2): bool {
+        return $e->users->count() === 2
+            && $e->users->pluck('id')->contains($user1->id)
+            && $e->users->pluck('id')->contains($user2->id);
+    });
+});
+
+it('sends bulk test email only to the admin', function (): void {
+    /** @var TestCase $this */
+
+    EventFacade::fake();
+
+    /** @var User $admin */
+    $admin = User::factory()->admin()->create();
+
+    /** @var Event $event */
+    $event = Event::factory()->create();
+
+    Booking::factory()->booked()->create([
+        'event_id' => $event->id,
+        'user_id' => User::factory()->create()->id,
+    ]);
+
+    $this->actingAs($admin)
+        ->postJson(route('admin.events.emails.bulk.send', $event), [
+            'subject' => 'Test Subject',
+            'message' => 'Test message body',
+            'testmode' => true,
+        ])
+        ->assertOk()
+        ->assertJson(['success' => __('Email has been sent to yourself')]);
+
+    EventFacade::assertDispatched(EventBulkEmail::class, function (EventBulkEmail $e) use ($admin): bool {
+        return $e->users->count() === 1 && $e->users->first()->id === $admin->id;
+    });
+});
+
+it('sends final information email to all booked bookings', function (): void {
+    /** @var TestCase $this */
+
+    EventFacade::fake();
+
+    /** @var User $admin */
+    $admin = User::factory()->admin()->create();
+
+    /** @var Event $event */
+    $event = Event::factory()->create();
+
+    $user1 = User::factory()->create();
+    $user2 = User::factory()->create();
+    Booking::factory()->booked()->create(['event_id' => $event->id, 'user_id' => $user1->id]);
+    Booking::factory()->booked()->create(['event_id' => $event->id, 'user_id' => $user2->id]);
+
+    $this->actingAs($admin)
+        ->post(route('admin.events.emails.final.send', $event))
+        ->assertRedirect(route('admin.events.index'));
+
+    EventFacade::assertDispatchedTimes(EventFinalInformation::class, 2);
+});
+
+it('skips bookings that already received final information email', function (): void {
+    /** @var TestCase $this */
+
+    EventFacade::fake();
+
+    /** @var User $admin */
+    $admin = User::factory()->admin()->create();
+
+    /** @var Event $event */
+    $event = Event::factory()->create();
+
+    Booking::factory()->booked()->create([
+        'event_id' => $event->id,
+        'user_id' => User::factory()->create()->id,
+        'final_information_email_sent_at' => now(),
+    ]);
+    Booking::factory()->booked()->create([
+        'event_id' => $event->id,
+        'user_id' => User::factory()->create()->id,
+    ]);
+
+    $this->actingAs($admin)
+        ->post(route('admin.events.emails.final.send', $event))
+        ->assertRedirect(route('admin.events.index'));
+
+    EventFacade::assertDispatchedTimes(EventFinalInformation::class, 1);
+});
+
+it('sends final information to all bookings when forceSend is set', function (): void {
+    /** @var TestCase $this */
+
+    EventFacade::fake();
+
+    /** @var User $admin */
+    $admin = User::factory()->admin()->create();
+
+    /** @var Event $event */
+    $event = Event::factory()->create();
+
+    Booking::factory()->booked()->create([
+        'event_id' => $event->id,
+        'user_id' => User::factory()->create()->id,
+        'final_information_email_sent_at' => now(),
+    ]);
+    Booking::factory()->booked()->create([
+        'event_id' => $event->id,
+        'user_id' => User::factory()->create()->id,
+    ]);
+
+    $this->actingAs($admin)
+        ->post(route('admin.events.emails.final.send', $event), ['forceSend' => true])
+        ->assertRedirect(route('admin.events.index'));
+
+    EventFacade::assertDispatchedTimes(EventFinalInformation::class, 2);
 });
