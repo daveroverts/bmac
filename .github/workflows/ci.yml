@@ -56,6 +56,8 @@ jobs:
           echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
 
       - uses: ramsey/composer-install@v3
+        with:
+          dependency-versions: ${{ matrix.stability }}
 
       - name: Prepare the application
         run: |
@@ -138,6 +140,8 @@ jobs:
           echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
 
       - uses: ramsey/composer-install@v3
+        with:
+          dependency-versions: ${{ matrix.stability }}
 
       - name: Prepare the application
         run: |
@@ -221,6 +225,8 @@ jobs:
           echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
 
       - uses: ramsey/composer-install@v3
+        with:
+          dependency-versions: ${{ matrix.stability }}
 
       - name: Prepare the application
         run: |
