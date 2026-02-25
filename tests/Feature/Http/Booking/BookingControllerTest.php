@@ -5,6 +5,7 @@ use App\Models\Event;
 use App\Models\Flight;
 use App\Models\Booking;
 use App\Enums\BookingStatus;
+use Illuminate\Support\Facades\Notification;
 use Tests\TestCase;
 
 it('can view booking overview for an event', function (): void {
