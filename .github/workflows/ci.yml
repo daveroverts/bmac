@@ -13,7 +13,7 @@ jobs:
       DB_DATABASE: laravel
       DB_USERNAME: root
       DB_PASSWORD: password
-      BROADCAST_DRIVER: log
+      BROADCAST_CONNECTION: log
       MAIL_MAILER: log
       # CACHE_DRIVER: redis
       # QUEUE_CONNECTION: redis
@@ -95,7 +95,7 @@ jobs:
       DB_DATABASE: laravel
       DB_USERNAME: root
       DB_PASSWORD: password
-      BROADCAST_DRIVER: log
+      BROADCAST_CONNECTION: log
       MAIL_MAILER: log
       # CACHE_DRIVER: redis
       # QUEUE_CONNECTION: redis
@@ -173,7 +173,7 @@ jobs:
     name: Test PHP ${{ matrix.php-versions }} (${{ matrix.stability }}) + Node ${{ matrix.node }} with PostgreSQL
     runs-on: ubuntu-latest
     env:
-      BROADCAST_DRIVER: log
+      BROADCAST_CONNECTION: log
       MAIL_MAILER: log
       # CACHE_DRIVER: redis
       # QUEUE_CONNECTION: redis
