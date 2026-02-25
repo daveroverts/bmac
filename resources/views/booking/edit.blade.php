@@ -7,7 +7,7 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header">{{ $booking->event->name }} |
-                    {{ $booking->status == \App\Enums\BookingStatus::BOOKED ? __('My Booking') : __('My Reservation') }}
+                    {{ $booking->status === \App\Enums\BookingStatus::BOOKED ? __('My Booking') : __('My Reservation') }}
                 </div>
 
                 <div class="card-body">
@@ -71,19 +71,21 @@
                                         <strong>{{ $flight->formatted_oceanicfl }}</strong>
                                     </x-forms.form-group>
 
-                                    <x-forms.form-group :label="__('SELCAL')" inline>
-                                        @php
-                                        if (!empty($booking->selcal)) {
-                                            $part1 = substr($booking->selcal, 0, 2);
-                                            $part2 = substr($booking->selcal, 3, 2);
-                                        } else {
-                                            $part1 = '';
-                                            $part2 = '';
-                                        }
-                                        @endphp
-                                        <x-forms.input name="selcal1" label="" placeholder="AB" minlength="2" maxlength="2" :value="old('selcal1', $part1)" />
-                                        <x-forms.input name="selcal2" label="" placeholder="CD" minlength="2" maxlength="2" :value="old('selcal2', $part2)" />
-                                    </x-forms.form-group>
+                                    @php
+                                    if (!empty($booking->selcal)) {
+                                        $part1 = substr($booking->selcal, 0, 2);
+                                        $part2 = substr($booking->selcal, 3, 2);
+                                    } else {
+                                        $part1 = '';
+                                        $part2 = '';
+                                    }
+                                    @endphp
+                                    <x-forms.selcal
+                                        :label="__('SELCAL')"
+                                        :value1="old('selcal1', $part1)"
+                                        :value2="old('selcal2', $part2)"
+                                        :help="__('Two pairs of unique letters (A-S, no I/N/O/T) in alphabetical order per pair.')"
+                                    />
                                 @else
                                     @if ($flight->oceanicFL)
                                         <x-forms.form-group :label="__('Cruise FL')">
@@ -146,7 +148,7 @@
                                     @endif
                                 </x-forms.form-group>
                     </x-form>
-                        <x-form :action="route('bookings.cancel', $booking)" id="cancel-form" method="PATCH" style="display: none;"></x-form>
+                        <x-form :action="route('bookings.cancellation.destroy', $booking)" id="cancel-form" method="DELETE" style="display: none;"></x-form>
                 </div>
             </div>
         </div>

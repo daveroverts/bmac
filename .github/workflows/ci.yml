@@ -5,22 +5,44 @@ on:
     branches: [main, beta, alpha]
   pull_request:
 jobs:
+  build-assets:
+    name: Build assets (Node ${{ matrix.node }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        node: [20, 22, 24]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+          cache: "npm"
+
+      - name: Build assets
+        run: |
+          npm ci
+          npm run build --no-progress
+
   test-php-mysql:
-    name: Test PHP ${{ matrix.php-versions }} (${{ matrix.stability }}) + Node ${{ matrix.node }} with MySQL
+    name: Test PHP ${{ matrix.php-versions }} (${{ matrix.stability }}) with MySQL
     runs-on: ubuntu-latest
     env:
       DB_CONNECTION: mysql
       DB_DATABASE: laravel
       DB_USERNAME: root
       DB_PASSWORD: password
-      BROADCAST_DRIVER: log
+      BROADCAST_CONNECTION: log
       MAIL_MAILER: log
       # CACHE_DRIVER: redis
       # QUEUE_CONNECTION: redis
       # SESSION_DRIVER: redis
     services:
       mysql:
-        image: mysql:8.0
+        image: mysql:8.4
         env:
           MYSQL_ALLOW_EMPTY_PASSWORD: false
           MYSQL_ROOT_PASSWORD: password
@@ -37,8 +59,12 @@ jobs:
       fail-fast: false
       matrix:
         php-versions: ["8.3", "8.4"]
-        node: [20, 22]
         stability: [prefer-lowest, prefer-stable]
+        coverage: [false]
+        include:
+          - php-versions: "8.4"
+            stability: prefer-stable
+            coverage: true
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -48,29 +74,29 @@ jobs:
         with:
           php-version: ${{ matrix.php-versions }}
           extensions: mbstring, dom, fileinfo, mysql
-          coverage: xdebug
+          coverage: ${{ matrix.coverage && 'xdebug' || 'none' }}
 
       - name: Setup problem matchers
         run: |
           echo "::add-matcher::${{ runner.tool_cache }}/php.json"
           echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
 
-      - name: Start mysql service
-        run: sudo systemctl start mysql.service
-
       - uses: ramsey/composer-install@v3
+        with:
+          dependency-versions: ${{ matrix.stability }}
 
       - name: Prepare the application
         run: |
           php -r "file_exists('.env') || copy('.env.example', '.env');"
           php artisan key:generate
+
       - name: Clear Config
         run: php artisan config:clear
 
       - name: Setup NPM
         uses: actions/setup-node@v4
         with:
-          node-version: ${{ matrix.node }}
+          node-version: 22
           cache: "npm"
 
       - name: Build assets
@@ -85,16 +111,105 @@ jobs:
           # REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
 
       - name: Run tests
-        run: php artisan test --coverage
+        run: php artisan test --compact ${{ matrix.coverage && '--coverage' || '' }}
         env:
           DB_PORT: ${{ job.services.mysql.ports['3306'] }}
           # REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
 
-  test-php-postgresql:
-    name: Test PHP ${{ matrix.php-versions }} (${{ matrix.stability }}) + Node ${{ matrix.node }} with PostgreSQL
+  test-php-mariadb:
+    name: Test PHP ${{ matrix.php-versions }} (${{ matrix.stability }}) with MariaDB
     runs-on: ubuntu-latest
     env:
-      BROADCAST_DRIVER: log
+      DB_CONNECTION: mariadb
+      DB_DATABASE: laravel
+      DB_USERNAME: root
+      DB_PASSWORD: password
+      BROADCAST_CONNECTION: log
+      MAIL_MAILER: log
+      # CACHE_DRIVER: redis
+      # QUEUE_CONNECTION: redis
+      # SESSION_DRIVER: redis
+    services:
+      mariadb:
+        image: mariadb:11
+        env:
+          MARIADB_ALLOW_EMPTY_ROOT_PASSWORD: false
+          MARIADB_ROOT_PASSWORD: password
+          MARIADB_DATABASE: laravel
+        ports:
+          - 3306/tcp
+        options: --health-cmd="healthcheck.sh --connect --innodb_initialized" --health-interval=10s --health-timeout=5s --health-retries=3
+      # redis:
+      #   image: redis
+      #   ports:
+      #     - 6379/tcp
+      #   options: --health-cmd="redis-cli ping" --health-interval=10s --health-timeout=5s --health-retries=3
+    strategy:
+      fail-fast: false
+      matrix:
+        php-versions: ["8.3", "8.4"]
+        stability: [prefer-lowest, prefer-stable]
+        coverage: [false]
+        include:
+          - php-versions: "8.4"
+            stability: prefer-stable
+            coverage: true
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup PHP, with composer and extensions
+        uses: shivammathur/setup-php@v2 #https://github.com/shivammathur/setup-php
+        with:
+          php-version: ${{ matrix.php-versions }}
+          extensions: mbstring, dom, fileinfo, mysql
+          coverage: ${{ matrix.coverage && 'xdebug' || 'none' }}
+
+      - name: Setup problem matchers
+        run: |
+          echo "::add-matcher::${{ runner.tool_cache }}/php.json"
+          echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
+
+      - uses: ramsey/composer-install@v3
+        with:
+          dependency-versions: ${{ matrix.stability }}
+
+      - name: Prepare the application
+        run: |
+          php -r "file_exists('.env') || copy('.env.example', '.env');"
+          php artisan key:generate
+
+      - name: Clear Config
+        run: php artisan config:clear
+
+      - name: Setup NPM
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: "npm"
+
+      - name: Build assets
+        run: |
+          npm ci
+          npm run build --no-progress
+
+      - name: Run Migration
+        run: php artisan migrate -v
+        env:
+          DB_PORT: ${{ job.services.mariadb.ports['3306'] }}
+          # REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
+
+      - name: Run tests
+        run: php artisan test --compact ${{ matrix.coverage && '--coverage' || '' }}
+        env:
+          DB_PORT: ${{ job.services.mariadb.ports['3306'] }}
+          # REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
+
+  test-php-postgresql:
+    name: Test PHP ${{ matrix.php-versions }} (${{ matrix.stability }}) with PostgreSQL
+    runs-on: ubuntu-latest
+    env:
+      BROADCAST_CONNECTION: log
       MAIL_MAILER: log
       # CACHE_DRIVER: redis
       # QUEUE_CONNECTION: redis
@@ -106,7 +221,7 @@ jobs:
       DB_DATABASE: postgres
     services:
       postgres:
-        image: postgres:14.1
+        image: postgres:17
         env:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
@@ -122,9 +237,13 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php-versions: [8.3", "8.4"]
-        node: [20, 22]
+        php-versions: ["8.3", "8.4"]
         stability: [prefer-lowest, prefer-stable]
+        coverage: [false]
+        include:
+          - php-versions: "8.4"
+            stability: prefer-stable
+            coverage: true
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -134,7 +253,7 @@ jobs:
         with:
           php-version: ${{ matrix.php-versions }}
           extensions: mbstring, dom, fileinfo, pgsql
-          coverage: xdebug
+          coverage: ${{ matrix.coverage && 'xdebug' || 'none' }}
 
       - name: Setup problem matchers
         run: |
@@ -142,25 +261,27 @@ jobs:
           echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
 
       - uses: ramsey/composer-install@v3
+        with:
+          dependency-versions: ${{ matrix.stability }}
 
       - name: Prepare the application
         run: |
           php -r "file_exists('.env') || copy('.env.example', '.env');"
           php artisan key:generate
 
+      - name: Clear Config
+        run: php artisan config:clear
+
       - name: Setup NPM
         uses: actions/setup-node@v4
         with:
-          node-version: ${{ matrix.node }}
+          node-version: 22
           cache: "npm"
 
       - name: Build assets
         run: |
           npm ci
           npm run build --no-progress
-
-      - name: Clear Config
-        run: php artisan config:clear
 
       - name: Run Migration
         run: php artisan migrate -v
@@ -169,7 +290,7 @@ jobs:
           # REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
 
       - name: Run tests
-        run: php artisan test --coverage
+        run: php artisan test --compact ${{ matrix.coverage && '--coverage' || '' }}
         env:
           DB_PORT: ${{ job.services.postgres.ports[5432] }}
           # REDIS_PORT: ${{ job.services.redis.ports['6379'] }}

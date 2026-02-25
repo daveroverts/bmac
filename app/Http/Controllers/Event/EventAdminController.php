@@ -2,29 +2,20 @@
 
 namespace App\Http\Controllers\Event;
 
-use App\Models\User;
 use App\Models\Event;
 use App\Models\Airport;
 use App\Models\EventType;
 use Illuminate\View\View;
-use App\Enums\BookingStatus;
-use Illuminate\Http\Request;
-use App\Policies\EventPolicy;
-use App\Events\EventBulkEmail;
-use Illuminate\Http\JsonResponse;
-use App\Events\EventFinalInformation;
 use Illuminate\Http\RedirectResponse;
-use App\Http\Controllers\AdminController;
-use Illuminate\Database\Eloquent\Builder;
-use App\Http\Requests\Event\Admin\SendEmail;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\Event\Admin\StoreEvent;
 use App\Http\Requests\Event\Admin\UpdateEvent;
 
-class EventAdminController extends AdminController
+class EventAdminController extends Controller
 {
     public function __construct()
     {
-        $this->authorizeResource(EventPolicy::class, 'event');
+        $this->authorizeResource(Event::class, 'event');
     }
 
     public function index(): View
@@ -125,86 +116,5 @@ class EventAdminController extends AdminController
 
         flashMessage('danger', __('Danger'), __('Event can no longer be deleted!'));
         return back();
-    }
-
-    public function sendEmailForm(Event $event): View
-    {
-        return view('event.admin.sendEmail', ['event' => $event]);
-    }
-
-    public function sendEmail(SendEmail $request, Event $event): JsonResponse|RedirectResponse
-    {
-        if ($request->testmode) {
-            event(new EventBulkEmail($event, $request->all(), collect([auth()->user()])));
-            return response()->json(['success' => __('Email has been sent to yourself')]);
-        }
-
-        /* @var User $users */
-        $users = User::whereHas('bookings', function (Builder $query) use ($event): void {
-            $query->where('event_id', $event->id);
-            $query->where('status', BookingStatus::BOOKED->value);
-        })->get();
-        event(new EventBulkEmail($event, $request->all(), $users));
-        flashMessage('success', __('Done'), __('Bulk E-mail has been sent to :count people!', ['count' => $users->count()]));
-        return to_route('admin.events.index');
-    }
-
-    public function sendFinalInformationMail(Request $request, Event $event): RedirectResponse|JsonResponse
-    {
-        $bookings = $event->bookings()
-            ->with(['user', 'flights'])
-            ->where('status', BookingStatus::BOOKED->value)
-            ->get();
-
-        if ($request->testmode) {
-            /** @var \App\Models\Booking $randomBooking */
-            $randomBooking = $bookings->random();
-            event(new EventFinalInformation($randomBooking, $request->user()));
-
-            return response()->json(['success' => __('Email has been sent to yourself')]);
-        }
-
-        $count = $bookings->count();
-        $countSkipped = 0;
-        /** @var \App\Models\Booking $booking */
-        foreach ($bookings as $booking) {
-            if (!$booking->has_received_final_information_email || $request->forceSend) {
-                event(new EventFinalInformation($booking));
-            } else {
-                $count--;
-                $countSkipped++;
-            }
-        }
-
-        $message = __('Final Information has been sent to :count people!', ['count' => $count]);
-        if ($countSkipped !== 0) {
-            $message .= ' ' . __('However, :count where skipped, because they already received one', ['count' => $count]);
-        }
-
-        flashMessage('success', __('Done'), $message);
-        activity()
-            ->by(auth()->user())
-            ->on($event)
-            ->withProperty('count', $count)
-            ->log('Final Information E-mail');
-
-        return to_route('admin.events.index');
-    }
-
-    public function deleteAllBookings(Request $request, Event $event): RedirectResponse
-    {
-        activity()
-            ->by(auth()->user())
-            ->on($event)
-            ->log('Delete all bookings');
-
-        if ($event->endEvent <= now()) {
-            flashMessage('danger', __('Danger'), __('Booking can no longer be deleted'));
-            return back();
-        }
-
-        $event->bookings()->delete();
-        flashMessage('success', __('Bookings deleted'), __('All bookings have been deleted'));
-        return to_route('admin.events.index');
     }
 }

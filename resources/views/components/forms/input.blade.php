@@ -10,7 +10,7 @@
 ])
 
 <x-forms.form-group :name="$name" :label="$label">
-    <div {{ $attributes->class(['input-group has-validation', $inputGroupClass]) }}>
+    <div {{ $attributes->class(['input-group', 'has-validation' => $errors->has($name), $inputGroupClass]) }}>
         @isset($prepend)
             <span class="input-group-text">
                 {!! $prepend !!}

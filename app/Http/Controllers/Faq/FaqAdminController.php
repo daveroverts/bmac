@@ -5,17 +5,16 @@ namespace App\Http\Controllers\Faq;
 use App\Models\Faq;
 use App\Models\Event;
 use Illuminate\View\View;
-use App\Policies\FaqPolicy;
 use Illuminate\Http\RedirectResponse;
-use App\Http\Controllers\AdminController;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\Faq\Admin\StoreFaq;
 use App\Http\Requests\Faq\Admin\UpdateFaq;
 
-class FaqAdminController extends AdminController
+class FaqAdminController extends Controller
 {
     public function __construct()
     {
-        $this->authorizeResource(FaqPolicy::class, 'faq');
+        $this->authorizeResource(Faq::class, 'faq');
     }
 
     public function index(): View
@@ -58,20 +57,8 @@ class FaqAdminController extends AdminController
     public function destroy(Faq $faq): RedirectResponse
     {
         $faq->delete();
-        flashMessage('success', __('Done'), 'Question has been removed!');
-        return to_route(route('admin.faq.index'));
+        flashMessage('success', __('Done'), __('Question has been removed!'));
+        return to_route('admin.faq.index');
     }
 
-    public function toggleEvent(Faq $faq, Event $event): RedirectResponse
-    {
-        if ($faq->events()->where('event_id', $event->id)->first()) {
-            $faq->events()->detach($event->id);
-            flashMessage('success', __('Event unlinked'), __('Event has been unlinked to this FAQ'));
-        } else {
-            $faq->events()->attach($event->id);
-            flashMessage('success', __('Event linked'), __('Event has been linked to this FAQ'));
-        }
-
-        return back();
-    }
 }

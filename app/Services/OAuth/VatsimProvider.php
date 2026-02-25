@@ -1,18 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Services\OAuth;
 
 use League\OAuth2\Client\Provider\GenericProvider;
 use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
 use League\OAuth2\Client\Token\AccessTokenInterface;
 
-class OAuthController extends GenericProvider
+class VatsimProvider extends GenericProvider
 {
-    /**
-     * @var GenericProvider
-     */
-    private $provider;
-
     /**
      * Initializes the provider variable.
      */
@@ -32,7 +27,7 @@ class OAuthController extends GenericProvider
 
     public static function updateToken($token): ?AccessTokenInterface
     {
-        $controller = new OAuthController();
+        $controller = new VatsimProvider();
         try {
             return $controller->getAccessToken('refresh_token', [
                 'refresh_token' => $token->getRefreshToken()
@@ -42,30 +37,8 @@ class OAuthController extends GenericProvider
         }
     }
 
-    // Thanks to Moodle for this snippet
-    // https://github.com/moodle/moodle/blob/48ad73619f870e4fd87240bd3c74202a300da6b2/lib/classes/oauth2/client.php#L255
-    public static function getOAuthProperty($property, $data)
+    public static function getOAuthProperty(string $property, mixed $data): mixed
     {
-        $getfunc = function ($obj, $prop) use (&$getfunc) {
-            $proplist = explode('-', $prop, 2);
-            if (empty($proplist[0]) || empty($obj->{$proplist[0]})) {
-                return false;
-            }
-
-            $obj = $obj->{$proplist[0]};
-
-            if (count($proplist) > 1) {
-                return $getfunc($obj, $proplist[1]);
-            }
-
-            return $obj;
-        };
-
-        $resolved = $getfunc($data, $property);
-        if (!empty($resolved)) {
-            return $resolved;
-        }
-
-        return false;
+        return data_get($data, str_replace('-', '.', $property)) ?: false;
     }
 }

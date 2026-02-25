@@ -1,8 +1,12 @@
+<p align="center">
+  <img src="public/images/bmac-logo.png" alt="BMAC Logo" width="200">
+</p>
 
 # Book me a Cookie [BMAC]
 
 ![CI](https://github.com/daveroverts/bmac/workflows/CI/badge.svg)
 
+> **Notice:** The unversioned API routes (`/api/events`, `/api/bookings`, etc.) are deprecated and will be removed on **2026-12-31**. Please migrate to `/api/v1/`. See [API](#api) for details.
 
 Book me a Cookie [BMAC] is a Vatsim booking system created in Laravel.
 It's initial purpose was to be used for one event (The Holland - America Line),
@@ -195,6 +199,44 @@ run the following command:
     you're responsible to add the ones you need.
     If you're planning on importing flights later on,
     add the airports in first before starting a import.
+
+## API
+
+BMAC exposes a read-only JSON API. All endpoints are public and require no authentication.
+
+### v1 (stable)
+
+Base URL: `/api/v1`
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `/api/v1/events` | Paginated list of all events |
+| GET | `/api/v1/events/upcoming/{limit?}` | Upcoming online events (default: 3) |
+| GET | `/api/v1/events/{event}` | Single event |
+| GET | `/api/v1/events/{event}/bookings` | Confirmed bookings for an event |
+| GET | `/api/v1/bookings/{booking}` | Single booking |
+| GET | `/api/v1/airports` | Paginated list of all airports |
+| GET | `/api/v1/airports/{airport}` | Single airport |
+
+Interactive documentation is available at `/docs/api`.
+
+> **Note:** The `full_name` field has been removed from v1 booking responses
+> (`/api/v1/bookings/{booking}` and `/api/v1/events/{event}/bookings`) as it felt unnecessary to expose.
+> The legacy unversioned routes still include `full_name` until their removal.
+
+### Legacy unversioned routes (deprecated)
+
+The unversioned routes (`/api/events`, `/api/bookings`, `/api/airports`, etc.) are **deprecated**
+and will be removed on **2026-12-31**. They remain fully functional in the meantime, but all
+responses include the following deprecation headers per [RFC 8594](https://httpwg.org/specs/rfc8594.html):
+
+```
+Deprecation: true
+Sunset: Wed, 31 Dec 2026 23:59:59 GMT
+Link: <https://your-domain/api/v1>; rel="successor-version"
+```
+
+Please migrate to the `/api/v1/` equivalents listed above.
 
 ## Queue worker / Laravel Horizon
 

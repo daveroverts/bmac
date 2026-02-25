@@ -12,7 +12,7 @@
 </thead>
 @foreach ($this->bookings as $booking)
     {{-- Check if flight belongs to the logged in user --}}
-    <tr class="{{ auth()->check() && $booking->user_id == auth()->id() ? 'table-active' : '' }}"  wire:key="{{ $booking->getKey() }}">
+    <tr class="{{ auth()->check() && $booking->user_id === auth()->id() ? 'table-active' : '' }}"  wire:key="{{ $booking->getKey() }}">
         <td>
             {!! $booking->airportCtot(1) !!}
         </td>
@@ -25,9 +25,9 @@
             {{ $booking->formatted_actype }}</td>
         <td>
             {{-- Check if booking has been booked --}}
-            @if ($booking->status == \App\Enums\BookingStatus::BOOKED)
+            @if ($booking->status === \App\Enums\BookingStatus::BOOKED)
                 {{-- Check if booking has been booked by current user --}}
-                @if (auth()->check() && $booking->user_id == auth()->id())
+                @if (auth()->check() && $booking->user_id === auth()->id())
                     <a href="{{ route('bookings.show', $booking) }}" class="btn btn-info">My
                         booking</a>
                 @else
@@ -55,8 +55,10 @@
                             $booking->event->multiple_bookings_allowed ||
                                 auth()->user()->bookings->where('event_id', $booking->event->id)->isEmpty())
                             {{-- Check if user already has a booking, and only 1 is allowed --}}
-                            <a href="{{ route('bookings.edit', $booking) }}" class="btn btn-success">BOOK
-                                NOW</a>
+                            <form action="{{ route('bookings.reservation.store', $booking) }}" method="post">
+                                @csrf
+                                <button type="submit" class="btn btn-success">BOOK NOW</button>
+                            </form>
                         @else
                             <i class="text-danger">You already have a booking</i>
                         @endif

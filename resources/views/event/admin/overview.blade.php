@@ -37,31 +37,31 @@
                     <a href="{{ route('admin.events.edit', $event) }}" role="button" class="btn btn-primary m-1"><i
                             class="fa fa-edit"></i> {{ __('Edit') }}</a>&nbsp;
                     @if ($event->endEvent > now())
-                        <a href="{{ route('admin.bookings.importForm', $event) }}" class="btn btn-success m-1"><i
+                        <a href="{{ route('admin.events.bookings.import.create', $event) }}" class="btn btn-success m-1"><i
                                 class="fa fa-file-import"></i> {{ __('Import data') }}</a>&nbsp;
-                        <a href="{{ route('admin.bookings.create', $event) }}/bulk" class="btn btn-primary m-1"><i
+                        <a href="{{ route('admin.events.bookings.create', $event) }}?bulk=1" class="btn btn-primary m-1"><i
                                 class="fa fa-plus"></i> {{ __('Add Timeslots') }}</a>&nbsp;
                         @if ($event->is_oceanic_event)
-                            <a href="{{ route('admin.bookings.autoAssignForm', $event) }}" class="btn btn-primary m-1">
+                            <a href="{{ route('admin.events.bookings.autoAssign.create', $event) }}" class="btn btn-primary m-1">
                                 {{ __('Auto Assign FL / Route') }}</a>&nbsp;
                         @endif
                     @endif
-                    <a href="{{ route('admin.events.email.form', $event) }}" class="btn btn-primary m-1"><i
+                    <a href="{{ route('admin.events.emails.bulk.create', $event) }}" class="btn btn-primary m-1"><i
                             class="fa fa-envelope"></i> {{ __('Send mail to all') }}</a>&nbsp;
 
                     <button class="btn btn-success dropdown-toggle m-1" type="button" data-bs-toggle="dropdown"
                         aria-haspopup="true" aria-expanded="false"><i class="fa fa-file-export"></i> Export</button>
                     <div class="dropdown-menu">
                         <a class="dropdown-item"
-                            href="{{ route('admin.bookings.export', $event) }}">{{ __('Excluding emails') }}</a>
+                            href="{{ route('admin.events.bookings.export', $event) }}">{{ __('Excluding emails') }}</a>
                         @if ($event->event_type_id == \App\Enums\EventType::MULTIFLIGHTS->value)
-                            <a class="dropdown-item" href="{{ route('admin.bookings.export', [$event, 'vacc']) }}">
+                            <a class="dropdown-item" href="{{ route('admin.events.bookings.export', $event) }}?vacc=vacc">
                                 {{ __('Including emails') }}</a>
                         @endif
                     </div>
 
                     @if ($event->event_type_id == \App\Enums\EventType::MULTIFLIGHTS->value)
-                        <a href="{{ route('admin.bookings.routeAssignForm', $event) }}" class="btn btn-primary m-1"><i
+                        <a href="{{ route('admin.events.bookings.routeAssign.create', $event) }}" class="btn btn-primary m-1"><i
                                 class="fa fa-edit"></i> {{ __('Assign Routes') }}</a>&nbsp;
                     @endif
                     @if ($event->startEvent > now())
@@ -82,7 +82,7 @@
             </td>
             </tr>
 
-            <x-form :action="route('admin.events.delete-bookings', $event)" id="delete-bookings-{{ $event->id }}" method="DELETE"
+            <x-form :action="route('admin.events.bookings.destroyAll', $event)" id="delete-bookings-{{ $event->id }}" method="DELETE"
                 style="display: none;"></x-form>
             <x-form :action="route('admin.events.destroy', $event)" id="delete-event-{{ $event->id }}" method="DELETE"
                 style="display: none;"></x-form>

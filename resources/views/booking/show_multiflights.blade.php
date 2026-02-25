@@ -6,7 +6,7 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header">{{ $booking->event->name }} |
-                    {{ $booking->status == \App\Enums\BookingStatus::BOOKED ? __('My Booking') : __('My Reservation') }}
+                    {{ $booking->status === \App\Enums\BookingStatus::BOOKED ? __('My Booking') : __('My Reservation') }}
                 </div>
 
                 <div class="card-body">
@@ -102,7 +102,7 @@
 
 
 
-                    <x-form :action="route('bookings.cancel', $booking)" id="cancel-booking" method="PATCH" style="display: none;"></x-form>
+                    <x-form :action="route('bookings.cancellation.destroy', $booking)" id="cancel-booking" method="DELETE" style="display: none;"></x-form>
                 </div>
             </div>
         </div>

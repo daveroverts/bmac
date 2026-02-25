@@ -9,7 +9,7 @@
                 <div class="card-header">My settings</div>
 
                 <div class="card-body">
-                    <x-form :action="route('user.saveSettings')" method="PATCH">
+                    <x-form :action="route('user.settings.update')" method="PATCH">
                             <x-forms.form-group name="airport_view" :label="__('Default airport view')">
                                 <x-forms.radio name="airport_view" value="0" :label="__('Name') . ': Amsterdam Airport Schiphol - EHAM | [AMS]'" required
                                                :should-be-checked="old('airport_view', $user->airport_view->value) == 0"/>

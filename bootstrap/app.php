@@ -1,7 +1,5 @@
 <?php
 
-use App\Http\Middleware\IsAdmin;
-use App\Http\Middleware\IsLoggedIn;
 use App\Http\Middleware\SentryUser;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
@@ -28,11 +26,6 @@ return Application::configure(basePath: dirname(__DIR__))
 
         $middleware->web(append: [
             SentryUser::class,
-        ]);
-
-        $middleware->alias([
-            'auth.isAdmin' => IsAdmin::class,
-            'auth.isLoggedIn' => IsLoggedIn::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {

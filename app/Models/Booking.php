@@ -62,6 +62,8 @@ class Booking extends Model
     use HasFactory;
     use LogsActivity;
 
+    public const RESERVATION_TIMEOUT_MINUTES = 10;
+
     protected $guarded = [
         'id', 'uuid', 'status', 'selcal',
     ];
@@ -85,6 +87,15 @@ class Booking extends Model
     public function getRouteKeyName(): string
     {
         return 'uuid';
+    }
+
+    public function resolveRouteBinding($value, $field = null): ?Model
+    {
+        if (! Str::isUuid($value)) {
+            return null;
+        }
+
+        return parent::resolveRouteBinding($value, $field);
     }
 
     protected function getFormattedCallsignAttribute(): string

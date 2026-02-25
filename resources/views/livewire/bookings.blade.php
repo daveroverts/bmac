@@ -17,10 +17,10 @@
             </button>&nbsp;
         @endif
         @if (auth()->check() && auth()->user()->isAdmin && $event->endBooking >= now())
-            <a href="{{ route('admin.bookings.create', $event) }}" class="btn btn-primary"><i class="fa fa-plus"></i>
+            <a href="{{ route('admin.events.bookings.create', $event) }}" class="btn btn-primary"><i class="fa fa-plus"></i>
                 Add
                 Booking</a>&nbsp;
-            <a href="{{ route('admin.bookings.create', $event) }}/bulk" class="btn btn-primary"><i
+            <a href="{{ route('admin.events.bookings.create', $event) }}?bulk=1" class="btn btn-primary"><i
                     class="fa fa-plus"></i>
                 Add
                 Timeslots</a>&nbsp;

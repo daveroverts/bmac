@@ -8,11 +8,13 @@ use App\Models\AirportLink;
 use App\Models\Booking;
 use App\Models\Event;
 use App\Models\Faq;
+use App\Models\User;
 use App\Policies\AirportLinkPolicy;
 use App\Policies\AirportPolicy;
 use App\Policies\BookingPolicy;
 use App\Policies\EventPolicy;
 use App\Policies\FaqPolicy;
+use App\Services\OAuth\VatsimProvider;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\Paginator;
@@ -29,7 +31,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        $this->app->bind(VatsimProvider::class, fn (): VatsimProvider => new VatsimProvider());
     }
 
     /**
@@ -60,6 +62,10 @@ class AppServiceProvider extends ServiceProvider
         Gate::policy(Booking::class, BookingPolicy::class);
         Gate::policy(Event::class, EventPolicy::class);
         Gate::policy(Faq::class, FaqPolicy::class);
+
+        Gate::define('admin', fn (User $user) => $user->isAdmin);
+
+        Gate::define('viewApiDocs', fn (): true => true);
 
         Gate::before(function ($user, $ability) {
             if ($user->isAdmin) {

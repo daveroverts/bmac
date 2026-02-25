@@ -1,6 +1,8 @@
 <?php
 
 use App\Enums\BookingStatus;
+use App\Http\Controllers\Api\V1;
+use App\Http\Middleware\DeprecatedApiMiddleware;
 use App\Http\Resources\AirportResource;
 use App\Http\Resources\AirportsCollection;
 use App\Http\Resources\BookingResource;
@@ -22,28 +24,59 @@ use App\Models\Event;
 |
 */
 
-// Route::get('/users/{user}', function (User $user) {
-//     return new UserResource($user);
-// });
+// V1 — versioned, stable
+Route::prefix('v1')->name('v1.')->group(function (): void {
+    // Events
+    Route::get('events/upcoming/{limit?}', [V1\EventController::class, 'upcoming'])
+        ->name('events.upcoming');
+    Route::apiResource('events', V1\EventController::class)->only(['index', 'show']);
 
-// Route::get('/users', function () {
-//     return new UsersCollection(User::all());
-// });
+    // Bookings
+    Route::get('events/{event}/bookings', [V1\BookingController::class, 'byEvent'])
+        ->name('events.bookings.index');
+    Route::apiResource('bookings', V1\BookingController::class)->only(['show']);
 
-Route::get('/events/upcoming/{limit?}', fn ($limit = 3): \App\Http\Resources\EventsCollection => new EventsCollection(Event::where('is_online', true)
-    ->where('endEvent', '>', now())
-    ->orderBy('startEvent', 'asc')
-    ->limit($limit)
-    ->get()));
+    // Airports
+    Route::apiResource('airports', V1\AirportController::class)->only(['index', 'show']);
+});
 
-Route::get('/events/{event}/bookings', fn (Event $event): \App\Http\Resources\BookingsCollection => new BookingsCollection($event->bookings->where('status', BookingStatus::BOOKED->value)));
+// Legacy unversioned routes — deprecated, will be removed 2026-12-31
+Route::middleware(DeprecatedApiMiddleware::class)->group(function (): void {
+    Route::get('/events/upcoming/{limit?}', function (int $limit = 3): EventsCollection {
+        $limit = min(max(1, $limit), 50);
 
-Route::get('/events/{event}', fn (Event $event): \App\Http\Resources\EventResource => new EventResource($event));
+        return new EventsCollection(Event::with(['bookings', 'type', 'airportDep', 'airportArr'])
+            ->where('is_online', true)
+            ->where('endEvent', '>', now())
+            ->orderBy('startEvent', 'asc')
+            ->limit($limit)
+            ->get());
+    });
 
-Route::get('/events', fn (): \App\Http\Resources\EventsCollection => new EventsCollection(Event::paginate()));
+    Route::get('/events/{event}/bookings', fn (Event $event): BookingsCollection => new BookingsCollection(
+        $event->bookings()
+            ->where('status', BookingStatus::BOOKED)
+            ->with(['flights.airportDep', 'flights.airportArr', 'user', 'event'])
+            ->get()
+    ));
 
-Route::get('/bookings/{booking}', fn (Booking $booking): \App\Http\Resources\BookingResource => new BookingResource($booking));
+    Route::get('/events/{event}', function (Event $event): EventResource {
+        $event->loadMissing(['bookings', 'type', 'airportDep', 'airportArr']);
 
-Route::get('/airports/{airport}', fn (Airport $airport): \App\Http\Resources\AirportResource => new AirportResource($airport));
+        return new EventResource($event);
+    });
 
-Route::get('/airports', fn (): \App\Http\Resources\AirportsCollection => new AirportsCollection(Airport::paginate()));
+    Route::get('/events', fn (): EventsCollection => new EventsCollection(
+        Event::with(['bookings', 'type', 'airportDep', 'airportArr'])->paginate()
+    ));
+
+    Route::get('/bookings/{booking}', function (Booking $booking): BookingResource {
+        $booking->loadMissing(['flights.airportDep', 'flights.airportArr', 'user', 'event']);
+
+        return new BookingResource($booking);
+    });
+
+    Route::get('/airports/{airport}', fn (Airport $airport): AirportResource => new AirportResource($airport));
+
+    Route::get('/airports', fn (): AirportsCollection => new AirportsCollection(Airport::paginate()));
+});

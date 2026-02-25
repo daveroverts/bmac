@@ -9,7 +9,7 @@
                 <div class="card-header">{{ $event->name }} | {{ __('Auto-Assign FL / Route') }}</div>
 
                 <div class="card-body">
-                    <x-form :action="route('admin.bookings.autoAssign', $event)" method="POST">
+                    <x-form :action="route('admin.events.bookings.autoAssign.store', $event)" method="POST">
                         <x-forms.input name="oceanicTrack1" :label="__('Track #:number', ['number' => 1])" required maxlength="2" />
                         <x-forms.textarea name="route1" :label="__('Route #:number', ['number' => 1])" />
 

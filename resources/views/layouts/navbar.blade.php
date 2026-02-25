@@ -28,15 +28,15 @@
                         @if ($navbarEvents->isNotEmpty())
                             <div class="dropdown-divider"></div>
                             @foreach ($navbarEvents as $event)
-                                <a class="dropdown-item {{ request()->fullUrlIs(route('bookings.event.index', $event)) ? 'active' : '' }}"
-                                    href="{{ route('bookings.event.index', $event) }}">{{ $event->name }}
+                                <a class="dropdown-item {{ request()->fullUrlIs(route('events.bookings.index', $event)) ? 'active' : '' }}"
+                                    href="{{ route('events.bookings.index', $event) }}">{{ $event->name }}
                                     – {{ $event->startEvent->toFormattedDateString() }}</a>
                                 @auth
                                     @foreach ($bookings = auth()->user()->bookings->where('event_id', $event->id) as $booking)
                                         <a class="dropdown-item {{ request()->fullUrlIs(route('bookings.show', $booking)) ? 'active' : '' }}"
                                             href="{{ route('bookings.show', $booking) }}">
                                             <i
-                                                class="fas fa-chevron-right"></i>&nbsp;{{ $bookings->count() > 1 ? $booking->callsign : __('My booking') }}
+                                                class="fas fa-chevron-right"></i>&nbsp;{{ $booking->callsign ?: __('My booking') }}
                                         </a>
                                     @endforeach
                                 @endauth
@@ -100,8 +100,8 @@
                             {{ auth()->user()->fullName }}
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item {{ request()->routeIs('user.settings') ? 'active' : '' }}"
-                                href="{{ route('user.settings') }}">{{ __('My settings') }}</a>
+                            <a class="dropdown-item {{ request()->routeIs('user.settings.*') ? 'active' : '' }}"
+                                href="{{ route('user.settings.edit') }}">{{ __('My settings') }}</a>
                             <x-logout class="dropdown-item" />
                         </div>
                     </li>

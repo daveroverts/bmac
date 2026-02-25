@@ -10,7 +10,7 @@
 
                 <div class="card-body">
 
-                    <x-form :action="route('admin.events.email.final', $event)" method="PATCH">
+                    <x-form :action="route('admin.events.emails.final.send', $event)" method="POST">
                         <x-forms.form-group :help="__('Send a random Final Information E-mail to yourself')">
                             <x-forms.checkbox name="testmode1" :label="__('Test mode')" />
                         </x-forms.form-group>
@@ -23,11 +23,16 @@
                                 if (document.getElementById('testmode1').checked) {
                                     Swal.fire('Sending test Email...');
                                     Swal.showLoading();
-                                    axios.post('{{ route('admin.events.email.final', $event) }}', {
+                                    axios.post('{{ route('admin.events.emails.final.send', $event) }}', {
                                         'testmode': 1,
-                                        '_method': 'PATCH',
                                     }).then(function(response) {
                                         Swal.fire(response.data.success);
+                                    }).catch(function(error) {
+                                        Swal.fire({
+                                            title: '{{ __('Error') }}',
+                                            text: error.response?.data?.error ?? '{{ __('Something went wrong') }}',
+                                            icon: 'error',
+                                        });
                                     });
                                 } else {
                                     Swal.fire({
@@ -50,7 +55,7 @@
 
                     <hr>
 
-                    <x-form :action="route('admin.events.email', $event)" method="PATCH">
+                    <x-form :action="route('admin.events.emails.bulk.send', $event)" method="POST">
                         <x-forms.input name="subject" :label="__('Subject')" required />
                         <x-forms.textarea name="message" :label="__('Message')" tinymce :help="__('Salutation and closing are already included')" />
 
@@ -63,13 +68,18 @@
                                 if (document.getElementById('testmode2').checked) {
                                     Swal.fire('Sending test Email...');
                                     Swal.showLoading();
-                                    axios.post('{{ route('admin.events.email', $event) }}', {
+                                    axios.post('{{ route('admin.events.emails.bulk.send', $event) }}', {
                                         'subject': document.getElementById('subject').value,
                                         'message': tinymce.activeEditor.getContent(),
                                         'testmode': 1,
-                                        '_method': 'PATCH',
                                     }).then(function(response) {
                                         Swal.fire(response.data.success);
+                                    }).catch(function(error) {
+                                        Swal.fire({
+                                            title: '{{ __('Error') }}',
+                                            text: error.response?.data?.error ?? '{{ __('Something went wrong') }}',
+                                            icon: 'error',
+                                        });
                                     });
                                 } else {
                                     Swal.fire({

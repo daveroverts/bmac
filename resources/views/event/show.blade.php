@@ -7,7 +7,7 @@
         <img src="{{ $event->image_url }}" class="img-fluid rounded">
     @endif
     {!! $event->description !!}
-    <div class="text-center"><a href="{{ route('bookings.event.index', $event) }}" class="btn btn-primary">Open Booking
+    <div class="text-center"><a href="{{ route('events.bookings.index', $event) }}" class="btn btn-primary">Open Booking
             Table</a></div>
     <hr>
 @endsection

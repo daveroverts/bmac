@@ -7,29 +7,20 @@ use App\Models\Flight;
 use App\Models\Airport;
 use App\Models\Booking;
 use Illuminate\View\View;
-use App\Enums\BookingStatus;
 use Illuminate\Http\Request;
 use App\Events\BookingChanged;
 use App\Events\BookingDeleted;
-use App\Exports\BookingsExport;
-use App\Imports\BookingsImport;
-use App\Policies\BookingPolicy;
-use App\Imports\FlightRouteAssign;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Support\Facades\Storage;
-use App\Http\Controllers\AdminController;
-use App\Http\Requests\Booking\Admin\AutoAssign;
-use App\Http\Requests\Booking\Admin\RouteAssign;
+use Illuminate\Support\Facades\Date;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\Booking\Admin\StoreBooking;
 use App\Http\Requests\Booking\Admin\UpdateBooking;
-use App\Http\Requests\Booking\Admin\ImportBookings;
-use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
-class BookingAdminController extends AdminController
+class BookingAdminController extends Controller
 {
     public function __construct()
     {
-        $this->authorizeResource(BookingPolicy::class, 'booking');
+        $this->authorizeResource(Booking::class, 'booking');
     }
 
     public function create(Event $event, Request $request): View
@@ -45,13 +36,13 @@ class BookingAdminController extends AdminController
 
     public function store(StoreBooking $request): RedirectResponse
     {
-        $event = Event::whereKey($request->id)->first();
+        $event = Event::findOrFail($request->id);
         if ($request->bulk) {
-            $event_start = \Illuminate\Support\Facades\Date::createFromFormat(
+            $event_start = Date::createFromFormat(
                 'Y-m-d H:i',
                 $event->startEvent->toDateString() . ' ' . $request->start
             );
-            $event_end = \Illuminate\Support\Facades\Date::createFromFormat('Y-m-d H:i', $event->endEvent->toDateString() . ' ' . $request->end);
+            $event_end = Date::createFromFormat('Y-m-d H:i', $event->endEvent->toDateString() . ' ' . $request->end);
             $separation = $request->separation * 60;
             $count = 0;
             for (; $event_start <= $event_end; $event_start->addSeconds($separation)) {
@@ -67,7 +58,7 @@ class BookingAdminController extends AdminController
                 })->where([
                     'ctot' => $time,
                     'dep' => $request->dep,
-                ])->first()) {
+                ])->exists()) {
                     Booking::create([
                         'event_id' => $request->id,
                         'is_editable' => $request->is_editable,
@@ -75,7 +66,7 @@ class BookingAdminController extends AdminController
                         'dep' => $request->dep,
                         'arr' => $request->arr,
                         'ctot' => $time,
-                        'notes' => $request->notes ?? null,
+                        'notes' => $request->notes,
                     ]);
 
                     $count++;
@@ -96,18 +87,18 @@ class BookingAdminController extends AdminController
                 'arr' => $request->arr,
                 'route' => $request->route,
                 'oceanicFL' => $request->oceanicFL,
-                'notes' => $request->notes ?? null,
+                'notes' => $request->notes,
             ];
 
             if ($request->ctot) {
-                $flightAttributes['ctot'] = \Illuminate\Support\Facades\Date::createFromFormat(
+                $flightAttributes['ctot'] = Date::createFromFormat(
                     'Y-m-d H:i',
                     $event->startEvent->toDateString() . ' ' . $request->ctot
                 );
             }
 
             if ($request->eta) {
-                $flightAttributes['eta'] = \Illuminate\Support\Facades\Date::createFromFormat(
+                $flightAttributes['eta'] = Date::createFromFormat(
                     'Y-m-d H:i',
                     $event->startEvent->toDateString() . ' ' . $request->eta
                 );
@@ -117,7 +108,7 @@ class BookingAdminController extends AdminController
             flashMessage('success', __('Done'), __('Slot created'));
         }
 
-        return to_route('bookings.event.index', $event);
+        return to_route('events.bookings.index', $event);
     }
 
     public function edit(Booking $booking): View|RedirectResponse
@@ -137,10 +128,7 @@ class BookingAdminController extends AdminController
 
     public function update(UpdateBooking $request, Booking $booking): RedirectResponse
     {
-        $shouldSendEmail = false;
-        if (!empty($booking->user) && $request->notify_user) {
-            $shouldSendEmail = true;
-        }
+        $shouldSendEmail = $booking->user_id && $request->notify_user;
 
         /* @var Flight $flight */
         $flight = $booking->flights()->first();
@@ -161,7 +149,7 @@ class BookingAdminController extends AdminController
         ];
 
         if ($request->ctot) {
-            $flightAttributes['ctot'] = \Illuminate\Support\Facades\Date::createFromFormat(
+            $flightAttributes['ctot'] = Date::createFromFormat(
                 'Y-m-d H:i',
                 $booking->event->startEvent->toDateString() . ' ' . $request->ctot
             );
@@ -170,7 +158,7 @@ class BookingAdminController extends AdminController
         }
 
         if ($request->eta) {
-            $flightAttributes['eta'] = \Illuminate\Support\Facades\Date::createFromFormat(
+            $flightAttributes['eta'] = Date::createFromFormat(
                 'Y-m-d H:i',
                 $booking->event->startEvent->toDateString() . ' ' . $request->eta
             );
@@ -207,8 +195,8 @@ class BookingAdminController extends AdminController
             event(new BookingChanged($booking, $changes));
         }
 
-        flashMessage('success', 'Booking changed', __('Booking has been changed!'));
-        return to_route('bookings.event.index', $booking->event);
+        flashMessage('success', __('Booking changed'), __('Booking has been changed!'));
+        return to_route('events.bookings.index', $booking->event);
     }
 
     public function destroy(Booking $booking): RedirectResponse
@@ -219,126 +207,29 @@ class BookingAdminController extends AdminController
             }
 
             $booking->delete();
-            flashMessage('success', 'Booking deleted!', __('Booking has been deleted.'));
-            return to_route('bookings.event.index', $booking->event);
+            flashMessage('success', __('Booking deleted!'), __('Booking has been deleted.'));
+            return to_route('events.bookings.index', $booking->event);
         }
 
         flashMessage('danger', __('Danger'), __('Booking can no longer be deleted'));
         return back();
     }
 
-    public function export(Event $event, Request $request): BinaryFileResponse
+    public function destroyAll(Event $event): RedirectResponse
     {
-        activity()
-            ->by(auth()->user())
-            ->on($event)
-            ->log('Export triggered');
-
-        return (new BookingsExport($event, $request->vacc))->download('bookings.csv');
-    }
-
-    public function importForm(Event $event): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
-    {
-        return view('event.admin.import', ['event' => $event]);
-    }
-
-    public function import(ImportBookings $request, Event $event): RedirectResponse
-    {
-        activity()
-            ->by(auth()->user())
-            ->on($event)
-            ->log('Import triggered');
-        $file = $request->file('file');
-        (new BookingsImport($event))->import($file);
-        Storage::delete($file->getRealPath());
-        flashMessage('success', __('Flights imported'), __('Flights have been imported'));
-        return to_route('bookings.event.index', $event);
-    }
-
-    public function adminAutoAssignForm(Event $event): View
-    {
-        return view('event.admin.autoAssign', ['event' => $event]);
-    }
-
-
-    public function adminAutoAssign(AutoAssign $request, Event $event): RedirectResponse
-    {
-        // @TODO Optimise this, for now it's a ugly fix
-        $bookings = $event->bookings()
-            ->with(['flights' => function ($query): void {
-                $query->orderBy('ctot');
-            }]);
-
-        if (!$request->checkAssignAllFlights) {
-            $bookings = $bookings->where('status', BookingStatus::BOOKED->value);
+        if ($event->endEvent <= now()) {
+            flashMessage('danger', __('Danger'), __('Booking can no longer be deleted'));
+            return back();
         }
 
-        $bookings = $bookings->get();
-        $count = 0;
-        $flOdd = $request->maxFL;
-        $flEven = $request->minFL;
-        /** @var Booking $booking */
-        foreach ($bookings as $booking) {
-            $flight = $booking->flights()->first();
-            $count++;
-            if ($count % 2 === 0) {
-                $flight->fill([
-                    'oceanicTrack' => $request->oceanicTrack2,
-                    'route' => $request->route2,
-                    'oceanicFL' => $flEven,
-                ]);
-                $flEven += 10;
-                if ($flEven > $request->maxFL) {
-                    $flEven = $request->minFL;
-                }
-            } else {
-                $flight->fill([
-                    'oceanicTrack' => $request->oceanicTrack1,
-                    'route' => $request->route1,
-                    'oceanicFL' => $flOdd,
-                ]);
-                $flOdd -= 10;
-                if ($flOdd < $request->minFL) {
-                    $flOdd = $request->maxFL;
-                }
-            }
-
-            $flight->save();
-        }
-
-        flashMessage('success', __('Bookings changed'), __(':count bookings have been Auto-Assigned a FL, and route', ['count' => $count]));
         activity()
             ->by(auth()->user())
             ->on($event)
-            ->withProperties(
-                [
-                    'Track 1' => $request->oceanicTrack1,
-                    'Route 1' => $request->route1,
-                    'Track 2' => $request->oceanicTrack2,
-                    'Route 2' => $request->route2,
-                    'count' => $count,
-                ]
-            )
-            ->log('Flights auto-assigned');
+            ->log('Delete all bookings');
+
+        $event->bookings()->delete();
+        flashMessage('success', __('Bookings deleted'), __('All bookings have been deleted'));
+
         return to_route('admin.events.index');
-    }
-
-    public function routeAssignForm(Event $event): View
-    {
-        return view('event.admin.routeAssign', ['event' => $event]);
-    }
-
-
-    public function routeAssign(RouteAssign $request, Event $event): RedirectResponse
-    {
-        activity()
-            ->by(auth()->user())
-            ->on($event)
-            ->log('Route assign triggered');
-        $file = $request->file('file');
-        (new FlightRouteAssign())->import($file);
-        Storage::delete($file);
-        flashMessage('success', __('Routes assigned'), __('Routes have been assigned to flights'));
-        return to_route('bookings.event.index', $event);
     }
 }
