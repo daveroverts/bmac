@@ -1,0 +1,48 @@
+# Dependencies (installed during build)
+vendor/
+node_modules/
+
+# Build artifacts (built during build)
+public/build/
+public/hot
+
+# Development & IDE
+.devcontainer/
+.idea/
+.vscode/
+.phpstorm.meta.php
+_ide_helper*.php
+
+# Git
+.git/
+.gitignore
+.gitattributes
+
+# CI/CD
+.github/
+
+# Docker files (no need to copy into the image)
+docker-compose.yml
+docker-compose.prod.yml
+
+# Environment files (mounted or passed via env_file)
+.env
+.env.*
+!.env.example
+
+# Testing & analysis
+tests/
+phpstan.neon
+phpunit.xml
+rector.php
+.phpunit.cache/
+
+# Storage (mounted as volume)
+storage/logs/*
+storage/framework/cache/*
+storage/framework/sessions/*
+storage/framework/views/*
+
+# OS files
+.DS_Store
+Thumbs.db
