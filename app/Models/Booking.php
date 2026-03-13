@@ -71,6 +71,7 @@ class Booking extends Model
     /**
      *  Setup model event hooks
      */
+    #[\Override]
     protected static function boot(): void
     {
         parent::boot();
@@ -84,11 +85,13 @@ class Booking extends Model
         return LogOptions::defaults()->logOnlyDirty();
     }
 
+    #[\Override]
     public function getRouteKeyName(): string
     {
         return 'uuid';
     }
 
+    #[\Override]
     public function resolveRouteBinding($value, $field = null): ?Model
     {
         if (! Str::isUuid($value)) {
@@ -186,6 +189,7 @@ class Booking extends Model
         return $airports->unique();
     }
 
+    #[\Override]
     protected function casts(): array
     {
         return [

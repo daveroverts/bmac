@@ -48,6 +48,7 @@ class Faq extends Model
         return $this->belongsToMany(Event::class);
     }
 
+    #[\Override]
     protected function casts(): array
     {
         return [

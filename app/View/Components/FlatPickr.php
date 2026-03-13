@@ -4,6 +4,7 @@ namespace App\View\Components;
 
 class FlatPickr extends \BladeUIKit\Components\Forms\Inputs\FlatPickr
 {
+    #[\Override]
     public function options(): array
     {
         return array_merge([

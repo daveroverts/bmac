@@ -10,6 +10,7 @@ class UpdateBooking extends Request
     /**
      * Prepare the data for validation.
      */
+    #[\Override]
     protected function prepareForValidation(): void
     {
         // Combine selcal1 and selcal2 into a single selcal field for validation
@@ -41,6 +42,7 @@ class UpdateBooking extends Request
      *
      * @return array
      */
+    #[\Override]
     public function messages()
     {
         return [
@@ -54,6 +56,7 @@ class UpdateBooking extends Request
      *
      * @return array
      */
+    #[\Override]
     public function attributes()
     {
         return [

@@ -23,6 +23,7 @@ class SendEmail extends Request
      *
      * @return array
      */
+    #[\Override]
     public function attributes()
     {
         return [

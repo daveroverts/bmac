@@ -11,6 +11,7 @@ class HorizonServiceProvider extends HorizonApplicationServiceProvider
     /**
      * Bootstrap any application services.
      */
+    #[\Override]
     public function boot(): void
     {
         parent::boot();
@@ -29,6 +30,7 @@ class HorizonServiceProvider extends HorizonApplicationServiceProvider
      *
      * @return void
      */
+    #[\Override]
     protected function gate()
     {
         Gate::define('viewHorizon', fn ($user) => $user->isAdmin);

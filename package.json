@@ -29,16 +29,16 @@
         "bootswatch": "^5.3.8",
         "concurrently": "^9.2.1",
         "laravel-vite-plugin": "^2.1.0",
-        "postcss": "^8.5.6",
-        "sass": "^1.97.3",
+        "postcss": "^8.5.8",
+        "sass": "^1.98.0",
         "tinymce": "^8.3.2",
         "vite": "^7.3.1",
         "vite-plugin-purgecss": "^0.2.13",
-        "vite-plugin-static-copy": "^3.2.0"
+        "vite-plugin-static-copy": "^3.3.0"
     },
     "dependencies": {
         "flatpickr": "^4.6.13",
-        "sweetalert2": "^11.26.18"
+        "sweetalert2": "^11.26.22"
     },
     "release": {
         "branches": [
