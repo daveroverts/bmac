@@ -9,6 +9,7 @@
     "mcp": true,
     "sail": false,
     "skills": [
+        "configuring-horizon",
         "livewire-development",
         "pest-testing"
     ]
