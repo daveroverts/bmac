@@ -22,6 +22,7 @@ class UpdateUserSettings extends Request
      *
      * @return array
      */
+    #[\Override]
     public function attributes()
     {
         return [

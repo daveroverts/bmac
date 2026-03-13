@@ -24,6 +24,7 @@ class StoreAirportLink extends Request
      *
      * @return array
      */
+    #[\Override]
     public function attributes()
     {
         return [

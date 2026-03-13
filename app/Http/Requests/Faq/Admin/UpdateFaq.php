@@ -23,6 +23,7 @@ class UpdateFaq extends Request
      *
      * @return array
      */
+    #[\Override]
     public function attributes()
     {
         return [

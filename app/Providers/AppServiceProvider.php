@@ -29,6 +29,7 @@ class AppServiceProvider extends ServiceProvider
     /**
      * Register any application services.
      */
+    #[\Override]
     public function register(): void
     {
         $this->app->bind(VatsimProvider::class, fn (): VatsimProvider => new VatsimProvider());

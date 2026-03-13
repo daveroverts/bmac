@@ -58,6 +58,7 @@ class Airport extends Model
      *
      * @return void
      */
+    #[\Override]
     protected static function booted()
     {
         static::addGlobalScope('order', function (Builder $builder): void {
@@ -123,6 +124,7 @@ class Airport extends Model
         return '<abbr title="' . $this->icao . ' | [' . $this->iata . ']">' . $this->name . '</abbr>';
     }
 
+    #[\Override]
     public function getRouteKeyName(): string
     {
         return 'icao';

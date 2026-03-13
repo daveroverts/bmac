@@ -27,6 +27,7 @@ class AutoAssign extends Request
      *
      * @return array
      */
+    #[\Override]
     public function attributes()
     {
         return [

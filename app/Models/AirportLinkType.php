@@ -40,6 +40,7 @@ class AirportLinkType extends Model
      *
      * @return void
      */
+    #[\Override]
     protected static function booted()
     {
         static::addGlobalScope('order', function (Builder $builder): void {
