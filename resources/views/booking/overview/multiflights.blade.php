@@ -10,6 +10,7 @@
         @endif
     </tr>
 </thead>
+<tbody>
 @foreach ($this->bookings as $booking)
     {{-- Check if flight belongs to the logged in user --}}
     <tr class="{{ auth()->check() && $booking->user_id === auth()->id() ? 'table-active' : '' }}"  wire:key="{{ $booking->getKey() }}">
@@ -97,3 +98,4 @@
         @endif
     </tr>
 @endforeach
+</tbody>

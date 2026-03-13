@@ -14,6 +14,7 @@
         @endif
     </tr>
 </thead>
+<tbody>
 @foreach ($this->bookings as $booking)
     @php
         $flight = $booking->flights->first();
@@ -112,3 +113,4 @@
             @endif
         </tr>
 @endforeach
+</tbody>
