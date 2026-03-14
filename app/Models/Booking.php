@@ -194,7 +194,6 @@ class Booking extends Model
         return [
             'status' => BookingStatus::class,
             'is_editable' => 'boolean',
-            'has_already_received_final_information_email' => 'boolean',
             'final_information_email_sent_at' => 'datetime',
         ];
     }
