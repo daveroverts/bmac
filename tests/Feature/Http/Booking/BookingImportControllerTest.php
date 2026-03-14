@@ -49,3 +49,39 @@ it('imports bookings from a CSV file', function (): void {
         'is_editable' => true,
     ]);
 });
+
+it('rejects import with a disallowed file type', function (): void {
+    /** @var TestCase $this */
+
+    /** @var User $admin */
+    $admin = User::factory()->admin()->create();
+
+    /** @var Event $event */
+    $event = Event::factory()->create();
+
+    $file = UploadedFile::fake()->create('bookings.txt', 100, 'text/plain');
+
+    $this->actingAs($admin)
+        ->post(route('admin.events.bookings.import.store', $event), [
+            'file' => $file,
+        ])
+        ->assertSessionHasErrors('file');
+});
+
+it('rejects import when file exceeds max size', function (): void {
+    /** @var TestCase $this */
+
+    /** @var User $admin */
+    $admin = User::factory()->admin()->create();
+
+    /** @var Event $event */
+    $event = Event::factory()->create();
+
+    $file = UploadedFile::fake()->create('bookings.csv', 11000, 'text/csv');
+
+    $this->actingAs($admin)
+        ->post(route('admin.events.bookings.import.store', $event), [
+            'file' => $file,
+        ])
+        ->assertSessionHasErrors('file');
+});

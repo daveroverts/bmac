@@ -5,6 +5,7 @@ use App\Models\Booking;
 use App\Models\Event;
 use App\Models\Flight;
 use App\Models\User;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Event as EventFacade;
 use Tests\TestCase;
 
@@ -293,4 +294,40 @@ it('does not send notification when admin updates a booking without notify_user'
         ->assertRedirect(route('events.bookings.index', $booking->event));
 
     EventFacade::assertNotDispatched(BookingChanged::class);
+});
+
+it('rejects route assign with a disallowed file type', function (): void {
+    /** @var TestCase $this */
+
+    /** @var User $admin */
+    $admin = User::factory()->admin()->create();
+
+    /** @var Event $event */
+    $event = Event::factory()->create();
+
+    $file = UploadedFile::fake()->create('routes.txt', 100, 'text/plain');
+
+    $this->actingAs($admin)
+        ->post(route('admin.events.bookings.routeAssign.store', $event), [
+            'file' => $file,
+        ])
+        ->assertSessionHasErrors('file');
+});
+
+it('rejects route assign when file exceeds max size', function (): void {
+    /** @var TestCase $this */
+
+    /** @var User $admin */
+    $admin = User::factory()->admin()->create();
+
+    /** @var Event $event */
+    $event = Event::factory()->create();
+
+    $file = UploadedFile::fake()->create('routes.csv', 11000, 'text/csv');
+
+    $this->actingAs($admin)
+        ->post(route('admin.events.bookings.routeAssign.store', $event), [
+            'file' => $file,
+        ])
+        ->assertSessionHasErrors('file');
 });

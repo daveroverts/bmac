@@ -10,7 +10,7 @@
 
                 <div class="card-body">
                     <x-form :action="route('admin.events.bookings.import.store', $event)" method="POST" enctype="multipart/form-data">
-                        <x-forms.input name="file" type="file" :label="__('File')" />
+                        <x-forms.input name="file" type="file" :label="__('File')" accept=".csv,.xlsx,.xls" :help="__('Accepted formats: CSV, XLSX, XLS. Max size: 10 MB.')" />
 
                         <x-forms.form-group :label="__('Headers in <strong>bold</strong> are mandatory')">
                             @if ($event->event_type_id == \App\Enums\EventType::MULTIFLIGHTS->value)
