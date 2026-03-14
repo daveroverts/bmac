@@ -5,7 +5,6 @@ namespace App\Models;
 use Spatie\Activitylog\LogOptions;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
-use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -118,14 +117,14 @@ class Flight extends Model
         return $this->belongsTo(Booking::class);
     }
 
-    public function airportDep(): HasOne
+    public function airportDep(): BelongsTo
     {
-        return $this->hasOne(Airport::class, 'id', 'dep')->withDefault();
+        return $this->belongsTo(Airport::class, 'dep')->withDefault();
     }
 
-    public function airportArr(): HasOne
+    public function airportArr(): BelongsTo
     {
-        return $this->hasOne(Airport::class, 'id', 'arr')->withDefault();
+        return $this->belongsTo(Airport::class, 'arr')->withDefault();
     }
 
     /**

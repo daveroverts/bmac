@@ -8,7 +8,6 @@ use Illuminate\Support\Collection;
 use Spatie\Activitylog\LogOptions;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
-use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -136,14 +135,14 @@ class Booking extends Model
         $this->attributes['selcal'] = empty($value) ? null : strtoupper((string) $value);
     }
 
-    public function airportDep(): HasOne
+    public function airportDep(): BelongsTo
     {
-        return $this->hasOne(Airport::class, 'id', 'dep');
+        return $this->belongsTo(Airport::class, 'dep');
     }
 
-    public function airportArr(): HasOne
+    public function airportArr(): BelongsTo
     {
-        return $this->hasOne(Airport::class, 'id', 'arr');
+        return $this->belongsTo(Airport::class, 'arr');
     }
 
     public function event(): BelongsTo

@@ -5,7 +5,7 @@ namespace App\Models;
 use Spatie\Activitylog\LogOptions;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
-use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
@@ -47,13 +47,13 @@ class AirportLink extends Model
         return LogOptions::defaults()->logOnlyDirty();
     }
 
-    public function airport(): HasOne
+    public function airport(): BelongsTo
     {
-        return $this->hasOne(Airport::class, 'id', 'airport_id');
+        return $this->belongsTo(Airport::class, 'airport_id');
     }
 
-    public function type(): HasOne
+    public function type(): BelongsTo
     {
-        return $this->hasOne(AirportLinkType::class, 'id', 'airportLinkType_id');
+        return $this->belongsTo(AirportLinkType::class, 'airportLinkType_id');
     }
 }

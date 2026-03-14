@@ -6,14 +6,15 @@ use Spatie\Activitylog\LogOptions;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Spatie\Activitylog\Traits\LogsActivity;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * @property int $id
  * @property string $name
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Activitylog\Models\Activity> $activities
  * @property-read int|null $activities_count
- * @property-read \App\Models\Event|null $events
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Event> $events
+ * @property-read int|null $events_count
  * @method static Builder<static>|EventType newModelQuery()
  * @method static Builder<static>|EventType newQuery()
  * @method static Builder<static>|EventType query()
@@ -49,8 +50,8 @@ class EventType extends Model
         return LogOptions::defaults()->logOnlyDirty();
     }
 
-    public function events(): BelongsTo
+    public function events(): HasMany
     {
-        return $this->belongsTo(Event::class, 'id');
+        return $this->hasMany(Event::class);
     }
 }

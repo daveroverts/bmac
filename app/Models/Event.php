@@ -6,8 +6,8 @@ use Spatie\Activitylog\LogOptions;
 use Illuminate\Database\Eloquent\Model;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Spatie\Activitylog\Traits\LogsActivity;
-use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
@@ -91,19 +91,19 @@ class Event extends Model
         return $this->hasMany(Booking::class);
     }
 
-    public function type(): HasOne
+    public function type(): BelongsTo
     {
-        return $this->hasOne(EventType::class, 'id', 'event_type_id');
+        return $this->belongsTo(EventType::class, 'event_type_id');
     }
 
-    public function airportDep(): HasOne
+    public function airportDep(): BelongsTo
     {
-        return $this->hasOne(Airport::class, 'id', 'dep');
+        return $this->belongsTo(Airport::class, 'dep');
     }
 
-    public function airportArr(): HasOne
+    public function airportArr(): BelongsTo
     {
-        return $this->hasOne(Airport::class, 'id', 'arr');
+        return $this->belongsTo(Airport::class, 'arr');
     }
 
     public function links(): HasMany

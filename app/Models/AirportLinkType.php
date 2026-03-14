@@ -6,7 +6,7 @@ use Spatie\Activitylog\LogOptions;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Spatie\Activitylog\Traits\LogsActivity;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
@@ -17,7 +17,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Activitylog\Models\Activity> $activities
  * @property-read int|null $activities_count
- * @property-read \App\Models\AirportLink|null $links
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\AirportLink> $links
+ * @property-read int|null $links_count
  * @method static Builder<static>|AirportLinkType newModelQuery()
  * @method static Builder<static>|AirportLinkType newQuery()
  * @method static Builder<static>|AirportLinkType query()
@@ -53,8 +54,8 @@ class AirportLinkType extends Model
         return LogOptions::defaults()->logOnlyDirty();
     }
 
-    public function links(): BelongsTo
+    public function links(): HasMany
     {
-        return $this->belongsTo(AirportLink::class, 'id');
+        return $this->hasMany(AirportLink::class, 'airportLinkType_id');
     }
 }
