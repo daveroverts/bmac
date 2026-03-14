@@ -81,10 +81,10 @@ class LoginController extends Controller
         $resourceOwner = json_decode(json_encode($this->provider->getResourceOwner($accessToken)->toArray()));
 
         $data = [
-            'cid' => VatsimProvider::getOAuthProperty(config('oauth.mapping_cid'), $resourceOwner),
-            'first_name' => VatsimProvider::getOAuthProperty(config('oauth.mapping_first_name'), $resourceOwner),
-            'last_name' => VatsimProvider::getOAuthProperty(config('oauth.mapping_last_name'), $resourceOwner),
-            'email' => VatsimProvider::getOAuthProperty(config('oauth.mapping_mail'), $resourceOwner),
+            'cid' => $this->provider->getOAuthProperty(config('oauth.mapping_cid'), $resourceOwner),
+            'first_name' => $this->provider->getOAuthProperty(config('oauth.mapping_first_name'), $resourceOwner),
+            'last_name' => $this->provider->getOAuthProperty(config('oauth.mapping_last_name'), $resourceOwner),
+            'email' => $this->provider->getOAuthProperty(config('oauth.mapping_mail'), $resourceOwner),
         ];
 
         // Check if user has granted us the data we need

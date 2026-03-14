@@ -115,7 +115,7 @@ class User extends Authenticatable
         ]);
 
         if ($token->hasExpired()) {
-            $refreshedToken = VatsimProvider::updateToken($token);
+            $refreshedToken = resolve(VatsimProvider::class)->updateToken($token);
             $token = $refreshedToken instanceof AccessToken ? $refreshedToken : null;
 
             $this->update([

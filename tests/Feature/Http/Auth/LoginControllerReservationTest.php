@@ -35,6 +35,9 @@ function fakeProviderFor(User $user): VatsimProvider
     $provider = Mockery::mock(VatsimProvider::class);
     $provider->allows('getAccessToken')->andReturn($token);
     $provider->allows('getResourceOwner')->andReturn($resourceOwner);
+    $provider->allows('getOAuthProperty')->andReturnUsing(
+        fn (string $property, mixed $data): mixed => (new VatsimProvider())->getOAuthProperty($property, $data)
+    );
 
     return $provider;
 }
