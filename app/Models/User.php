@@ -72,6 +72,9 @@ class User extends Authenticatable
      */
     protected $hidden = [
         'remember_token',
+        'access_token',
+        'refresh_token',
+        'token_expires',
     ];
 
     public function getActivitylogOptions(): LogOptions
