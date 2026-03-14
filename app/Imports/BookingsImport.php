@@ -6,6 +6,7 @@ use App\Enums\EventType;
 use App\Models\Event;
 use App\Models\Airport;
 use App\Models\Booking;
+use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\ToModel;
 use PhpOffice\PhpSpreadsheet\Shared\Date;
 use Maatwebsite\Excel\Concerns\Importable;
@@ -18,11 +19,13 @@ class BookingsImport implements ToModel, WithHeadingRow, WithBatchInserts, WithC
 {
     use Importable;
 
+    /** @var Collection<string, int> */
+    private Collection $airports;
+
     public function __construct(public Event $event)
     {
-        //
+        $this->airports = Airport::pluck('id', 'icao');
     }
-
 
     public function model(array $row): ?Booking
     {
@@ -39,9 +42,9 @@ class BookingsImport implements ToModel, WithHeadingRow, WithBatchInserts, WithC
         ]);
 
         if ($this->event->event_type_id == EventType::MULTIFLIGHTS->value) {
-            $airport1 = $this->getAirport($row['airport_1']);
-            $airport2 = $this->getAirport($row['airport_2']);
-            $airport3 = $this->getAirport($row['airport_3']);
+            $airport1 = $this->airports[$row['airport_1']];
+            $airport2 = $this->airports[$row['airport_2']];
+            $airport3 = $this->airports[$row['airport_3']];
             $ctot1 = $this->getTime($row['ctot_1'] ?? null);
             $ctot2 = $this->getTime($row['ctot_2'] ?? null);
 
@@ -61,8 +64,8 @@ class BookingsImport implements ToModel, WithHeadingRow, WithBatchInserts, WithC
             ]);
         } else {
             $flight = collect([
-                'dep'          => $this->getAirport($row['origin']),
-                'arr'          => $this->getAirport($row['destination']),
+                'dep'          => $this->airports[$row['origin']],
+                'arr'          => $this->airports[$row['destination']],
                 'notes'        => $row['notes'] ?? null,
                 'ctot'         => $this->getTime($row['ctot'] ?? null),
                 'eta'          => $this->getTime($row['eta'] ?? null),
@@ -103,11 +106,6 @@ class BookingsImport implements ToModel, WithHeadingRow, WithBatchInserts, WithC
             'oceanicFL'     => 'sometimes|nullable|integer:3',
             'aircraft_type' => 'sometimes|nullable|max:4',
         ];
-    }
-
-    private function getAirport($icao): int
-    {
-        return Airport::whereIcao($icao)->first()->id;
     }
 
     private function getTime($time)
