@@ -14,7 +14,7 @@ class UpdateEvent extends Request
         return [
             'is_online' => ['required', 'boolean'],
             'show_on_homepage' => ['required', 'boolean'],
-            'name' => ['bail', 'required:string'],
+            'name' => ['bail', 'required', 'string'],
             'event_type_id' => ['exists:event_types,id', 'required'],
             'import_only' => ['required', 'boolean'],
             'uses_times' => ['required', 'boolean'],
@@ -27,7 +27,7 @@ class UpdateEvent extends Request
             'startBooking' => ['required', 'date'],
             'endBooking' => ['required', 'date', 'after_or_equal:startBooking'],
             'image_url' => ['nullable', 'url'],
-            'description' => ['required:string'],
+            'description' => ['required', 'string'],
         ];
     }
 
