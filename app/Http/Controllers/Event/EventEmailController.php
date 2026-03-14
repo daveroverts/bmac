@@ -7,12 +7,12 @@ use App\Events\EventBulkEmail;
 use App\Events\EventFinalInformation;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Event\Admin\SendEmail;
+use App\Http\Requests\Event\Admin\SendFinalInformation;
 use App\Models\Event;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\View\View;
 
 class EventEmailController extends Controller
@@ -41,7 +41,7 @@ class EventEmailController extends Controller
         return to_route('admin.events.index');
     }
 
-    public function sendFinal(Request $request, Event $event): RedirectResponse|JsonResponse
+    public function sendFinal(SendFinalInformation $request, Event $event): RedirectResponse|JsonResponse
     {
         $bookings = $event->bookings()
             ->with(['user', 'flights'])
