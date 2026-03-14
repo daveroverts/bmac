@@ -32,7 +32,7 @@
                                     href="{{ route('events.bookings.index', $event) }}">{{ $event->name }}
                                     – {{ $event->startEvent->toFormattedDateString() }}</a>
                                 @auth
-                                    @foreach ($bookings = auth()->user()->bookings->where('event_id', $event->id) as $booking)
+                                    @foreach ($navbarUserBookings->get($event->id, collect()) as $booking)
                                         <a class="dropdown-item {{ request()->fullUrlIs(route('bookings.show', $booking)) ? 'active' : '' }}"
                                             href="{{ route('bookings.show', $booking) }}">
                                             <i

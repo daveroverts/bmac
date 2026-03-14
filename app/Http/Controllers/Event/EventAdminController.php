@@ -29,11 +29,8 @@ class EventAdminController extends Controller
     public function create(): View
     {
         $event = new Event();
-        $airports = Airport::all(['id', 'icao', 'iata', 'name'])->keyBy('id')
-            ->map(fn ($airport): string =>
-                /** @var Airport $airport */
-                sprintf('%s | %s | %s', $airport->icao, $airport->name, $airport->iata));
-        $eventTypes = EventType::pluck('name', 'id');
+        $airports = Airport::forDropdown();
+        $eventTypes = EventType::forDropdown();
         return view('event.admin.form', ['event' => $event, 'airports' => $airports, 'eventTypes' => $eventTypes]);
     }
 
@@ -72,11 +69,8 @@ class EventAdminController extends Controller
 
     public function edit(Event $event): View
     {
-        $airports = Airport::all(['id', 'icao', 'iata', 'name'])->keyBy('id')
-            ->map(fn ($airport): string =>
-                /** @var Airport $airport */
-                sprintf('%s | %s | %s', $airport->icao, $airport->name, $airport->iata));
-        $eventTypes = EventType::pluck('name', 'id');
+        $airports = Airport::forDropdown();
+        $eventTypes = EventType::forDropdown();
         return view('event.admin.form', ['event' => $event, 'airports' => $airports, 'eventTypes' => $eventTypes]);
     }
 

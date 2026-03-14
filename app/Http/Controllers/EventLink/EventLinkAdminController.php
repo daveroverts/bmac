@@ -29,7 +29,7 @@ class EventLinkAdminController extends Controller
     public function create(): View
     {
         $eventLink = new EventLink();
-        $eventLinkTypes = AirportLinkType::pluck('name', 'id');
+        $eventLinkTypes = AirportLinkType::forDropdown();
         $events = Event::where('endEvent', '>', now())
             ->orderBy('startEvent')
             ->get(['id', 'name', 'startEvent'])
@@ -54,7 +54,7 @@ class EventLinkAdminController extends Controller
 
     public function edit(EventLink $eventLink): View
     {
-        $eventLinkTypes = AirportLinkType::pluck('name', 'id');
+        $eventLinkTypes = AirportLinkType::forDropdown();
         return view('eventLink.admin.form', ['eventLink' => $eventLink, 'eventLinkTypes' => $eventLinkTypes]);
     }
 

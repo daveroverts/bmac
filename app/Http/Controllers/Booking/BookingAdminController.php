@@ -26,10 +26,7 @@ class BookingAdminController extends Controller
     public function create(Event $event, Request $request): View
     {
         $bulk = $request->bulk;
-        $airports = Airport::all(['id', 'icao', 'iata', 'name'])->keyBy('id')
-            ->map(fn ($airport): string =>
-                /** @var Airport $airport */
-                sprintf('%s | %s | %s', $airport->icao, $airport->name, $airport->iata));
+        $airports = Airport::forDropdown();
 
         return view('booking.admin.create', ['event' => $event, 'airports' => $airports, 'bulk' => $bulk]);
     }
@@ -114,10 +111,7 @@ class BookingAdminController extends Controller
     public function edit(Booking $booking): View|RedirectResponse
     {
         if ($booking->event->endEvent >= now()) {
-            $airports = Airport::all(['id', 'icao', 'iata', 'name'])->keyBy('id')
-                ->map(fn ($airport): string =>
-                    /** @var Airport $airport */
-                    sprintf('%s | %s | %s', $airport->icao, $airport->name, $airport->iata));
+            $airports = Airport::forDropdown();
             $flight = $booking->flights()->first();
             return view('booking.admin.edit', ['booking' => $booking, 'airports' => $airports, 'flight' => $flight]);
         }

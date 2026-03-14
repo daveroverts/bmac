@@ -3,12 +3,14 @@
 namespace App\Models;
 
 use App\Enums\AirportView;
-use Spatie\Activitylog\LogOptions;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
-use Spatie\Activitylog\Traits\LogsActivity;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Cache;
+use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 /**
  * @property int $id
@@ -53,6 +55,8 @@ class Airport extends Model
 
     protected $guarded = [];
 
+    public const string CACHE_KEY_DROPDOWN = 'airports.dropdown';
+
     /**
      * The "booted" method of the model.
      *
@@ -64,6 +68,21 @@ class Airport extends Model
         static::addGlobalScope('order', function (Builder $builder): void {
             $builder->orderBy('icao');
         });
+
+        static::saved(fn () => Cache::forget(self::CACHE_KEY_DROPDOWN));
+        static::deleted(fn () => Cache::forget(self::CACHE_KEY_DROPDOWN));
+    }
+
+    /**
+     * Get airports formatted for dropdown selects, cached for performance.
+     *
+     * @return Collection<int|string, non-falsy-string>
+     */
+    public static function forDropdown(): Collection
+    {
+        return Cache::remember(self::CACHE_KEY_DROPDOWN, now()->addHour(), fn (): Collection => static::all(['id', 'icao', 'iata', 'name'])
+            ->keyBy('id')
+            ->map(fn (self $airport): string => sprintf('%s | %s | %s', $airport->icao, $airport->name, $airport->iata)));
     }
 
     public function getActivitylogOptions(): LogOptions

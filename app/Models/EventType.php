@@ -2,11 +2,13 @@
 
 namespace App\Models;
 
-use Spatie\Activitylog\LogOptions;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
-use Spatie\Activitylog\Traits\LogsActivity;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Cache;
+use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 /**
  * @property int $id
@@ -32,6 +34,8 @@ class EventType extends Model
 
     protected $guarded = ['id'];
 
+    public const string CACHE_KEY_DROPDOWN = 'event_types.dropdown';
+
     /**
      * The "booted" method of the model.
      *
@@ -43,6 +47,19 @@ class EventType extends Model
         static::addGlobalScope('order', function (Builder $builder): void {
             $builder->orderBy('name');
         });
+
+        static::saved(fn () => Cache::forget(self::CACHE_KEY_DROPDOWN));
+        static::deleted(fn () => Cache::forget(self::CACHE_KEY_DROPDOWN));
+    }
+
+    /**
+     * Get event types formatted for dropdown selects, cached for performance.
+     *
+     * @return Collection<string, string>
+     */
+    public static function forDropdown(): Collection
+    {
+        return Cache::remember(self::CACHE_KEY_DROPDOWN, now()->addHour(), fn (): Collection => static::pluck('name', 'id'));
     }
 
     public function getActivitylogOptions(): LogOptions
