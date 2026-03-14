@@ -32,7 +32,6 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  * @property-read int|null $bookings_count
  * @property-read string $full_name
  * @property-read string $pic
- * @property-read \League\OAuth2\Client\Token\AccessToken|null $token
  * @property-read \Illuminate\Notifications\DatabaseNotificationCollection<int, \Illuminate\Notifications\DatabaseNotification> $notifications
  * @property-read int|null $notifications_count
  * @method static \Database\Factories\UserFactory factory($count = null, $state = [])
@@ -99,7 +98,11 @@ class User extends Authenticatable
         return '-';
     }
 
-    protected function getTokenAttribute(): ?AccessToken
+    /**
+     * Returns a valid access token, refreshing it via the OAuth provider if it has expired.
+     * Persists updated token fields to the database when a refresh occurs.
+     */
+    public function refreshTokenIfExpired(): ?AccessToken
     {
         if ($this->access_token === null) {
             return null;
@@ -114,15 +117,13 @@ class User extends Authenticatable
         if ($token->hasExpired()) {
             $refreshedToken = VatsimProvider::updateToken($token);
             $token = $refreshedToken instanceof AccessToken ? $refreshedToken : null;
-        }
 
-        // Can't put it inside the "if token expired"; $this is null there
-        // but anyway Laravel will only update if any changes have been made.
-        $this->update([
-            'access_token' => $token?->getToken(),
-            'refresh_token' => $token?->getRefreshToken(),
-            'token_expires' => $token?->getExpires(),
-        ]);
+            $this->update([
+                'access_token' => $token?->getToken(),
+                'refresh_token' => $token?->getRefreshToken(),
+                'token_expires' => $token?->getExpires(),
+            ]);
+        }
 
         return $token;
     }
