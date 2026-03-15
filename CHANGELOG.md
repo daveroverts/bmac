@@ -1,3 +1,22 @@
+## [5.1.1](https://github.com/daveroverts/bmac/compare/v5.1.0...v5.1.1) (2026-03-15)
+
+
+### Bug Fixes
+
+* **booking:** remove non-existent column cast from Booking model ([cd09450](https://github.com/daveroverts/bmac/commit/cd09450897f4a5641d6d67ed691b0b1e722c92a8))
+* correct broken validation rule syntax in Form Requests ([ad605d7](https://github.com/daveroverts/bmac/commit/ad605d7e0d4f9b4a4884a359f4b02fe3c686c6c5))
+* correct Eloquent relationship types in various models ([ad3ebda](https://github.com/daveroverts/bmac/commit/ad3ebdab3f87ca1515f1f5874541e4d5d9c491bc))
+* enable SoftDeletes on AirportLink model to match database schema ([e720d45](https://github.com/daveroverts/bmac/commit/e720d45a4caf059f1c1cfc82dfe11ccdff80daf7))
+* resolve N+1 query issues in BookingsExport and BookingController ([f707642](https://github.com/daveroverts/bmac/commit/f70764284419ef460792463cd82000f084107d70))
+* **security:** add Form Request validation for sendFinal endpoint ([df1711f](https://github.com/daveroverts/bmac/commit/df1711fad8a898ecd6dc34faec0332b8bd296c08))
+* use size rule and add unique validation to UpdateAirport request ([8c4289f](https://github.com/daveroverts/bmac/commit/8c4289fc71a6428b2dede7a6c3a32154bd42acd8))
+
+
+### Performance Improvements
+
+* fix navbar N+1 queries and add caching for reference data ([5243478](https://github.com/daveroverts/bmac/commit/52434781fc4313345c06fea59158c1462ce9d0fd))
+* use withCount() for airport index and pre-load airports in imports ([5ffd6a9](https://github.com/daveroverts/bmac/commit/5ffd6a92b830532c6e9c728424923d3380213663))
+
 # [5.1.0](https://github.com/daveroverts/bmac/compare/v5.0.0...v5.1.0) (2026-02-25)
 
 
