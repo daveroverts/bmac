@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Airport\Admin;
 
 use App\Http\Requests\Request;
+use Illuminate\Validation\Rule;
 
 class UpdateAirport extends Request
 {
@@ -12,8 +13,8 @@ class UpdateAirport extends Request
     public function rules(): array
     {
         return [
-            'icao' => ['required', 'string', 'between:4,4'],
-            'iata' => ['required', 'string', 'between:3,3'],
+            'icao' => ['required', 'string', 'size:4', Rule::unique('airports')->ignore($this->route('airport'))],
+            'iata' => ['required', 'string', 'size:3', Rule::unique('airports', 'iata')->ignore($this->route('airport'))],
             'name' => ['required', 'string'],
             'latitude' => ['required', 'regex:/^[-]?((([0-8]?[0-9])(\.(\d{1,10}))?)|(90(\.0+)?))$/'],
             'longitude' => ['required', 'regex:/^[-]?((((1[0-7][0-9])|([0-9]?[0-9]))(\.(\d{1,10}))?)|180(\.0+)?)/'],
