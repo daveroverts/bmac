@@ -90,6 +90,7 @@ class Event extends Model
         return LogOptions::defaults()->logOnlyDirty();
     }
 
+    /** @return HasMany<Booking, $this> */
     public function bookings(): HasMany
     {
         return $this->hasMany(Booking::class);
@@ -123,7 +124,7 @@ class Event extends Model
     /**
      * @param  Builder<static>  $query
      */
-    public function scopeUpcoming(Builder $query): void
+    protected function scopeUpcoming(Builder $query): void
     {
         $query->where('endEvent', '>', now())
             ->orderBy('startEvent');
@@ -132,7 +133,7 @@ class Event extends Model
     /**
      * @param  Builder<static>  $query
      */
-    public function scopeOnline(Builder $query): void
+    protected function scopeOnline(Builder $query): void
     {
         $query->where('is_online', true);
     }
@@ -140,7 +141,7 @@ class Event extends Model
     /**
      * @param  Builder<static>  $query
      */
-    public function scopeOnHomepage(Builder $query): void
+    protected function scopeOnHomepage(Builder $query): void
     {
         $query->where('show_on_homepage', true);
     }

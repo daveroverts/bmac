@@ -32,7 +32,7 @@ class EventEmailController extends Controller
         /** @var \Illuminate\Support\Collection<int, User> $users */
         $users = User::whereHas('bookings', function (Builder $query) use ($event): void {
             $query->where('event_id', $event->id)
-                ->booked();
+                ->booked(); // @phpstan-ignore method.notFound (whereHas closure receives Builder<Model>, not Builder<Booking>)
         })->get();
         event(new EventBulkEmail($event, $request->all(), $users));
         flashMessage('success', __('Done'), __('Bulk E-mail has been sent to :count people!', ['count' => $users->count()]));

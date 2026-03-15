@@ -92,7 +92,7 @@ class Booking extends Model
     /**
      * @param  Builder<static>  $query
      */
-    public function scopeBooked(Builder $query): void
+    protected function scopeBooked(Builder $query): void
     {
         $query->where('status', BookingStatus::BOOKED);
     }
@@ -100,7 +100,7 @@ class Booking extends Model
     /**
      * @param  Builder<static>  $query
      */
-    public function scopeUnassigned(Builder $query): void
+    protected function scopeUnassigned(Builder $query): void
     {
         $query->where('status', BookingStatus::UNASSIGNED);
     }
@@ -108,7 +108,7 @@ class Booking extends Model
     /**
      * @param  Builder<static>  $query
      */
-    public function scopeReserved(Builder $query): void
+    protected function scopeReserved(Builder $query): void
     {
         $query->where('status', BookingStatus::RESERVED);
     }
