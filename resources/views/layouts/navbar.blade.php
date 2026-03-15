@@ -32,7 +32,7 @@
                                     href="{{ route('events.bookings.index', $event) }}">{{ $event->name }}
                                     – {{ $event->startEvent->toFormattedDateString() }}</a>
                                 @auth
-                                    @foreach ($bookings = auth()->user()->bookings->where('event_id', $event->id) as $booking)
+                                    @foreach ($navbarUserBookings->get($event->id, collect()) as $booking)
                                         <a class="dropdown-item {{ request()->fullUrlIs(route('bookings.show', $booking)) ? 'active' : '' }}"
                                             href="{{ route('bookings.show', $booking) }}">
                                             <i
@@ -97,7 +97,7 @@
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                             data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            {{ auth()->user()->fullName }}
+                            {{ auth()->user()->full_name }}
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <a class="dropdown-item {{ request()->routeIs('user.settings.*') ? 'active' : '' }}"

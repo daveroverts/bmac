@@ -2,18 +2,21 @@
 
 namespace App\Models;
 
-use Spatie\Activitylog\LogOptions;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Cache;
+use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * @property int $id
  * @property string $name
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Activitylog\Models\Activity> $activities
  * @property-read int|null $activities_count
- * @property-read \App\Models\Event|null $events
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Event> $events
+ * @property-read int|null $events_count
  * @method static Builder<static>|EventType newModelQuery()
  * @method static Builder<static>|EventType newQuery()
  * @method static Builder<static>|EventType query()
@@ -31,6 +34,8 @@ class EventType extends Model
 
     protected $guarded = ['id'];
 
+    public const string CACHE_KEY_DROPDOWN = 'event_types.dropdown';
+
     /**
      * The "booted" method of the model.
      *
@@ -42,6 +47,19 @@ class EventType extends Model
         static::addGlobalScope('order', function (Builder $builder): void {
             $builder->orderBy('name');
         });
+
+        static::saved(fn () => Cache::forget(self::CACHE_KEY_DROPDOWN));
+        static::deleted(fn () => Cache::forget(self::CACHE_KEY_DROPDOWN));
+    }
+
+    /**
+     * Get event types formatted for dropdown selects, cached for performance.
+     *
+     * @return Collection<string, string>
+     */
+    public static function forDropdown(): Collection
+    {
+        return Cache::remember(self::CACHE_KEY_DROPDOWN, now()->addHour(), fn (): Collection => static::pluck('name', 'id'));
     }
 
     public function getActivitylogOptions(): LogOptions
@@ -49,8 +67,8 @@ class EventType extends Model
         return LogOptions::defaults()->logOnlyDirty();
     }
 
-    public function events(): BelongsTo
+    public function events(): HasMany
     {
-        return $this->belongsTo(Event::class, 'id');
+        return $this->hasMany(Event::class);
     }
 }

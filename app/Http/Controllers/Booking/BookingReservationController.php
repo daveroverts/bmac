@@ -22,7 +22,7 @@ class BookingReservationController extends Controller
         // Check if user already has a reservation
         if (auth()->user()->bookings()
             ->where('event_id', $booking->event_id)
-            ->where('status', BookingStatus::RESERVED)
+            ->reserved()
             ->exists()) {
             flashMessage('danger', __('Warning'), __('You already have a reservation! Please cancel or book that flight first.'));
             return to_route('events.bookings.index', $booking->event);
@@ -32,7 +32,7 @@ class BookingReservationController extends Controller
         if (!$booking->event->multiple_bookings_allowed
             && auth()->user()->bookings()
                 ->where('event_id', $booking->event_id)
-                ->where('status', BookingStatus::BOOKED)
+                ->booked()
                 ->exists()) {
             flashMessage('danger', __('Warning'), __('You already have a booking!'));
             return to_route('events.bookings.index', $booking->event);
@@ -43,7 +43,7 @@ class BookingReservationController extends Controller
         // check and both reserving the same slot.
         $claimed = Booking::query()
             ->where('id', $booking->id)
-            ->where('status', BookingStatus::UNASSIGNED)
+            ->unassigned()
             ->update([
                 'status' => BookingStatus::RESERVED,
                 'user_id' => auth()->id(),

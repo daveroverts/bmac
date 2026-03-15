@@ -41,10 +41,10 @@
                 </td>
                 <td>
                     @if (
-                        $airport->flightsDep->isEmpty() &&
-                            $airport->flightsArr->isEmpty() &&
-                            $airport->eventDep->isEmpty() &&
-                            $airport->eventArr->isEmpty())
+                        $airport->flights_dep_count === 0 &&
+                            $airport->flights_arr_count === 0 &&
+                            $airport->event_dep_count === 0 &&
+                            $airport->event_arr_count === 0)
                         <form action="{{ route('admin.airports.destroy', $airport) }}" method="post">
                             @method('DELETE')
                             <x-confirm-button

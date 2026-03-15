@@ -2,12 +2,14 @@
 
 namespace App\Models;
 
-use Spatie\Activitylog\LogOptions;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
-use Spatie\Activitylog\Traits\LogsActivity;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Cache;
+use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 /**
  * @property int $id
@@ -17,7 +19,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Activitylog\Models\Activity> $activities
  * @property-read int|null $activities_count
- * @property-read \App\Models\AirportLink|null $links
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\AirportLink> $links
+ * @property-read int|null $links_count
  * @method static Builder<static>|AirportLinkType newModelQuery()
  * @method static Builder<static>|AirportLinkType newQuery()
  * @method static Builder<static>|AirportLinkType query()
@@ -35,6 +38,8 @@ class AirportLinkType extends Model
 
     protected $guarded = ['id'];
 
+    public const string CACHE_KEY_DROPDOWN = 'airport_link_types.dropdown';
+
     /**
      * The "booted" method of the model.
      *
@@ -46,6 +51,19 @@ class AirportLinkType extends Model
         static::addGlobalScope('order', function (Builder $builder): void {
             $builder->orderBy('name');
         });
+
+        static::saved(fn () => Cache::forget(self::CACHE_KEY_DROPDOWN));
+        static::deleted(fn () => Cache::forget(self::CACHE_KEY_DROPDOWN));
+    }
+
+    /**
+     * Get airport link types formatted for dropdown selects, cached for performance.
+     *
+     * @return Collection<string, string>
+     */
+    public static function forDropdown(): Collection
+    {
+        return Cache::remember(self::CACHE_KEY_DROPDOWN, now()->addHour(), fn (): Collection => static::pluck('name', 'id'));
     }
 
     public function getActivitylogOptions(): LogOptions
@@ -53,8 +71,8 @@ class AirportLinkType extends Model
         return LogOptions::defaults()->logOnlyDirty();
     }
 
-    public function links(): BelongsTo
+    public function links(): HasMany
     {
-        return $this->belongsTo(AirportLink::class, 'id');
+        return $this->hasMany(AirportLink::class, 'airportLinkType_id');
     }
 }

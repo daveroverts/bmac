@@ -25,19 +25,18 @@ class VatsimProvider extends GenericProvider
         ]);
     }
 
-    public static function updateToken($token): ?AccessTokenInterface
+    public function updateToken(AccessTokenInterface $token): ?AccessTokenInterface
     {
-        $controller = new VatsimProvider();
         try {
-            return $controller->getAccessToken('refresh_token', [
-                'refresh_token' => $token->getRefreshToken()
+            return $this->getAccessToken('refresh_token', [
+                'refresh_token' => $token->getRefreshToken(),
             ]);
         } catch (IdentityProviderException) {
             return null;
         }
     }
 
-    public static function getOAuthProperty(string $property, mixed $data): mixed
+    public function getOAuthProperty(string $property, mixed $data): mixed
     {
         return data_get($data, str_replace('-', '.', $property)) ?: false;
     }

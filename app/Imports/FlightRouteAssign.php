@@ -14,16 +14,21 @@ class FlightRouteAssign implements ToCollection, WithHeadingRow, WithValidation
 {
     use Importable;
 
+    /** @var Collection<string, int> */
+    private Collection $airports;
+
     public function collection(Collection $rows): void
     {
+        $this->airports = Airport::pluck('id', 'icao');
+
         foreach ($rows as $row) {
-            $from = $this->getAirport($row['from']);
-            $to =  $this->getAirport($row['to']);
+            $from = $this->airports[$row['from']];
+            $to = $this->airports[$row['to']];
             Flight::whereDep($from)
                 ->whereArr($to)
                 ->update([
                     'route' => $row['route'],
-                    'notes' => $row['notes'] ?? null
+                    'notes' => $row['notes'] ?? null,
                 ]);
         }
     }
@@ -36,10 +41,5 @@ class FlightRouteAssign implements ToCollection, WithHeadingRow, WithValidation
             'route' => 'nullable',
             'notes' => 'nullable',
         ];
-    }
-
-    private function getAirport($icao): int
-    {
-        return Airport::whereIcao($icao)->first()->id;
     }
 }

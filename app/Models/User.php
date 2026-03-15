@@ -3,14 +3,15 @@
 namespace App\Models;
 
 use App\Enums\AirportView;
-use Spatie\Activitylog\LogOptions;
-use Illuminate\Notifications\Notifiable;
 use App\Services\OAuth\VatsimProvider;
-use League\OAuth2\Client\Token\AccessToken;
-use Spatie\Activitylog\Traits\LogsActivity;
-use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+use League\OAuth2\Client\Token\AccessToken;
+use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 /**
  * @property int $id
@@ -32,7 +33,6 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  * @property-read int|null $bookings_count
  * @property-read string $full_name
  * @property-read string $pic
- * @property-read \League\OAuth2\Client\Token\AccessToken|null $token
  * @property-read \Illuminate\Notifications\DatabaseNotificationCollection<int, \Illuminate\Notifications\DatabaseNotification> $notifications
  * @property-read int|null $notifications_count
  * @method static \Database\Factories\UserFactory factory($count = null, $state = [])
@@ -73,6 +73,9 @@ class User extends Authenticatable
      */
     protected $hidden = [
         'remember_token',
+        'access_token',
+        'refresh_token',
+        'token_expires',
     ];
 
     public function getActivitylogOptions(): LogOptions
@@ -80,26 +83,37 @@ class User extends Authenticatable
         return LogOptions::defaults()->logOnlyDirty();
     }
 
+    /** @return HasMany<Booking, $this> */
     public function bookings(): HasMany
     {
         return $this->hasMany(Booking::class);
     }
 
-    protected function getFullNameAttribute(): string
+    protected function fullName(): Attribute
     {
-        return ucfirst($this->name_first) . ' ' . ucfirst($this->name_last);
+        return Attribute::make(
+            get: fn (mixed $value, array $attributes): string => ucfirst((string) ($attributes['name_first'] ?? '')) . ' ' . ucfirst((string) ($attributes['name_last'] ?? '')),
+        );
     }
 
-    protected function getPicAttribute(): string
+    protected function pic(): Attribute
     {
-        if (!empty($this->full_name) && !empty($this->id)) {
-            return sprintf('%s | %s', $this->full_name, $this->id);
-        }
+        return Attribute::make(
+            get: function (mixed $value, array $attributes): string {
+                if (! empty($this->full_name) && ! empty($attributes['id'])) {
+                    return sprintf('%s | %s', $this->full_name, $attributes['id']);
+                }
 
-        return '-';
+                return '-';
+            },
+        );
     }
 
-    protected function getTokenAttribute(): ?AccessToken
+    /**
+     * Returns a valid access token, refreshing it via the OAuth provider if it has expired.
+     * Persists updated token fields to the database when a refresh occurs.
+     */
+    public function refreshTokenIfExpired(): ?AccessToken
     {
         if ($this->access_token === null) {
             return null;
@@ -112,17 +126,15 @@ class User extends Authenticatable
         ]);
 
         if ($token->hasExpired()) {
-            $refreshedToken = VatsimProvider::updateToken($token);
+            $refreshedToken = resolve(VatsimProvider::class)->updateToken($token);
             $token = $refreshedToken instanceof AccessToken ? $refreshedToken : null;
-        }
 
-        // Can't put it inside the "if token expired"; $this is null there
-        // but anyway Laravel will only update if any changes have been made.
-        $this->update([
-            'access_token' => $token?->getToken(),
-            'refresh_token' => $token?->getRefreshToken(),
-            'token_expires' => $token?->getExpires(),
-        ]);
+            $this->update([
+                'access_token' => $token?->getToken(),
+                'refresh_token' => $token?->getRefreshToken(),
+                'token_expires' => $token?->getExpires(),
+            ]);
+        }
 
         return $token;
     }

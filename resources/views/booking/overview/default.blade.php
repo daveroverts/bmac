@@ -22,17 +22,17 @@
         {{-- Check if flight belongs to the logged in user --}}
         <tr class="{{ auth()->check() && $booking->user_id === auth()->id() ? 'table-active' : '' }}" wire:key="{{ $booking->getKey() }}">
             <td>
-                {!! $flight->airportDep->fullName !!}
+                <x-airport-name :airport="$flight->airportDep" />
             </td>
             <td>
-                {!! $flight->airportArr->fullName !!}
+                <x-airport-name :airport="$flight->airportArr" />
             </td>
             @if ($booking->event->uses_times)
                 <td>
-                    {{ $flight->formattedCtot }}
+                    {{ $flight->formatted_ctot }}
                 </td>
                 <td>
-                    {{ $flight->formattedEta }}
+                    {{ $flight->formatted_eta }}
                 </td>
             @endif
             <td class="{{ auth()->check() && auth()->user()->use_monospace_font ? 'font-monospace' : '' }}">

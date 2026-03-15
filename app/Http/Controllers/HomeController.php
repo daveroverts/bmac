@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Event;
 use Illuminate\View\View;
 
 class HomeController extends Controller
 {
     public function __invoke(): View
     {
-        $events = nextEvents(false, false, true);
+        $events = Event::query()->upcoming()->online()->onHomepage()->get();
         return view('home', ['events' => $events]);
     }
 }

@@ -25,10 +25,21 @@ class BookingController extends Controller
         $this->authorize('view', $booking);
 
         if ($booking->event->event_type_id === EventType::MULTIFLIGHTS->value) {
+            $booking->load(['flights.airportDep', 'flights.airportArr']);
+
             return view('booking.show_multiflights', ['booking' => $booking]);
         }
 
+        $booking->load([
+            'event.links.type',
+            'flights.airportDep.links.type',
+            'flights.airportDep.links.airport',
+            'flights.airportArr.links.type',
+            'flights.airportArr.links.airport',
+        ]);
+
         $flight = $booking->flights->first();
+
         return view('booking.show', ['booking' => $booking, 'flight' => $flight]);
     }
 
@@ -39,15 +50,27 @@ class BookingController extends Controller
         // Check if editable for BOOKED status
         if ($booking->status === BookingStatus::BOOKED && !$booking->is_editable) {
             flashMessage('info', __('Danger'), __('You cannot edit the booking!'));
+
             return to_route('events.bookings.index', $booking->event);
         }
 
         // Show edit form
         if ($booking->event->event_type_id === EventType::MULTIFLIGHTS->value) {
+            $booking->load(['flights.airportDep', 'flights.airportArr']);
+
             return view('booking.edit_multiflights', ['booking' => $booking]);
         }
 
+        $booking->load([
+            'event.links.type',
+            'flights.airportDep.links.type',
+            'flights.airportDep.links.airport',
+            'flights.airportArr.links.type',
+            'flights.airportArr.links.airport',
+        ]);
+
         $flight = $booking->flights->first();
+
         return view('booking.edit', ['booking' => $booking, 'flight' => $flight]);
     }
 

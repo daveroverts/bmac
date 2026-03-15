@@ -3,11 +3,12 @@
 namespace App\Models;
 
 use Spatie\Activitylog\LogOptions;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Spatie\Activitylog\Traits\LogsActivity;
-use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
@@ -44,6 +45,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  * @property-read int|null $links_count
  * @property-read \App\Models\EventType|null $type
  * @method static \Database\Factories\EventFactory factory($count = null, $state = [])
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Event upcoming()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Event online()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Event onHomepage()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Event findSimilarSlugs(string $attribute, array $config, string $slug)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Event newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Event newQuery()
@@ -86,24 +90,25 @@ class Event extends Model
         return LogOptions::defaults()->logOnlyDirty();
     }
 
+    /** @return HasMany<Booking, $this> */
     public function bookings(): HasMany
     {
         return $this->hasMany(Booking::class);
     }
 
-    public function type(): HasOne
+    public function type(): BelongsTo
     {
-        return $this->hasOne(EventType::class, 'id', 'event_type_id');
+        return $this->belongsTo(EventType::class, 'event_type_id');
     }
 
-    public function airportDep(): HasOne
+    public function airportDep(): BelongsTo
     {
-        return $this->hasOne(Airport::class, 'id', 'dep');
+        return $this->belongsTo(Airport::class, 'dep');
     }
 
-    public function airportArr(): HasOne
+    public function airportArr(): BelongsTo
     {
-        return $this->hasOne(Airport::class, 'id', 'arr');
+        return $this->belongsTo(Airport::class, 'arr');
     }
 
     public function links(): HasMany
@@ -114,6 +119,31 @@ class Event extends Model
     public function faqs(): BelongsToMany
     {
         return $this->belongsToMany(Faq::class);
+    }
+
+    /**
+     * @param  Builder<static>  $query
+     */
+    protected function scopeUpcoming(Builder $query): void
+    {
+        $query->where('endEvent', '>', now())
+            ->orderBy('startEvent');
+    }
+
+    /**
+     * @param  Builder<static>  $query
+     */
+    protected function scopeOnline(Builder $query): void
+    {
+        $query->where('is_online', true);
+    }
+
+    /**
+     * @param  Builder<static>  $query
+     */
+    protected function scopeOnHomepage(Builder $query): void
+    {
+        $query->where('show_on_homepage', true);
     }
 
     public function sluggable(): array

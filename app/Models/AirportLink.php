@@ -5,8 +5,9 @@ namespace App\Models;
 use Spatie\Activitylog\LogOptions;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
-use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * @property int $id
@@ -16,7 +17,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @property string $url
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property string|null $deleted_at
+ * @property \Illuminate\Support\Carbon|null $deleted_at
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Activitylog\Models\Activity> $activities
  * @property-read int|null $activities_count
  * @property-read \App\Models\Airport|null $airport
@@ -28,8 +29,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|AirportLink whereAirportId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|AirportLink whereAirportLinkTypeId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|AirportLink whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|AirportLink onlyTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|AirportLink whereDeletedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|AirportLink whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|AirportLink withTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|AirportLink withoutTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|AirportLink whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|AirportLink whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|AirportLink whereUrl($value)
@@ -39,6 +43,7 @@ class AirportLink extends Model
 {
     use HasFactory;
     use LogsActivity;
+    use SoftDeletes;
 
     protected $guarded = ['id'];
 
@@ -47,13 +52,13 @@ class AirportLink extends Model
         return LogOptions::defaults()->logOnlyDirty();
     }
 
-    public function airport(): HasOne
+    public function airport(): BelongsTo
     {
-        return $this->hasOne(Airport::class, 'id', 'airport_id');
+        return $this->belongsTo(Airport::class, 'airport_id');
     }
 
-    public function type(): HasOne
+    public function type(): BelongsTo
     {
-        return $this->hasOne(AirportLinkType::class, 'id', 'airportLinkType_id');
+        return $this->belongsTo(AirportLinkType::class, 'airportLinkType_id');
     }
 }

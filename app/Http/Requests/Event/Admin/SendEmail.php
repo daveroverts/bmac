@@ -12,8 +12,8 @@ class SendEmail extends Request
     public function rules(): array
     {
         return [
-            'subject' => ['bail', 'required:string'],
-            'message' => ['required:string'],
+            'subject' => ['bail', 'required', 'string'],
+            'message' => ['required', 'string'],
             'testmode' => ['boolean']
         ];
     }

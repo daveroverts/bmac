@@ -132,6 +132,115 @@ it('allows admin users to delete airports', function (): void {
     ]);
 });
 
+it('allows admin users to update airports without changing icao or iata', function (): void {
+    /** @var TestCase $this */
+
+    /** @var User $admin */
+    $admin = User::factory()->admin()->create();
+
+    /** @var Airport $airport */
+    $airport = Airport::factory()->create();
+
+    $this->actingAs($admin)
+        ->patch(route('admin.airports.update', $airport), [
+            'icao' => $airport->icao,
+            'iata' => $airport->iata,
+            'name' => 'Updated Name',
+            'latitude' => $airport->latitude,
+            'longitude' => $airport->longitude,
+        ])
+        ->assertRedirect();
+
+    $airport->refresh();
+    expect($airport->name)->toBe('Updated Name');
+});
+
+it('prevents updating airport with duplicate icao', function (): void {
+    /** @var TestCase $this */
+
+    /** @var User $admin */
+    $admin = User::factory()->admin()->create();
+
+    /** @var Airport $existingAirport */
+    $existingAirport = Airport::factory()->create(['icao' => 'EHAM']);
+
+    /** @var Airport $airport */
+    $airport = Airport::factory()->create(['icao' => 'EHRD']);
+
+    $this->actingAs($admin)
+        ->patch(route('admin.airports.update', $airport), [
+            'icao' => 'EHAM',
+            'iata' => $airport->iata,
+            'name' => $airport->name,
+            'latitude' => $airport->latitude,
+            'longitude' => $airport->longitude,
+        ])
+        ->assertSessionHasErrors('icao');
+});
+
+it('prevents updating airport with duplicate iata', function (): void {
+    /** @var TestCase $this */
+
+    /** @var User $admin */
+    $admin = User::factory()->admin()->create();
+
+    /** @var Airport $existingAirport */
+    $existingAirport = Airport::factory()->create(['iata' => 'AMS']);
+
+    /** @var Airport $airport */
+    $airport = Airport::factory()->create(['iata' => 'RTM']);
+
+    $this->actingAs($admin)
+        ->patch(route('admin.airports.update', $airport), [
+            'icao' => $airport->icao,
+            'iata' => 'AMS',
+            'name' => $airport->name,
+            'latitude' => $airport->latitude,
+            'longitude' => $airport->longitude,
+        ])
+        ->assertSessionHasErrors('iata');
+});
+
+it('validates icao must be exactly 4 characters on update', function (): void {
+    /** @var TestCase $this */
+
+    /** @var User $admin */
+    $admin = User::factory()->admin()->create();
+
+    /** @var Airport $airport */
+    $airport = Airport::factory()->create();
+
+    $this->actingAs($admin)
+        ->patch(route('admin.airports.update', $airport), [
+            'icao' => 'EH',
+            'iata' => $airport->iata,
+            'name' => $airport->name,
+            'latitude' => $airport->latitude,
+            'longitude' => $airport->longitude,
+        ])
+        ->assertSessionHasErrors('icao');
+});
+
+it('validates iata must be exactly 3 characters on update', function (): void {
+    /** @var TestCase $this */
+
+    /** @var User $admin */
+    $admin = User::factory()->admin()->create();
+
+    /** @var Airport $airport */
+    $airport = Airport::factory()->create();
+
+    $this->actingAs($admin)
+        ->patch(route('admin.airports.update', $airport), [
+            'icao' => $airport->icao,
+            'iata' => 'AM',
+            'name' => $airport->name,
+            'latitude' => $airport->latitude,
+            'longitude' => $airport->longitude,
+        ])
+        ->assertSessionHasErrors('iata');
+});
+
 it('allows admin users to destroy unused airports', function (): void {
     /** @var TestCase $this */
 

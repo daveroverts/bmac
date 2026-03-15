@@ -1,6 +1,5 @@
 <?php
 
-use App\Enums\BookingStatus;
 use App\Http\Controllers\Api\V1;
 use App\Http\Middleware\DeprecatedApiMiddleware;
 use App\Http\Resources\AirportResource;
@@ -45,17 +44,17 @@ Route::middleware(DeprecatedApiMiddleware::class)->group(function (): void {
     Route::get('/events/upcoming/{limit?}', function (int $limit = 3): EventsCollection {
         $limit = min(max(1, $limit), 50);
 
-        return new EventsCollection(Event::with(['bookings', 'type', 'airportDep', 'airportArr'])
-            ->where('is_online', true)
-            ->where('endEvent', '>', now())
-            ->orderBy('startEvent', 'asc')
+        return new EventsCollection(Event::query()
+            ->with(['bookings', 'type', 'airportDep', 'airportArr'])
+            ->upcoming()
+            ->online()
             ->limit($limit)
             ->get());
     });
 
     Route::get('/events/{event}/bookings', fn (Event $event): BookingsCollection => new BookingsCollection(
         $event->bookings()
-            ->where('status', BookingStatus::BOOKED)
+            ->booked()
             ->with(['flights.airportDep', 'flights.airportArr', 'user', 'event'])
             ->get()
     ));

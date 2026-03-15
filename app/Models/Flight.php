@@ -2,12 +2,12 @@
 
 namespace App\Models;
 
-use Spatie\Activitylog\LogOptions;
-use Illuminate\Database\Eloquent\Model;
-use Spatie\Activitylog\Traits\LogsActivity;
-use Illuminate\Database\Eloquent\Relations\HasOne;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 /**
  * @property int $id
@@ -71,46 +71,52 @@ class Flight extends Model
         return LogOptions::defaults()->logOnlyDirty();
     }
 
-    protected function getFormattedCtotAttribute(): string
+    protected function formattedCtot(): Attribute
     {
-        if (!empty($this->ctot)) {
-            return $this->ctot->format('Hi') . 'z';
-        }
-
-        return '-';
+        return Attribute::make(
+            get: fn (mixed $value, array $attributes): string => empty($attributes['ctot'])
+                ? '-'
+                : $this->ctot->format('Hi') . 'z',
+        );
     }
 
-    protected function getFormattedEtaAttribute(): string
+    protected function formattedEta(): Attribute
     {
-        if (!empty($this->eta)) {
-            return $this->eta->format('Hi') . 'z';
-        }
-
-        return '-';
+        return Attribute::make(
+            get: fn (mixed $value, array $attributes): string => empty($attributes['eta'])
+                ? '-'
+                : $this->eta->format('Hi') . 'z',
+        );
     }
 
-    protected function getFormattedOceanicflAttribute(): string
+    protected function formattedOceanicfl(): Attribute
     {
-        if ($this->oceanicFL) {
-            return 'FL' . $this->oceanicFL;
-        }
-
-        return '-';
+        return Attribute::make(
+            get: fn (mixed $value, array $attributes): string => empty($attributes['oceanicFL'])
+                ? '-'
+                : 'FL' . $attributes['oceanicFL'],
+        );
     }
 
-    protected function getFormattedNotesAttribute(): string
+    protected function formattedNotes(): Attribute
     {
-        return $this->notes ?: '-';
+        return Attribute::make(
+            get: fn (mixed $value, array $attributes): string => $attributes['notes'] ?? '-',
+        );
     }
 
-    protected function setRouteAttribute($value): void
+    protected function route(): Attribute
     {
-        $this->attributes['route'] = empty($value) ? null : strtoupper((string) $value);
+        return Attribute::make(
+            set: fn (mixed $value): ?string => empty($value) ? null : strtoupper((string) $value),
+        );
     }
 
-    protected function setOceanictrackAttribute($value): void
+    protected function oceanicTrack(): Attribute
     {
-        $this->attributes['oceanicTrack'] = empty($value) ? null : strtoupper((string) $value);
+        return Attribute::make(
+            set: fn (mixed $value): ?string => empty($value) ? null : strtoupper((string) $value),
+        );
     }
 
     public function booking(): BelongsTo
@@ -118,14 +124,14 @@ class Flight extends Model
         return $this->belongsTo(Booking::class);
     }
 
-    public function airportDep(): HasOne
+    public function airportDep(): BelongsTo
     {
-        return $this->hasOne(Airport::class, 'id', 'dep')->withDefault();
+        return $this->belongsTo(Airport::class, 'dep')->withDefault();
     }
 
-    public function airportArr(): HasOne
+    public function airportArr(): BelongsTo
     {
-        return $this->hasOne(Airport::class, 'id', 'arr')->withDefault();
+        return $this->belongsTo(Airport::class, 'arr')->withDefault();
     }
 
     /**

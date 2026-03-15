@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    @foreach (nextEventsForFaq() as $event)
+    @foreach ($eventFaqs as $event)
         @if ($event->faqs->isNotEmpty())
             <h3>FAQ for {{ $event->name }}</h3>
             <hr>

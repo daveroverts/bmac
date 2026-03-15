@@ -111,7 +111,7 @@ it('allows admin users to delete airport links', function (): void {
         ->delete(route('admin.airportLinks.destroy', $airportLink))
         ->assertRedirect();
 
-    $this->assertDatabaseMissing('airport_links', [
+    $this->assertSoftDeleted('airport_links', [
         'id' => $airportLink->id,
     ]);
 });

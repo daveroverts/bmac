@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Booking;
 
-use App\Enums\BookingStatus;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Booking\Admin\AutoAssign;
 use App\Models\Booking;
@@ -25,7 +24,7 @@ class BookingAutoAssignController extends Controller
                 $query->orderBy('ctot');
             }])
             ->unless($request->checkAssignAllFlights, function ($query): void {
-                $query->where('status', BookingStatus::BOOKED);
+                $query->booked();
             })
             ->get();
 

@@ -3,7 +3,6 @@
 namespace App\Exports;
 
 use App\Models\Event;
-use App\Enums\BookingStatus;
 use App\Enums\EventType;
 use Maatwebsite\Excel\Concerns\Exportable;
 use Maatwebsite\Excel\Concerns\WithMapping;
@@ -25,14 +24,17 @@ class BookingsExport implements FromCollection, WithColumnFormatting, WithMappin
      */
     public function collection()
     {
-        return $this->event->bookings()->with('flights')->whereStatus(BookingStatus::BOOKED)->get();
+        return $this->event->bookings()
+            ->with(['user', 'flights.airportDep', 'flights.airportArr'])
+            ->booked()
+            ->get();
     }
 
     public function map($booking): array
     {
         if ($this->event->event_type_id == EventType::MULTIFLIGHTS->value) {
-            $flight1 = $booking->flights()->first();
-            $flight2 = $booking->flights()->whereKeyNot($flight1->id)->first();
+            $flight1 = $booking->flights->first();
+            $flight2 = $booking->flights->where('id', '!=', $flight1->id)->first();
             if ($this->vacc === true) {
                 return [
                     $booking->user->full_name,

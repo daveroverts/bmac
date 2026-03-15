@@ -38,7 +38,7 @@ class EventCleanupReservationsCommand extends Command
 
             $this->cleanupReservations($event);
         } else {
-            $this->withProgressBar(nextEvents(), function (Event $event): void {
+            $this->withProgressBar(Event::query()->upcoming()->online()->get(), function (Event $event): void {
                 $this->cleanupReservations($event);
             });
         }
@@ -49,7 +49,7 @@ class EventCleanupReservationsCommand extends Command
     private function cleanupReservations(Event $event): void
     {
         $event->bookings()
-            ->where('status', BookingStatus::RESERVED)
+            ->reserved()
             ->where('updated_at', '<=', now()->subMinutes(Booking::RESERVATION_TIMEOUT_MINUTES))
             ->chunkById(100, function (\Illuminate\Database\Eloquent\Collection $bookings): void {
                 /** @var Booking $booking */

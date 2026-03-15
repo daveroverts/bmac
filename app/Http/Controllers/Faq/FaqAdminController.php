@@ -40,8 +40,9 @@ class FaqAdminController extends Controller
 
     public function edit(Faq $faq): View
     {
-        $events = Event::where('endEvent', '>', now())
-            ->orderBy('startEvent', 'desc')
+        $events = Event::query()
+            ->upcoming()
+            ->reorder('startEvent', 'desc')
             ->get();
 
         return view('faq.admin.form', ['faq' => $faq, 'events' => $events]);

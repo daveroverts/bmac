@@ -40,9 +40,8 @@ class EventController extends Controller
 
         $events = Event::query()
             ->with(['bookings', 'type', 'airportDep', 'airportArr'])
-            ->where('is_online', true)
-            ->where('endEvent', '>', now())
-            ->orderBy('startEvent', 'asc')
+            ->upcoming()
+            ->online()
             ->limit($limit)
             ->get();
 
