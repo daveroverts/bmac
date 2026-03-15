@@ -168,7 +168,7 @@ class LoginController extends Controller
         // User may already have a reservation for this event
         if ($user->bookings()
             ->where('event_id', $booking->event_id)
-            ->where('status', BookingStatus::RESERVED)
+            ->reserved()
             ->exists()) {
             flashMessage('danger', __('Warning'), __('You already have a reservation! Please cancel or book that flight first.'));
             return to_route('events.bookings.index', $booking->event);
@@ -178,7 +178,7 @@ class LoginController extends Controller
         if (!$booking->event->multiple_bookings_allowed
             && $user->bookings()
                 ->where('event_id', $booking->event_id)
-                ->where('status', BookingStatus::BOOKED)
+                ->booked()
                 ->exists()) {
             flashMessage('danger', __('Warning'), __('You already have a booking!'));
             return to_route('events.bookings.index', $booking->event);
@@ -188,7 +188,7 @@ class LoginController extends Controller
         // The user may have been logging in while another request reserved the slot.
         $claimed = Booking::query()
             ->where('id', $booking->id)
-            ->where('status', BookingStatus::UNASSIGNED)
+            ->unassigned()
             ->update([
                 'status' => BookingStatus::RESERVED,
                 'user_id' => $user->id,

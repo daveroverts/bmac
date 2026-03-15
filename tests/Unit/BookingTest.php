@@ -39,3 +39,36 @@ it('has BelongsTo relationships for airportDep and airportArr', function (): voi
     expect($booking->airportDep())->toBeInstanceOf(BelongsTo::class);
     expect($booking->airportArr())->toBeInstanceOf(BelongsTo::class);
 });
+
+it('filters booked bookings using scope', function (): void {
+    Booking::factory()->booked()->create();
+    Booking::factory()->unassigned()->create();
+    Booking::factory()->reserved()->create();
+
+    $results = Booking::query()->booked()->get();
+
+    expect($results)->toHaveCount(1)
+        ->and($results->first()->status)->toBe(\App\Enums\BookingStatus::BOOKED);
+});
+
+it('filters unassigned bookings using scope', function (): void {
+    Booking::factory()->booked()->create();
+    Booking::factory()->unassigned()->create();
+    Booking::factory()->reserved()->create();
+
+    $results = Booking::query()->unassigned()->get();
+
+    expect($results)->toHaveCount(1)
+        ->and($results->first()->status)->toBe(\App\Enums\BookingStatus::UNASSIGNED);
+});
+
+it('filters reserved bookings using scope', function (): void {
+    Booking::factory()->booked()->create();
+    Booking::factory()->unassigned()->create();
+    Booking::factory()->reserved()->create();
+
+    $results = Booking::query()->reserved()->get();
+
+    expect($results)->toHaveCount(1)
+        ->and($results->first()->status)->toBe(\App\Enums\BookingStatus::RESERVED);
+});

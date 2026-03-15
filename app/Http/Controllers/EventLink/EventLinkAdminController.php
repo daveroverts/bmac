@@ -30,8 +30,7 @@ class EventLinkAdminController extends Controller
     {
         $eventLink = new EventLink();
         $eventLinkTypes = AirportLinkType::forDropdown();
-        $events = Event::where('endEvent', '>', now())
-            ->orderBy('startEvent')
+        $events = Event::query()->upcoming()
             ->get(['id', 'name', 'startEvent'])
             ->keyBy('id')
             ->map(fn ($event): string =>

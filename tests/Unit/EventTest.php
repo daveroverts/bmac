@@ -56,3 +56,74 @@ it('has HasMany relationship for bookings', function (): void {
 
     expect($event->bookings())->toBeInstanceOf(HasMany::class);
 });
+
+it('filters upcoming events using scope', function (): void {
+    $futureEvent = Event::factory()->create([
+        'startEvent' => now()->addWeek(),
+        'endEvent' => now()->addWeek()->addHours(3),
+    ]);
+
+    Event::factory()->expired()->create();
+
+    $results = Event::query()->upcoming()->get();
+
+    expect($results)->toHaveCount(1)
+        ->and($results->first()->id)->toBe($futureEvent->id);
+});
+
+it('orders upcoming events by startEvent ascending', function (): void {
+    $soonest = Event::factory()->create([
+        'startEvent' => now()->addDays(3),
+        'endEvent' => now()->addDays(3)->addHours(3),
+    ]);
+
+    $later = Event::factory()->create([
+        'startEvent' => now()->addDays(10),
+        'endEvent' => now()->addDays(10)->addHours(3),
+    ]);
+
+    $results = Event::query()->upcoming()->get();
+
+    expect($results->first()->id)->toBe($soonest->id)
+        ->and($results->last()->id)->toBe($later->id);
+});
+
+it('filters online events using scope', function (): void {
+    Event::factory()->create(['is_online' => true]);
+    Event::factory()->create(['is_online' => false]);
+
+    $results = Event::query()->online()->get();
+
+    expect($results)->toHaveCount(1)
+        ->and($results->first()->is_online)->toBeTrue();
+});
+
+it('filters homepage events using scope', function (): void {
+    Event::factory()->onHomePage()->create();
+    Event::factory()->notOnHomePage()->create();
+
+    $results = Event::query()->onHomepage()->get();
+
+    expect($results)->toHaveCount(1)
+        ->and($results->first()->show_on_homepage)->toBeTrue();
+});
+
+it('chains upcoming, online, and homepage scopes', function (): void {
+    Event::factory()->onHomePage()->create([
+        'is_online' => true,
+        'startEvent' => now()->addWeek(),
+        'endEvent' => now()->addWeek()->addHours(3),
+    ]);
+
+    Event::factory()->notOnHomePage()->create([
+        'is_online' => true,
+        'startEvent' => now()->addWeek(),
+        'endEvent' => now()->addWeek()->addHours(3),
+    ]);
+
+    Event::factory()->expired()->create(['is_online' => true]);
+
+    $results = Event::query()->upcoming()->online()->onHomepage()->get();
+
+    expect($results)->toHaveCount(1);
+});

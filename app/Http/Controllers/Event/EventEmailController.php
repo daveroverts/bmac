@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Event;
 
-use App\Enums\BookingStatus;
 use App\Events\EventBulkEmail;
 use App\Events\EventFinalInformation;
 use App\Http\Controllers\Controller;
@@ -32,8 +31,8 @@ class EventEmailController extends Controller
 
         /** @var \Illuminate\Support\Collection<int, User> $users */
         $users = User::whereHas('bookings', function (Builder $query) use ($event): void {
-            $query->where('event_id', $event->id);
-            $query->where('status', BookingStatus::BOOKED);
+            $query->where('event_id', $event->id)
+                ->booked();
         })->get();
         event(new EventBulkEmail($event, $request->all(), $users));
         flashMessage('success', __('Done'), __('Bulk E-mail has been sent to :count people!', ['count' => $users->count()]));
@@ -45,7 +44,7 @@ class EventEmailController extends Controller
     {
         $bookings = $event->bookings()
             ->with(['user', 'flights'])
-            ->where('status', BookingStatus::BOOKED)
+            ->booked()
             ->get();
 
         if ($request->testmode) {

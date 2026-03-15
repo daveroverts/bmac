@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\BookingStatus;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -40,6 +41,9 @@ use Spatie\Activitylog\Traits\LogsActivity;
  * @property-write mixed $actype
  * @property-read \App\Models\User|null $user
  * @method static \Database\Factories\BookingFactory factory($count = null, $state = [])
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking booked()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking unassigned()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking reserved()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking query()
@@ -83,6 +87,30 @@ class Booking extends Model
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()->logOnlyDirty();
+    }
+
+    /**
+     * @param  Builder<static>  $query
+     */
+    public function scopeBooked(Builder $query): void
+    {
+        $query->where('status', BookingStatus::BOOKED);
+    }
+
+    /**
+     * @param  Builder<static>  $query
+     */
+    public function scopeUnassigned(Builder $query): void
+    {
+        $query->where('status', BookingStatus::UNASSIGNED);
+    }
+
+    /**
+     * @param  Builder<static>  $query
+     */
+    public function scopeReserved(Builder $query): void
+    {
+        $query->where('status', BookingStatus::RESERVED);
     }
 
     #[\Override]

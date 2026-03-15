@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Spatie\Activitylog\LogOptions;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Spatie\Activitylog\Traits\LogsActivity;
@@ -44,6 +45,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  * @property-read int|null $links_count
  * @property-read \App\Models\EventType|null $type
  * @method static \Database\Factories\EventFactory factory($count = null, $state = [])
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Event upcoming()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Event online()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Event onHomepage()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Event findSimilarSlugs(string $attribute, array $config, string $slug)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Event newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Event newQuery()
@@ -114,6 +118,31 @@ class Event extends Model
     public function faqs(): BelongsToMany
     {
         return $this->belongsToMany(Faq::class);
+    }
+
+    /**
+     * @param  Builder<static>  $query
+     */
+    public function scopeUpcoming(Builder $query): void
+    {
+        $query->where('endEvent', '>', now())
+            ->orderBy('startEvent');
+    }
+
+    /**
+     * @param  Builder<static>  $query
+     */
+    public function scopeOnline(Builder $query): void
+    {
+        $query->where('is_online', true);
+    }
+
+    /**
+     * @param  Builder<static>  $query
+     */
+    public function scopeOnHomepage(Builder $query): void
+    {
+        $query->where('show_on_homepage', true);
     }
 
     public function sluggable(): array

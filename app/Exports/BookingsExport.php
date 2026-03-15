@@ -3,7 +3,6 @@
 namespace App\Exports;
 
 use App\Models\Event;
-use App\Enums\BookingStatus;
 use App\Enums\EventType;
 use Maatwebsite\Excel\Concerns\Exportable;
 use Maatwebsite\Excel\Concerns\WithMapping;
@@ -27,7 +26,7 @@ class BookingsExport implements FromCollection, WithColumnFormatting, WithMappin
     {
         return $this->event->bookings()
             ->with(['user', 'flights.airportDep', 'flights.airportArr'])
-            ->whereStatus(BookingStatus::BOOKED)
+            ->booked()
             ->get();
     }
 
