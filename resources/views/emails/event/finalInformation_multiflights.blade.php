@@ -11,7 +11,7 @@ Callsign: **{{ $booking->formatted_callsign }}**
 | FROM | TO | CTOT | ROUTE |
 |----------------------------|:--------------------------:|:--------------------------:|:----:|
 @foreach ($booking->flights()->get() as $flight)
-| {{ $flight->airportDep->icao }} | {{ $flight->airportArr->icao }} | {{ $flight->formattedCtot }} | {{ $flight->route }}
+| {{ $flight->airportDep->icao }} | {{ $flight->airportArr->icao }} | {{ $flight->formatted_ctot }} | {{ $flight->route }}
 @endforeach
 @endcomponent
 

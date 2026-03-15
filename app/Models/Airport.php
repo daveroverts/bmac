@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Enums\AirportView;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -115,32 +116,40 @@ class Airport extends Model
         return $this->hasMany(AirportLink::class);
     }
 
-    protected function setIcaoAttribute($value): void
+    protected function icao(): Attribute
     {
-        $this->attributes['icao'] = strtoupper((string) $value);
+        return Attribute::make(
+            set: fn (mixed $value): string => strtoupper((string) $value),
+        );
     }
 
-    protected function setIataAttribute($value): void
+    protected function iata(): Attribute
     {
-        $this->attributes['iata'] = strtoupper((string) $value);
+        return Attribute::make(
+            set: fn (mixed $value): string => strtoupper((string) $value),
+        );
     }
 
-    protected function getFullNameAttribute(): string
+    protected function fullName(): Attribute
     {
-        if (!$this->id) {
-            return '-';
-        }
+        return Attribute::make(
+            get: function (mixed $value, array $attributes): string {
+                if (! ($attributes['id'] ?? null)) {
+                    return '-';
+                }
 
-        if (auth()->check() && auth()->user()->airport_view !== AirportView::NAME) {
-            switch (auth()->user()->airport_view) {
-                case AirportView::ICAO:
-                    return '<abbr title="' . $this->name . ' | [' . $this->iata . ']">' . $this->icao . '</abbr>';
-                case AirportView::IATA:
-                    return '<abbr title="' . $this->name . ' | [' . $this->icao . ']">' . $this->iata . '</abbr>';
-            }
-        }
+                if (auth()->check() && auth()->user()->airport_view !== AirportView::NAME) {
+                    switch (auth()->user()->airport_view) {
+                        case AirportView::ICAO:
+                            return '<abbr title="' . $attributes['name'] . ' | [' . $attributes['iata'] . ']">' . $attributes['icao'] . '</abbr>';
+                        case AirportView::IATA:
+                            return '<abbr title="' . $attributes['name'] . ' | [' . $attributes['icao'] . ']">' . $attributes['iata'] . '</abbr>';
+                    }
+                }
 
-        return '<abbr title="' . $this->icao . ' | [' . $this->iata . ']">' . $this->name . '</abbr>';
+                return '<abbr title="' . $attributes['icao'] . ' | [' . $attributes['iata'] . ']">' . $attributes['name'] . '</abbr>';
+            },
+        );
     }
 
     #[\Override]

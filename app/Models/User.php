@@ -3,14 +3,15 @@
 namespace App\Models;
 
 use App\Enums\AirportView;
-use Spatie\Activitylog\LogOptions;
-use Illuminate\Notifications\Notifiable;
 use App\Services\OAuth\VatsimProvider;
-use League\OAuth2\Client\Token\AccessToken;
-use Spatie\Activitylog\Traits\LogsActivity;
-use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+use League\OAuth2\Client\Token\AccessToken;
+use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 /**
  * @property int $id
@@ -87,18 +88,24 @@ class User extends Authenticatable
         return $this->hasMany(Booking::class);
     }
 
-    protected function getFullNameAttribute(): string
+    protected function fullName(): Attribute
     {
-        return ucfirst($this->name_first) . ' ' . ucfirst($this->name_last);
+        return Attribute::make(
+            get: fn (mixed $value, array $attributes): string => ucfirst((string) ($attributes['name_first'] ?? '')) . ' ' . ucfirst((string) ($attributes['name_last'] ?? '')),
+        );
     }
 
-    protected function getPicAttribute(): string
+    protected function pic(): Attribute
     {
-        if (!empty($this->full_name) && !empty($this->id)) {
-            return sprintf('%s | %s', $this->full_name, $this->id);
-        }
+        return Attribute::make(
+            get: function (mixed $value, array $attributes): string {
+                if (! empty($this->full_name) && ! empty($attributes['id'])) {
+                    return sprintf('%s | %s', $this->full_name, $attributes['id']);
+                }
 
-        return '-';
+                return '-';
+            },
+        );
     }
 
     /**

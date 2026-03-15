@@ -36,7 +36,7 @@ For reference, your booking details are listed below.
 | Notes: | **{{ $booking->flights()->first()->formatted_notes }}** |
 @endif
 @if($booking->event->uses_times)
-| CTOT: | **{{ $booking->flights()->first()->formattedCtot }}** |
+| CTOT: | **{{ $booking->flights()->first()->formatted_ctot }}** |
 @endif
 | Event Date: | **{{ $booking->event->startEvent->toFormattedDateString() }}** |
 @endif

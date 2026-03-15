@@ -3,14 +3,15 @@
 namespace App\Models;
 
 use App\Enums\BookingStatus;
-use Illuminate\Support\Str;
-use Illuminate\Support\Collection;
-use Spatie\Activitylog\LogOptions;
-use Illuminate\Database\Eloquent\Model;
-use Spatie\Activitylog\Traits\LogsActivity;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Str;
+use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 /**
  * @property int $id
@@ -100,39 +101,53 @@ class Booking extends Model
         return parent::resolveRouteBinding($value, $field);
     }
 
-    protected function getFormattedCallsignAttribute(): string
+    protected function formattedCallsign(): Attribute
     {
-        return $this->callsign ?: '-';
+        return Attribute::make(
+            get: fn (mixed $value, array $attributes): string => $attributes['callsign'] ?? '-',
+        );
     }
 
-    protected function getFormattedActypeAttribute(): string
+    protected function formattedActype(): Attribute
     {
-        return $this->acType ?: '-';
+        return Attribute::make(
+            get: fn (mixed $value, array $attributes): string => $attributes['acType'] ?? '-',
+        );
     }
 
-    protected function getFormattedSelcalAttribute(): string
+    protected function formattedSelcal(): Attribute
     {
-        return $this->selcal ?: '-';
+        return Attribute::make(
+            get: fn (mixed $value, array $attributes): string => $attributes['selcal'] ?? '-',
+        );
     }
 
-    protected function getHasReceivedFinalInformationEmailAttribute(): bool
+    protected function hasReceivedFinalInformationEmail(): Attribute
     {
-        return !empty($this->final_information_email_sent_at);
+        return Attribute::make(
+            get: fn (mixed $value, array $attributes): bool => ! empty($attributes['final_information_email_sent_at']),
+        );
     }
 
-    protected function setCallsignAttribute($value): void
+    protected function callsign(): Attribute
     {
-        $this->attributes['callsign'] = empty($value) ? null : strtoupper((string) $value);
+        return Attribute::make(
+            set: fn (mixed $value): ?string => empty($value) ? null : strtoupper((string) $value),
+        );
     }
 
-    protected function setActypeAttribute($value): void
+    protected function acType(): Attribute
     {
-        $this->attributes['acType'] = empty($value) ? null : strtoupper((string) $value);
+        return Attribute::make(
+            set: fn (mixed $value): ?string => empty($value) ? null : strtoupper((string) $value),
+        );
     }
 
-    protected function setSelcalAttribute($value): void
+    protected function selcal(): Attribute
     {
-        $this->attributes['selcal'] = empty($value) ? null : strtoupper((string) $value);
+        return Attribute::make(
+            set: fn (mixed $value): ?string => empty($value) ? null : strtoupper((string) $value),
+        );
     }
 
     public function airportDep(): BelongsTo
@@ -164,10 +179,10 @@ class Booking extends Model
     {
         if ($flight = $this->flights->where('order_by', $orderBy)->first()) {
             if ($withAbbr) {
-                return sprintf("<abbr title='%s | [%s]'>%s</abbr> - <abbr title='%s | [%s]'>%s</abbr> %s", $flight->airportDep->name, $flight->airportDep->iata, $flight->airportDep->icao, $flight->airportArr->name, $flight->airportArr->iata, $flight->airportArr->icao, $flight->formattedCtot);
+                return sprintf("<abbr title='%s | [%s]'>%s</abbr> - <abbr title='%s | [%s]'>%s</abbr> %s", $flight->airportDep->name, $flight->airportDep->iata, $flight->airportDep->icao, $flight->airportArr->name, $flight->airportArr->iata, $flight->airportArr->icao, $flight->formatted_ctot);
             }
 
-            return sprintf('%s - %s %s', $flight->airportDep->icao, $flight->airportArr->icao, $flight->formattedCtot);
+            return sprintf('%s - %s %s', $flight->airportDep->icao, $flight->airportArr->icao, $flight->formatted_ctot);
         }
 
         return '-';
