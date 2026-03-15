@@ -22,10 +22,10 @@
         {{-- Check if flight belongs to the logged in user --}}
         <tr class="{{ auth()->check() && $booking->user_id === auth()->id() ? 'table-active' : '' }}" wire:key="{{ $booking->getKey() }}">
             <td>
-                {!! $flight->airportDep->full_name !!}
+                <x-airport-name :airport="$flight->airportDep" />
             </td>
             <td>
-                {!! $flight->airportArr->full_name !!}
+                <x-airport-name :airport="$flight->airportArr" />
             </td>
             @if ($booking->event->uses_times)
                 <td>

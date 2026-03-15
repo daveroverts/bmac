@@ -213,40 +213,47 @@ it('oceanictrack mutator stores null when value is empty', function (): void {
 });
 
 // ──────────────────────────────────────────────────────────────
-// Airport accessors
+// Airport name component
 // ──────────────────────────────────────────────────────────────
 
-it('full_name returns dash when airport has no ID', function (): void {
-    $airport = new Airport();
-
-    expect($airport->full_name)->toBe('-');
+it('airport-name component renders dash when airport is null', function (): void {
+    /** @var Tests\TestCase $this */
+    $this->blade('<x-airport-name />')
+        ->assertSee('-');
 });
 
-it('full_name returns NAME-view abbr when airport_view is NAME', function (): void {
+it('airport-name component renders NAME-view abbr when airport_view is NAME', function (): void {
+    /** @var Tests\TestCase $this */
     // TestCase logs in as admin whose airport_view defaults to 0 (NAME)
     $airport = Airport::factory()->create(['icao' => 'EHAM', 'iata' => 'AMS', 'name' => 'Amsterdam']);
 
-    expect($airport->full_name)->toBe('<abbr title="EHAM | [AMS]">Amsterdam</abbr>');
+    $this->blade('<x-airport-name :airport="$airport" />', ['airport' => $airport])
+        ->assertSee('Amsterdam')
+        ->assertSee('EHAM | [AMS]', false);
 });
 
-it('full_name returns ICAO-view abbr when airport_view is ICAO', function (): void {
+it('airport-name component renders ICAO-view abbr when airport_view is ICAO', function (): void {
     /** @var Tests\TestCase $this */
     /** @var \App\Models\User $user */
     $user = User::factory()->airportViewIcao()->create();
     $this->actingAs($user);
     $airport = Airport::factory()->create(['icao' => 'EHAM', 'iata' => 'AMS', 'name' => 'Amsterdam']);
 
-    expect($airport->full_name)->toBe('<abbr title="Amsterdam | [AMS]">EHAM</abbr>');
+    $this->blade('<x-airport-name :airport="$airport" />', ['airport' => $airport])
+        ->assertSee('EHAM')
+        ->assertSee('Amsterdam | [AMS]', false);
 });
 
-it('full_name returns IATA-view abbr when airport_view is IATA', function (): void {
+it('airport-name component renders IATA-view abbr when airport_view is IATA', function (): void {
     /** @var Tests\TestCase $this */
     /** @var \App\Models\User $user */
     $user = User::factory()->airportViewIata()->create();
     $this->actingAs($user);
     $airport = Airport::factory()->create(['icao' => 'EHAM', 'iata' => 'AMS', 'name' => 'Amsterdam']);
 
-    expect($airport->full_name)->toBe('<abbr title="Amsterdam | [EHAM]">AMS</abbr>');
+    $this->blade('<x-airport-name :airport="$airport" />', ['airport' => $airport])
+        ->assertSee('AMS')
+        ->assertSee('Amsterdam | [EHAM]', false);
 });
 
 // ──────────────────────────────────────────────────────────────

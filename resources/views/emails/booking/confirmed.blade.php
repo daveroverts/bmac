@@ -12,8 +12,8 @@ For reference, your booking details are listed below.
 |-----------|---------------------------|
 | Callsign: | **{{ $booking->callsign }}** |
 | Aircraft: | **{{ $booking->acType }}** |
-| Flight #1: | **{{ $booking->airportCtot(1, false)  }}** |
-| Flight #2: | **{{ $booking->airportCtot(2, false)  }}** |
+| Flight #1: | **{{ $booking->airportCtot(1) }}** |
+| Flight #2: | **{{ $booking->airportCtot(2) }}** |
 | Event Date: | **{{ $booking->event->startEvent->toFormattedDateString() }}** |
 @else
 |-----------|---------------------------|

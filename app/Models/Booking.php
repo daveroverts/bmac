@@ -175,13 +175,9 @@ class Booking extends Model
         return $this->hasMany(Flight::class)->orderBy('order_by');
     }
 
-    public function airportCtot($orderBy, $withAbbr = true): string
+    public function airportCtot(int $orderBy): string
     {
         if ($flight = $this->flights->where('order_by', $orderBy)->first()) {
-            if ($withAbbr) {
-                return sprintf("<abbr title='%s | [%s]'>%s</abbr> - <abbr title='%s | [%s]'>%s</abbr> %s", $flight->airportDep->name, $flight->airportDep->iata, $flight->airportDep->icao, $flight->airportArr->name, $flight->airportArr->iata, $flight->airportArr->icao, $flight->formatted_ctot);
-            }
-
             return sprintf('%s - %s %s', $flight->airportDep->icao, $flight->airportArr->icao, $flight->formatted_ctot);
         }
 

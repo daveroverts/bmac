@@ -3,7 +3,7 @@
 use App\Models\Airport;
 use App\Models\Booking;
 
-it('returns HTML abbr output from airportCtot when flight exists', function (): void {
+it('returns plain text from airportCtot when flight exists', function (): void {
     $dep = Airport::factory()->create(['icao' => 'EHAM', 'iata' => 'AMS', 'name' => 'Amsterdam Schiphol']);
     $arr = Airport::factory()->create(['icao' => 'EGLL', 'iata' => 'LHR', 'name' => 'London Heathrow']);
 
@@ -20,17 +20,14 @@ it('returns HTML abbr output from airportCtot when flight exists', function (): 
     $result = $booking->airportCtot(1);
 
     expect($result)
-        ->toContain('<abbr')
+        ->not->toContain('<abbr')
         ->toContain('EHAM')
         ->toContain('EGLL')
-        ->toContain('AMS')
-        ->toContain('LHR')
-        ->toContain('Amsterdam Schiphol')
-        ->toContain('London Heathrow')
         ->toContain('1430z');
 });
 
-it('returns plain text from airportCtot when withAbbr is false', function (): void {
+it('airport-ctot component renders HTML abbr output when flight exists', function (): void {
+    /** @var Tests\TestCase $this */
     $dep = Airport::factory()->create(['icao' => 'EHAM', 'iata' => 'AMS', 'name' => 'Amsterdam Schiphol']);
     $arr = Airport::factory()->create(['icao' => 'EGLL', 'iata' => 'LHR', 'name' => 'London Heathrow']);
 
@@ -44,13 +41,14 @@ it('returns plain text from airportCtot when withAbbr is false', function (): vo
 
     $booking->load('flights.airportDep', 'flights.airportArr');
 
-    $result = $booking->airportCtot(1, false);
-
-    expect($result)
-        ->not->toContain('<abbr')
-        ->toContain('EHAM')
-        ->toContain('EGLL')
-        ->toContain('1430z');
+    $this->blade('<x-airport-ctot :booking="$booking" :order-by="1" />', ['booking' => $booking])
+        ->assertSee('EHAM')
+        ->assertSee('EGLL')
+        ->assertSee('AMS', false)
+        ->assertSee('LHR', false)
+        ->assertSee('Amsterdam Schiphol', false)
+        ->assertSee('London Heathrow', false)
+        ->assertSee('1430z');
 });
 
 it('returns dash from airportCtot when no flight matches order_by', function (): void {

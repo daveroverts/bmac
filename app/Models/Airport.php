@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Enums\AirportView;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -32,7 +31,6 @@ use Spatie\Activitylog\Traits\LogsActivity;
  * @property-read int|null $flights_arr_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Flight> $flightsDep
  * @property-read int|null $flights_dep_count
- * @property-read string $full_name
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\AirportLink> $links
  * @property-read int|null $links_count
  * @method static \Database\Factories\AirportFactory factory($count = null, $state = [])
@@ -127,28 +125,6 @@ class Airport extends Model
     {
         return Attribute::make(
             set: fn (mixed $value): string => strtoupper((string) $value),
-        );
-    }
-
-    protected function fullName(): Attribute
-    {
-        return Attribute::make(
-            get: function (mixed $value, array $attributes): string {
-                if (! ($attributes['id'] ?? null)) {
-                    return '-';
-                }
-
-                if (auth()->check() && auth()->user()->airport_view !== AirportView::NAME) {
-                    switch (auth()->user()->airport_view) {
-                        case AirportView::ICAO:
-                            return '<abbr title="' . $attributes['name'] . ' | [' . $attributes['iata'] . ']">' . $attributes['icao'] . '</abbr>';
-                        case AirportView::IATA:
-                            return '<abbr title="' . $attributes['name'] . ' | [' . $attributes['icao'] . ']">' . $attributes['iata'] . '</abbr>';
-                    }
-                }
-
-                return '<abbr title="' . $attributes['icao'] . ' | [' . $attributes['iata'] . ']">' . $attributes['name'] . '</abbr>';
-            },
         );
     }
 
