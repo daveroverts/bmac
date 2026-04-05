@@ -3339,16 +3339,16 @@
         },
         {
             "name": "livewire/livewire",
-            "version": "v4.2.1",
+            "version": "v4.2.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/livewire/livewire.git",
-                "reference": "93e972fa42c1b34fff1550093ab94f778d81ea5a"
+                "reference": "d07bcb6fd04037a90ca5187b7857c7349a8e6d1e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/livewire/livewire/zipball/93e972fa42c1b34fff1550093ab94f778d81ea5a",
-                "reference": "93e972fa42c1b34fff1550093ab94f778d81ea5a",
+                "url": "https://api.github.com/repos/livewire/livewire/zipball/d07bcb6fd04037a90ca5187b7857c7349a8e6d1e",
+                "reference": "d07bcb6fd04037a90ca5187b7857c7349a8e6d1e",
                 "shasum": ""
             },
             "require": {
@@ -3403,7 +3403,7 @@
             "description": "A front-end framework for Laravel.",
             "support": {
                 "issues": "https://github.com/livewire/livewire/issues",
-                "source": "https://github.com/livewire/livewire/tree/v4.2.1"
+                "source": "https://github.com/livewire/livewire/tree/v4.2.3"
             },
             "funding": [
                 {
@@ -3411,7 +3411,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-02-28T00:01:19+00:00"
+            "time": "2026-03-30T22:17:37+00:00"
         },
         {
             "name": "maatwebsite/excel",
@@ -11537,11 +11537,11 @@
         },
         {
             "name": "phpstan/phpstan",
-            "version": "2.1.40",
+            "version": "2.1.45",
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/9b2c7aeb83a75d8680ea5e7c9b7fca88052b766b",
-                "reference": "9b2c7aeb83a75d8680ea5e7c9b7fca88052b766b",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/f8cdfd9421b7edb7686a2d150a234870464eac70",
+                "reference": "f8cdfd9421b7edb7686a2d150a234870464eac70",
                 "shasum": ""
             },
             "require": {
@@ -11586,7 +11586,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-02-23T15:04:35+00:00"
+            "time": "2026-03-30T13:22:02+00:00"
         },
         {
             "name": "phpstan/phpstan-beberlei-assert",
@@ -13285,16 +13285,16 @@
         },
         {
             "name": "tomasvotruba/bladestan",
-            "version": "0.11.4",
+            "version": "0.11.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/bladestan/bladestan.git",
-                "reference": "7abb7a358bea373064c5e5d001df2157134ff7cb"
+                "reference": "279538d6e56298897378534b3eb9b3bfca32a37b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bladestan/bladestan/zipball/7abb7a358bea373064c5e5d001df2157134ff7cb",
-                "reference": "7abb7a358bea373064c5e5d001df2157134ff7cb",
+                "url": "https://api.github.com/repos/bladestan/bladestan/zipball/279538d6e56298897378534b3eb9b3bfca32a37b",
+                "reference": "279538d6e56298897378534b3eb9b3bfca32a37b",
                 "shasum": ""
             },
             "require": {
@@ -13339,7 +13339,7 @@
             ],
             "support": {
                 "issues": "https://github.com/bladestan/bladestan/issues",
-                "source": "https://github.com/bladestan/bladestan/tree/0.11.4"
+                "source": "https://github.com/bladestan/bladestan/tree/0.11.5"
             },
             "funding": [
                 {
@@ -13351,7 +13351,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-01-16T18:16:59+00:00"
+            "time": "2026-03-16T16:17:55+00:00"
         },
         {
             "name": "webmozart/assert",
