@@ -1,2 +1,2 @@
 import flatpickr from 'flatpickr';
-window.flatPickr = flatpickr;
+window.flatpickr = flatpickr;

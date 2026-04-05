@@ -16,10 +16,10 @@
                 {!! $prepend !!}
             </span>
         @endisset
-        <x-input :name="$name" :value="$value" :type="$type"
+        <x-forms.inputs.input :name="$name" :value="$value" :type="$type"
             {{ $attributes->class(['form-control', 'is-invalid' => $errors->has($name)]) }} />
 
-        <x-error :field="$name" class="invalid-feedback" />
+        <x-forms.error :field="$name" class="invalid-feedback" />
 
         @isset($append)
             <span class="input-group-text">

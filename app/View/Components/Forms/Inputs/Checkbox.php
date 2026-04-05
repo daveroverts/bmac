@@ -5,20 +5,20 @@ namespace App\View\Components\Forms\Inputs;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
-class Input extends Component
+class Checkbox extends Component
 {
     public function __construct(
         public string $name,
         public ?string $id = null,
-        public string $type = 'text',
+        public bool $checked = false,
         public ?string $value = '',
     ) {
         $this->id = $id ?? $name;
-        $this->value = old($name, $value ?? '');
+        $this->checked = (bool) old($name, $checked ? 'true' : null);
     }
 
     public function render(): View
     {
-        return view('components.forms.inputs.input');
+        return view('components.forms.inputs.checkbox');
     }
 }

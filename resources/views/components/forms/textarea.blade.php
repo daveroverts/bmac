@@ -7,7 +7,7 @@
         'is-invalid' => $errors->has($name),
     ])>{{ old($name, $value) }}</textarea>
 
-    <x-error :field="$name" class="invalid-feedback" />
+    <x-forms.error :field="$name" class="invalid-feedback" />
 
     @isset($help)
         <small id="{{ $name }}-help" class="form-text text-muted">

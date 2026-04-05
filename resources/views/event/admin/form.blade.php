@@ -73,7 +73,7 @@
                                 {{ __('If enabled, users can fill in a SELCAL code') }}
                             </x-slot:help>
 
-                            <x-error field="is_oceanic_event" class="invalid-feedback" />
+                            <x-forms.error field="is_oceanic_event" class="invalid-feedback" />
                         </x-forms.form-group>
 
                         <x-forms.select name="dep" :label="__('Departure airport')" :value="$event->dep" :options="$airports"
