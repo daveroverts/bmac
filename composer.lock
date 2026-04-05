@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "2059705d88825e22b91eae1896e1e985",
+    "content-hash": "24797c932fdf9da24d8556e75b42ac90",
     "packages": [
         {
             "name": "aws/aws-crt-php",
@@ -8744,27 +8744,27 @@
         },
         {
             "name": "tabuna/breadcrumbs",
-            "version": "4.3.0",
+            "version": "5.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/tabuna/breadcrumbs.git",
-                "reference": "d3b21ea43c7c157fd279d684b1f591df9d25a78b"
+                "reference": "cba6a650503f0bf74e3ea2bc4929ed678fed702d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/tabuna/breadcrumbs/zipball/d3b21ea43c7c157fd279d684b1f591df9d25a78b",
-                "reference": "d3b21ea43c7c157fd279d684b1f591df9d25a78b",
+                "url": "https://api.github.com/repos/tabuna/breadcrumbs/zipball/cba6a650503f0bf74e3ea2bc4929ed678fed702d",
+                "reference": "cba6a650503f0bf74e3ea2bc4929ed678fed702d",
                 "shasum": ""
             },
             "require": {
                 "ext-json": "*",
-                "laravel/framework": "^10.0|^11.0|^12.0",
+                "laravel/framework": "^10.0|^11.0|^12.0|^13.0",
                 "laravel/serializable-closure": "^1.0|^2.0",
                 "php": "^8.1"
             },
             "require-dev": {
                 "laravel/pint": "^1.0",
-                "orchestra/testbench": "^8.0|^9.0|^10.0",
+                "orchestra/testbench": "^8.0|^9.0|^10.0|^11.0",
                 "phpunit/php-code-coverage": "^10.|^11.0|^12.0",
                 "phpunit/phpunit": "^10.5|^11.0|^12.0",
                 "vimeo/psalm": "^5.0|^6.0"
@@ -8806,9 +8806,9 @@
             "description": "An easy way to add breadcrumbs to your Laravel app.",
             "support": {
                 "issues": "https://github.com/tabuna/breadcrumbs/issues",
-                "source": "https://github.com/tabuna/breadcrumbs/tree/4.3.0"
+                "source": "https://github.com/tabuna/breadcrumbs/tree/5.0.0"
             },
-            "time": "2025-02-25T08:18:04+00:00"
+            "time": "2026-03-30T21:01:06+00:00"
         },
         {
             "name": "tijsverkoyen/css-to-inline-styles",
