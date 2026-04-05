@@ -34,7 +34,7 @@ class FlatPickr extends Component
 
     public function jsonOptions(): string
     {
-        if (empty($this->options())) {
+        if ($this->options() === []) {
             return '';
         }
 

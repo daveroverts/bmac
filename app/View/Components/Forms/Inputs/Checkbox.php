@@ -14,7 +14,7 @@ class Checkbox extends Component
         public ?string $value = '',
     ) {
         $this->id = $id ?? $name;
-        $this->checked = (bool) old($name, $checked);
+        $this->checked = (bool) old($name, $checked ? 'true' : null);
     }
 
     public function render(): View
