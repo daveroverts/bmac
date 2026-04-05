@@ -8,11 +8,15 @@
     "guidelines": true,
     "mcp": true,
     "nightwatch_mcp": false,
+    "packages": [
+        "fruitcake/laravel-debugbar"
+    ],
     "sail": false,
     "skills": [
         "laravel-best-practices",
         "configuring-horizon",
         "livewire-development",
-        "pest-testing"
+        "pest-testing",
+        "debug-using-debugbar"
     ]
 }
