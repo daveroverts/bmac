@@ -28,7 +28,6 @@
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^3.6",
-        "beyondcode/laravel-query-detector": "^2.2",
         "driftingly/rector-laravel": "^2.1.9",
         "fakerphp/faker": "^1.18",
         "fruitcake/laravel-debugbar": "^4.0",
