@@ -2,13 +2,15 @@
     "agents": [
         "junie",
         "claude_code",
-        "opencode"
+        "opencode",
+        "codex"
     ],
     "guidelines": true,
-    "herd_mcp": true,
     "mcp": true,
+    "nightwatch_mcp": false,
     "sail": false,
     "skills": [
+        "laravel-best-practices",
         "configuring-horizon",
         "livewire-development",
         "pest-testing"
