@@ -10,7 +10,7 @@
         'input-group',
         'has-validation' => $errors->has('selcal1') || $errors->has('selcal2')
     ])>
-        <x-input
+        <x-forms.inputs.input
             name="selcal1"
             minlength="2"
             maxlength="2"
@@ -23,7 +23,7 @@
 
         <span class="input-group-text">-</span>
 
-        <x-input
+        <x-forms.inputs.input
             name="selcal2"
             minlength="2"
             maxlength="2"
@@ -34,7 +34,7 @@
             ])
         />
 
-        <x-error :field="'selcal1'" class="invalid-feedback" />
+        <x-forms.error :field="'selcal1'" class="invalid-feedback" />
     </div>
 
     @isset($help)

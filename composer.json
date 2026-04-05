@@ -10,7 +10,6 @@
     "require": {
         "php": "^8.3",
         "aws/aws-sdk-php": "^3.209",
-        "blade-ui-kit/blade-ui-kit": "^0.7.0",
         "bugsnag/bugsnag-laravel": "^2.29",
         "cviebrock/eloquent-sluggable": "^12.0",
         "dedoc/scramble": "^0.13.14",
