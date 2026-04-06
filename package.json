@@ -28,7 +28,7 @@
         "bootstrap": "^5.3.8",
         "bootswatch": "^5.3.8",
         "concurrently": "^9.2.1",
-        "laravel-vite-plugin": "^2.1.0",
+        "laravel-vite-plugin": "^3.0.0",
         "postcss": "^8.5.8",
         "sass": "^1.98.0",
         "tinymce": "^8.3.2",
