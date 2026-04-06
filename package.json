@@ -34,7 +34,7 @@
         "tinymce": "^8.3.2",
         "vite": "^7.3.1",
         "vite-plugin-purgecss": "^0.2.13",
-        "vite-plugin-static-copy": "^3.3.0"
+        "vite-plugin-static-copy": "^4.0.0"
     },
     "dependencies": {
         "flatpickr": "^4.6.13",
