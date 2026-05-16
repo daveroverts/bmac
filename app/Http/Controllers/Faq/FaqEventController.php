@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Faq;
 
 use App\Http\Controllers\Controller;

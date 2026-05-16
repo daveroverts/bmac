@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * DO NOT PUBLISH THE KEY, SECRET AND CERT TO CODE REPOSITORIES
  * FOR SECURITY. PLEASE USE LARAVEL'S .envFILES TO PROTECT
@@ -10,7 +12,6 @@
  * Modify the three constants below to match the keys in your .env, otherwise it will use what you enter
  * on the second line of the key/secret/cert elements
  */
-
 return [
 
     /*

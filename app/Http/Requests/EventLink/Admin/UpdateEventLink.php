@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Requests\EventLink\Admin;
 
 use App\Http\Requests\Request;
