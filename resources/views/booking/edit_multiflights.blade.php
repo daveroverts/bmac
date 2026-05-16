@@ -87,8 +87,8 @@
                                 <strong>{{ $booking->formatted_actype }}</strong>
                             </x-forms.form-group>
                         @else
-                            <x-forms.input name="callsign" :label="__('Callsign')" required maxlength="7" />
-                            <x-forms.input name="acType" :label="__('Aircraft code')" required minlength="3" maxlength="4" />
+                            <x-forms.input name="callsign" :label="__('Callsign')" required maxlength="7" :value="old('callsign', $booking->callsign)" />
+                            <x-forms.input name="acType" :label="__('Aircraft code')" required minlength="3" maxlength="4" :value="old('acType', $booking->acType)" />
                         @endif
 
                         <x-forms.form-group :label="__('PIC')">

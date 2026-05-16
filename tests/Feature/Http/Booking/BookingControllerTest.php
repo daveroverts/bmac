@@ -1,10 +1,11 @@
 <?php
 
-use App\Models\User;
+use App\Enums\BookingStatus;
+use App\Enums\EventType;
+use App\Models\Booking;
 use App\Models\Event;
 use App\Models\Flight;
-use App\Models\Booking;
-use App\Enums\BookingStatus;
+use App\Models\User;
 use Illuminate\Support\Facades\Notification;
 use Tests\TestCase;
 
@@ -98,6 +99,36 @@ it('allows authenticated users to edit their reserved bookings', function (): vo
     $this->actingAs($user)
         ->get(route('bookings.edit', $flight->booking))
         ->assertOk();
+});
+
+it('pre-fills callsign and acType on the multi-flights edit form', function (): void {
+    /** @var TestCase $this */
+
+    /** @var User $user */
+    $user = User::factory()->create();
+
+    /** @var Event $event */
+    $event = Event::factory()->create([
+        'event_type_id' => EventType::MULTIFLIGHTS->value,
+        'startBooking' => now()->subDay(),
+        'endBooking' => now()->addDay(),
+    ]);
+
+    /** @var Booking $booking */
+    $booking = Booking::factory()->reserved()->create([
+        'event_id' => $event->id,
+        'user_id' => $user->id,
+        'is_editable' => true,
+        'callsign' => 'KLM1337',
+        'acType' => 'B738',
+    ]);
+    Flight::factory()->create(['booking_id' => $booking->id]);
+
+    $this->actingAs($user)
+        ->get(route('bookings.edit', $booking))
+        ->assertOk()
+        ->assertSee('value="KLM1337"', false)
+        ->assertSee('value="B738"', false);
 });
 
 it('allows users to confirm reserved bookings', function (): void {
