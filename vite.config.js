@@ -19,10 +19,10 @@ export default defineConfig(({ mode }) => {
             }),
             viteStaticCopy({
                 targets: [
-                    { src: 'node_modules/tinymce/icons/*', dest: 'js/icons' },
-                    { src: 'node_modules/tinymce/models/*', dest: 'js/models' },
-                    { src: 'node_modules/tinymce/themes/*', dest: 'js/themes' },
-                    { src: 'node_modules/tinymce/skins/*', dest: 'js/skins' },
+                    { src: 'node_modules/tinymce/icons', dest: 'js', rename: { stripBase: 2 } },
+                    { src: 'node_modules/tinymce/models', dest: 'js', rename: { stripBase: 2 } },
+                    { src: 'node_modules/tinymce/themes', dest: 'js', rename: { stripBase: 2 } },
+                    { src: 'node_modules/tinymce/skins', dest: 'js', rename: { stripBase: 2 } },
                 ],
             }),
             purgecss({

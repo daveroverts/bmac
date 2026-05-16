@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 it('flashes type, title, and text to the session', function (): void {
     flashMessage('success', 'Test Title', 'Test Text');
 
