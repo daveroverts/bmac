@@ -1,3 +1,11 @@
+## [5.1.2](https://github.com/daveroverts/bmac/compare/v5.1.1...v5.1.2) (2026-05-16)
+
+
+### Bug Fixes
+
+* pre-fill image_url on event edit form ([b197305](https://github.com/daveroverts/bmac/commit/b197305cb3471ffb026cbb3c531cc89eacec2a61)), closes [#1003](https://github.com/daveroverts/bmac/issues/1003)
+* pre-fill remaining form inputs on edit views ([0d30944](https://github.com/daveroverts/bmac/commit/0d30944dc551744f0aaa54305db0e593d6a71f8d))
+
 ## [5.1.1](https://github.com/daveroverts/bmac/compare/v5.1.0...v5.1.1) (2026-03-15)
 
 
