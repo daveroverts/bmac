@@ -98,7 +98,7 @@
                             <x-flat-pickr name="endBooking" value="{{ old('endBooking', $event->endBooking) }}" />
                         </x-forms.form-group>
 
-                        <x-forms.input name="image_url" :label="__('Image URL')" placeholder="https://example.org" />
+                        <x-forms.input name="image_url" :label="__('Image URL')" placeholder="https://example.org" :value="$event->image_url" />
 
                         <x-forms.textarea name="description" :label="__('Description')" :value="$event->description" tinymce />
 
