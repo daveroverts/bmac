@@ -66,6 +66,23 @@ it('allows admin users to view edit event form', function (): void {
         ->assertOk();
 });
 
+it('pre-fills the image_url field on the edit event form', function (): void {
+    /** @var TestCase $this */
+
+    /** @var User $admin */
+    $admin = User::factory()->admin()->create();
+
+    /** @var Event $event */
+    $event = Event::factory()->create([
+        'image_url' => 'https://example.org/poster.png',
+    ]);
+
+    $this->actingAs($admin)
+        ->get(route('admin.events.edit', $event))
+        ->assertOk()
+        ->assertSee('value="https://example.org/poster.png"', false);
+});
+
 it('allows admin users to delete events', function (): void {
     /** @var TestCase $this */
 

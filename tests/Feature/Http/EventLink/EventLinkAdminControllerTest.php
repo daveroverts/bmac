@@ -75,6 +75,49 @@ it('allows admin users to view edit event link form', function (): void {
         ->assertOk();
 });
 
+it('pre-fills name and url on the edit event link form', function (): void {
+    /** @var TestCase $this */
+
+    /** @var User $admin */
+    $admin = User::factory()->admin()->create();
+
+    /** @var EventLink $eventLink */
+    $eventLink = EventLink::factory()->create([
+        'name' => 'Briefing',
+        'url' => 'https://example.org/brief.pdf',
+    ]);
+
+    $this->actingAs($admin)
+        ->get(route('admin.eventLinks.edit', $eventLink))
+        ->assertOk()
+        ->assertSee('value="Briefing"', false)
+        ->assertSee('value="https://example.org/brief.pdf"', false);
+});
+
+it('keeps each old() input on its own field after a validation failure on the edit event link form', function (): void {
+    /** @var TestCase $this */
+
+    /** @var User $admin */
+    $admin = User::factory()->admin()->create();
+
+    /** @var EventLink $eventLink */
+    $eventLink = EventLink::factory()->create([
+        'name' => 'Briefing',
+        'url' => 'https://example.org/brief.pdf',
+    ]);
+
+    $this->actingAs($admin)
+        ->withSession(['_old_input' => [
+            'name' => 'previously-typed-name',
+            'url' => 'https://previously-typed-url.test',
+        ]])
+        ->get(route('admin.eventLinks.edit', $eventLink))
+        ->assertOk()
+        ->assertSee('value="previously-typed-name"', false)
+        ->assertSee('value="https://previously-typed-url.test"', false)
+        ->assertDontSee('value="https://previously-typed-name"', false);
+});
+
 it('allows admin users to update event links', function (): void {
     /** @var TestCase $this */
 
