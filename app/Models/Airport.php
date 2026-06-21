@@ -103,10 +103,12 @@ class Airport extends Model
     #[\Illuminate\Database\Eloquent\Attributes\Scope]
     protected function search(Builder $query, string $term): Builder
     {
-        return $query->where(function (Builder $query) use ($term): void {
-            $query->where('icao', 'like', sprintf('%%%s%%', $term))
-                ->orWhere('iata', 'like', sprintf('%%%s%%', $term))
-                ->orWhere('name', 'like', sprintf('%%%s%%', $term));
+        $like = sprintf('%%%s%%', mb_strtolower($term));
+
+        return $query->where(function (Builder $query) use ($like): void {
+            $query->whereRaw('LOWER(icao) LIKE ?', [$like])
+                ->orWhereRaw('LOWER(iata) LIKE ?', [$like])
+                ->orWhereRaw('LOWER(name) LIKE ?', [$like]);
         });
     }
 
