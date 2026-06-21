@@ -1,7 +1,5 @@
 {
     "agents": [
-        "junie",
-        "claude_code",
         "opencode",
         "codex"
     ],
