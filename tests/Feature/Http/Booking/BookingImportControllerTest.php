@@ -50,6 +50,37 @@ it('imports bookings from a CSV file', function (): void {
     ]);
 });
 
+it('imports flight times from a CSV file', function (): void {
+    /** @var TestCase $this */
+
+    /** @var User $admin */
+    $admin = User::factory()->admin()->create();
+
+    Airport::factory()->create(['icao' => 'EHAM']);
+    Airport::factory()->create(['icao' => 'EGLL']);
+
+    /** @var Event $event */
+    $event = Event::factory()->create([
+        'startEvent' => '2026-07-15 00:00:00',
+    ]);
+
+    $csvContent = "origin,destination,call_sign,aircraft_type,ctot,eta\n";
+    $csvContent .= "EHAM,EGLL,KLM01,B738,14:30,15:45\n";
+
+    $file = UploadedFile::fake()->createWithContent('bookings.csv', $csvContent);
+
+    $this->actingAs($admin)
+        ->post(route('admin.events.bookings.import.store', $event), [
+            'file' => $file,
+        ])
+        ->assertRedirect(route('events.bookings.index', $event));
+
+    $flight = Booking::where('event_id', $event->id)->firstOrFail()->flights()->firstOrFail();
+
+    expect($flight->ctot->format('Y-m-d H:i'))->toBe('2026-07-15 14:30')
+        ->and($flight->eta->format('Y-m-d H:i'))->toBe('2026-07-15 15:45');
+});
+
 it('rejects import with a disallowed file type', function (): void {
     /** @var TestCase $this */
 

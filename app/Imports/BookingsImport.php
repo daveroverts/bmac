@@ -6,6 +6,8 @@ use App\Enums\EventType;
 use App\Models\Event;
 use App\Models\Airport;
 use App\Models\Booking;
+use Carbon\Carbon;
+use DateTimeInterface;
 use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\ToModel;
 use PhpOffice\PhpSpreadsheet\Shared\Date;
@@ -108,18 +110,22 @@ class BookingsImport implements ToModel, WithHeadingRow, WithBatchInserts, WithC
         ];
     }
 
-    private function getTime($time)
+    private function getTime($time): ?DateTimeInterface
     {
-        if (!empty($time)) {
-            $time = Date::excelToDateTimeObject($time);
-            $time->setDate(
-                $this->event->startEvent->year,
-                $this->event->startEvent->month,
-                $this->event->startEvent->day,
-            );
-            return $time;
+        if (empty($time)) {
+            return null;
         }
 
-        return null;
+        $dateTime = is_numeric($time)
+            ? Date::excelToDateTimeObject($time)
+            : Carbon::createFromFormat('H:i', trim((string) $time));
+
+        $dateTime->setDate(
+            $this->event->startEvent->year,
+            $this->event->startEvent->month,
+            $this->event->startEvent->day,
+        );
+
+        return $dateTime;
     }
 }
