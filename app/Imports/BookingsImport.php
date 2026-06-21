@@ -6,9 +6,9 @@ use App\Enums\EventType;
 use App\Models\Event;
 use App\Models\Airport;
 use App\Models\Booking;
-use Carbon\Carbon;
 use DateTimeInterface;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Date as DateFacade;
 use Maatwebsite\Excel\Concerns\ToModel;
 use PhpOffice\PhpSpreadsheet\Shared\Date;
 use Maatwebsite\Excel\Concerns\Importable;
@@ -31,14 +31,10 @@ class BookingsImport implements ToModel, WithHeadingRow, WithBatchInserts, WithC
 
     public function model(array $row): ?Booking
     {
-        $editable = true;
-        if (!empty($row['call_sign']) && !empty($row['aircraft_type'])) {
-            $editable = false;
-        }
-
         $booking = Booking::create([
             'event_id' => $this->event->id,
-            'is_editable' => $editable,
+            'is_callsign_editable' => empty($row['call_sign']),
+            'is_actype_editable' => empty($row['aircraft_type']),
             'callsign' => $row['call_sign'] ?? null,
             'acType'   => $row['aircraft_type'] ?? null,
         ]);
@@ -118,7 +114,7 @@ class BookingsImport implements ToModel, WithHeadingRow, WithBatchInserts, WithC
 
         $dateTime = is_numeric($time)
             ? Date::excelToDateTimeObject($time)
-            : Carbon::createFromFormat('H:i', trim((string) $time));
+            : DateFacade::createFromFormat('H:i', trim((string) $time));
 
         $dateTime->setDate(
             $this->event->startEvent->year,

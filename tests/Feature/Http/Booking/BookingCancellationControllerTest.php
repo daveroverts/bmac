@@ -156,7 +156,8 @@ it('clears editable fields when cancelling an editable booking', function (): vo
         'booking_id' => Booking::factory()->booked()->create([
             'event_id' => $event->id,
             'user_id' => $user->id,
-            'is_editable' => true,
+            'is_callsign_editable' => true,
+            'is_actype_editable' => true,
             'callsign' => 'TEST123',
             'acType' => 'B738',
         ])->id,
@@ -190,7 +191,8 @@ it('clears selcal when cancelling a non-editable booking', function (): void {
         'booking_id' => Booking::factory()->booked()->create([
             'event_id' => $event->id,
             'user_id' => $user->id,
-            'is_editable' => false,
+            'is_callsign_editable' => false,
+            'is_actype_editable' => false,
             'callsign' => 'TEST123',
             'acType' => 'B738',
             'selcal' => 'AB-CD',

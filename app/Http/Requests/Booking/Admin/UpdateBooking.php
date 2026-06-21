@@ -14,7 +14,8 @@ class UpdateBooking extends Request
     public function rules(): array
     {
         return [
-            'is_editable' => ['required', 'boolean'],
+            'is_callsign_editable' => ['required', 'boolean'],
+            'is_actype_editable' => ['required', 'boolean'],
             'callsign' => ['nullable', 'alpha_num', 'max:7'],
             'acType' => ['nullable', 'alpha_num', 'between:3,4'],
             'ctot' => ['present', 'nullable', 'date_format:H:i'],
@@ -39,7 +40,8 @@ class UpdateBooking extends Request
     public function attributes()
     {
         return [
-            'is_editable' => __('Editable?'),
+            'is_callsign_editable' => __('Callsign editable?'),
+            'is_actype_editable' => __('Aircraft code editable?'),
             'callsign' => __('Callsign'),
             'acType' => __('Aircraft code'),
             'ctot' => __('CTOT'),

@@ -24,6 +24,7 @@ it('imports bookings from a CSV file', function (): void {
 
     $csvContent = "origin,destination,call_sign,aircraft_type,notes\n";
     $csvContent .= "EHAM,EGLL,KLM01,B738,Test note\n";
+    $csvContent .= "EHAM,EGLL,KLM02,,Test note\n";
     $csvContent .= "EHAM,EGLL,,,,\n";
 
     $file = UploadedFile::fake()->createWithContent('bookings.csv', $csvContent);
@@ -34,19 +35,29 @@ it('imports bookings from a CSV file', function (): void {
         ])
         ->assertRedirect(route('events.bookings.index', $event));
 
-    expect(Booking::where('event_id', $event->id)->count())->toBe(2);
+    expect(Booking::where('event_id', $event->id)->count())->toBe(3);
 
     $this->assertDatabaseHas('bookings', [
         'event_id' => $event->id,
         'callsign' => 'KLM01',
         'acType' => 'B738',
-        'is_editable' => false,
+        'is_callsign_editable' => false,
+        'is_actype_editable' => false,
+    ]);
+
+    $this->assertDatabaseHas('bookings', [
+        'event_id' => $event->id,
+        'callsign' => 'KLM02',
+        'acType' => null,
+        'is_callsign_editable' => false,
+        'is_actype_editable' => true,
     ]);
 
     $this->assertDatabaseHas('bookings', [
         'event_id' => $event->id,
         'callsign' => null,
-        'is_editable' => true,
+        'is_callsign_editable' => true,
+        'is_actype_editable' => true,
     ]);
 });
 

@@ -118,7 +118,8 @@ it('pre-fills callsign and acType on the multi-flights edit form', function (): 
     $booking = Booking::factory()->reserved()->create([
         'event_id' => $event->id,
         'user_id' => $user->id,
-        'is_editable' => true,
+        'is_callsign_editable' => true,
+        'is_actype_editable' => true,
         'callsign' => 'KLM1337',
         'acType' => 'B738',
     ]);
@@ -143,7 +144,8 @@ it('allows users to confirm reserved bookings', function (): void {
     $flight = Flight::factory()->create([
         'booking_id' => Booking::factory()->reserved()->create([
             'user_id' => $user->id,
-            'is_editable' => true,
+            'is_callsign_editable' => true,
+            'is_actype_editable' => true,
         ])->id,
     ]);
 
@@ -200,7 +202,8 @@ it('prevents editing non-editable booked bookings', function (): void {
         'booking_id' => Booking::factory()->booked()->create([
             'event_id' => $event->id,
             'user_id' => $user->id,
-            'is_editable' => false,
+            'is_callsign_editable' => false,
+            'is_actype_editable' => false,
         ])->id,
     ]);
 
@@ -226,7 +229,8 @@ it('allows editing editable booked bookings within the booking window', function
         'booking_id' => Booking::factory()->booked()->create([
             'event_id' => $event->id,
             'user_id' => $user->id,
-            'is_editable' => true,
+            'is_callsign_editable' => true,
+            'is_actype_editable' => true,
         ])->id,
     ]);
 
@@ -281,7 +285,8 @@ it('allows updating SELCAL on an oceanic event booking', function (): void {
         'booking_id' => Booking::factory()->booked()->create([
             'event_id' => $event->id,
             'user_id' => $user->id,
-            'is_editable' => true,
+            'is_callsign_editable' => true,
+            'is_actype_editable' => true,
         ])->id,
     ]);
 
@@ -318,7 +323,8 @@ it('does not set SELCAL on a non-oceanic event booking', function (): void {
         'booking_id' => Booking::factory()->booked()->create([
             'event_id' => $event->id,
             'user_id' => $user->id,
-            'is_editable' => true,
+            'is_callsign_editable' => true,
+            'is_actype_editable' => true,
         ])->id,
     ]);
 

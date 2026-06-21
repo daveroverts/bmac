@@ -58,7 +58,8 @@ class CreateBookingsAction
             if (! $duplicateExists) {
                 Booking::create([
                     'event_id' => $request->id,
-                    'is_editable' => $request->is_editable,
+                    'is_callsign_editable' => $request->is_callsign_editable,
+                    'is_actype_editable' => $request->is_actype_editable,
                 ])->flights()->create([
                     'dep' => $request->dep,
                     'arr' => $request->arr,
@@ -79,7 +80,8 @@ class CreateBookingsAction
     protected function createSingle(StoreBooking $request, Event $event): void
     {
         $booking = new Booking([
-            'is_editable' => $request->is_editable,
+            'is_callsign_editable' => $request->is_callsign_editable,
+            'is_actype_editable' => $request->is_actype_editable,
             'callsign' => $request->callsign,
             'acType' => $request->acType,
         ]);
