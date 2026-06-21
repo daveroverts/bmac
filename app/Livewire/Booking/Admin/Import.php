@@ -74,9 +74,11 @@ class Import extends Component
             if (! $row['valid']) {
                 continue;
             }
+
             if (! in_array($index, $selected, true)) {
                 continue;
             }
+
             $createBooking->handle($this->event, $row['data']);
         }
 
