@@ -74,7 +74,6 @@ Route::middleware(['auth', 'can:admin'])->prefix('admin')->name('admin.')->group
             Route::get('export', BookingExportController::class)->name('export');
 
             Route::get('import', [BookingImportController::class, 'create'])->name('import.create');
-            Route::post('import', [BookingImportController::class, 'store'])->name('import.store');
 
             Route::get('auto-assign', [BookingAutoAssignController::class, 'create'])->name('autoAssign.create');
             Route::post('auto-assign', [BookingAutoAssignController::class, 'store'])->name('autoAssign.store');

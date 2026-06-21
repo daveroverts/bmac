@@ -2,8 +2,11 @@
 
 use App\Models\Airport;
 use App\Services\AirportImporter;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
 use Tests\TestCase;
+
+beforeEach(fn () => Cache::flush());
 
 function fakeAirportsDataset(string $rows): void
 {
