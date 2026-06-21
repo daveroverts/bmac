@@ -4,6 +4,7 @@ namespace App\Jobs;
 
 use Illuminate\Bus\Queueable;
 use App\Imports\AirportsImport;
+use App\Services\AirportImporter;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Queue\InteractsWithQueue;
@@ -34,7 +35,7 @@ class ImportAirportsJob implements ShouldQueue, ShouldBeUnique
         $file = 'import_' . time() . '.csv';
         Storage::disk('local')->put(
             $file,
-            file_get_contents('https://raw.githubusercontent.com/mborsetti/airportsdata/main/airportsdata/airports.csv')
+            file_get_contents(AirportImporter::SOURCE_URL)
         );
         (new AirportsImport())->queue($file)->chain([
             function () use ($file): void {
