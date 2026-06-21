@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\AirportLink;
 
-use App\Models\Airport;
 use Illuminate\View\View;
 use App\Models\AirportLink;
 use App\Models\AirportLinkType;
@@ -30,8 +29,7 @@ class AirportLinkAdminController extends Controller
     {
         $airportLink = new AirportLink();
         $airportLinkTypes = AirportLinkType::forDropdown();
-        $airports = Airport::forDropdown();
-        return view('airportLink.admin.form', ['airportLink' => $airportLink, 'airportLinkTypes' => $airportLinkTypes, 'airports' => $airports]);
+        return view('airportLink.admin.form', ['airportLink' => $airportLink, 'airportLinkTypes' => $airportLinkTypes]);
     }
 
     public function store(StoreAirportLink $request): RedirectResponse

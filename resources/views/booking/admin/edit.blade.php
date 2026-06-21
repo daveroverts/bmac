@@ -52,10 +52,10 @@
                             </x-forms.input>
                         </x-forms.form-group>
 
-                        <x-forms.select name="dep" :label="__('Departure airport')" :options="$airports" :placeholder="__('Choose...')" required
+                        <x-forms.airport-select name="dep" :label="__('Departure airport')" :placeholder="__('Choose...')" required
                             :value="$flight->dep" />
 
-                        <x-forms.select name="arr" :label="__('Arrival airport')" :options="$airports" :placeholder="__('Choose...')" required
+                        <x-forms.airport-select name="arr" :label="__('Arrival airport')" :placeholder="__('Choose...')" required
                             :value="$flight->arr" />
 
                         <x-forms.form-group name="pic" :label="__('PIC')">

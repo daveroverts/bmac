@@ -241,6 +241,56 @@ it('validates iata must be exactly 3 characters on update', function (): void {
         ->assertSessionHasErrors('iata');
 });
 
+it('prevents non-admin users from searching airports', function (): void {
+    /** @var TestCase $this */
+
+    /** @var User $user */
+    $user = User::factory()->create();
+
+    $this->actingAs($user)
+        ->getJson(route('admin.airports.search', ['q' => 'EH']))
+        ->assertForbidden();
+});
+
+it('returns airports matching the search term as json', function (): void {
+    /** @var TestCase $this */
+
+    /** @var User $admin */
+    $admin = User::factory()->admin()->create();
+
+    $match = Airport::factory()->create(['icao' => 'EHAM', 'iata' => 'AMS', 'name' => 'Amsterdam Airport Schiphol']);
+    Airport::factory()->create(['icao' => 'KLAX', 'iata' => 'LAX', 'name' => 'Los Angeles International']);
+
+    $this->actingAs($admin)
+        ->getJson(route('admin.airports.search', ['q' => 'EHAM']))
+        ->assertOk()
+        ->assertExactJson([
+            ['value' => $match->id, 'label' => 'EHAM | Amsterdam Airport Schiphol | AMS'],
+        ]);
+});
+
+it('matches airports on name and iata too', function (): void {
+    /** @var TestCase $this */
+
+    /** @var User $admin */
+    $admin = User::factory()->admin()->create();
+
+    $byName = Airport::factory()->create(['icao' => 'EHAM', 'iata' => 'AMS', 'name' => 'Schiphol']);
+    $byIata = Airport::factory()->create(['icao' => 'KLAX', 'iata' => 'LAX', 'name' => 'Los Angeles']);
+
+    $this->actingAs($admin)
+        ->getJson(route('admin.airports.search', ['q' => 'schip']))
+        ->assertOk()
+        ->assertJsonFragment(['value' => $byName->id])
+        ->assertJsonMissing(['value' => $byIata->id]);
+
+    $this->actingAs($admin)
+        ->getJson(route('admin.airports.search', ['q' => 'LAX']))
+        ->assertOk()
+        ->assertJsonFragment(['value' => $byIata->id])
+        ->assertJsonMissing(['value' => $byName->id]);
+});
+
 it('allows admin users to destroy unused airports', function (): void {
     /** @var TestCase $this */
 

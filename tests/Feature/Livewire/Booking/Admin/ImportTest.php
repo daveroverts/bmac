@@ -35,7 +35,6 @@ function fakeImportDataset(string $rows = ''): void
 }
 
 it('parses rows and pre-selects only the valid ones', function (): void {
-    /** @var TestCase $this */
     Airport::factory()->create(['icao' => 'EHAM']);
     Airport::factory()->create(['icao' => 'EGLL']);
     $event = Event::factory()->create();
@@ -76,7 +75,6 @@ it('imports only the selected valid rows', function (): void {
 });
 
 it('imports flight times', function (): void {
-    /** @var TestCase $this */
     Airport::factory()->create(['icao' => 'EHAM']);
     Airport::factory()->create(['icao' => 'EGLL']);
     $event = Event::factory()->create(['startEvent' => '2026-07-15 00:00:00']);
@@ -114,7 +112,6 @@ it('auto-creates missing airports while parsing', function (): void {
 });
 
 it('toggles selection with select all and select none', function (): void {
-    /** @var TestCase $this */
     Airport::factory()->create(['icao' => 'EHAM']);
     Airport::factory()->create(['icao' => 'EGLL']);
     $event = Event::factory()->create();
@@ -130,7 +127,6 @@ it('toggles selection with select all and select none', function (): void {
 });
 
 it('rejects a disallowed file type', function (): void {
-    /** @var TestCase $this */
     $event = Event::factory()->create();
 
     $file = UploadedFile::fake()->create('bookings.txt', 100, 'text/plain');

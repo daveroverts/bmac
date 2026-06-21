@@ -76,10 +76,10 @@
                             <x-forms.error field="is_oceanic_event" class="invalid-feedback" />
                         </x-forms.form-group>
 
-                        <x-forms.select name="dep" :label="__('Departure airport')" :value="$event->dep" :options="$airports"
+                        <x-forms.airport-select name="dep" :label="__('Departure airport')" :value="$event->dep"
                             :placeholder="__('Choose...')" required />
 
-                        <x-forms.select name="arr" :label="__('Arrival airport')" :value="$event->arr" :options="$airports"
+                        <x-forms.airport-select name="arr" :label="__('Arrival airport')" :value="$event->arr"
                             :placeholder="__('Choose...')" required />
 
                         <x-forms.form-group name="startEvent" :label="__('Start event (UTC)')">

@@ -68,13 +68,15 @@ class Import extends Component
             ->on($this->event)
             ->log('Import triggered');
 
-        $selected = array_map('intval', $this->selected);
+        $selected = array_map(intval(...), $this->selected);
 
         foreach ($this->rows as $index => $row) {
-            if (! $row['valid'] || ! in_array($index, $selected, true)) {
+            if (! $row['valid']) {
                 continue;
             }
-
+            if (! in_array($index, $selected, true)) {
+                continue;
+            }
             $createBooking->handle($this->event, $row['data']);
         }
 
@@ -95,7 +97,7 @@ class Import extends Component
     {
         $sheet = Excel::toArray(new class () implements WithHeadingRow {}, $this->file)[0] ?? [];
 
-        $this->autoAddedAirports = app(AirportImporter::class)
+        $this->autoAddedAirports = resolve(AirportImporter::class)
             ->ensure($this->referencedIcaos($sheet))['created'];
 
         $rules = $this->rowRules();

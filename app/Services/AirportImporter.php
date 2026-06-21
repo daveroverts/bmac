@@ -96,14 +96,14 @@ class AirportImporter
             ->filter(fn (string $line): bool => trim($line) !== '')
             ->mapWithKeys(function (string $line) use ($column): array {
                 $cols = str_getcsv($line);
-                $icao = strtoupper((string) ($cols[$column['icao']] ?? ''));
+                $icao = strtoupper($cols[$column['icao']] ?? '');
 
                 return [$icao => [
                     'icao' => $icao,
-                    'iata' => (string) ($cols[$column['iata']] ?? ''),
-                    'name' => (string) ($cols[$column['name']] ?? ''),
-                    'latitude' => (string) ($cols[$column['lat']] ?? ''),
-                    'longitude' => (string) ($cols[$column['lon']] ?? ''),
+                    'iata' => $cols[$column['iata']] ?? '',
+                    'name' => $cols[$column['name']] ?? '',
+                    'latitude' => $cols[$column['lat']] ?? '',
+                    'longitude' => $cols[$column['lon']] ?? '',
                 ]];
             });
     }

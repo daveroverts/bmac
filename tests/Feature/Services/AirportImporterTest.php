@@ -26,7 +26,7 @@ it('creates missing airports from the dataset', function (): void {
         "KSEA,SEA,Seattle Tacoma Intl,Seattle,,US,433,47.449,-122.309306,America/Los_Angeles,\n"
     );
 
-    $result = app(AirportImporter::class)->ensure(['EHAM', 'EGLL', 'KSEA']);
+    $result = resolve(AirportImporter::class)->ensure(['EHAM', 'EGLL', 'KSEA']);
 
     expect($result['created'])->toEqualCanonicalizing(['EGLL', 'KSEA'])
         ->and($result['unresolved'])->toBe([]);
@@ -36,11 +36,10 @@ it('creates missing airports from the dataset', function (): void {
 });
 
 it('does not fetch the dataset when all airports already exist', function (): void {
-    /** @var TestCase $this */
     Airport::factory()->create(['icao' => 'EHAM']);
     Http::fake();
 
-    $result = app(AirportImporter::class)->ensure(['EHAM', 'eham', ' EHAM ']);
+    $result = resolve(AirportImporter::class)->ensure(['EHAM', 'eham', ' EHAM ']);
 
     expect($result['created'])->toBe([])
         ->and($result['unresolved'])->toBe([]);
@@ -48,12 +47,11 @@ it('does not fetch the dataset when all airports already exist', function (): vo
 });
 
 it('marks unknown and blank-iata airports as unresolved', function (): void {
-    /** @var TestCase $this */
     fakeAirportsDataset(
         "EHGG,,Groningen Eelde,Eelde,,NL,17,53.1197,6.5794,Europe/Amsterdam,\n"
     );
 
-    $result = app(AirportImporter::class)->ensure(['EHGG', 'ZZZZ']);
+    $result = resolve(AirportImporter::class)->ensure(['EHGG', 'ZZZZ']);
 
     expect($result['created'])->toBe([])
         ->and($result['unresolved'])->toEqualCanonicalizing(['EHGG', 'ZZZZ'])

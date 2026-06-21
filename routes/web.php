@@ -41,6 +41,7 @@ Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 Route::middleware(['auth', 'can:admin'])->prefix('admin')->name('admin.')->group(function (): void {
     // Airports
     Route::delete('airports/unused', [AirportAdminController::class, 'destroyUnused'])->name('airports.unused.destroy');
+    Route::get('airports/search', [AirportAdminController::class, 'search'])->name('airports.search');
     Route::resource('airports', AirportAdminController::class);
 
     // AirportLinks
