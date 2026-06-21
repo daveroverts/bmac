@@ -18,9 +18,7 @@ class AirportAdminController extends Controller
 
     public function index(): View
     {
-        $airports = Airport::withCount(['flightsDep', 'flightsArr', 'eventDep', 'eventArr'])
-            ->paginate(100);
-        return view('airport.admin.overview', ['airports' => $airports]);
+        return view('airport.admin.overview');
     }
 
     public function create(): View
