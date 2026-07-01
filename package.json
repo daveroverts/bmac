@@ -31,7 +31,7 @@
         "laravel-vite-plugin": "^3.1.0",
         "postcss": "^8.5.14",
         "sass": "^1.99.0",
-        "tinymce": "^8.5.0",
+        "tinymce": "^8.6.0",
         "vite": "^8.0.13",
         "vite-plugin-purgecss": "^0.2.13",
         "vite-plugin-static-copy": "^4.1.0"
