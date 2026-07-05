@@ -76,27 +76,42 @@
                             <x-forms.error field="is_oceanic_event" class="invalid-feedback" />
                         </x-forms.form-group>
 
-                        <x-forms.airport-select name="dep" :label="__('Departure airport')" :value="$event->dep"
-                            :placeholder="__('Search by name or code...')" required />
+                        <div class="row">
+                            <div class="col-md-6">
+                                <x-forms.airport-select name="dep" :label="__('Departure airport')" :value="$event->dep"
+                                    :placeholder="__('Search by name or code...')" required />
+                            </div>
+                            <div class="col-md-6">
+                                <x-forms.airport-select name="arr" :label="__('Arrival airport')" :value="$event->arr"
+                                    :placeholder="__('Search by name or code...')" required />
+                            </div>
+                        </div>
 
-                        <x-forms.airport-select name="arr" :label="__('Arrival airport')" :value="$event->arr"
-                            :placeholder="__('Search by name or code...')" required />
+                        <div class="row">
+                            <div class="col-md-6">
+                                <x-forms.form-group name="startEvent" :label="__('Start event (UTC)')">
+                                    <x-flat-pickr name="startEvent" value="{{ old('startEvent', $event->startEvent) }}" />
+                                </x-forms.form-group>
+                            </div>
+                            <div class="col-md-6">
+                                <x-forms.form-group name="endEvent" :label="__('End event (UTC)')">
+                                    <x-flat-pickr name="endEvent" value="{{ old('endEvent', $event->endEvent) }}" />
+                                </x-forms.form-group>
+                            </div>
+                        </div>
 
-                        <x-forms.form-group name="startEvent" :label="__('Start event (UTC)')">
-                            <x-flat-pickr name="startEvent" value="{{ old('startEvent', $event->startEvent) }}" />
-                        </x-forms.form-group>
-
-                        <x-forms.form-group name="endEvent" :label="__('End event (UTC)')">
-                            <x-flat-pickr name="endEvent" value="{{ old('endEvent', $event->endEvent) }}" />
-                        </x-forms.form-group>
-
-                        <x-forms.form-group name="startBooking" :label="__('Start booking (UTC)')">
-                            <x-flat-pickr name="startBooking" value="{{ old('startBooking', $event->startBooking) }}" />
-                        </x-forms.form-group>
-
-                        <x-forms.form-group name="endBooking" :label="__('End booking (UTC)')">
-                            <x-flat-pickr name="endBooking" value="{{ old('endBooking', $event->endBooking) }}" />
-                        </x-forms.form-group>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <x-forms.form-group name="startBooking" :label="__('Start booking (UTC)')">
+                                    <x-flat-pickr name="startBooking" value="{{ old('startBooking', $event->startBooking) }}" />
+                                </x-forms.form-group>
+                            </div>
+                            <div class="col-md-6">
+                                <x-forms.form-group name="endBooking" :label="__('End booking (UTC)')">
+                                    <x-flat-pickr name="endBooking" value="{{ old('endBooking', $event->endBooking) }}" />
+                                </x-forms.form-group>
+                            </div>
+                        </div>
 
                         <x-forms.input name="image_url" :label="__('Image URL')" placeholder="https://example.org" :value="$event->image_url" />
 

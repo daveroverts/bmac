@@ -30,8 +30,14 @@
                             </x-slot:help>
                         </x-forms.form-group>
 
-                        <x-forms.input name="callsign" :label="__('Callsign')" maxlength="7" :value="$booking->callsign" />
-                        <x-forms.input name="acType" :label="__('Aircraft code')" minlength="3" maxlength="4" :value="$booking->acType" />
+                        <div class="row">
+                            <div class="col-md-6">
+                                <x-forms.input name="callsign" :label="__('Callsign')" maxlength="7" :value="$booking->callsign" />
+                            </div>
+                            <div class="col-md-6">
+                                <x-forms.input name="acType" :label="__('Aircraft code')" minlength="3" maxlength="4" :value="$booking->acType" />
+                            </div>
+                        </div>
 
                         <x-forms.form-group inline>
                             <x-forms.input name="ctot" type="time" :value="$flight->ctot?->format('H:i')" input-group-class="pe-2">
@@ -52,11 +58,16 @@
                             </x-forms.input>
                         </x-forms.form-group>
 
-                        <x-forms.airport-select name="dep" :label="__('Departure airport')" :placeholder="__('Search by name or code...')" required
-                            :value="$flight->dep" />
-
-                        <x-forms.airport-select name="arr" :label="__('Arrival airport')" :placeholder="__('Search by name or code...')" required
-                            :value="$flight->arr" />
+                        <div class="row">
+                            <div class="col-md-6">
+                                <x-forms.airport-select name="dep" :label="__('Departure airport')" :placeholder="__('Search by name or code...')" required
+                                    :value="$flight->dep" />
+                            </div>
+                            <div class="col-md-6">
+                                <x-forms.airport-select name="arr" :label="__('Arrival airport')" :placeholder="__('Search by name or code...')" required
+                                    :value="$flight->arr" />
+                            </div>
+                        </div>
 
                         <x-forms.form-group name="pic" :label="__('PIC')">
                             {{ $booking->user ? $booking->user->pic : '-' }}

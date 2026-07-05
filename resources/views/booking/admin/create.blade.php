@@ -35,15 +35,26 @@
                         </x-forms.form-group>
 
                         @if (!$bulk)
-                            <x-forms.input name="callsign" :label="__('Callsign')" maxlength="7" />
-                            <x-forms.input name="acType" :label="__('Aircraft code')" minlength="3" maxlength="4" />
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <x-forms.input name="callsign" :label="__('Callsign')" maxlength="7" />
+                                </div>
+                                <div class="col-md-6">
+                                    <x-forms.input name="acType" :label="__('Aircraft code')" minlength="3" maxlength="4" />
+                                </div>
+                            </div>
                         @endif
 
-                        <x-forms.airport-select name="dep" :label="__('Departure airport')" :placeholder="__('Search by name or code...')" required
-                            :value="$event->dep" />
-
-                        <x-forms.airport-select name="arr" :label="__('Arrival airport')" :placeholder="__('Search by name or code...')" required
-                            :value="$event->dep" />
+                        <div class="row">
+                            <div class="col-md-6">
+                                <x-forms.airport-select name="dep" :label="__('Departure airport')" :placeholder="__('Search by name or code...')" required
+                                    :value="$event->dep" />
+                            </div>
+                            <div class="col-md-6">
+                                <x-forms.airport-select name="arr" :label="__('Arrival airport')" :placeholder="__('Search by name or code...')" required
+                                    :value="$event->dep" />
+                            </div>
+                        </div>
 
                         @if ($bulk)
                             <x-forms.form-group inline>
