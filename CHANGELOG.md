@@ -1,3 +1,24 @@
+# [5.2.0](https://github.com/daveroverts/bmac/compare/v5.1.2...v5.2.0) (2026-07-05)
+
+
+### Bug Fixes
+
+* support time parsing for CSV booking imports ([1424044](https://github.com/daveroverts/bmac/commit/1424044a5b6ea20353648690d83f8974ac7b6e66)), closes [#1019](https://github.com/daveroverts/bmac/issues/1019)
+
+
+### Features
+
+* **airports:** add live search to admin overview ([6261f9d](https://github.com/daveroverts/bmac/commit/6261f9dcc71339b2ed407f06d10e0c5f0b4cd9da)), closes [#855](https://github.com/daveroverts/bmac/issues/855)
+* **bookings:** split is_editable into callsign and actype flags ([cc17af7](https://github.com/daveroverts/bmac/commit/cc17af768f9c8dcfa973640be96bd046543539b5)), closes [#836](https://github.com/daveroverts/bmac/issues/836)
+* **events:** link datetime pickers in admin form ([c8430d2](https://github.com/daveroverts/bmac/commit/c8430d27f9ac58fdabb4e3636b3344f909b63ebb))
+* **import:** add review layer for flight imports ([99dbce0](https://github.com/daveroverts/bmac/commit/99dbce0afe4acb71175414d744d2fde90ab727b8))
+* **import:** auto-add missing airports on demand ([fb5fd0d](https://github.com/daveroverts/bmac/commit/fb5fd0d9a0975d1ce0a9baaa4c976145f83c36b8)), closes [#400](https://github.com/daveroverts/bmac/issues/400)
+
+
+### Performance Improvements
+
+* **airports:** replace bulk airport selects with searchable AJAX dropdown ([77b9ed1](https://github.com/daveroverts/bmac/commit/77b9ed11127d0456b01255383fd65798673dadda))
+
 ## [5.1.2](https://github.com/daveroverts/bmac/compare/v5.1.1...v5.1.2) (2026-05-16)
 
 
