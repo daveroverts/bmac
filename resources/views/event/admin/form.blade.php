@@ -115,3 +115,88 @@
         </div>
     </div>
 @endsection
+
+@push('scripts')
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const names = ['startEvent', 'endEvent', 'startBooking', 'endBooking'];
+            const isReady = () => names.every((name) => window.flatpickrs && window.flatpickrs[name]);
+
+            const firstDate = (picker) => picker.selectedDates[0] || null;
+            const isEmpty = (picker) => picker.selectedDates.length === 0;
+
+            const wire = () => {
+                const { startEvent, endEvent, startBooking, endBooking } = window.flatpickrs;
+
+                // startBooking must stay before both endBooking and startEvent.
+                const capStartBooking = () => {
+                    const bounds = [firstDate(endBooking), firstDate(startEvent)].filter(Boolean);
+                    startBooking.set('maxDate', bounds.length ? new Date(Math.min(...bounds)) : null);
+                };
+
+                // Timeline: startBooking <= endBooking <= startEvent <= endEvent
+                startEvent.set('onChange', (dates) => {
+                    const date = dates[0];
+                    if (!date) {
+                        return;
+                    }
+
+                    // Mirror-fill related fields when empty or when the current
+                    // value would fall outside the new allowed range.
+                    if (isEmpty(endEvent) || firstDate(endEvent) < date) {
+                        endEvent.setDate(date, false);
+                    }
+                    if (isEmpty(endBooking) || firstDate(endBooking) > date) {
+                        endBooking.setDate(date, false);
+                    }
+
+                    endEvent.set('minDate', date);
+                    endBooking.set('maxDate', date);
+                    capStartBooking();
+                });
+
+                endEvent.set('onChange', (dates) => {
+                    if (dates[0]) {
+                        startEvent.set('maxDate', dates[0]);
+                    }
+                });
+
+                startBooking.set('onChange', (dates) => {
+                    if (dates[0]) {
+                        endBooking.set('minDate', dates[0]);
+                    }
+                });
+
+                endBooking.set('onChange', () => {
+                    capStartBooking();
+                });
+
+                // Apply constraints for values already present when editing.
+                if (firstDate(startEvent)) {
+                    endEvent.set('minDate', firstDate(startEvent));
+                    endBooking.set('maxDate', firstDate(startEvent));
+                }
+                if (firstDate(endEvent)) {
+                    startEvent.set('maxDate', firstDate(endEvent));
+                }
+                if (firstDate(startBooking)) {
+                    endBooking.set('minDate', firstDate(startBooking));
+                }
+                capStartBooking();
+            };
+
+            if (isReady()) {
+                wire();
+
+                return;
+            }
+
+            document.addEventListener('flatpickr:ready', function handler() {
+                if (isReady()) {
+                    document.removeEventListener('flatpickr:ready', handler);
+                    wire();
+                }
+            });
+        });
+    </script>
+@endpush
