@@ -21,7 +21,7 @@
                                 ({{ $airportLink->airport->iata }})]
                             </x-forms.form-group>
                         @else
-                            <x-forms.airport-select name="airport_id" :label="__('Airport')" :placeholder="__('Choose...')"
+                            <x-forms.airport-select name="airport_id" :label="__('Airport')" :placeholder="__('Search by name or code...')"
                                 required />
                         @endif
                         <x-forms.input name="name" :label="__('Name')" :help="__('Leave empty to use the type as name')" :value="old('name', $airportLink->name)" />

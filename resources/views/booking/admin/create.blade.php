@@ -39,10 +39,10 @@
                             <x-forms.input name="acType" :label="__('Aircraft code')" minlength="3" maxlength="4" />
                         @endif
 
-                        <x-forms.airport-select name="dep" :label="__('Departure airport')" :placeholder="__('Choose...')" required
+                        <x-forms.airport-select name="dep" :label="__('Departure airport')" :placeholder="__('Search by name or code...')" required
                             :value="$event->dep" />
 
-                        <x-forms.airport-select name="arr" :label="__('Arrival airport')" :placeholder="__('Choose...')" required
+                        <x-forms.airport-select name="arr" :label="__('Arrival airport')" :placeholder="__('Search by name or code...')" required
                             :value="$event->dep" />
 
                         @if ($bulk)

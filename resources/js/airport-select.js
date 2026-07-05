@@ -10,6 +10,7 @@ document.querySelectorAll('select[data-airport-select]').forEach((el) => {
         labelField: 'label',
         searchField: 'label',
         maxOptions: 50,
+        hidePlaceholder: true,
         load(query, callback) {
             const url = `${el.dataset.searchUrl}?q=${encodeURIComponent(query)}`;
 

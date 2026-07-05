@@ -6,7 +6,7 @@
 <x-forms.form-group :name="$name" :label="$label">
     <select name="{{ $name }}" data-airport-select data-search-url="{{ route('admin.airports.search') }}"
         {{ $attributes->class(['form-select', 'is-invalid' => $errors->has($name)]) }}>
-        @if ($placeholder)
+        @if ($placeholder && !$selectedAirport)
             <option value="">{{ $placeholder }}</option>
         @endif
 

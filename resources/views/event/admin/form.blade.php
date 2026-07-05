@@ -77,10 +77,10 @@
                         </x-forms.form-group>
 
                         <x-forms.airport-select name="dep" :label="__('Departure airport')" :value="$event->dep"
-                            :placeholder="__('Choose...')" required />
+                            :placeholder="__('Search by name or code...')" required />
 
                         <x-forms.airport-select name="arr" :label="__('Arrival airport')" :value="$event->arr"
-                            :placeholder="__('Choose...')" required />
+                            :placeholder="__('Search by name or code...')" required />
 
                         <x-forms.form-group name="startEvent" :label="__('Start event (UTC)')">
                             <x-flat-pickr name="startEvent" value="{{ old('startEvent', $event->startEvent) }}" />
