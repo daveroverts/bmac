@@ -81,7 +81,35 @@ class Airport extends Model
     {
         return Cache::remember(self::CACHE_KEY_DROPDOWN, now()->addHour(), fn (): Collection => static::all(['id', 'icao', 'iata', 'name'])
             ->keyBy('id')
-            ->map(fn (self $airport): string => sprintf('%s | %s | %s', $airport->icao, $airport->name, $airport->iata)));
+            ->map(fn (self $airport): string => $airport->dropdownLabel()));
+    }
+
+    /**
+     * Format the airport as a single dropdown label.
+     *
+     * @return non-falsy-string
+     */
+    public function dropdownLabel(): string
+    {
+        return sprintf('%s | %s | %s', $this->icao, $this->name, $this->iata);
+    }
+
+    /**
+     * Scope a query to airports matching the term on icao, iata or name.
+     *
+     * @param  Builder<Airport>  $query
+     * @return Builder<Airport>
+     */
+    #[\Illuminate\Database\Eloquent\Attributes\Scope]
+    protected function search(Builder $query, string $term): Builder
+    {
+        $like = sprintf('%%%s%%', mb_strtolower($term));
+
+        return $query->where(function (Builder $query) use ($like): void {
+            $query->whereRaw('LOWER(icao) LIKE ?', [$like])
+                ->orWhereRaw('LOWER(iata) LIKE ?', [$like])
+                ->orWhereRaw('LOWER(name) LIKE ?', [$like]);
+        });
     }
 
     public function getActivitylogOptions(): LogOptions

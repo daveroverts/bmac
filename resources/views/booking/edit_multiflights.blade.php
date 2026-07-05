@@ -79,16 +79,19 @@
                             <hr />
                         @endforeach
 
-                        @if (!$booking->is_editable)
+                        @if ($booking->is_callsign_editable)
+                            <x-forms.input name="callsign" :label="__('Callsign')" required maxlength="7" :value="old('callsign', $booking->callsign)" />
+                        @else
                             <x-forms.form-group :label="__('Callsign')">
                                 <strong>{{ $booking->formatted_callsign }}</strong>
                             </x-forms.form-group>
+                        @endif
+                        @if ($booking->is_actype_editable)
+                            <x-forms.input name="acType" :label="__('Aircraft code')" required minlength="3" maxlength="4" :value="old('acType', $booking->acType)" />
+                        @else
                             <x-forms.form-group :label="__('Aircraft code')">
                                 <strong>{{ $booking->formatted_actype }}</strong>
                             </x-forms.form-group>
-                        @else
-                            <x-forms.input name="callsign" :label="__('Callsign')" required maxlength="7" :value="old('callsign', $booking->callsign)" />
-                            <x-forms.input name="acType" :label="__('Aircraft code')" required minlength="3" maxlength="4" :value="old('acType', $booking->acType)" />
                         @endif
 
                         <x-forms.form-group :label="__('PIC')">

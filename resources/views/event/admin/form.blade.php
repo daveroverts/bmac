@@ -76,27 +76,42 @@
                             <x-forms.error field="is_oceanic_event" class="invalid-feedback" />
                         </x-forms.form-group>
 
-                        <x-forms.select name="dep" :label="__('Departure airport')" :value="$event->dep" :options="$airports"
-                            :placeholder="__('Choose...')" required />
+                        <div class="row">
+                            <div class="col-md-6">
+                                <x-forms.airport-select name="dep" :label="__('Departure airport')" :value="$event->dep"
+                                    :placeholder="__('Search by name or code...')" required />
+                            </div>
+                            <div class="col-md-6">
+                                <x-forms.airport-select name="arr" :label="__('Arrival airport')" :value="$event->arr"
+                                    :placeholder="__('Search by name or code...')" required />
+                            </div>
+                        </div>
 
-                        <x-forms.select name="arr" :label="__('Arrival airport')" :value="$event->arr" :options="$airports"
-                            :placeholder="__('Choose...')" required />
+                        <div class="row">
+                            <div class="col-md-6">
+                                <x-forms.form-group name="startEvent" :label="__('Start event (UTC)')">
+                                    <x-flat-pickr name="startEvent" value="{{ old('startEvent', $event->startEvent) }}" />
+                                </x-forms.form-group>
+                            </div>
+                            <div class="col-md-6">
+                                <x-forms.form-group name="endEvent" :label="__('End event (UTC)')">
+                                    <x-flat-pickr name="endEvent" value="{{ old('endEvent', $event->endEvent) }}" />
+                                </x-forms.form-group>
+                            </div>
+                        </div>
 
-                        <x-forms.form-group name="startEvent" :label="__('Start event (UTC)')">
-                            <x-flat-pickr name="startEvent" value="{{ old('startEvent', $event->startEvent) }}" />
-                        </x-forms.form-group>
-
-                        <x-forms.form-group name="endEvent" :label="__('End event (UTC)')">
-                            <x-flat-pickr name="endEvent" value="{{ old('endEvent', $event->endEvent) }}" />
-                        </x-forms.form-group>
-
-                        <x-forms.form-group name="startBooking" :label="__('Start booking (UTC)')">
-                            <x-flat-pickr name="startBooking" value="{{ old('startBooking', $event->startBooking) }}" />
-                        </x-forms.form-group>
-
-                        <x-forms.form-group name="endBooking" :label="__('End booking (UTC)')">
-                            <x-flat-pickr name="endBooking" value="{{ old('endBooking', $event->endBooking) }}" />
-                        </x-forms.form-group>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <x-forms.form-group name="startBooking" :label="__('Start booking (UTC)')">
+                                    <x-flat-pickr name="startBooking" value="{{ old('startBooking', $event->startBooking) }}" />
+                                </x-forms.form-group>
+                            </div>
+                            <div class="col-md-6">
+                                <x-forms.form-group name="endBooking" :label="__('End booking (UTC)')">
+                                    <x-flat-pickr name="endBooking" value="{{ old('endBooking', $event->endBooking) }}" />
+                                </x-forms.form-group>
+                            </div>
+                        </div>
 
                         <x-forms.input name="image_url" :label="__('Image URL')" placeholder="https://example.org" :value="$event->image_url" />
 
@@ -115,3 +130,88 @@
         </div>
     </div>
 @endsection
+
+@push('scripts')
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const names = ['startEvent', 'endEvent', 'startBooking', 'endBooking'];
+            const isReady = () => names.every((name) => window.flatpickrs && window.flatpickrs[name]);
+
+            const firstDate = (picker) => picker.selectedDates[0] || null;
+            const isEmpty = (picker) => picker.selectedDates.length === 0;
+
+            const wire = () => {
+                const { startEvent, endEvent, startBooking, endBooking } = window.flatpickrs;
+
+                // startBooking must stay before both endBooking and startEvent.
+                const capStartBooking = () => {
+                    const bounds = [firstDate(endBooking), firstDate(startEvent)].filter(Boolean);
+                    startBooking.set('maxDate', bounds.length ? new Date(Math.min(...bounds)) : null);
+                };
+
+                // Timeline: startBooking <= endBooking <= startEvent <= endEvent
+                startEvent.set('onChange', (dates) => {
+                    const date = dates[0];
+                    if (!date) {
+                        return;
+                    }
+
+                    // Mirror-fill related fields when empty or when the current
+                    // value would fall outside the new allowed range.
+                    if (isEmpty(endEvent) || firstDate(endEvent) < date) {
+                        endEvent.setDate(date, false);
+                    }
+                    if (isEmpty(endBooking) || firstDate(endBooking) > date) {
+                        endBooking.setDate(date, false);
+                    }
+
+                    endEvent.set('minDate', date);
+                    endBooking.set('maxDate', date);
+                    capStartBooking();
+                });
+
+                endEvent.set('onChange', (dates) => {
+                    if (dates[0]) {
+                        startEvent.set('maxDate', dates[0]);
+                    }
+                });
+
+                startBooking.set('onChange', (dates) => {
+                    if (dates[0]) {
+                        endBooking.set('minDate', dates[0]);
+                    }
+                });
+
+                endBooking.set('onChange', () => {
+                    capStartBooking();
+                });
+
+                // Apply constraints for values already present when editing.
+                if (firstDate(startEvent)) {
+                    endEvent.set('minDate', firstDate(startEvent));
+                    endBooking.set('maxDate', firstDate(startEvent));
+                }
+                if (firstDate(endEvent)) {
+                    startEvent.set('maxDate', firstDate(endEvent));
+                }
+                if (firstDate(startBooking)) {
+                    endBooking.set('minDate', firstDate(startBooking));
+                }
+                capStartBooking();
+            };
+
+            if (isReady()) {
+                wire();
+
+                return;
+            }
+
+            document.addEventListener('flatpickr:ready', function handler() {
+                if (isReady()) {
+                    document.removeEventListener('flatpickr:ready', handler);
+                    wire();
+                }
+            });
+        });
+    </script>
+@endpush

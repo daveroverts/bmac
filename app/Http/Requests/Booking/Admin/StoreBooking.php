@@ -16,7 +16,8 @@ class StoreBooking extends Request
         return [
             'id' => ['exists:events,id', 'required'],
             'bulk' => ['required', 'boolean'],
-            'is_editable' => ['required', 'boolean'],
+            'is_callsign_editable' => ['required', 'boolean'],
+            'is_actype_editable' => ['required', 'boolean'],
             'callsign' => ['nullable', 'alpha_num', 'between:4,7'],
             'acType' => ['nullable', 'alpha_num', 'between:3,4'],
             'ctot' => ['sometimes', 'nullable'],
@@ -43,7 +44,8 @@ class StoreBooking extends Request
         return [
             'id' => __('Event id'),
             'bulk' => __('Bulk'),
-            'is_editable' => __('Editable?'),
+            'is_callsign_editable' => __('Callsign editable?'),
+            'is_actype_editable' => __('Aircraft code editable?'),
             'callsign' => __('Callsign'),
             'acType' => __('Aircraft code'),
             'ctot' => __('CTOT'),

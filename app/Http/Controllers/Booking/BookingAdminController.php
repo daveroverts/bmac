@@ -8,7 +8,6 @@ use App\Events\BookingDeleted;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Booking\Admin\StoreBooking;
 use App\Http\Requests\Booking\Admin\UpdateBooking;
-use App\Models\Airport;
 use App\Models\Booking;
 use App\Models\Event;
 use Illuminate\Http\RedirectResponse;
@@ -25,9 +24,8 @@ class BookingAdminController extends Controller
     public function create(Event $event, Request $request): View
     {
         $bulk = $request->bulk;
-        $airports = Airport::forDropdown();
 
-        return view('booking.admin.create', ['event' => $event, 'airports' => $airports, 'bulk' => $bulk]);
+        return view('booking.admin.create', ['event' => $event, 'bulk' => $bulk]);
     }
 
     public function store(StoreBooking $request, CreateBookingsAction $action): RedirectResponse
@@ -47,10 +45,9 @@ class BookingAdminController extends Controller
     public function edit(Booking $booking): View|RedirectResponse
     {
         if ($booking->event->endEvent >= now()) {
-            $airports = Airport::forDropdown();
             $flight = $booking->flights()->first();
 
-            return view('booking.admin.edit', ['booking' => $booking, 'airports' => $airports, 'flight' => $flight]);
+            return view('booking.admin.edit', ['booking' => $booking, 'flight' => $flight]);
         }
 
         flashMessage('danger', __('Danger'), __('Booking can no longer be edited'));

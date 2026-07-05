@@ -19,7 +19,8 @@ use Spatie\Activitylog\Traits\LogsActivity;
  * @property string|null $uuid
  * @property int $event_id
  * @property BookingStatus $status
- * @property bool $is_editable
+ * @property bool $is_actype_editable
+ * @property bool $is_callsign_editable
  * @property int|null $user_id
  * @property string|null $callsign
  * @property string|null $acType
@@ -53,7 +54,8 @@ use Spatie\Activitylog\Traits\LogsActivity;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereEventId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereFinalInformationEmailSentAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereIsEditable($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereIsActypeEditable($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereIsCallsignEditable($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereSelcal($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereStatus($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereUpdatedAt($value)
@@ -232,7 +234,8 @@ class Booking extends Model
     {
         return [
             'status' => BookingStatus::class,
-            'is_editable' => 'boolean',
+            'is_actype_editable' => 'boolean',
+            'is_callsign_editable' => 'boolean',
             'final_information_email_sent_at' => 'datetime',
         ];
     }

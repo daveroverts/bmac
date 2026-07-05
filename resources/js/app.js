@@ -5,6 +5,7 @@
  */
 
 import './bootstrap';
+import './airport-select';
 
 // Importing Font Awesome
 import { dom, library } from '@fortawesome/fontawesome-svg-core'

@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Event;
 
 use App\Models\Event;
-use App\Models\Airport;
 use App\Models\EventType;
 use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
@@ -29,9 +28,8 @@ class EventAdminController extends Controller
     public function create(): View
     {
         $event = new Event();
-        $airports = Airport::forDropdown();
         $eventTypes = EventType::forDropdown();
-        return view('event.admin.form', ['event' => $event, 'airports' => $airports, 'eventTypes' => $eventTypes]);
+        return view('event.admin.form', ['event' => $event, 'eventTypes' => $eventTypes]);
     }
 
     public function store(StoreEvent $request): RedirectResponse
@@ -69,9 +67,8 @@ class EventAdminController extends Controller
 
     public function edit(Event $event): View
     {
-        $airports = Airport::forDropdown();
         $eventTypes = EventType::forDropdown();
-        return view('event.admin.form', ['event' => $event, 'airports' => $airports, 'eventTypes' => $eventTypes]);
+        return view('event.admin.form', ['event' => $event, 'eventTypes' => $eventTypes]);
     }
 
     public function update(UpdateEvent $request, Event $event): RedirectResponse

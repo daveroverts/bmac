@@ -18,50 +18,6 @@
             form="delete-unused-airports"
         ><i class="fa fa-trash"></i> Delete unused airports</x-confirm-button>
     </div>
-    <table class="table table-hover">
-        <thead>
-            <tr>
-                <th scope="row">ICAO</th>
-                <th scope="row">IATA</th>
-                <th scope="row">Name</th>
-                <th scope="row" colspan="2">Actions</th>
-            </tr>
-        </thead>
-        @foreach ($airports as $airport)
-            <tr>
-                <td><a href="{{ route('admin.airports.show', $airport) }}">{{ $airport->icao }}</a></td>
-                <td><a href="{{ route('admin.airports.show', $airport) }}">{{ $airport->iata }}</a></td>
-                <td><a href="{{ route('admin.airports.show', $airport) }}">{{ $airport->name }}</a></td>
-                <td>
-                    <a href="{{ route('admin.airports.edit', $airport) }}">
-                        <button class="btn btn-primary">
-                            <i class="fa fa-edit"></i> Edit Airport
-                        </button>
-                    </a>
-                </td>
-                <td>
-                    @if (
-                        $airport->flights_dep_count === 0 &&
-                            $airport->flights_arr_count === 0 &&
-                            $airport->event_dep_count === 0 &&
-                            $airport->event_arr_count === 0)
-                        <form action="{{ route('admin.airports.destroy', $airport) }}" method="post">
-                            @method('DELETE')
-                            <x-confirm-button
-                                confirm-text="Are you sure you want to remove this airport?"
-                                loading-message="Deleting airport..."
-                            ><i class="fa fa-trash"></i> Remove Airport</x-confirm-button>
-                            @csrf
-                        </form>
-                    @else
-                        <button class="btn btn-danger disabled" disabled><i class="fa fa-trash"></i> Remove Airport
-                        </button>
-                    @endif
-                </td>
-            </tr>
-        @endforeach
-        {{ $airports->links() }}
-    </table>
-    {{ $airports->links() }}
+    <livewire:airport.admin.overview />
     <x-form :action="route('admin.airports.unused.destroy')" id="delete-unused-airports" method="DELETE" style="display: none;"></x-form>
 @endsection

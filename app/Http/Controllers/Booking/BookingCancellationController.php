@@ -24,11 +24,12 @@ class BookingCancellationController extends Controller
             return to_route('events.bookings.index', $booking->event);
         }
 
-        if ($booking->is_editable) {
-            $booking->fill([
-                'callsign' => null,
-                'acType' => null,
-            ]);
+        if ($booking->is_callsign_editable) {
+            $booking->callsign = null;
+        }
+
+        if ($booking->is_actype_editable) {
+            $booking->acType = null;
         }
 
         $booking->selcal = null;

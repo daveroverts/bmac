@@ -21,7 +21,8 @@ class UpdateBookingAction
         $flight = $booking->flights()->first();
 
         $booking->fill([
-            'is_editable' => $request->is_editable,
+            'is_callsign_editable' => $request->is_callsign_editable,
+            'is_actype_editable' => $request->is_actype_editable,
             'callsign' => $request->callsign,
             'acType' => $request->acType,
             'final_information_email_sent_at' => null,

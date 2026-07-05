@@ -18,24 +18,43 @@
                             {{ $event->endEvent->format('Hi') }}z]
                         </x-forms.form-group>
 
-                        <x-forms.form-group name="is_editable" :label="__('Editable?')" inline>
-                            <x-forms.radio name="is_editable" value="0" :label="__('No')" inline required :should-be-checked="old('is_editable') == 0" />
-                            <x-forms.radio name="is_editable" value="1" :label="__('Yes')" inline required :should-be-checked="old('is_editable') == 1" />
+                        <x-forms.form-group name="is_callsign_editable" :label="__('Callsign editable?')" inline>
+                            <x-forms.radio name="is_callsign_editable" value="0" :label="__('No')" inline required :should-be-checked="old('is_callsign_editable') == 0" />
+                            <x-forms.radio name="is_callsign_editable" value="1" :label="__('Yes')" inline required :should-be-checked="old('is_callsign_editable') == 1" />
                             <x-slot:help>
-                                {{ __('Choose if you want the booking to be editable (Callsign and Aircraft Code only) by users. This is useful when using \'import only\', but want to add extra slots') }}
+                                {{ __('Choose if you want the Callsign to be editable by the users. This can be useful if you imported aircraft types only, and want the user to fly under their own callsign') }}
+                            </x-slot:help>
+                        </x-forms.form-group>
+
+                        <x-forms.form-group name="is_actype_editable" :label="__('Aircraft code editable?')" inline>
+                            <x-forms.radio name="is_actype_editable" value="0" :label="__('No')" inline required :should-be-checked="old('is_actype_editable') == 0" />
+                            <x-forms.radio name="is_actype_editable" value="1" :label="__('Yes')" inline required :should-be-checked="old('is_actype_editable') == 1" />
+                            <x-slot:help>
+                                {{ __('Choose if you want the Aircraft Code to be editable by the users. This can be useful if you imported callsigns only, and want the user to choose an aircraft of their choice') }}
                             </x-slot:help>
                         </x-forms.form-group>
 
                         @if (!$bulk)
-                            <x-forms.input name="callsign" :label="__('Callsign')" maxlength="7" />
-                            <x-forms.input name="acType" :label="__('Aircraft code')" minlength="3" maxlength="4" />
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <x-forms.input name="callsign" :label="__('Callsign')" maxlength="7" />
+                                </div>
+                                <div class="col-md-6">
+                                    <x-forms.input name="acType" :label="__('Aircraft code')" minlength="3" maxlength="4" />
+                                </div>
+                            </div>
                         @endif
 
-                        <x-forms.select name="dep" :label="__('Departure airport')" :options="$airports" :placeholder="__('Choose...')" required
-                            :value="$event->dep" />
-
-                        <x-forms.select name="arr" :label="__('Arrival airport')" :options="$airports" :placeholder="__('Choose...')" required
-                            :value="$event->dep" />
+                        <div class="row">
+                            <div class="col-md-6">
+                                <x-forms.airport-select name="dep" :label="__('Departure airport')" :placeholder="__('Search by name or code...')" required
+                                    :value="$event->dep" />
+                            </div>
+                            <div class="col-md-6">
+                                <x-forms.airport-select name="arr" :label="__('Arrival airport')" :placeholder="__('Search by name or code...')" required
+                                    :value="$event->dep" />
+                            </div>
+                        </div>
 
                         @if ($bulk)
                             <x-forms.form-group inline>

@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Airport;
 
 use App\Models\Airport;
 use Illuminate\View\View;
+use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Airport\Admin\StoreAirport;
@@ -18,9 +20,29 @@ class AirportAdminController extends Controller
 
     public function index(): View
     {
-        $airports = Airport::withCount(['flightsDep', 'flightsArr', 'eventDep', 'eventArr'])
-            ->paginate(100);
-        return view('airport.admin.overview', ['airports' => $airports]);
+        return view('airport.admin.overview');
+    }
+
+    /**
+     * Return airports matching the search term as JSON for searchable selects.
+     */
+    public function search(Request $request): JsonResponse
+    {
+        $this->authorize('viewAny', Airport::class);
+
+        $term = (string) $request->query('q', '');
+
+        $airports = Airport::query()
+            ->when($term !== '', fn ($query) => $query->search($term))
+            ->limit(50)
+            ->get(['id', 'icao', 'iata', 'name']);
+
+        return response()->json(
+            $airports->map(fn (Airport $airport): array => [
+                'value' => $airport->id,
+                'label' => $airport->dropdownLabel(),
+            ])
+        );
     }
 
     public function create(): View

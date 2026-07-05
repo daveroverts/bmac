@@ -87,7 +87,7 @@
                     </x-forms.form-group>
 
                     <x-forms.form-group inline>
-                        @if ($booking->is_editable)
+                        @if ($booking->is_callsign_editable || $booking->is_actype_editable)
                             <a href="{{ route('bookings.edit', $booking) }}" class="btn btn-primary">
                                 {{ __('Edit Booking') }}
                             </a>

@@ -195,10 +195,10 @@ run the following command:
 
     The script uses [this](https://raw.githubusercontent.com/mborsetti/airportsdata/main/airportsdata/airports.csv)
     file as source.
-    If you choose to not include all airports,
-    you're responsible to add the ones you need.
-    If you're planning on importing flights later on,
-    add the airports in first before starting a import.
+
+    > **Note:** Since v5.2 this step is no longer required for flight imports.
+    > Any airport referenced by a flight import that is missing from the
+    > database is added automatically from the same source.
 
 ## API
 

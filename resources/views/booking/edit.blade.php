@@ -12,18 +12,21 @@
 
                 <div class="card-body">
                     <x-form :action="route('bookings.update', $booking)" method="PATCH">
-                            @if (!$booking->is_editable)
+                            @if ($booking->is_callsign_editable)
+                                <x-forms.input name="callsign" :label="__('Callsign')" required maxlength="7" :value="old('callsign', $booking->callsign)"
+                                               :help="__('Be sure to use valid ICAO codes. Ex: <strong>KLM</strong>1337, not KL1337')" />
+                            @else
                                 <x-forms.form-group :label="__('Callsign')">
                                     <strong>{{ $booking->formatted_callsign }}</strong>
                                 </x-forms.form-group>
+                            @endif
+                            @if ($booking->is_actype_editable)
+                                <x-forms.input name="acType" :label="__('Aircraft code')" required minlength="3" maxlength="4" :value="old('acType', $booking->acType)"
+                                :help="__('Be sure to use valid ICAO codes. Ex: B738, not 737')"/>
+                            @else
                                 <x-forms.form-group :label="__('Aircraft code')">
                                     <strong>{{ $booking->formatted_actype }}</strong>
                                 </x-forms.form-group>
-                            @else
-                                <x-forms.input name="callsign" :label="__('Callsign')" required maxlength="7" :value="old('callsign', $booking->callsign)"
-                                               :help="__('Be sure to use valid ICAO codes. Ex: <strong>KLM</strong>1337, not KL1337')" />
-                                <x-forms.input name="acType" :label="__('Aircraft code')" required minlength="3" maxlength="4" :value="old('acType', $booking->acType)"
-                                :help="__('Be sure to use valid ICAO codes. Ex: B738, not 737')"/>
                             @endif
 
                                 @if ($booking->event->uses_times)

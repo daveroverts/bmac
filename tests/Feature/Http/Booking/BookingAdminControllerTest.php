@@ -154,7 +154,8 @@ it('allows admin users to store a single booking', function (): void {
         ->post(route('admin.bookings.store'), [
             'id' => $event->id,
             'bulk' => false,
-            'is_editable' => true,
+            'is_callsign_editable' => true,
+            'is_actype_editable' => true,
             'callsign' => 'TEST01',
             'acType' => 'B738',
             'dep' => $event->airportDep->id,
@@ -182,7 +183,8 @@ it('allows admin users to store bulk bookings', function (): void {
         ->post(route('admin.bookings.store'), [
             'id' => $event->id,
             'bulk' => true,
-            'is_editable' => true,
+            'is_callsign_editable' => true,
+            'is_actype_editable' => true,
             'dep' => $event->airportDep->id,
             'arr' => $event->airportArr->id,
             'start' => $event->startEvent->format('H:i'),
@@ -208,7 +210,8 @@ it('allows admin users to update a booking', function (): void {
 
     $this->actingAs($admin)
         ->patch(route('admin.bookings.update', $booking), [
-            'is_editable' => true,
+            'is_callsign_editable' => true,
+            'is_actype_editable' => true,
             'callsign' => 'EDIT01',
             'acType' => 'A320',
             'dep' => $flight->dep,
@@ -246,7 +249,8 @@ it('sends notification when admin updates a booking with notify_user enabled', f
 
     $this->actingAs($admin)
         ->patch(route('admin.bookings.update', $booking), [
-            'is_editable' => true,
+            'is_callsign_editable' => true,
+            'is_actype_editable' => true,
             'callsign' => 'NOTIF1',
             'acType' => 'B744',
             'dep' => $flight->dep,
@@ -283,7 +287,8 @@ it('does not send notification when admin updates a booking without notify_user'
 
     $this->actingAs($admin)
         ->patch(route('admin.bookings.update', $booking), [
-            'is_editable' => true,
+            'is_callsign_editable' => true,
+            'is_actype_editable' => true,
             'callsign' => 'NOTIF2',
             'acType' => 'B744',
             'dep' => $flight->dep,

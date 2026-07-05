@@ -48,7 +48,7 @@ class BookingController extends Controller
         $this->authorize('edit', $booking);
 
         // Check if editable for BOOKED status
-        if ($booking->status === BookingStatus::BOOKED && !$booking->is_editable) {
+        if ($booking->status === BookingStatus::BOOKED && !$booking->is_callsign_editable && !$booking->is_actype_editable) {
             flashMessage('info', __('Danger'), __('You cannot edit the booking!'));
 
             return to_route('events.bookings.index', $booking->event);
@@ -78,11 +78,12 @@ class BookingController extends Controller
     {
         $this->authorize('update', $booking);
 
-        if ($booking->is_editable) {
-            $booking->fill([
-                'callsign' => $request->callsign,
-                'acType' => $request->acType,
-            ]);
+        if ($booking->is_callsign_editable) {
+            $booking->callsign = $request->callsign;
+        }
+
+        if ($booking->is_actype_editable) {
+            $booking->acType = $request->acType;
         }
 
         if ($booking->event->is_oceanic_event && $request->filled('selcal')) {
