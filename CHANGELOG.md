@@ -1,3 +1,10 @@
+# [5.3.0](https://github.com/daveroverts/bmac/compare/v5.2.0...v5.3.0) (2026-07-12)
+
+
+### Features
+
+* add PHP 8.5 support ([f356ebc](https://github.com/daveroverts/bmac/commit/f356ebcbd7901cdd713288529ab87a584d3bbaa3))
+
 # [5.2.0](https://github.com/daveroverts/bmac/compare/v5.1.2...v5.2.0) (2026-07-05)
 
 
