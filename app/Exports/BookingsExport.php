@@ -24,7 +24,7 @@ class BookingsExport
             ->with(['user', 'flights.airportDep', 'flights.airportArr'])
             ->booked()
             ->get()
-            ->each(fn (Booking $booking) => $writer->addRow($this->map($booking)));
+            ->each(fn (Booking $booking): SimpleExcelWriter => $writer->addRow($this->map($booking)));
 
         $writer->close();
 

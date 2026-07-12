@@ -55,7 +55,7 @@ class FlightRouteAssign
             $validator = Validator::make($row, $this->rules());
 
             foreach ($validator->errors()->messages() as $attribute => $messages) {
-                $errors["{$index}.{$attribute}"] = $messages;
+                $errors[sprintf('%d.%s', $index, $attribute)] = $messages;
             }
         }
 
