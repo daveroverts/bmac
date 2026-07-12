@@ -18,28 +18,28 @@
         "build": "vite build"
     },
     "devDependencies": {
-        "@fortawesome/fontawesome-free": "^7.2.0",
-        "@fortawesome/fontawesome-svg-core": "^7.2.0",
-        "@fortawesome/free-brands-svg-icons": "^7.2.0",
-        "@fortawesome/free-regular-svg-icons": "^7.2.0",
-        "@fortawesome/free-solid-svg-icons": "^7.2.0",
+        "@fortawesome/fontawesome-free": "^7.3.0",
+        "@fortawesome/fontawesome-svg-core": "^7.3.0",
+        "@fortawesome/free-brands-svg-icons": "^7.3.0",
+        "@fortawesome/free-regular-svg-icons": "^7.3.0",
+        "@fortawesome/free-solid-svg-icons": "^7.3.0",
         "@popperjs/core": "^2.11.8",
-        "axios": "^1.16.1",
+        "axios": "^1.18.1",
         "bootstrap": "^5.3.8",
         "bootswatch": "^5.3.8",
         "concurrently": "^9.2.1",
         "laravel-vite-plugin": "^3.1.0",
-        "postcss": "^8.5.14",
-        "sass": "^1.99.0",
-        "tinymce": "^8.5.0",
-        "vite": "^8.0.13",
+        "postcss": "^8.5.17",
+        "sass": "^1.101.0",
+        "tinymce": "^8.7.0",
+        "vite": "^8.1.4",
         "vite-plugin-purgecss": "^0.2.13",
-        "vite-plugin-static-copy": "^4.1.0"
+        "vite-plugin-static-copy": "^4.1.1"
     },
     "dependencies": {
         "flatpickr": "^4.6.13",
-        "sweetalert2": "^11.26.24",
-        "tom-select": "^2.6.1"
+        "sweetalert2": "^11.26.25",
+        "tom-select": "^2.6.2"
     },
     "release": {
         "branches": [
@@ -64,5 +64,11 @@
             "@semantic-release/git",
             "@semantic-release/github"
         ]
+    },
+    "allowScripts": {
+        "@parcel/watcher@2.5.6": true,
+        "esbuild@0.27.7": true,
+        "esbuild@0.25.12": true,
+        "fsevents@2.3.3": true
     }
 }
