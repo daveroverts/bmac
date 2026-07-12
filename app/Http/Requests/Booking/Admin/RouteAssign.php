@@ -14,7 +14,7 @@ class RouteAssign extends Request
     public function rules(): array
     {
         return [
-            'file' => ['required', 'file', 'mimes:csv,xlsx,xls', 'max:10240'],
+            'file' => ['required', 'file', 'mimes:csv,xlsx', 'max:10240'],
         ];
     }
 }

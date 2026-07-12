@@ -2,35 +2,39 @@
 
 namespace App\Exports;
 
-use App\Models\Event;
 use App\Enums\EventType;
-use Maatwebsite\Excel\Concerns\Exportable;
-use Maatwebsite\Excel\Concerns\WithMapping;
-use Maatwebsite\Excel\Concerns\FromCollection;
-use Maatwebsite\Excel\Concerns\WithColumnFormatting;
-use PhpOffice\PhpSpreadsheet\Shared\Date;
-use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
+use App\Models\Booking;
+use App\Models\Event;
+use Spatie\SimpleExcel\SimpleExcelWriter;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
-class BookingsExport implements FromCollection, WithColumnFormatting, WithMapping
+class BookingsExport
 {
-    use Exportable;
-
     public function __construct(public Event $event, public ?bool $vacc)
     {
     }
 
-    /**
-     * @return \Illuminate\Support\Collection
-     */
-    public function collection()
+    public function download(string $fileName): BinaryFileResponse
     {
-        return $this->event->bookings()
+        $path = tempnam(sys_get_temp_dir(), 'bookings-export') . '.csv';
+
+        $writer = SimpleExcelWriter::create($path)->noHeaderRow();
+
+        $this->event->bookings()
             ->with(['user', 'flights.airportDep', 'flights.airportArr'])
             ->booked()
-            ->get();
+            ->get()
+            ->each(fn (Booking $booking) => $writer->addRow($this->map($booking)));
+
+        $writer->close();
+
+        return response()->download($path, $fileName)->deleteFileAfterSend();
     }
 
-    public function map($booking): array
+    /**
+     * @return list<mixed>
+     */
+    public function map(Booking $booking): array
     {
         if ($this->event->event_type_id == EventType::MULTIFLIGHTS->value) {
             $flight1 = $booking->flights->first();
@@ -52,9 +56,9 @@ class BookingsExport implements FromCollection, WithColumnFormatting, WithMappin
                 $booking->user_id,
                 $booking->callsign,
                 $flight1->airportDep->icao,
-                $flight1->ctot ? Date::dateTimeToExcel($flight1->ctot) : null,
+                $flight1->ctot?->format('H:i:s'),
                 $flight2->airportDep->icao,
-                $flight2->ctot ? Date::dateTimeToExcel($flight2->ctot) : null,
+                $flight2->ctot?->format('H:i:s'),
                 $flight2->airportArr->icao,
             ];
         }
@@ -68,24 +72,9 @@ class BookingsExport implements FromCollection, WithColumnFormatting, WithMappin
             $flight->airportDep->icao,
             $flight->airportArr->icao,
             $flight->getRawOriginal('oceanicFL'),
-            $flight->ctot ? Date::dateTimeToExcel($flight->ctot) : null,
-            $flight->eta ? Date::dateTimeToExcel($flight->eta) : null,
+            $flight->ctot?->format('H:i:s'),
+            $flight->eta?->format('H:i:s'),
             $flight->route,
-        ];
-    }
-
-    public function columnFormats(): array
-    {
-        if ($this->event->event_type_id == EventType::MULTIFLIGHTS->value && $this->vacc !== true) {
-            return [
-                'E' => NumberFormat::FORMAT_DATE_TIME4,
-                'G' => NumberFormat::FORMAT_DATE_TIME4,
-            ];
-        }
-
-        return [
-            'H' => NumberFormat::FORMAT_DATE_TIME4,
-            'I' => NumberFormat::FORMAT_DATE_TIME4,
         ];
     }
 }

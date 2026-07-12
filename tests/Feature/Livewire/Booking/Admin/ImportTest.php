@@ -126,6 +126,35 @@ it('toggles selection with select all and select none', function (): void {
         ->assertSet('selected', [0, 1]);
 });
 
+it('imports rows from an XLSX file including date-typed times', function (): void {
+    Airport::factory()->create(['icao' => 'EHAM']);
+    Airport::factory()->create(['icao' => 'EGLL']);
+    $event = Event::factory()->create(['startEvent' => '2026-07-15 00:00:00']);
+
+    $path = sys_get_temp_dir() . '/livewire-import-test.xlsx';
+    \Spatie\SimpleExcel\SimpleExcelWriter::create($path)
+        ->addRow([
+            'origin' => 'EHAM',
+            'destination' => 'EGLL',
+            'call_sign' => 'KLM01',
+            'aircraft_type' => 'B738',
+            'ctot' => new DateTimeImmutable('2026-07-15 14:30:00'),
+        ])
+        ->close();
+
+    $file = UploadedFile::fake()->createWithContent('bookings.xlsx', file_get_contents($path));
+
+    Livewire::test(Import::class, ['event' => $event])
+        ->set('file', $file)
+        ->assertCount('rows', 1)
+        ->assertSet('selected', [0])
+        ->call('import');
+
+    $flight = Booking::where('event_id', $event->id)->firstOrFail()->flights()->firstOrFail();
+
+    expect($flight->ctot->format('Y-m-d H:i'))->toBe('2026-07-15 14:30');
+});
+
 it('rejects a disallowed file type', function (): void {
     $event = Event::factory()->create();
 

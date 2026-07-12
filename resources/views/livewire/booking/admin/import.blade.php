@@ -3,8 +3,8 @@
 
     <div class="mb-3">
         <label for="file" class="form-label">{{ __('File') }}</label>
-        <input type="file" id="file" class="form-control" wire:model="file" accept=".csv,.xlsx,.xls">
-        <div class="form-text">{{ __('Accepted formats: CSV, XLSX, XLS. Max size: 10 MB.') }}</div>
+        <input type="file" id="file" class="form-control" wire:model="file" accept=".csv,.xlsx">
+        <div class="form-text">{{ __('Accepted formats: CSV, XLSX. Max size: 10 MB.') }}</div>
         @error('file')
             <div class="text-danger">{{ $message }}</div>
         @enderror

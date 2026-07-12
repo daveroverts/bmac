@@ -7,9 +7,9 @@ use App\Models\Airport;
 use App\Models\Booking;
 use App\Models\Event;
 use DateTimeInterface;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Date as DateFacade;
-use PhpOffice\PhpSpreadsheet\Shared\Date;
 
 class CreateBookingFromImportRow
 {
@@ -80,9 +80,11 @@ class CreateBookingFromImportRow
             return null;
         }
 
-        $dateTime = is_numeric($time)
-            ? Date::excelToDateTimeObject($time)
-            : DateFacade::createFromFormat('H:i', trim((string) $time));
+        $dateTime = match (true) {
+            $time instanceof DateTimeInterface => DateFacade::instance($time),
+            is_numeric($time) => $this->excelTimeToDateTime((float) $time),
+            default => DateFacade::createFromFormat('H:i', trim((string) $time)),
+        };
 
         $dateTime->setDate(
             $event->startEvent->year,
@@ -91,5 +93,15 @@ class CreateBookingFromImportRow
         );
 
         return $dateTime;
+    }
+
+    /**
+     * Convert an Excel serial date (days since 1899-12-30) to a DateTime.
+     */
+    private function excelTimeToDateTime(float $excelTimestamp): Carbon
+    {
+        $unixTimestamp = (int) round(($excelTimestamp - 25569) * 86400);
+
+        return DateFacade::createFromTimestampUTC($unixTimestamp);
     }
 }
