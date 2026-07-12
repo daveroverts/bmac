@@ -8,10 +8,10 @@ use App\Models\Event;
 use App\Services\AirportImporter;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 use Livewire\Component;
 use Livewire\WithFileUploads;
-use Maatwebsite\Excel\Concerns\WithHeadingRow;
-use Maatwebsite\Excel\Facades\Excel;
+use Spatie\SimpleExcel\SimpleExcelReader;
 
 class Import extends Component
 {
@@ -40,7 +40,7 @@ class Import extends Component
     public function updatedFile(): void
     {
         $this->validate([
-            'file' => ['required', 'file', 'mimes:csv,xlsx,xls', 'max:10240'],
+            'file' => ['required', 'file', 'mimes:csv,xlsx', 'max:10240'],
         ]);
 
         $this->parse();
@@ -97,7 +97,15 @@ class Import extends Component
      */
     private function parse(): void
     {
-        $sheet = Excel::toArray(new class () implements WithHeadingRow {}, $this->file)[0] ?? [];
+        $sheet = SimpleExcelReader::create($this->file->getRealPath(), $this->file->getClientOriginalExtension())
+            ->formatHeadersUsing(fn (string $header): string => Str::slug($header, '_'))
+            ->getRows()
+            ->map(fn (array $row): array => array_map(
+                fn (mixed $value): mixed => $value === '' ? null : $value,
+                $row
+            ))
+            ->values()
+            ->all();
 
         $this->autoAddedAirports = resolve(AirportImporter::class)
             ->ensure($this->referencedIcaos($sheet))['created'];

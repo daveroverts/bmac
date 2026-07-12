@@ -37,10 +37,9 @@ class ImportAirportsJob implements ShouldQueue, ShouldBeUnique
             $file,
             file_get_contents(AirportImporter::SOURCE_URL)
         );
-        (new AirportsImport())->queue($file)->chain([
-            function () use ($file): void {
-                Storage::delete($file);
-            }
-        ]);
+
+        (new AirportsImport())->import($file, 'local');
+
+        Storage::disk('local')->delete($file);
     }
 }

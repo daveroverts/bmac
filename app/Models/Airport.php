@@ -75,7 +75,7 @@ class Airport extends Model
     /**
      * Get airports formatted for dropdown selects, cached for performance.
      *
-     * @return Collection<int|string, non-falsy-string>
+     * @return Collection<int|string, string>
      */
     public static function forDropdown(): Collection
     {
@@ -86,8 +86,6 @@ class Airport extends Model
 
     /**
      * Format the airport as a single dropdown label.
-     *
-     * @return non-falsy-string
      */
     public function dropdownLabel(): string
     {
