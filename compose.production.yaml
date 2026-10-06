@@ -1,0 +1,87 @@
+# Production-style stack for BMAC, built on serversideup/php.
+#
+#   cp .env.example .env   # fill in APP_KEY, APP_URL, DB_*, OAUTH_*, branding and colors
+#                          # and point DB_HOST=mariadb and REDIS_HOST=redis at the services below
+#   docker compose -f compose.production.yaml up -d --build
+#
+# The BOOTSTRAP_COLOR_* values are compiled into the CSS, so rebuild the image
+# (`--build`) after changing them. Everything else in .env is read at runtime.
+
+x-app: &app
+  build:
+    context: .
+    target: production
+    args:
+      BOOTSTRAP_COLOR_PRIMARY: ${BOOTSTRAP_COLOR_PRIMARY:-}
+      BOOTSTRAP_COLOR_SECONDARY: ${BOOTSTRAP_COLOR_SECONDARY:-}
+      BOOTSTRAP_COLOR_TERTIARY: ${BOOTSTRAP_COLOR_TERTIARY:-}
+      BOOTSTRAP_COLOR_SUCCESS: ${BOOTSTRAP_COLOR_SUCCESS:-}
+      BOOTSTRAP_COLOR_DANGER: ${BOOTSTRAP_COLOR_DANGER:-}
+      BOOTSTRAP_COLOR_WARNING: ${BOOTSTRAP_COLOR_WARNING:-}
+  image: ${BMAC_IMAGE:-bmac:latest}
+  restart: unless-stopped
+  env_file: .env
+  volumes:
+    - storage:/var/www/html/storage/app
+  depends_on:
+    mariadb:
+      condition: service_healthy
+    redis:
+      condition: service_healthy
+
+services:
+  app:
+    <<: *app
+    ports:
+      - '${APP_PORT:-8080}:8080'
+
+  scheduler:
+    <<: *app
+    command: ['php', '/var/www/html/artisan', 'schedule:work']
+    stop_signal: SIGTERM
+    environment:
+      AUTORUN_ENABLED: 'false'
+    healthcheck:
+      test: ['CMD', 'healthcheck-schedule']
+      start_period: 10s
+
+  horizon:
+    <<: *app
+    command: ['php', '/var/www/html/artisan', 'horizon']
+    stop_signal: SIGTERM
+    environment:
+      AUTORUN_ENABLED: 'false'
+    healthcheck:
+      test: ['CMD', 'healthcheck-horizon']
+      start_period: 10s
+
+  mariadb:
+    image: mariadb:11
+    restart: unless-stopped
+    environment:
+      MARIADB_DATABASE: ${DB_DATABASE}
+      MARIADB_USER: ${DB_USERNAME}
+      MARIADB_PASSWORD: ${DB_PASSWORD}
+      MARIADB_RANDOM_ROOT_PASSWORD: 'yes'
+    volumes:
+      - mariadb:/var/lib/mysql
+    healthcheck:
+      test: ['CMD', 'healthcheck.sh', '--connect', '--innodb_initialized']
+      start_period: 10s
+      interval: 5s
+      retries: 10
+
+  redis:
+    image: redis:7-alpine
+    restart: unless-stopped
+    volumes:
+      - redis:/data
+    healthcheck:
+      test: ['CMD', 'redis-cli', 'ping']
+      interval: 5s
+      retries: 10
+
+volumes:
+  storage:
+  mariadb:
+  redis:

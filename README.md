@@ -200,6 +200,37 @@ run the following command:
     > Any airport referenced by a flight import that is missing from the
     > database is added automatically from the same source.
 
+## Docker
+
+As an alternative to installing PHP and Node on a server, BMAC can run in
+Docker using [serversideup/php](https://serversideup.net/open-source/docker-php/).
+`compose.production.yaml` starts the web app, the scheduler, Horizon, MariaDB
+and Redis.
+
+1. Copy `.env.example` to `.env` and fill it in as described above. Set
+   `DB_HOST=mariadb`, `REDIS_HOST=redis` and `QUEUE_CONNECTION=redis` to use
+   the bundled services, or point them at your own database and Redis and
+   remove those services from the compose file.
+2. Build and start everything:
+
+   ```bash
+   docker compose -f compose.production.yaml up -d --build
+   ```
+
+   Migrations run automatically when the app container starts. The app
+   listens on port `8080` (change with `APP_PORT`); put your usual reverse
+   proxy with TLS in front of it.
+
+3. Import airports when needed:
+
+   ```bash
+   docker compose -f compose.production.yaml exec app php artisan import:airports
+   ```
+
+> **Note:** The `BOOTSTRAP_COLOR_*` values are compiled into the CSS when the
+> image is built, so run the `up -d --build` command again after changing
+> them. All other `.env` values are read when the containers start.
+
 ## API
 
 BMAC exposes a read-only JSON API. All endpoints are public and require no authentication.
