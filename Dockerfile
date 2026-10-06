@@ -28,7 +28,7 @@ RUN composer install \
 #
 # The Bootstrap colors are compiled into the CSS by Vite (see vite.config.js),
 # so they have to be known at build time. Pass them as build args; when
-# building through compose.production.yaml they are read from your .env.
+# building through compose.yaml they are read from your .env.
 ############################################
 FROM node:${NODE_VERSION}-alpine AS assets
 

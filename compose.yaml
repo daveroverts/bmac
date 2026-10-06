@@ -2,7 +2,7 @@
 #
 #   cp .env.example .env   # fill in APP_KEY, APP_URL, DB_*, OAUTH_*, branding and colors
 #                          # and point DB_HOST=mariadb and REDIS_HOST=redis at the services below
-#   docker compose -f compose.production.yaml up -d --build
+#   docker compose up -d --build
 #
 # The BOOTSTRAP_COLOR_* values are compiled into the CSS, so rebuild the image
 # (`--build`) after changing them. Everything else in .env is read at runtime.

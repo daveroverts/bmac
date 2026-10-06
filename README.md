@@ -204,7 +204,7 @@ run the following command:
 
 As an alternative to installing PHP and Node on a server, BMAC can run in
 Docker using [serversideup/php](https://serversideup.net/open-source/docker-php/).
-`compose.production.yaml` starts the web app, the scheduler, Horizon, MariaDB
+`compose.yaml` starts the web app, the scheduler, Horizon, MariaDB
 and Redis.
 
 1. Copy `.env.example` to `.env` and fill it in as described above. Set
@@ -214,7 +214,7 @@ and Redis.
 2. Build and start everything:
 
    ```bash
-   docker compose -f compose.production.yaml up -d --build
+   docker compose up -d --build
    ```
 
    Migrations run automatically when the app container starts. The app
@@ -224,7 +224,7 @@ and Redis.
 3. Import airports when needed:
 
    ```bash
-   docker compose -f compose.production.yaml exec app php artisan import:airports
+   docker compose exec app php artisan import:airports
    ```
 
 > **Note:** The `BOOTSTRAP_COLOR_*` values are compiled into the CSS when the
