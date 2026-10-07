@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Http\Resources;
 
-use App\Enums\BookingStatus;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
@@ -21,8 +20,6 @@ class EventResource extends JsonResource
     #[\Override]
     public function toArray($request)
     {
-        $total = $this->bookings->count();
-        $available = $this->bookings->where('status', BookingStatus::UNASSIGNED)->count();
         return [
             'id' => $this->id,
             'event_type' => $this->type->name,
@@ -43,8 +40,8 @@ class EventResource extends JsonResource
             'created_at' => (string) $this->created_at,
             'updated_at' => (string) $this->updated_at,
             'url' => route('events.bookings.index', $this),
-            'total_bookings_count' => $total,
-            'available_bookings_count' => $available,
+            'total_bookings_count' => $this->bookings_count,
+            'available_bookings_count' => $this->available_bookings_count,
             'links' => [
                 'bookings' => route('v1.events.bookings.index', $this),
                 'dep' => route('v1.airports.show', $this->airportDep),
