@@ -17,6 +17,7 @@ class EventController extends Controller
         return new EventsCollection(
             Event::query()
                 ->with(['bookings', 'type', 'airportDep', 'airportArr'])
+                ->online()
                 ->paginate()
         );
     }
@@ -26,6 +27,8 @@ class EventController extends Controller
      */
     public function show(Event $event): EventResource
     {
+        abort_unless($event->is_online, 404);
+
         $event->loadMissing(['bookings', 'type', 'airportDep', 'airportArr']);
 
         return new EventResource($event);

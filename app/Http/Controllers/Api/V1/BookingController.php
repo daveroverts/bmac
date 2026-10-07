@@ -15,6 +15,8 @@ class BookingController extends Controller
      */
     public function byEvent(Event $event): BookingsCollection
     {
+        abort_unless($event->is_online, 404);
+
         return new BookingsCollection(
             $event->bookings()
                 ->booked()

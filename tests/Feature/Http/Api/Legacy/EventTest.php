@@ -82,6 +82,37 @@ it('returns a single event by slug on legacy route', function (): void {
         ->assertHeader('Deprecation', 'true');
 });
 
+it('returns 404 for an offline event on legacy route', function (): void {
+    /** @var TestCase $this */
+
+    $event = Event::factory()->create(['is_online' => false]);
+
+    $this->getJson('/api/events/' . $event->slug)
+        ->assertNotFound();
+});
+
+it('excludes offline events from the legacy index', function (): void {
+    /** @var TestCase $this */
+
+    Event::factory()->create(['is_online' => false]);
+    Event::factory()->create(['is_online' => true]);
+
+    $response = $this->getJson('/api/events')
+        ->assertOk();
+
+    expect($response->json('data'))->toHaveCount(1);
+});
+
+it('returns 404 for bookings of an offline event on legacy route', function (): void {
+    /** @var TestCase $this */
+
+    $event = Event::factory()->create(['is_online' => false]);
+    Booking::factory()->booked()->create(['event_id' => $event->id]);
+
+    $this->getJson('/api/events/' . $event->slug . '/bookings')
+        ->assertNotFound();
+});
+
 it('returns bookings for an event on legacy route', function (): void {
     /** @var TestCase $this */
 

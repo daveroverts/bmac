@@ -52,21 +52,30 @@ Route::middleware(DeprecatedApiMiddleware::class)->group(function (): void {
             ->get());
     });
 
-    Route::get('/events/{event}/bookings', fn (Event $event): BookingsCollection => new BookingsCollection(
-        $event->bookings()
-            ->booked()
-            ->with(['flights.airportDep', 'flights.airportArr', 'user', 'event'])
-            ->get()
-    ));
+    Route::get('/events/{event}/bookings', function (Event $event): BookingsCollection {
+        abort_unless($event->is_online, 404);
+
+        return new BookingsCollection(
+            $event->bookings()
+                ->booked()
+                ->with(['flights.airportDep', 'flights.airportArr', 'user', 'event'])
+                ->get()
+        );
+    });
 
     Route::get('/events/{event}', function (Event $event): EventResource {
+        abort_unless($event->is_online, 404);
+
         $event->loadMissing(['bookings', 'type', 'airportDep', 'airportArr']);
 
         return new EventResource($event);
     });
 
     Route::get('/events', fn (): EventsCollection => new EventsCollection(
-        Event::with(['bookings', 'type', 'airportDep', 'airportArr'])->paginate()
+        Event::query()
+            ->with(['bookings', 'type', 'airportDep', 'airportArr'])
+            ->online()
+            ->paginate()
     ));
 
     Route::get('/bookings/{booking}', function (Booking $booking): BookingResource {
