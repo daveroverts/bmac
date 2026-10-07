@@ -11,11 +11,6 @@
 
     <title>{{ config('app.name', 'Laravel') }}</title>
 
-    <!-- Fonts -->
-    <link rel="dns-prefetch" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@300..600" rel="stylesheet" type="text/css">
-    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700;800" rel="stylesheet" type="text/css">
-
     <!-- Styles & Scripts -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
     @if (request()->routeIs('admin*'))

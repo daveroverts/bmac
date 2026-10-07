@@ -12,10 +12,12 @@
     ],
     "sail": false,
     "skills": [
+        "infer-conventions",
         "laravel-best-practices",
+        "testing-best-practices",
         "configuring-horizon",
+        "telescope-debugging",
         "livewire-development",
-        "pest-testing",
         "debug-using-debugbar"
     ]
 }

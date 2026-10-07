@@ -16,7 +16,12 @@ class EventController extends Controller
     {
         return new EventsCollection(
             Event::query()
-                ->with(['bookings', 'type', 'airportDep', 'airportArr'])
+                ->with(['type', 'airportDep', 'airportArr'])
+                ->withCount([
+                    'bookings',
+                    'bookings as available_bookings_count' => fn ($query) => $query->unassigned(),
+                ])
+                ->online()
                 ->paginate()
         );
     }
@@ -26,7 +31,13 @@ class EventController extends Controller
      */
     public function show(Event $event): EventResource
     {
-        $event->loadMissing(['bookings', 'type', 'airportDep', 'airportArr']);
+        abort_unless($event->is_online, 404);
+
+        $event->loadMissing(['type', 'airportDep', 'airportArr']);
+        $event->loadCount([
+            'bookings',
+            'bookings as available_bookings_count' => fn ($query) => $query->unassigned(),
+        ]);
 
         return new EventResource($event);
     }
@@ -39,7 +50,11 @@ class EventController extends Controller
         $limit = min(max(1, $limit), 50);
 
         $events = Event::query()
-            ->with(['bookings', 'type', 'airportDep', 'airportArr'])
+            ->with(['type', 'airportDep', 'airportArr'])
+            ->withCount([
+                'bookings',
+                'bookings as available_bookings_count' => fn ($query) => $query->unassigned(),
+            ])
             ->upcoming()
             ->online()
             ->limit($limit)

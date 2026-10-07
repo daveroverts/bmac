@@ -37,13 +37,13 @@ class LoginController extends Controller
     {
         if (! $request->has('code') || ! $request->has('state')) {
             // User has clicked "login", redirect to Connect
-            if ($request->get('booking')) {
+            if ($request->input('booking')) {
                 // Check if the booking exists, just to prevent a 404 later on
                 $booking = Booking::whereUuid($request->booking)->first();
                 if (! empty($booking)) {
                     session()->put('booking', $booking->uuid);
                 }
-            } elseif ($request->get('event')) {
+            } elseif ($request->input('event')) {
                 // Check if the event exists, just to prevent a 404 later on
                 $event = Event::whereSlug($request->event)->first();
                 if (! empty($event)) {

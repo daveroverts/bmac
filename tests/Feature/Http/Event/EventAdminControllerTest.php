@@ -78,9 +78,7 @@ it('pre-fills the image_url field on the edit event form', function (): void {
     ]);
 
     $this->actingAs($admin)
-        ->get(route('admin.events.edit', $event))
-        ->assertOk()
-        ->assertSee('value="https://example.org/poster.png"', false);
+        ->get(route('admin.events.edit', $event))->assertOk()->assertSeeHtml('value="https://example.org/poster.png"');
 });
 
 it('allows admin users to delete events', function (): void {
