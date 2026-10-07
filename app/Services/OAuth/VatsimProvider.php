@@ -3,8 +3,6 @@
 namespace App\Services\OAuth;
 
 use League\OAuth2\Client\Provider\GenericProvider;
-use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
-use League\OAuth2\Client\Token\AccessTokenInterface;
 
 class VatsimProvider extends GenericProvider
 {
@@ -23,17 +21,6 @@ class VatsimProvider extends GenericProvider
             'scopes'                  => config('oauth.scopes'),
             'scopeSeparator'          => ' '
         ]);
-    }
-
-    public function updateToken(AccessTokenInterface $token): ?AccessTokenInterface
-    {
-        try {
-            return $this->getAccessToken('refresh_token', [
-                'refresh_token' => $token->getRefreshToken(),
-            ]);
-        } catch (IdentityProviderException) {
-            return null;
-        }
     }
 
     public function getOAuthProperty(string $property, mixed $data): mixed
