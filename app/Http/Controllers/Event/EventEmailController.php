@@ -24,7 +24,7 @@ class EventEmailController extends Controller
     public function sendBulk(SendEmail $request, Event $event): JsonResponse|RedirectResponse
     {
         if ($request->testmode) {
-            event(new EventBulkEmail($event, $request->all(), collect([auth()->user()])));
+            event(new EventBulkEmail($event, $request->validated(), collect([auth()->user()])));
 
             return response()->json(['success' => __('Email has been sent to yourself')]);
         }
@@ -34,7 +34,7 @@ class EventEmailController extends Controller
             $query->where('event_id', $event->id)
                 ->booked();
         })->get();
-        event(new EventBulkEmail($event, $request->all(), $users));
+        event(new EventBulkEmail($event, $request->validated(), $users));
         flashMessage('success', __('Done'), __('Bulk E-mail has been sent to :count people!', ['count' => $users->count()]));
 
         return to_route('admin.events.index');
