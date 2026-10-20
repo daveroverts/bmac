@@ -126,10 +126,7 @@ it('pre-fills callsign and acType on the multi-flights edit form', function (): 
     Flight::factory()->create(['booking_id' => $booking->id]);
 
     $this->actingAs($user)
-        ->get(route('bookings.edit', $booking))
-        ->assertOk()
-        ->assertSee('value="KLM1337"', false)
-        ->assertSee('value="B738"', false);
+        ->get(route('bookings.edit', $booking))->assertOk()->assertSeeHtml('value="KLM1337"')->assertSeeHtml('value="B738"');
 });
 
 it('allows users to confirm reserved bookings', function (): void {

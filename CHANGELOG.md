@@ -1,3 +1,20 @@
+## [5.3.1](https://github.com/daveroverts/bmac/compare/v5.3.0...v5.3.1) (2026-10-07)
+
+
+### Bug Fixes
+
+* **api:** enable throttle:api middleware on api route group ([6ae2959](https://github.com/daveroverts/bmac/commit/6ae29591a195b3a3a9244e6f57210ccca918605f))
+* **events:** avoid serializing full request into EventBulkEmail job ([d56f1ba](https://github.com/daveroverts/bmac/commit/d56f1ba8c54d165632e646d2c646acf29bbff9f5))
+* **events:** prevent offline events from leaking through web and API ([ec51fe8](https://github.com/daveroverts/bmac/commit/ec51fe81111908385c6edb261e8b66f2e6151ec0))
+* **security:** stop storing OAuth access/refresh tokens on users ([6729c5f](https://github.com/daveroverts/bmac/commit/6729c5f68c911f43b2ad2eabf98568fa37e0afc2))
+
+
+### Performance Improvements
+
+* **api:** count bookings via withCount instead of loading all rows ([640edb4](https://github.com/daveroverts/bmac/commit/640edb404f861fe3149adcc92a80ee65794ac289))
+* **assets:** import only used Font Awesome icons ([fbdd679](https://github.com/daveroverts/bmac/commit/fbdd6793629e660b015b61363923aed70d8ae7b5))
+* **assets:** self-host Lato font, drop dead Raleway import ([fdab5f2](https://github.com/daveroverts/bmac/commit/fdab5f25b91692272f6613e7addbd06be84bfc4c))
+
 # [5.3.0](https://github.com/daveroverts/bmac/compare/v5.2.0...v5.3.0) (2026-07-12)
 
 

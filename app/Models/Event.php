@@ -39,6 +39,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  * @property-read \App\Models\Airport|null $airportDep
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Booking> $bookings
  * @property-read int|null $bookings_count
+ * @property-read int|null $available_bookings_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Faq> $faqs
  * @property-read int|null $faqs_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\EventLink> $links

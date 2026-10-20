@@ -42,7 +42,7 @@ class AuthenticationService
             return null;
         }
 
-        $user = $this->upsertUser($data, $accessToken);
+        $user = $this->upsertUser($data);
 
         return ['user' => $user, 'data' => $data];
     }
@@ -50,7 +50,7 @@ class AuthenticationService
     /**
      * Create or update the user record and log them in.
      */
-    protected function upsertUser(array $data, $token): User
+    protected function upsertUser(array $data): User
     {
         $account = User::updateOrCreate(
             ['id' => $data['cid']],
@@ -61,19 +61,6 @@ class AuthenticationService
             ]
         );
 
-        if ($token->getToken() !== null) {
-            $account->access_token = $token->getToken();
-        }
-
-        if ($token->getRefreshToken() !== null) {
-            $account->refresh_token = $token->getRefreshToken();
-        }
-
-        if ($token->getExpires() !== null) {
-            $account->token_expires = $token->getExpires();
-        }
-
-        $account->save();
         auth()->loginUsingId($data['cid'], true);
         activity()->log('Login');
 

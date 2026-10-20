@@ -16,3 +16,13 @@ it('can render event page', function (): void {
     $this->get(route('events.show', 'some-random-string'))
         ->assertNotFound();
 });
+
+it('returns 404 for an offline event', function (): void {
+    /** @var TestCase $this */
+
+    /** @var Event $event */
+    $event = Event::factory()->create(['is_online' => false]);
+
+    $this->get(route('events.show', $event))
+        ->assertNotFound();
+});

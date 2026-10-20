@@ -2,22 +2,15 @@
 
 namespace App\Jobs;
 
-use Illuminate\Bus\Queueable;
 use App\Imports\AirportsImport;
 use App\Services\AirportImporter;
-use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 
 class ImportAirportsJob implements ShouldQueue, ShouldBeUnique
 {
-    use Dispatchable;
-    use InteractsWithQueue;
-    use Queueable;
-    use SerializesModels;
+    use \Illuminate\Foundation\Queue\Queueable;
 
     /**
      * Create a new job instance.

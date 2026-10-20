@@ -14,12 +14,10 @@ class EventPolicy
 
     /**
      * Determine whether the user can view the event.
-     *
-     * @param  User  $user
      */
     public function view(?User $user, Event $event): bool
     {
-        return true;
+        return $event->is_online;
     }
 
     /**

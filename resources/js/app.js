@@ -9,10 +9,40 @@ import './airport-select';
 
 // Importing Font Awesome
 import { dom, library } from '@fortawesome/fontawesome-svg-core'
-import { far } from '@fortawesome/free-regular-svg-icons'
-import { fas } from '@fortawesome/free-solid-svg-icons'
-import { fab } from '@fortawesome/free-brands-svg-icons'
+import {
+    faCalendar,
+    faCheck,
+    faChevronRight,
+    faClock,
+    faCopyright,
+    faEdit,
+    faEnvelope,
+    faFileExcel,
+    faFileExport,
+    faFileImport,
+    faPlus,
+    faSave,
+    faSearch,
+    faTimes,
+    faTrash,
+} from '@fortawesome/free-solid-svg-icons'
 
-library.add(far, fas, fab);
+library.add(
+    faCalendar,
+    faCheck,
+    faChevronRight,
+    faClock,
+    faCopyright,
+    faEdit,
+    faEnvelope,
+    faFileExcel,
+    faFileExport,
+    faFileImport,
+    faPlus,
+    faSave,
+    faSearch,
+    faTimes,
+    faTrash,
+);
 
 dom.watch();

@@ -83,6 +83,16 @@ it('does not include full_name in v1 event bookings response', function (): void
         ->assertJsonMissingPath('data.0.full_name');
 });
 
+it('returns 404 for bookings of an offline event', function (): void {
+    /** @var TestCase $this */
+
+    $event = Event::factory()->create(['is_online' => false]);
+    Booking::factory()->booked()->create(['event_id' => $event->id]);
+
+    $this->getJson(sprintf('/api/v1/events/%s/bookings', $event->slug))
+        ->assertNotFound();
+});
+
 it('does not include deprecation headers on v1 booking routes', function (): void {
     /** @var TestCase $this */
 

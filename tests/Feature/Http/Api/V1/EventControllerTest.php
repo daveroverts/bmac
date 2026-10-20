@@ -35,6 +35,27 @@ it('returns 404 for a non-existent event', function (): void {
         ->assertNotFound();
 });
 
+it('returns 404 for an offline event', function (): void {
+    /** @var TestCase $this */
+
+    $event = Event::factory()->create(['is_online' => false]);
+
+    $this->getJson('/api/v1/events/' . $event->slug)
+        ->assertNotFound();
+});
+
+it('excludes offline events from the index', function (): void {
+    /** @var TestCase $this */
+
+    Event::factory()->create(['is_online' => false]);
+    Event::factory()->create(['is_online' => true]);
+
+    $response = $this->getJson('/api/v1/events')
+        ->assertOk();
+
+    expect($response->json('data'))->toHaveCount(1);
+});
+
 it('returns upcoming online events with default limit of 3', function (): void {
     /** @var TestCase $this */
 

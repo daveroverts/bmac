@@ -88,10 +88,7 @@ it('pre-fills name and url on the edit event link form', function (): void {
     ]);
 
     $this->actingAs($admin)
-        ->get(route('admin.eventLinks.edit', $eventLink))
-        ->assertOk()
-        ->assertSee('value="Briefing"', false)
-        ->assertSee('value="https://example.org/brief.pdf"', false);
+        ->get(route('admin.eventLinks.edit', $eventLink))->assertOk()->assertSeeHtml('value="Briefing"')->assertSeeHtml('value="https://example.org/brief.pdf"');
 });
 
 it('keeps each old() input on its own field after a validation failure on the edit event link form', function (): void {
@@ -111,11 +108,7 @@ it('keeps each old() input on its own field after a validation failure on the ed
             'name' => 'previously-typed-name',
             'url' => 'https://previously-typed-url.test',
         ]])
-        ->get(route('admin.eventLinks.edit', $eventLink))
-        ->assertOk()
-        ->assertSee('value="previously-typed-name"', false)
-        ->assertSee('value="https://previously-typed-url.test"', false)
-        ->assertDontSee('value="https://previously-typed-name"', false);
+        ->get(route('admin.eventLinks.edit', $eventLink))->assertOk()->assertSeeHtml('value="previously-typed-name"')->assertSeeHtml('value="https://previously-typed-url.test"')->assertDontSeeHtml('value="https://previously-typed-name"');
 });
 
 it('allows admin users to update event links', function (): void {
