@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "31ce069158053ea5af92748cb561baf8",
+    "content-hash": "9725444b25221cae21aaf76c2ffe5577",
     "packages": [
         {
             "name": "aws/aws-crt-php",
@@ -11020,55 +11020,6 @@
             "time": "2026-10-08T21:09:11+00:00"
         },
         {
-            "name": "phpstan/phpstan-beberlei-assert",
-            "version": "2.0.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/phpstan/phpstan-beberlei-assert.git",
-                "reference": "8699be838df954190b657c8defc2777c74ebb44e"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan-beberlei-assert/zipball/8699be838df954190b657c8defc2777c74ebb44e",
-                "reference": "8699be838df954190b657c8defc2777c74ebb44e",
-                "shasum": ""
-            },
-            "require": {
-                "php": "^7.4 || ^8.0",
-                "phpstan/phpstan": "^2.0"
-            },
-            "require-dev": {
-                "beberlei/assert": "^3.3.0",
-                "php-parallel-lint/php-parallel-lint": "^1.4",
-                "phpstan/phpstan-phpunit": "^2.0",
-                "phpstan/phpstan-strict-rules": "^2.0",
-                "phpunit/phpunit": "^9.6"
-            },
-            "type": "phpstan-extension",
-            "extra": {
-                "phpstan": {
-                    "includes": [
-                        "extension.neon"
-                    ]
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "PHPStan\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "description": "PHPStan beberlei/assert extension",
-            "support": {
-                "issues": "https://github.com/phpstan/phpstan-beberlei-assert/issues",
-                "source": "https://github.com/phpstan/phpstan-beberlei-assert/tree/2.0.2"
-            },
-            "time": "2025-10-06T09:51:30+00:00"
-        },
-        {
             "name": "phpunit/php-code-coverage",
             "version": "12.5.8",
             "source": {
@@ -12801,76 +12752,6 @@
                 }
             ],
             "time": "2025-12-08T11:19:18+00:00"
-        },
-        {
-            "name": "tomasvotruba/bladestan",
-            "version": "0.11.8",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/bladestan/bladestan.git",
-                "reference": "9be037cd1c505d6952ec6eb5f7f50e13fc61efed"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/bladestan/bladestan/zipball/9be037cd1c505d6952ec6eb5f7f50e13fc61efed",
-                "reference": "9be037cd1c505d6952ec6eb5f7f50e13fc61efed",
-                "shasum": ""
-            },
-            "require": {
-                "illuminate/contracts": "^11.15|^12.0|^13.0",
-                "illuminate/filesystem": "^11.15|^12.0|^13.0",
-                "illuminate/mail": "^11.15|^12.0|^13.0",
-                "illuminate/notifications": "^11.15|^12.0|^13.0",
-                "illuminate/view": "^11.15|^12.0|^13.0",
-                "larastan/larastan": "^3.0",
-                "livewire/livewire": "^3.3.5|^4.0",
-                "php": "^8.2",
-                "phpstan/phpstan": "^2.0.1"
-            },
-            "require-dev": {
-                "orchestra/testbench": "^9.9|^10.0|^11.0",
-                "phpunit/phpunit": "^11.3.6|^12.5.12",
-                "rector/rector": "^2.0",
-                "symplify/easy-coding-standard": "^12.1.1|^13.0",
-                "tomasvotruba/class-leak": "^2.0"
-            },
-            "type": "phpstan-extension",
-            "extra": {
-                "phpstan": {
-                    "includes": [
-                        "config/extension.neon"
-                    ]
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Bladestan\\": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "description": "PHPStan rule for static analysis of Blade templates",
-            "keywords": [
-                "phpstan-extension",
-                "static analysis"
-            ],
-            "support": {
-                "issues": "https://github.com/bladestan/bladestan/issues",
-                "source": "https://github.com/bladestan/bladestan/tree/0.11.8"
-            },
-            "funding": [
-                {
-                    "url": "https://www.paypal.me/rectorphp",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://github.com/tomasvotruba",
-                    "type": "github"
-                }
-            ],
-            "time": "2026-08-01T06:32:21+00:00"
         },
         {
             "name": "webmozart/assert",
