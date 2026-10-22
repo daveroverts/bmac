@@ -25,9 +25,9 @@
         "bootstrap": "^5.3.8",
         "bootswatch": "^5.3.8",
         "laravel-vite-plugin": "^3.2.0",
-        "sass": "^1.105.1",
-        "tinymce": "^8.9.3",
-        "vite": "^8.3.3",
+        "sass": "^1.106.1",
+        "tinymce": "^8.10.0",
+        "vite": "^8.3.5",
         "vite-plugin-purgecss": "^0.2.13",
         "vite-plugin-static-copy": "^4.1.1"
     },
