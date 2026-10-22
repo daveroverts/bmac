@@ -188,4 +188,12 @@ This project has domain-specific skills available in `**/skills/**`. You MUST ac
 - Run `vendor/bin/pest` to call the test runner directly. It accepts the same file path and `--filter=testName` arguments.
 - After the feature tests pass, ask the user to run the complete suite with `php artisan test --compact`.
 
+=== dedoc/scramble/core rules ===
+
+## Scramble
+
+This project uses `dedoc/scramble` to generate OpenAPI documentation from application code. Prefer inference over redundant annotations.
+
+Follow the `scramble-development` skill when changing API endpoints or the resources, FormRequests, shared types, and authentication they use, or when configuring or troubleshooting Scramble documentation.
+
 </laravel-boost-guidelines>
