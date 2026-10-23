@@ -1,13 +1,15 @@
 {
     "agents": [
         "opencode",
+        "claude_code",
         "codex"
     ],
     "cloud": false,
     "guidelines": true,
     "mcp": true,
-    "nightwatch_mcp": false,
+    "nightwatch": false,
     "packages": [
+        "dedoc/scramble",
         "fruitcake/laravel-debugbar"
     ],
     "sail": false,
@@ -18,6 +20,7 @@
         "configuring-horizon",
         "telescope-debugging",
         "livewire-development",
+        "scramble-development",
         "debug-using-debugbar"
     ]
 }
