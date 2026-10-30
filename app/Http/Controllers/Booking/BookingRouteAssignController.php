@@ -25,7 +25,7 @@ class BookingRouteAssignController extends Controller
             ->log('Route assign triggered');
 
         $file = $request->file('file');
-        (new FlightRouteAssign())->import($file);
+        (new FlightRouteAssign($event))->import($file);
         Storage::delete($file);
 
         flashMessage('success', __('Routes assigned'), __('Routes have been assigned to flights'));

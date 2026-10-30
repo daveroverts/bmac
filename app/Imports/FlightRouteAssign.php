@@ -2,8 +2,9 @@
 
 namespace App\Imports;
 
-use App\Models\Flight;
 use App\Models\Airport;
+use App\Models\Event;
+use App\Models\Flight;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Validator;
@@ -15,6 +16,10 @@ class FlightRouteAssign
 {
     /** @var Collection<string, int> */
     private Collection $airports;
+
+    public function __construct(private readonly Event $event)
+    {
+    }
 
     public function import(UploadedFile $file): void
     {
@@ -35,7 +40,8 @@ class FlightRouteAssign
         foreach ($rows as $row) {
             $from = $this->airports[$row['from']];
             $to = $this->airports[$row['to']];
-            Flight::whereDep($from)
+            Flight::whereIn('booking_id', $this->event->bookings()->select('id'))
+                ->whereDep($from)
                 ->whereArr($to)
                 ->update([
                     'route' => $row['route'],
