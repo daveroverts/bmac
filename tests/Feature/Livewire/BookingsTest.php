@@ -96,3 +96,17 @@ it('counts total and booked bookings correctly', function (): void {
         ->assertSet('total', 2)
         ->assertSet('booked', 1);
 });
+
+it('shows the add booking links for admins on events that allow manual bookings', function (): void {
+    $event = Event::factory()->create(['event_type_id' => EventType::ONEWAY->value]);
+
+    Livewire::test(Bookings::class, ['event' => $event])
+        ->assertSee(route('admin.events.bookings.create', $event));
+});
+
+it('hides the add booking links on Multi flights events', function (): void {
+    $event = Event::factory()->create(['event_type_id' => EventType::MULTIFLIGHTS->value]);
+
+    Livewire::test(Bookings::class, ['event' => $event])
+        ->assertDontSee(route('admin.events.bookings.create', $event));
+});

@@ -21,8 +21,12 @@ class BookingAdminController extends Controller
         $this->authorizeResource(Booking::class, 'booking');
     }
 
-    public function create(Event $event, Request $request): View
+    public function create(Event $event, Request $request): View|RedirectResponse
     {
+        if (! $event->allowsManualBookings()) {
+            return $this->redirectToImport($event);
+        }
+
         $bulk = $request->bulk;
 
         return view('booking.admin.create', ['event' => $event, 'bulk' => $bulk]);
@@ -31,6 +35,11 @@ class BookingAdminController extends Controller
     public function store(StoreBooking $request, CreateBookingsAction $action): RedirectResponse
     {
         $event = Event::findOrFail($request->id);
+
+        if (! $event->allowsManualBookings()) {
+            return $this->redirectToImport($event);
+        }
+
         $count = $action->handle($request, $event);
 
         if ($request->bulk) {
@@ -40,6 +49,13 @@ class BookingAdminController extends Controller
         }
 
         return to_route('events.bookings.index', $event);
+    }
+
+    private function redirectToImport(Event $event): RedirectResponse
+    {
+        flashMessage('danger', __('Danger'), __('Slots for this event type can only be added via import'));
+
+        return to_route('admin.events.bookings.import.create', $event);
     }
 
     public function edit(Booking $booking): View|RedirectResponse

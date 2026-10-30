@@ -39,8 +39,10 @@
                     @if ($event->endEvent > now())
                         <a href="{{ route('admin.events.bookings.import.create', $event) }}" class="btn btn-success m-1"><i
                                 class="fa fa-file-import"></i> {{ __('Import data') }}</a>&nbsp;
-                        <a href="{{ route('admin.events.bookings.create', $event) }}?bulk=1" class="btn btn-primary m-1"><i
-                                class="fa fa-plus"></i> {{ __('Add Timeslots') }}</a>&nbsp;
+                        @if ($event->allowsManualBookings())
+                            <a href="{{ route('admin.events.bookings.create', $event) }}?bulk=1" class="btn btn-primary m-1"><i
+                                    class="fa fa-plus"></i> {{ __('Add Timeslots') }}</a>&nbsp;
+                        @endif
                         @if ($event->is_oceanic_event)
                             <a href="{{ route('admin.events.bookings.autoAssign.create', $event) }}" class="btn btn-primary m-1">
                                 {{ __('Auto Assign FL / Route') }}</a>&nbsp;
