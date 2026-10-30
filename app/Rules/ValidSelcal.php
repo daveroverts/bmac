@@ -9,6 +9,11 @@ use Illuminate\Contracts\Validation\ValidationRule;
 class ValidSelcal implements ValidationRule
 {
     /**
+     * SELCAL 32 characters, from lowest to highest.
+     */
+    private const string CHARACTERS = 'ABCDEFGHJKLMPQRSTUVWXYZ123456789';
+
+    /**
      * Create a new rule instance.
      */
     public function __construct(
@@ -21,9 +26,9 @@ class ValidSelcal implements ValidationRule
      * Run the validation rule.
      *
      * Validates that the SELCAL:
-     * - Matches the required format (XX-XX where X is A-S except I, N, O, T)
+     * - Matches the required format (XX-XX where X is A-Z or 1-9, except I, N and O)
      * - Contains unique characters
-     * - Has characters in alphabetical order within each pair
+     * - Has characters in SELCAL order (A-Z, then 1-9) within each pair
      * - Is not already used in the same event
      *
      * @param  \Closure(string, ?string=): \Illuminate\Translation\PotentiallyTranslatedString  $fail
@@ -43,7 +48,7 @@ class ValidSelcal implements ValidationRule
         $char4 = substr($value, 4, 1);
 
         // Check if SELCAL has valid format
-        if (! preg_match('/^[ABCDEFGHJKLMPQRS]{2}-[ABCDEFGHJKLMPQRS]{2}$/', $value)) {
+        if (! preg_match('/^[A-HJ-MP-Z1-9]{2}-[A-HJ-MP-Z1-9]{2}$/', $value)) {
             $fail('The SELCAL format is invalid. Must be XX-XX using valid SELCAL characters.');
 
             return;
@@ -57,9 +62,10 @@ class ValidSelcal implements ValidationRule
             return;
         }
 
-        // Check if characters per pair are in alphabetical order
-        if ($char1 > $char2 || $char3 > $char4) {
-            $fail('The SELCAL characters must be in alphabetical order within each pair.');
+        // Check if characters per pair are in SELCAL order
+        if (strpos(self::CHARACTERS, $char1) > strpos(self::CHARACTERS, $char2)
+            || strpos(self::CHARACTERS, $char3) > strpos(self::CHARACTERS, $char4)) {
+            $fail('The SELCAL characters must be in SELCAL order (A-Z, then 1-9) within each pair.');
 
             return;
         }

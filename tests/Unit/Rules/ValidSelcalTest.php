@@ -19,7 +19,7 @@ it('passes validation for a correct SELCAL code', function (): void {
 it('fails validation for invalid SELCAL format with invalid characters', function (): void {
     $event = Event::factory()->create();
 
-    // I, N, O, T are not valid characters
+    // I, N, O are not valid characters
     $validator = Validator::make(
         ['selcal' => 'AI-NO'],
         ['selcal' => new ValidSelcal($event->id)]
@@ -27,6 +27,45 @@ it('fails validation for invalid SELCAL format with invalid characters', functio
 
     expect($validator->fails())->toBeTrue();
     expect($validator->errors()->first('selcal'))->toContain('format is invalid');
+});
+
+it('passes validation for SELCAL 32 codes with digits', function (string $selcal): void {
+    $event = Event::factory()->create();
+
+    $validator = Validator::make(
+        ['selcal' => $selcal],
+        ['selcal' => new ValidSelcal($event->id)]
+    );
+
+    expect($validator->passes())->toBeTrue();
+})->with([
+    'numeric only (KLM PH-ZNA)' => '28-37',
+    'letter before digit' => 'D3-58',
+    'new letters' => 'TU-VW',
+]);
+
+it('fails validation for a zero in SELCAL', function (): void {
+    $event = Event::factory()->create();
+
+    $validator = Validator::make(
+        ['selcal' => 'A0-BC'],
+        ['selcal' => new ValidSelcal($event->id)]
+    );
+
+    expect($validator->fails())->toBeTrue();
+    expect($validator->errors()->first('selcal'))->toContain('format is invalid');
+});
+
+it('fails validation when a digit comes before a letter within a pair', function (): void {
+    $event = Event::factory()->create();
+
+    $validator = Validator::make(
+        ['selcal' => '3D-AB'],
+        ['selcal' => new ValidSelcal($event->id)]
+    );
+
+    expect($validator->fails())->toBeTrue();
+    expect($validator->errors()->first('selcal'))->toContain('SELCAL order');
 });
 
 it('fails validation for invalid SELCAL format without hyphen', function (): void {
@@ -53,7 +92,7 @@ it('fails validation when SELCAL contains duplicate characters', function (): vo
     expect($validator->errors()->first('selcal'))->toContain('unique characters');
 });
 
-it('fails validation when characters in first pair are not in alphabetical order', function (): void {
+it('fails validation when characters in first pair are not in SELCAL order', function (): void {
     $event = Event::factory()->create();
 
     $validator = Validator::make(
@@ -62,10 +101,10 @@ it('fails validation when characters in first pair are not in alphabetical order
     );
 
     expect($validator->fails())->toBeTrue();
-    expect($validator->errors()->first('selcal'))->toContain('alphabetical order');
+    expect($validator->errors()->first('selcal'))->toContain('SELCAL order');
 });
 
-it('fails validation when characters in second pair are not in alphabetical order', function (): void {
+it('fails validation when characters in second pair are not in SELCAL order', function (): void {
     $event = Event::factory()->create();
 
     $validator = Validator::make(
@@ -74,7 +113,7 @@ it('fails validation when characters in second pair are not in alphabetical orde
     );
 
     expect($validator->fails())->toBeTrue();
-    expect($validator->errors()->first('selcal'))->toContain('alphabetical order');
+    expect($validator->errors()->first('selcal'))->toContain('SELCAL order');
 });
 
 it('fails validation when SELCAL already exists for the same event', function (): void {
