@@ -52,7 +52,7 @@
                             </div>
                             <div class="col-md-6">
                                 <x-forms.airport-select name="arr" :label="__('Arrival airport')" :placeholder="__('Search by name or code...')" required
-                                    :value="$event->dep" />
+                                    :value="$event->arr" />
                             </div>
                         </div>
 

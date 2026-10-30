@@ -37,6 +37,27 @@ it('allows admin users to view create booking form', function (): void {
         ->assertOk();
 });
 
+it('prefills the create booking form with the event departure and arrival airports', function (): void {
+    /** @var TestCase $this */
+
+    /** @var User $admin */
+    $admin = User::factory()->admin()->create();
+
+    /** @var Event $event */
+    $event = Event::factory()->create();
+
+    expect($event->dep)->not->toBe($event->arr);
+
+    $content = $this->actingAs($admin)
+        ->get(route('admin.events.bookings.create', $event))
+        ->assertOk()
+        ->getContent();
+
+    expect($content)
+        ->toMatch('/<select name="dep".*?<option value="'.$event->dep.'" selected/s')
+        ->toMatch('/<select name="arr".*?<option value="'.$event->arr.'" selected/s');
+});
+
 it('allows admin users to view edit booking form', function (): void {
     /** @var TestCase $this */
 
