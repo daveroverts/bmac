@@ -1,3 +1,18 @@
+# [5.4.0](https://github.com/daveroverts/bmac/compare/v5.3.1...v5.4.0) (2026-10-31)
+
+
+### Bug Fixes
+
+* **booking:** block manual slot creation for Multi flights events ([bad46dd](https://github.com/daveroverts/bmac/commit/bad46dd238f1de8642168bca6c3e081e0af438bd))
+* **booking:** prefill arrival airport on admin create form ([c156879](https://github.com/daveroverts/bmac/commit/c156879975a63aa134a3a24ed323a9edb4d89cbf))
+* **import:** scope route assign to the selected event ([668b8d7](https://github.com/daveroverts/bmac/commit/668b8d783f6316b53848d6b12dac8f77d8be0e71))
+* **mail:** show correct old values in booking changed email ([1bcd684](https://github.com/daveroverts/bmac/commit/1bcd6848eb35ef5df522adf633b50a3ecf666e3e))
+
+
+### Features
+
+* **selcal:** support SELCAL 32 codes with digits ([2388571](https://github.com/daveroverts/bmac/commit/238857191c17c8793ee0c76e583676553849e3c6)), closes [#1048](https://github.com/daveroverts/bmac/issues/1048)
+
 ## [5.3.1](https://github.com/daveroverts/bmac/compare/v5.3.0...v5.3.1) (2026-10-07)
 
 
