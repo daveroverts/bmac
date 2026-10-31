@@ -61,7 +61,7 @@
 
                                 <x-forms.selcal
                                     :label="__('SELCAL')"
-                                    :help="__('Two pairs of unique letters (A-S, no I/N/O/T) in alphabetical order per pair.')"
+                                    :help="__('Two pairs of unique characters (A-Z and 1-9, no I/N/O) in order per pair: letters first, then digits.')"
                                 />
                             @else
                                 @if ($flight->oceanicFL)

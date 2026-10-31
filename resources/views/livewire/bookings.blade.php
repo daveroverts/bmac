@@ -16,7 +16,7 @@
                 Arrivals
             </button>&nbsp;
         @endif
-        @if (auth()->check() && auth()->user()->isAdmin && $event->endBooking >= now())
+        @if (auth()->check() && auth()->user()->isAdmin && $event->endBooking >= now() && $event->allowsManualBookings())
             <a href="{{ route('admin.events.bookings.create', $event) }}" class="btn btn-primary"><i class="fa fa-plus"></i>
                 Add
                 Booking</a>&nbsp;

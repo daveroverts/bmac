@@ -171,6 +171,14 @@ class Event extends Model
     }
 
     /**
+     * Multi flights slots need two legs, which only the import creates.
+     */
+    public function allowsManualBookings(): bool
+    {
+        return $this->event_type_id != \App\Enums\EventType::MULTIFLIGHTS->value;
+    }
+
+    /**
      * The attributes that should be cast to native types.
      *
      * @return array<string, string>

@@ -29,8 +29,8 @@ class UpdateBooking extends Request
         return [
             'callsign' => 'sometimes|alpha_num|between:4,7|unique:bookings,callsign,' . auth()->id() . ',user_id,event_id,' . $this->route('booking')->event->id,
             'acType' => ['sometimes', 'alpha_num', 'between:3,4'],
-            'selcal1' => ['sometimes', 'nullable', 'alpha', 'size:2'],
-            'selcal2' => 'sometimes|nullable|required_with:selcal1,!=' . null . '|alpha|size:2',
+            'selcal1' => ['sometimes', 'nullable', 'alpha_num', 'size:2'],
+            'selcal2' => 'sometimes|nullable|required_with:selcal1,!=' . null . '|alpha_num|size:2',
             'selcal' => ['sometimes', 'nullable', new ValidSelcal($this->route('booking')->event->id, $this->route('booking')->id)],
             'checkStudy' => ['sometimes', 'accepted'],
             'checkCharts' => ['sometimes', 'accepted'],

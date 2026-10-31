@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\EventType;
 use App\Events\BookingChanged;
 use App\Models\Booking;
 use App\Models\Event;
@@ -35,6 +36,56 @@ it('allows admin users to view create booking form', function (): void {
     $this->actingAs($admin)
         ->get(route('admin.events.bookings.create', $event))
         ->assertOk();
+});
+
+it('prefills the create booking form with the event departure and arrival airports', function (): void {
+    /** @var TestCase $this */
+
+    /** @var User $admin */
+    $admin = User::factory()->admin()->create();
+
+    /** @var Event $event */
+    $event = Event::factory()->create();
+
+    expect($event->dep)->not->toBe($event->arr);
+
+    $content = $this->actingAs($admin)
+        ->get(route('admin.events.bookings.create', $event))
+        ->assertOk()
+        ->getContent();
+
+    expect($content)
+        ->toMatch('/<select name="dep".*?<option value="'.$event->dep.'" selected/s')
+        ->toMatch('/<select name="arr".*?<option value="'.$event->arr.'" selected/s');
+});
+
+it('redirects to the import page instead of showing the create form for Multi flights events', function (): void {
+    /** @var TestCase $this */
+    $admin = User::factory()->admin()->create();
+    $event = Event::factory()->create(['event_type_id' => EventType::MULTIFLIGHTS->value]);
+
+    $this->actingAs($admin)
+        ->get(route('admin.events.bookings.create', $event))
+        ->assertRedirect(route('admin.events.bookings.import.create', $event));
+});
+
+it('does not create slots manually for Multi flights events', function (): void {
+    /** @var TestCase $this */
+    $admin = User::factory()->admin()->create();
+    $event = Event::factory()->create(['event_type_id' => EventType::MULTIFLIGHTS->value]);
+
+    $this->actingAs($admin)
+        ->post(route('admin.bookings.store'), [
+            'id' => $event->id,
+            'bulk' => 0,
+            'is_callsign_editable' => 1,
+            'is_actype_editable' => 1,
+            'dep' => $event->dep,
+            'arr' => $event->arr,
+        ])
+        ->assertRedirect(route('admin.events.bookings.import.create', $event));
+
+    expect($event->bookings()->count())->toBe(0);
 });
 
 it('allows admin users to view edit booking form', function (): void {

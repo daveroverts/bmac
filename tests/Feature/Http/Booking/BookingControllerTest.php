@@ -300,6 +300,44 @@ it('allows updating SELCAL on an oceanic event booking', function (): void {
     expect($flight->booking->selcal)->toBe('AB-CF');
 });
 
+it('allows updating a SELCAL 32 code with digits on an oceanic event booking', function (): void {
+    /** @var TestCase $this */
+
+    Notification::fake();
+
+    /** @var User $user */
+    $user = User::factory()->create();
+
+    /** @var Event $event */
+    $event = Event::factory()->create([
+        'startBooking' => now()->subDay(),
+        'endBooking' => now()->addDay(),
+        'is_oceanic_event' => true,
+    ]);
+
+    /** @var Flight $flight */
+    $flight = Flight::factory()->create([
+        'booking_id' => Booking::factory()->booked()->create([
+            'event_id' => $event->id,
+            'user_id' => $user->id,
+            'is_callsign_editable' => true,
+            'is_actype_editable' => true,
+        ])->id,
+    ]);
+
+    $this->actingAs($user)
+        ->patch(route('bookings.update', $flight->booking), [
+            'callsign' => $flight->booking->callsign ?? 'TST001',
+            'acType' => $flight->booking->acType ?? 'B738',
+            'selcal1' => '28',
+            'selcal2' => '37',
+        ])
+        ->assertRedirect(route('events.bookings.index', $event));
+
+    $flight->booking->refresh();
+    expect($flight->booking->selcal)->toBe('28-37');
+});
+
 it('does not set SELCAL on a non-oceanic event booking', function (): void {
     /** @var TestCase $this */
 

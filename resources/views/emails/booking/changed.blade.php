@@ -17,16 +17,16 @@ Your booking for the **{{ $booking->event->name }}** event has been amended, ple
 | Aircraft code: | **{{ $change['new'] }}** | (was {{ $change['old'] }}) |
 @break
 @case('dep')
-| ADEP: | **{{ \App\Models\Airport::find($change['new'])->icao }}** | (was {{ \App\Models\Airport::find($change['old'])->first()->icao }}) |
+| ADEP: | **{{ \App\Models\Airport::find($change['new'])?->icao ?? '-' }}** | (was {{ \App\Models\Airport::find($change['old'])?->icao ?? '-' }}) |
 @break
 @case('arr')
-| ADES: | **{{ \App\Models\Airport::find($change['new'])->icao }}** | (was {{ \App\Models\Airport::find($change['old'])->first()->icao }}) |
+| ADES: | **{{ \App\Models\Airport::find($change['new'])?->icao ?? '-' }}** | (was {{ \App\Models\Airport::find($change['old'])?->icao ?? '-' }}) |
 @break
 @case('ctot')
-| CTOT: | **{{ \Carbon\Carbon::parse($change['new'])->format('Hi').'z' }}** | (was {{ \Carbon\Carbon::parse($change['old'])->format('Hi').'z' }}) |
+| CTOT: | **{{ filled($change['new']) ? \Carbon\Carbon::parse($change['new'])->format('Hi').'z' : '-' }}** | (was {{ filled($change['old']) ? \Carbon\Carbon::parse($change['old'])->format('Hi').'z' : '-' }}) |
 @break
 @case('eta')
-| ETA: | **{{ \Carbon\Carbon::parse($change['new'])->format('Hi').'z' }}** | (was {{ \Carbon\Carbon::parse($change['old'])->format('Hi').'z' }}) |
+| ETA: | **{{ filled($change['new']) ? \Carbon\Carbon::parse($change['new'])->format('Hi').'z' : '-' }}** | (was {{ filled($change['old']) ? \Carbon\Carbon::parse($change['old'])->format('Hi').'z' : '-' }}) |
 @break
 @case('route')
 | Route: | **{{ $change['new'] }}** | (was {{ $change['old'] }}) |

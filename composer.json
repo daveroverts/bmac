@@ -9,11 +9,11 @@
     "type": "project",
     "require": {
         "php": "^8.3",
-        "aws/aws-sdk-php": "^3.402.0",
+        "aws/aws-sdk-php": "^3.402.5",
         "bugsnag/bugsnag-laravel": "^2.31",
         "cviebrock/eloquent-sluggable": "^12.0",
-        "dedoc/scramble": "^0.13.49",
-        "laravel/framework": "^12.70.1",
+        "dedoc/scramble": "^0.13.52",
+        "laravel/framework": "^12.70.2",
         "laravel/horizon": "^5.50.1",
         "laravel/telescope": "^5.26",
         "laravel/tinker": "^3.0",
@@ -28,11 +28,11 @@
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^3.6",
-        "driftingly/rector-laravel": "^2.7.0",
+        "driftingly/rector-laravel": "^2.7.3",
         "fakerphp/faker": "^1.18",
-        "fruitcake/laravel-debugbar": "^4.4.4",
-        "larastan/larastan": "^3.13.1",
-        "laravel/boost": "^2.10.3",
+        "fruitcake/laravel-debugbar": "^4.4.5",
+        "larastan/larastan": "^3.13.2",
+        "laravel/boost": "^2.10.4",
         "laravel/pint": "^1.32.1",
         "laravel/sail": "^1.69",
         "mockery/mockery": "^1.6.15",
@@ -41,7 +41,7 @@
         "pestphp/pest-plugin-laravel": "^4.0",
         "pestphp/pest-plugin-livewire": "^4.0",
         "phpunit/phpunit": "^12.5.33",
-        "rector/rector": "^2.7.0"
+        "rector/rector": "^2.8.3"
     },
     "autoload": {
         "psr-4": {
