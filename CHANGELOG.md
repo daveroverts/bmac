@@ -1,3 +1,17 @@
+# [6.1.0](https://github.com/daveroverts/bmac/compare/v6.0.0...v6.1.0) (2026-11-01)
+
+
+### Bug Fixes
+
+* **booking:** place CTOT and ETA after midnight on the correct day ([f2ebe16](https://github.com/daveroverts/bmac/commit/f2ebe16f26318faacedaf327902da3d100b2cb29))
+
+
+### Features
+
+* **admin:** make events overview searchable and filterable ([51f0475](https://github.com/daveroverts/bmac/commit/51f04757153729770b0dd0384c0b0536eb681c3c))
+* **export:** add VATCAN slot export as CSV and JSON ([471baab](https://github.com/daveroverts/bmac/commit/471baabe00a1ffa398b5d3fe54ba3172eb28ac37)), closes [#1022](https://github.com/daveroverts/bmac/issues/1022)
+* **export:** remove vacc export option ([c3fa4d2](https://github.com/daveroverts/bmac/commit/c3fa4d26d21bcbd1d6c812f5822ffdff8936cb6f)), closes [#1023](https://github.com/daveroverts/bmac/issues/1023)
+
 # [6.0.0](https://github.com/daveroverts/bmac/compare/v5.4.0...v6.0.0) (2026-11-01)
 
 
