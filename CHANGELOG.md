@@ -1,3 +1,16 @@
+# [6.0.0](https://github.com/daveroverts/bmac/compare/v5.4.0...v6.0.0) (2026-11-01)
+
+
+### Features
+
+* **deps:** upgrade to Laravel 13 ([b880aef](https://github.com/daveroverts/bmac/commit/b880aef3c7bd4d9b4c62e7cf5d4140310f51b392))
+* **npm:** add support for node 26, drop node 20 ([2bf7adb](https://github.com/daveroverts/bmac/commit/2bf7adb5c7b6b021517b28fbdabb33eb82f2c173))
+
+
+### BREAKING CHANGES
+
+* **npm:** Drop support for node 20
+
 # [5.4.0](https://github.com/daveroverts/bmac/compare/v5.3.1...v5.4.0) (2026-10-31)
 
 
