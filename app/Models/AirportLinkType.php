@@ -31,12 +31,11 @@ use Spatie\Activitylog\Traits\LogsActivity;
  * @method static Builder<static>|AirportLinkType whereUpdatedAt($value)
  * @mixin \Eloquent
  */
+#[\Illuminate\Database\Eloquent\Attributes\Guarded(['id'])]
 class AirportLinkType extends Model
 {
     use HasFactory;
     use LogsActivity;
-
-    protected $guarded = ['id'];
 
     public const string CACHE_KEY_DROPDOWN = 'airport_link_types.dropdown.v2';
 

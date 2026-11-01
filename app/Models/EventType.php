@@ -24,15 +24,12 @@ use Spatie\Activitylog\Traits\LogsActivity;
  * @method static Builder<static>|EventType whereName($value)
  * @mixin \Eloquent
  */
+#[\Illuminate\Database\Eloquent\Attributes\Guarded(['id'])]
+#[\Illuminate\Database\Eloquent\Attributes\WithoutIncrementing]
+#[\Illuminate\Database\Eloquent\Attributes\WithoutTimestamps]
 class EventType extends Model
 {
     use LogsActivity;
-
-    public $incrementing = false;
-
-    public $timestamps = false;
-
-    protected $guarded = ['id'];
 
     public const string CACHE_KEY_DROPDOWN = 'event_types.dropdown.v2';
 

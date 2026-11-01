@@ -47,12 +47,12 @@ use Spatie\Activitylog\Traits\LogsActivity;
  * @method static Builder<static>|Airport whereUpdatedAt($value)
  * @mixin \Eloquent
  */
+#[\Illuminate\Database\Eloquent\Attributes\Unguarded]
+#[\Illuminate\Database\Eloquent\Attributes\RouteKey('icao')]
 class Airport extends Model
 {
     use HasFactory;
     use LogsActivity;
-
-    protected $guarded = [];
 
     public const string CACHE_KEY_DROPDOWN = 'airports.dropdown.v2';
 
@@ -153,11 +153,5 @@ class Airport extends Model
         return Attribute::make(
             set: fn (mixed $value): string => strtoupper((string) $value),
         );
-    }
-
-    #[\Override]
-    public function getRouteKeyName(): string
-    {
-        return 'icao';
     }
 }

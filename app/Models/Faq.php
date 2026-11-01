@@ -31,12 +31,11 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Faq whereUpdatedAt($value)
  * @mixin \Eloquent
  */
+#[\Illuminate\Database\Eloquent\Attributes\Guarded(['id'])]
 class Faq extends Model
 {
     use HasFactory;
     use LogsActivity;
-
-    protected $guarded = ['id'];
 
     public function getActivitylogOptions(): LogOptions
     {

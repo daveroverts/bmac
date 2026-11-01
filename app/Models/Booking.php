@@ -63,16 +63,16 @@ use Spatie\Activitylog\Traits\LogsActivity;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereUuid($value)
  * @mixin \Eloquent
  */
+#[\Illuminate\Database\Eloquent\Attributes\Guarded([
+    'id', 'uuid', 'status', 'selcal',
+])]
+#[\Illuminate\Database\Eloquent\Attributes\RouteKey('uuid')]
 class Booking extends Model
 {
     use HasFactory;
     use LogsActivity;
 
     public const RESERVATION_TIMEOUT_MINUTES = 10;
-
-    protected $guarded = [
-        'id', 'uuid', 'status', 'selcal',
-    ];
 
     /**
      *  Setup model event hooks
@@ -113,12 +113,6 @@ class Booking extends Model
     protected function scopeReserved(Builder $query): void
     {
         $query->where('status', BookingStatus::RESERVED);
-    }
-
-    #[\Override]
-    public function getRouteKeyName(): string
-    {
-        return 'uuid';
     }
 
     #[\Override]

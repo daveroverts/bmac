@@ -159,3 +159,14 @@ it('returns correct available_bookings_count counting only unassigned slots', fu
         ->assertJsonPath('data.total_bookings_count', 6)
         ->assertJsonPath('data.available_bookings_count', 3);
 });
+
+it('lists an event without a departure airport', function (): void {
+    /** @var TestCase $this */
+
+    $event = Event::factory()->create(['dep' => null]);
+
+    $this->getJson('/api/v1/events')
+        ->assertOk()
+        ->assertJsonPath('data.0.slug', $event->slug)
+        ->assertJsonPath('data.0.dep', null);
+});
