@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\EventType;
 use App\Livewire\Booking\Admin\Import;
 use App\Models\Airport;
 use App\Models\Booking;
@@ -10,6 +11,7 @@ use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
 use Livewire\Livewire;
+use Spatie\SimpleExcel\SimpleExcelWriter;
 use Tests\TestCase;
 
 beforeEach(function (): void {
@@ -132,7 +134,7 @@ it('imports rows from an XLSX file including date-typed times', function (): voi
     $event = Event::factory()->create(['startEvent' => '2026-07-15 00:00:00']);
 
     $path = sys_get_temp_dir() . '/livewire-import-test.xlsx';
-    \Spatie\SimpleExcel\SimpleExcelWriter::create($path)
+    SimpleExcelWriter::create($path)
         ->addRow([
             'origin' => 'EHAM',
             'destination' => 'EGLL',
@@ -163,4 +165,83 @@ it('rejects a disallowed file type', function (): void {
     Livewire::test(Import::class, ['event' => $event])
         ->set('file', $file)
         ->assertHasErrors(['file']);
+});
+
+it('imports CTOT and ETA after midnight on the next day for an evening event', function (): void {
+    Airport::factory()->create(['icao' => 'EHAM']);
+    Airport::factory()->create(['icao' => 'EGLL']);
+    $event = Event::factory()->create([
+        'startEvent' => '2026-07-15 22:00:00',
+        'endEvent' => '2026-07-16 02:00:00',
+    ]);
+
+    $file = importCsv(
+        "origin,destination,call_sign,aircraft_type,ctot,eta\n" .
+        "EHAM,EGLL,KLM01,B738,00:30,06:00\n"
+    );
+
+    Livewire::test(Import::class, ['event' => $event])
+        ->set('file', $file)
+        ->call('import');
+
+    $flight = Booking::where('event_id', $event->id)->firstOrFail()->flights()->firstOrFail();
+
+    expect($flight->ctot->format('Y-m-d H:i'))->toBe('2026-07-16 00:30')
+        ->and($flight->eta->format('Y-m-d H:i'))->toBe('2026-07-16 06:00');
+});
+
+it('imports an Excel midnight stored as numeric zero', function (): void {
+    Airport::factory()->create(['icao' => 'EHAM']);
+    Airport::factory()->create(['icao' => 'EGLL']);
+    $event = Event::factory()->create([
+        'startEvent' => '2026-07-15 22:00:00',
+        'endEvent' => '2026-07-16 02:00:00',
+    ]);
+
+    $path = sys_get_temp_dir() . '/livewire-import-midnight-' . uniqid() . '.xlsx';
+    SimpleExcelWriter::create($path)
+        ->addRow([
+            'origin' => 'EHAM',
+            'destination' => 'EGLL',
+            'call_sign' => 'KLM01',
+            'aircraft_type' => 'B738',
+            'ctot' => 0,
+        ])
+        ->close();
+
+    $file = UploadedFile::fake()->createWithContent('bookings.xlsx', file_get_contents($path));
+    \Illuminate\Support\Facades\File::delete($path);
+
+    Livewire::test(Import::class, ['event' => $event])
+        ->set('file', $file)
+        ->call('import');
+
+    $flight = Booking::where('event_id', $event->id)->firstOrFail()->flights()->firstOrFail();
+
+    expect($flight->ctot?->format('Y-m-d H:i'))->toBe('2026-07-16 00:00');
+});
+
+it('rolls the second Multi flights CTOT to the next day when it is earlier than the first', function (): void {
+    Airport::factory()->create(['icao' => 'EHAM']);
+    Airport::factory()->create(['icao' => 'EGLL']);
+    Airport::factory()->create(['icao' => 'EDDF']);
+    $event = Event::factory()->create([
+        'event_type_id' => EventType::MULTIFLIGHTS->value,
+        'startEvent' => '2026-07-15 22:00:00',
+        'endEvent' => '2026-07-16 02:00:00',
+    ]);
+
+    $file = importCsv(
+        "airport_1,airport_2,airport_3,call_sign,aircraft_type,ctot_1,ctot_2\n" .
+        "EHAM,EGLL,EDDF,KLM01,B738,23:30,00:30\n"
+    );
+
+    Livewire::test(Import::class, ['event' => $event])
+        ->set('file', $file)
+        ->call('import');
+
+    $flights = Booking::where('event_id', $event->id)->firstOrFail()->flights()->orderBy('order_by')->get();
+
+    expect($flights[0]->ctot->format('Y-m-d H:i'))->toBe('2026-07-15 23:30')
+        ->and($flights[1]->ctot->format('Y-m-d H:i'))->toBe('2026-07-16 00:30');
 });

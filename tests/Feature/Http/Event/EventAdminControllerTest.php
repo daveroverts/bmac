@@ -1,5 +1,6 @@
 <?php
 
+use App\Livewire\Event\Admin\Overview;
 use App\Models\Event;
 use App\Models\User;
 use Tests\TestCase;
@@ -23,7 +24,8 @@ it('allows admin users to view event index', function (): void {
 
     $this->actingAs($admin)
         ->get(route('admin.events.index'))
-        ->assertOk();
+        ->assertOk()
+        ->assertSeeLivewire(Overview::class);
 });
 
 it('allows admin users to view create event form', function (): void {

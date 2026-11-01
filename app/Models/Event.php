@@ -3,6 +3,9 @@
 namespace App\Models;
 
 use Spatie\Activitylog\LogOptions;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Date;
+use Carbon\CarbonInterface;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Cviebrock\EloquentSluggable\Sluggable;
@@ -170,6 +173,54 @@ class Event extends Model
     public function allowsManualBookings(): bool
     {
         return $this->event_type_id != \App\Enums\EventType::MULTIFLIGHTS->value;
+    }
+
+    /**
+     * Resolve an "H:i" slot time to the date nearest this event's window.
+     */
+    public function resolveSlotTime(string $time): Carbon
+    {
+        $startDate = $this->startEvent->copy()->startOfDay();
+        $best = null;
+        $bestDistance = PHP_INT_MAX;
+
+        foreach ([0, 1, -1] as $offset) {
+            $candidate = Date::createFromFormat(
+                'Y-m-d H:i',
+                $startDate->copy()->addDays($offset)->toDateString() . ' ' . $time
+            );
+
+            if ($candidate < $this->startEvent) {
+                $distance = $this->startEvent->diffInSeconds($candidate, true);
+            } elseif ($candidate > $this->endEvent) {
+                $distance = $candidate->diffInSeconds($this->endEvent, true);
+            } else {
+                $distance = 0;
+            }
+
+            if ($distance < $bestDistance) {
+                $best = $candidate;
+                $bestDistance = $distance;
+            }
+        }
+
+        assert($best instanceof Carbon);
+
+        return $best;
+    }
+
+    /**
+     * Resolve an "H:i" time to its first occurrence at or after $after.
+     */
+    public function resolveTimeAfter(string $time, CarbonInterface $after): Carbon
+    {
+        $candidate = Date::createFromFormat('Y-m-d H:i', $after->toDateString() . ' ' . $time);
+
+        if ($candidate < $after) {
+            $candidate->addDay();
+        }
+
+        return $candidate;
     }
 
     /**
