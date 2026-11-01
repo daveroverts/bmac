@@ -54,7 +54,7 @@ class Airport extends Model
 
     protected $guarded = [];
 
-    public const string CACHE_KEY_DROPDOWN = 'airports.dropdown';
+    public const string CACHE_KEY_DROPDOWN = 'airports.dropdown.v2';
 
     /**
      * The "booted" method of the model.
@@ -79,9 +79,10 @@ class Airport extends Model
      */
     public static function forDropdown(): Collection
     {
-        return Cache::remember(self::CACHE_KEY_DROPDOWN, now()->addHour(), fn (): Collection => static::all(['id', 'icao', 'iata', 'name'])
+        return collect(Cache::remember(self::CACHE_KEY_DROPDOWN, now()->addHour(), fn (): array => static::all(['id', 'icao', 'iata', 'name'])
             ->keyBy('id')
-            ->map(fn (self $airport): string => $airport->dropdownLabel()));
+            ->map(fn (self $airport): string => $airport->dropdownLabel())
+            ->all()));
     }
 
     /**

@@ -48,3 +48,12 @@ it('invalidates cache when an airport is deleted', function (): void {
     $airport->delete();
     expect(Cache::has(Airport::CACHE_KEY_DROPDOWN))->toBeFalse();
 });
+
+it('caches a plain array instead of a Collection object', function (): void {
+    Cache::flush();
+
+    $result = Airport::forDropdown();
+
+    expect(Cache::get(Airport::CACHE_KEY_DROPDOWN))->toBeArray()
+        ->and(Airport::forDropdown()->all())->toBe($result->all());
+});
