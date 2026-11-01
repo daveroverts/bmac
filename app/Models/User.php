@@ -46,26 +46,18 @@ use Spatie\Activitylog\Traits\LogsActivity;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereUseMonospaceFont($value)
  * @mixin \Eloquent
  */
+#[\Illuminate\Database\Eloquent\Attributes\Guarded([
+    'isAdmin'
+])]
+#[\Illuminate\Database\Eloquent\Attributes\Hidden([
+    'remember_token',
+])]
+#[\Illuminate\Database\Eloquent\Attributes\WithoutIncrementing]
 class User extends Authenticatable
 {
     use HasFactory;
     use LogsActivity;
     use Notifiable;
-
-    public $incrementing = false;
-
-    protected $guarded = [
-        'isAdmin'
-    ];
-
-    /**
-     * The attributes that should be hidden for arrays.
-     *
-     * @var list<string>
-     */
-    protected $hidden = [
-        'remember_token',
-    ];
 
     public function getActivitylogOptions(): LogOptions
     {

@@ -1,5 +1,25 @@
 # Upgrade Guide
 
+## Upgrading from v5 to v6
+
+### Node 20 Support Dropped
+
+Node 20 is no longer supported. The minimum is now Node 22, and the latest LTS (Node 26) is recommended.
+Run `npm ci` and `npm run build` after upgrading.
+
+### Laravel 13
+
+BMAC now runs on Laravel 13.
+
+**After pulling:**
+
+- Run `composer install`.
+- No `.env` changes are needed. The cache prefix and session cookie names are set explicitly in the config files, so existing cache keys and sessions keep working.
+- Cached values are no longer unserialized into PHP objects (`cache.serializable_classes` is `false`).
+  If you added custom code that caches objects, cache arrays or scalars instead, or list the classes in `config/cache.php`.
+- The airport, airport link type and event type dropdown caches now use new cache keys.
+  The old entries expire on their own within an hour.
+
 ## Upgrading from v4 to v5
 
 ### PHP 8.2 Support Dropped

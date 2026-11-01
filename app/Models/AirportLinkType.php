@@ -31,14 +31,13 @@ use Spatie\Activitylog\Traits\LogsActivity;
  * @method static Builder<static>|AirportLinkType whereUpdatedAt($value)
  * @mixin \Eloquent
  */
+#[\Illuminate\Database\Eloquent\Attributes\Guarded(['id'])]
 class AirportLinkType extends Model
 {
     use HasFactory;
     use LogsActivity;
 
-    protected $guarded = ['id'];
-
-    public const string CACHE_KEY_DROPDOWN = 'airport_link_types.dropdown';
+    public const string CACHE_KEY_DROPDOWN = 'airport_link_types.dropdown.v2';
 
     /**
      * The "booted" method of the model.
@@ -63,7 +62,7 @@ class AirportLinkType extends Model
      */
     public static function forDropdown(): Collection
     {
-        return Cache::remember(self::CACHE_KEY_DROPDOWN, now()->addHour(), fn (): Collection => static::pluck('name', 'id'));
+        return collect(Cache::remember(self::CACHE_KEY_DROPDOWN, now()->addHour(), fn (): array => static::pluck('name', 'id')->all()));
     }
 
     public function getActivitylogOptions(): LogOptions

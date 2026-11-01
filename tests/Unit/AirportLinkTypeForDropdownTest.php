@@ -27,3 +27,12 @@ it('invalidates cache when an airport link type is saved', function (): void {
 
     expect(Cache::has(AirportLinkType::CACHE_KEY_DROPDOWN))->toBeFalse();
 });
+
+it('caches a plain array instead of a Collection object', function (): void {
+    Cache::flush();
+
+    $result = AirportLinkType::forDropdown();
+
+    expect(Cache::get(AirportLinkType::CACHE_KEY_DROPDOWN))->toBeArray()
+        ->and(AirportLinkType::forDropdown()->all())->toBe($result->all());
+});

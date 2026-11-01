@@ -24,17 +24,14 @@ use Spatie\Activitylog\Traits\LogsActivity;
  * @method static Builder<static>|EventType whereName($value)
  * @mixin \Eloquent
  */
+#[\Illuminate\Database\Eloquent\Attributes\Guarded(['id'])]
+#[\Illuminate\Database\Eloquent\Attributes\WithoutIncrementing]
+#[\Illuminate\Database\Eloquent\Attributes\WithoutTimestamps]
 class EventType extends Model
 {
     use LogsActivity;
 
-    public $incrementing = false;
-
-    public $timestamps = false;
-
-    protected $guarded = ['id'];
-
-    public const string CACHE_KEY_DROPDOWN = 'event_types.dropdown';
+    public const string CACHE_KEY_DROPDOWN = 'event_types.dropdown.v2';
 
     /**
      * The "booted" method of the model.
@@ -59,7 +56,7 @@ class EventType extends Model
      */
     public static function forDropdown(): Collection
     {
-        return Cache::remember(self::CACHE_KEY_DROPDOWN, now()->addHour(), fn (): Collection => static::pluck('name', 'id'));
+        return collect(Cache::remember(self::CACHE_KEY_DROPDOWN, now()->addHour(), fn (): array => static::pluck('name', 'id')->all()));
     }
 
     public function getActivitylogOptions(): LogOptions

@@ -39,13 +39,12 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|AirportLink whereUrl($value)
  * @mixin \Eloquent
  */
+#[\Illuminate\Database\Eloquent\Attributes\Guarded(['id'])]
 class AirportLink extends Model
 {
     use HasFactory;
     use LogsActivity;
     use SoftDeletes;
-
-    protected $guarded = ['id'];
 
     public function getActivitylogOptions(): LogOptions
     {

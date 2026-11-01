@@ -33,12 +33,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|EventLink whereUrl($value)
  * @mixin \Eloquent
  */
+#[\Illuminate\Database\Eloquent\Attributes\Guarded(['id'])]
 class EventLink extends Model
 {
     use HasFactory;
     use LogsActivity;
-
-    protected $guarded = ['id'];
 
     public function getActivitylogOptions(): LogOptions
     {

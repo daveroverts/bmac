@@ -7,22 +7,10 @@ use App\Models\Booking;
 use App\Models\Event;
 use Illuminate\Console\Command;
 
+#[\Illuminate\Console\Attributes\Description('Clean up reservations that have exceeded the timeout. If no event is provided, it is done for all active events.')]
+#[\Illuminate\Console\Attributes\Signature('event:cleanup-reservations {eventId?}')]
 class EventCleanupReservationsCommand extends Command
 {
-    /**
-     * The name and signature of the console command.
-     *
-     * @var string
-     */
-    protected $signature = 'event:cleanup-reservations {eventId?}';
-
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
-    protected $description = 'Clean up reservations that have exceeded the timeout. If no event is provided, it is done for all active events.';
-
     /**
      * Execute the console command.
      */

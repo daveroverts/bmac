@@ -27,3 +27,12 @@ it('invalidates cache when an event type is saved', function (): void {
 
     expect(Cache::has(EventType::CACHE_KEY_DROPDOWN))->toBeFalse();
 });
+
+it('caches a plain array instead of a Collection object', function (): void {
+    Cache::flush();
+
+    $result = EventType::forDropdown();
+
+    expect(Cache::get(EventType::CACHE_KEY_DROPDOWN))->toBeArray()
+        ->and(EventType::forDropdown()->all())->toBe($result->all());
+});

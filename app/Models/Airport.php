@@ -47,14 +47,14 @@ use Spatie\Activitylog\Traits\LogsActivity;
  * @method static Builder<static>|Airport whereUpdatedAt($value)
  * @mixin \Eloquent
  */
+#[\Illuminate\Database\Eloquent\Attributes\Unguarded]
+#[\Illuminate\Database\Eloquent\Attributes\RouteKey('icao')]
 class Airport extends Model
 {
     use HasFactory;
     use LogsActivity;
 
-    protected $guarded = [];
-
-    public const string CACHE_KEY_DROPDOWN = 'airports.dropdown';
+    public const string CACHE_KEY_DROPDOWN = 'airports.dropdown.v2';
 
     /**
      * The "booted" method of the model.
@@ -79,9 +79,10 @@ class Airport extends Model
      */
     public static function forDropdown(): Collection
     {
-        return Cache::remember(self::CACHE_KEY_DROPDOWN, now()->addHour(), fn (): Collection => static::all(['id', 'icao', 'iata', 'name'])
+        return collect(Cache::remember(self::CACHE_KEY_DROPDOWN, now()->addHour(), fn (): array => static::all(['id', 'icao', 'iata', 'name'])
             ->keyBy('id')
-            ->map(fn (self $airport): string => $airport->dropdownLabel()));
+            ->map(fn (self $airport): string => $airport->dropdownLabel())
+            ->all()));
     }
 
     /**
@@ -152,11 +153,5 @@ class Airport extends Model
         return Attribute::make(
             set: fn (mixed $value): string => strtoupper((string) $value),
         );
-    }
-
-    #[\Override]
-    public function getRouteKeyName(): string
-    {
-        return 'icao';
     }
 }

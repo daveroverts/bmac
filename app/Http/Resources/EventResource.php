@@ -27,8 +27,8 @@ class EventResource extends JsonResource
             'slug' => $this->slug,
             'image_url' => $this->image_url,
             'description' => $this->description,
-            'dep' => $this->airportDep->icao,
-            'arr' => $this->airportArr->icao,
+            'dep' => $this->airportDep?->icao,
+            'arr' => $this->airportArr?->icao,
             'startEvent' => (string) $this->startEvent,
             'endEvent' => (string) $this->endEvent,
             'startBooking' => (string) $this->startBooking,
@@ -44,8 +44,8 @@ class EventResource extends JsonResource
             'available_bookings_count' => $this->available_bookings_count,
             'links' => [
                 'bookings' => route('v1.events.bookings.index', $this),
-                'dep' => route('v1.airports.show', $this->airportDep),
-                'arr' => route('v1.airports.show', $this->airportArr),
+                'dep' => $this->airportDep ? route('v1.airports.show', $this->airportDep) : null,
+                'arr' => $this->airportArr ? route('v1.airports.show', $this->airportArr) : null,
             ],
         ];
     }

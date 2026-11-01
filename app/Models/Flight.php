@@ -52,19 +52,12 @@ use Spatie\Activitylog\Traits\LogsActivity;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Flight whereUpdatedAt($value)
  * @mixin \Eloquent
  */
+#[\Illuminate\Database\Eloquent\Attributes\Guarded(['id'])]
+#[\Illuminate\Database\Eloquent\Attributes\Touches(['booking'])]
 class Flight extends Model
 {
     use HasFactory;
     use LogsActivity;
-
-    protected $guarded = ['id'];
-
-    /**
-     * The relationships that should be touched on save.
-     *
-     * @var array
-     */
-    protected $touches = ['booking'];
 
     public function getActivitylogOptions(): LogOptions
     {

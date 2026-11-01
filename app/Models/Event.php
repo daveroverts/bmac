@@ -76,15 +76,15 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Event withUniqueSlugConstraints(\Illuminate\Database\Eloquent\Model $model, string $attribute, array $config, string $slug)
  * @mixin \Eloquent
  */
+#[\Illuminate\Database\Eloquent\Attributes\Guarded([
+    'id', 'slug',
+])]
+#[\Illuminate\Database\Eloquent\Attributes\RouteKey('slug')]
 class Event extends Model
 {
     use HasFactory;
     use LogsActivity;
     use Sluggable;
-
-    protected $guarded = [
-        'id', 'slug',
-    ];
 
     public function getActivitylogOptions(): LogOptions
     {
@@ -154,12 +154,6 @@ class Event extends Model
                 'source' => 'name'
             ],
         ];
-    }
-
-    #[\Override]
-    public function getRouteKeyName(): string
-    {
-        return 'slug';
     }
 
     public function hasOrderButtons(): bool
