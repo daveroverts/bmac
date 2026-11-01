@@ -55,11 +55,7 @@
                         aria-haspopup="true" aria-expanded="false"><i class="fa fa-file-export"></i> Export</button>
                     <div class="dropdown-menu">
                         <a class="dropdown-item"
-                            href="{{ route('admin.events.bookings.export', $event) }}">{{ __('Excluding emails') }}</a>
-                        @if ($event->event_type_id == \App\Enums\EventType::MULTIFLIGHTS->value)
-                            <a class="dropdown-item" href="{{ route('admin.events.bookings.export', $event) }}?vacc=vacc">
-                                {{ __('Including emails') }}</a>
-                        @endif
+                            href="{{ route('admin.events.bookings.export', $event) }}">{{ __('Bookings (CSV)') }}</a>
                     </div>
 
                     @if ($event->event_type_id == \App\Enums\EventType::MULTIFLIGHTS->value)

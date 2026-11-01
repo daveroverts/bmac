@@ -10,7 +10,7 @@ use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class BookingsExport
 {
-    public function __construct(public Event $event, public ?bool $vacc)
+    public function __construct(public Event $event)
     {
     }
 
@@ -39,18 +39,6 @@ class BookingsExport
         if ($this->event->event_type_id == EventType::MULTIFLIGHTS->value) {
             $flight1 = $booking->flights->first();
             $flight2 = $booking->flights->where('id', '!=', $flight1->id)->first();
-            if ($this->vacc === true) {
-                return [
-                    $booking->user->full_name,
-                    $booking->user_id,
-                    $booking->user->email,
-                    $booking->callsign,
-                    $flight1->airportDep->icao,
-                    $flight2->airportDep->icao,
-                    $flight2->airportArr->icao,
-                ];
-            }
-
             return [
                 $booking->user->full_name,
                 $booking->user_id,

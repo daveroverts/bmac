@@ -91,10 +91,13 @@ it('exports multiflights bookings with both legs and ctot times', function (): v
 
     $airportVia = Airport::factory()->create();
 
+    /** @var User $bookedUser */
+    $bookedUser = User::factory()->create();
+
     /** @var Booking $booking */
     $booking = Booking::factory()->booked()->create([
         'event_id' => $event->id,
-        'user_id' => User::factory()->create()->id,
+        'user_id' => $bookedUser->id,
         'callsign' => 'MULTI1',
     ]);
 
@@ -124,54 +127,8 @@ it('exports multiflights bookings with both legs and ctot times', function (): v
         ->toContain($airportVia->icao)
         ->toContain($event->airportArr->icao)
         ->toContain('14:30')
-        ->toContain('16:45');
-});
-
-it('exports multiflights bookings for a vACC with user emails and no times', function (): void {
-    /** @var TestCase $this */
-
-    /** @var User $admin */
-    $admin = User::factory()->admin()->create();
-
-    /** @var Event $event */
-    $event = Event::factory()->create(['event_type_id' => EventType::MULTIFLIGHTS->value]);
-
-    $airportVia = Airport::factory()->create();
-
-    /** @var User $bookedUser */
-    $bookedUser = User::factory()->create();
-
-    /** @var Booking $booking */
-    $booking = Booking::factory()->booked()->create([
-        'event_id' => $event->id,
-        'user_id' => $bookedUser->id,
-        'callsign' => 'MULTI2',
-    ]);
-
-    $booking->flights()->createMany([
-        [
-            'order_by' => 1,
-            'dep' => $event->airportDep->id,
-            'arr' => $airportVia->id,
-            'ctot' => $event->startEvent->copy()->setTime(14, 30),
-        ],
-        [
-            'order_by' => 2,
-            'dep' => $airportVia->id,
-            'arr' => $event->airportArr->id,
-        ],
-    ]);
-
-    $response = $this->actingAs($admin)
-        ->get(route('admin.events.bookings.export', ['event' => $event, 'vacc' => 'vacc']))
-        ->assertOk()
-        ->assertDownload('bookings.csv');
-
-    $content = file_get_contents($response->getFile()->getPathname());
-    expect($content)->toContain('MULTI2')
-        ->toContain($bookedUser->email)
-        ->toContain($event->airportDep->icao)
-        ->not->toContain('14:30');
+        ->toContain('16:45')
+        ->not->toContain($bookedUser->email);
 });
 
 it('only includes booked bookings in CSV export', function (): void {
