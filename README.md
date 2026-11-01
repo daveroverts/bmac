@@ -76,7 +76,7 @@ Before you begin, make sure you have a server with the following installed:
     - php_simplexml
     - php_xmlreader
     - php_zlib
-- NodeJS: LTS recommended (v22 at time of writing), minimum v20
+- NodeJS: LTS recommended (v26 at time of writing), minimum v22
 
 For local development,
 I recommend [Laravel Herd](https://herd.laravel.com).
