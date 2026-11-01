@@ -56,6 +56,10 @@
                     <div class="dropdown-menu">
                         <a class="dropdown-item"
                             href="{{ route('admin.events.bookings.export', $event) }}">{{ __('Bookings (CSV)') }}</a>
+                        <a class="dropdown-item"
+                            href="{{ route('admin.events.bookings.export', [$event, 'format' => 'vatcan-csv']) }}">{{ __('VATCAN slots (CSV)') }}</a>
+                        <a class="dropdown-item"
+                            href="{{ route('admin.events.bookings.export', [$event, 'format' => 'vatcan-json']) }}">{{ __('VATCAN slots (JSON)') }}</a>
                     </div>
 
                     @if ($event->event_type_id == \App\Enums\EventType::MULTIFLIGHTS->value)
