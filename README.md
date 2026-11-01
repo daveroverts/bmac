@@ -30,10 +30,11 @@ however, this system is already ready to be used for more events.
 
 ## Tech Stack
 
-- Laravel
+- Laravel 13
+- Livewire 4
 - Vite
-- Bootstrap 4
-- Bootswatch 4 Flatly theme
+- Bootstrap 5
+- Bootswatch 5 Flatly theme
 
 ## Vatsim Connect
 
@@ -55,27 +56,25 @@ Before you begin, make sure you have a server with the following installed:
 
 - PHP 8.3 or greater
 - PHP extensions:
-  - [Laravel](https://laravel.com/docs/deployment)
-    - BCMath PHP Extension
+  - [Laravel](https://laravel.com/docs/13.x/deployment#server-requirements)
     - Ctype PHP Extension
     - cURL PHP Extension
     - DOM PHP Extension
     - Fileinfo PHP Extension
-    - JSON PHP Extension
+    - Filter PHP Extension
+    - Hash PHP Extension
     - Mbstring PHP Extension
     - OpenSSL PHP Extension
     - PCRE PHP Extension
     - PDO PHP Extension
+    - Session PHP Extension
     - Tokenizer PHP Extension
     - XML PHP Extension
-  - [Laravel Excel](https://docs.laravel-excel.com/3.1/getting-started/installation.html)
-    - php_zip
-    - php_xml
-    - php_gd2
-    - php_iconv
-    - php_simplexml
-    - php_xmlreader
-    - php_zlib
+  - [Simple Excel](https://github.com/spatie/simple-excel) (used for imports)
+    - zip
+    - xmlreader
+    - dom
+    - libxml
 - NodeJS: LTS recommended (v26 at time of writing), minimum v22
 
 For local development,
@@ -132,7 +131,7 @@ I recommend [Laravel Herd](https://herd.laravel.com).
      - `MAIL_MAILER`: For testing, you can use something like
      [Mailtrap](https://mailtrap.io/) (online) or
      [Mailpit](https://github.com/axllent/mailpit)
-     (local, included with [Laravel Homestead](https://laravel.com/docs/homestead))
+     (local, recommended)
      - `MAIL_FROM_ADDRESS`: This will be used as the `From` email.
      Don't forget to set this.
      - `MAIL_FROM_NAME`: This will be used as the `From` name
@@ -141,9 +140,12 @@ I recommend [Laravel Herd](https://herd.laravel.com).
      at this point.
    - `SITE_*`
      - Feel free to edit these. They are used all over the place.
-   - `BOOTSTRAP_COLOR`:
+   - `BOOTSTRAP_COLOR_*`:
      - By default, BMAC uses [Bootswatch Flatly](https://bootswatch.com/flatly/).
-     If you wish to edit some colors, you can do so here.
+     If you wish to edit some colors, you can do so with `BOOTSTRAP_COLOR_PRIMARY`,
+     `BOOTSTRAP_COLOR_SECONDARY`, `BOOTSTRAP_COLOR_TERTIARY`, `BOOTSTRAP_COLOR_SUCCESS`,
+     `BOOTSTRAP_COLOR_WARNING` and `BOOTSTRAP_COLOR_DANGER`.
+     - The colors are compiled into the CSS, so run `npm run build` again after changing them.
 
 4. Install dependencies
 
