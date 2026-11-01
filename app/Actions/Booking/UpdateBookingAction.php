@@ -6,6 +6,7 @@ use App\Events\BookingChanged;
 use App\Http\Requests\Booking\Admin\UpdateBooking;
 use App\Models\Booking;
 use App\Models\Flight;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Date;
 
 class UpdateBookingAction
@@ -28,6 +29,9 @@ class UpdateBookingAction
             'final_information_email_sent_at' => null,
         ]);
 
+        $event = $booking->event;
+        $ctot = $request->ctot ? $event->resolveSlotTime($request->ctot) : null;
+
         $flightAttributes = [
             'dep' => $request->dep,
             'arr' => $request->arr,
@@ -35,11 +39,11 @@ class UpdateBookingAction
             'oceanicFL' => $request->oceanicFL,
             'oceanicTrack' => $request->oceanicTrack,
             'notes' => $request->notes,
-            'ctot' => $request->ctot
-                ? Date::createFromFormat('Y-m-d H:i', $booking->event->startEvent->toDateString() . ' ' . $request->ctot)
-                : null,
+            'ctot' => $ctot,
             'eta' => $request->eta
-                ? Date::createFromFormat('Y-m-d H:i', $booking->event->startEvent->toDateString() . ' ' . $request->eta)
+                ? ($ctot
+                    ? $event->resolveTimeAfter($request->eta, $ctot)
+                    : $event->resolveSlotTime($request->eta))
                 : null,
         ];
 
@@ -48,15 +52,27 @@ class UpdateBookingAction
         if ($shouldSendEmail) {
             $changes = collect();
 
-            foreach ($booking->getDirty() as $key => $value) {
+            $notifiableBookingChanges = Arr::except($booking->getDirty(), [
+                'is_callsign_editable',
+                'is_actype_editable',
+                'final_information_email_sent_at',
+            ]);
+
+            foreach ($notifiableBookingChanges as $key => $value) {
                 $changes->push(
                     ['name' => $key, 'old' => $booking->getOriginal($key), 'new' => $value]
                 );
             }
 
             foreach ($flight->getDirty() as $key => $value) {
+                $old = $flight->getOriginal($key);
+
+                if (in_array($key, ['ctot', 'eta'], true) && $this->hasSameTimeOfDay($old, $value)) {
+                    continue;
+                }
+
                 $changes->push(
-                    ['name' => $key, 'old' => $flight->getOriginal($key), 'new' => $value]
+                    ['name' => $key, 'old' => $old, 'new' => $value]
                 );
             }
 
@@ -70,8 +86,18 @@ class UpdateBookingAction
         $booking->save();
         $flight->save();
 
-        if ($shouldSendEmail) {
+        if ($shouldSendEmail && $changes->isNotEmpty()) {
             event(new BookingChanged($booking, $changes));
         }
+    }
+
+    /**
+     * Pilots only see the time of day, so a date-only correction is not a change to them.
+     */
+    private function hasSameTimeOfDay(mixed $old, mixed $new): bool
+    {
+        return filled($old)
+            && filled($new)
+            && Date::parse($old)->format('Hi') === Date::parse($new)->format('Hi');
     }
 }

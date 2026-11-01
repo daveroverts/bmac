@@ -6,6 +6,7 @@ use App\Enums\EventType;
 use App\Models\Airport;
 use App\Models\Booking;
 use App\Models\Event;
+use Carbon\CarbonInterface;
 use DateTimeInterface;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
@@ -34,30 +35,35 @@ class CreateBookingFromImportRow
         $airports = $this->airports();
 
         if ($event->event_type_id == EventType::MULTIFLIGHTS->value) {
+            $firstCtot = $this->resolveTime($event, $row['ctot_1'] ?? null);
+            $secondCtot = $this->resolveTime($event, $row['ctot_2'] ?? null, $firstCtot);
+
             $booking->flights()->createMany([
                 [
                     'order_by' => 1,
                     'dep' => $airports[$row['airport_1']],
                     'arr' => $airports[$row['airport_2']],
-                    'ctot' => $this->getTime($event, $row['ctot_1'] ?? null),
+                    'ctot' => $firstCtot,
                 ],
                 [
                     'order_by' => 2,
                     'dep' => $airports[$row['airport_2']],
                     'arr' => $airports[$row['airport_3']],
-                    'ctot' => $this->getTime($event, $row['ctot_2'] ?? null),
+                    'ctot' => $secondCtot,
                 ],
             ]);
 
             return $booking;
         }
 
+        $ctot = $this->resolveTime($event, $row['ctot'] ?? null);
+
         $booking->flights()->create([
             'dep' => $airports[$row['origin']],
             'arr' => $airports[$row['destination']],
             'notes' => $row['notes'] ?? null,
-            'ctot' => $this->getTime($event, $row['ctot'] ?? null),
-            'eta' => $this->getTime($event, $row['eta'] ?? null),
+            'ctot' => $ctot,
+            'eta' => $this->resolveTime($event, $row['eta'] ?? null, $ctot),
             'oceanicTrack' => $row['track'] ?? null,
             'oceanicFL' => $row['fl'] ?? null,
             'route' => $row['route'] ?? null,
@@ -74,9 +80,28 @@ class CreateBookingFromImportRow
         return $this->airports ??= Airport::pluck('id', 'icao');
     }
 
-    private function getTime(Event $event, mixed $time): ?DateTimeInterface
+    /**
+     * Place a time cell on the right date: nearest the event window, or at or after $after when given.
+     */
+    private function resolveTime(Event $event, mixed $time, ?CarbonInterface $after = null): ?Carbon
     {
-        if (empty($time)) {
+        $formatted = $this->parseTime($time);
+
+        if ($formatted === null) {
+            return null;
+        }
+
+        return $after instanceof \Carbon\CarbonInterface
+            ? $event->resolveTimeAfter($formatted, $after)
+            : $event->resolveSlotTime($formatted);
+    }
+
+    /**
+     * Normalize a DateTime, Excel serial or "H:i" cell to "H:i". Numeric 0 is a valid Excel midnight.
+     */
+    private function parseTime(mixed $time): ?string
+    {
+        if ($time === null || (is_string($time) && trim($time) === '')) {
             return null;
         }
 
@@ -86,13 +111,7 @@ class CreateBookingFromImportRow
             default => DateFacade::createFromFormat('H:i', trim((string) $time)),
         };
 
-        $dateTime->setDate(
-            $event->startEvent->year,
-            $event->startEvent->month,
-            $event->startEvent->day,
-        );
-
-        return $dateTime;
+        return $dateTime->format('H:i');
     }
 
     /**

@@ -6,7 +6,6 @@ use App\Http\Requests\Booking\Admin\StoreBooking;
 use App\Models\Booking;
 use App\Models\Event;
 use App\Models\Flight;
-use Illuminate\Support\Facades\Date;
 
 class CreateBookingsAction
 {
@@ -29,14 +28,8 @@ class CreateBookingsAction
      */
     protected function createBulk(StoreBooking $request, Event $event): int
     {
-        $eventStart = Date::createFromFormat(
-            'Y-m-d H:i',
-            $event->startEvent->toDateString() . ' ' . $request->start
-        );
-        $eventEnd = Date::createFromFormat(
-            'Y-m-d H:i',
-            $event->endEvent->toDateString() . ' ' . $request->end
-        );
+        $eventStart = $event->resolveSlotTime($request->start);
+        $eventEnd = $event->resolveTimeAfter($request->end, $eventStart);
         $separation = $request->separation * 60;
         $count = 0;
 
@@ -96,18 +89,16 @@ class CreateBookingsAction
             'notes' => $request->notes,
         ];
 
-        if ($request->ctot) {
-            $flightAttributes['ctot'] = Date::createFromFormat(
-                'Y-m-d H:i',
-                $event->startEvent->toDateString() . ' ' . $request->ctot
-            );
+        $ctot = $request->ctot ? $event->resolveSlotTime($request->ctot) : null;
+
+        if ($ctot instanceof \Illuminate\Support\Carbon) {
+            $flightAttributes['ctot'] = $ctot;
         }
 
         if ($request->eta) {
-            $flightAttributes['eta'] = Date::createFromFormat(
-                'Y-m-d H:i',
-                $event->startEvent->toDateString() . ' ' . $request->eta
-            );
+            $flightAttributes['eta'] = $ctot instanceof \Illuminate\Support\Carbon
+                ? $event->resolveTimeAfter($request->eta, $ctot)
+                : $event->resolveSlotTime($request->eta);
         }
 
         $booking->flights()->create($flightAttributes);
