@@ -72,6 +72,8 @@
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item {{ request()->routeIs('admin.airports*') ? 'active' : '' }}"
                                     href="{{ route('admin.airports.index') }}">{{ __('Airports') }}</a>
+                                <a class="dropdown-item"
+                                    href="{{ route('filament.admin.resources.airports.index') }}">{{ __('Airports (Filament preview)') }}</a>
                                 <a class="dropdown-item {{ request()->routeIs('admin.airportLinks*') ? 'active' : '' }}"
                                     href="{{ route('admin.airportLinks.index') }}">{{ __('Airport Links') }}</a>
                                 <div class="dropdown-divider"></div>
