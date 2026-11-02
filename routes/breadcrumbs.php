@@ -70,7 +70,7 @@ Breadcrumbs::for('admin.eventLinks.create', function (Trail $trail): void {
 // Home > Admin > Events > [Event] > [Event Link] >  Edit Event Link
 Breadcrumbs::for('admin.eventLinks.edit', function (Trail $trail, $eventLink): void {
     $trail->parent('admin.events.show', event: $eventLink->event);
-    $trail->push('Edit Airport Link', route('admin.eventLinks.edit', $eventLink));
+    $trail->push('Edit Event Link', route('admin.eventLinks.edit', $eventLink));
 });
 
 // Home > Admin > Events
