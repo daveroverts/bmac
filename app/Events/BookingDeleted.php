@@ -18,7 +18,10 @@ class BookingDeleted
     use InteractsWithSockets;
     use SerializesModels;
 
-    public function __construct(public Event $event, public User $user)
+    /**
+     * @param  array<int, string>  $callsigns  The deleted slots, for pilots who lost more than one.
+     */
+    public function __construct(public Event $event, public User $user, public array $callsigns = [])
     {
         //
     }

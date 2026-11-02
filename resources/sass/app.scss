@@ -44,6 +44,14 @@ $link-hover-color: shade-color($envColorSecondary, 25%);
 // Bootswatch Flatly
 @import 'bootswatch/dist/flatly/bootswatch';
 
+// Larger row checkboxes on touch screens, so a slot can be ticked without zooming.
+@media (pointer: coarse) {
+    .bookings-admin-table .form-check-input {
+        width: 1.5rem;
+        height: 1.5rem;
+    }
+}
+
 .navbar-brand {
     font-weight: 800;
     color: white !important;

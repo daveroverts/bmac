@@ -212,7 +212,7 @@ it('allows admin users to store a single booking', function (): void {
             'dep' => $event->airportDep->id,
             'arr' => $event->airportArr->id,
         ])
-        ->assertRedirect(route('events.bookings.index', $event));
+        ->assertRedirect(route('admin.events.bookings.index', $event));
 
     $this->assertDatabaseHas('bookings', [
         'event_id' => $event->id,
@@ -312,7 +312,7 @@ it('allows admin users to store bulk bookings', function (): void {
             'end' => $event->startEvent->addHour()->format('H:i'),
             'separation' => 10,
         ])
-        ->assertRedirect(route('events.bookings.index', $event));
+        ->assertRedirect(route('admin.events.bookings.index', $event));
 
     expect(Booking::where('event_id', $event->id)->count())->toBeGreaterThan(0);
 });
@@ -337,7 +337,7 @@ it('creates bulk slots only within the requested time range on an event past mid
             'end' => $end,
             'separation' => 30,
         ])
-        ->assertRedirect(route('events.bookings.index', $event));
+        ->assertRedirect(route('admin.events.bookings.index', $event));
 
     $ctots = Flight::whereHas('booking', fn ($query) => $query->where('event_id', $event->id))
         ->orderBy('ctot')
@@ -388,7 +388,7 @@ it('allows admin users to update a booking', function (): void {
             'ctot' => null,
             'eta' => null,
         ])
-        ->assertRedirect(route('events.bookings.index', $booking->event));
+        ->assertRedirect(route('admin.events.bookings.index', $booking->event));
 
     $booking->refresh();
     expect($booking->callsign)->toBe('EDIT01');
@@ -428,7 +428,7 @@ it('sends notification when admin updates a booking with notify_user enabled', f
             'eta' => null,
             'notify_user' => true,
         ])
-        ->assertRedirect(route('events.bookings.index', $booking->event));
+        ->assertRedirect(route('admin.events.bookings.index', $booking->event));
 
     EventFacade::assertDispatched(BookingChanged::class);
 });
@@ -465,7 +465,7 @@ it('does not send notification when admin updates a booking without notify_user'
             'ctot' => null,
             'eta' => null,
         ])
-        ->assertRedirect(route('events.bookings.index', $booking->event));
+        ->assertRedirect(route('admin.events.bookings.index', $booking->event));
 
     EventFacade::assertNotDispatched(BookingChanged::class);
 });
@@ -525,7 +525,7 @@ it('leaves a date-only CTOT correction out of the changes sent to the user', fun
             ...unchangedBookingPayload($flight),
             'callsign' => 'NOTIF3',
         ])
-        ->assertRedirect(route('events.bookings.index', $flight->booking->event));
+        ->assertRedirect(route('admin.events.bookings.index', $flight->booking->event));
 
     EventFacade::assertDispatched(
         BookingChanged::class,
@@ -542,7 +542,7 @@ it('does not notify the user when only the CTOT date is corrected', function ():
 
     $this->actingAs($admin)
         ->patch(route('admin.bookings.update', $flight->booking), unchangedBookingPayload($flight))
-        ->assertRedirect(route('events.bookings.index', $flight->booking->event));
+        ->assertRedirect(route('admin.events.bookings.index', $flight->booking->event));
 
     EventFacade::assertNotDispatched(BookingChanged::class);
     expect($flight->refresh()->ctot->format('Y-m-d H:i'))->toBe('2026-07-16 00:30');
@@ -560,7 +560,7 @@ it('does not notify the user when only an ETA date is corrected', function (): v
             ...unchangedBookingPayload($flight),
             'eta' => '06:00',
         ])
-        ->assertRedirect(route('events.bookings.index', $flight->booking->event));
+        ->assertRedirect(route('admin.events.bookings.index', $flight->booking->event));
 
     EventFacade::assertNotDispatched(BookingChanged::class);
     expect($flight->refresh()->eta->format('Y-m-d H:i'))->toBe('2026-07-16 06:00');
@@ -578,7 +578,7 @@ it('does not notify the user when only changes the email cannot show are made', 
             ...unchangedBookingPayload($flight),
             'is_callsign_editable' => ! $flight->booking->is_callsign_editable,
         ])
-        ->assertRedirect(route('events.bookings.index', $flight->booking->event));
+        ->assertRedirect(route('admin.events.bookings.index', $flight->booking->event));
 
     EventFacade::assertNotDispatched(BookingChanged::class);
 });
@@ -592,7 +592,7 @@ it('notifies the user when a CTOT is set for the first time', function (): void 
 
     $this->actingAs($admin)
         ->patch(route('admin.bookings.update', $flight->booking), unchangedBookingPayload($flight))
-        ->assertRedirect(route('events.bookings.index', $flight->booking->event));
+        ->assertRedirect(route('admin.events.bookings.index', $flight->booking->event));
 
     EventFacade::assertDispatched(
         BookingChanged::class,
@@ -611,7 +611,7 @@ it('notifies the user when the CTOT time changes', function (): void {
             ...unchangedBookingPayload($flight),
             'ctot' => '01:00',
         ])
-        ->assertRedirect(route('events.bookings.index', $flight->booking->event));
+        ->assertRedirect(route('admin.events.bookings.index', $flight->booking->event));
 
     EventFacade::assertDispatched(
         BookingChanged::class,

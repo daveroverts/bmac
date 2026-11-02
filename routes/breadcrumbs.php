@@ -132,6 +132,12 @@ Breadcrumbs::for('bookings.show', function (Trail $trail, $booking): void {
     $trail->push('My Booking', route('bookings.show', $booking));
 });
 
+// Home > Admin > [Event] > Bookings
+Breadcrumbs::for('admin.events.bookings.index', function (Trail $trail, $event): void {
+    $trail->parent('admin.events.show', event: $event);
+    $trail->push('Bookings', route('admin.events.bookings.index', $event));
+});
+
 // Home > Admin > [Event] > Add Slot
 Breadcrumbs::for('admin.events.bookings.create', function (Trail $trail, $event): void {
     $trail->parent('admin.events.show', event: $event);
