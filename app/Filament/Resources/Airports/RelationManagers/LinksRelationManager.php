@@ -13,6 +13,7 @@ use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Schemas\Schema;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use Illuminate\Support\Collection;
 
 class LinksRelationManager extends RelationManager
 {
@@ -31,7 +32,7 @@ class LinksRelationManager extends RelationManager
             ->components([
                 Select::make('airportLinkType_id')
                     ->label(__('Type'))
-                    ->options(fn () => AirportLinkType::forDropdown())
+                    ->options(fn (): Collection => AirportLinkType::forDropdown())
                     ->required(),
                 TextInput::make('name')
                     ->label(__('Name'))

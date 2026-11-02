@@ -30,7 +30,7 @@ class AirportResource extends Resource
     public static function getRecordTitle(?Model $record): string
     {
         /** @var Airport|null $record */
-        return $record ? sprintf('%s [%s | %s]', $record->name, $record->icao, $record->iata) : '';
+        return $record instanceof Airport ? sprintf('%s [%s | %s]', $record->name, $record->icao, $record->iata) : '';
     }
 
     public static function getGloballySearchableAttributes(): array
@@ -41,7 +41,7 @@ class AirportResource extends Resource
     /**
      * Airports in use by a flight or event cannot be deleted.
      *
-     * @return Builder<Airport>
+     * @return Builder<Model>
      */
     public static function getEloquentQuery(): Builder
     {

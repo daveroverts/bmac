@@ -96,6 +96,7 @@ class AirportsTable
                     ->requiresConfirmation()
                     ->modalDescription(__('Airports that are still linked to an event or flight are skipped.'))
                     ->action(function (Collection $records): void {
+                        /** @var Collection<int, Airport> $records */
                         [$inUse, $unused] = $records->partition(fn (Airport $airport): bool => AirportResource::isInUse($airport));
                         $unused->each->delete();
 
