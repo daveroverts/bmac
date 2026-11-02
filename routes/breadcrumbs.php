@@ -103,11 +103,6 @@ Breadcrumbs::for('admin.events.emails.bulk.create', function (Trail $trail, $eve
     $trail->push('Send E-mail', route('admin.events.emails.bulk.create', $event));
 });
 
-// Home (no event found)
-Breadcrumbs::for('bookings.index', function (Trail $trail): void {
-    $trail->parent('home');
-});
-
 // Home > [Event]
 Breadcrumbs::for('events.show', function (Trail $trail, $event): void {
     $trail->parent('home');
