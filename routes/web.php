@@ -71,6 +71,7 @@ Route::middleware(['auth', 'can:admin'])->prefix('admin')->name('admin.')->group
         Route::delete('bookings', [BookingAdminController::class, 'destroyAll'])->name('bookings.destroyAll');
 
         Route::prefix('bookings')->name('bookings.')->group(function (): void {
+            Route::get('/', [BookingAdminController::class, 'index'])->name('index');
             Route::get('create', [BookingAdminController::class, 'create'])->name('create');
             Route::get('export', BookingExportController::class)->name('export');
 

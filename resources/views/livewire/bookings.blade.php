@@ -16,15 +16,10 @@
                 Arrivals
             </button>&nbsp;
         @endif
-        @if (auth()->check() && auth()->user()->isAdmin && $event->endBooking >= now() && $event->allowsManualBookings())
-            <a href="{{ route('admin.events.bookings.create', $event) }}" class="btn btn-primary"><i class="fa fa-plus"></i>
-                Add
-                Booking</a>&nbsp;
-            <a href="{{ route('admin.events.bookings.create', $event) }}?bulk=1" class="btn btn-primary"><i
-                    class="fa fa-plus"></i>
-                Add
-                Timeslots</a>&nbsp;
-        @endif
+        @can('admin')
+            <a href="{{ route('admin.events.bookings.index', $event) }}" class="btn btn-primary"><i class="fa fa-edit"></i>
+                {{ __('Manage bookings') }}</a>&nbsp;
+        @endcan
     </p>
     @include('layouts.alert')
     @if ($event->startBooking <= now() || (auth()->check() && auth()->user()->isAdmin))

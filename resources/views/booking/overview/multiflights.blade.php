@@ -5,9 +5,6 @@
         <th scope="row">Callsign</th>
         <th scope="row">Aircraft</th>
         <th scope="row">Book | Available until {{ $event->endBooking->format('d-m-Y H:i') }}z</th>
-        @if (auth()->check() && auth()->user()->isAdmin && $event->endEvent >= now())
-            <th colspan="3" scope="row">Admin actions</th>
-        @endif
     </tr>
 </thead>
 <tbody>
@@ -44,8 +41,7 @@
                         Reservation</a>
                 @else
                     <button class="btn btn-dark disabled">
-                        Reserved
-                        {{ auth()->check() && auth()->user()->isAdmin ? '[' . $booking->user->pic . ']' : '' }}</button>
+                        Reserved</button>
                 @endcan
             @else
                 @if (auth()->check())
@@ -72,30 +68,6 @@
                 @endif
             @endif
         </td>
-        @if (auth()->check() && auth()->user()->isAdmin && $event->endEvent >= now())
-            <td><a href="{{ route('admin.bookings.edit', $booking) }}" class="btn btn-info"><i class="fa fa-edit"></i>
-                    Edit</a>
-            </td>
-            <td>
-                <form action="{{ route('admin.bookings.destroy', $booking) }}" method="post">
-                    @csrf
-                    @method('DELETE')
-                    <x-confirm-button
-                        confirm-text="Are you sure you want to remove this booking?"
-                        loading-message="Deleting booking..."
-                    ><i class="fas fa-trash"></i> Delete</x-confirm-button>
-                </form>
-            </td>
-            <td>
-                @if ($booking->user_id)
-                    <a href="mailto:{{ $booking->user->email }}" style="color: white;">
-                        <button class="btn btn-info">
-                            <i class="fas fa-envelope"></i> Send E-mail [{{ $booking->user->email }}]
-                        </button>
-                    </a>
-                @endif
-            </td>
-        @endif
     </tr>
 @endforeach
 </tbody>

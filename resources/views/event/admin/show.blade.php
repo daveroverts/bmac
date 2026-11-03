@@ -17,7 +17,9 @@
                             <div class="form-control-plaintext"><strong><a href="{{ route('events.show', $event) }}"
                                         title="Open event page as users would see">{{ $event->name }}</a>
                                     | <a href="{{ route('events.bookings.index', $event) }}"
-                                        title="Open slot table of the event">Slot table</a></strong></div>
+                                        title="Open slot table of the event">Slot table</a>
+                                    | <a href="{{ route('admin.events.bookings.index', $event) }}"
+                                        title="Select, edit, email or delete bookings">Manage bookings</a></strong></div>
                         </div>
                     </div>
 

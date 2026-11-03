@@ -97,16 +97,27 @@ it('counts total and booked bookings correctly', function (): void {
         ->assertSet('booked', 1);
 });
 
-it('shows the add booking links for admins on events that allow manual bookings', function (): void {
+it('shows admins a link to manage bookings instead of admin actions', function (): void {
+    /** @var User $admin */
+    $admin = User::factory()->admin()->create();
     $event = Event::factory()->create(['event_type_id' => EventType::ONEWAY->value]);
+    $booking = Booking::factory()->create(['event_id' => $event->id]);
+    \App\Models\Flight::factory()->create(['booking_id' => $booking->id]);
 
-    Livewire::test(Bookings::class, ['event' => $event])
-        ->assertSee(route('admin.events.bookings.create', $event));
+    Livewire::actingAs($admin)
+        ->test(Bookings::class, ['event' => $event])
+        ->assertSee(route('admin.events.bookings.index', $event))
+        ->assertDontSee(route('admin.events.bookings.create', $event))
+        ->assertDontSee(route('admin.bookings.edit', $booking))
+        ->assertDontSee(route('admin.bookings.destroy', $booking));
 });
 
-it('hides the add booking links on Multi flights events', function (): void {
-    $event = Event::factory()->create(['event_type_id' => EventType::MULTIFLIGHTS->value]);
+it('hides the manage bookings link from pilots', function (): void {
+    /** @var User $user */
+    $user = User::factory()->create();
+    $event = Event::factory()->create();
 
-    Livewire::test(Bookings::class, ['event' => $event])
-        ->assertDontSee(route('admin.events.bookings.create', $event));
+    Livewire::actingAs($user)
+        ->test(Bookings::class, ['event' => $event])
+        ->assertDontSee(route('admin.events.bookings.index', $event));
 });

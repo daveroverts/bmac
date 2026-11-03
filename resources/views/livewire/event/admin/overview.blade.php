@@ -40,6 +40,8 @@
             <td>{{ $event->endEvent->format('Hi') }}z</td>
             <td>
                 <div class="d-flex flex-row flex-wrap justify-content-center justify-content-md-start">
+                    <a href="{{ route('admin.events.bookings.index', $event) }}" class="btn btn-primary m-1"><i
+                            class="fa fa-list"></i> {{ __('Manage bookings') }}</a>&nbsp;
                     <a href="{{ route('admin.events.edit', $event) }}" role="button" class="btn btn-primary m-1"><i
                             class="fa fa-edit"></i> {{ __('Edit') }}</a>&nbsp;
                     @if ($event->endEvent > now())

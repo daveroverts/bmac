@@ -14,8 +14,10 @@ class BookingDeleted extends Notification implements ShouldQueue
 
     /**
      * Create a new notification instance.
+     *
+     * @param  array<int, string>  $callsigns
      */
-    public function __construct(public Event $event)
+    public function __construct(public Event $event, public array $callsigns = [])
     {
         //
     }
@@ -42,9 +44,21 @@ class BookingDeleted extends Notification implements ShouldQueue
             ->subject($subject)
             ->greeting('Booking deleted')
             ->line('Dear ' . $notifiable->full_name . ',')
-            ->line('Your booking for ' . $event->name . ' event has been removed by an administrator.')
+            ->line($this->removalLine())
             ->line('As long as the bookings remain open (' . $event->endBooking->format('d-m-Y H:i') . 'z), you can still create a new booking.')
             ->action('Book new flight', route('events.bookings.index', $event));
+    }
+
+    private function removalLine(): string
+    {
+        if (count($this->callsigns) > 1) {
+            $named = array_diff($this->callsigns, ['-']);
+            $list = $named === [] ? '' : ' (' . implode(', ', $named) . ')';
+
+            return 'Your ' . count($this->callsigns) . ' bookings for ' . $this->event->name . ' event' . $list . ' have been removed by an administrator.';
+        }
+
+        return 'Your booking for ' . $this->event->name . ' event has been removed by an administrator.';
     }
 
     /**

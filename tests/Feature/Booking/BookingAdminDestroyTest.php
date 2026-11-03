@@ -25,7 +25,7 @@ it('allows an admin to delete a booking with a user', function (): void {
 
     $this->actingAs($admin)
         ->delete(route('admin.bookings.destroy', $booking))
-        ->assertRedirect(route('events.bookings.index', $booking->event));
+        ->assertRedirect(route('admin.events.bookings.index', $booking->event));
 
     $this->assertDatabaseMissing('bookings', [
         'id' => $booking->id,
@@ -47,7 +47,7 @@ it('allows an admin to delete a booking without a user', function (): void {
 
     $this->actingAs($admin)
         ->delete(route('admin.bookings.destroy', $booking))
-        ->assertRedirect(route('events.bookings.index', $booking->event));
+        ->assertRedirect(route('admin.events.bookings.index', $booking->event));
 
     $this->assertDatabaseMissing('bookings', [
         'id' => $booking->id,
