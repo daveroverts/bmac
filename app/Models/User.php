@@ -3,6 +3,9 @@
 namespace App\Models;
 
 use App\Enums\AirportView;
+use Filament\Models\Contracts\FilamentUser;
+use Filament\Models\Contracts\HasName;
+use Filament\Panel;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -53,7 +56,7 @@ use Spatie\Activitylog\Traits\LogsActivity;
     'remember_token',
 ])]
 #[\Illuminate\Database\Eloquent\Attributes\WithoutIncrementing]
-class User extends Authenticatable
+class User extends Authenticatable implements FilamentUser, HasName
 {
     use HasFactory;
     use LogsActivity;
@@ -103,5 +106,15 @@ class User extends Authenticatable
             'use_monospace_font' => 'boolean',
             'airport_view' => AirportView::class,
         ];
+    }
+
+    public function canAccessPanel(Panel $panel): bool
+    {
+        return (bool) $this->isAdmin;
+    }
+
+    public function getFilamentName(): string
+    {
+        return $this->full_name;
     }
 }
