@@ -1,3 +1,16 @@
+# [6.2.0](https://github.com/daveroverts/bmac/compare/v6.1.0...v6.2.0) (2026-11-03)
+
+
+### Bug Fixes
+
+* **admin:** correct event link edit breadcrumb label ([62111bd](https://github.com/daveroverts/bmac/commit/62111bd5394f5a0a88a49ae209e2b4b2b08e409e))
+* **admin:** keep user data out of test email queue payload ([c722b18](https://github.com/daveroverts/bmac/commit/c722b187f6848dd6026a6b1c3f88aeb44221fa40))
+
+
+### Features
+
+* **admin:** add bookings page with bulk actions ([e2e8bca](https://github.com/daveroverts/bmac/commit/e2e8bcaf39c777b9b1b6a3b2759ec7b3dc83525e)), closes [#914](https://github.com/daveroverts/bmac/issues/914)
+
 # [6.1.0](https://github.com/daveroverts/bmac/compare/v6.0.0...v6.1.0) (2026-11-01)
 
 
