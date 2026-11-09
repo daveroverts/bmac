@@ -5,6 +5,7 @@ namespace App\Filament\Resources\Events\Tables;
 use App\Enums\BookingStatus;
 use App\Filament\Resources\Events\Actions\EventActions;
 use App\Models\Event;
+use Filament\Actions\Action;
 use Filament\Actions\ActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\EditAction;
@@ -53,7 +54,7 @@ class EventsTable
                     ->state(fn (Event $record): string => sprintf('%sz - %sz', $record->startEvent->format('Hi'), $record->endEvent->format('Hi'))),
                 TextColumn::make('booked_count')
                     ->label(__('Booked'))
-                    ->state(fn (Event $record): string => sprintf('%d / %d', $record->booked_count, $record->bookings_count))
+                    ->state(fn (Event $record): string => sprintf('%d / %d', $record->getAttribute('booked_count'), $record->bookings_count))
                     ->alignCenter(),
                 IconColumn::make('is_online')
                     ->label(__('Online'))
@@ -77,7 +78,7 @@ class EventsTable
                 ActionGroup::make([
                     ViewAction::make(),
                     EditAction::make(),
-                    ...array_filter(EventActions::all(), fn ($action): bool => ! $action instanceof ActionGroup),
+                    ...array_filter(EventActions::all(), fn (Action|ActionGroup $action): bool => ! $action instanceof ActionGroup),
                     DeleteAction::make()
                         ->visible(fn (Event $record): bool => $record->startEvent > now()),
                 ]),

@@ -134,8 +134,8 @@ class ManageEventBookings extends ManageRelatedRecords
                     ->label($isMultiFlights ? __('Flights') : __('Route'))
                     ->state(fn (Booking $record): array => $record->flights->map(fn (Flight $flight): string => sprintf(
                         '%s → %s',
-                        $flight->airportDep?->icao ?? '?',
-                        $flight->airportArr?->icao ?? '?',
+                        $flight->dep ? $flight->airportDep->icao : '?',
+                        $flight->arr ? $flight->airportArr->icao : '?',
                     ))->all())
                     ->listWithLineBreaks()
                     ->fontFamily('mono'),
@@ -536,7 +536,7 @@ class ManageEventBookings extends ManageRelatedRecords
             ->with($column === 'dep' ? 'airportDep' : 'airportArr')
             ->get()
             ->unique($column)
-            ->mapWithKeys(fn (Flight $flight): array => [$flight->{$column} => ($column === 'dep' ? $flight->airportDep : $flight->airportArr)?->icao ?? '?'])
+            ->mapWithKeys(fn (Flight $flight): array => [$flight->{$column} => $flight->{$column} ? ($column === 'dep' ? $flight->airportDep : $flight->airportArr)->icao : '?'])
             ->sort()
             ->all();
     }

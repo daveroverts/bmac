@@ -24,7 +24,7 @@ class AutoAssignFlightsAction
             ->with(['flights' => function ($query): void {
                 $query->orderBy('ctot');
             }])
-            ->unless(! empty($data['checkAssignAllFlights']), function ($query): void {
+            ->when(empty($data['checkAssignAllFlights']), function ($query): void {
                 $query->booked();
             })
             ->get();

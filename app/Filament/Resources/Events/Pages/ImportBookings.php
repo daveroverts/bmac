@@ -208,7 +208,7 @@ class ImportBookings extends Page implements HasTable
     }
 
     /**
-     * @return array<string, array<string, mixed>>
+     * @return array<int|string, array<string, mixed>>
      */
     private function tableRecords(): array
     {
