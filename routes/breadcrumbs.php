@@ -70,7 +70,7 @@ Breadcrumbs::for('admin.eventLinks.create', function (Trail $trail): void {
 // Home > Admin > Events > [Event] > [Event Link] >  Edit Event Link
 Breadcrumbs::for('admin.eventLinks.edit', function (Trail $trail, $eventLink): void {
     $trail->parent('admin.events.show', event: $eventLink->event);
-    $trail->push('Edit Airport Link', route('admin.eventLinks.edit', $eventLink));
+    $trail->push('Edit Event Link', route('admin.eventLinks.edit', $eventLink));
 });
 
 // Home > Admin > Events
@@ -103,11 +103,6 @@ Breadcrumbs::for('admin.events.emails.bulk.create', function (Trail $trail, $eve
     $trail->push('Send E-mail', route('admin.events.emails.bulk.create', $event));
 });
 
-// Home (no event found)
-Breadcrumbs::for('bookings.index', function (Trail $trail): void {
-    $trail->parent('home');
-});
-
 // Home > [Event]
 Breadcrumbs::for('events.show', function (Trail $trail, $event): void {
     $trail->parent('home');
@@ -130,6 +125,12 @@ Breadcrumbs::for('bookings.edit', function (Trail $trail, $booking): void {
 Breadcrumbs::for('bookings.show', function (Trail $trail, $booking): void {
     $trail->parent('events.bookings.index', event: $booking->event);
     $trail->push('My Booking', route('bookings.show', $booking));
+});
+
+// Home > Admin > [Event] > Bookings
+Breadcrumbs::for('admin.events.bookings.index', function (Trail $trail, $event): void {
+    $trail->parent('admin.events.show', event: $event);
+    $trail->push('Bookings', route('admin.events.bookings.index', $event));
 });
 
 // Home > Admin > [Event] > Add Slot

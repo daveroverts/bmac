@@ -244,3 +244,25 @@ it('sends final information to all bookings when forceSend is set', function ():
 
     EventFacade::assertDispatchedTimes(EventFinalInformation::class, 2);
 });
+
+it('does not put personal data in the queue payload of a test bulk email', function (): void {
+    /** @var TestCase $this */
+    EventFacade::fake();
+
+    /** @var User $admin */
+    $admin = User::factory()->admin()->create(['email' => 'private-admin@example.org']);
+
+    /** @var Event $event */
+    $event = Event::factory()->create();
+
+    $this->actingAs($admin)
+        ->postJson(route('admin.events.emails.bulk.send', $event), [
+            'subject' => 'Subject',
+            'message' => 'Message',
+            'testmode' => true,
+        ])
+        ->assertOk();
+
+    EventFacade::assertDispatched(EventBulkEmail::class, fn (EventBulkEmail $dispatched): bool => $dispatched->users->modelKeys() === [$admin->id]
+        && ! str_contains(serialize($dispatched), 'private-admin@example.org'));
+});

@@ -1,0 +1,347 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-02T21:20:04+00:00",
+  "title": "Design System: Book me a Cookie",
+  "extensions": {
+    "colorMeta": {
+      "primary": {
+        "role": "primary",
+        "displayName": "Flight Deck Navy",
+        "canonical": "#2C3E50",
+        "tonalRamp": [
+          "#060c12",
+          "#182635",
+          "#324456",
+          "#506377",
+          "#718599",
+          "#93a8bd",
+          "#bdcbda",
+          "#ebeff4"
+        ]
+      },
+      "secondary": {
+        "role": "secondary",
+        "displayName": "Overcast Grey",
+        "canonical": "#95a5a6",
+        "tonalRamp": [
+          "#080c0c",
+          "#1c2728",
+          "#374546",
+          "#566465",
+          "#768687",
+          "#99a9aa",
+          "#c1cccc",
+          "#ecefef"
+        ]
+      },
+      "tertiary": {
+        "role": "tertiary",
+        "displayName": "Runway Teal",
+        "canonical": "#18BC9C",
+        "tonalRamp": [
+          "#00120a",
+          "#003421",
+          "#00563d",
+          "#00785c",
+          "#009b7d",
+          "#20bf9f",
+          "#8bdcc5",
+          "#ddf5ed"
+        ]
+      },
+      "success": {
+        "role": "semantic",
+        "displayName": "Go Teal",
+        "canonical": "#18BC9C",
+        "tonalRamp": [
+          "#00120a",
+          "#003421",
+          "#00563d",
+          "#00785c",
+          "#009b7d",
+          "#20bf9f",
+          "#8bdcc5",
+          "#ddf5ed"
+        ]
+      },
+      "info": {
+        "role": "semantic",
+        "displayName": "Sky Blue",
+        "canonical": "#3498db",
+        "tonalRamp": [
+          "#000c20",
+          "#002657",
+          "#004582",
+          "#0067a6",
+          "#208acc",
+          "#4daef2",
+          "#96d1ff",
+          "#e0f1ff"
+        ]
+      },
+      "warning": {
+        "role": "semantic",
+        "displayName": "Amber",
+        "canonical": "#F39C12",
+        "tonalRamp": [
+          "#1b0400",
+          "#4c0800",
+          "#752600",
+          "#994900",
+          "#be6b00",
+          "#e58f00",
+          "#f7bd7a",
+          "#fdebd8"
+        ]
+      },
+      "danger": {
+        "role": "semantic",
+        "displayName": "Signal Red",
+        "canonical": "#E74C3C",
+        "tonalRamp": [
+          "#230000",
+          "#5e0000",
+          "#8e0000",
+          "#b61209",
+          "#df4435",
+          "#ff6b58",
+          "#ffa898",
+          "#ffe5e0"
+        ]
+      },
+      "surface": {
+        "role": "neutral",
+        "displayName": "White",
+        "canonical": "#ffffff",
+        "tonalRamp": [
+          "#0b0b0b",
+          "#252525",
+          "#424242",
+          "#616161",
+          "#828282",
+          "#a5a5a5",
+          "#c9c9c9",
+          "#eeeeee"
+        ]
+      },
+      "surface-muted": {
+        "role": "neutral",
+        "displayName": "Cloud",
+        "canonical": "#ecf0f1",
+        "tonalRamp": [
+          "#0a0b0c",
+          "#232626",
+          "#3f4343",
+          "#5e6263",
+          "#7f8384",
+          "#a2a6a7",
+          "#c7caca",
+          "#eeeeef"
+        ]
+      },
+      "text": {
+        "role": "neutral",
+        "displayName": "Ink",
+        "canonical": "#212529",
+        "tonalRamp": [
+          "#0a0b0d",
+          "#222529",
+          "#3e4347",
+          "#5d6266",
+          "#7e8388",
+          "#a1a6ab",
+          "#c6c9cd",
+          "#edeef0"
+        ]
+      },
+      "status-unavailable": {
+        "role": "neutral",
+        "displayName": "Slate Grey",
+        "canonical": "#7b8a8b",
+        "tonalRamp": [
+          "#080c0c",
+          "#1d2728",
+          "#374546",
+          "#566465",
+          "#778687",
+          "#99a9aa",
+          "#c1cbcc",
+          "#ecefef"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "page-title": {
+        "displayName": "Page title",
+        "purpose": "The main heading on a page."
+      },
+      "event-title": {
+        "displayName": "Event title",
+        "purpose": "Event names in the home listing."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Paragraphs, table cells, buttons and form text."
+      },
+      "table-header": {
+        "displayName": "Table header",
+        "purpose": "Column labels in slot and admin tables."
+      }
+    },
+    "shadows": [
+      {
+        "name": "navbar-edge",
+        "value": "0 2px 4px rgba(0, 0, 0, 0.04)",
+        "purpose": "Separates the navbar from the page."
+      }
+    ],
+    "motion": [],
+    "breakpoints": [
+      {
+        "name": "sm",
+        "value": "576px"
+      },
+      {
+        "name": "md",
+        "value": "768px"
+      },
+      {
+        "name": "lg",
+        "value": "992px"
+      },
+      {
+        "name": "xl",
+        "value": "1200px"
+      },
+      {
+        "name": "xxl",
+        "value": "1400px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Book Button",
+      "kind": "button",
+      "refersTo": "button-book",
+      "description": "The action a pilot wants next.",
+      "html": "<button class=\"ds-btn-book\">BOOK NOW</button>",
+      "css": ".ds-btn-book { background: #18BC9C; color: #fff; border: 1px solid #18BC9C; border-radius: 6px; padding: 6px 12px; font: 400 1rem/1.5 Lato, sans-serif; cursor: pointer; } .ds-btn-book:hover { background: #14a085; } .ds-btn-book:focus-visible { outline: 0; box-shadow: 0 0 0 4px rgba(24,188,156,.5); }"
+    },
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "General actions, including admin tools and unselected filters.",
+      "html": "<button class=\"ds-btn-primary\">Show Departures</button>",
+      "css": ".ds-btn-primary { background: #2C3E50; color: #fff; border: 1px solid #2C3E50; border-radius: 6px; padding: 6px 12px; font: 400 1rem/1.5 Lato, sans-serif; cursor: pointer; } .ds-btn-primary:hover { background: #253544; } .ds-btn-primary:focus-visible { outline: 0; box-shadow: 0 0 0 4px rgba(44,62,80,.5); }"
+    },
+    {
+      "name": "Mine Button",
+      "kind": "button",
+      "refersTo": "button-mine",
+      "description": "Links to the pilot's own booking or reservation.",
+      "html": "<button class=\"ds-btn-mine\">My booking</button>",
+      "css": ".ds-btn-mine { background: #3498db; color: #fff; border: 1px solid #3498db; border-radius: 6px; padding: 6px 12px; font: 400 1rem/1.5 Lato, sans-serif; cursor: pointer; } .ds-btn-mine:hover { background: #2c81ba; } .ds-btn-mine:focus-visible { outline: 0; box-shadow: 0 0 0 4px rgba(52,152,219,.5); }"
+    },
+    {
+      "name": "Unavailable Button",
+      "kind": "button",
+      "refersTo": "button-unavailable",
+      "description": "Disabled status for a slot someone else holds.",
+      "html": "<button class=\"ds-btn-taken\" disabled>Booked [1429340]</button>",
+      "css": ".ds-btn-taken { background: #7b8a8b; color: #fff; border: 1px solid #7b8a8b; border-radius: 6px; padding: 6px 12px; font: 400 1rem/1.5 Lato, sans-serif; opacity: .65; }"
+    },
+    {
+      "name": "Danger Button",
+      "kind": "button",
+      "refersTo": "button-danger",
+      "description": "Destructive actions and unavailable booking windows.",
+      "html": "<button class=\"ds-btn-danger\">Not available</button>",
+      "css": ".ds-btn-danger { background: #E74C3C; color: #fff; border: 1px solid #E74C3C; border-radius: 6px; padding: 6px 12px; font: 400 1rem/1.5 Lato, sans-serif; cursor: pointer; } .ds-btn-danger:hover { background: #c44133; } .ds-btn-danger:focus-visible { outline: 0; box-shadow: 0 0 0 4px rgba(231,76,60,.5); }"
+    },
+    {
+      "name": "Text Input",
+      "kind": "input",
+      "refersTo": null,
+      "description": "Bootstrap form control with the theme's default focus ring.",
+      "html": "<input class=\"ds-input\" type=\"text\" placeholder=\"Callsign\" aria-label=\"Callsign\">",
+      "css": ".ds-input { background: #fff; color: #212529; border: 1px solid #dee2e6; border-radius: 6px; padding: 6px 12px; font: 400 1rem/1.5 Lato, sans-serif; } .ds-input:focus-visible { outline: 0; border-color: #96a0a8; box-shadow: 0 0 0 4px rgba(44,62,80,.25); }"
+    },
+    {
+      "name": "Navbar",
+      "kind": "nav",
+      "refersTo": "navbar",
+      "description": "Full-width navy bar with white links that turn teal on hover.",
+      "html": "<nav class=\"ds-nav\"><strong>BMAC</strong><a href=\"#\">Events</a><a href=\"#\">FAQ</a><a href=\"#\">Contact Us</a></nav>",
+      "css": ".ds-nav { display: flex; gap: 24px; align-items: center; background: #2C3E50; color: #fff; padding: 16px 24px; box-shadow: 0 2px 4px rgba(0,0,0,.04); font: 400 1rem/1.5 Lato, sans-serif; } .ds-nav strong { font-size: 1.25rem; font-weight: 700; } .ds-nav a { color: #fff; text-decoration: none; } .ds-nav a:hover, .ds-nav a:focus-visible { color: #18BC9C; }"
+    },
+    {
+      "name": "Slot Table",
+      "kind": "custom",
+      "refersTo": null,
+      "description": "The signature booking table, with one action per row.",
+      "html": "<table class=\"ds-slots\"><thead><tr><th>From</th><th>To</th><th>Callsign</th><th>Aircraft</th><th>Book</th></tr></thead><tbody><tr><td><abbr title=\"EHAM\">Amsterdam</abbr></td><td><abbr title=\"EGLL\">Heathrow</abbr></td><td>DEMO01</td><td>B744</td><td><button class=\"ds-slots-book\">BOOK NOW</button></td></tr></tbody></table>",
+      "css": ".ds-slots { width: 100%; border-collapse: collapse; color: #212529; font: 400 1rem/1.5 Lato, sans-serif; } .ds-slots th { text-align: left; font-weight: 700; } .ds-slots th, .ds-slots td { padding: 8px; border-bottom: 1px solid #dee2e6; } .ds-slots tbody tr:hover { background: rgba(0,0,0,.075); } .ds-slots abbr { text-decoration: underline dotted; } .ds-slots-book { background: #18BC9C; color: #fff; border: 1px solid #18BC9C; border-radius: 6px; padding: 6px 12px; font: inherit; cursor: pointer; } .ds-slots-book:hover { background: #14a085; } .ds-slots-book:focus-visible { outline: 0; box-shadow: 0 0 0 4px rgba(24,188,156,.5); }"
+    },
+    {
+      "name": "Action Bar",
+      "kind": "custom",
+      "refersTo": "action-bar-selected",
+      "description": "Bulk actions above admin tables, stating the count and who is affected.",
+      "html": "<div class=\"ds-bar\"><div><strong>3 bookings selected</strong> <small>2 pilots are affected and get an email if you delete.</small></div><div class=\"ds-bar-actions\"><button>Edit selected</button><button>Email selected</button><button class=\"ds-bar-danger\">Delete selected</button></div></div>",
+      "css": ".ds-bar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; justify-content: space-between; background: #2C3E50; color: #fff; padding: 8px 16px; border-radius: 6px; font: 400 1rem/1.5 Lato, sans-serif; } .ds-bar-actions { display: flex; gap: 8px; } .ds-bar button { background: #ecf0f1; color: #212529; border: 0; border-radius: 4px; padding: 4px 8px; font: inherit; font-size: .875rem; cursor: pointer; } .ds-bar button:hover { background: #dde3e4; } .ds-bar button:focus-visible { outline: 2px solid #fff; outline-offset: 2px; } .ds-bar .ds-bar-danger { background: #E74C3C; color: #fff; } .ds-bar .ds-bar-danger:hover { background: #c44133; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Flight Board",
+    "overview": "BMAC reads like a departures board: slots are rows to scan, status is readable at a glance, and each row leads to one clear action. The mood is precise and operational. It uses aviation's own terms, Zulu times and exact counts, and it says what an action will affect before the action runs.\n\nComponents are compact and scannable, built on stock Bootstrap with the Bootswatch Flatly theme. Short labels and tight rows do the work, not custom controls. Pages are a navy navbar, a white body and a single centred container, with no decoration beyond the division's logo and event images.\n\nThis is the default identity. Each division can swap its name, logos and six theme colours at build time, so the values below are defaults and not fixed brand colours.",
+    "keyCharacteristics": [
+      "Stock Bootstrap 5 components with the Flatly theme.",
+      "Flat white pages, with tables as the main working surface.",
+      "Status and consequences stated in exact words and counts.",
+      "Colours come from theme variables, so any division can replace them."
+    ],
+    "rules": [
+      {
+        "name": "The Swappable Colour Rule",
+        "body": "Use Bootstrap theme classes and Sass variables, never literal hex values, because divisions set primary, secondary, tertiary, success, warning and danger through `BOOTSTRAP_COLOR_*` at build time.",
+        "section": "colors"
+      },
+      {
+        "name": "The Status Colour Rule",
+        "body": "Teal means available. On pilot tables, blue means yours, slate means taken and red means not available. On admin tables, Open is teal, Reserved is amber and Booked is neutral. Status always carries a text label as well as colour.",
+        "section": "colors"
+      },
+      {
+        "name": "The Two Weights Rule",
+        "body": "Only Lato 400 and 700 are loaded, so use those two weights. Other values resolve to one of them, including the navbar brand's 800, which renders at 700.",
+        "section": "typography"
+      },
+      {
+        "name": "The Zulu Time Rule",
+        "body": "Show times in 24-hour format with a `z` suffix, as in `18:00z` or `1800z`.",
+        "section": "typography"
+      },
+      {
+        "name": "The Flat Page Rule",
+        "body": "Content surfaces stay flat at rest. Only floating layers such as dropdowns and modals get a shadow.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Do reach for Bootstrap components and existing `x-forms.*` components before writing custom ones.",
+      "Do use theme classes such as `btn-success` and `text-primary` so division colours apply.",
+      "Do state exact counts and who is affected before a bulk or destructive action runs.",
+      "Do keep status readable as words, not colour alone.",
+      "Do test new interface with different division colours, logos and rich-text event content."
+    ],
+    "donts": [
+      "Don't hard-code colours, logos or a division name.",
+      "Don't add shadows to content surfaces at rest.",
+      "Don't load extra Lato weights or a second typeface without changing this document.",
+      "Don't add fade to Livewire-driven Bootstrap modals, because Bootstrap ignores show and hide during a transition.",
+      "Don't treat the current default contrast as a target for new text. White on Go Teal (about 2.4:1) and Overcast Grey links on white (about 2.6:1) fall below WCAG AA."
+    ]
+  }
+}

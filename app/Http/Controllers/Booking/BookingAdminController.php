@@ -21,6 +21,11 @@ class BookingAdminController extends Controller
         $this->authorizeResource(Booking::class, 'booking');
     }
 
+    public function index(Event $event): View
+    {
+        return view('booking.admin.overview', ['event' => $event]);
+    }
+
     public function create(Event $event, Request $request): View|RedirectResponse
     {
         if (! $event->allowsManualBookings()) {
@@ -48,7 +53,7 @@ class BookingAdminController extends Controller
             flashMessage('success', __('Done'), __('Slot created'));
         }
 
-        return to_route('events.bookings.index', $event);
+        return to_route('admin.events.bookings.index', $event);
     }
 
     private function redirectToImport(Event $event): RedirectResponse
@@ -77,7 +82,7 @@ class BookingAdminController extends Controller
 
         flashMessage('success', __('Booking changed'), __('Booking has been changed!'));
 
-        return to_route('events.bookings.index', $booking->event);
+        return to_route('admin.events.bookings.index', $booking->event);
     }
 
     public function destroy(Booking $booking): RedirectResponse
@@ -90,7 +95,7 @@ class BookingAdminController extends Controller
             $booking->delete();
             flashMessage('success', __('Booking deleted!'), __('Booking has been deleted.'));
 
-            return to_route('events.bookings.index', $booking->event);
+            return to_route('admin.events.bookings.index', $booking->event);
         }
 
         flashMessage('danger', __('Danger'), __('Booking can no longer be deleted'));

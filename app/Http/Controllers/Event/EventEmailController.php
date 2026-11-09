@@ -24,7 +24,7 @@ class EventEmailController extends Controller
     public function sendBulk(SendEmail $request, Event $event): JsonResponse|RedirectResponse
     {
         if ($request->testmode) {
-            event(new EventBulkEmail($event, $request->validated(), collect([auth()->user()])));
+            event(new EventBulkEmail($event, $request->validated(), User::query()->whereKey(auth()->id())->get()));
 
             return response()->json(['success' => __('Email has been sent to yourself')]);
         }

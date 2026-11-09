@@ -87,6 +87,24 @@
 
             <!-- Right Side Of Navbar -->
             <ul class="navbar-nav ms-auto">
+                @if (app()->isLocal() && Route::has('login.local'))
+                    <li class="nav-item dropdown">
+                        <button class="nav-link dropdown-toggle" type="button" id="localLoginDropdown"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            {{ __('Local login') }}
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="localLoginDropdown">
+                            <form method="POST" action="{{ route('login.local', ['role' => 'admin']) }}">
+                                @csrf
+                                <button class="dropdown-item" type="submit">{{ __('Admin') }}</button>
+                            </form>
+                            <form method="POST" action="{{ route('login.local', ['role' => 'user']) }}">
+                                @csrf
+                                <button class="dropdown-item" type="submit">{{ __('Regular user') }}</button>
+                            </form>
+                        </div>
+                    </li>
+                @endif
 
                 @guest
                     @if (request()->routeIs('events.show'))

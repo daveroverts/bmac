@@ -14,7 +14,7 @@ Your booking for the **{{ $booking->event->name }}** event has been amended, ple
 | Callsign: | **{{ $change['new'] }}** | (was {{ $change['old'] }}) |
 @break
 @case('acType')
-| Aircraft code: | **{{ $change['new'] }}** | (was {{ $change['old'] }}) |
+| Aircraft code: | **{{ filled($change['new']) ? $change['new'] : '-' }}** | (was {{ filled($change['old']) ? $change['old'] : '-' }}) |
 @break
 @case('dep')
 | ADEP: | **{{ \App\Models\Airport::find($change['new'])?->icao ?? '-' }}** | (was {{ \App\Models\Airport::find($change['old'])?->icao ?? '-' }}) |
@@ -23,22 +23,22 @@ Your booking for the **{{ $booking->event->name }}** event has been amended, ple
 | ADES: | **{{ \App\Models\Airport::find($change['new'])?->icao ?? '-' }}** | (was {{ \App\Models\Airport::find($change['old'])?->icao ?? '-' }}) |
 @break
 @case('ctot')
-| CTOT: | **{{ filled($change['new']) ? \Carbon\Carbon::parse($change['new'])->format('Hi').'z' : '-' }}** | (was {{ filled($change['old']) ? \Carbon\Carbon::parse($change['old'])->format('Hi').'z' : '-' }}) |
+| {{ isset($change['flight']) ? 'Flight #' . $change['flight'] . ' ' : '' }}CTOT: | **{{ filled($change['new']) ? \Carbon\Carbon::parse($change['new'])->format('Hi').'z' : '-' }}** | (was {{ filled($change['old']) ? \Carbon\Carbon::parse($change['old'])->format('Hi').'z' : '-' }}) |
 @break
 @case('eta')
-| ETA: | **{{ filled($change['new']) ? \Carbon\Carbon::parse($change['new'])->format('Hi').'z' : '-' }}** | (was {{ filled($change['old']) ? \Carbon\Carbon::parse($change['old'])->format('Hi').'z' : '-' }}) |
+| {{ isset($change['flight']) ? 'Flight #' . $change['flight'] . ' ' : '' }}ETA: | **{{ filled($change['new']) ? \Carbon\Carbon::parse($change['new'])->format('Hi').'z' : '-' }}** | (was {{ filled($change['old']) ? \Carbon\Carbon::parse($change['old'])->format('Hi').'z' : '-' }}) |
 @break
 @case('route')
-| Route: | **{{ $change['new'] }}** | (was {{ $change['old'] }}) |
+| Route: | **{{ filled($change['new']) ? $change['new'] : '-' }}** | (was {{ filled($change['old']) ? $change['old'] : '-' }}) |
 @break
 @case('oceanicTrack')
 | Track: | **{{ $change['new'] }}** | (was {{ $change['old'] }}) |
 @break
 @case('oceanicFL')
-| {{ $booking->event->is_oceanic_event ? __('Oceanic Entry FL') : __('Cruise FL') }}: | **FL{{ $change['new'] }}** | (was FL{{ $change['old'] }}) |
+| {{ $booking->event->is_oceanic_event ? __('Oceanic Entry FL') : __('Cruise FL') }}: | **{{ filled($change['new']) ? 'FL' . $change['new'] : '-' }}** | (was {{ filled($change['old']) ? 'FL' . $change['old'] : '-' }}) |
 @break
 @case('notes')
-| Notes: | **{{ $change['new'] }}** | (was {{ $change['old'] }}) |
+| Notes: | **{{ filled($change['new']) ? $change['new'] : '-' }}** | (was {{ filled($change['old']) ? $change['old'] : '-' }}) |
 @break
 @case('message')
 | A message has been left: | {{ $change['new'] }} |
