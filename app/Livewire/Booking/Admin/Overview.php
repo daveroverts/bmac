@@ -3,9 +3,9 @@
 namespace App\Livewire\Booking\Admin;
 
 use App\Actions\Booking\BulkUpdateBookingsAction;
+use App\Actions\Booking\DeleteBookingsAction;
 use App\Enums\BookingStatus;
 use App\Enums\EventType;
-use App\Events\BookingDeleted;
 use App\Events\EventBulkEmail;
 use App\Models\Booking;
 use App\Models\Event;
@@ -16,7 +16,6 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Collection as SupportCollection;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Js;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Url;
@@ -327,7 +326,7 @@ class Overview extends Component
         $this->finishBulkAction(__('Done'), trans_choice('{1} Email has been sent to :count pilot.|[2,*] Email has been sent to :count pilots.', $users->count(), ['count' => $users->count()]));
     }
 
-    public function deleteSelected(): void
+    public function deleteSelected(DeleteBookingsAction $deleteBookings): void
     {
         if (! $this->canChangeBookings()) {
             $this->notifyEventEnded();
@@ -343,30 +342,7 @@ class Overview extends Component
             return;
         }
 
-        $users = $bookings->whereNotNull('user_id')->pluck('user')->unique('id')->values();
-
-        DB::transaction(function () use ($bookings): void {
-            $bookings->each->delete();
-
-            activity()
-                ->by(auth()->user())
-                ->on($this->event)
-                ->withProperties(['count' => $bookings->count(), 'bookings' => $bookings->modelKeys()])
-                ->log('Delete selected bookings');
-        });
-
-        $failedNotifications = 0;
-
-        foreach ($users as $user) {
-            $callsigns = $bookings->where('user_id', $user->id)->map(fn (Booking $booking): string => $booking->formatted_callsign)->values()->all();
-
-            try {
-                event(new BookingDeleted($this->event, $user, $callsigns));
-            } catch (Throwable $throwable) {
-                report($throwable);
-                $failedNotifications++;
-            }
-        }
+        $failedNotifications = $deleteBookings->handle($this->event, $bookings);
 
         $this->finishBulkAction(__('Bookings deleted'), trans_choice('{1} :count booking has been deleted.|[2,*] :count bookings have been deleted.', $bookings->count(), ['count' => $bookings->count()]), $failedNotifications);
     }

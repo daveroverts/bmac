@@ -65,6 +65,8 @@
                                 {{ __('Admin') }}
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="{{ route('filament.admin.resources.events.index') }}">{{ __('Filament admin (preview)') }}</a>
+                                <div class="dropdown-divider"></div>
                                 <a class="dropdown-item {{ request()->routeIs('admin.events*') ? 'active' : '' }}"
                                     href="{{ route('admin.events.index') }}">{{ __('Events') }}</a>
                                 <a class="dropdown-item {{ request()->routeIs('admin.eventLinks*') ? 'active' : '' }}"
@@ -72,8 +74,6 @@
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item {{ request()->routeIs('admin.airports*') ? 'active' : '' }}"
                                     href="{{ route('admin.airports.index') }}">{{ __('Airports') }}</a>
-                                <a class="dropdown-item"
-                                    href="{{ route('filament.admin.resources.airports.index') }}">{{ __('Airports (Filament preview)') }}</a>
                                 <a class="dropdown-item {{ request()->routeIs('admin.airportLinks*') ? 'active' : '' }}"
                                     href="{{ route('admin.airportLinks.index') }}">{{ __('Airport Links') }}</a>
                                 <div class="dropdown-divider"></div>
