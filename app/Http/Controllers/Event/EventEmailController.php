@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Event;
 
+use App\Actions\Event\SendFinalInformationAction;
 use App\Events\EventBulkEmail;
 use App\Events\EventFinalInformation;
 use App\Http\Controllers\Controller;
@@ -40,7 +41,7 @@ class EventEmailController extends Controller
         return to_route('admin.events.index');
     }
 
-    public function sendFinal(SendFinalInformation $request, Event $event): RedirectResponse|JsonResponse
+    public function sendFinal(SendFinalInformation $request, Event $event, SendFinalInformationAction $action): RedirectResponse|JsonResponse
     {
         $bookings = $event->bookings()
             ->with(['user', 'flights'])
@@ -59,17 +60,7 @@ class EventEmailController extends Controller
             return response()->json(['success' => __('Email has been sent to yourself')]);
         }
 
-        $count = $bookings->count();
-        $countSkipped = 0;
-        /** @var \App\Models\Booking $booking */
-        foreach ($bookings as $booking) {
-            if (!$booking->has_received_final_information_email || $request->forceSend) {
-                event(new EventFinalInformation($booking));
-            } else {
-                $count--;
-                $countSkipped++;
-            }
-        }
+        ['sent' => $count, 'skipped' => $countSkipped] = $action->handle($event, (bool) $request->forceSend);
 
         $message = __('Final Information has been sent to :count people!', ['count' => $count]);
         if ($countSkipped !== 0) {
@@ -77,11 +68,6 @@ class EventEmailController extends Controller
         }
 
         flashMessage('success', __('Done'), $message);
-        activity()
-            ->by(auth()->user())
-            ->on($event)
-            ->withProperty('count', $count)
-            ->log('Final Information E-mail');
 
         return to_route('admin.events.index');
     }

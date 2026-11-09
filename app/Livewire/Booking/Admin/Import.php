@@ -3,15 +3,11 @@
 namespace App\Livewire\Booking\Admin;
 
 use App\Actions\Booking\CreateBookingFromImportRow;
-use App\Enums\EventType;
+use App\Actions\Booking\ParseBookingImport;
 use App\Models\Event;
-use App\Services\AirportImporter;
 use Illuminate\Contracts\View\View;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Str;
 use Livewire\Component;
 use Livewire\WithFileUploads;
-use Spatie\SimpleExcel\SimpleExcelReader;
 
 class Import extends Component
 {
@@ -97,77 +93,14 @@ class Import extends Component
      */
     private function parse(): void
     {
-        $sheet = SimpleExcelReader::create($this->file->getRealPath(), $this->file->getClientOriginalExtension())
-            ->formatHeadersUsing(fn (string $header): string => Str::slug($header, '_'))
-            ->getRows()
-            ->map(fn (array $row): array => array_map(
-                fn (mixed $value): mixed => $value === '' ? null : $value,
-                $row
-            ))
-            ->values()
-            ->all();
+        $result = resolve(ParseBookingImport::class)->handle(
+            $this->event,
+            $this->file->getRealPath(),
+            $this->file->getClientOriginalExtension(),
+        );
 
-        $this->autoAddedAirports = resolve(AirportImporter::class)
-            ->ensure($this->referencedIcaos($sheet))['created'];
-
-        $rules = $this->rowRules();
-
-        $this->rows = [];
-        $this->selected = [];
-
-        foreach ($sheet as $row) {
-            $errors = Validator::make($row, $rules)->errors()->all();
-            $valid = $errors === [];
-            $index = count($this->rows);
-
-            $this->rows[] = [
-                'data' => $row,
-                'errors' => $errors,
-                'valid' => $valid,
-            ];
-
-            if ($valid) {
-                $this->selected[] = $index;
-            }
-        }
-    }
-
-    /**
-     * @param  array<int, array<string, mixed>>  $sheet
-     * @return list<string>
-     */
-    private function referencedIcaos(array $sheet): array
-    {
-        $columns = $this->event->event_type_id == EventType::MULTIFLIGHTS->value
-            ? ['airport_1', 'airport_2', 'airport_3']
-            : ['origin', 'destination'];
-
-        return collect($sheet)
-            ->flatMap(fn (array $row): array => array_map(fn (string $column): mixed => $row[$column] ?? null, $columns))
-            ->filter()
-            ->values()
-            ->all();
-    }
-
-    /**
-     * @return array<string, mixed>
-     */
-    private function rowRules(): array
-    {
-        if ($this->event->event_type_id == EventType::MULTIFLIGHTS->value) {
-            return [
-                'airport_1' => 'exists:airports,icao',
-                'airport_2' => 'exists:airports,icao',
-                'airport_3' => 'exists:airports,icao',
-            ];
-        }
-
-        return [
-            'origin' => 'exists:airports,icao',
-            'destination' => 'exists:airports,icao',
-            'track' => 'sometimes|nullable',
-            'oceanicFL' => 'sometimes|nullable|integer:3',
-            'aircraft_type' => 'sometimes|nullable|max:4',
-        ];
+        $this->autoAddedAirports = $result['autoAddedAirports'];
+        $this->rows = $result['rows'];
+        $this->selected = array_keys(array_filter($this->rows, fn (array $row): bool => $row['valid']));
     }
 }
