@@ -20,6 +20,7 @@
     "devDependencies": {
         "@fortawesome/fontawesome-svg-core": "^7.3.1",
         "@fortawesome/free-solid-svg-icons": "^7.3.1",
+        "@fullhuman/postcss-purgecss": "^9.1.0",
         "@popperjs/core": "^2.11.8",
         "axios": "^1.21.0",
         "bootstrap": "^5.3.8",
@@ -28,7 +29,6 @@
         "sass": "^1.107.0",
         "tinymce": "^8.10.1",
         "vite": "^8.3.5",
-        "vite-plugin-purgecss": "^0.2.13",
         "vite-plugin-static-copy": "^4.1.1"
     },
     "dependencies": {
