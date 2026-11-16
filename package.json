@@ -22,7 +22,7 @@
         "@fortawesome/free-solid-svg-icons": "^7.3.1",
         "@fullhuman/postcss-purgecss": "^9.1.0",
         "@popperjs/core": "^2.11.8",
-        "axios": "^1.21.0",
+        "axios": "^1.21.1",
         "bootstrap": "^5.3.8",
         "bootswatch": "^5.3.8",
         "laravel-vite-plugin": "^3.2.0",
