@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Setup PHP, with composer and extensions
         uses: shivammathur/setup-php@v2 #https://github.com/shivammathur/setup-php
@@ -26,7 +26,7 @@ jobs:
       - uses: ramsey/composer-install@v3
 
       - name: "Restore result cache"
-        uses: actions/cache/restore@v4
+        uses: actions/cache/restore@v6
         with:
           path: /tmp/phpstan # same as in phpstan.neon
           key: "phpstan-result-cache-${{ github.run_id }}"
@@ -37,7 +37,7 @@ jobs:
         run: ./vendor/bin/phpstan analyse
 
       - name: "Save result cache"
-        uses: actions/cache/save@v4
+        uses: actions/cache/save@v6
         if: always()
         with:
           path: /tmp/phpstan # same as in phpstan.neon

@@ -19,7 +19,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Setup PHP, with composer and extensions
         uses: shivammathur/setup-php@v2 #https://github.com/shivammathur/setup-php
@@ -34,7 +34,7 @@ jobs:
       - uses: ramsey/composer-install@v3
 
       - name: Rector Cache
-        uses: actions/cache@v4
+        uses: actions/cache@v6
         with:
           path: /tmp/rector
           key: ${{ runner.os }}-rector-${{ github.run_id }}
