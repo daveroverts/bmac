@@ -27,7 +27,7 @@
         "bootswatch": "^5.3.8",
         "laravel-vite-plugin": "^3.2.0",
         "sass": "^1.107.0",
-        "tinymce": "^8.10.1",
+        "tinymce": "^8.10.2",
         "vite": "^8.3.5",
         "vite-plugin-static-copy": "^4.1.1"
     },
