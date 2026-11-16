@@ -20,7 +20,7 @@ jobs:
           php-version: 8.5
           extensions: mbstring, dom, fileinfo
 
-      - uses: ramsey/composer-install@v3
+      - uses: ramsey/composer-install@v4
 
       - name: Run Pint
         run: vendor/bin/pint
