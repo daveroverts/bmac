@@ -30,11 +30,61 @@ export default defineConfig(({ mode }) => {
                     './resources/views/**/*.blade.php',
                     './resources/js/**/*.js',
                     './vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*bootstrap-5.blade.php',
+                    './vendor/livewire/livewire/src/Features/SupportPagination/views/*bootstrap.blade.php',
                 ],
                 safelist: {
-                    standard: [/^modal/, 'show'],
-                    deep: [/\b(ui|flatpickr)-\S*$/, /^swal2-/, /ts-/],
+                    // A "standard" entry only keeps a rule when every other class in its
+                    // selector is used as well, so unused variants of a library still get
+                    // purged. "deep" keeps every rule that mentions a matching class.
+                    standard: [
+                        // Added at runtime by Bootstrap's JS (collapse, dropdown, modal).
+                        'show',
+                        'collapsing',
+                        'modal-open',
+                        'modal-backdrop',
+                        'modal-static',
+
+                        // SweetAlert2, without the toast and right-to-left styles.
+                        // Remove the lookahead when using `toast: true`.
+                        /^swal2-(?!toast|rtl)/,
+                        'output',
+
+                        // Tom Select, plus the state classes it toggles at runtime. The
+                        // multi-select, right-to-left and plugin styles are not listed,
+                        // add `multi`, `rtl` or `/^plugin-/` when those get used.
+                        /^ts-/,
+                        'single',
+                        'focus',
+                        'input-active',
+                        'input-hidden',
+                        'dropdown-active',
+                        'has-items',
+                        'has-options',
+                        'full',
+                        'not-full',
+                        'loading',
+                        'preloaded',
+                        'locked',
+                        'readonly',
+                        'required',
+                        'invalid',
+                        'disabled',
+                        'active',
+                        'selected',
+                        'item',
+                        'option',
+                        'optgroup',
+                        'optgroup-header',
+                        'create',
+                        'no-results',
+                        'spinner',
+                        'highlight',
+                    ],
+                    deep: [/^flatpickr-/],
                 },
+                // Attributes that only exist at runtime: Tom Select's option state, and
+                // the `[class^=swal2-...]` selectors SweetAlert2 uses for its icons.
+                dynamicAttributes: ['class', 'data-selectable', 'data-disabled'],
             }),
         ],
         css: {
