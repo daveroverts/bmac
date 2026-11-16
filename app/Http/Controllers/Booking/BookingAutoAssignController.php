@@ -26,6 +26,7 @@ class BookingAutoAssignController extends Controller
             ->unless($request->checkAssignAllFlights, function ($query): void {
                 $query->booked();
             })
+            ->orderBy('id')
             ->get();
 
         $count = 0;
