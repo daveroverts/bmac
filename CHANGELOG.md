@@ -1,3 +1,15 @@
+## [6.2.1](https://github.com/daveroverts/bmac/compare/v6.2.0...v6.2.1) (2026-11-16)
+
+
+### Bug Fixes
+
+* **admin:** assign flight levels in a fixed booking order ([e90425c](https://github.com/daveroverts/bmac/commit/e90425ca11b3dc5b58be256345c78deca72dabfe))
+
+
+### Performance Improvements
+
+* **build:** tighten PurgeCSS safelist ([b96b4a3](https://github.com/daveroverts/bmac/commit/b96b4a3b6e418d25fc158c1b9becc17f8d009f8a))
+
 # [6.2.0](https://github.com/daveroverts/bmac/compare/v6.1.0...v6.2.0) (2026-11-03)
 
 
