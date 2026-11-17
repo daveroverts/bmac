@@ -31,7 +31,7 @@ jobs:
         run: |
           echo "::add-matcher::${{ runner.tool_cache }}/php.json"
 
-      - uses: ramsey/composer-install@v3
+      - uses: ramsey/composer-install@v4
 
       - name: Rector Cache
         uses: actions/cache@v6
