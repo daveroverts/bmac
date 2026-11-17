@@ -8,10 +8,6 @@ updates:
     open-pull-requests-limit: 10
     cooldown:
       default-days: 5
-    commit-message:
-      prefix: fix
-      prefix-development: build
-      include: scope
     groups:
       production:
         dependency-type: production
@@ -28,10 +24,6 @@ updates:
     open-pull-requests-limit: 10
     cooldown:
       default-days: 5
-    commit-message:
-      prefix: fix
-      prefix-development: build
-      include: scope
     groups:
       production:
         dependency-type: production
@@ -46,8 +38,6 @@ updates:
       interval: monthly
       time: "07:00"
     open-pull-requests-limit: 10
-    commit-message:
-      prefix: ci
     groups:
       actions:
         patterns: ["*"]
