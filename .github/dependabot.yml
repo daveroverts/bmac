@@ -6,15 +6,48 @@ updates:
       interval: monthly
       time: "07:00"
     open-pull-requests-limit: 10
+    cooldown:
+      default-days: 5
+    commit-message:
+      prefix: fix
+      prefix-development: build
+      include: scope
+    groups:
+      production:
+        dependency-type: production
+        update-types: [minor, patch]
+      development:
+        dependency-type: development
+        update-types: [minor, patch]
+
   - package-ecosystem: npm
     directory: "/"
     schedule:
       interval: monthly
       time: "07:00"
     open-pull-requests-limit: 10
+    cooldown:
+      default-days: 5
+    commit-message:
+      prefix: fix
+      prefix-development: build
+      include: scope
+    groups:
+      production:
+        dependency-type: production
+        update-types: [minor, patch]
+      development:
+        dependency-type: development
+        update-types: [minor, patch]
+
   - package-ecosystem: github-actions
     directory: "/"
     schedule:
       interval: monthly
       time: "07:00"
     open-pull-requests-limit: 10
+    commit-message:
+      prefix: ci
+    groups:
+      actions:
+        patterns: ["*"]
